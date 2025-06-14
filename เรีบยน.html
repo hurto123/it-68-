@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิก: ภาพรวมหลักสูตรภาคการศึกษา</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts - Kanit for Thai font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base font-family for the entire body */
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F9FA; /* Light background for the page */
+            overflow-x: hidden; /* Prevent horizontal scrollbar during transitions */
+        }
+
+        /* Chart container responsive styling */
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Adjust chart container height for medium screens */
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-width: 600px;
+            }
+        }
+
+        /* Timeline item styling */
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem;
+            border-left: 2px solid #90E0EF; /* Light blue line for timeline */
+        }
+
+        /* Remove border for the last timeline item */
+        .timeline-item:last-child {
+            border-left: 2px solid transparent;
+        }
+
+        /* Timeline dot styling */
+        .timeline-dot {
+            position: absolute;
+            left: -0.7rem;
+            top: 0.1rem;
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 9999px; /* Make it a perfect circle */
+            border-width: 2px;
+            border-color: #FFFFFF; /* White border around the dot */
+        }
+
+        /* Main Page transition styling */
+        .page-content {
+            position: absolute; /* Allows pages to overlap */
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px; /* Base padding for the entire page content area */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            opacity: 0;
+            transform: translateX(100%); /* Start hidden off-screen to the right */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Smooth transition */
+            display: none; /* Hidden by default */
+            min-height: 100%; /* Ensure page fills parent container height */
+            height: auto; /* Allow content to define height */
+        }
+
+        /* Style for the active main page */
+        .page-content.active {
+            opacity: 1;
+            transform: translateX(0); /* Slide into view */
+            display: block; /* Make it visible */
+            position: relative; /* Take up space in the DOM flow */
+        }
+
+        /* Animation for main pages sliding out */
+        .page-content.slide-out {
+            opacity: 0;
+            transform: translateX(-100%); /* Slide out to the left */
+        }
+
+        /* Sub-page content styling */
+        .sub-page-content {
+            position: absolute; /* Allows sub-pages to overlap within their parent main page */
+            top: 70px; /* Adjust based on sub-navbar height (50px + 20px padding) */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px); /* Fill remaining height below sub-navbar */
+            padding: 20px; /* Padding inside the sub-page */
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateX(100%); /* Start hidden off-screen to the right */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+            display: none; /* Hidden by default */
+            overflow-y: auto; /* Enable scrolling for long sub-page content */
+        }
+
+        /* Style for the active sub-page */
+        .sub-page-content.active {
+            opacity: 1;
+            transform: translateX(0); /* Slide into view */
+            display: block; /* Make it visible */
+            position: relative; /* Take up space within its parent */
+        }
+
+        /* Animation for sub-pages sliding out */
+        .sub-page-content.sub-slide-out {
+            opacity: 0;
+            transform: translateX(-100%); /* Slide out to the left */
+        }
+
+        /* Keyframe animations for elements within pages */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Apply animations to elements on active pages */
+        /* Applies to main page content (IT page) */
+        #it-page.active .animated > *,
+        #ait-page.active .animated > *,
+        #ds-page.active .animated > * {
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0; /* Initial state for animation */
+        }
+
+        #it-page.active h1, #it-page.active h2,
+        #ait-page.active h1, #ait-page.active h2,
+        #ds-page.active h1, #ds-page.active h2 {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        #it-page.active p,
+        #ait-page.active p,
+        #ds-page.active p {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        /* Specific animations for IT-Curriculum sub-page */
+        #it-curriculum.active .animated-it-content > * {
+             animation: fadeIn 1s ease-out forwards;
+             opacity: 0;
+        }
+        #it-curriculum.active .animated-it-content h1,
+        #it-curriculum.active .animated-it-content h2 {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        #it-curriculum.active .animated-it-content p {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        #it-curriculum.active .animated-it-content .grid > div,
+        #it-curriculum.active .animated-it-content .timeline-item {
+            animation: slideInLeft 1s ease-out forwards;
+            opacity: 0; /* Initial state for animation */
+        }
+        /* Delay animations for sequential appearance in IT-Curriculum */
+        #it-curriculum.active .animated-it-content .grid > div:nth-child(1) { animation-delay: 0.2s; }
+        #it-curriculum.active .animated-it-content .grid > div:nth-child(2) { animation-delay: 0.4s; }
+        #it-curriculum.active .animated-it-content .grid > div:nth-child(3) { animation-delay: 0.6s; }
+        #it-curriculum.active .animated-it-content .timeline-item:nth-child(1) { animation-delay: 0.8s; }
+        #it-curriculum.active .animated-it-content .timeline-item:nth-child(2) { animation-delay: 1.0s; }
+        #it-curriculum.active .animated-it-content .timeline-item:nth-child(3) { animation-delay: 1.2s; }
+        #it-curriculum.active .animated-it-content .timeline-item:nth-child(4) { animation-delay: 1.4s; }
+        /* Ensure Chart.js canvas elements are not affected by page transitions immediately */
+        #it-curriculum.active canvas {
+            animation: fadeIn 1.5s ease-out forwards;
+            animation-delay: 1.6s;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-[#F8F9FA]">
+    <!-- Top Navigation Bar -->
+    <header class="bg-[#2c3e50] text-white py-4 shadow-lg sticky top-0 z-10 rounded-b-xl">
+        <nav class="container mx-auto flex justify-center space-x-8">
+            <a href="#" data-page="it" class="main-nav-link px-6 py-3 rounded-full font-semibold text-lg hover:bg-[#34495e] transition-all duration-300 transform hover:scale-105 active:scale-95">
+                IT
+            </a>
+            <a href="#" data-page="ait" class="main-nav-link px-6 py-3 rounded-full font-semibold text-lg hover:bg-[#34495e] transition-all duration-300 transform hover:scale-105 active:scale-95">
+                AIT
+            </a>
+            <a href="#" data-page="ds" class="main-nav-link px-6 py-3 rounded-full font-semibold text-lg hover:bg-[#34495e] transition-all duration-300 transform hover:scale-105 active:scale-95">
+                DS
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content Area - contains all pages -->
+    <div class="container mx-auto p-4 md:p-8 relative min-h-[calc(100vh-80px)] overflow-hidden rounded-xl bg-white shadow-lg">
+        <!-- IT Page Content (Main section for IT) -->
+        <div id="it-page" class="page-content">
+            <!-- Sub Navigation Bar for IT -->
+            <nav class="sub-navbar flex justify-center space-x-4 mb-4 p-2 bg-gray-100 rounded-lg shadow-inner">
+                <a href="#" data-sub-page="it-curriculum" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">หลักสูตร</a>
+                <a href="#" data-sub-page="it-schedule" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">ตารางเรียน</a>
+                <a href="#" data-sub-page="it-faculty" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">อาจารย์</a>
+                <a href="#" data-sub-page="it-friends" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">เพื่อน</a>
+                <a href="#" data-sub-page="it-subjects" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">วิชาเรียน</a>
+            </nav>
+
+            <!-- IT > หลักสูตร (Your Infographic Content) -->
+            <div id="it-curriculum" class="sub-page-content animated-it-content">
+                <header class="text-center mb-10">
+                    <h1 class="text-4xl md:text-5xl font-bold text-[#0077B6]">ภาพรวมหลักสูตรที่เปิดสอน</h1>
+                    <p class="text-lg text-gray-600 mt-2">ภาคการศึกษาที่ 1 ปีการศึกษา 2568</p>
+                </header>
+
+                <main class="space-y-8">
+                    <section class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center items-center">
+                            <p class="text-6xl font-bold text-[#00B4D8]">7</p>
+                            <p class="text-xl font-semibold text-gray-700 mt-2">รายวิชาเฉพาะทาง</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center items-center">
+                            <p class="text-6xl font-bold text-[#00B4D8]">31</p>
+                            <p class="text-xl font-semibold text-gray-700 mt-2">กลุ่มเรียนทั้งหมด</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center items-center">
+                            <p class="text-6xl font-bold text-[#00B4D8]">21</p>
+                            <p class="text-xl font-semibold text-gray-700 mt-2">หน่วยกิตรวมโดยประมาณ</p>
+                        </div>
+                    </section>
+
+                    <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                        <h2 class="text-2xl font-bold text-[#0077B6] mb-2">สัดส่วนกลุ่มเรียนในแต่ละรายวิชา</h2>
+                        <p class="text-gray-600 mb-6">อินโฟกราฟิกนี้แสดงให้เห็นถึงการกระจายตัวของกลุ่มเรียนทั้งหมด 31 กลุ่มใน 7 รายวิชา ทำให้เห็นว่าวิชาใดมีความต้องการสูงและต้องเปิดสอนหลายกลุ่มเรียนเพื่อรองรับนักศึกษา</p>
+                        <div class="chart-container">
+                            <canvas id="sectionsDonutChart"></canvas>
+                        </div>
+                    </section>
+                    
+                    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                            <h2 class="text-2xl font-bold text-[#0077B6] mb-2">ภาระงานสอนของคณาจารย์</h2>
+                            <p class="text-gray-600 mb-6">แผนภูมินี้เปรียบเทียบจำนวนกลุ่มเรียนที่อาจารย์แต่ละท่านรับผิดชอบ เพื่อให้เห็นภาพรวมการกระจายภาระงานสอนภายในภาควิชา</p>
+                            <div class="chart-container h-[400px] md:h-[450px]">
+                                <canvas id="facultyWorkloadChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                            <h2 class="text-2xl font-bold text-[#0077B6] mb-2">ไทม์ไลน์สำคัญของภาคการศึกษา</h2>
+                            <p class="text-gray-600 mb-6">สรุปเหตุการณ์และกำหนดการที่สำคัญตลอดภาคการศึกษา ตั้งแต่วันเปิดภาคเรียนไปจนถึงช่วงสอบปลายภาค</p>
+                            <div class="mt-4 flow-root">
+                                <div class="-my-4">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot bg-[#00B4D8]"></div>
+                                        <h3 class="text-lg font-semibold text-gray-800">เปิดภาคการศึกษา</h3>
+                                        <time class="text-sm text-gray-500">30 มิถุนายน 2568</time>
+                                        <p class="mt-1 text-gray-600">เริ่มต้นการเรียนการสอนสำหรับภาคการศึกษาที่ 1</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot bg-[#90E0EF]"></div>
+                                        <h3 class="text-lg font-semibold text-gray-800">ช่วงสอบกลางภาค</h3>
+                                        <time class="text-sm text-gray-500">25 - 29 สิงหาคม 2568</time>
+                                        <p class="mt-1 text-gray-600">สัปดาห์ของการสอบวัดผลกลางภาคเรียน</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot bg-[#00B4D8]"></div>
+                                        <h3 class="text-lg font-semibold text-gray-800">สิ้นสุดการเรียนการสอน</h3>
+                                        <time class="text-sm text-gray-500">17 ตุลาคม 2568</time>
+                                        <p class="mt-1 text-gray-600">วันสุดท้ายของการเรียนในภาคการศึกษานี้</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot bg-[#0077B6]"></div>
+                                        <h3 class="text-lg font-semibold text-gray-800">ช่วงสอบปลายภาค</h3>
+                                        <time class="text-sm text-gray-500">20 - 29 ตุลาคม 2568</time>
+                                        <p class="mt-1 text-gray-600">สัปดาห์สุดท้ายของการวัดผลเพื่อจบภาคการศึกษา</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <section class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                        <h2 class="text-2xl font-bold text-[#0077B6] mb-2">การกระจายตัวของคาบเรียนในสัปดาห์</h2>
+                        <p class="text-gray-600 mb-6">แสดงจำนวนชั่วโมงเรียนทั้งหมดที่จัดสอนในแต่ละวันของสัปดาห์ ช่วยให้เห็นว่าวันใดมีภาระการเรียนการสอนหนาแน่นที่สุด</p>
+                        <div class="chart-container">
+                            <canvas id="weeklyDistributionChart"></canvas>
+                        </div>
+                    </section>
+                </main>
+
+                <footer class="text-center mt-12 py-4 border-t border-gray-200">
+                    <p class="text-gray-500">สร้างสรรค์โดย AI เพื่อการแสดงข้อมูลเชิงลึก | ข้อมูล ณ วันที่ 8 มิถุนายน 2568</p>
+                    <p class="text-gray-500 mt-2">จัดทำโดย: นาย ธีรวัต สงพะโยม</p>
+                    <p class="text-gray-500">จาก: สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+                    <p class="text-gray-500">คณะ: เทคโนโลยีสารสนเทศ</p>
+                    <p class="text-gray-500">สาขาวิชา: เทคโนโลยีปัญญาประดิษฐ์</p>
+                </footer>
+            </div>
+
+            <!-- IT > ตารางเรียน (Placeholder) -->
+            <div id="it-schedule" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">ตารางเรียน (IT)</h2>
+                <p class="text-lg text-gray-600">หน้านี้จะแสดงตารางเรียนสำหรับสาขา IT</p>
+                <img src="https://placehold.co/400x200/0077B6/FFFFFF?text=IT+Schedule" alt="IT Schedule Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+
+            <!-- IT > อาจารย์ (Placeholder) -->
+            <div id="it-faculty" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">อาจารย์ (IT)</h2>
+                <p class="text-lg text-gray-600">ข้อมูลคณาจารย์ผู้สอนในสาขา IT</p>
+                <img src="https://placehold.co/400x200/0096C7/FFFFFF?text=IT+Faculty" alt="IT Faculty Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+
+            <!-- IT > เพื่อน (Placeholder) -->
+            <div id="it-friends" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">เพื่อน (IT)</h2>
+                <p class="text-lg text-gray-600">รายชื่อเพื่อนร่วมรุ่นในสาขา IT</p>
+                <img src="https://placehold.co/400x200/00B4D8/FFFFFF?text=IT+Friends" alt="IT Friends Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+
+            <!-- IT > วิชาเรียน (Placeholder) -->
+            <div id="it-subjects" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">วิชาเรียน (IT)</h2>
+                <p class="text-lg text-gray-600">รายละเอียดรายวิชาทั้งหมดในหลักสูตร IT</p>
+                <img src="https://placehold.co/400x200/48CAE4/FFFFFF?text=IT+Subjects" alt="IT Subjects Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+        </div>
+
+        <!-- AIT Page Content (Main section for AIT) -->
+        <div id="ait-page" class="page-content">
+            <!-- Sub Navigation Bar for AIT -->
+            <nav class="sub-navbar flex justify-center space-x-4 mb-4 p-2 bg-gray-100 rounded-lg shadow-inner">
+                <a href="#" data-sub-page="ait-curriculum" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">หลักสูตร</a>
+                <a href="#" data-sub-page="ait-schedule" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">ตารางเรียน</a>
+                <a href="#" data-sub-page="ait-faculty" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">อาจารย์</a>
+                <a href="#" data-sub-page="ait-friends" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">เพื่อน</a>
+                <a href="#" data-sub-page="ait-subjects" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">วิชาเรียน</a>
+            </nav>
+            <!-- AIT > หลักสูตร (Placeholder) -->
+            <div id="ait-curriculum" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">หลักสูตร (AIT)</h2>
+                <p class="text-lg text-gray-600">หน้านี้จะแสดงข้อมูลหลักสูตรสำหรับสาขาปัญญาประดิษฐ์ (AIT)</p>
+                <img src="https://placehold.co/400x200/00B4D8/FFFFFF?text=AIT+Curriculum" alt="AIT Curriculum Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- AIT > ตารางเรียน (Placeholder) -->
+            <div id="ait-schedule" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">ตารางเรียน (AIT)</h2>
+                <p class="text-lg text-gray-600">หน้านี้จะแสดงตารางเรียนสำหรับสาขา AIT</p>
+                <img src="https://placehold.co/400x200/90E0EF/000000?text=AIT+Schedule" alt="AIT Schedule Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- AIT > อาจารย์ (Placeholder) -->
+            <div id="ait-faculty" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">อาจารย์ (AIT)</h2>
+                <p class="text-lg text-gray-600">ข้อมูลคณาจารย์ผู้สอนในสาขา AIT</p>
+                <img src="https://placehold.co/400x200/CAF0F8/000000?text=AIT+Faculty" alt="AIT Faculty Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- AIT > เพื่อน (Placeholder) -->
+            <div id="ait-friends" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">เพื่อน (AIT)</h2>
+                <p class="text-lg text-gray-600">รายชื่อเพื่อนร่วมรุ่นในสาขา AIT</p>
+                <img src="https://placehold.co/400x200/03045E/FFFFFF?text=AIT+Friends" alt="AIT Friends Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- AIT > วิชาเรียน (Placeholder) -->
+            <div id="ait-subjects" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">วิชาเรียน (AIT)</h2>
+                <p class="text-lg text-gray-600">รายละเอียดรายวิชาทั้งหมดในหลักสูตร AIT</p>
+                <img src="https://placehold.co/400x200/ADE8F4/000000?text=AIT+Subjects" alt="AIT Subjects Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+        </div>
+
+        <!-- DS Page Content (Main section for DS) -->
+        <div id="ds-page" class="page-content">
+            <!-- Sub Navigation Bar for DS -->
+            <nav class="sub-navbar flex justify-center space-x-4 mb-4 p-2 bg-gray-100 rounded-lg shadow-inner">
+                <a href="#" data-sub-page="ds-curriculum" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">หลักสูตร</a>
+                <a href="#" data-sub-page="ds-schedule" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">ตารางเรียน</a>
+                <a href="#" data-sub-page="ds-faculty" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">อาจารย์</a>
+                <a href="#" data-sub-page="ds-friends" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">เพื่อน</a>
+                <a href="#" data-sub-page="ds-subjects" class="sub-nav-link px-4 py-2 rounded-md text-gray-700 font-medium transition-all duration-200 hover:bg-gray-200">วิชาเรียน</a>
+            </nav>
+            <!-- DS > หลักสูตร (Placeholder) -->
+            <div id="ds-curriculum" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">หลักสูตร (DS)</h2>
+                <p class="text-lg text-gray-600">หน้านี้จะแสดงข้อมูลหลักสูตรสำหรับสาขาวิทยาการข้อมูล (DS)</p>
+                <img src="https://placehold.co/400x200/90E0EF/000000?text=DS+Curriculum" alt="DS Curriculum Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- DS > ตารางเรียน (Placeholder) -->
+            <div id="ds-schedule" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">ตารางเรียน (DS)</h2>
+                <p class="text-lg text-gray-600">หน้านี้จะแสดงตารางเรียนสำหรับสาขา DS</p>
+                <img src="https://placehold.co/400x200/00B4D8/FFFFFF?text=DS+Schedule" alt="DS Schedule Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- DS > อาจารย์ (Placeholder) -->
+            <div id="ds-faculty" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">อาจารย์ (DS)</h2>
+                <p class="text-lg text-gray-600">ข้อมูลคณาจารย์ผู้สอนในสาขา DS</p>
+                <img src="https://placehold.co/400x200/CAF0F8/000000?text=DS+Faculty" alt="DS Faculty Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- DS > เพื่อน (Placeholder) -->
+            <div id="ds-friends" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">เพื่อน (DS)</h2>
+                <p class="text-lg text-gray-600">รายชื่อเพื่อนร่วมรุ่นในสาขา DS</p>
+                <img src="https://placehold.co/400x200/03045E/FFFFFF?text=DS+Friends" alt="DS Friends Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+            <!-- DS > วิชาเรียน (Placeholder) -->
+            <div id="ds-subjects" class="sub-page-content flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#0077B6] mb-4">วิชาเรียน (DS)</h2>
+                <p class="text-lg text-gray-600">รายละเอียดรายวิชาทั้งหมดในหลักสูตร DS</p>
+                <img src="https://placehold.co/400x200/ADE8F4/000000?text=DS+Subjects" alt="DS Subjects Placeholder" class="mt-8 rounded-lg shadow-md">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to wrap long labels for Chart.js
+        function wrapLabel(label, maxLength) {
+            if (typeof label !== 'string' || label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // Global Chart.js tooltip configuration
+        const tooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Chart.js global font family configuration for consistent styling
+        Chart.defaults.font.family = "'Kanit', sans-serif";
+
+        // Define chart colors for consistency
+        const chartColors = ['#0077B6', '#00B4D8', '#90E0EF', '#CAF0F8', '#03045E', '#ADE8F4', '#48CAE4'];
+
+        // Function to initialize all charts (only for IT > หลักสูตร page)
+        function initializeCharts() {
+            // Data for Sections Donut Chart
+            const sectionsData = {
+                labels: [
+                    wrapLabel('MATHEMATICS FOR INFORMATION TECHNOLOGY', 20),
+                    wrapLabel('INFORMATION TECHNOLOGY FUNDAMENTALS', 20),
+                    wrapLabel('INTRODUCTION TO COMPUTER SYSTEMS', 20),
+                    wrapLabel('PROBLEM SOLVING AND COMPUTER PROGRAMMING', 20),
+                    wrapLabel('CHARM SCHOOL', 20),
+                    wrapLabel('FOUNDATION ENGLISH 1', 20),
+                    wrapLabel('SELECTED TOPIC IN INDUSTRIAL BUSINESS 1', 20)
+                ],
+                datasets: [{
+                    label: 'จำนวนกลุ่มเรียน',
+                    data: [4, 6, 6, 6, 5, 5, 2],
+                    backgroundColor: chartColors,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 2
+                }]
+            };
+
+            const ctxDonut = document.getElementById('sectionsDonutChart');
+            if (ctxDonut) { // Check if canvas exists
+                // Destroy previous chart instance if it exists to prevent re-initialization issues
+                if (ctxDonut.chart) {
+                    ctxDonut.chart.destroy();
+                }
+                ctxDonut.chart = new Chart(ctxDonut.getContext('2d'), {
+                    type: 'doughnut',
+                    data: sectionsData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    font: {
+                                        family: "'Kanit', sans-serif"
+                                    },
+                                    usePointStyle: true,
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Data for Weekly Distribution Chart
+            const weeklyData = {
+                labels: ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'],
+                datasets: [{
+                    label: 'จำนวนชั่วโมงเรียน',
+                    data: [5, 13, 16, 0, 11],
+                    backgroundColor: '#00B4D8',
+                    borderColor: '#0077B6',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            };
+
+            const ctxWeekly = document.getElementById('weeklyDistributionChart');
+            if (ctxWeekly) { // Check if canvas exists
+                if (ctxWeekly.chart) {
+                    ctxWeekly.chart.destroy();
+                }
+                ctxWeekly.chart = new Chart(ctxWeekly.getContext('2d'), {
+                    type: 'bar',
+                    data: weeklyData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    font: { family: "'Kanit', sans-serif" }
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: { family: "'Kanit', sans-serif" }
+                                }
+                            }
+                        },
+                        plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // Data for Faculty Workload Chart
+            const facultyData = {
+                labels: [
+                    wrapLabel('ผศ. ดร. ทวีศักดิ์ ประภาพุธ', 25),
+                    wrapLabel('รศ. ดร. ลลิตา บุษราคม', 25),
+                    wrapLabel('รศ. ดร. สุขสันต์ พาณิชยางกูร', 25),
+                    wrapLabel('รศ. ดร. สุทธินันท์ พาณิชยางกูร', 25),
+                    wrapLabel('รศ. ดร. โอภาส โล่ห์จิราพงศ์', 25),
+                    wrapLabel('อ. ชัยรัตน์ นงค์สี่เหลี่ยม', 25),
+                    wrapLabel('รศ. ดร. นรเศรษฐ์ ศรีมงคล', 25),
+                    wrapLabel('ทีมอาจารย์ CHARM SCHOOL', 25),
+                    wrapLabel('ทีมอาจารย์ FOUNDATION ENGLISH', 25)
+                ],
+                datasets: [{
+                    label: 'จำนวนกลุ่มที่สอน',
+                    data: [4, 6, 6, 6, 6, 1, 2, 5, 5],
+                    backgroundColor: ['#0077B6', '#0096C7', '#00B4D8', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#023E8A'],
+                    borderWidth: 0,
+                    borderRadius: 5
+                }]
+            };
+
+            const ctxFaculty = document.getElementById('facultyWorkloadChart');
+            if (ctxFaculty) { // Check if canvas exists
+                if (ctxFaculty.chart) {
+                    ctxFaculty.chart.destroy();
+                }
+                ctxFaculty.chart = new Chart(ctxFaculty.getContext('2d'), {
+                    type: 'bar',
+                    data: facultyData,
+                    options: {
+                        indexAxis: 'y', // Horizontal bar chart
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    font: { family: "'Kanit', sans-serif" }
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: { family: "'Kanit', sans-serif" }
+                                }
+                            }
+                        },
+                        plugins: {
+                            ...tooltipConfig.plugins,
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Function to set up sub-page listeners for a given main page
+        function setupSubPageListeners(mainPageElement) {
+            const subNavLinks = mainPageElement.querySelectorAll('.sub-navbar a[data-sub-page]');
+            const subPages = mainPageElement.querySelectorAll('.sub-page-content');
+            let currentSubPageId = '';
+
+            // Determine and set the default sub-page based on the main page ID
+            const mainPageId = mainPageElement.id;
+            if (mainPageId === 'it-page') {
+                currentSubPageId = 'it-curriculum';
+            } else if (mainPageId === 'ait-page') {
+                currentSubPageId = 'ait-curriculum';
+            } else if (mainPageId === 'ds-page') {
+                currentSubPageId = 'ds-curriculum';
+            }
+
+            // Deactivate all sub-pages and sub-nav links first
+            subPages.forEach(page => page.classList.remove('active', 'sub-slide-out'));
+            subNavLinks.forEach(link => link.classList.remove('active'));
+
+            // Activate the default sub-page and its nav link
+            const initialSubPage = document.getElementById(currentSubPageId);
+            if (initialSubPage) {
+                initialSubPage.style.display = 'block';
+                initialSubPage.classList.add('active');
+                const initialNavLink = mainPageElement.querySelector(`.sub-navbar a[data-sub-page="${currentSubPageId}"]`);
+                if (initialNavLink) initialNavLink.classList.add('active');
+            }
+
+            // Re-initialize charts if the IT-Curriculum page is the active sub-page
+            if (currentSubPageId === 'it-curriculum') {
+                initializeCharts();
+            }
+
+            subNavLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetSubPageId = event.target.dataset.subPage;
+
+                    if (targetSubPageId === currentSubPageId) {
+                        return; // Do nothing if clicking the current sub-page
+                    }
+
+                    const currentActiveSubPage = document.getElementById(currentSubPageId);
+                    const newActiveSubPage = document.getElementById(targetSubPageId);
+
+                    if (!currentActiveSubPage || !newActiveSubPage) {
+                        console.error(`Sub-page element not found: Current: ${currentSubPageId}, Target: ${targetSubPageId}`);
+                        return;
+                    }
+
+                    // Update active state of sub-nav links
+                    mainPageElement.querySelector('.sub-navbar a.active')?.classList.remove('active');
+                    event.target.classList.add('active');
+
+                    // Start exit animation for current sub-page
+                    currentActiveSubPage.classList.remove('active');
+                    currentActiveSubPage.classList.add('sub-slide-out');
+
+                    const subAnimationDuration = 500; // Must match CSS transition duration for sub-pages
+
+                    setTimeout(() => {
+                        currentActiveSubPage.style.display = 'none'; // Fully hide old sub-page
+                        currentActiveSubPage.classList.remove('sub-slide-out'); // Clean up slide-out class
+
+                        newActiveSubPage.style.display = 'block'; // Make new sub-page visible
+                        newActiveSubPage.classList.add('active'); // Add active class to trigger its entry animation
+
+                        currentSubPageId = targetSubPageId; // Update current sub-page ID
+
+                        // Re-initialize charts if the IT-Curriculum page is activated
+                        if (targetSubPageId === 'it-curriculum') {
+                            initializeCharts();
+                        }
+                    }, subAnimationDuration);
+                });
+            });
+        }
+
+        // Main Page switching logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainNavLinks = document.querySelectorAll('header nav a[data-page]');
+            const mainPageContainers = document.querySelectorAll('.page-content');
+            let currentPageId = 'it-page'; // Default active main page ID
+
+            // Set initial active state for the main navigation link
+            document.querySelector(`.main-nav-link[data-page="it"]`).classList.add('active');
+
+            // Initialize the first main page
+            const initialMainPage = document.getElementById(currentPageId);
+            if (initialMainPage) {
+                initialMainPage.style.display = 'block'; // Make it visible initially
+                initialMainPage.classList.add('active'); // Add active class to trigger its internal animations
+                setupSubPageListeners(initialMainPage); // Set up sub-page listeners for the initial main page
+            }
+
+            mainNavLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+                    const targetPageId = event.target.dataset.page + '-page';
+
+                    if (targetPageId === currentPageId) {
+                        return; // Do nothing if clicking the current main page
+                    }
+
+                    const currentActiveMainPage = document.getElementById(currentPageId);
+                    const newActiveMainPage = document.getElementById(targetPageId);
+
+                    if (!currentActiveMainPage || !newActiveMainPage) {
+                        console.error('Main page element not found!');
+                        return;
+                    }
+
+                    // Update active state of main-nav links
+                    document.querySelector('.main-nav-link.active')?.classList.remove('active');
+                    event.target.classList.add('active');
+
+                    // Start exit animation for current main page
+                    currentActiveMainPage.classList.remove('active');
+                    currentActiveMainPage.classList.add('slide-out');
+
+                    const animationDuration = 600; // Must match CSS transition duration for main pages
+
+                    setTimeout(() => {
+                        currentActiveMainPage.style.display = 'none'; // Fully hide old main page
+                        currentActiveMainPage.classList.remove('slide-out'); // Clean up slide-out class
+
+                        newActiveMainPage.style.display = 'block'; // Make new main page visible
+                        newActiveMainPage.classList.add('active'); // Add active class to trigger its entry animation
+
+                        currentPageId = targetPageId; // Update current main page ID
+
+                        // Set up sub-page listeners for the newly active main page
+                        setupSubPageListeners(newActiveMainPage);
+                    }, animationDuration);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
