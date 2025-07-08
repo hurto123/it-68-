@@ -223,6 +223,13 @@
 
     </div>
 
+    <footer class="bg-[#0D1B2A] text-white mt-12 py-6 text-center">
+        <p class="text-sm">สร้างสรรค์โดย:</p>
+        <p class="text-lg font-bold">นายธีรวัต สงพะโยม</p>
+        <p class="text-sm">สาขา AIT รหัส 68070073</p>
+        <p class="text-sm">ชื่อเล่น: ฮูโต๋ | ฉายา: ราชาเป๋ายิงฉุบแห่ง PrePro 👑</p>
+    </footer>
+
     <script>
         document.querySelectorAll('.accordion-button').forEach(button => {
             button.addEventListener('click', () => {
@@ -383,8 +390,6 @@
                 if (counts[num] > maxCount) {
                     modes = [num];
                     maxCount = counts[num];
-                } else if (counts[num] === maxCount) {
-                    modes.push(num);
                 }
             }
             const mode = maxCount > 1 ? modes.join(', ') : 'ไม่มี';
