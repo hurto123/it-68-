@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อินโฟกราฟิกเชิงโต้ตอบ: ตรรกศาสตร์และวิธีการพิสูจน์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Energetic & Playful -->
+    <!-- Application Structure Plan: A thematic, single-page application that guides the user from foundational concepts (Propositions) to tools (Operators), then to application (Equivalence and Arguments). The structure is designed to build knowledge progressively. Key interactions include interactive cards for operators and charts for comparison, making the learning process active rather than passive. This narrative-driven structure is chosen for better user comprehension over a simple report layout. -->
+    <!-- Visualization & Content Choices: 
+        - Propositions: Goal: Inform. Method: Large number stat & styled HTML list. Justification: Clear and direct for foundational concepts.
+        - Logic Operators: Goal: Organize/Compare. Method: Interactive cards & a horizontal Bar Chart (Chart.js). Justification: The bar chart is decorative but helps visually anchor the list of operators, making it more engaging than a simple list. Interaction on hover clarifies each operator's function.
+        - Truth Outcomes: Goal: Compare. Method: Vertical Bar Chart (Chart.js). Justification: Visually compares the "strictness" of each operator by showing how many "True" outcomes they produce, an insight not immediately obvious from tables.
+        - Logical Equivalence: Goal: Explain a process. Method: HTML/CSS Flowchart Diagram. Justification: A step-by-step visual breakdown is clearer than text and adheres to the NO SVG/Mermaid rule.
+        - Proof Methods: Goal: Compare. Method: Radar Chart (Chart.js). Justification: Effectively compares qualitative aspects (complexity, common use) of different proof methods in a single, digestible visual.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #F3F4F6;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            line-height: 1;
+            color: #4A5568;
+        }
+        .operator-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .operator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">ถอดรหัสตรรกศาสตร์ 🧠</h1>
+            <p class="mt-4 text-lg text-gray-600">รากฐานแห่งการคิดเชิงเหตุผลและวิธีการพิสูจน์ในคณิตศาสตร์ดิสครีต</p>
+        </header>
+
+        <main class="space-y-16">
+
+            <section id="propositions" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#4D96FF]">1. อะตอมแห่งตรรกศาสตร์: ประพจน์ (Proposition)</h2>
+                <p class="text-center mt-2 text-gray-600 max-w-2xl mx-auto">ทุกอย่างในตรรกศาสตร์เริ่มต้นจากหน่วยที่เล็กที่สุดคือ "ประพจน์" ซึ่งเป็นประโยคที่ต้องตัดสินได้ว่าเป็น **จริง** หรือ **เท็จ** เท่านั้น ไม่มีตรงกลาง</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="text-center">
+                        <div class="text-8xl font-bold text-[#FF6B6B]">2</div>
+                        <p class="text-2xl mt-2 font-semibold">ค่าความจริง (Truth Value)</p>
+                        <p class="text-lg text-gray-500">ที่เป็นไปได้</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="font-bold text-xl mb-4 text-center">ทดสอบความเป็นประพจน์</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span class="text-xl text-green-500 mr-3">✅</span> <div><span class="font-semibold">"ดวงอาทิตย์ขึ้นทางทิศตะวันออก"</span><br><span class="text-sm text-green-600">เป็นประพจน์ (จริง)</span></div></li>
+                            <li class="flex items-start"><span class="text-xl text-green-500 mr-3">✅</span> <div><span class="font-semibold">"$2+2=5$"</span><br><span class="text-sm text-green-600">เป็นประพจน์ (เท็จ)</span></div></li>
+                            <li class="flex items-start"><span class="text-xl text-red-500 mr-3">❌</span> <div><span class="font-semibold">"x + 5 = 10"</span><br><span class="text-sm text-red-600">ไม่เป็นประพจน์ (มีตัวแปร)</span></div></li>
+                            <li class="flex items-start"><span class="text-xl text-red-500 mr-3">❌</span> <div><span class="font-semibold">"ไปทานข้าวกันเถอะ"</span><br><span class="text-sm text-red-600">ไม่เป็นประพจน์ (เป็นประโยคชักชวน)</span></div></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operators" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#6BCB77]">2. กล่องเครื่องมือตรรกศาสตร์: ตัวดำเนินการ (Operators)</h2>
+                <p class="text-center mt-2 text-gray-600 max-w-2xl mx-auto">เราใช้เครื่องมือ 5 ชนิดนี้เพื่อเชื่อมประพจน์พื้นฐานให้กลายเป็นประพจน์ที่ซับซ้อนและมีความหมายมากขึ้น</p>
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="operator-card p-4 bg-gray-50 rounded-lg flex items-center cursor-pointer"><span class="text-3xl font-mono mr-4 text-[#FF6B6B]">~</span><div><h3 class="font-bold text-lg">นิเสธ (NOT)</h3><p class="text-sm">กลับค่าความจริง</p></div></div>
+                        <div class="operator-card p-4 bg-gray-50 rounded-lg flex items-center cursor-pointer"><span class="text-3xl font-mono mr-4 text-[#FFD93D]">∧</span><div><h3 class="font-bold text-lg">และ (AND)</h3><p class="text-sm">จริงเมื่อทุกอย่างจริง</p></div></div>
+                        <div class="operator-card p-4 bg-gray-50 rounded-lg flex items-center cursor-pointer"><span class="text-3xl font-mono mr-4 text-[#6BCB77]">∨</span><div><h3 class="font-bold text-lg">หรือ (OR)</h3><p class="text-sm">จริงเมื่อมีอะไรจริงสักอย่าง</p></div></div>
+                        <div class="operator-card p-4 bg-gray-50 rounded-lg flex items-center cursor-pointer"><span class="text-3xl font-mono mr-4 text-[#4D96FF]">→</span><div><h3 class="font-bold text-lg">ถ้า-แล้ว (IF-THEN)</h3><p class="text-sm">เท็จแค่กรณีเดียว: เหตุจริงแต่ผลเท็จ</p></div></div>
+                        <div class="operator-card p-4 bg-gray-50 rounded-lg flex items-center cursor-pointer"><span class="text-3xl font-mono mr-4 text-[#A076F9]">↔</span><div><h3 class="font-bold text-lg">ก็ต่อเมื่อ (IFF)</h3><p class="text-sm">จริงเมื่อค่าความจริงเหมือนกัน</p></div></div>
+                    </div>
+                     <div class="lg:col-span-2 chart-container">
+                        <h3 class="text-xl font-bold text-center mb-4">แต่ละตัวดำเนินการให้ผล "จริง" บ่อยแค่ไหน?</h3>
+                        <p class="text-center text-sm text-gray-500 mb-2">(จาก 4 กรณีที่เป็นไปได้)</p>
+                        <canvas id="truthOutcomesChart"></canvas>
+                    </div>
+                </div>
+                 <p class="text-center mt-6 text-gray-600">จากแผนภูมิ จะเห็นว่า "และ" (∧) มีเงื่อนไขเข้มงวดที่สุดในการเป็นจริง ในขณะที่ "หรือ" (∨) และ "ถ้า-แล้ว" (→) มีความยืดหยุ่นกว่า</p>
+            </section>
+            
+            <section id="equivalence" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#FFD93D]">3. ค้นหาฝาแฝด: การสมมูลกันเชิงตรรกะ (Equivalence)</h2>
+                <p class="text-center mt-2 text-gray-600 max-w-2xl mx-auto">ประพจน์ที่ดูต่างกันอาจให้ผลลัพธ์เหมือนกันทุกประการได้ เราเรียกมันว่า "สมมูลกัน" ซึ่งเป็นเครื่องมือสำคัญในการพิสูจน์</p>
+                <div class="mt-8 p-6 bg-gray-50 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4 text-center">ตัวอย่างการพิสูจน์การสมมูล: $\sim(p \rightarrow q) \equiv p \wedge \sim q$</h3>
+                    <p class="mb-6 text-center text-gray-600">เราสามารถแปลงนิพจน์ด้านซ้ายให้เหมือนด้านขวาได้ด้วย "กฎการสมมูล" ทีละขั้นตอน</p>
+                    <div class="flex flex-col items-center space-y-4 text-center">
+                        <div class="bg-white p-4 rounded-lg shadow w-full max-w-lg text-lg font-mono">~ ( p → q )</div>
+                        <div class="flow-arrow">⇓<span class="text-sm ml-2 font-sans text-gray-500">กฎเงื่อนไข: $p \rightarrow q \equiv \sim p \vee q$</span></div>
+                        <div class="bg-white p-4 rounded-lg shadow w-full max-w-lg text-lg font-mono">~ ( ~p ∨ q )</div>
+                        <div class="flow-arrow">⇓<span class="text-sm ml-2 font-sans text-gray-500">กฎของเดอมอร์แกน</span></div>
+                        <div class="bg-white p-4 rounded-lg shadow w-full max-w-lg text-lg font-mono">~(~p) ∧ ~q</div>
+                        <div class="flow-arrow">⇓<span class="text-sm ml-2 font-sans text-gray-500">กฎนิเสธซ้อนนิเสธ</span></div>
+                        <div class="bg-green-100 p-4 rounded-lg shadow w-full max-w-lg font-bold text-green-800 text-lg font-mono">p ∧ ~q</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="arguments" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#A076F9]">4. ศิลปะแห่งการอ้างเหตุผล (Valid Arguments)</h2>
+                <p class="text-center mt-2 text-gray-600 max-w-2xl mx-auto">หัวใจของคณิตศาสตร์คือการพิสูจน์ ซึ่งคือการอ้างเหตุผลอย่างสมเหตุสมผลเพื่อนำไปสู่ข้อสรุปที่น่าเชื่อถือ</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                     <div class="p-6 bg-gray-50 rounded-lg">
+                        <h3 class="font-bold text-xl mb-4 text-center">โครงสร้างการอ้างเหตุผลที่สมเหตุสมผล</h3>
+                        <p class="mb-4 text-center">ถ้า "เหตุ" ทั้งหมดเป็นจริง "ผล" ก็ต้องเป็นจริงเสมอ รูปแบบพื้นฐานที่สุดคือ **Modus Ponens**</p>
+                        <div class="flex flex-col items-center space-y-2 text-center text-lg">
+                           <div class="w-full p-3 border-b-2">เหตุ 1: <span class="font-mono text-blue-600">ถ้า p แล้ว q</span></div>
+                           <div class="w-full p-3 border-b-2">เหตุ 2: <span class="font-mono text-blue-600">p เป็นจริง</span></div>
+                           <div class="flow-arrow mt-2">∴</div>
+                           <div class="w-full p-3 font-bold bg-blue-100 rounded-md text-blue-800">ผลสรุป: <span class="font-mono">q เป็นจริง</span></div>
+                        </div>
+                        <p class="mt-4 text-sm text-center text-gray-500">ตัวอย่าง: ถ้าฝนตก(p) แล้วถนนเปียก(q) ตอนนี้ฝนตก(p) ดังนั้นถนนเปียก(q)</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">เปรียบเทียบวิธีการพิสูจน์</h3>
+                        <div class="chart-container h-80 md:h-96">
+                             <canvas id="proofMethodsChart"></canvas>
+                        </div>
+                         <p class="text-center mt-4 text-gray-600 text-sm">แต่ละวิธีมีจุดเด่นต่างกัน การพิสูจน์ตรง (Direct) นั้นเข้าใจง่ายที่สุด ในขณะที่การพิสูจน์โดยข้อขัดแย้ง (Contradiction) อาจซับซ้อนแต่ทรงพลังมาก</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-300">
+            <p class="text-gray-600">อินโฟกราฟิกนี้สรุปเนื้อหาจากวิชาคณิตศาสตร์ดิสครีต บทที่ 1: ตรรกศาสตร์และวิธีการพิสูจน์</p>
+            <p class="text-sm text-gray-500 mt-1">ออกแบบเพื่อการเรียนรู้ที่เข้าใจง่ายและน่าสนใจ</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const chartDefaultPlugins = {
+            legend: {
+                position: 'top',
+                labels: {
+                    font: {
+                        family: 'Sarabun',
+                        size: 14,
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                bodyFont: {
+                    family: 'Sarabun'
+                },
+                titleFont: {
+                     family: 'Sarabun'
+                }
+            }
+        };
+
+        const palette = ['#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF', '#A076F9'];
+
+        const truthOutcomesCtx = document.getElementById('truthOutcomesChart').getContext('2d');
+        new Chart(truthOutcomesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['และ (∧)', 'หรือ (∨)', 'ถ้า-แล้ว (→)', 'ก็ต่อเมื่อ (↔)'],
+                datasets: [{
+                    label: 'จำนวนผลลัพธ์ที่เป็น "จริง"',
+                    data: [1, 3, 3, 2],
+                    backgroundColor: [palette[1], palette[2], palette[3], palette[4]],
+                    borderColor: [palette[1], palette[2], palette[3], palette[4]].map(c => c + 'AA'),
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 4,
+                        ticks: {
+                            stepSize: 1,
+                            font: { family: 'Sarabun' }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: { family: 'Sarabun' }
+                        }
+                    }
+                },
+                plugins: chartDefaultPlugins
+            }
+        });
+        
+        const proofMethodsCtx = document.getElementById('proofMethodsChart').getContext('2d');
+        new Chart(proofMethodsCtx, {
+            type: 'radar',
+            data: {
+                labels: ['ความตรงไปตรงมา', 'ความซับซ้อน', 'การใช้งานบ่อย'],
+                datasets: [
+                    {
+                        label: 'พิสูจน์ตรง (Direct)',
+                        data: [5, 2, 5],
+                        fill: true,
+                        backgroundColor: 'rgba(77, 150, 255, 0.2)',
+                        borderColor: 'rgb(77, 150, 255)',
+                        pointBackgroundColor: 'rgb(77, 150, 255)',
+                    },
+                    {
+                        label: 'แย้งสลับที่ (Contrapositive)',
+                        data: [3, 3, 4],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 217, 61, 0.2)',
+                        borderColor: 'rgb(255, 217, 61)',
+                        pointBackgroundColor: 'rgb(255, 217, 61)',
+                    },
+                     {
+                        label: 'ข้อขัดแย้ง (Contradiction)',
+                        data: [2, 5, 3],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                        borderColor: 'rgb(255, 107, 107)',
+                        pointBackgroundColor: 'rgb(255, 107, 107)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                 scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 5,
+                        ticks: {
+                           stepSize: 1,
+                           backdropColor: 'rgba(0,0,0,0)'
+                        },
+                        pointLabels: {
+                            font: { family: 'Sarabun', size: 13 }
+                        }
+                    }
+                },
+                plugins: chartDefaultPlugins
+            }
+        });
+
+    </script>
+</body>
+</html>
