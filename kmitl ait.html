@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปผลการตอบแบบสำรวจ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-8">สรุปผลการตอบแบบสำรวจความเข้าใจในรายวิชา</h1>
+
+        <!-- Container for survey responses -->
+        <div id="surveyResponses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Example Card (will be populated by JavaScript) -->
+            <!--
+            <div class="bg-indigo-50 p-6 rounded-lg shadow-md border border-indigo-200">
+                <h2 class="text-xl font-semibold text-indigo-800 mb-2">ชื่อ: ชยานันท์ (68070236)</h2>
+                <p class="text-gray-700 mb-1"><span class="font-medium">Timestamp:</span> 7/23/2025 12:52:08</p>
+                <p class="text-gray-700 mb-1"><span class="font-medium">ความเข้าใจ:</span> Yes</p>
+                <div class="mt-3">
+                    <p class="font-medium text-indigo-700">วิชาที่ต้องการความช่วยเหลือ:</p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4">
+                        <li>06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</li>
+                    </ul>
+                </div>
+                <div class="mt-3">
+                    <p class="font-medium text-indigo-700">รูปแบบการติวที่ต้องการ:</p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4">
+                        <li>ติวเพื่อเตรียมสอบ</li>
+                    </ul>
+                </div>
+                <div class="mt-3">
+                    <p class="font-medium text-indigo-700">เวลาที่สะดวก:</p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4">
+                        <li>วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น</li>
+                        <li>วันอาทิตย์</li>
+                    </ul>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <script>
+        // Function to parse the HTML table and extract data
+        function parseHtmlTable(htmlString) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlString, 'text/html');
+            const table = doc.querySelector('.waffle'); // Select the table by its class
+
+            if (!table) {
+                console.error("Table not found in the provided HTML string.");
+                return [];
+            }
+
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+
+            // Define the mapping from header text to a more readable key
+            const headerMap = {
+                "Timestamp": "timestamp",
+                "ส่วนที่ 1: ความเข้าใจในรายวิชา\nโปรดให้คะแนนความเข้าใจของคุณในแต่ละรายวิชา (1 = ไม่เข้าใจเลย, 5 = เข้าใจดีมาก) เข้าใจมั้ย": "understanding_level_text",
+                "ชื่อ+เลขรหัส": "name_id",
+                "  06046400 แคลคูลัส 1 (CALCULUS 1)  ": "calculus_1",
+                "06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA) ": "linear_algebra",
+                "06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS)": "discrete_math",
+                "06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)": "probability_statistics",
+                "06066303 การแก้ปัญหาและการโปรแกรมคอมพิวเตอร์ (PROBLEM SOLVING AND COMPUTER PROGRAMMING)": "problem_solving_programming",
+                "90641008 พื้นฐานทักษะการสื่อสารภาษาอังกฤษ (INTRODUCTION TO ENGLISH COMMUNICATION SKILLS)": "english_communication",
+                "วิชาที่คุณรู้สึกว่า \"ไม่เข้าใจ\" หรือ \"ต้องการความช่วยเหลือเพิ่มเติม\" มากที่สุด: (เลือกหลายตัวเลือก)": "subjects_needing_help",
+                "คุณสนใจให้มีการ \"ทำสรุปเนื้อหา\" สำหรับวิชาที่คุณไม่เข้าใจหรือไม่? ": "summary_interest",
+                "หากมีการจัดติว คุณต้องการให้จัดติวในรูปแบบใด? (เลือกหลายตัวเลือก)": "tutoring_format",
+                "เวลาที่คุณสะดวกสำหรับการเข้าร่วมกิจกรรมนอกเวลา (เช่น จัดติว) คือช่วงใด? (เลือกหลายตัวเลือก)": "convenient_time"
+            };
+
+            const data = [];
+            // Iterate over rows, skipping the header row and any potential empty rows
+            for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip the header row
+                const row = rows[i];
+                // Skip rows that are part of the freezebar or have no actual data
+                if (row.classList.contains('freezebar-cell') || row.children.length < 2) {
+                    continue;
+                }
+
+                const cells = Array.from(row.querySelectorAll('td'));
+                const rowData = {};
+
+                // Map cell content to the defined header keys
+                // Note: The column indices here are based on the original HTML structure
+                rowData.timestamp = cells[0]?.textContent.trim() || '';
+                rowData.understanding_level_text = cells[1]?.textContent.trim() || '';
+                rowData.name_id = cells[2]?.textContent.trim() || '';
+                rowData.calculus_1 = cells[3]?.textContent.trim() || '';
+                rowData.linear_algebra = cells[4]?.textContent.trim() || '';
+                rowData.discrete_math = cells[5]?.textContent.trim() || '';
+                rowData.probability_statistics = cells[6]?.textContent.trim() || '';
+                rowData.problem_solving_programming = cells[7]?.textContent.trim() || '';
+                rowData.english_communication = cells[8]?.textContent.trim() || '';
+                rowData.subjects_needing_help = cells[9]?.textContent.trim().split(',').map(s => s.trim()).filter(s => s) || [];
+                rowData.summary_interest = cells[10]?.textContent.trim() || '';
+                rowData.tutoring_format = cells[11]?.textContent.trim().split(',').map(s => s.trim()).filter(s => s) || [];
+                rowData.convenient_time = cells[12]?.textContent.trim().split(',').map(s => s.trim()).filter(s => s) || [];
+
+                data.push(rowData);
+            }
+            return data;
+        }
+
+        // Function to render the extracted data into the HTML
+        function renderSurveyResponses(responses) {
+            const container = document.getElementById('surveyResponses');
+            container.innerHTML = ''; // Clear existing content
+
+            if (responses.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-600 text-lg">ไม่พบข้อมูลการตอบแบบสำรวจ</p>';
+                return;
+            }
+
+            responses.forEach(response => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-shadow duration-300';
+
+                // Extract student name and ID for the title
+                const nameIdParts = response.name_id.match(/(.+?)\s*(\d+)$/);
+                const studentName = nameIdParts ? nameIdParts[1].trim() : response.name_id;
+                const studentId = nameIdParts ? nameIdParts[2].trim() : '';
+
+                card.innerHTML = `
+                    <h2 class="text-xl font-semibold text-indigo-700 mb-2">
+                        ${studentName} ${studentId ? `(${studentId})` : ''}
+                    </h2>
+                    <p class="text-gray-600 mb-1 text-sm"><span class="font-medium">Timestamp:</span> ${response.timestamp}</p>
+                    <p class="text-gray-600 mb-1 text-sm"><span class="font-medium">ความเข้าใจในรายวิชา:</span> ${response.understanding_level_text}</p>
+
+                    <div class="mt-4">
+                        <p class="font-medium text-indigo-600">คะแนนความเข้าใจในแต่ละวิชา (1-5):</p>
+                        <ul class="list-none text-gray-700 text-sm ml-2">
+                            <li><span class="font-medium">แคลคูลัส 1:</span> ${response.calculus_1}</li>
+                            <li><span class="font-medium">พีชคณิตเชิงเส้น:</span> ${response.linear_algebra}</li>
+                            <li><span class="font-medium">คณิตศาสตร์ไม่ต่อเนื่อง:</span> ${response.discrete_math}</li>
+                            <li><span class="font-medium">ความน่าจะเป็นและสถิติ:</span> ${response.probability_statistics}</li>
+                            <li><span class="font-medium">การแก้ปัญหาและการโปรแกรมคอมพิวเตอร์:</span> ${response.problem_solving_programming}</li>
+                            <li><span class="font-medium">พื้นฐานทักษะการสื่อสารภาษาอังกฤษ:</span> ${response.english_communication}</li>
+                        </ul>
+                    </div>
+
+                    ${response.subjects_needing_help.length > 0 ? `
+                    <div class="mt-4">
+                        <p class="font-medium text-indigo-600">วิชาที่ต้องการความช่วยเหลือเพิ่มเติม:</p>
+                        <ul class="list-disc list-inside text-gray-700 text-sm ml-4">
+                            ${response.subjects_needing_help.map(subject => `<li>${subject}</li>`).join('')}
+                        </ul>
+                    </div>` : ''}
+
+                    <div class="mt-4">
+                        <p class="font-medium text-indigo-600">สนใจให้มีการสรุปเนื้อหา:</p>
+                        <p class="text-gray-700 text-sm ml-2">${response.summary_interest || 'ไม่ระบุ'}</p>
+                    </div>
+
+                    ${response.tutoring_format.length > 0 ? `
+                    <div class="mt-4">
+                        <p class="font-medium text-indigo-600">รูปแบบการติวที่ต้องการ:</p>
+                        <ul class="list-disc list-inside text-gray-700 text-sm ml-4">
+                            ${response.tutoring_format.map(format => `<li>${format}</li>`).join('')}
+                        </ul>
+                    </div>` : ''}
+
+                    ${response.convenient_time.length > 0 ? `
+                    <div class="mt-4">
+                        <p class="font-medium text-indigo-600">เวลาที่สะดวกสำหรับการเข้าร่วมกิจกรรม:</p>
+                        <ul class="list-disc list-inside text-gray-700 text-sm ml-4">
+                            ${response.convenient_time.map(time => `<li>${time}</li>`).join('')}
+                        </ul>
+                    </div>` : ''}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // The original HTML content provided by the user
+        const originalHtmlContent = `
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link type="text/css" rel="stylesheet" href="resources/sheet.css" >
+            <style type="text/css">.ritz .waffle a { color: inherit; }.ritz .waffle .s7{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #442f65;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s9{border-bottom:1px SOLID #442f65;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s2{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #ffffff;background-color:#ffffff;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s4{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #442f65;background-color:#ffffff;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s10{border-bottom:1px SOLID #442f65;border-right:1px SOLID #442f65;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s3{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #ffffff;background-color:#ffffff;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s5{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s6{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s1{border-bottom:1px SOLID #442f65;border-right:1px SOLID #442f65;background-color:#5b3f86;text-align:left;color:#ffffff;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s0{border-bottom:1px SOLID #442f65;border-right:1px SOLID #5b3f86;background-color:#5b3f86;text-align:left;color:#ffffff;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s8{border-bottom:1px SOLID #442f65;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}</style><div class="ritz grid-container" dir="ltr"><table class="waffle" cellspacing="0" cellpadding="0"><thead><tr><th class="row-header freezebar-vertical-handle"></th><th id="1263995141C0" style="width:150px;" class="column-headers-background">A</th><th id="1263995141C1" style="width:300px;" class="column-headers-background">B</th><th id="1263995141C2" style="width:150px;" class="column-headers-background">C</th><th id="1263995141C3" style="width:260px;" class="column-headers-background">D</th><th id="1263995141C4" style="width:300px;" class="column-headers-background">E</th><th id="1263995141C5" style="width:300px;" class="column-headers-background">F</th><th id="1263995141C6" style="width:300px;" class="column-headers-background">G</th><th id="1263995141C7" style="width:300px;" class="column-headers-background">H</th><th id="1263995141C8" style="width:300px;" class="column-headers-background">I</th><th id="1263995141C9" style="width:2167px;" class="column-headers-background">J</th><th id="1263995141C10" style="width:300px;" class="column-headers-background">K</th><th id="1263995141C11" style="width:300px;" class="column-headers-background">L</th><th id="1263995141C12" style="width:300px;" class="column-headers-background">M</th></tr></thead><tbody><tr style="height: 30px"><th id="1263995141R0" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">1</div></th><td class="s0" dir="ltr">Timestamp</td><td class="s0" dir="ltr">ส่วนที่ 1: ความเข้าใจในรายวิชา<br>โปรดให้คะแนนความเข้าใจของคุณในแต่ละรายวิชา (1 = ไม่เข้าใจเลย, 5 = เข้าใจดีมาก) เข้าใจมั้ย</td><td class="s0" dir="ltr">ชื่อ+เลขรหัส</td><td class="s0" dir="ltr">  06046400 แคลคูลัส 1 (CALCULUS 1)  </td><td class="s0" dir="ltr">06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA) </td><td class="s0" dir="ltr">06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS)</td><td class="s0" dir="ltr">06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s0" dir="ltr">06066303 การแก้ปัญหาและการโปรแกรมคอมพิวเตอร์ (PROBLEM SOLVING AND COMPUTER PROGRAMMING)</td><td class="s0" dir="ltr">90641008 พื้นฐานทักษะการสื่อสารภาษาอังกฤษ (INTRODUCTION TO ENGLISH COMMUNICATION SKILLS)</td><td class="s0" dir="ltr">วิชาที่คุณรู้สึกว่า &quot;ไม่เข้าใจ&quot; หรือ &quot;ต้องการความช่วยเหลือเพิ่มเติม&quot; มากที่สุด: (เลือกหลายตัวเลือก)</td><td class="s0" dir="ltr">คุณสนใจให้มีการ &quot;ทำสรุปเนื้อหา&quot; สำหรับวิชาที่คุณไม่เข้าใจหรือไม่? </td><td class="s0" dir="ltr">หากมีการจัดติว คุณต้องการให้จัดติวในรูปแบบใด? (เลือกหลายตัวเลือก)</td><td class="s1" dir="ltr">เวลาที่คุณสะดวกสำหรับการเข้าร่วมกิจกรรมนอกเวลา (เช่น จัดติว) คือช่วงใด? (เลือกหลายตัวเลือก)</td></tr><tr><th style="height:3px;" class="freezebar-cell freezebar-horizontal-handle"></th><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td></tr><tr style="height: 30px"><th id="1263995141R1" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">2</div></th><td class="s2" dir="ltr">7/23/2025 12:52:08</td><td class="s3" dir="ltr">Yes</td><td class="s3" dir="ltr">ชยานันท์ 68070236</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">5</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">5</td><td class="s2" dir="ltr">5</td><td class="s3" dir="ltr">06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s2" dir="ltr">4</td><td class="s3" dir="ltr">ติวเพื่อเตรียมสอบ</td><td class="s4" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น, วันอาทิตย์</td></tr><tr style="height: 30px"><th id="1263995141R2" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">3</div></th><td class="s5" dir="ltr">7/23/2025 12:54:58</td><td class="s6" dir="ltr">Ok</td><td class="s6" dir="ltr">กอฟ 68070112</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">4</td><td class="s5" dir="ltr">1</td><td class="s5" dir="ltr">1</td><td class="s5" dir="ltr">5</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s7" dir="ltr">วันเสาร์, ติวเพื่อเตรียมสอบ, วันอาทิตย์</td></tr><tr style="height: 30px"><th id="1263995141R3" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">4</div></th><td class="s2" dir="ltr">7/23/2025 12:55:15</td><td class="s3"></td><td class="s3"></td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">4</td><td class="s3" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA), 06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s2" dir="ltr">5</td><td class="s3" dir="ltr">ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s4" dir="ltr">วันเสาร์, ติวเพื่อเตรียมสอบ</td></tr><tr style="height: 30px"><th id="1263995141R4" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">5</div></th><td class="s5" dir="ltr">7/23/2025 12:55:50</td><td class="s6" dir="ltr">เข้าใจ</td><td class="s6" dir="ltr">ฮูโต๋ 68070073</td><td class="s5" dir="ltr">2</td><td class="s5" dir="ltr">2</td><td class="s5" dir="ltr">1</td><td class="s5" dir="ltr">1</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">3</td><td class="s6" dir="ltr">ทุกอย่างเลยครับ (ไม่ไหวแล้ว)</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">ติวสรุปเนื้อหาสำคัญ, ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s7" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น</td></tr><tr style="height: 30px"><th id="1263995141R5" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">6</div></th><td class="s2" dir="ltr">7/23/2025 12:56:13</td><td class="s3"></td><td class="s3" dir="ltr">Play 68070310</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">5</td><td class="s2" dir="ltr">3</td><td class="s3" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1)</td><td class="s2" dir="ltr">4</td><td class="s3" dir="ltr">ติวสรุปเนื้อหาสำคัญ, ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s4" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น, วันเสาร์, วันอาทิตย์</td></tr><tr style="height: 30px"><th id="1263995141R6" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">7</div></th><td class="s5" dir="ltr">7/23/2025 12:56:16</td><td class="s6"></td><td class="s6" dir="ltr">ธี 68070074</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">4</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">5</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA)</td><td class="s5" dir="ltr">4</td><td class="s6" dir="ltr">ติวเน้นการทำโจทย์/แบบฝึกหัด, ติวเพื่อเตรียมสอบ</td><td class="s7" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น, ติวเพื่อเตรียมสอบ</td></tr><tr style="height: 30px"><th id="1263995141R7" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">8</div></th><td class="s2" dir="ltr">7/23/2025 12:57:25</td><td class="s3" dir="ltr">Okay kub</td><td class="s3" dir="ltr">Prite 68070269</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">1</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">4</td><td class="s3" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA), 06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s2" dir="ltr">5</td><td class="s3" dir="ltr">ติวสรุปเนื้อหาสำคัญ, ติวเน้นการทำโจทย์/แบบฝึกหัด, ติวเพื่อเตรียมสอบ</td><td class="s4" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น</td></tr><tr style="height: 30px"><th id="1263995141R8" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">9</div></th><td class="s5" dir="ltr">7/23/2025 13:42:15</td><td class="s6"></td><td class="s6" dir="ltr">แม๊ค 313</td><td class="s5" dir="ltr">1</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">3</td><td class="s5" dir="ltr">2</td><td class="s5" dir="ltr">5</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s5" dir="ltr">5</td><td class="s6" dir="ltr">ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s7" dir="ltr">ติวเพื่อเตรียมสอบ</td></tr><tr style="height: 30px"><th id="1263995141R9" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">10</div></th><td class="s2" dir="ltr">7/23/2025 16:17:33</td><td class="s3"></td><td class="s3" dir="ltr">สุรศักดิ์ มิตรน้อย(อัสมี่) 68070192</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">3</td><td class="s2" dir="ltr">2</td><td class="s2" dir="ltr">4</td><td class="s2" dir="ltr">5</td><td class="s3" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS)</td><td class="s2" dir="ltr">5</td><td class="s3" dir="ltr">ติวสรุปเนื้อหาสำคัญ, ติวเน้นการทำโจทย์/แบบฝึกหัด</td><td class="s4" dir="ltr">วันเสาร์, ติวเพื่อเตรียมสอบ, วันอาทิตย์</td></tr><tr style="height: 30px"><th id="1263995141R10" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">11</div></th><td class="s8" dir="ltr">7/24/2025 9:27:21</td><td class="s9" dir="ltr">Maybe</td><td class="s9" dir="ltr">คลิฟ 68070323</td><td class="s8" dir="ltr">4</td><td class="s8" dir="ltr">4</td><td class="s8" dir="ltr">3</td><td class="s8" dir="ltr">3</td><td class="s8" dir="ltr">4</td><td class="s8" dir="ltr">1</td><td class="s9" dir="ltr">06046400 แคลคูลัส 1 (CALCULUS 1), 06046402 พีชคณิตเชิงเส้น (LINEAR ALGEBRA), 06066000 คณิตศาสตร์ไม่ต่อเนื่อง (DISCRETE MATHEMATICS), 06066001 ความน่าจะเป็นและสถิติ (PROBABILITY AND STATISTICS), 06066303 การแก้ปัญหาและการโปรแกรมคอมพิวเตอร์ (PROBLEM SOLVING AND COMPUTER PROGRAMMING), ทุกอย่างเลยครับ (ไม่ไหวแล้ว)</td><td class="s8" dir="ltr">5</td><td class="s9" dir="ltr">ติวสรุปเนื้อหาสำคัญ, ติวเน้นการทำโจทย์/แบบฝึกหัด, ติวเพื่อเตรียมสอบ, </td><td class="s10" dir="ltr">วันธรรมดา (จันทร์-ศุกร์) ช่วงเย็น, วันเสาร์, ติวเพื่อเตรียมสอบ, วันอาทิตย์, </td></tr></tbody></table></div>
+        `;
+
+        // Parse the HTML content and render the responses when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const parsedData = parseHtmlTable(originalHtmlContent);
+            renderSurveyResponses(parsedData);
+        });
+    </script>
+</body>
+</html>
