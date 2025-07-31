@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Inverse Calculator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- MathJax CDN for rendering LaTeX equations -->
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        /* Custom scrollbar for steps div */
+        .steps::-webkit-scrollbar {
+            width: 8px;
+        }
+        .steps::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .steps::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        .steps::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        /* Hide number input arrows */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen p-4 bg-gradient-to-br from-indigo-500 to-purple-700 text-white flex items-center justify-center">
+    <div class="container bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-6 md:p-10 shadow-2xl w-full max-w-4xl">
+        <h1 class="text-center text-3xl md:text-4xl font-extrabold mb-8 text-yellow-300 drop-shadow-lg">
+            🔢 Matrix Inverse Calculator
+        </h1>
+        
+        <div class="flex flex-col md:flex-row justify-around items-center gap-6 md:gap-10 mb-8">
+            <div class="matrix bg-white bg-opacity-15 rounded-lg p-5 shadow-lg transition-transform duration-300 hover:scale-105 w-full md:w-auto">
+                <h3 class="text-center text-xl font-semibold mb-4 text-white">Matrix A</h3>
+                <div class="grid grid-cols-3 gap-2 min-w-[180px]">
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a11" value="1" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a12" value="4" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a13" value="0" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a21" value="2" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a22" value="4" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a23" value="1" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a31" value="3" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a32" value="2" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">
+                        <input type="number" id="a33" value="0" step="any" class="bg-transparent border-none text-white text-lg font-bold w-full text-center focus:outline-none placeholder-white placeholder-opacity-60">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="equals text-4xl md:text-5xl font-bold text-white drop-shadow-lg">=</div>
+            
+            <div class="matrix bg-white bg-opacity-15 rounded-lg p-5 shadow-lg w-full md:w-auto">
+                <h3 class="text-center text-xl font-semibold mb-4 text-white">A<sup class="text-base">-1</sup></h3>
+                <div class="grid grid-cols-3 gap-2 min-w-[180px]" id="inverse-matrix">
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                    <div class="matrix-cell bg-white bg-opacity-20 rounded-md p-2 text-center font-bold text-white w-full h-12 flex items-center justify-center">?</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn block mx-auto py-3 px-8 bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 active:from-rose-700 active:to-orange-700 rounded-full text-white text-lg font-bold cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1" onclick="calculateInverse()">
+            Calculate A<sup class="text-base">-1</sup>
+        </button>
+        
+        <div id="result" class="mt-6"></div>
+        <div id="steps" class="steps bg-white bg-opacity-10 rounded-lg p-6 mt-6 max-h-[400px] overflow-y-auto shadow-inner hidden"></div>
+    </div>
+
+    <script>
+        /**
+         * Calculates the inverse of a 3x3 matrix.
+         * Displays the result in the UI and shows detailed calculation steps.
+         */
+        function calculateInverse() {
+            // Get matrix values from input fields. Default to 0 if empty or invalid.
+            const matrix = [
+                [parseFloat(document.getElementById('a11').value) || 0,
+                 parseFloat(document.getElementById('a12').value) || 0,
+                 parseFloat(document.getElementById('a13').value) || 0],
+                [parseFloat(document.getElementById('a21').value) || 0,
+                 parseFloat(document.getElementById('a22').value) || 0,
+                 parseFloat(document.getElementById('a23').value) || 0],
+                [parseFloat(document.getElementById('a31').value) || 0,
+                 parseFloat(document.getElementById('a32').value) || 0,
+                 parseFloat(document.getElementById('a33').value) || 0]
+            ];
+            
+            try {
+                // Calculate determinant, adjugate, and inverse
+                const det = determinant3x3(matrix);
+                if (Math.abs(det) < 1e-10) { // Check for singular matrix (determinant close to zero)
+                    throw new Error("Matrix is singular (determinant = 0). Inverse does not exist.");
+                }
+                const adj = adjugate3x3(matrix);
+                const inverse = adj.map(row => row.map(val => val / det));
+                
+                // Display results and steps
+                displayResult(inverse);
+                showSteps(matrix, det, adj, inverse);
+            } catch (error) {
+                displayError(error.message);
+            }
+        }
+        
+        /**
+         * Calculates the determinant of a 3x3 matrix.
+         * @param {number[][]} matrix - The 3x3 matrix.
+         * @returns {number} The determinant.
+         */
+        function determinant3x3(matrix) {
+            const [[a, b, c], [d, e, f], [g, h, i]] = matrix;
+            return a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+        }
+        
+        /**
+         * Calculates the adjugate (adjoint) of a 3x3 matrix.
+         * The adjugate is the transpose of the cofactor matrix.
+         * @param {number[][]} matrix - The 3x3 matrix.
+         * @returns {number[][]} The adjugate matrix.
+         */
+        function adjugate3x3(matrix) {
+            const [[a, b, c], [d, e, f], [g, h, i]] = matrix;
+            
+            // Calculate cofactor matrix elements
+            const c11 = +(e * i - f * h);
+            const c12 = -(d * i - f * g);
+            const c13 = +(d * h - e * g);
+            const c21 = -(b * i - c * h);
+            const c22 = +(a * i - c * g);
+            const c23 = -(a * h - b * g);
+            const c31 = +(b * f - c * e);
+            const c32 = -(a * f - c * d);
+            const c33 = +(a * e - b * d);
+
+            // Cofactor matrix (before transpose)
+            const cofactor = [
+                [c11, c21, c31], // Transposed row 1
+                [c12, c22, c32], // Transposed row 2
+                [c13, c23, c33]  // Transposed row 3
+            ];
+            
+            // Return the adjugate (which is the transpose of the cofactor matrix)
+            return cofactor;
+        }
+        
+        /**
+         * Displays the calculated inverse matrix in the UI.
+         * @param {number[][]} inverse - The 3x3 inverse matrix.
+         */
+        function displayResult(inverse) {
+            const cells = document.querySelectorAll('#inverse-matrix .matrix-cell');
+            
+            let index = 0;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const value = inverse[i][j];
+                    cells[index].textContent = formatNumber(value);
+                    index++;
+                }
+            }
+            
+            document.getElementById('result').innerHTML = ''; // Clear any previous error messages
+        }
+        
+        /**
+         * Displays an error message in the UI.
+         * @param {string} message - The error message to display.
+         */
+        function displayError(message) {
+            document.getElementById('result').innerHTML = `<div class="error bg-red-800 bg-opacity-30 border border-red-600 rounded-lg p-4 mt-4 text-center text-red-100">${message}</div>`;
+            document.getElementById('steps').classList.add('hidden'); // Hide steps on error
+            
+            // Reset inverse matrix display to '?'
+            const cells = document.querySelectorAll('#inverse-matrix .matrix-cell');
+            cells.forEach(cell => cell.textContent = '?');
+        }
+        
+        /**
+         * Generates and displays detailed calculation steps.
+         * @param {number[][]} matrix - The original 3x3 matrix.
+         * @param {number} det - The determinant of the matrix.
+         * @param {number[][]} adj - The adjugate matrix.
+         * @param {number[][]} inverse - The inverse matrix.
+         */
+        function showSteps(matrix, det, adj, inverse) {
+            const stepsDiv = document.getElementById('steps');
+            let stepsHtml = `
+                <h3 class="text-2xl font-bold mb-4 text-yellow-300">📝 Calculation Steps</h3>
+                <div class="step bg-white bg-opacity-5 rounded-lg p-4 mb-4 border-l-4 border-yellow-400">
+                    <strong class="text-lg">Step 1:</strong> Calculate Determinant of Matrix A<br>
+                    <div class="text-sm mt-2">
+                        $$A = \\begin{pmatrix} ${formatNumber(matrix[0][0])} & ${formatNumber(matrix[0][1])} & ${formatNumber(matrix[0][2])} \\\\ ${formatNumber(matrix[1][0])} & ${formatNumber(matrix[1][1])} & ${formatNumber(matrix[1][2])} \\\\ ${formatNumber(matrix[2][0])} & ${formatNumber(matrix[2][1])} & ${formatNumber(matrix[2][2])} \\end{pmatrix}$$
+                        $$\\text{det}(A) = a(ei - fh) - b(di - fg) + c(dh - eg)$$
+                        $$\\text{det}(A) = ${formatNumber(matrix[0][0])}(${formatNumber(matrix[1][1])} \\times ${formatNumber(matrix[2][2])} - ${formatNumber(matrix[1][2])} \\times ${formatNumber(matrix[2][1])}) - ${formatNumber(matrix[0][1])}(${formatNumber(matrix[1][0])} \\times ${formatNumber(matrix[2][2])} - ${formatNumber(matrix[1][2])} \\times ${formatNumber(matrix[2][0])}) + ${formatNumber(matrix[0][2])}(${formatNumber(matrix[1][0])} \\times ${formatNumber(matrix[2][1])} - ${formatNumber(matrix[1][1])} \\times ${formatNumber(matrix[2][0])})$$
+                        $$\\text{det}(A) = ${formatNumber(det)}$$
+                    </div>
+                </div>
+                <div class="step bg-white bg-opacity-5 rounded-lg p-4 mb-4 border-l-4 border-yellow-400">
+                    <strong class="text-lg">Step 2:</strong> Calculate Cofactor Matrix (C)<br>
+                    <div class="text-sm mt-2">
+                        Each element $C_{ij}$ is $(-1)^{i+j}$ times the determinant of the $2 \\times 2$ submatrix formed by removing row $i$ and column $j$.<br>
+                        $$C = \\begin{pmatrix} C_{11} & C_{12} & C_{13} \\\\ C_{21} & C_{22} & C_{23} \\\\ C_{31} & C_{32} & C_{33} \\end{pmatrix}$$
+                        Where:<br>
+                        $C_{11} = +(${formatNumber(matrix[1][1])}\\times${formatNumber(matrix[2][2])} - ${formatNumber(matrix[1][2])}\\times${formatNumber(matrix[2][1])}) = ${formatNumber(adj[0][0])}$<br>
+                        $C_{12} = -(${formatNumber(matrix[1][0])}\\times${formatNumber(matrix[2][2])} - ${formatNumber(matrix[1][2])}\\times${formatNumber(matrix[2][0])}) = ${formatNumber(adj[1][0])}$<br>
+                        $C_{13} = +(${formatNumber(matrix[1][0])}\\times${formatNumber(matrix[2][1])} - ${formatNumber(matrix[1][1])}\\times${formatNumber(matrix[2][0])}) = ${formatNumber(adj[2][0])}$<br>
+                        $C_{21} = -(${formatNumber(matrix[0][1])}\\times${formatNumber(matrix[2][2])} - ${formatNumber(matrix[0][2])}\\times${formatNumber(matrix[2][1])}) = ${formatNumber(adj[0][1])}$<br>
+                        $C_{22} = +(${formatNumber(matrix[0][0])}\\times${formatNumber(matrix[2][2])} - ${formatNumber(matrix[0][2])}\\times${formatNumber(matrix[2][0])}) = ${formatNumber(adj[1][1])}$<br>
+                        $C_{23} = -(${formatNumber(matrix[0][0])}\\times${formatNumber(matrix[2][1])} - ${formatNumber(matrix[0][1])}\\times${formatNumber(matrix[2][0])}) = ${formatNumber(adj[2][1])}$<br>
+                        $C_{31} = +(${formatNumber(matrix[0][1])}\\times${formatNumber(matrix[1][2])} - ${formatNumber(matrix[0][2])}\\times${formatNumber(matrix[1][1])}) = ${formatNumber(adj[0][2])}$<br>
+                        $C_{32} = -(${formatNumber(matrix[0][0])}\\times${formatNumber(matrix[1][2])} - ${formatNumber(matrix[0][2])}\\times${formatNumber(matrix[1][0])}) = ${formatNumber(adj[1][2])}$<br>
+                        $C_{33} = +(${formatNumber(matrix[0][0])}\\times${formatNumber(matrix[1][1])} - ${formatNumber(matrix[0][1])}\\times${formatNumber(matrix[1][0])}) = ${formatNumber(adj[2][2])}$<br>
+                        
+                        Cofactor Matrix (C):
+                        $$\\begin{pmatrix} ${formatNumber(adj[0][0])} & ${formatNumber(adj[1][0])} & ${formatNumber(adj[2][0])} \\\\ ${formatNumber(adj[0][1])} & ${formatNumber(adj[1][1])} & ${formatNumber(adj[2][1])} \\\\ ${formatNumber(adj[0][2])} & ${formatNumber(adj[1][2])} & ${formatNumber(adj[2][2])} \\end{pmatrix}$$
+                    </div>
+                </div>
+                <div class="step bg-white bg-opacity-5 rounded-lg p-4 mb-4 border-l-4 border-yellow-400">
+                    <strong class="text-lg">Step 3:</strong> Transpose Cofactor Matrix to get Adjugate Matrix (adj(A))<br>
+                    <div class="text-sm mt-2">
+                        $$\\text{adj}(A) = C^T$$
+                        $$\\text{adj}(A) = \\begin{pmatrix} ${formatNumber(adj[0][0])} & ${formatNumber(adj[0][1])} & ${formatNumber(adj[0][2])} \\\\ ${formatNumber(adj[1][0])} & ${formatNumber(adj[1][1])} & ${formatNumber(adj[1][2])} \\\\ ${formatNumber(adj[2][0])} & ${formatNumber(adj[2][1])} & ${formatNumber(adj[2][2])} \\end{pmatrix}$$
+                    </div>
+                </div>
+                <div class="step bg-white bg-opacity-5 rounded-lg p-4 mb-4 border-l-4 border-yellow-400">
+                    <strong class="text-lg">Step 4:</strong> Calculate Inverse Matrix (A<sup class="text-base">-1</sup>)<br>
+                    <div class="text-sm mt-2">
+                        $$A^{-1} = \\frac{1}{\\text{det}(A)} \\times \\text{adj}(A)$$
+                        $$A^{-1} = \\frac{1}{${formatNumber(det)}} \\times \\begin{pmatrix} ${formatNumber(adj[0][0])} & ${formatNumber(adj[0][1])} & ${formatNumber(adj[0][2])} \\\\ ${formatNumber(adj[1][0])} & ${formatNumber(adj[1][1])} & ${formatNumber(adj[1][2])} \\\\ ${formatNumber(adj[2][0])} & ${formatNumber(adj[2][1])} & ${formatNumber(adj[2][2])} \\end{pmatrix}$$
+                        $$A^{-1} = \\begin{pmatrix} ${formatNumber(inverse[0][0])} & ${formatNumber(inverse[0][1])} & ${formatNumber(inverse[0][2])} \\\\ ${formatNumber(inverse[1][0])} & ${formatNumber(inverse[1][1])} & ${formatNumber(inverse[1][2])} \\\\ ${formatNumber(inverse[2][0])} & ${formatNumber(inverse[2][1])} & ${formatNumber(inverse[2][2])} \\end{pmatrix}$$
+                    </div>
+                </div>
+                <div class="step bg-white bg-opacity-5 rounded-lg p-4 border-l-4 border-yellow-400">
+                    <strong class="text-lg">Result:</strong> The inverse matrix A<sup class="text-base">-1</sup> is displayed above.
+                </div>
+            `;
+            
+            stepsDiv.innerHTML = stepsHtml;
+            stepsDiv.classList.remove('hidden'); // Show steps div
+            
+            // Tell MathJax to typeset the new content
+            if (window.MathJax) {
+                window.MathJax.typesetPromise([stepsDiv]).catch((err) => console.error("MathJax typesetting error:", err));
+            }
+        }
+        
+        /**
+         * Formats a number for display, attempting to show as a fraction if simple,
+         * otherwise rounds to 6 decimal places or uses scientific notation.
+         * @param {number} num - The number to format.
+         * @returns {string} The formatted number string.
+         */
+        function formatNumber(num) {
+            if (Math.abs(num) < 1e-10) return '0'; // Treat very small numbers as 0
+            
+            // Try to represent as a simple fraction
+            const tolerance = 1e-6; // Tolerance for floating point comparison
+            const denominators = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 16]; // Common denominators
+            
+            for (let d of denominators) {
+                const n = Math.round(num * d);
+                if (Math.abs(num - n / d) < tolerance) {
+                    // Simplify fraction if possible (e.g., 2/4 -> 1/2)
+                    const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+                    const commonDivisor = gcd(Math.abs(n), d);
+                    return `${n / commonDivisor}/${d / commonDivisor}`;
+                }
+            }
+            
+            // If not a simple fraction, format as decimal or scientific notation
+            if (Math.abs(num) > 1000 || (Math.abs(num) < 0.0001 && num !== 0)) {
+                return num.toExponential(3); // Scientific notation for very large/small numbers
+            }
+            
+            return num.toFixed(6).replace(/\.?0+$/, ''); // Round to 6 decimal places, remove trailing zeros
+        }
+        
+        // Calculate on page load
+        window.onload = function() {
+            calculateInverse();
+        };
+    </script>
+</body>
+</html>
