@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OWASP A03:2021-Injection Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Color Palette: Brilliant Blues -->
+    <!-- Narrative Plan: 1. Intro/Hook (The Scale of the Threat), 2. How it Works (Mechanism & Types), 3. Real-World Impact (Case Studies), 4. How to Defend (Prevention Methods). -->
+    <!-- Visualization Plan: 
+        - 94% Statistic -> Goal: Inform -> Donut Chart (Chart.js) -> Justification: Clearly shows overwhelming proportion. NO SVG.
+        - Injection Attack Flow -> Goal: Organize -> HTML/CSS Flowchart -> Justification: Simple, clear process visualization without complex libraries. NO SVG, NO MERMAID JS.
+        - SQLi vs XSS -> Goal: Compare -> HTML Table -> Justification: Direct comparison of key attributes. NO SVG.
+        - Case Study Impact -> Goal: Compare/Inform -> Bar Chart (Chart.js) & Styled Cards -> Justification: Bar chart visually compares data loss scale; cards highlight key impact numbers. NO SVG.
+        - Defense Layers -> Goal: Organize -> HTML/CSS Pyramid -> Justification: Shows foundational security approach effectively. NO SVG.
+    -->
+    <!-- Confirmation: NEITHER Mermaid JS NOR SVG were used anywhere in this output. -->
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+            max-width: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-width: 500px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .flowchart-step {
+            background-color: #EBF8FF;
+            border: 2px solid #6AAFE1;
+            color: #00449E;
+        }
+        .flowchart-arrow {
+            color: #0072CE;
+        }
+        .pyramid-level {
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            padding: 1rem 2rem 1rem 2rem;
+            margin-bottom: -1px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#00449E] mb-2">OWASP A03:2021 - Injection</h1>
+            <p class="text-lg text-[#005CB9]">ภัยคุกคามที่ซ่อนอยู่ในโค้ดของคุณ: เมื่อ "ข้อมูล" กลายเป็น "คำสั่ง" ที่อันตราย</p>
+        </header>
+
+        <main>
+            <!-- Section 1: The Scale of the Threat -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#00449E] mb-8">ภัยคุกคามที่แพร่หลายและรุนแรง</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="kpi-card bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#005CB9] mb-4">ช่องโหว่ที่พบได้ทั่วไป</h3>
+                        <p class="text-base text-gray-600 mb-4">
+                            จากข้อมูลการทดสอบล่าสุด พบว่าช่องโหว่ประเภท Injection ยังคงเป็นหนึ่งในความเสี่ยงที่แพร่หลายที่สุดในเว็บแอปพลิเคชันทั่วโลก ซึ่งตอกย้ำถึงความจำเป็นในการป้องกันอย่างเข้มงวด
+                        </p>
+                        <div class="chart-container mx-auto">
+                            <canvas id="vulnerabilityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <div class="kpi-card mb-6">
+                            <span class="text-6xl font-bold text-[#0072CE]">A03</span>
+                            <p class="text-xl font-semibold text-gray-700 mt-2">อันดับความเสี่ยง OWASP Top 10 ปี 2021</p>
+                        </div>
+                        <p class="text-gray-700 text-lg px-4 md:px-0">
+                            แม้ว่าอันดับจะลดลงจากปีก่อนๆ แต่ **Injection** ยังคงเป็นภัยคุกคาม 3 อันดับแรกที่องค์กรและนักพัฒนาต้องให้ความสำคัญสูงสุด การที่ **Cross-Site Scripting (XSS)** ถูกรวมเข้ามาในหมวดหมู่นี้ ยิ่งแสดงให้เห็นว่าขอบเขตของปัญหานั้นกว้างกว่าที่เคย
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: How It Works -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#00449E] mb-8">กลไกการโจมตี: เมื่อข้อมูลกลายเป็นคำสั่ง</h2>
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                    <p class="text-center text-gray-600 mb-8">
+                        หัวใจของการโจมตีแบบ Injection คือการหลอกให้ระบบหลังบ้าน (Interpreter) ตีความข้อมูลที่ผู้โจมตีส่งเข้ามาว่าเป็น "คำสั่ง" ที่ต้องทำงาน แทนที่จะเป็นแค่ "ข้อมูล" ทั่วไป
+                    </p>
+                    <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 text-center font-semibold">
+                        <div class="flowchart-step p-4 rounded-lg shadow-md w-48">ข้อมูลจากผู้ใช้<br>(Untrusted Data)</div>
+                        <div class="flowchart-arrow text-4xl font-light transform md:-rotate-0">⬇️</div>
+                        <div class="flowchart-step p-4 rounded-lg shadow-md w-48">แอปพลิเคชัน<br>(ไม่มีการตรวจสอบ)</div>
+                        <div class="flowchart-arrow text-4xl font-light transform md:-rotate-0">⬇️</div>
+                        <div class="flowchart-step p-4 rounded-lg shadow-md w-48 bg-red-100 border-red-500 text-red-700">Interpreter รัน<br>คำสั่งอันตราย!</div>
+                    </div>
+                    <hr class="my-8 border-t-2 border-gray-200">
+                    <h3 class="text-2xl font-semibold text-center text-[#005CB9] mb-6">ประเภทหลักที่ต้องรู้จัก</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white">
+                            <thead class="bg-[#0072CE] text-white">
+                                <tr>
+                                    <th class="py-3 px-4 uppercase font-semibold text-sm text-left">ประเภท</th>
+                                    <th class="py-3 px-4 uppercase font-semibold text-sm text-left">เป้าหมายหลัก</th>
+                                    <th class="py-3 px-4 uppercase font-semibold text-sm text-left">ผลกระทบ</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-bold">SQL Injection (SQLi)</td>
+                                    <td class="py-3 px-4">ฐานข้อมูล (Database)</td>
+                                    <td class="py-3 px-4">เข้าถึง, แก้ไข, ลบข้อมูล, ควบคุมฐานข้อมูล</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold">Cross-Site Scripting (XSS)</td>
+                                    <td class="py-3 px-4">เบราว์เซอร์ของผู้ใช้ (User's Browser)</td>
+                                    <td class="py-3 px-4">ขโมย Session, ปลอมตัวเป็นผู้ใช้, เปลี่ยนเนื้อหาเว็บ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Case Studies -->
+            <section class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#00449E] mb-8">บทเรียนราคาแพง: กรณีศึกษาจริง</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="kpi-card">
+                        <p class="text-5xl mb-2">💳</p>
+                        <h3 class="text-2xl font-bold text-[#005CB9]">Equifax (2017)</h3>
+                        <p class="font-semibold text-gray-500 mb-4">SQL Injection</p>
+                        <p class="text-5xl font-bold text-[#0072CE]">147.9<span class="text-3xl"> ล้าน</span></p>
+                        <p class="text-lg text-gray-600 mb-4">ข้อมูลส่วนตัวถูกขโมย</p>
+                        <p class="text-gray-600">บทเรียน: ความล้มเหลวในการอัปเดตแพตช์ (Apache Struts) และการป้องกันแบบองค์รวมที่หละหลวม</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="text-5xl mb-2">✈️</p>
+                        <h3 class="text-2xl font-bold text-[#005CB9]">British Airways (2018)</h3>
+                        <p class="font-semibold text-gray-500 mb-4">Cross-Site Scripting (XSS)</p>
+                        <p class="text-5xl font-bold text-[#0072CE]">380<span class="text-3xl"> พัน</span></p>
+                        <p class="text-lg text-gray-600 mb-4">ข้อมูลบัตรเครดิตรั่วไหล</p>
+                        <p class="text-gray-600">บทเรียน: ความเสี่ยงจากไลบรารีภายนอก (Third-party) ที่มีช่องโหว่</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="text-5xl mb-2">🐦</p>
+                        <h3 class="text-2xl font-bold text-[#005CB9]">Twitter (2014)</h3>
+                        <p class="font-semibold text-gray-500 mb-4">Cross-Site Scripting (XSS)</p>
+                        <p class="text-5xl font-bold text-[#0072CE]">แสน+</p>
+                        <p class="text-lg text-gray-600 mb-4">ทวีตแพร่กระจายตัวเอง</p>
+                        <p class="text-gray-600">บทเรียน: XSS สามารถควบคุมพฤติกรรมแอปพลิเคชันและทำลายความน่าเชื่อถือได้</p>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg mt-8">
+                    <h3 class="text-2xl font-semibold text-center text-[#005CB9] mb-4">เปรียบเทียบผลกระทบ: จำนวนข้อมูลที่ได้รับผลกระทบ</h3>
+                    <p class="text-center text-gray-600 mb-4">
+                        กราฟนี้แสดงให้เห็นถึงความแตกต่างของขนาดผลกระทบจากการโจมตีที่แตกต่างกัน โดยกรณีของ Equifax มีจำนวนผู้ได้รับผลกระทบสูงกว่าอย่างมีนัยสำคัญ
+                    </p>
+                    <div class="chart-container mx-auto h-96">
+                         <canvas id="caseStudyChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Prevention -->
+            <section>
+                <h2 class="text-3xl font-bold text-center text-[#00449E] mb-8">สร้างเกราะป้องกัน: แนวทางการป้องกันแบบหลายชั้น</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#005CB9] mb-4">หลักการสำคัญที่สุด</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-green-500 text-2xl mr-3">✓</span>
+                                <div>
+                                    <h4 class="font-bold">แยก "โค้ด" ออกจาก "ข้อมูล"</h4>
+                                    <p class="text-gray-600">ใช้ **Prepared Statements** หรือ **Parameterized Queries** เสมอ นี่คือวิธีที่มีประสิทธิภาพที่สุดในการป้องกัน SQL Injection</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 text-2xl mr-3">✓</span>
+                                <div>
+                                    <h4 class="font-bold">ตรวจสอบและทำความสะอาด Input</h4>
+                                    <p class="text-gray-600">ใช้ **Input Validation** เพื่อให้แน่ใจว่าข้อมูลที่รับมาตรงตามรูปแบบ และ **Sanitization/Escaping** เพื่อทำให้ข้อมูลที่เป็นอันตรายกลายเป็นกลางก่อนแสดงผล (ป้องกัน XSS)</p>
+                                </div>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="text-green-500 text-2xl mr-3">✓</span>
+                                <div>
+                                    <h4 class="font-bold">ใช้หลักการสิทธิ์น้อยที่สุด (Least Privilege)</h4>
+                                    <p class="text-gray-600">จำกัดสิทธิ์ของบัญชีที่เชื่อมต่อฐานข้อมูลให้ทำได้เฉพาะสิ่งที่จำเป็น เพื่อจำกัดความเสียหายหากถูกโจมตี</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-center text-white font-bold">
+                        <h3 class="text-2xl font-semibold text-[#005CB9] mb-4">Defense in Depth</h3>
+                        <div class="w-full max-w-sm">
+                            <div class="pyramid-level bg-[#005CB9] w-full">Runtime Protection (WAF)</div>
+                            <div class="pyramid-level bg-[#0072CE] w-5/6 mx-auto">Testing & Audits (SAST, DAST)</div>
+                            <div class="pyramid-level bg-[#3E92D5] w-2/3 mx-auto">Secure Coding Practices</div>
+                        </div>
+                        <p class="text-gray-600 mt-4">การป้องกันที่ดีต้องทำในทุกระดับ ตั้งแต่การเขียนโค้ดที่ปลอดภัยเป็นพื้นฐาน ไปจนถึงการมีเครื่องมือตรวจสอบและป้องกันขณะใช้งานจริง</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-300">
+            
+        </footer>
+    </div>
+
+    <script>
+        function wrapLabel(str, maxWidth) {
+            if (typeof str !== 'string' || str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length > maxWidth) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += ' ' + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const commonChartOptions = {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#4A5568',
+                        font: {
+                           family: "'Sarabun', sans-serif",
+                           size: 14
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    titleFont: {
+                        family: "'Sarabun', sans-serif"
+                    },
+                    bodyFont: {
+                        family: "'Sarabun', sans-serif"
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { 
+                        color: '#4A5568',
+                        font: { family: "'Sarabun', sans-serif" }
+                    },
+                    grid: { color: '#E2E8F0' }
+                },
+                x: {
+                    ticks: { 
+                        color: '#4A5568',
+                        font: { family: "'Sarabun', sans-serif" }
+                    },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        // Chart 1: Vulnerability Chart
+        const vulnerabilityCtx = document.getElementById('vulnerabilityChart').getContext('2d');
+        new Chart(vulnerabilityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['แอปพลิเคชันมีช่องโหว่ Injection', 'แอปพลิเคชันไม่พบช่องโหว่'],
+                datasets: [{
+                    label: '% of Applications',
+                    data: [94, 6],
+                    backgroundColor: [
+                        '#E53E3E', // Red for vulnerable
+                        '#3E92D5'  // Blue for secure
+                    ],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#4A5568',
+                            font: {
+                               family: "'Sarabun', sans-serif",
+                               size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        },
+                        titleFont: { family: "'Sarabun', sans-serif" },
+                        bodyFont: { family: "'Sarabun', sans-serif" }
+                    },
+                    title: {
+                        display: true,
+                        text: '94% ของแอปพลิเคชันที่ทดสอบพบช่องโหว่',
+                        color: '#005CB9',
+                        font: {
+                            size: 16,
+                            family: "'Sarabun', sans-serif",
+                            weight: 'bold'
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart 2: Case Study Chart
+        const caseStudyCtx = document.getElementById('caseStudyChart').getContext('2d');
+        const caseStudyLabels = ['Equifax (SQLi)', 'British Airways (XSS)'];
+        const wrappedCaseStudyLabels = caseStudyLabels.map(label => wrapLabel(label, 16));
+
+        new Chart(caseStudyCtx, {
+            type: 'bar',
+            data: {
+                labels: wrappedCaseStudyLabels,
+                datasets: [{
+                    label: 'จำนวนข้อมูลที่ได้รับผลกระทบ (ล้านรายการ)',
+                    data: [147.9, 0.38], // Equifax: 147.9M, BA: 380k = 0.38M
+                    backgroundColor: ['#005CB9', '#6AAFE1'],
+                    borderColor: ['#00449E', '#3E92D5'],
+                    borderWidth: 1,
+                    barThickness: 50,
+                }]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                     y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'ล้านรายการ',
+                            color: '#4A5568',
+                            font: { family: "'Sarabun', sans-serif" }
+                        },
+                        ticks: { 
+                            color: '#4A5568',
+                            font: { family: "'Sarabun', sans-serif" }
+                        },
+                        grid: { color: '#E2E8F0' }
+                    },
+                    x: {
+                       ticks: { 
+                            color: '#4A5568',
+                            font: { family: "'Sarabun', sans-serif", size: 14 }
+                        },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
