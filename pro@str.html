@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอนสถิติ: การแจกแจงของตัวอย่างสุ่ม (ฉบับสมบูรณ์)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .concept-box {
+            background-color: #fefae0;
+            border-left: 5px solid #dda15e;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .distribution-card {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-top: 5px solid #606c38;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .step-box {
+            background-color: #fafafa;
+            border: 1px solid #e9ecef;
+            padding: 1rem 1.5rem;
+            margin-top: 0.75rem;
+            border-radius: 0.5rem;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#283618]">การแจกแจงของตัวอย่างสุ่ม</div>
+            <div class="hidden lg:flex space-x-4">
+                <a href="#intro" class="text-gray-600 hover:text-[#606c38]">บทนำ</a>
+                <a href="#clt" class="text-gray-600 hover:text-[#606c38]">CLT</a>
+                <a href="#mean-dist" class="text-gray-600 hover:text-[#606c38]">ค่าเฉลี่ย 1 กลุ่ม</a>
+                <a href="#mean-diff" class="text-gray-600 hover:text-[#606c38]">ผลต่างค่าเฉลี่ย</a>
+                <a href="#proportion-dist" class="text-gray-600 hover:text-[#606c38]">สัดส่วน</a>
+                <a href="#variance-dist" class="text-gray-600 hover:text-[#606c38]">ความแปรปรวน</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#283618]">เจาะลึกการแจกแจงของตัวอย่างสุ่ม</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4">(Sampling Distributions)</p>
+        </header>
+
+        <section id="intro" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#606c38] mb-4">หัวใจของการอนุมานเชิงสถิติ</h2>
+                <p class="text-lg mb-4">ในความเป็นจริง เราไม่สามารถเก็บข้อมูลจาก "ประชากร" ทั้งหมดได้ สิ่งที่เราทำคือสุ่ม "ตัวอย่าง" (Sample) ออกมา แล้วใช้ข้อมูลจากตัวอย่างนั้นเพื่อสรุปผลกลับไปยังประชากร</p>
+                <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">การแจกแจงของตัวอย่างสุ่ม (Sampling Distribution) คืออะไร?</h4>
+                    <p>ลองจินตนาการว่าเราสุ่มตัวอย่างขนาด n มาจากประชากรซ้ำๆ กันหลายๆ ครั้ง ในแต่ละครั้งเราคำนวณค่าสถิติ (เช่น ค่าเฉลี่ย \(\bar{X}\)) ถ้าเรานำค่าสถิติที่ได้จากทุกครั้งมาสร้าง Histogram เราจะได้รูปทรงการแจกแจงความน่าจะเป็นของค่าสถิตินั้นๆ ซึ่งเราเรียกมันว่า <strong>"การแจกแจงของตัวอย่างสุ่ม"</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="clt" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#606c38] mb-4">ทฤษฎีบทขีดจำกัดส่วนกลาง (Central Limit Theorem)</h2>
+                <p class="text-lg mb-4">นี่คือทฤษฎีบทที่ทรงพลังที่สุดบทหนึ่งในวิชาสถิติ มันบอกเราว่า:</p>
+                <div class="concept-box">
+                    <p class="text-lg">"ไม่ว่าประชากรเริ่มต้นจะมีการแจกแจงหน้าตาเป็นอย่างไรก็ตาม การแจกแจงของค่าเฉลี่ยตัวอย่าง (\(\bar{X}\)) จะมีรูปทรงเข้าใกล้การแจกแจงแบบปกติ (Normal Distribution) เสมอ <strong class="text-[#bc6c25]">เมื่อขนาดตัวอย่าง (n) ใหญ่พอ</strong> (โดยทั่วไปคือ \(n \ge 30\))"</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mean-dist" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#606c38] mb-4">การแจกแจงของค่าเฉลี่ย 1 กลุ่ม (\(\bar{X}\))</h2>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-bold text-[#283618]">สูตร Z-distribution ทำงานอย่างไร?</h3>
+                    <p class="mt-2">สูตรนี้เป็นการ "ปรับมาตรฐาน" ค่าเฉลี่ยตัวอย่างของเรา เพื่อให้สามารถนำไปเปรียบเทียบกับตาราง Z-score มาตรฐานได้</p>
+                    <div class="mt-4 p-3 bg-gray-100 rounded text-center">
+                        $$ Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} $$
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 mt-4">
+                        <li>\(\bar{X} - \mu\): คือ "ระยะห่าง" ระหว่างค่าเฉลี่ยจากตัวอย่างที่เราสุ่มได้ กับค่าเฉลี่ยที่แท้จริงของประชากร</li>
+                        <li>\(\sigma/\sqrt{n}\): คือ "ส่วนเบี่ยงเบนมาตรฐานของค่าเฉลี่ยตัวอย่าง" หรือ <strong>Standard Error (S.E.)</strong> มันคือหน่วยวัดการกระจายตัวของ \(\bar{X}\)</li>
+                        <li><strong>Z-score:</strong> คือการนำระยะห่าง มาหารด้วยหน่วยวัดการกระจายตัว ผลลัพธ์คือ "ค่าเฉลี่ยตัวอย่างของเรา อยู่ห่างจากค่าเฉลี่ยประชากรเป็นจำนวนกี่เท่าของ Standard Error"</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="mean-diff" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#606c38] mb-4">การแจกแจงของผลต่างค่าเฉลี่ย 2 กลุ่ม (\(\bar{X}_1 - \bar{X}_2\))</h2>
+                <p class="text-lg mb-4">บ่อยครั้งเราต้องการเปรียบเทียบค่าเฉลี่ยของสองประชากร เช่น ยาชนิดใหม่ดีกว่ายาเก่าหรือไม่ หรือนักศึกษาจากสองสถาบันมีคะแนนเฉลี่ยต่างกันหรือไม่</p>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-bold text-[#283618]">สูตรทำงานอย่างไร?</h3>
+                    <p class="mt-2">แนวคิดเหมือนกับกรณีกลุ่มเดียว แต่ตอนนี้เราดูที่ "ผลต่าง" แทน</p>
+                    <div class="mt-4 p-3 bg-gray-100 rounded text-center">
+                         $$ Z = \frac{(\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}} $$
+                    </div>
+                    <ul class="list-disc list-inside space-y-2 mt-4">
+                         <li>\((\bar{X}_1 - \bar{X}_2) - (\mu_1 - \mu_2)\): คือ "ผลต่างที่สังเกตได้จากตัวอย่าง" ลบด้วย "ผลต่างที่แท้จริงของประชากร" (ซึ่งเรามักจะตั้งสมมติฐานว่าเป็น 0)</li>
+                         <li>\(\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\): คือ Standard Error ของผลต่างค่าเฉลี่ย สังเกตว่าเรานำความแปรปรวนของแต่ละกลุ่มมาบวกกัน เพราะความไม่แน่นอนจากทั้งสองกลุ่มจะเสริมกัน</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-[#283618] mt-8">วิธีทำเป็นขั้นตอน (ตัวอย่างที่ 6.5)</h3>
+                     <p class="mt-2">โจทย์: หลอดไฟ A มีอายุเฉลี่ย 1495 ชม. (\(\sigma_A=120\)) หลอดไฟ B มีอายุเฉลี่ย 1405 ชม. (\(\sigma_B=90\)) ถ้าสุ่มตัวอย่าง A มา 100 ดวง และ B มา 75 ดวง จงหาความน่าจะเป็นที่ผลต่างอายุเฉลี่ยของ A จะมากกว่า B อย่างน้อย 75 ชั่วโมง</p>
+                    <ol class="list-decimal list-inside space-y-1">
+                       <li class="font-semibold">ขั้นตอนที่ 1: ระบุค่าต่างๆ</li>
+                       <div class="step-box">\(\mu_A=1495, \sigma_A=120, n_A=100\)<br>\(\mu_B=1405, \sigma_B=90, n_B=75\)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 2: ตั้งคำถามในรูปความน่าจะเป็น</li>
+                       <div class="step-box">เราต้องการหา \(P(\bar{X}_A - \bar{X}_B \ge 75)\)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 3: คำนวณ Standard Error ของผลต่าง</li>
+                       <div class="step-box">\( \text{S.E.} = \sqrt{\frac{120^2}{100} + \frac{90^2}{75}} = \sqrt{144 + 108} = \sqrt{252} \approx 15.87 \)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 4: คำนวณ Z-score</li>
+                       <div class="step-box">\( \mu_A - \mu_B = 1495 - 1405 = 90 \)<br>
+                       \( Z = \frac{75 - 90}{15.87} = \frac{-15}{15.87} \approx -0.945 \)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 5: หาความน่าจะเป็นจากตาราง Z</li>
+                       <div class="step-box">เราต้องการหา \(P(Z \ge -0.945)\). <br>พื้นที่ถึง Z=-0.95 คือ 0.1711. <br>ดังนั้น \(P(Z \ge -0.95) = 1 - 0.1711 = 0.8289\)</div>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <section id="proportion-dist" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                 <h2 class="text-3xl font-bold text-[#606c38] mb-4">การแจกแจงของค่าสัดส่วนตัวอย่าง (\(\hat{p}\))</h2>
+                <p class="text-lg mb-4">เมื่อข้อมูลของเราไม่ใช่ตัวเลขต่อเนื่อง แต่เป็นข้อมูลเชิงจัดกลุ่ม (เช่น สำเร็จ/ไม่สำเร็จ, ผ่าน/ไม่ผ่าน) เราจะสนใจ "ค่าสัดส่วน" แทนค่าเฉลี่ย</p>
+                <div class="mt-4">
+                    <h3 class="text-2xl font-bold text-[#283618]">สูตรทำงานอย่างไร?</h3>
+                    <p class="mt-2">เมื่อขนาดตัวอย่างใหญ่พอ (\(np \ge 5\) และ \(n(1-p) \ge 5\)) การแจกแจงของ \(\hat{p}\) จะมีลักษณะใกล้เคียงการแจกแจงปกติ เราจึงสามารถใช้ Z-score ได้เช่นกัน</p>
+                    <div class="mt-4 p-3 bg-gray-100 rounded text-center">
+                         $$ Z = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}} $$
+                    </div>
+                     <ul class="list-disc list-inside space-y-2 mt-4">
+                         <li>\(\hat{p} - p\): คือผลต่างระหว่างสัดส่วนที่พบในตัวอย่าง กับสัดส่วนที่แท้จริงของประชากร</li>
+                         <li>\(\sqrt{\frac{p(1-p)}{n}}\): คือ Standard Error ของค่าสัดส่วน มาจากส่วนเบี่ยงเบนมาตรฐานของการแจกแจงแบบทวินาม</li>
+                    </ul>
+                    <h3 class="text-2xl font-bold text-[#283618] mt-8">วิธีทำเป็นขั้นตอน (ตัวอย่างที่ 6.8)</h3>
+                    <p class="mt-2">โจทย์: จากประสบการณ์พบว่าผู้ป่วยโรคหนึ่ง 30% จะหายจากโรคถ้าไม่ได้รับการรักษา จงหาความน่าจะเป็นที่ถ้าสุ่มผู้ป่วยมา 100 คน จะมีผู้ที่หายจากโรคเองอย่างน้อย 35 คน</p>
+                    <ol class="list-decimal list-inside space-y-1">
+                       <li class="font-semibold">ขั้นตอนที่ 1: ระบุค่าต่างๆ</li>
+                       <div class="step-box">\(p=0.30, n=100\). เราต้องการหาคนหายอย่างน้อย 35 คน ดังนั้น \(\hat{p} = 35/100 = 0.35\)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 2: ตั้งคำถามและตรวจสอบเงื่อนไข</li>
+                       <div class="step-box">หา \(P(\hat{p} \ge 0.35)\).<br>เงื่อนไข: \(np = 100(0.3) = 30 \ge 5\), \(n(1-p) = 100(0.7) = 70 \ge 5\). ใช้ Z-score ได้</div>
+                       <li class="font-semibold">ขั้นตอนที่ 3: คำนวณ Standard Error</li>
+                       <div class="step-box">\( \text{S.E.} = \sqrt{\frac{0.30(1-0.30)}{100}} = \sqrt{\frac{0.21}{100}} = \sqrt{0.0021} \approx 0.0458 \)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 4: คำนวณ Z-score</li>
+                       <div class="step-box">\( Z = \frac{0.35 - 0.30}{0.0458} = \frac{0.05}{0.0458} \approx 1.09 \)</div>
+                       <li class="font-semibold">ขั้นตอนที่ 5: หาความน่าจะเป็นจากตาราง Z</li>
+                       <div class="step-box">เราต้องการหา \(P(Z \ge 1.09)\).<br>พื้นที่ถึง Z=1.09 คือ 0.8621.<br>ดังนั้น \(P(Z \ge 1.09) = 1 - 0.8621 = 0.1379\)</div>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="variance-dist" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#606c38] mb-4">การแจกแจงของความแปรปรวนตัวอย่าง (\(S^2\))</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="distribution-card">
+                        <h3 class="font-bold text-xl mb-2 text-center">Chi-Square (\(\chi^2\)) Distribution</h3>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold">ใช้สำหรับ:</h4>
+                            <p>ทดสอบสมมติฐานเกี่ยวกับความแปรปรวนของประชากรเดียว (\(\sigma^2\))</p>
+                            <h4 class="font-semibold mt-2">สูตรทำงานอย่างไร:</h4>
+                            <p>สร้างค่าสถิติที่เป็นอัตราส่วนของความแปรปรวนที่สังเกตได้จากตัวอย่าง (\(S^2\)) ต่อความแปรปรวนที่คาดไว้ (\(\sigma_0^2\)). ถ้า \(S^2\) ใกล้เคียงกับ \(\sigma_0^2\) ค่า \(\chi^2\) จะมีค่าใกล้เคียงกับองศาอิสระ (df = n-1).</p>
+                        </div>
+                        <div class="mt-4 p-3 bg-gray-100 rounded">
+                             <p class="text-center text-lg font-bold">สูตร:</p>
+                             $$ \chi^2 = \frac{(n-1)S^2}{\sigma^2} $$
+                        </div>
+                    </div>
+                    <div class="distribution-card">
+                        <h3 class="font-bold text-xl mb-2 text-center">F-Distribution</h3>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold">ใช้สำหรับ:</h4>
+                            <p>เปรียบเทียบความแปรปรวนของสองประชากร (\(\sigma_1^2\) และ \(\sigma_2^2\))</p>
+                            <h4 class="font-semibold mt-2">สูตรทำงานอย่างไร:</h4>
+                            <p>F-statistic คืออัตราส่วนของความแปรปรวนตัวอย่างสองกลุ่ม. ถ้าความแปรปรวนของประชากรทั้งสองเท่ากัน ค่า F ที่คำนวณได้ควรจะมีค่าใกล้เคียง 1. ถ้าค่า F แตกต่างจาก 1 มากๆ แสดงว่าความแปรปรวนของสองประากรน่าจะไม่เท่ากัน</p>
+                        </div>
+                        <div class="mt-4 p-3 bg-gray-100 rounded">
+                             <p class="text-center text-lg font-bold">สูตร:</p>
+                             $$ F = \frac{S_1^2}{S_2^2} $$
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p>จัดทำโดยนาย ธีรวัต สงพะโยม AIT_03</p>
+    </footer>
+
+</body>
+</html>
