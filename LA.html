@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอนพีชคณิตเชิงเส้น: ปริภูมิเวกเตอร์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Kanit', sans-serif; scroll-behavior: smooth; }
+        .concept-box { background-color: #e6f4ea; border-left: 5px solid #27ae60; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .axiom-card { background-color: #ffffff; border: 1px solid #dee2e6; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .step-process { background-color: #f8f9fa; border: 1px dashed #ced4da; padding: 0.75rem 1.25rem; margin-top: 1rem; border-radius: 0.5rem; }
+        .example-box { margin-top: 2rem; padding: 1.5rem; border-radius: 0.5rem; background-color: #f4f6f6; border: 1px solid #bdc3c7; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#21618c]">ปริภูมิเวกเตอร์</div>
+            <div class="hidden lg:flex space-x-4">
+                <a href="#vector-space" class="text-gray-600 hover:text-[#21618c]">ปริภูมิเวกเตอร์</a>
+                <a href="#subspace" class="text-gray-600 hover:text-[#21618c]">ปริภูมิย่อย</a>
+                <a href="#linear-combo" class="text-gray-600 hover:text-[#21618c]">การรวมเชิงเส้น</a>
+                <a href="#span" class="text-gray-600 hover:text-[#21618c]">การแผ่ทั่ว</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#21618c]">เจาะลึกปริภูมิเวกเตอร์และปริภูมิย่อย</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4">(Vector Spaces and Subspaces)</p>
+        </header>
+
+        <section id="vector-space" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#27ae60] mb-4">1. ปริภูมิเวกเตอร์ (Vector Space)</h2>
+                <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แนวคิดคืออะไร?</h4>
+                    <p>ปริภูมิเวกเตอร์คือ "สนามเด็กเล่น" ของเวกเตอร์ มันเป็นเซตของวัตถุ (ที่เราเรียกว่าเวกเตอร์) ที่มีกฎการ "บวก" และ "คูณด้วยสเกลาร์" ที่ชัดเจนและสอดคล้องกัน หัวใจสำคัญที่สุดคือ <strong>คุณสมบัติการปิด (Closure)</strong> ซึ่งหมายความว่า:</p>
+                    <ul class="list-disc list-inside ml-4 mt-2">
+                        <li>ถ้าคุณนำเวกเตอร์สองตัวในสนามนี้มาบวกกัน ผลลัพธ์จะต้องยังคงอยู่ในสนามนี้เสมอ (ไม่กระเด็นออกไปข้างนอก)</li>
+                        <li>ถ้าคุณนำเวกเตอร์ตัวใดก็ตามในสนามนี้มาคูณด้วยสเกลาร์ (ยืดหรือหด) ผลลัพธ์ก็ต้องยังอยู่ในสนามนี้เช่นกัน</li>
+                    </ul>
+                    <p class="mt-2">ตราบใดที่เซตของวัตถุใดๆ พร้อมกับการบวกและการคูณสเกลาร์ที่นิยามขึ้นมา สอดคล้องกับกฎ 10 ข้อ (Axioms) เราสามารถเรียกมันว่า "ปริภูมิเวกเตอร์" ได้ทั้งหมด ไม่ว่าหน้าตาของมันจะไม่เหมือนลูกศรก็ตาม เช่น เซตของเมทริกซ์, เซตของพหุนาม</p>
+                </div>
+                <h3 class="text-2xl font-bold mt-8">สัจพจน์ 10 ประการ (Axioms)</h3>
+                <p>กฎ 10 ข้อที่ทำให้ "สนามเด็กเล่น" นี้สมบูรณ์ มีดังนี้:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="axiom-card">1. <strong>ปิดการบวก:</strong> ถ้า \(\mathbf{u}, \mathbf{v} \in V\), แล้ว \(\mathbf{u}+\mathbf{v} \in V\)</div>
+                    <div class="axiom-card">2. <strong>สลับที่การบวก:</strong> \(\mathbf{u}+\mathbf{v} = \mathbf{v}+\mathbf{u}\)</div>
+                    <div class="axiom-card">3. <strong>เปลี่ยนกลุ่มการบวก:</strong> \((\mathbf{u}+\mathbf{v})+\mathbf{w} = \mathbf{u}+(\mathbf{v}+\mathbf{w})\)</div>
+                    <div class="axiom-card">4. <strong>มีเวกเตอร์ศูนย์:</strong> มี \(\mathbf{0} \in V\) ที่ \(\mathbf{u}+\mathbf{0} = \mathbf{u}\)</div>
+                    <div class="axiom-card">5. <strong>มีอินเวอร์สการบวก:</strong> สำหรับทุก \(\mathbf{u}\) จะมี \(-\mathbf{u}\) ที่ \(\mathbf{u}+(-\mathbf{u}) = \mathbf{0}\)</div>
+                    <div class="axiom-card">6. <strong>ปิดการคูณด้วยสเกลาร์:</strong> ถ้า \(k\) เป็นสเกลาร์ และ \(\mathbf{u} \in V\), แล้ว \(k\mathbf{u} \in V\)</div>
+                    <div class="axiom-card">7. <strong>แจกแจง (สเกลาร์):</strong> \(k(\mathbf{u}+\mathbf{v}) = k\mathbf{u}+k\mathbf{v}\)</div>
+                    <div class="axiom-card">8. <strong>แจกแจง (เวกเตอร์):</strong> \((k+m)\mathbf{u} = k\mathbf{u}+m\mathbf{u}\)</div>
+                    <div class="axiom-card">9. <strong>เปลี่ยนกลุ่มการคูณ:</strong> \(k(m\mathbf{u}) = (km)\mathbf{u}\)</div>
+                    <div class="axiom-card">10. <strong>เอกลักษณ์การคูณ:</strong> \(1\mathbf{u} = \mathbf{u}\)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="subspace" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#27ae60] mb-4">2. ปริภูมิย่อย (Subspace)</h2>
+                 <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แนวคิดทำงานอย่างไร?</h4>
+                    <p>ปริภูมิย่อยคือ "สนามเด็กเล่นขนาดย่อม" ที่อยู่ภายในปริภูมิเวกเตอร์ที่ใหญ่กว่า (เช่น เส้นตรงที่ผ่านจุดกำเนิด คือปริภูมิย่อยของระนาบ 2 มิติ) ในการจะเป็นปริภูมิย่อยได้นั้น มันจะต้องเป็นปริภูมิเวกเตอร์ในตัวเองด้วย ซึ่งหมายความว่ามันต้องมีคุณสมบัติการปิดทั้งสองข้อนั่นเอง เราไม่จำเป็นต้องเช็ค Axiom ทั้ง 10 ข้อใหม่หมด เพราะคุณสมบัติส่วนใหญ่ (เช่น การสลับที่) ได้รับการถ่ายทอดมาจากปริภูมิที่ใหญ่กว่าอยู่แล้ว</p>
+                </div>
+                <div class="step-process">
+                    <p class="font-semibold text-xl">วิธีคิดเป็นขั้นตอน: การตรวจสอบความเป็นปริภูมิย่อย</p>
+                    <p>ให้ \(W\) เป็นสับเซตของปริภูมิเวกเตอร์ \(V\). \(W\) จะเป็นปริภูมิย่อยของ \(V\) ก็ต่อเมื่อ:</p>
+                    <ol class="list-decimal list-inside ml-2 mt-2 space-y-2">
+                        <li><strong>ตรวจสอบเวกเตอร์ศูนย์:</strong> (เป็นด่านแรกที่เร็วที่สุด) ถามว่าเวกเตอร์ศูนย์ \(\mathbf{0}\) ของ \(V\) อยู่ใน \(W\) หรือไม่? ถ้าไม่อยู่ ให้สรุปทันทีว่า "ไม่เป็นปริภูมิย่อย"</li>
+                        <li><strong>ตรวจสอบการปิดการบวก:</strong> "ถ้าหยิบสมาชิก 2 ตัวใดๆ จาก W มาบวกกัน ผลลัพธ์จะยังอยู่ใน W หรือไม่?"<br>
+                        <strong>วิธีทำ:</strong> ตั้งตัวแปรทั่วไปสำหรับเวกเตอร์ 2 ตัวใน W (เช่น \(\mathbf{u}, \mathbf{v}\)), นำมาบวกกัน แล้วจัดรูปผลลัพธ์ว่ายังคงสอดคล้องกับเงื่อนไขของ W หรือไม่</li>
+                        <li><strong>ตรวจสอบการปิดการคูณด้วยสเกลาร์:</strong> "ถ้าหยิบสมาชิก 1 ตัวใดๆ จาก W มาคูณกับสเกลาร์ใดๆ ผลลัพธ์จะยังอยู่ใน W หรือไม่?"<br>
+                        <strong>วิธีทำ:</strong> ตั้งตัวแปรทั่วไปสำหรับเวกเตอร์ 1 ตัวใน W (เช่น \(\mathbf{u}\)) และสเกลาร์ (เช่น \(k\)), นำมาคูณกัน แล้วจัดรูปผลลัพธ์ว่ายังคงสอดคล้องกับเงื่อนไขของ W หรือไม่</li>
+                    </ol>
+                     <p class="mt-2"><strong>ถ้าเงื่อนไขทั้ง 3 ข้อนี้เป็นจริง \(W\) ก็จะเป็นปริภูมิย่อย</strong></p>
+                </div>
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#21618c]">ตัวอย่างโจทย์ (กรณีที่เป็น Subspace)</h3>
+                    <p>จงตรวจสอบว่าเซต \(W\) ของเวกเตอร์ใน \(R^3\) ที่มีรูปแบบ \((a, b, a+b)\) เป็นปริภูมิย่อยของ \(R^3\) หรือไม่?</p>
+                    <ol class="list-decimal list-inside ml-2 mt-2 space-y-2">
+                        <li><strong>มีเวกเตอร์ศูนย์หรือไม่?:</strong> ถ้า \(a=0, b=0\), เราจะได้เวกเตอร์ \((0, 0, 0+0) = (0,0,0)\) ซึ่งคือเวกเตอร์ศูนย์ใน \(R^3\). ดังนั้น \(\mathbf{0} \in W\). (ผ่าน)</li>
+                        <li><strong>ปิดการบวกหรือไม่?:</strong> ให้ \(\mathbf{u} = (a_1, b_1, a_1+b_1)\) และ \(\mathbf{v} = (a_2, b_2, a_2+b_2)\) เป็นเวกเตอร์ 2 ตัวใน \(W\)<br>
+                        \(\mathbf{u}+\mathbf{v} = (a_1+a_2, b_1+b_2, (a_1+b_1)+(a_2+b_2))\)<br>
+                        จัดรูปใหม่: \(= ((a_1+a_2), (b_1+b_2), (a_1+a_2)+(b_1+b_2))\)<br>
+                        ผลลัพธ์ที่ได้ยังคงอยู่ในรูปแบบ \((a, b, a+b)\). (ผ่าน)</li>
+                        <li><strong>ปิดการคูณด้วยสเกลาร์หรือไม่?:</strong> ให้ \(\mathbf{u} = (a, b, a+b)\) และ \(k\) เป็นสเกลาร์<br>
+                        \(k\mathbf{u} = k(a, b, a+b) = (ka, kb, k(a+b)) = (ka, kb, ka+kb)\)<br>
+                        ผลลัพธ์ที่ได้ยังคงอยู่ในรูปแบบ \((a, b, a+b)\). (ผ่าน)</li>
+                    </ol>
+                    <p class="font-bold mt-2">สรุป: เนื่องจากผ่านทั้ง 3 เงื่อนไข เซตนี้จึงเป็นปริภูมิย่อยของ \(R^3\) (ซึ่งก็คือระนาบที่ผ่านจุดกำเนิด)</p>
+                 </div>
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#c0392b]">ตัวอย่างโจทย์ (กรณีที่ไม่เป็น Subspace)</h3>
+                    <p>จงตรวจสอบว่าเซต \(W\) ของเวกเตอร์ใน \(R^2\) ที่มีรูปแบบ \((a, 1)\) เป็นปริภูมิย่อยของ \(R^2\) หรือไม่?</p>
+                     <ol class="list-decimal list-inside ml-2 mt-2 space-y-2">
+                        <li><strong>มีเวกเตอร์ศูนย์หรือไม่?:</strong> เวกเตอร์ศูนย์ใน \(R^2\) คือ \((0,0)\). แต่สมาชิกใน \(W\) ต้องมีส่วนประกอบที่สองเป็น 1 เสมอ ดังนั้น \((0,0)\) จึงไม่อยู่ใน \(W\). (ไม่ผ่าน)</li>
+                    </ol>
+                     <p class="font-bold mt-2">สรุป: เนื่องจากไม่ผ่านเงื่อนไขข้อแรก เราสามารถสรุปได้ทันทีว่าเซตนี้ไม่เป็นปริภูมิย่อยของ \(R^2\)</p>
+                 </div>
+            </div>
+        </section>
+
+        <section id="linear-combo" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                 <h2 class="text-3xl font-bold text-[#27ae60] mb-4">3. การรวมกันเชิงเส้น (Linear Combination)</h2>
+                 <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แนวคิดทำงานอย่างไร?</h4>
+                    <p>คือการ "สร้าง" เวกเตอร์ใหม่ขึ้นมาจากการนำเวกเตอร์ "วัตถุดิบ" ที่เรามี (\(\mathbf{v}_1, \mathbf{v}_2, ...\)) มายืด-หด (คูณด้วยสเกลาร์ \(k_1, k_2, ...\)) แล้วนำผลลัพธ์ทั้งหมดมาบวกกัน</p>
+                    <p class="text-center text-xl mt-2 font-mono"> \(\mathbf{w} = k_1\mathbf{v}_1 + k_2\mathbf{v}_2 + \dots + k_r\mathbf{v}_r\) </p>
+                    <p>เราเรียก \(\mathbf{w}\) ว่าเป็นผลรวมเชิงเส้นของเวกเตอร์ \(\mathbf{v}_1, \dots, \mathbf{v}_r\). คำถามว่า "w เป็น linear combination ของ v ทั้งหลายหรือไม่" ก็คือคำถามว่า "เราสามารถหาชุดของน้ำหนัก (สเกลาร์ k) ที่ผสม v ทั้งหลายแล้วได้ w ออกมาพอดีได้หรือไม่"</p>
+                </div>
+                <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#21618c]">ตัวอย่างโจทย์จากสไลด์ (หน้า 18):</h3>
+                    <p>จงแสดงว่าเวกเตอร์ \(\mathbf{w}=(9,2,7)\) เป็นผลรวมเชิงเส้นของ \(\mathbf{u}=(1,2,-1)\) และ \(\mathbf{v}=(6,4,2)\) หรือไม่</p>
+                    <div class="step-process">
+                        <p class="font-semibold text-xl">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2 mt-2 space-y-2">
+                             <li><strong>ตั้งเป้าหมาย:</strong> เราต้องการหาว่ามีสเกลาร์ \(k_1, k_2\) ที่ทำให้สมการ \(\mathbf{w} = k_1\mathbf{u} + k_2\mathbf{v}\) เป็นจริงหรือไม่</li>
+                             <li><strong>เขียนสมการเวกเตอร์:</strong><br>
+                             \((9,2,7) = k_1(1,2,-1) + k_2(6,4,2)\)</li>
+                             <li><strong>แปลงเป็นระบบสมการเชิงเส้น:</strong> เทียบสัมประสิทธิ์ในแต่ละตำแหน่ง (x, y, z)<br>
+                             <ul class="list-disc list-inside ml-4">
+                                <li>\(k_1 + 6k_2 = 9\)</li>
+                                <li>\(2k_1 + 4k_2 = 2\)</li>
+                                <li>\(-k_1 + 2k_2 = 7\)</li>
+                             </ul>
+                             </li>
+                             <li><strong>แก้ระบบสมการ:</strong> (เช่น ใช้วิธีของเกาส์-จอร์แดน หรือการกำจัดตัวแปร)<br>
+                             นำสมการ (1) บวกกับ (3): \((k_1+6k_2)+(-k_1+2k_2) = 9+7 \implies 8k_2=16 \implies k_2=2\).<br>
+                             แทน \(k_2=2\) ในสมการ (1): \(k_1+6(2)=9 \implies k_1+12=9 \implies k_1=-3\).<br>
+                             ตรวจสอบคำตอบกับสมการ (2): \(2(-3)+4(2) = -6+8 = 2\). (เป็นจริง)</li>
+                             <li><strong>สรุป:</strong> เนื่องจากเราสามารถหาผลเฉลยของระบบสมการได้ (คือ \(k_1 = -3, k_2=2\)) เราจึงสรุปได้ว่า \(\mathbf{w}\) เป็นผลรวมเชิงเส้นของ \(\mathbf{u}\) และ \(\mathbf{v}\)</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="span" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                 <h2 class="text-3xl font-bold text-[#27ae60] mb-4">4. การแผ่ทั่ว (Spanning)</h2>
+                  <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แนวคิดทำงานอย่างไร?</h4>
+                    <p>ถ้าการรวมกันเชิงเส้นคือการ "สร้าง" เวกเตอร์หนึ่งตัว, "สแปน" (Span) คือ "เซตของทุกสิ่งทุกอย่างที่สามารถสร้างได้" จากเวกเตอร์วัตถุดิบชุดนั้น</p>
+                    <p class="mt-2">\( \text{span}\{\mathbf{v}_1, \dots, \mathbf{v}_r\} \) คือปริภูมิที่เล็กที่สุดที่บรรจุเวกเตอร์วัตถุดิบเหล่านั้นไว้ และยังคงมีคุณสมบัติเป็นปริภูมิเวกเตอร์อยู่</p>
+                    <p class="mt-2">คำถามว่า "เซต \(S\) แผ่ทั่วปริภูมิ \(V\) หรือไม่?" ก็คือคำถามที่ว่า "เราสามารถสร้างเวกเตอร์ทุกตัวใน \(V\) ได้โดยใช้เวกเตอร์ใน \(S\) เป็นวัตถุดิบหรือไม่?" ซึ่งเทียบเท่ากับการถามว่า "ระบบสมการที่เกิดจากการสร้าง linear combination จะมีผลเฉลยสำหรับทุกเวกเตอร์เป้าหมายใน V หรือไม่"</p>
+                </div>
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#21618c]">ตัวอย่างโจทย์จากสไลด์ (หน้า 19):</h3>
+                    <p>จงตรวจสอบว่าเวกเตอร์ \(\mathbf{v}_1=(1,1,2), \mathbf{v}_2=(1,0,1), \mathbf{v}_3=(2,1,3)\) แผ่ทั่วปริภูมิ \(R^3\) หรือไม่</p>
+                     <div class="step-process">
+                        <p class="font-semibold text-xl">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2 mt-2 space-y-2">
+                            <li><strong>ตั้งเป้าหมาย:</strong> เราต้องตรวจสอบว่าเวกเตอร์ \(\mathbf{b}=(b_1, b_2, b_3)\) ใดๆ ใน \(R^3\) สามารถเขียนในรูป \(k_1\mathbf{v}_1 + k_2\mathbf{v}_2 + k_3\mathbf{v}_3 = \mathbf{b}\) ได้ "เสมอ" หรือไม่</li>
+                             <li><strong>สร้างเมทริกซ์สัมประสิทธิ์:</strong> นำเวกเตอร์ \(\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\) มาสร้างเป็นหลักของเมทริกซ์ \(A\)<br>
+                             $$ A = \left[ \begin{array}{c c c} 1 & 1 & 2 \\ 1 & 0 & 1 \\ 2 & 1 & 3 \end{array} \right] $$
+                             </li>
+                            <li><strong>ตรวจสอบว่าระบบสมการมีผลเฉลยเสมอหรือไม่:</strong> ทฤษฎีบทบอกเราว่า ระบบสมการ \(A\mathbf{x}=\mathbf{b}\) จะมีผลเฉลยสำหรับทุก \(\mathbf{b}\) ก็ต่อเมื่อ \(\det(A) \ne 0\). ดังนั้นเราจะคำนวณหาดีเทอร์มิแนนต์ของ \(A\)<br>
+                             $$ \det(A) = 1(0-1) - 1(3-2) + 2(1-0) = -1 - 1 + 2 = 0 $$
+                             </li>
+                            <li><strong>สรุปผล:</strong> เนื่องจาก \(\det(A)=0\), ระบบสมการนี้จะไม่มีผลเฉลยสำหรับบางค่าของ \(\mathbf{b}\). ซึ่งหมายความว่ามีเวกเตอร์ใน \(R^3\) ที่เราไม่สามารถสร้างได้จาก \(\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\). <br><strong>ดังนั้น เวกเตอร์ชุดนี้ไม่แผ่ทั่วปริภูมิ \(R^3\)</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p>จัดทำโดยนาย ธีรวัต สงพะโยม AIT_03</p>
+    </footer>
+
+</body>
+</html>
+
