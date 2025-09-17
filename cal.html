@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สอนแคลคูลัส: เจาะลึกเทคนิคการอินทิเกรต (ฉบับสมบูรณ์)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .formula-box {
+            background-color: #f8f9fa;
+            border-left: 5px solid #005f73;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .step-box {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+        }
+        .triangle-diagram {
+            width: 180px;
+            height: 120px;
+            position: relative;
+            margin: 1.5rem auto;
+        }
+        .triangle-diagram .hyp {
+            width: 216px;
+            height: 4px;
+            background-color: #005f73;
+            position: absolute;
+            top: 58px;
+            left: -18px;
+            transform: rotate(-29deg);
+        }
+        .triangle-diagram .adj {
+            width: 180px;
+            height: 4px;
+            background-color: #ae2012;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .triangle-diagram .opp {
+            width: 120px;
+            height: 4px;
+            background-color: #ee9b00;
+            position: absolute;
+            top: 58px;
+            right: -60px;
+            transform: rotate(90deg);
+        }
+        .triangle-diagram span {
+            position: absolute;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#005f73]">เจาะลึกการอินทิเกรต</div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#substitution" class="text-gray-600 hover:text-[#0a9396]">แทนค่า</a>
+                <a href="#by-parts" class="text-gray-600 hover:text-[#0a9396]">By Parts</a>
+                <a href="#partial-fractions" class="text-gray-600 hover:text-[#0a9396]">เศษส่วนย่อย</a>
+                <a href="#trigonometric" class="text-gray-600 hover:text-[#0a9396]">ตรีโกณมิติ</a>
+                <a href="#improper" class="text-gray-600 hover:text-[#0a9396]">ไม่ตรงแบบ</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#005f73]">คู่มือพิชิตเทคนิคการอินทิเกรต</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4">เจาะลึกที่มาของสูตรและอธิบายการทำงานอย่างละเอียด</p>
+        </header>
+
+        <section id="substitution" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#0a9396] mb-4">1. การอินทิเกรตโดยการแทนค่า (Substitution)</h2>
+                <p class="text-lg mb-4">เทคนิคนี้คือ <strong class="text-[#005f73]">"กฎลูกโซ่ย้อนกลับ"</strong> เราใช้มันเมื่อเห็นฟังก์ชันที่ซับซ้อนซึ่งมีทั้ง "ฟังก์ชันตัวนอก" และ "อนุพันธ์ของฟังก์ชันตัวใน" อยู่ในโจทย์เดียวกัน</p>
+                
+                <div class="formula-box">
+                    <h4 class="font-bold text-xl mb-2">สูตรทำงานอย่างไร?</h4>
+                    <p>แนวคิดคือการทำให้โจทย์ที่ซับซ้อนง่ายขึ้น โดยเปลี่ยนกลุ่มของฟังก์ชันที่ยุ่งยากให้กลายเป็นตัวแปรเดียวคือ \(u\). เมื่อเรากำหนด \(u = g(x)\) เราจะต้องเปลี่ยน \(dx\) ให้เป็น \(du\) ด้วย ซึ่งความสัมพันธ์นี้มาจากอนุพันธ์ คือ \(du = g'(x)dx\). การทำแบบนี้จะทำให้กลุ่ม \(g'(x)dx\) ในโจทย์หายไปพร้อมกับ \(dx\) และถูกแทนที่ด้วย \(du\) อย่างสมบูรณ์</p>
+                    <div class="text-center text-xl mt-4 bg-white p-4 rounded">
+                        $$ \int f(\underbrace{g(x)}_{u}) \cdot \underbrace{g'(x) \,dx}_{du} \quad \Rightarrow \quad \int f(u) \,du $$
+                    </div>
+                </div>
+
+                <h4 class="font-bold text-xl mt-8 mb-2">วิธีทำเป็นขั้นตอน: \(\int 2x \sqrt{1+x^2} \,dx\)</h4>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li class="font-semibold">ขั้นตอนที่ 1: เลือก \(u\)</li>
+                    <div class="step-box">เลือกส่วนที่ดูซับซ้อนที่สุด หรือ "ไส้ใน" ของฟังก์ชัน ในที่นี้คือพจน์ที่อยู่ใต้ราก<br>
+                    <strong class="text-blue-800">ให้ \(u = 1+x^2\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 2: หาอนุพันธ์ของ \(u\) เพื่อหา \(du\)</li>
+                    <div class="step-box">หาอนุพันธ์ \(u\) เทียบกับ \(x\) แล้วจัดรูปเพื่อหาว่า \(du\) เท่ากับเท่าไรในเทอมของ \(x\) และ \(dx\)<br>
+                    <strong class="text-blue-800">\(\frac{du}{dx} = 2x \implies du = 2x \,dx\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 3: แทนค่าในโจทย์</li>
+                    <div class="step-box">นำ \(u\) และ \(du\) ที่ได้ไปแทนที่ส่วนต่างๆ ในโจทย์เดิม จะเห็นว่า \(2x \, dx\) ถูกแทนที่ด้วย \(du\) ทั้งหมด<br>
+                    <strong class="text-green-800">\(\int \sqrt{\underbrace{1+x^2}_{u}} \cdot \underbrace{(2x \,dx)}_{du} = \int \sqrt{u} \,du = \int u^{1/2} \,du\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 4: อินทิเกรตฟังก์ชันของ \(u\)</li>
+                    <div class="step-box">อินทิเกรตตามปกติโดยใช้สูตรพื้นฐาน ตอนนี้โจทย์จะง่ายลงมาก<br>
+                    <strong class="text-green-800">\(\frac{u^{3/2}}{3/2} + C = \frac{2}{3}u^{3/2} + C\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 5: แทนค่ากลับเป็น \(x\)</li>
+                    <div class="step-box">เนื่องจากโจทย์เริ่มต้นเป็นตัวแปร \(x\) คำตอบสุดท้ายก็ต้องอยู่ในรูปของ \(x\) ด้วย<br>
+                    <strong class="text-purple-800 font-bold">คำตอบ: \(\frac{2}{3}(1+x^2)^{3/2} + C\)</strong></div>
+                </ol>
+            </div>
+        </section>
+
+        <section id="by-parts" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#0a9396] mb-4">2. การอินทิเกรตทีละส่วน (By Parts)</h2>
+                <p class="text-lg mb-4">ใช้เมื่อต้องอินทิเกรต <strong class="text-[#005f73]">"ผลคูณของฟังก์ชัน"</strong> สองชนิดที่ไม่มีความเกี่ยวข้องกันทางอนุพันธ์ เช่น พหุนามคูณกับฟังก์ชันตรีโกณมิติ</p>
+                
+                <div class="formula-box">
+                    <h4 class="font-bold text-xl mb-2">สูตรทำงานอย่างไร?</h4>
+                    <p>สูตรนี้มาจากการย้อนกลับ "กฎการหาอนุพันธ์ของผลคูณ". หลักการคือ เราแบ่งฟังก์ชันที่คูณกันออกเป็นสองส่วนคือ \(u\) (ส่วนที่จะดิฟ) และ \(dv\) (ส่วนที่จะอินทิเกรต). สูตรจะเปลี่ยนโจทย์ \(\int u \,dv\) ที่อาจจะยาก ให้ไปอยู่ในรูปของ \(uv - \int v \,du\). ความหวังของเราคือ \(\int v \,du\) ที่เกิดขึ้นใหม่จะง่ายกว่าโจทย์เดิม ซึ่งมักจะเกิดขึ้นเมื่อ \(u\) ที่เราเลือกเป็นพหุนาม เพราะการดิฟจะทำให้ดีกรีลดลงและง่ายขึ้น</p>
+                    <div class="text-center text-2xl mt-4 bg-white p-4 rounded text-[#005f73] font-bold">
+                        $$ \int u \,dv = uv - \int v \,du $$
+                    </div>
+                </div>
+
+                <h4 class="font-bold text-xl mt-8 mb-2">วิธีทำเป็นขั้นตอน: \(\int x \cos(x) \,dx\)</h4>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li class="font-semibold">ขั้นตอนที่ 1: เลือก \(u\) และ \(dv\)</li>
+                    <div class="step-box">ใช้หลัก LIATE: \(x\) เป็น Algebraic (A), \(\cos(x)\) เป็น Trigonometric (T). A มาก่อน T ดังนั้น:<br>
+                    <strong class="text-blue-800">ให้ \(u = x\) และ \(dv = \cos(x) \,dx\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 2: หา \(du\) และ \(v\)</li>
+                    <div class="step-box">ดิฟ \(u\) เพื่อหา \(du\) และ อินทิเกรต \(dv\) เพื่อหา \(v\)<br>
+                    <strong class="text-blue-800">จาก \(u=x \implies du = dx\)</strong><br>
+                    <strong class="text-blue-800">จาก \(dv=\cos(x)dx \implies v = \int \cos(x)dx = \sin(x)\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 3: แทนค่าลงในสูตร \(\int u \,dv = uv - \int v \,du\)</li>
+                    <div class="step-box">นำทั้ง 4 ส่วนที่หาได้มาประกอบกันตามสูตร<br>
+                    <strong class="text-green-800">\(\int x \cos(x) \,dx = (x)(\sin(x)) - \int \sin(x) \,dx\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 4: อินทิเกรตส่วนที่เหลือ</li>
+                    <div class="step-box">คำนวณอินทิกรัลพจน์สุดท้ายที่เหลืออยู่ ซึ่งตอนนี้ง่ายแล้ว<br>
+                    <strong class="text-green-800">\(x \sin(x) - (-\cos(x)) + C\)</strong></div>
+                    
+                    <li class="font-semibold">ขั้นตอนที่ 5: จัดรูปคำตอบ</li>
+                    <div class="step-box">
+                    <strong class="text-purple-800 font-bold">คำตอบ: \(x \sin(x) + \cos(x) + C\)</strong></div>
+                </ol>
+            </div>
+        </section>
+
+        <section id="partial-fractions" class="mb-16 scroll-mt-20">
+             <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#0a9396] mb-4">3. เศษส่วนย่อย (Partial Fractions)</h2>
+                <p class="text-lg mb-4">ใช้กับฟังก์ชันตรรกยะ (พหุนามหารพหุนาม) แนวคิดคือการ <strong class="text-[#005f73]">"ย้อนกระบวนการบวกลบเศษส่วน"</strong> เพื่อแตกเศษส่วนที่ซับซ้อนออกเป็นส่วนย่อยๆ ที่อินทิเกรตได้ง่าย (ส่วนใหญ่จะอยู่ในรูปของ \(\ln\))</p>
+                
+                 <div class="formula-box">
+                    <h4 class="font-bold text-xl mb-2">สูตรทำงานอย่างไร?</h4>
+                    <p>หลักการคือ ถ้าตัวส่วนของเศษส่วนสามารถแยกตัวประกอบได้ เราก็สามารถเขียนเศษส่วนนั้นในรูปผลบวกของเศษส่วนใหม่ๆ ที่มีตัวส่วนเป็นตัวประกอบเหล่านั้นได้เสมอ เช่น \(\frac{P(x)}{(x-a)(x-b)}\) สามารถเขียนเป็น \(\frac{A}{x-a} + \frac{B}{x-b}\) ได้เสมอ. หน้าที่ของเราคือการหาค่าคงที่ A และ B ที่ทำให้สมการเป็นจริง จากนั้นเราจะอินทิเกรต \(\int \frac{A}{x-a}dx + \int \frac{B}{x-b}dx\) ซึ่งง่ายกว่ามากเพราะอยู่ในรูป \(A\ln|x-a| + B\ln|x-b|\)</p>
+                </div>
+                 
+                 <h4 class="font-bold text-xl mt-8 mb-2">วิธีทำเป็นขั้นตอน: \(\int \frac{1}{(x-2)(x-5)} \,dx\)</h4>
+                 <ol class="list-decimal list-inside space-y-2">
+                    <li class="font-semibold">ขั้นตอนที่ 1: ตั้งสมการเศษส่วนย่อย</li>
+                    <div class="step-box">เนื่องจากตัวส่วนเป็นผลคูณของพจน์เชิงเส้นที่ไม่ซ้ำกัน เราจึงสามารถตั้งสมการได้ดังนี้<br>
+                    <strong class="text-blue-800">\(\frac{1}{(x-2)(x-5)} = \frac{A}{x-2} + \frac{B}{x-5}\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 2: แก้สมการหาค่า A และ B</li>
+                    <div class="step-box">คูณตลอดด้วย \((x-2)(x-5)\) เพื่อกำจัดตัวส่วน<br>
+                    \(1 = A(x-5) + B(x-2)\)<br>
+                    <strong>วิธีที่ 1 (แทนค่า):</strong><br>
+                    - แทน \(x=5\): \(1 = A(0) + B(3) \implies B = 1/3\)<br>
+                    - แทน \(x=2\): \(1 = A(-3) + B(0) \implies A = -1/3\)<br>
+                    <strong class="text-blue-800">ดังนั้น \(A = -1/3\), \(B = 1/3\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 3: เขียนโจทย์ใหม่ในรูปเศษส่วนย่อย</li>
+                    <div class="step-box">แทนค่า A และ B กลับเข้าไปในโจทย์อินทิกรัล<br>
+                    <strong class="text-green-800">\(\int \left( \frac{-1/3}{x-2} + \frac{1/3}{x-5} \right) \,dx\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 4: อินทิเกรตทีละพจน์</li>
+                    <div class="step-box">ดึงค่าคงที่ออกมาแล้วอินทิเกรต ซึ่งจะได้ผลลัพธ์เป็นฟังก์ชันลอการิทึมธรรมชาติ (ln)<br>
+                    <strong class="text-green-800">\(-\frac{1}{3}\int \frac{1}{x-2}dx + \frac{1}{3}\int \frac{1}{x-5}dx = -\frac{1}{3}\ln|x-2| + \frac{1}{3}\ln|x-5| + C\)</strong></div>
+                     
+                    <li class="font-semibold">ขั้นตอนที่ 5: จัดรูปคำตอบ (ถ้าต้องการ)</li>
+                    <div class="step-box">ใช้คุณสมบัติของ log: \(\ln a - \ln b = \ln(a/b)\)<br>
+                    <strong class="text-purple-800 font-bold">คำตอบ: \(\frac{1}{3}\ln\left|\frac{x-5}{x-2}\right| + C\)</strong></div>
+                </ol>
+            </div>
+        </section>
+
+        <section id="trigonometric" class="mb-16 scroll-mt-20">
+             <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#0a9396] mb-4">4. การแทนค่าด้วยฟังก์ชันตรีโกณมิติ</h2>
+                <p class="text-lg mb-4">เทคนิคนี้ใช้ทฤษฎีบทพีทาโกรัสและสามเหลี่ยมมุมฉากเพื่อกำจัดเครื่องหมายรากที่สองออกจากพจน์ \(\sqrt{a^2-x^2}\), \(\sqrt{a^2+x^2}\), หรือ \(\sqrt{x^2-a^2}\)</p>
+
+                <div class="formula-box">
+                    <h4 class="font-bold text-xl mb-2">สูตรทำงานอย่างไร?</h4>
+                    <p>แนวคิดคือการ "แปลง" พีชคณิตให้เป็นตรีโกณมิติ โดยใช้สามเหลี่ยมมุมฉากเป็นตัวกลาง. เมื่อเราแทนค่า \(x\) ด้วยฟังก์ชันตรีโกณมิติ (เช่น \(x = a \sin\theta\)) พจน์ที่อยู่ในรากจะสามารถจัดรูปโดยใช้เอกลักษณ์ตรีโกณมิติ (เช่น \(a^2 - a^2\sin^2\theta = a^2\cos^2\theta\)) ทำให้รากที่สองหายไป \(\sqrt{a^2\cos^2\theta} = a\cos\theta\). หลังจากอินทิเกรตในรูปของ \(\theta\) แล้ว เราจะใช้สามเหลี่ยมรูปเดิมเพื่อ "แปลง" คำตอบกลับมาเป็นตัวแปร \(x\)</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 text-center">
+                    <div>
+                        <h4 class="font-bold text-lg">กรณี \(\sqrt{a^2 - x^2}\)</h4>
+                        <p class="text-sm text-gray-600 mb-2">ให้ \(x = a \sin\theta\)</p>
+                        <div class="triangle-diagram">
+                           <div class="hyp"></div> <span style="top: 20px; left: 70px; color: #005f73;">\(a\)</span>
+                           <div class="adj"></div> <span style="bottom: 8px; left: 60px; color: #ae2012;">\(\sqrt{a^2-x^2}\)</span>
+                           <div class="opp"></div> <span style="top: 50px; right: -15px; color: #ee9b00;">\(x\)</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">กรณี \(\sqrt{a^2 + x^2}\)</h4>
+                         <p class="text-sm text-gray-600 mb-2">ให้ \(x = a \tan\theta\)</p>
+                        <div class="triangle-diagram">
+                           <div class="hyp"></div> <span style="top: 20px; left: 50px; color: #005f73;">\(\sqrt{a^2+x^2}\)</span>
+                           <div class="adj"></div> <span style="bottom: 8px; left: 80px; color: #ae2012;">\(a\)</span>
+                           <div class="opp"></div> <span style="top: 50px; right: -15px; color: #ee9b00;">\(x\)</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">กรณี \(\sqrt{x^2 - a^2}\)</h4>
+                         <p class="text-sm text-gray-600 mb-2">ให้ \(x = a \sec\theta\)</p>
+                         <div class="triangle-diagram">
+                           <div class="hyp"></div> <span style="top: 20px; left: 70px; color: #005f73;">\(x\)</span>
+                           <div class="adj"></div> <span style="bottom: 8px; left: 80px; color: #ae2012;">\(a\)</span>
+                           <div class="opp"></div> <span style="top: 50px; right: -15px; color: #ee9b00;">\(\sqrt{x^2-a^2}\)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="improper" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#0a9396] mb-4">5. อินทิกรัลไม่ตรงแบบ (Improper Integrals)</h2>
+                <p class="text-lg mb-4">จะทำอย่างไรเมื่อต้องหาพื้นที่ใต้กราฟในบริเวณที่ยาวไปถึง <strong class="text-[#005f73]">"อนันต์"</strong>? เราไม่สามารถแทนค่า \(\infty\) ได้ตรงๆ จึงต้องใช้เครื่องมือที่เรียกว่า <strong class="text-[#005f73]">"ลิมิต"</strong> เข้ามาช่วย</p>
+
+                <div class="formula-box">
+                    <h4 class="font-bold text-xl mb-2">สูตรทำงานอย่างไร?</h4>
+                    <p>แนวคิดคือการหาพื้นที่จนถึงขอบเขต \(b\) ที่มีค่ามากๆ ก่อน แล้วสังเกตว่าเมื่อ \(b\) มีค่าเข้าใกล้อนันต์ พื้นที่นั้นจะเข้าใกล้ค่าใดค่าหนึ่ง (ลู่เข้า) หรือจะเพิ่มขึ้นไปเรื่อยๆ ไม่มีที่สิ้นสุด (ลู่ออก). ลิมิตคือเครื่องมือทางคณิตศาสตร์ที่ช่วยให้เราตรวจสอบ "พฤติกรรม" นี้ได้</p>
+                    <div class="text-center text-xl mt-4 bg-white p-4 rounded">
+                    $$ \int_{a}^{\infty} f(x) \,dx \quad \text{นิยามเป็น} \quad \lim_{b \to \infty} \int_{a}^{b} f(x) \,dx $$
+                    </div>
+                </div>
+                
+                 <h4 class="font-bold text-xl mt-8 mb-2">วิธีทำเป็นขั้นตอน: \(\int_{1}^{\infty} \frac{1}{x^2} \,dx\)</h4>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li class="font-semibold">ขั้นตอนที่ 1: เปลี่ยนเป็นลิมิต</li>
+                    <div class="step-box">แทนที่ขอบเขต \(\infty\) ด้วยตัวแปร \(b\) แล้วใส่เครื่องหมายลิมิตไว้ข้างหน้า<br>
+                    <strong class="text-blue-800">\(\lim_{b \to \infty} \int_{1}^{b} \frac{1}{x^2} \,dx = \lim_{b \to \infty} \int_{1}^{b} x^{-2} \,dx\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 2: คำนวณอินทิกรัลจำกัดเขต</li>
+                    <div class="step-box">หาปฏิยานุพันธ์ (antiderivative) แล้วแทนค่าขอบเขตบน (\(b\)) และขอบเขตล่าง (1)<br>
+                    <strong class="text-blue-800">\(\lim_{b \to \infty} \left[ \frac{x^{-1}}{-1} \right]_{1}^{b} = \lim_{b \to \infty} \left[ -\frac{1}{x} \right]_{1}^{b}\)</strong><br>
+                    <strong class="text-green-800">\(= \lim_{b \to \infty} \left( (-\frac{1}{b}) - (-\frac{1}{1}) \right) = \lim_{b \to \infty} \left( 1 - \frac{1}{b} \right)\)</strong></div>
+
+                    <li class="font-semibold">ขั้นตอนที่ 3: หาค่าลิมิต</li>
+                    <div class="step-box">พิจารณาว่าเมื่อ \(b\) มีค่ามากขึ้นเรื่อยๆ (เข้าใกล้อนันต์) พจน์ \(\frac{1}{b}\) จะมีค่าเข้าใกล้ 0<br>
+                    <strong class="text-green-800">\(1 - 0 = 1\)</strong></div>
+                    
+                    <li class="font-semibold">ขั้นตอนที่ 4: สรุปผล</li>
+                    <div class="step-box">เนื่องจากลิมิตหาค่าได้เป็นจำนวนจริง แสดงว่าอินทิกรัลนี้ "ลู่เข้า" (converges) และมีค่าเท่ากับ 1<br>
+                    <strong class="text-purple-800 font-bold">คำตอบ: 1</strong></div>
+                </ol>
+
+                <div class="chart-container mx-auto mt-8">
+                    <canvas id="improperIntegralChart"></canvas>
+                </div>
+                <p class="text-center mt-2 text-gray-600">กราฟเปรียบเทียบพื้นที่ของ \(1/x^2\) (ลู่เข้า) กับ \(1/x\) (ลู่ออก)</p>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p>จัดทำโดยนาย ธีรวัต สงพะโยม AIT_03</p>
+    </footer>
+
+<script>
+    const tooltipTitleCallback = {
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    const improperCtx = document.getElementById('improperIntegralChart').getContext('2d');
+    const improperChart = new Chart(improperCtx, {
+        type: 'line',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '10', '20', '50'],
+            datasets: [{
+                label: 'y = 1/x² (พื้นที่ลู่เข้าสู่ 1)',
+                data: [1, 1/4, 1/9, 1/16, 1/25, 1/100, 1/400, 1/2500],
+                borderColor: '#0a9396',
+                backgroundColor: 'rgba(148, 210, 189, 0.5)',
+                fill: 'origin',
+                tension: 0.1
+            }, {
+                label: 'y = 1/x (พื้นที่ลู่ออกสู่ ∞)',
+                data: [1, 1/2, 1/3, 1/4, 1/5, 1/10, 1/20, 1/50],
+                borderColor: '#ae2012',
+                backgroundColor: 'rgba(174, 32, 18, 0.2)',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'ค่าของฟังก์ชัน' } },
+                x: { title: { display: true, text: 'x' } }
+            },
+            ...tooltipTitleCallback
+        }
+    });
+</script>
+
+</body>
+</html>
+
