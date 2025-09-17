@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอนคณิตศาสตร์ดิสครีต: ความสัมพันธ์ (ฉบับสมบูรณ์)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://css.gg/css?=|check-o|close-o" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Kanit', sans-serif; scroll-behavior: smooth; }
+        .concept-box { background-color: #f3e8ff; border-left: 5px solid #8e44ad; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .property-card { background-color: #ffffff; border: 1px solid #dee2e6; border-top: 5px solid #9b59b6; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .step-process { background-color: #f8f9fa; border: 1px dashed #ced4da; padding: 0.75rem 1.25rem; margin-top: 1rem; border-radius: 0.5rem; }
+        .example-box { margin-top: 2rem; padding: 1.5rem; border-radius: 0.5rem; background-color: #eaf2f8; border: 1px solid #aed6f1; }
+        .gg-check-o { color: #4caf50; }
+        .gg-close-o { color: #f44336; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#8e44ad]">ความสัมพันธ์</div>
+            <div class="hidden lg:flex space-x-4">
+                <a href="#properties" class="text-gray-600 hover:text-[#8e44ad]">คุณสมบัติ</a>
+                <a href="#combining" class="text-gray-600 hover:text-[#8e44ad]">การสร้างใหม่</a>
+                <a href="#closures" class="text-gray-600 hover:text-[#8e44ad]">การปิด</a>
+                <a href="#special" class="text-gray-600 hover:text-[#8e44ad]">ชนิดพิเศษ</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#8e44ad]">เจาะลึกเรื่อง "ความสัมพันธ์"</h1>
+            <p class="text-lg md:text-xl text-gray-600 mt-4">จากวิชาคณิตศาสตร์เชิงการ산 (Discrete Mathematics)</p>
+        </header>
+
+        <section id="properties" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#9b59b6] mb-4">คุณสมบัติสำคัญของความสัมพันธ์</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="property-card">
+                        <h3 class="font-bold text-xl text-center">สะท้อน (Reflexive)</h3>
+                        <p><strong>แนวคิดทำงานอย่างไร:</strong> สูตรนี้บังคับว่า "สมาชิกทุกตัว" (\(\forall\)) ในเซต A ต้องมีความสัมพันธ์กับตัวเองเสมอ ถ้าขาดไปแม้แต่ตัวเดียว ถือว่าไม่เป็น Reflexive ทันที</p>
+                        <div class="step-process">
+                            <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                            <ol class="list-decimal list-inside ml-2">
+                                <li><strong>ตั้งธง:</strong> เขียนสมาชิกทั้งหมดของ A ออกมา เช่น \(A=\{1,2,3\}\)</li>
+                                <li><strong>สร้างเป้าหมาย:</strong> สร้างเซตของคู่อันดับสะท้อนที่ "ต้องมี" คือ \(\{(1,1), (2,2), (3,3)\}\)</li>
+                                <li><strong>ตรวจสอบ:</strong> ดูใน R ว่ามีสมาชิกใน "เป้าหมาย" ครบทุกตัวหรือไม่</li>
+                            </ol>
+                        </div>
+                    </div>
+                     <div class="property-card">
+                        <h3 class="font-bold text-xl text-center">สมมาตร (Symmetric)</h3>
+                        <p><strong>แนวคิดทำงานอย่างไร:</strong> สูตรนี้บอกว่า "ถ้า" มีคู่อันดับ \((a,b)\) ใน R "แล้ว" คู่กลับด้าน \((b,a)\) จะต้องอยู่ใน R ด้วยเสมอ มันคือความสัมพันธ์แบบสองทาง</p>
+                         <div class="step-process">
+                            <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                            <ol class="list-decimal list-inside ml-2">
+                                <li><strong>ค้นหา:</strong> ไล่ดูคู่อันดับ \((a,b)\) ใน R ทีละคู่ (ที่ \(a \ne b\))</li>
+                                <li><strong>สร้างคู่กลับ:</strong> สำหรับแต่ละคู่ที่เจอ ให้หาคู่กลับด้านของมันคือ \((b,a)\)</li>
+                                <li><strong>ตรวจสอบ:</strong> ถามว่าคู่กลับด้านนั้นอยู่ใน R หรือไม่? ถ้าเจอแม้แต่คู่เดียวที่ไม่มีคู่กลับ ถือว่าไม่เป็น Symmetric ทันที</li>
+                            </ol>
+                        </div>
+                    </div>
+                     <div class="property-card">
+                        <h3 class="font-bold text-xl text-center">ปฏิสมมาตร (Antisymmetric)</h3>
+                        <p><strong>แนวคิดทำงานอย่างไร:</strong> สูตรนี้ห้ามไม่ให้มีความสัมพันธ์แบบ "ไปกลับ" เกิดขึ้นระหว่างสมาชิก 2 ตัวที่ต่างกัน มันอนุญาตให้มี \((a,b)\) และ \((b,a)\) พร้อมกันได้ในกรณีเดียวเท่านั้น คือเมื่อ \(a=b\) (ซึ่งก็คือ loop \((a,a)\))</p>
+                         <div class="step-process">
+                            <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                            <ol class="list-decimal list-inside ml-2">
+                                <li><strong>ค้นหาสิ่งต้องห้าม:</strong> พยายามหา "คู่ไปกลับ" ใน R คือหาคู่ \((a,b)\) และ \((b,a)\) ที่มีอยู่พร้อมกัน โดยที่ \(a \ne b\)</li>
+                                <li><strong>ตัดสิน:</strong> ถ้าหาเจอแม้แต่คู่เดียว ถือว่าไม่เป็น Antisymmetric ทันที แต่ถ้าหาไม่เจอเลย ก็ถือว่าเป็น Antisymmetric</li>
+                            </ol>
+                        </div>
+                    </div>
+                     <div class="property-card">
+                        <h3 class="font-bold text-xl text-center">ถ่ายทอด (Transitive)</h3>
+                        <p><strong>แนวคิดทำงานอย่างไร:</strong> สูตรนี้บอกว่า "ถ้า" มีเส้นทาง 2 ต่อ จาก a ไป b และจาก b ไป c "แล้ว" จะต้องมีทางลัดโดยตรงจาก a ไป c อยู่ใน R ด้วยเสมอ</p>
+                         <div class="step-process">
+                            <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                            <ol class="list-decimal list-inside ml-2">
+                                <li><strong>ค้นหาโซ่:</strong> หา "โซ่" สองต่อ: คือคู่ของ \((a,b)\) และ \((b,c)\) ที่อยู่ใน R ทั้งหมด</li>
+                                <li><strong>สร้างทางลัด:</strong> สำหรับแต่ละโซ่ที่เจอ ให้หาทางลัดของมันคือ \((a,c)\)</li>
+                                <li><strong>ตรวจสอบ:</strong> ถามว่าทางลัดนั้นอยู่ใน R หรือไม่? ถ้าเจอแม้แต่โซ่เดียวที่ไม่มีทางลัด ถือว่าไม่เป็น Transitive ทันที</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#3498db]">ตัวอย่างโจทย์จากสไลด์ (หน้า 15):</h3>
+                    <p>ให้ \(A = \{1, 2, 3, 4\}\) และความสัมพันธ์ \(R\) บน A นิยามโดย \( (a,b) \in R \) ก็ต่อเมื่อ \( a \mid b \) (a หาร b ลงตัว) จงตรวจสอบคุณสมบัติทั้ง 4</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>เขียน R แบบแจกแจงสมาชิก:</strong><br>
+                            \( R = \{ (1,1), (1,2), (1,3), (1,4), (2,2), (2,4), (3,3), (4,4) \} \)</li>
+                            <li><strong>ตรวจสอบคุณสมบัติสะท้อน:</strong>
+                                <ul class="list-disc list-inside ml-4">
+                                    <li>เป้าหมายที่ต้องมี: \(\{(1,1), (2,2), (3,3), (4,4)\}\)</li>
+                                    <li>ใน R มีครบทุกตัว <i class="gg-check-o inline-block"></i> <strong>ดังนั้น เป็น Reflexive</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>ตรวจสอบคุณสมบัติสมมาตร:</strong>
+                                 <ul class="list-disc list-inside ml-4">
+                                    <li>เจอ \((1,2)\) แต่ไม่เจอ \((2,1)\)</li>
+                                    <li>เจอแค่คู่เดียวก็สรุปได้ <i class="gg-close-o inline-block"></i> <strong>ดังนั้น ไม่เป็น Symmetric</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>ตรวจสอบคุณสมบัติปฏิสมมาตร:</strong>
+                                 <ul class="list-disc list-inside ml-4">
+                                    <li>เราต้องหาคู่ไปกลับ \((a,b)\) และ \((b,a)\) ที่ \(a \ne b\)</li>
+                                    <li>ไล่ดูใน R แล้วไม่เจอคู่แบบนั้นเลย</li>
+                                    <li><i class="gg-check-o inline-block"></i> <strong>ดังนั้น เป็น Antisymmetric</strong></li>
+                                </ul>
+                            </li>
+                            <li><strong>ตรวจสอบคุณสมบัติถ่ายทอด:</strong>
+                                 <ul class="list-disc list-inside ml-4">
+                                    <li>เจอโซ่: \((1,2)\) และ \((2,4)\)</li>
+                                    <li>ทางลัดที่ต้องมีคือ \((1,4)\) ซึ่งใน R ก็มีอยู่</li>
+                                    <li>(ต้องตรวจสอบทุกโซ่ที่เป็นไปได้) เมื่อตรวจครบแล้วพบว่ามีทางลัดเสมอ <i class="gg-check-o inline-block"></i> <strong>ดังนั้น เป็น Transitive</strong></li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="combining" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#9b59b6] mb-4">การสร้างความสัมพันธ์ใหม่: Composition (\(S \circ R\))</h2>
+                <div class="concept-box">
+                    <p><strong>แนวคิดทำงานอย่างไร:</strong> คือการหา "ทางลัด" ของเส้นทาง 2 ต่อ ที่เริ่มต้นใน R และไปสิ้นสุดใน S โดยมีสมาชิกจากเซตกลางเป็น "สะพานเชื่อม"</p>
+                </div>
+                <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#3498db]">ตัวอย่างโจทย์จากสไลด์ (หน้า 37):</h3>
+                    <p>\(R = \{(1,1), (1,4), (2,3), (3,1), (3,4)\}\) จาก \(\{1,2,3\}\) ไป \(\{1,2,3,4\}\)</p>
+                    <p>\(S = \{(1,0), (2,0), (3,1), (4,1)\}\) จาก \(\{1,2,3,4\}\) ไป \(\{0,1,2\}\)</p>
+                    <p>จงหา \(S \circ R\)</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li><strong>จาก \((1,1) \in R\):</strong> หาคู่ใน S ที่ขึ้นต้นด้วย 1 -> เจอ \((1,0)\). ได้ทางลัด \(\rightarrow (1,0)\)</li>
+                            <li><strong>จาก \((1,4) \in R\):</strong> หาคู่ใน S ที่ขึ้นต้นด้วย 4 -> เจอ \((4,1)\). ได้ทางลัด \(\rightarrow (1,1)\)</li>
+                            <li><strong>จาก \((2,3) \in R\):</strong> หาคู่ใน S ที่ขึ้นต้นด้วย 3 -> เจอ \((3,1)\). ได้ทางลัด \(\rightarrow (2,1)\)</li>
+                            <li><strong>จาก \((3,1) \in R\):</strong> หาคู่ใน S ที่ขึ้นต้นด้วย 1 -> เจอ \((1,0)\). ได้ทางลัด \(\rightarrow (3,0)\)</li>
+                            <li><strong>จาก \((3,4) \in R\):</strong> หาคู่ใน S ที่ขึ้นต้นด้วย 4 -> เจอ \((4,1)\). ได้ทางลัด \(\rightarrow (3,1)\)</li>
+                        </ul>
+                         <p class="font-bold mt-2">ผลลัพธ์ (รวบรวมทางลัดทั้งหมด): \(S \circ R = \{(1,0), (1,1), (2,1), (3,0), (3,1)\}\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+         <section id="closures" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#9b59b6] mb-4">การปิดของความสัมพันธ์ (Closures)</h2>
+                <p class="text-lg">คือการ "เติม" คู่อันดับที่น้อยที่สุดเข้าไปใน R เพื่อบังคับให้มันมีคุณสมบัติที่เราต้องการ</p>
+                <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#3498db]">ตัวอย่างโจทย์จากสไลด์ (หน้า 46): หา Transitive Closure</h3>
+                    <p>ให้ \(R = \{(1,2), (2,3), (3,1)\}\) บนเซต \(\{1,2,3\}\). จงหา \(R^*\)</p>
+                     <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>หา \(R^2 = R \circ R\):</strong> (หาทางลัดของทาง 2 ต่อ)
+                                <ul class="list-disc list-inside ml-4">
+                                    <li>\((1,2)\) ต่อ \((2,3)\) \(\rightarrow\) \((1,3)\)</li>
+                                    <li>\((2,3)\) ต่อ \((3,1)\) \(\rightarrow\) \((2,1)\)</li>
+                                    <li>\((3,1)\) ต่อ \((1,2)\) \(\rightarrow\) \((3,2)\)</li>
+                                    <li>ดังนั้น \(R^2 = \{(1,3), (2,1), (3,2)\}\)</li>
+                                </ul>
+                            </li>
+                             <li><strong>หา \(R^3 = R^2 \circ R\):</strong> (หาทางลัดของทาง 3 ต่อ)
+                                <ul class="list-disc list-inside ml-4">
+                                    <li>\((1,3) \in R^2\) ต่อ \((3,1) \in R\) \(\rightarrow\) \((1,1)\)</li>
+                                    <li>\((2,1) \in R^2\) ต่อ \((1,2) \in R\) \(\rightarrow\) \((2,2)\)</li>
+                                    <li>\((3,2) \in R^2\) ต่อ \((2,3) \in R\) \(\rightarrow\) \((3,3)\)</li>
+                                     <li>ดังนั้น \(R^3 = \{(1,1), (2,2), (3,3)\}\)</li>
+                                </ul>
+                            </li>
+                            <li><strong>รวมทั้งหมด:</strong> \(R^* = R \cup R^2 \cup R^3\)
+                                <p>\(R^* = \{(1,2), (2,3), (3,1), (1,3), (2,1), (3,2), (1,1), (2,2), (3,3)\}\)</p>
+                                <p>จะเห็นว่า \(R^*\) คือเซตของทุกคู่อันดับที่เป็นไปได้ (กลายเป็นความสัมพันธ์แบบ Universal)</p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="special" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#9b59b6] mb-4">ความสัมพันธ์ชนิดพิเศษ</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                    <div class="property-card">
+                        <h3 class="font-bold text-xl text-center mb-2">ความสัมพันธ์สมมูล (Equivalence Relation)</h3>
+                        <p class="text-center font-semibold p-2 bg-purple-100 rounded-lg">สะท้อน + สมมาตร + ถ่ายทอด</p>
+                        <p><strong>แนวคิด:</strong> ใช้ "จัดกลุ่ม" สมาชิกที่เหมือนกัน</p>
+                    </div>
+                    <div class="property-card">
+                        <h3 class="font-bold text-xl text-center mb-2">การจัดอันดับบางส่วน (Partial Ordering)</h3>
+                         <p class="text-center font-semibold p-2 bg-purple-100 rounded-lg">สะท้อน + ปฏิสมมาตร + ถ่ายทอด</p>
+                         <p><strong>แนวคิด:</strong> ใช้สร้าง "ลำดับชั้น"</p>
+                    </div>
+                </div>
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#3498db]">ตัวอย่างโจทย์จากสไลด์ (หน้า 26): หาชั้นสมมูล</h3>
+                    <p>ให้ \(R\) คือความสัมพันธ์ \(a \equiv b \pmod 4\) บนเซตของจำนวนเต็ม. จงหาชั้นสมมูล</p>
+                     <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>เริ่มกลุ่มแรกด้วย 0:</strong> หาจำนวนเต็มทั้งหมดที่หารด้วย 4 แล้วเหลือเศษเท่ากับ 0<br>
+                            \([0]_4 = \{..., -8, -4, 0, 4, 8, ...\}\)</li>
+                             <li><strong>เริ่มกลุ่มถัดไปด้วย 1:</strong> (เพราะ 1 ยังไม่มีกลุ่ม) หาจำนวนเต็มทั้งหมดที่หารด้วย 4 แล้วเหลือเศษเท่ากับ 1<br>
+                            \([1]_4 = \{..., -7, -3, 1, 5, 9, ...\}\)</li>
+                             <li><strong>เริ่มกลุ่มถัดไปด้วย 2:</strong> (เพราะ 2 ยังไม่มีกลุ่ม) หาจำนวนเต็มทั้งหมดที่หารด้วย 4 แล้วเหลือเศษเท่ากับ 2<br>
+                            \([2]_4 = \{..., -6, -2, 2, 6, 10, ...\}\)</li>
+                             <li><strong>เริ่มกลุ่มถัดไปด้วย 3:</strong> (เพราะ 3 ยังไม่มีกลุ่ม) หาจำนวนเต็มทั้งหมดที่หารด้วย 4 แล้วเหลือเศษเท่ากับ 3<br>
+                            \([3]_4 = \{..., -5, -1, 3, 7, 11, ...\}\)</li>
+                        </ol>
+                        <p class="font-bold mt-2">ผลลัพธ์: ความสัมพันธ์นี้แบ่งจำนวนเต็มออกเป็น 4 กลุ่ม (Partition) คือ \([0]_4, [1]_4, [2]_4, [3]_4\)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p>จัดทำโดยนาย ธีรวัต สงพะโยม AIT_03</p>
+    </footer>
+
+</body>
+</html>
+
