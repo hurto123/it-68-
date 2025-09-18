@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรียนรู้แคลคูลัส: การอินทิเกรตฉบับสมบูรณ์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- MathJax for rendering math formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .content-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .formula-box {
+            background-color: #eef2ff; /* bg-indigo-50 */
+            color: #3730a3; /* text-indigo-800 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        h2 {
+            border-bottom: 2px solid #6366f1; /* border-indigo-500 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        h3 {
+             font-weight: 700;
+             margin-top: 1.5rem;
+             margin-bottom: 0.75rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Scroll to Top Button -->
+    <button id="to-top-button" title="Go to top"
+        class="hidden fixed z-50 bottom-10 right-10 p-4 border-0 w-14 h-14 rounded-full shadow-md bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold transition-opacity duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path d="M12 4l8 8h-6v8h-4v-8H4l8-8z"/>
+        </svg>
+    </button>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center my-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-700">ภาพรวมการอินทิเกรตในแคลคูลัส (ฉบับสมบูรณ์)</h1>
+            <p class="text-lg text-gray-600 mt-4">คู่มือเรียนรู้และทบทวนแนวคิดการอินทิเกรต ตั้งแต่พื้นฐานจนถึงการประยุกต์ใช้</p>
+        </header>
+
+        <main>
+            <!-- Introduction Card -->
+            <div class="content-card">
+                <p class="text-lg">การอินทิเกรตคือหนึ่งในสองแนวคิดหลักของแคลคูลัส โดยแก่นแท้แล้ว การอินทิเกรตมีสองความหมายหลักที่เชื่อมโยงกันอย่างน่าทึ่งผ่าน <strong>ทฤษฎีบทมูลฐานของแคลคูลัส</strong></p>
+                <ol class="list-decimal list-inside mt-4 space-y-2">
+                    <li><strong>การดำเนินการผกผันของการหาอนุพันธ์ (Antiderivative):</strong> เป็นกระบวนการ "ย้อนกลับ" ของการหาอนุพันธ์ ถ้าเรารู้อัตราการเปลี่ยนแปลง (เช่น ความเร็ว) เราสามารถหาปริมาณตั้งต้นได้ (เช่น ตำแหน่ง)</li>
+                    <li><strong>การหาปริมาณสะสม (Accumulation):</strong> เป็นกระบวนการ "บวกรวม" ค่าเล็กๆ ที่มีจำนวนเป็นอนันต์เข้าด้วยกัน ซึ่งมักจะถูกอธิบายในรูปของ <strong>การหาพื้นที่ใต้กราฟ</strong></li>
+                </ol>
+            </div>
+
+            <!-- Section 1: Indefinite Integral -->
+            <section id="part1" class="content-card">
+                <h2 class="text-3xl font-bold text-gray-800">ส่วนที่ 1: ปริพันธ์ไม่จำกัดเขต (Indefinite Integral)</h2>
+                <p>นี่คือมุมมองของการอินทิเกรตในฐานะ <strong>"ปฏิยานุพันธ์" (Antiderivative)</strong></p>
+                <div class="formula-box">$$ \int f(x) \,dx = F(x) + C $$</div>
+                <ul class="list-disc list-inside mt-4 space-y-2">
+                    <li>\(F(x)\) คือฟังก์ชันที่เมื่อหาอนุพันธ์แล้วจะได้ \(f(x)\) (นั่นคือ \(F'(x) = f(x)\))</li>
+                    <li>\(f(x)\) คือ <strong>ตัวถูกอินทิเกรต (Integrand)</strong></li>
+                    <li>\(C\) คือ <strong>ค่าคงที่ของการอินทิเกรต (Constant of Integration)</strong></li>
+                </ul>
+
+                <h3 class="text-2xl mt-6">คำอธิบายเชิงลึก: ทำไมต้องมี +C?</h3>
+                <p>ค่า \(+C\) ไม่ได้เป็นเพียงตัวอักษรที่ต้องเติมท้ายคำตอบ แต่มีความหมายในเชิงกราฟที่สำคัญอย่างยิ่ง:</p>
+                <ul class="list-disc list-inside mt-4 space-y-2">
+                    <li><strong>ครอบครัวของฟังก์ชัน:</strong> \(F(x) + C\) ไม่ได้หมายถึงฟังก์ชันเดียว แต่หมายถึง "ครอบครัวของฟังก์ชัน" ที่มีค่า C แตกต่างกันไป เช่น \(x^2\), \(x^2 + 5\), \(x^2 - 100\) ล้วนเป็นสมาชิกของครอบครัว \(x^2 + C\)</li>
+                    <li><strong>ความชันเท่ากัน:</strong> กราฟของทุกฟังก์ชันในครอบครัวนี้จะมีรูปร่างเหมือนกันทุกประการ เพียงแต่ถูกเลื่อนขึ้นหรือลงในแนวดิ่งเท่านั้น ซึ่งหมายความว่า ณ จุด \(x\) ใดๆ ก็ตาม <strong>ความชันของเส้นสัมผัสกราฟ (ซึ่งก็คือค่าของอนุพันธ์)</strong> ของทุกๆ ฟังก์ชันในครอบครัวนี้จะเท่ากันเสมอ</li>
+                    <li><strong>การสูญเสียข้อมูล:</strong> เมื่อเราหาอนุพันธ์ เช่น \(\frac{d}{dx}(x^2 + 5) = 2x\) ข้อมูลเกี่ยวกับค่าคงที่ \(+5\) จะหายไป (เพราะอนุพันธ์ของค่าคงที่คือ 0) ดังนั้น เมื่อเราอินทิเกรต \(2x\) กลับไป เราจึงต้องใส่ \(+C\) เพื่อแสดงถึงข้อมูลค่าคงที่ที่อาจจะเคยมีอยู่และได้สูญหายไป</li>
+                </ul>
+
+                <h3 class="text-2xl mt-6">ที่มาของสูตรอินทิเกรต</h3>
+                
+                <h4 class="text-xl font-semibold mt-4">1. สูตรกำลัง (Power Rule)</h4>
+                <div class="formula-box">$$ \int x^n \,dx = \frac{x^{n+1}}{n+1} + C, \quad (n \neq -1) $$</div>
+                <p><strong>คำอธิบาย:</strong> เราต้องการฟังก์ชันที่เมื่อ "ดิฟ" แล้วเลขชี้กำลังลดลง 1 ดังนั้นฟังก์ชันตั้งต้นต้องมีเลขชี้กำลังมากกว่าอยู่ 1 คือ \(x^{n+1}\) แต่เมื่อเราลองดิฟ \(\frac{d}{dx}(x^{n+1}) = (n+1)x^n\) จะเห็นว่ามี \((n+1)\) เกินมา เราจึงต้องหารด้วย \((n+1)\) เพื่อหักล้างกัน กลายเป็น \(\frac{d}{dx}\left[ \frac{x^{n+1}}{n+1} \right] = x^n\)</p>
+                
+                <h4 class="text-xl font-semibold mt-4">2. กรณี n = -1</h4>
+                 <div class="formula-box">$$ \int \frac{1}{x} \,dx = \ln|x| + C $$</div>
+                <p><strong>คำอธิบาย:</strong> ทำไมต้องเป็น \(\ln|x|\)?</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li><strong>โดเมน:</strong> ฟังก์ชัน \(f(x) = 1/x\) สามารถหาค่าได้ทั้ง \(x\) ที่เป็นบวกและลบ (ยกเว้น x=0) แต่ฟังก์ชัน \(\ln(x)\) โดยปกติจะนิยามสำหรับ \(x > 0\) เท่านั้น</li>
+                    <li><strong>การใช้ค่าสัมบูรณ์:</strong> การใช้ \(\ln|x|\) ทำให้โดเมนของคำตอบสอดคล้องกับโดเมนของคำถาม
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>เมื่อ \(x > 0\), \(\frac{d}{dx}(\ln x) = \frac{1}{x}\)</li>
+                            <li>เมื่อ \(x < 0\), \(\frac{d}{dx}(\ln(-x)) = \frac{1}{-x} \cdot (-1) = \frac{1}{x}\) (ตามกฎลูกโซ่)</li>
+                        </ul>
+                    </li>
+                    <li>ดังนั้น \(\ln|x|\) คือปฏิยานุพันธ์ของ \(1/x\) ที่สมบูรณ์ที่สุด</li>
+                </ul>
+                
+                <h4 class="text-xl font-semibold mt-4">3. ฟังก์ชันตรีโกณมิติเพิ่มเติม</h4>
+                <div class="formula-box">$$ \int \tan x \,dx = \ln|\sec x| + C $$</div>
+                <p class="ml-4"><strong>ที่มา:</strong> แปลง \(\tan x = \frac{\sin x}{\cos x}\) แล้วใช้วิธีแทนค่าโดยให้ \(u = \cos x\) ดังนั้น \(du = -\sin x \,dx\) จะได้ \(\int \frac{-1}{u} \,du = -\ln|u| + C = -\ln|\cos x| + C = \ln|\sec x| + C\)</p>
+                
+                <div class="formula-box">$$ \int \sec x \,dx = \ln|\sec x + \tan x| + C $$</div>
+                <p class="ml-4"><strong>ที่มา:</strong> ใช้เทคนิคคูณด้วย \(\frac{\sec x + \tan x}{\sec x + \tan x}\) แล้วให้ \(u = \sec x + \tan x\) จะพบว่า \(du = (\sec x \tan x + \sec^2 x) \,dx\) ซึ่งคือตัวเศษพอดี อินทิกรัลจึงกลายเป็น \(\int \frac{1}{u} \,du = \ln|u| + C\)</p>
+
+                <h4 class="text-xl font-semibold mt-4">4. สูตรที่ให้ผลลัพธ์เป็นฟังก์ชันตรีโกณมิติผกผัน</h4>
+                <div class="formula-box">$$ \int \frac{1}{\sqrt{a^2 - x^2}} \,dx = \arcsin\left(\frac{x}{a}\right) + C $$</div>
+                <p class="ml-4"><strong>ที่มา (Trigonometric Substitution):</strong></p>
+                <ol class="list-decimal list-inside ml-6">
+                    <li>รูปแบบ \(a^2 - x^2\) สอดคล้องกับเอกลักษณ์ \(1 - \sin^2\theta = \cos^2\theta\)</li>
+                    <li>ให้ \(x = a \sin \theta\), ดังนั้น \(dx = a \cos \theta \,d\theta\)</li>
+                    <li>ตัวส่วนจะกลายเป็น \(\sqrt{a^2 - a^2\sin^2\theta} = \sqrt{a^2\cos^2\theta} = a \cos \theta\)</li>
+                    <li>อินทิกรัลจะกลายเป็น \(\int \frac{1}{a \cos \theta} \cdot (a \cos \theta \,d\theta) = \int 1 \,d\theta = \theta + C\)</li>
+                    <li>จาก \(x = a \sin \theta\) จะได้ \(\theta = \arcsin\left(\frac{x}{a}\right)\) แทนค่ากลับได้คำตอบ</li>
+                </ol>
+
+                <div class="formula-box">$$ \int \frac{1}{a^2 + x^2} \,dx = \frac{1}{a}\arctan\left(\frac{x}{a}\right) + C $$</div>
+                <p class="ml-4"><strong>ที่มา (Trigonometric Substitution):</strong></p>
+                <ol class="list-decimal list-inside ml-6">
+                    <li>รูปแบบ \(a^2 + x^2\) สอดคล้องกับเอกลักษณ์ \(1 + \tan^2\theta = \sec^2\theta\)</li>
+                    <li>ให้ \(x = a \tan \theta\), ดังนั้น \(dx = a \sec^2\theta \,d\theta\)</li>
+                    <li>อินทิกรัลจะกลายเป็น \(\int \frac{1}{a^2(1+\tan^2\theta)} \cdot (a \sec^2\theta \,d\theta) = \int \frac{1}{a^2\sec^2\theta} \cdot (a \sec^2\theta \,d\theta) = \int \frac{1}{a} \,d\theta = \frac{1}{a}\theta + C\)</li>
+                    <li>จาก \(x = a \tan \theta\) จะได้ \(\theta = \arctan\left(\frac{x}{a}\right)\) แทนค่ากลับได้คำตอบ</li>
+                </ol>
+            </section>
+
+            <!-- Section 2: Definite Integral -->
+            <section id="part2" class="content-card">
+                <h2 class="text-3xl font-bold text-gray-800">ส่วนที่ 2: ปริพันธ์จำกัดเขต (Definite Integral)</h2>
+                <p>นี่คือมุมมองของการอินทิเกรตในฐานะ <strong>"การรวมกันของค่าอนันต์"</strong> ซึ่งแสดงภาพเป็นการหาพื้นที่ใต้กราฟ</p>
+                
+                <h3 class="text-2xl mt-6">ที่มาของแนวคิด: ผลบวกรีมันน์ (Riemann Sum)</h3>
+                <p>แนวคิดเริ่มต้นคือการ "ประมาณค่า" พื้นที่ใต้เส้นโค้งด้วย <strong>สี่เหลี่ยมผืนผ้า</strong> หลายๆ แท่ง</p>
+                <ol class="list-decimal list-inside mt-4 space-y-2">
+                    <li><strong>แบ่ง:</strong> แบ่งช่วง \([a, b]\) บนแกน x ออกเป็น \(n\) ช่วงย่อยๆ ที่มีความกว้าง \(\Delta x = \frac{b-a}{n}\)</li>
+                    <li><strong>สร้างสี่เหลี่ยม:</strong> ในแต่ละช่วงย่อย สร้างสี่เหลี่ยมผืนผ้าที่สูงเท่ากับค่าของฟังก์ชัน ณ จุดใดจุดหนึ่ง</li>
+                    <li><strong>รวม:</strong> คำนวณพื้นที่ของสี่เหลี่ยมแต่ละแท่ง (\(f(x_i^*) \times \Delta x\)) แล้วนำมารวมกันทั้งหมด: \(\sum f(x_i^*) \Delta x\)</li>
+                    <li><strong>ใช้ลิมิต:</strong> การประมาณค่าจะแม่นยำขึ้นเมื่อเราใช้จำนวนสี่เหลี่ยมมากขึ้น (ทำให้ \(\Delta x\) แคบลง) ถ้าเราใช้จำนวนสี่เหลี่ยมเป็นอนันต์ (\(n \to \infty\)) ผลรวมนี้จะลู่เข้าสู่ค่าที่แท้จริงของพื้นที่ใต้กราฟ</li>
+                </ol>
+                <div class="formula-box">นิยาม: $$ \int_{a}^{b} f(x) \,dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x $$</div>
+
+                <h3 class="text-2xl mt-6">ทฤษฎีบทมูลฐานของแคลคูลัส (FTC)</h3>
+                <p>ทฤษฎีบทนี้คือสะพานเชื่อมที่ยิ่งใหญ่ที่สุดในแคลคูลัส มันเชื่อมโยงแนวคิด "ปฏิยานุพันธ์" (พีชคณิต) กับ "พื้นที่ใต้กราฟ" (เรขาคณิต) เข้าด้วยกัน</p>
+                <ul class="list-disc list-inside mt-4 space-y-2">
+                    <li><strong>FTC ส่วนที่ 1:</strong> อธิบายว่าการอินทิเกรตและการหาอนุพันธ์เป็นกระบวนการผกผันต่อกัน ถ้าเราสร้าง "ฟังก์ชันสะสมพื้นที่" \(g(x) = \int_{a}^{x} f(t) \,dt\) แล้วอัตราการเปลี่ยนแปลงของพื้นที่นี้ ณ จุด x จะเท่ากับความสูงของกราฟ ณ จุดนั้นพอดี: <strong>\(g'(x) = f(x)\)</strong></li>
+                    <li><strong>FTC ส่วนที่ 2:</strong> ให้วิธีคำนวณปริพันธ์จำกัดเขตที่ง่ายและทรงพลัง โดยไม่ต้องคำนวณลิมิตของผลบวกรีมันน์ที่ยุ่งยาก</li>
+                </ul>
+                <div class="formula-box">$$ \int_{a}^{b} f(x) \,dx = F(b) - F(a) $$</div>
+            </section>
+            
+            <!-- Section 3: Integration Techniques -->
+            <section id="part3" class="content-card">
+                 <h2 class="text-3xl font-bold text-gray-800">ส่วนที่ 3: เทคนิคการอินทิเกรต</h2>
+                <p>สำหรับฟังก์ชันที่ซับซ้อน เราไม่สามารถใช้สูตรพื้นฐานได้โดยตรง จึงต้องมีเทคนิคต่างๆ เข้ามาช่วย</p>
+
+                <h3 class="text-2xl mt-6">1. การอินทิเกรตโดยการแทนค่า (Integration by Substitution)</h3>
+                <p><strong>แนวคิด:</strong> เป็นการย้อนกลับของ "กฎลูกโซ่" หัวใจสำคัญคือการมองหา "ฟังก์ชันตัวใน" (\(u\)) และ "อนุพันธ์ของมัน" (\(du\)) ที่ปรากฏเป็นผลคูณอยู่ในอินทิกรัล</p>
+                <p class="mt-2"><strong>สำหรับปริพันธ์จำกัดเขต:</strong> เมื่อใช้เทคนิคนี้กับ \(\int_{a}^{b} f(g(x))g'(x) \,dx\) มี 2 วิธีให้เลือก:</p>
+                <ol class="list-decimal list-inside ml-4">
+                    <li><strong>เปลี่ยนขอบเขต:</strong> เมื่อเปลี่ยนเป็นตัวแปร \(u\) ให้เปลี่ยนขอบเขตจาก \(x=a, x=b\) เป็น \(u=g(a), u=g(b)\) แล้วคำนวณในเทอมของ \(u\) ให้เสร็จสิ้นโดยไม่ต้องแทนค่ากลับ</li>
+                    <li><strong>ไม่เปลี่ยนขอบเขต:</strong> คำนวณปริพันธ์ไม่จำกัดเขตให้เสร็จสิ้นในเทอมของ \(u\) ก่อน แล้วแทนค่ากลับเป็น \(x\) จากนั้นจึงใช้ขอบเขตเดิมคือ \(a\) และ \(b\)</li>
+                </ol>
+                
+                <h3 class="text-2xl mt-6">2. การอินทิเกรตโดยการแยกส่วน (Integration by Parts)</h3>
+                <div class="formula-box">$$ \int u \,dv = uv - \int v \,du $$</div>
+                <p><strong>แนวคิด:</strong> เป็นการย้อนกลับของ "กฎผลคูณ" ใช้เมื่อตัวถูกอินทิเกรตอยู่ในรูปผลคูณของสองฟังก์ชันที่ไม่เกี่ยวข้องกัน</p>
+                <p class="mt-2"><strong>หลักการเลือก u:</strong> ใช้หลัก <strong>LIATE</strong> เพื่อช่วยตัดสินใจว่าฟังก์ชันไหนควรเป็น \(u\)</p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>L</strong> - Logarithmic (เช่น \(\ln x\))</li>
+                    <li><strong>I</strong> - Inverse Trigonometric (เช่น \(\arcsin x\))</li>
+                    <li><strong>A</strong> - Algebraic (เช่น \(x^2, 3x\))</li>
+                    <li><strong>T</strong> - Trigonometric (เช่น \(\sin x, \cos x\))</li>
+                    <li><strong>E</strong> - Exponential (เช่น \(e^x, 2^x\))</li>
+                </ul>
+                <p class="mt-2"><strong>กรณีวนลูป (Cyclic):</strong> สำหรับโจทย์เช่น \(I = \int e^x\cos(x) \,dx\) เมื่อทำ By Parts สองครั้ง อินทิกรัลจะวนกลับมาเป็นรูปแบบเดิม เราสามารถย้ายข้างสมการเพื่อแก้หาค่า I ได้</p>
+
+                <h3 class="text-2xl mt-6">3. การอินทิเกรตโดยการแยกเศษส่วนย่อย (Integration by Partial Fractions)</h3>
+                <p><strong>แนวคิด:</strong> ใช้สำหรับอินทิเกรตฟังก์ชันตรรกยะ (\(P(x)/Q(x)\)) โดยการแยกฟังก์ชันเศษส่วนที่ซับซ้อนให้กลายเป็นผลบวกของเศษส่วนที่ง่ายกว่า</p>
+                <p class="mt-2"><strong>เงื่อนไข:</strong> ดีกรีของ P(x) ต้องน้อยกว่าดีกรีของ Q(x) (ถ้าไม่เป็นเช่นนั้น ต้องทำการหารยาวก่อน)</p>
+                <p class="mt-2"><strong>รูปแบบต่างๆ ของตัวส่วน:</strong></p>
+                <ul class="list-disc list-inside ml-4">
+                    <li><strong>ตัวประกอบเชิงเส้นไม่ซ้ำ:</strong> \(\frac{1}{(x-a)(x-b)} = \frac{A}{x-a} + \frac{B}{x-b}\)</li>
+                    <li><strong>ตัวประกอบเชิงเส้นซ้ำ:</strong> \(\frac{1}{(x-a)^3} = \frac{A}{x-a} + \frac{B}{(x-a)^2} + \frac{C}{(x-a)^3}\)</li>
+                    <li><strong>ตัวประกอบกำลังสองที่แยกไม่ได้:</strong> \(\frac{1}{(x^2+a^2)(x-b)} = \frac{Ax+B}{x^2+a^2} + \frac{C}{x-b}\)</li>
+                </ul>
+
+            </section>
+
+            <!-- Section 4: Applications -->
+             <section id="part4" class="content-card">
+                <h2 class="text-3xl font-bold text-gray-800">ส่วนที่ 4: การประยุกต์ใช้การอินทิเกรต</h2>
+                <p>นอกจากการหาพื้นที่ใต้กราฟแล้ว การอินทิเกรตยังสามารถนำไปประยุกต์ใช้ในด้านอื่นๆ ได้อีกมากมาย</p>
+                
+                <h3 class="text-2xl mt-6">1. การหาปริมาตรของรูปทรงตันที่เกิดจากการหมุน (Volume of Revolution)</h3>
+                <h4 class="text-xl font-semibold mt-4">วิธีแบบจาน (Disk Method)</h4>
+                <p>ใช้เมื่อหมุนพื้นที่รอบแกนที่ "ติดกับ" พื้นที่นั้นๆ แนวคิดคือการรวมปริมาตรของแผ่นจานกลมบางๆ</p>
+                <div class="formula-box">$$ V = \int_{a}^{b} \pi[f(x)]^2 \,dx \quad \text{(หมุนรอบแกน X)} $$</div>
+                
+                <h4 class="text-xl font-semibold mt-4">วิธีแบบเปลือกทรงกระบอก (Cylindrical Shell Method)</h4>
+                <p>ใช้เมื่อหมุนพื้นที่รอบแกนที่ "ไม่ติดกับ" พื้นที่นั้นๆ แนวคิดคือการรวมปริมาตรของเปลือกทรงกระบอกบางๆ</p>
+                 <div class="formula-box">$$ V = \int_{a}^{b} 2\pi x f(x) \,dx \quad \text{(หมุนรอบแกน Y)} $$</div>
+                
+                 <div class="bg-gray-100 p-6 rounded-lg mt-6">
+                    <h4 class="text-xl font-semibold mb-2">ตัวอย่างโจทย์:</h4>
+                    <p>จงหาปริมาตรที่เกิดจากการหมุนพื้นที่ใต้กราฟ \(y = \sqrt{x}\) จาก \(x=0\) ถึง \(x=4\) รอบแกน <strong>x</strong></p>
+                    <p class="mt-4"><strong>วิธีทำ (Disk Method):</strong></p>
+                     <ol class="list-decimal list-inside ml-4 mt-2">
+                        <li>รัศมี \(r = f(x) = \sqrt{x}\)</li>
+                        <li>ตั้งอินทิกรัล: \(V = \int_{0}^{4} \pi(\sqrt{x})^2 \,dx = \int_{0}^{4} \pi x \,dx\)</li>
+                        <li>คำนวณ: \(\pi \left[ \frac{x^2}{2} \right]\) ประเมินค่าจาก 0 ถึง 4</li>
+                        <li>\(\pi \left[ \frac{4^2}{2} - \frac{0^2}{2} \right] = \pi \left[ \frac{16}{2} \right] = 8\pi\)</li>
+                    </ol>
+                    <p class="mt-4 font-bold text-indigo-700">คำตอบ: ปริมาตรคือ \(8\pi\) ลูกบาศก์หน่วย</p>
+                 </div>
+
+                <h3 class="text-2xl mt-6">หัวข้อการประยุกต์ใช้อื่นๆ</h3>
+                <ul class="list-disc list-inside mt-4 space-y-2">
+                    <li><strong>การหาพื้นที่ระหว่างเส้นโค้ง:</strong> \(\int_{a}^{b} [f(x) - g(x)] \,dx\) (ฟังก์ชันบน - ฟังก์ชันล่าง)</li>
+                    <li><strong>การหาความยาวส่วนโค้ง (Arc Length)</strong></li>
+                    <li><strong>การหางาน (Work) ที่เกิดจากแรงที่ไม่คงที่</strong></li>
+                    <li><strong>การหาค่าเฉลี่ยของฟังก์ชัน (Average Value of a Function)</strong></li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 mb-6">
+            <p class="text-gray-500">เอกสารสรุปฉบับสมบูรณ์สำหรับการเรียนรู้แคลคูลัสเรื่องการอินทิเกรต</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Get the button
+        const toTopButton = document.getElementById("to-top-button");
+
+        // When the user scrolls down 200px from the top of the document, show the button
+        window.onscroll = function () {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                toTopButton.classList.remove("hidden");
+            } else {
+                toTopButton.classList.add("hidden");
+            }
+        };
+
+        // When the user clicks on the button, scroll to the top of the document
+        toTopButton.onclick = function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+</body>
+</html>
+
