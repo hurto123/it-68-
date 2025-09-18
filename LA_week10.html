@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอนพีชคณิตเชิงเส้น: ไอเกนแวลูและไอเกนเวกเตอร์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Kanit', sans-serif; scroll-behavior: smooth; }
+        .concept-box { background-color: #e8f8f5; border-left: 5px solid #1abc9c; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .step-process { background-color: #f8f9fa; border: 1px dashed #ced4da; padding: 1.25rem; margin-top: 1.5rem; border-radius: 0.5rem; }
+        .example-box { margin-top: 2rem; padding: 1.5rem; border-radius: 0.5rem; background-color: #f4f6f6; border: 1px solid #bdc3c7; }
+        .formula-highlight { background-color: #ecf0f1; padding: 1rem; text-align: center; font-size: 1.5rem; font-weight: bold; border-radius: 0.5rem; margin: 1rem 0;}
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-[#16a085]">ไอเกนแวลูและไอเกนเวกเตอร์</div>
+            <div class="hidden lg:flex space-x-4">
+                <a href="#intro" class="text-gray-600 hover:text-[#16a085]">แนวคิดคืออะไร</a>
+                <a href="#find-eigenvalues" class="text-gray-600 hover:text-[#16a085]">การหาไอเกนแวลู</a>
+                <a href="#find-eigenvectors" class="text-gray-600 hover:text-[#16a085]">การหาไอเกนเวกเตอร์</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#16a085]">เจาะลึกไอเกนแวลูและไอเกนเวกเตอร์</h1>
+            <p class="text-lg md-text-xl text-gray-600 mt-4">(Eigenvalues and Eigenvectors)</p>
+        </header>
+
+        <section id="intro" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#1abc9c] mb-4">1. แนวคิดคืออะไร?</h2>
+                <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แก่นหลัก: "ทิศทางที่ไม่เปลี่ยน"</h4>
+                    <p>ลองจินตนาการว่าเมทริกซ์ \(A\) คือ "เครื่องแปลง" ที่เมื่อเราใส่เวกเตอร์ \(\mathbf{x}\) เข้าไป มันจะแปลงร่างเป็นเวกเตอร์ใหม่ \(A\mathbf{x}\) ซึ่งอาจจะหมุน, ยืด, หด หรือพลิกไปในทิศทางต่างๆ</p>
+                    <p class="mt-2"><strong>ไอเกนเวกเตอร์ (Eigenvector)</strong> คือเวกเตอร์พิเศษ \(\mathbf{x}\) (ที่ไม่ใช่เวกเตอร์ศูนย์) ที่เมื่อผ่านเครื่องแปลง \(A\) แล้ว <strong>ทิศทางของมันไม่เปลี่ยนแปลง</strong> (ยังคงอยู่บนเส้นตรงเดิม อาจจะชี้ไปทางเดิม หรือตรงกันข้าม 180 องศา) สิ่งที่เปลี่ยนไปมีเพียง "ขนาด" หรือ "ความยาว" ของมันเท่านั้น</p>
+                    <p class="mt-2"><strong>ไอเกนแวลู (Eigenvalue, \(\lambda\))</strong> คือ "ตัวคูณ" หรือ "สเกล" ที่บอกว่าไอเกนเวกเตอร์นั้นถูกยืด (\(|\lambda| > 1\)), หด (\(|\lambda| < 1\)), หรือพลิกทิศทาง (\(\lambda < 0\)) ไปมากเท่าใด</p>
+                </div>
+                <div class="formula-highlight">
+                    \( A\mathbf{x} = \lambda\mathbf{x} \)
+                </div>
+                <p class="text-center text-gray-600">เวกเตอร์ผลลัพธ์ \(A\mathbf{x}\) เป็นเพียงการคูณไอเกนเวกเตอร์เดิม \(\mathbf{x}\) ด้วยสเกลาร์ \(\lambda\)</p>
+                
+                <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#2c3e50]">ตัวอย่างโจทย์จากสไลด์ (หน้า 4):</h3>
+                    <p>เวกเตอร์ \(\mathbf{x} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}\) เป็นไอเกนเวกเตอร์ของเมทริกซ์ \(A = \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}\) ที่มีไอเกนแวลู \(\lambda=3\) จริงหรือไม่?</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน (การตรวจสอบ):</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>คำนวณฝั่งซ้าย ( \(A\mathbf{x}\) ):</strong> นำเมทริกซ์มาคูณกับเวกเตอร์<br>
+                            \(A\mathbf{x} = \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix} \begin{bmatrix} 1 \\ 2 \end{bmatrix} = \begin{bmatrix} (3)(1)+(0)(2) \\ (8)(1)+(-1)(2) \end{bmatrix} = \begin{bmatrix} 3 \\ 6 \end{bmatrix}\)</li>
+                            <li><strong>คำนวณฝั่งขวา ( \(\lambda\mathbf{x}\) ):</strong> นำสเกลาร์มาคูณกับเวกเตอร์<br>
+                            \(\lambda\mathbf{x} = 3 \begin{bmatrix} 1 \\ 2 \end{bmatrix} = \begin{bmatrix} 3 \\ 6 \end{bmatrix}\)</li>
+                            <li><strong>เปรียบเทียบ:</strong> เนื่องจาก \(A\mathbf{x} = \lambda\mathbf{x}\) (ได้ \(\begin{bmatrix} 3 \\ 6 \end{bmatrix}\) ทั้งสองข้าง) <strong>ดังนั้นเป็นจริง</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-eigenvalues" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                <h2 class="text-3xl font-bold text-[#1abc9c] mb-4">2. การหาไอเกนแวลู (\(\lambda\))</h2>
+                <div class="concept-box">
+                     <h4 class="font-bold text-xl mb-2">แนวคิดทำงานอย่างไร?</h4>
+                     <p>เราต้องการหา \(\lambda\) ที่ทำให้สมการ \(A\mathbf{x} = \lambda\mathbf{x}\) มีคำตอบ \(\mathbf{x}\) ที่ไม่ใช่เวกเตอร์ศูนย์ เราจึงจัดรูปสมการใหม่:</p>
+                     <p>\(A\mathbf{x} - \lambda\mathbf{x} = \mathbf{0} \implies A\mathbf{x} - \lambda I\mathbf{x} = \mathbf{0} \implies (A - \lambda I)\mathbf{x} = \mathbf{0}\)</p>
+                     <p class="mt-2">ระบบสมการนี้จะมีคำตอบ \(\mathbf{x}\) ที่ไม่ใช่ศูนย์ได้ก็ต่อเมื่อเมทริกซ์ \((A - \lambda I)\) เป็นเมทริกซ์เอกฐาน (Singular Matrix) ซึ่งหมายความว่าค่าดีเทอร์มิแนนต์ของมันต้องเท่ากับศูนย์ นี่คือที่มาของสมการที่สำคัญที่สุด</p>
+                </div>
+                <div class="formula-highlight">
+                    \( \det(A - \lambda I) = 0 \)
+                </div>
+                <p class="text-center text-gray-600">เราเรียกสมการนี้ว่า <strong>"สมการลักษณะเฉพาะ" (Characteristic Equation)</strong></p>
+                
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#2c3e50]">ตัวอย่างโจทย์ 2x2 จากสไลด์ (หน้า 10):</h3>
+                    <p>จงหาไอเกนแวลูของเมทริกซ์ \(A = \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}\)</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>สร้างเมทริกซ์ \(A - \lambda I\):</strong><br>
+                            \(A - \lambda I = \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix} - \lambda \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} = \begin{bmatrix} 3-\lambda & 0 \\ 8 & -1-\lambda \end{bmatrix}\)</li>
+                            <li><strong>คำนวณดีเทอร์มิแนนต์และสร้างสมการลักษณะเฉพาะ:</strong><br>
+                            \(\det(A - \lambda I) = (3-\lambda)(-1-\lambda) - (0)(8) = 0\)</li>
+                            <li><strong>แก้สมการหา \(\lambda\):</strong><br>
+                            \((3-\lambda)(-1-\lambda) = 0\). ดังนั้น \(\lambda_1 = 3\) และ \(\lambda_2 = -1\)</li>
+                        </ol>
+                        <p class="font-bold mt-2">สรุป: ไอเกนแวลูของเมทริกซ์ A คือ 3 และ -1</p>
+                    </div>
+                </div>
+
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#2c3e50]">ตัวอย่างโจทย์ 3x3 จากสไลด์ (หน้า 8):</h3>
+                    <p>จงหาไอเกนแวลูของเมทริกซ์ \(A = \begin{bmatrix} 0 & 0 & -2 \\ 1 & 2 & 1 \\ 1 & 0 & 3 \end{bmatrix}\)</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>สร้างเมทริกซ์ \(A - \lambda I\):</strong><br>
+                            \(A - \lambda I = \begin{bmatrix} -\lambda & 0 & -2 \\ 1 & 2-\lambda & 1 \\ 1 & 0 & 3-\lambda \end{bmatrix}\)</li>
+                            <li><strong>คำนวณดีเทอร์มิแนนต์ (กระจายตามหลักที่ 2 เพราะมี 0 เยอะ):</strong><br>
+                            \(\det(A - \lambda I) = (2-\lambda) \begin{vmatrix} -\lambda & -2 \\ 1 & 3-\lambda \end{vmatrix}\)<br>
+                            \(= (2-\lambda) [ (-\lambda)(3-\lambda) - (-2)(1) ]\)<br>
+                            \(= (2-\lambda) [ -3\lambda + \lambda^2 + 2 ] = (2-\lambda)(\lambda-2)(\lambda-1)\)</li>
+                            <li><strong>สร้างสมการลักษณะเฉพาะและแก้หา \(\lambda\):</strong><br>
+                            \((2-\lambda)(\lambda-2)(\lambda-1) = 0 \implies -(\lambda-2)(\lambda-2)(\lambda-1) = 0\)<br>
+                            ดังนั้น \(\lambda_1 = 1\) และ \(\lambda_2 = 2\) (เป็นรากซ้ำ)</li>
+                        </ol>
+                        <p class="font-bold mt-2">สรุป: ไอเกนแวลูของเมทริกซ์ A คือ 1 และ 2</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-eigenvectors" class="mb-16 scroll-mt-20">
+            <div class="bg-white rounded-lg shadow-xl p-8">
+                 <h2 class="text-3xl font-bold text-[#1abc9c] mb-4">3. การหาไอเกนเวกเตอร์ (\(\mathbf{x}\)) และปริภูมิไอเกน (Eigenspace)</h2>
+                 <div class="concept-box">
+                    <h4 class="font-bold text-xl mb-2">แนวคิดทำงานอย่างไร?</h4>
+                    <p>หลังจากที่เราได้ไอเกนแวลูแต่ละค่าแล้ว เราจะนำมันกลับไปแทนในสมการ \((A - \lambda I)\mathbf{x} = \mathbf{0}\) เพื่อหาไอเกนเวกเตอร์ \(\mathbf{x}\) ที่สอดคล้องกัน</p>
+                    <p class="mt-2">เซตของคำตอบทั้งหมดของสมการนี้ (รวมเวกเตอร์ศูนย์ด้วย) สำหรับ \(\lambda\) ค่าหนึ่งๆ จะเกิดเป็นปริภูมิย่อยที่เราเรียกว่า <strong>ปริภูมิไอเกน (Eigenspace)</strong> ของ \(\lambda\) นั้นๆ สิ่งที่เราต้องการหาคือ "ฐาน" (Basis) ของปริภูมิไอเกนนี้ ซึ่งก็คือเซตของเวกเตอร์อิสระเชิงเส้นที่แผ่ทั่วปริภูมิไอเกนนั้น</p>
+                </div>
+                
+                 <div class="example-box">
+                    <h3 class="font-bold text-xl text-[#2c3e50]">ตัวอย่างโจทย์จากสไลด์ (ต่อจากโจทย์ 2x2):</h3>
+                    <p>จงหาฐานของปริภูมิไอเกนของเมทริกซ์ \(A = \begin{bmatrix} 3 & 0 \\ 8 & -1 \end{bmatrix}\)</p>
+                    <div class="step-process">
+                        <p class="font-semibold">วิธีคิดเป็นขั้นตอน:</p>
+                        <p class="mt-2"><strong>กรณีที่ 1: \(\lambda = 3\)</strong></p>
+                        <ol class="list-decimal list-inside ml-2">
+                            <li><strong>แทนค่า \(\lambda\) ในสมการ \((A - \lambda I)\mathbf{x} = \mathbf{0}\):</strong><br>
+                            \(\begin{bmatrix} 3-3 & 0 \\ 8 & -1-3 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies \begin{bmatrix} 0 & 0 \\ 8 & -4 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}\)</li>
+                            <li><strong>แก้ระบบสมการ:</strong><br>
+                            จากแถวที่สอง: \(8x_1 - 4x_2 = 0 \implies 8x_1 = 4x_2 \implies x_2 = 2x_1\).</li>
+                            <li><strong>เขียนคำตอบในรูปพารามิเตอร์:</strong><br>
+                            ให้ \(x_1 = t\) (ตัวแปรอิสระ), ดังนั้น \(x_2 = 2t\). เวกเตอร์คำตอบคือ \(\mathbf{x} = \begin{bmatrix} t \\ 2t \end{bmatrix} = t \begin{bmatrix} 1 \\ 2 \end{bmatrix}\)</li>
+                            <li><strong>หาฐาน:</strong> ฐานของปริภูมิไอเกนคือเวกเตอร์ที่คูณอยู่กับพารามิเตอร์. <br>
+                            <strong>ฐานสำหรับ \(\lambda=3\) คือ \(\left\{ \begin{bmatrix} 1 \\ 2 \end{bmatrix} \right\}\)</strong></li>
+                        </ol>
+                        <hr class="my-4">
+                         <p class="mt-2"><strong>กรณีที่ 2: \(\lambda = -1\)</strong></p>
+                        <ol class="list-decimal list-inside ml-2">
+                             <li><strong>แทนค่า \(\lambda\) ในสมการ \((A - \lambda I)\mathbf{x} = \mathbf{0}\):</strong><br>
+                            \(\begin{bmatrix} 3-(-1) & 0 \\ 8 & -1-(-1) \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies \begin{bmatrix} 4 & 0 \\ 8 & 0 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}\)</li>
+                            <li><strong>แก้ระบบสมการ:</strong><br>
+                            จากแถวแรก: \(4x_1 + 0x_2 = 0 \implies x_1 = 0\). ส่วน \(x_2\) เป็นอะไรก็ได้ (ตัวแปรอิสระ)</li>
+                            <li><strong>เขียนคำตอบในรูปพารามิเตอร์:</strong><br>
+                            ให้ \(x_2 = t\), ดังนั้น \(x_1 = 0\). เวกเตอร์คำตอบคือ \(\mathbf{x} = \begin{bmatrix} 0 \\ t \end{bmatrix} = t \begin{bmatrix} 0 \\ 1 \end{bmatrix}\)</li>
+                            <li><strong>หาฐาน:</strong><br>
+                            <strong>ฐานสำหรับ \(\lambda=-1\) คือ \(\left\{ \begin{bmatrix} 0 \\ 1 \end{bmatrix} \right\}\)</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-6 mt-8 bg-gray-800 text-white">
+        <p>จัดทำโดยนาย ธีรวัต สงพะโยม AIT_03</p>
+    </footer>
+
+</body>
+</html>
+
