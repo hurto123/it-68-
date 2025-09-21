@@ -1,0 +1,1585 @@
+[
+  {
+    "id": 1,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 6} \\dfrac{x^2 - 36}{x - 6}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-36=(x-6)(x+6)$ ตัด $(x-6)$ เหลือ $x+6$. แทนค่า $x=6$ ได้ $26$.",
+    "answer": 12,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 2,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(1x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=1x$ จะได้ลิมิตเป็น 1.",
+    "answer": 1,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 3,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 1} \\dfrac{x^2 - 1}{x - 1}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-1=(x-1)(x+1)$ ตัด $(x-1)$ เหลือ $x+1$. แทนค่า $x=1$ ได้ $21$.",
+    "answer": 2,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 4,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(6x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=6x$ จะได้ลิมิตเป็น 6.",
+    "answer": 6,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 5,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 3} \\dfrac{x^2 - 9}{x - 3}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-9=(x-3)(x+3)$ ตัด $(x-3)$ เหลือ $x+3$. แทนค่า $x=3$ ได้ $23$.",
+    "answer": 6,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 6,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(2x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=2x$ จะได้ลิมิตเป็น 2.",
+    "answer": 2,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 7,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 2} \\dfrac{x^2 - 4}{x - 2}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-4=(x-2)(x+2)$ ตัด $(x-2)$ เหลือ $x+2$. แทนค่า $x=2$ ได้ $22$.",
+    "answer": 4,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 8,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(2x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=2x$ จะได้ลิมิตเป็น 2.",
+    "answer": 2,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 9,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 6} \\dfrac{x^2 - 36}{x - 6}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-36=(x-6)(x+6)$ ตัด $(x-6)$ เหลือ $x+6$. แทนค่า $x=6$ ได้ $26$.",
+    "answer": 12,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 10,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(1x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=1x$ จะได้ลิมิตเป็น 1.",
+    "answer": 1,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 11,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 6} \\dfrac{x^2 - 36}{x - 6}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-36=(x-6)(x+6)$ ตัด $(x-6)$ เหลือ $x+6$. แทนค่า $x=6$ ได้ $26$.",
+    "answer": 12,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 12,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(6x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=6x$ จะได้ลิมิตเป็น 6.",
+    "answer": 6,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 13,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 5} \\dfrac{x^2 - 25}{x - 5}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-25=(x-5)(x+5)$ ตัด $(x-5)$ เหลือ $x+5$. แทนค่า $x=5$ ได้ $25$.",
+    "answer": 10,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 14,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(1x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=1x$ จะได้ลิมิตเป็น 1.",
+    "answer": 1,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 15,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 5} \\dfrac{x^2 - 25}{x - 5}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-25=(x-5)(x+5)$ ตัด $(x-5)$ เหลือ $x+5$. แทนค่า $x=5$ ได้ $25$.",
+    "answer": 10,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 16,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(4x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=4x$ จะได้ลิมิตเป็น 4.",
+    "answer": 4,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 17,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 1} \\dfrac{x^2 - 1}{x - 1}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-1=(x-1)(x+1)$ ตัด $(x-1)$ เหลือ $x+1$. แทนค่า $x=1$ ได้ $21$.",
+    "answer": 2,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 18,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(1x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=1x$ จะได้ลิมิตเป็น 1.",
+    "answer": 1,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 19,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "หา $\\lim_{x\\to 1} \\dfrac{x^2 - 1}{x - 1}$",
+    "solution_html": "แยกตัวประกอบ: $x^2-1=(x-1)(x+1)$ ตัด $(x-1)$ เหลือ $x+1$. แทนค่า $x=1$ ได้ $21$.",
+    "answer": 2,
+    "tolerance": 1e-09,
+    "tags": [
+      "factor"
+    ]
+  },
+  {
+    "id": 20,
+    "topic": "limits",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "หา $\\lim_{x\\to 0} \\dfrac{\\sin(2x)}{x}$",
+    "solution_html": "ใช้ลิมิตมาตรฐาน $\\lim_{u\\to 0}\\frac{\\sin u}{u}=1$ โดยให้ $u=2x$ จะได้ลิมิตเป็น 2.",
+    "answer": 2,
+    "tolerance": 1e-06,
+    "tags": [
+      "standard"
+    ]
+  },
+  {
+    "id": 21,
+    "topic": "limits",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ให้ $f(x)=\\begin{cases} x^2-1, & x\\ne 1 \\\\ 2, & x=1 \\end{cases}$ ลิมิตเมื่อ $x\\to 1$ เท่าไร และ $f$ ต่อเนื่องที่ 1 หรือไม่",
+    "solution_html": "เมื่อ $x\\ne 1$, $\\lim_{x\\to 1}(x^2-1)=0$ แต่ $f(1)=c$. จะต่อเนื่องก็ต่อเมื่อ $c=0$. โดยทั่วไป (ไม่ระบุ $c=0$) จึง 'ลิมิต = 0, ไม่ต่อเนื่อง'.",
+    "choices": [
+      "ลิมิต = 0, ต่อเนื่อง",
+      "ลิมิต = 0, ไม่ต่อเนื่อง",
+      "ลิมิต = 1, ต่อเนื่อง",
+      "ลิมิต = 1, ไม่ต่อเนื่อง"
+    ],
+    "correct": 1,
+    "tags": [
+      "continuity"
+    ]
+  },
+  {
+    "id": 22,
+    "topic": "limits",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ให้ $f(x)=\\begin{cases} x^2-1, & x\\ne 1 \\\\ 5, & x=1 \\end{cases}$ ลิมิตเมื่อ $x\\to 1$ เท่าไร และ $f$ ต่อเนื่องที่ 1 หรือไม่",
+    "solution_html": "เมื่อ $x\\ne 1$, $\\lim_{x\\to 1}(x^2-1)=0$ แต่ $f(1)=c$. จะต่อเนื่องก็ต่อเมื่อ $c=0$. โดยทั่วไป (ไม่ระบุ $c=0$) จึง 'ลิมิต = 0, ไม่ต่อเนื่อง'.",
+    "choices": [
+      "ลิมิต = 0, ต่อเนื่อง",
+      "ลิมิต = 0, ไม่ต่อเนื่อง",
+      "ลิมิต = 1, ต่อเนื่อง",
+      "ลิมิต = 1, ไม่ต่อเนื่อง"
+    ],
+    "correct": 1,
+    "tags": [
+      "continuity"
+    ]
+  },
+  {
+    "id": 23,
+    "topic": "limits",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ให้ $f(x)=\\begin{cases} x^2-1, & x\\ne 1 \\\\ 5, & x=1 \\end{cases}$ ลิมิตเมื่อ $x\\to 1$ เท่าไร และ $f$ ต่อเนื่องที่ 1 หรือไม่",
+    "solution_html": "เมื่อ $x\\ne 1$, $\\lim_{x\\to 1}(x^2-1)=0$ แต่ $f(1)=c$. จะต่อเนื่องก็ต่อเมื่อ $c=0$. โดยทั่วไป (ไม่ระบุ $c=0$) จึง 'ลิมิต = 0, ไม่ต่อเนื่อง'.",
+    "choices": [
+      "ลิมิต = 0, ต่อเนื่อง",
+      "ลิมิต = 0, ไม่ต่อเนื่อง",
+      "ลิมิต = 1, ต่อเนื่อง",
+      "ลิมิต = 1, ไม่ต่อเนื่อง"
+    ],
+    "correct": 1,
+    "tags": [
+      "continuity"
+    ]
+  },
+  {
+    "id": 24,
+    "topic": "limits",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ให้ $f(x)=\\begin{cases} x^2-1, & x\\ne 1 \\\\ 1, & x=1 \\end{cases}$ ลิมิตเมื่อ $x\\to 1$ เท่าไร และ $f$ ต่อเนื่องที่ 1 หรือไม่",
+    "solution_html": "เมื่อ $x\\ne 1$, $\\lim_{x\\to 1}(x^2-1)=0$ แต่ $f(1)=c$. จะต่อเนื่องก็ต่อเมื่อ $c=0$. โดยทั่วไป (ไม่ระบุ $c=0$) จึง 'ลิมิต = 0, ไม่ต่อเนื่อง'.",
+    "choices": [
+      "ลิมิต = 0, ต่อเนื่อง",
+      "ลิมิต = 0, ไม่ต่อเนื่อง",
+      "ลิมิต = 1, ต่อเนื่อง",
+      "ลิมิต = 1, ไม่ต่อเนื่อง"
+    ],
+    "correct": 1,
+    "tags": [
+      "continuity"
+    ]
+  },
+  {
+    "id": 25,
+    "topic": "limits",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ให้ $f(x)=\\begin{cases} x^2-1, & x\\ne 1 \\\\ 5, & x=1 \\end{cases}$ ลิมิตเมื่อ $x\\to 1$ เท่าไร และ $f$ ต่อเนื่องที่ 1 หรือไม่",
+    "solution_html": "เมื่อ $x\\ne 1$, $\\lim_{x\\to 1}(x^2-1)=0$ แต่ $f(1)=c$. จะต่อเนื่องก็ต่อเมื่อ $c=0$. โดยทั่วไป (ไม่ระบุ $c=0$) จึง 'ลิมิต = 0, ไม่ต่อเนื่อง'.",
+    "choices": [
+      "ลิมิต = 0, ต่อเนื่อง",
+      "ลิมิต = 0, ไม่ต่อเนื่อง",
+      "ลิมิต = 1, ต่อเนื่อง",
+      "ลิมิต = 1, ไม่ต่อเนื่อง"
+    ],
+    "correct": 1,
+    "tags": [
+      "continuity"
+    ]
+  },
+  {
+    "id": 26,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^2)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "2x^1",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 27,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^3)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "3x^2",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 28,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^4)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "4x^3",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 29,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^5)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "5x^4",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 30,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^6)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "6x^5",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 31,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^7)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "7x^6",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 32,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^8)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "8x^7",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 33,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^9)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "9x^8",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 34,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}(x^10)$",
+    "solution_html": "ใช้ Power Rule: $\\frac{d}{dx}x^n = nx^{n-1}$.",
+    "expected": "10x^9",
+    "tags": [
+      "power"
+    ]
+  },
+  {
+    "id": 35,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}[(x^2)(x^3)]$",
+    "solution_html": "รวมพจน์ก่อน: $x^2x^3=x^{a+b}$. ดังนั้นอนุพันธ์คือ $(a+b)x^{a+b-1}$.",
+    "expected": "5x^4",
+    "tags": [
+      "product",
+      "power"
+    ]
+  },
+  {
+    "id": 36,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}[(x^3)(x^4)]$",
+    "solution_html": "รวมพจน์ก่อน: $x^3x^4=x^{a+b}$. ดังนั้นอนุพันธ์คือ $(a+b)x^{a+b-1}$.",
+    "expected": "7x^6",
+    "tags": [
+      "product",
+      "power"
+    ]
+  },
+  {
+    "id": 37,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}[(x^1)(x^5)]$",
+    "solution_html": "รวมพจน์ก่อน: $x^1x^5=x^{a+b}$. ดังนั้นอนุพันธ์คือ $(a+b)x^{a+b-1}$.",
+    "expected": "6x^5",
+    "tags": [
+      "product",
+      "power"
+    ]
+  },
+  {
+    "id": 38,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}[(x^2)(x^5)]$",
+    "solution_html": "รวมพจน์ก่อน: $x^2x^5=x^{a+b}$. ดังนั้นอนุพันธ์คือ $(a+b)x^{a+b-1}$.",
+    "expected": "7x^6",
+    "tags": [
+      "product",
+      "power"
+    ]
+  },
+  {
+    "id": 39,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}[(x^3)(x^5)]$",
+    "solution_html": "รวมพจน์ก่อน: $x^3x^5=x^{a+b}$. ดังนั้นอนุพันธ์คือ $(a+b)x^{a+b-1}$.",
+    "expected": "8x^7",
+    "tags": [
+      "product",
+      "power"
+    ]
+  },
+  {
+    "id": 40,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\left(\\dfrac{x^2}{x^3}\\right)$ โดย $x\\ne 0$",
+    "solution_html": "เขียนเป็น $x^{a-b}$ แล้วใช้ Power Rule เป็น $(a-b)x^{a-b-1}$.",
+    "expected": "-1x^-2",
+    "tags": [
+      "quotient",
+      "power"
+    ]
+  },
+  {
+    "id": 41,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\left(\\dfrac{x^3}{x^4}\\right)$ โดย $x\\ne 0$",
+    "solution_html": "เขียนเป็น $x^{a-b}$ แล้วใช้ Power Rule เป็น $(a-b)x^{a-b-1}$.",
+    "expected": "-1x^-2",
+    "tags": [
+      "quotient",
+      "power"
+    ]
+  },
+  {
+    "id": 42,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\left(\\dfrac{x^1}{x^5}\\right)$ โดย $x\\ne 0$",
+    "solution_html": "เขียนเป็น $x^{a-b}$ แล้วใช้ Power Rule เป็น $(a-b)x^{a-b-1}$.",
+    "expected": "-4x^-5",
+    "tags": [
+      "quotient",
+      "power"
+    ]
+  },
+  {
+    "id": 43,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\left(\\dfrac{x^2}{x^5}\\right)$ โดย $x\\ne 0$",
+    "solution_html": "เขียนเป็น $x^{a-b}$ แล้วใช้ Power Rule เป็น $(a-b)x^{a-b-1}$.",
+    "expected": "-3x^-4",
+    "tags": [
+      "quotient",
+      "power"
+    ]
+  },
+  {
+    "id": 44,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\left(\\dfrac{x^3}{x^5}\\right)$ โดย $x\\ne 0$",
+    "solution_html": "เขียนเป็น $x^{a-b}$ แล้วใช้ Power Rule เป็น $(a-b)x^{a-b-1}$.",
+    "expected": "-2x^-3",
+    "tags": [
+      "quotient",
+      "power"
+    ]
+  },
+  {
+    "id": 45,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\left((2x+2)^2\\right)$",
+    "solution_html": "Chain rule: $n(2x+2)^{1}\\cdot 2$",
+    "expected": "4(2x+2)^1",
+    "tags": [
+      "chain"
+    ]
+  },
+  {
+    "id": 46,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\left((4x-2)^3\\right)$",
+    "solution_html": "Chain rule: $n(4x-2)^{2}\\cdot 4$",
+    "expected": "12(4x-2)^2",
+    "tags": [
+      "chain"
+    ]
+  },
+  {
+    "id": 47,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\left((4x+1)^4\\right)$",
+    "solution_html": "Chain rule: $n(4x+1)^{3}\\cdot 4$",
+    "expected": "16(4x+1)^3",
+    "tags": [
+      "chain"
+    ]
+  },
+  {
+    "id": 48,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\left((3x+3)^5\\right)$",
+    "solution_html": "Chain rule: $n(3x+3)^{4}\\cdot 3$",
+    "expected": "15(3x+3)^4",
+    "tags": [
+      "chain"
+    ]
+  },
+  {
+    "id": 49,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\sin(1x)\\big)$",
+    "solution_html": "อนุพันธ์ของ $\\sin(u)$ คือ $\\cos(u)u'$. ดังนั้นได้ $\\cos(1x)\\cdot 1$",
+    "expected": "1cos(1x)",
+    "tags": [
+      "trig"
+    ]
+  },
+  {
+    "id": 50,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\sin(2x)\\big)$",
+    "solution_html": "อนุพันธ์ของ $\\sin(u)$ คือ $\\cos(u)u'$. ดังนั้นได้ $\\cos(2x)\\cdot 2$",
+    "expected": "2cos(2x)",
+    "tags": [
+      "trig"
+    ]
+  },
+  {
+    "id": 51,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\sin(3x)\\big)$",
+    "solution_html": "อนุพันธ์ของ $\\sin(u)$ คือ $\\cos(u)u'$. ดังนั้นได้ $\\cos(3x)\\cdot 3$",
+    "expected": "3cos(3x)",
+    "tags": [
+      "trig"
+    ]
+  },
+  {
+    "id": 52,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\sin(4x)\\big)$",
+    "solution_html": "อนุพันธ์ของ $\\sin(u)$ คือ $\\cos(u)u'$. ดังนั้นได้ $\\cos(4x)\\cdot 4$",
+    "expected": "4cos(4x)",
+    "tags": [
+      "trig"
+    ]
+  },
+  {
+    "id": 53,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\sin(5x)\\big)$",
+    "solution_html": "อนุพันธ์ของ $\\sin(u)$ คือ $\\cos(u)u'$. ดังนั้นได้ $\\cos(5x)\\cdot 5$",
+    "expected": "5cos(5x)",
+    "tags": [
+      "trig"
+    ]
+  },
+  {
+    "id": 54,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(e^{1x}\\big)$",
+    "solution_html": "$\\frac{d}{dx}e^u = e^u u'$, ดังนั้นได้ $e^{1x}\\cdot 1$",
+    "expected": "1e^1x",
+    "tags": [
+      "exp"
+    ]
+  },
+  {
+    "id": 55,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(e^{2x}\\big)$",
+    "solution_html": "$\\frac{d}{dx}e^u = e^u u'$, ดังนั้นได้ $e^{2x}\\cdot 2$",
+    "expected": "2e^2x",
+    "tags": [
+      "exp"
+    ]
+  },
+  {
+    "id": 56,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(e^{3x}\\big)$",
+    "solution_html": "$\\frac{d}{dx}e^u = e^u u'$, ดังนั้นได้ $e^{3x}\\cdot 3$",
+    "expected": "3e^3x",
+    "tags": [
+      "exp"
+    ]
+  },
+  {
+    "id": 57,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(e^{4x}\\big)$",
+    "solution_html": "$\\frac{d}{dx}e^u = e^u u'$, ดังนั้นได้ $e^{4x}\\cdot 4$",
+    "expected": "4e^4x",
+    "tags": [
+      "exp"
+    ]
+  },
+  {
+    "id": 58,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(e^{5x}\\big)$",
+    "solution_html": "$\\frac{d}{dx}e^u = e^u u'$, ดังนั้นได้ $e^{5x}\\cdot 5$",
+    "expected": "5e^5x",
+    "tags": [
+      "exp"
+    ]
+  },
+  {
+    "id": 59,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\ln(x^2)\\big)$ (สำหรับ $x>0$)",
+    "solution_html": "ใช้กฎโซ่: $\\ln(x^k)$ อนุพันธ์คือ $\\dfrac{k}{x}$.",
+    "expected": "2/x",
+    "tags": [
+      "log"
+    ]
+  },
+  {
+    "id": 60,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\ln(x^3)\\big)$ (สำหรับ $x>0$)",
+    "solution_html": "ใช้กฎโซ่: $\\ln(x^k)$ อนุพันธ์คือ $\\dfrac{k}{x}$.",
+    "expected": "3/x",
+    "tags": [
+      "log"
+    ]
+  },
+  {
+    "id": 61,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\ln(x^4)\\big)$ (สำหรับ $x>0$)",
+    "solution_html": "ใช้กฎโซ่: $\\ln(x^k)$ อนุพันธ์คือ $\\dfrac{k}{x}$.",
+    "expected": "4/x",
+    "tags": [
+      "log"
+    ]
+  },
+  {
+    "id": 62,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\dfrac{d}{dx}\\big(\\ln(x^5)\\big)$ (สำหรับ $x>0$)",
+    "solution_html": "ใช้กฎโซ่: $\\ln(x^k)$ อนุพันธ์คือ $\\dfrac{k}{x}$.",
+    "expected": "5/x",
+    "tags": [
+      "log"
+    ]
+  },
+  {
+    "id": 63,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้ $f(x)=x^2$. หาเส้นสัมผัสที่จุด $x=-2$ ในรูป $y=mx+b$",
+    "solution_html": "f'(x)=2x ⇒ f'(-2)=-4. ใช้ point-slope: y - 4 = -4(x--2) ⇒ y=-4x+-4.",
+    "expected": "y=-4x+-4",
+    "tags": [
+      "tangent"
+    ]
+  },
+  {
+    "id": 64,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้ $f(x)=x^2$. หาเส้นสัมผัสที่จุด $x=-1$ ในรูป $y=mx+b$",
+    "solution_html": "f'(x)=2x ⇒ f'(-1)=-2. ใช้ point-slope: y - 1 = -2(x--1) ⇒ y=-2x+-1.",
+    "expected": "y=-2x+-1",
+    "tags": [
+      "tangent"
+    ]
+  },
+  {
+    "id": 65,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้ $f(x)=x^2$. หาเส้นสัมผัสที่จุด $x=3$ ในรูป $y=mx+b$",
+    "solution_html": "f'(x)=2x ⇒ f'(3)=6. ใช้ point-slope: y - 9 = 6(x-3) ⇒ y=6x+-9.",
+    "expected": "y=6x+-9",
+    "tags": [
+      "tangent"
+    ]
+  },
+  {
+    "id": 66,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้ $f(x)=x^2$. หาเส้นสัมผัสที่จุด $x=1$ ในรูป $y=mx+b$",
+    "solution_html": "f'(x)=2x ⇒ f'(1)=2. ใช้ point-slope: y - 1 = 2(x-1) ⇒ y=2x+-1.",
+    "expected": "y=2x+-1",
+    "tags": [
+      "tangent"
+    ]
+  },
+  {
+    "id": 67,
+    "topic": "derivatives",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้ $f(x)=x^2$. หาเส้นสัมผัสที่จุด $x=0$ ในรูป $y=mx+b$",
+    "solution_html": "f'(x)=2x ⇒ f'(0)=0. ใช้ point-slope: y - 0 = 0(x-0) ⇒ y=0x+0.",
+    "expected": "y=0x+0",
+    "tags": [
+      "tangent"
+    ]
+  },
+  {
+    "id": 68,
+    "topic": "applications",
+    "type": "mcq",
+    "level": 1,
+    "question_html": "ให้ $f'(x) = (x-1)(x+1)$. ช่วงใดที่ฟังก์ชันเพิ่มขึ้น",
+    "solution_html": "f' > 0 เมื่ออยู่นอกศูนย์ทั้งสอง: $x<-1$ หรือ $x>1$. จึงเป็น $(-\\infty,-1) \\cup (1,\\infty)$.",
+    "choices": [
+      "(-\\infty,-1) \\cup (1,\\infty)",
+      "(-1,1)",
+      "เฉพาะ (-\\infty,-1)",
+      "เฉพาะ (1,\\infty)"
+    ],
+    "correct": 0,
+    "tags": [
+      "mono"
+    ]
+  },
+  {
+    "id": 69,
+    "topic": "applications",
+    "type": "mcq",
+    "level": 1,
+    "question_html": "ให้ $f'(x) = (x-2)(x+2)$. ช่วงใดที่ฟังก์ชันเพิ่มขึ้น",
+    "solution_html": "f' > 0 เมื่ออยู่นอกศูนย์ทั้งสอง: $x<-2$ หรือ $x>2$. จึงเป็น $(-\\infty,-2) \\cup (2,\\infty)$.",
+    "choices": [
+      "(-\\infty,-2) \\cup (2,\\infty)",
+      "(-2,2)",
+      "เฉพาะ (-\\infty,-2)",
+      "เฉพาะ (2,\\infty)"
+    ],
+    "correct": 0,
+    "tags": [
+      "mono"
+    ]
+  },
+  {
+    "id": 70,
+    "topic": "applications",
+    "type": "mcq",
+    "level": 1,
+    "question_html": "ให้ $f'(x) = (x-3)(x+3)$. ช่วงใดที่ฟังก์ชันเพิ่มขึ้น",
+    "solution_html": "f' > 0 เมื่ออยู่นอกศูนย์ทั้งสอง: $x<-3$ หรือ $x>3$. จึงเป็น $(-\\infty,-3) \\cup (3,\\infty)$.",
+    "choices": [
+      "(-\\infty,-3) \\cup (3,\\infty)",
+      "(-3,3)",
+      "เฉพาะ (-\\infty,-3)",
+      "เฉพาะ (3,\\infty)"
+    ],
+    "correct": 0,
+    "tags": [
+      "mono"
+    ]
+  },
+  {
+    "id": 71,
+    "topic": "applications",
+    "type": "mcq",
+    "level": 1,
+    "question_html": "ให้ $f'(x) = (x-4)(x+4)$. ช่วงใดที่ฟังก์ชันเพิ่มขึ้น",
+    "solution_html": "f' > 0 เมื่ออยู่นอกศูนย์ทั้งสอง: $x<-4$ หรือ $x>4$. จึงเป็น $(-\\infty,-4) \\cup (4,\\infty)$.",
+    "choices": [
+      "(-\\infty,-4) \\cup (4,\\infty)",
+      "(-4,4)",
+      "เฉพาะ (-\\infty,-4)",
+      "เฉพาะ (4,\\infty)"
+    ],
+    "correct": 0,
+    "tags": [
+      "mono"
+    ]
+  },
+  {
+    "id": 72,
+    "topic": "applications",
+    "type": "mcq",
+    "level": 1,
+    "question_html": "ให้ $f'(x) = (x-5)(x+5)$. ช่วงใดที่ฟังก์ชันเพิ่มขึ้น",
+    "solution_html": "f' > 0 เมื่ออยู่นอกศูนย์ทั้งสอง: $x<-5$ หรือ $x>5$. จึงเป็น $(-\\infty,-5) \\cup (5,\\infty)$.",
+    "choices": [
+      "(-\\infty,-5) \\cup (5,\\infty)",
+      "(-5,5)",
+      "เฉพาะ (-\\infty,-5)",
+      "เฉพาะ (5,\\infty)"
+    ],
+    "correct": 0,
+    "tags": [
+      "mono"
+    ]
+  },
+  {
+    "id": 73,
+    "topic": "applications",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้สี่เหลี่ยมผืนผ้ามีเส้นรอบรูป 20 หน่วย จงหาขนาดที่ให้พื้นที่มากสุด",
+    "solution_html": "ที่พื้นที่มากสุดจะเป็นจตุรัส ⇒ แต่ละด้าน = เส้นรอบรูป/4.",
+    "expected": "ด้าน = 5.0",
+    "tags": [
+      "opt"
+    ]
+  },
+  {
+    "id": 74,
+    "topic": "applications",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้สี่เหลี่ยมผืนผ้ามีเส้นรอบรูป 24 หน่วย จงหาขนาดที่ให้พื้นที่มากสุด",
+    "solution_html": "ที่พื้นที่มากสุดจะเป็นจตุรัส ⇒ แต่ละด้าน = เส้นรอบรูป/4.",
+    "expected": "ด้าน = 6.0",
+    "tags": [
+      "opt"
+    ]
+  },
+  {
+    "id": 75,
+    "topic": "applications",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้สี่เหลี่ยมผืนผ้ามีเส้นรอบรูป 30 หน่วย จงหาขนาดที่ให้พื้นที่มากสุด",
+    "solution_html": "ที่พื้นที่มากสุดจะเป็นจตุรัส ⇒ แต่ละด้าน = เส้นรอบรูป/4.",
+    "expected": "ด้าน = 7.5",
+    "tags": [
+      "opt"
+    ]
+  },
+  {
+    "id": 76,
+    "topic": "applications",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้สี่เหลี่ยมผืนผ้ามีเส้นรอบรูป 36 หน่วย จงหาขนาดที่ให้พื้นที่มากสุด",
+    "solution_html": "ที่พื้นที่มากสุดจะเป็นจตุรัส ⇒ แต่ละด้าน = เส้นรอบรูป/4.",
+    "expected": "ด้าน = 9.0",
+    "tags": [
+      "opt"
+    ]
+  },
+  {
+    "id": 77,
+    "topic": "applications",
+    "type": "free",
+    "level": 2,
+    "question_html": "ให้สี่เหลี่ยมผืนผ้ามีเส้นรอบรูป 40 หน่วย จงหาขนาดที่ให้พื้นที่มากสุด",
+    "solution_html": "ที่พื้นที่มากสุดจะเป็นจตุรัส ⇒ แต่ละด้าน = เส้นรอบรูป/4.",
+    "expected": "ด้าน = 10.0",
+    "tags": [
+      "opt"
+    ]
+  },
+  {
+    "id": 78,
+    "topic": "applications",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "วงกลมมี $\\frac{dr}{dt}=1$ ซม./วินาที หา $\\frac{dA}{dt}$ ที่ r=2 โดย $A=\\pi r^2$",
+    "solution_html": "\\(\\frac{dA}{dt}=2\\pi r\\frac{dr}{dt}=2\\pi(2)(1)=2\\pi2\\)",
+    "answer": 12.566370614359172,
+    "tolerance": 1e-06,
+    "tags": [
+      "rates"
+    ]
+  },
+  {
+    "id": 79,
+    "topic": "applications",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "วงกลมมี $\\frac{dr}{dt}=1$ ซม./วินาที หา $\\frac{dA}{dt}$ ที่ r=3 โดย $A=\\pi r^2$",
+    "solution_html": "\\(\\frac{dA}{dt}=2\\pi r\\frac{dr}{dt}=2\\pi(3)(1)=2\\pi3\\)",
+    "answer": 18.84955592153876,
+    "tolerance": 1e-06,
+    "tags": [
+      "rates"
+    ]
+  },
+  {
+    "id": 80,
+    "topic": "applications",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "วงกลมมี $\\frac{dr}{dt}=1$ ซม./วินาที หา $\\frac{dA}{dt}$ ที่ r=4 โดย $A=\\pi r^2$",
+    "solution_html": "\\(\\frac{dA}{dt}=2\\pi r\\frac{dr}{dt}=2\\pi(4)(1)=2\\pi4\\)",
+    "answer": 25.132741228718345,
+    "tolerance": 1e-06,
+    "tags": [
+      "rates"
+    ]
+  },
+  {
+    "id": 81,
+    "topic": "applications",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "วงกลมมี $\\frac{dr}{dt}=1$ ซม./วินาที หา $\\frac{dA}{dt}$ ที่ r=5 โดย $A=\\pi r^2$",
+    "solution_html": "\\(\\frac{dA}{dt}=2\\pi r\\frac{dr}{dt}=2\\pi(5)(1)=2\\pi5\\)",
+    "answer": 31.41592653589793,
+    "tolerance": 1e-06,
+    "tags": [
+      "rates"
+    ]
+  },
+  {
+    "id": 82,
+    "topic": "applications",
+    "type": "numeric",
+    "level": 2,
+    "question_html": "วงกลมมี $\\frac{dr}{dt}=1$ ซม./วินาที หา $\\frac{dA}{dt}$ ที่ r=6 โดย $A=\\pi r^2$",
+    "solution_html": "\\(\\frac{dA}{dt}=2\\pi r\\frac{dr}{dt}=2\\pi(6)(1)=2\\pi6\\)",
+    "answer": 37.69911184307752,
+    "tolerance": 1e-06,
+    "tags": [
+      "rates"
+    ]
+  },
+  {
+    "id": 83,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^0\\,dx$",
+    "solution_html": "$\\dfrac{x^{1}}{1}+C$",
+    "expected": "x^1/(1)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 84,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^1\\,dx$",
+    "solution_html": "$\\dfrac{x^{2}}{2}+C$",
+    "expected": "x^2/(2)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 85,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^2\\,dx$",
+    "solution_html": "$\\dfrac{x^{3}}{3}+C$",
+    "expected": "x^3/(3)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 86,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^3\\,dx$",
+    "solution_html": "$\\dfrac{x^{4}}{4}+C$",
+    "expected": "x^4/(4)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 87,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^4\\,dx$",
+    "solution_html": "$\\dfrac{x^{5}}{5}+C$",
+    "expected": "x^5/(5)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 88,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^5\\,dx$",
+    "solution_html": "$\\dfrac{x^{6}}{6}+C$",
+    "expected": "x^6/(6)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 89,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^6\\,dx$",
+    "solution_html": "$\\dfrac{x^{7}}{7}+C$",
+    "expected": "x^7/(7)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 90,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^7\\,dx$",
+    "solution_html": "$\\dfrac{x^{8}}{8}+C$",
+    "expected": "x^8/(8)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 91,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^8\\,dx$",
+    "solution_html": "$\\dfrac{x^{9}}{9}+C$",
+    "expected": "x^9/(9)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 92,
+    "topic": "integrals",
+    "type": "free",
+    "level": 1,
+    "question_html": "หา $\\int x^9\\,dx$",
+    "solution_html": "$\\dfrac{x^{10}}{10}+C$",
+    "expected": "x^10/(10)+C",
+    "tags": [
+      "anti"
+    ]
+  },
+  {
+    "id": 93,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_0^1 (2x+1)\\,dx$ เมื่อ $a=0, b=1$",
+    "solution_html": "ปริพันธ์ไม่จำกัดเขต: $x^2+x$. แทนขอบ: (1^2+1)-(0^2+0)=2",
+    "answer": 2,
+    "tolerance": 1e-09,
+    "tags": [
+      "definite"
+    ]
+  },
+  {
+    "id": 94,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_1^2 (2x+1)\\,dx$ เมื่อ $a=1, b=2$",
+    "solution_html": "ปริพันธ์ไม่จำกัดเขต: $x^2+x$. แทนขอบ: (2^2+2)-(1^2+1)=4",
+    "answer": 4,
+    "tolerance": 1e-09,
+    "tags": [
+      "definite"
+    ]
+  },
+  {
+    "id": 95,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_0^2 (2x+1)\\,dx$ เมื่อ $a=0, b=2$",
+    "solution_html": "ปริพันธ์ไม่จำกัดเขต: $x^2+x$. แทนขอบ: (2^2+2)-(0^2+0)=6",
+    "answer": 6,
+    "tolerance": 1e-09,
+    "tags": [
+      "definite"
+    ]
+  },
+  {
+    "id": 96,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_2^3 (2x+1)\\,dx$ เมื่อ $a=2, b=3$",
+    "solution_html": "ปริพันธ์ไม่จำกัดเขต: $x^2+x$. แทนขอบ: (3^2+3)-(2^2+2)=6",
+    "answer": 6,
+    "tolerance": 1e-09,
+    "tags": [
+      "definite"
+    ]
+  },
+  {
+    "id": 97,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_0^3 (2x+1)\\,dx$ เมื่อ $a=0, b=3$",
+    "solution_html": "ปริพันธ์ไม่จำกัดเขต: $x^2+x$. แทนขอบ: (3^2+3)-(0^2+0)=12",
+    "answer": 12,
+    "tolerance": 1e-09,
+    "tags": [
+      "definite"
+    ]
+  },
+  {
+    "id": 98,
+    "topic": "integrals",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\int (3x-2)^1\\,dx$",
+    "solution_html": "ให้ $u=3x-2$ ⇒ $du=3\\,dx$ ⇒ $dx=du/3$ ⇒ ผลลัพธ์ $\\frac{u^{2}}{(2)3}+C$",
+    "expected": "((3x-2)^2)/((2)*3)+C",
+    "tags": [
+      "usub"
+    ]
+  },
+  {
+    "id": 99,
+    "topic": "integrals",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\int (2x+3)^2\\,dx$",
+    "solution_html": "ให้ $u=2x+3$ ⇒ $du=2\\,dx$ ⇒ $dx=du/2$ ⇒ ผลลัพธ์ $\\frac{u^{3}}{(3)2}+C$",
+    "expected": "((2x+3)^3)/((3)*2)+C",
+    "tags": [
+      "usub"
+    ]
+  },
+  {
+    "id": 100,
+    "topic": "integrals",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\int (3x-3)^3\\,dx$",
+    "solution_html": "ให้ $u=3x-3$ ⇒ $du=3\\,dx$ ⇒ $dx=du/3$ ⇒ ผลลัพธ์ $\\frac{u^{4}}{(4)3}+C$",
+    "expected": "((3x-3)^4)/((4)*3)+C",
+    "tags": [
+      "usub"
+    ]
+  },
+  {
+    "id": 101,
+    "topic": "integrals",
+    "type": "free",
+    "level": 2,
+    "question_html": "หา $\\int (1x+0)^4\\,dx$",
+    "solution_html": "ให้ $u=1x+0$ ⇒ $du=1\\,dx$ ⇒ $dx=du/1$ ⇒ ผลลัพธ์ $\\frac{u^{5}}{(5)1}+C$",
+    "expected": "((1x+0)^5)/((5)*1)+C",
+    "tags": [
+      "usub"
+    ]
+  },
+  {
+    "id": 102,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "จงหา 'ค่าเฉลี่ย' ของฟังก์ชัน $f(x)=x$ บนช่วง [0,1]",
+    "solution_html": "ค่าเฉลี่ย = $\\dfrac{1}{1-0}\\int_0^1 x\\,dx = \\dfrac1{1}\\cdot \\frac{1^2}2 = 0.5$",
+    "answer": 0.5,
+    "tolerance": 1e-09,
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": 103,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "จงหา 'ค่าเฉลี่ย' ของฟังก์ชัน $f(x)=x$ บนช่วง [0,2]",
+    "solution_html": "ค่าเฉลี่ย = $\\dfrac{1}{2-0}\\int_0^2 x\\,dx = \\dfrac1{2}\\cdot \\frac{2^2}2 = 1.0$",
+    "answer": 1.0,
+    "tolerance": 1e-09,
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": 104,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "จงหา 'ค่าเฉลี่ย' ของฟังก์ชัน $f(x)=x$ บนช่วง [0,3]",
+    "solution_html": "ค่าเฉลี่ย = $\\dfrac{1}{3-0}\\int_0^3 x\\,dx = \\dfrac1{3}\\cdot \\frac{3^2}2 = 1.5$",
+    "answer": 1.5,
+    "tolerance": 1e-09,
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": 105,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "จงหา 'ค่าเฉลี่ย' ของฟังก์ชัน $f(x)=x$ บนช่วง [0,4]",
+    "solution_html": "ค่าเฉลี่ย = $\\dfrac{1}{4-0}\\int_0^4 x\\,dx = \\dfrac1{4}\\cdot \\frac{4^2}2 = 2.0$",
+    "answer": 2.0,
+    "tolerance": 1e-09,
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": 106,
+    "topic": "integrals",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "จงหา 'ค่าเฉลี่ย' ของฟังก์ชัน $f(x)=x$ บนช่วง [0,5]",
+    "solution_html": "ค่าเฉลี่ย = $\\dfrac{1}{5-0}\\int_0^5 x\\,dx = \\dfrac1{5}\\cdot \\frac{5^2}2 = 2.5$",
+    "answer": 2.5,
+    "tolerance": 1e-09,
+    "tags": [
+      "avg"
+    ]
+  },
+  {
+    "id": 107,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "ให้ $F(x)=\\int_0^0 (3t^2+2t)\\,dt$. จงหา $F'(1)$",
+    "solution_html": "FTC Part 1: $F'(x)=3x^2+2x$ ดังนั้น $F'({b})=3({b})^2+2({b})$",
+    "answer": 5,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc1"
+    ]
+  },
+  {
+    "id": 108,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "ให้ $F(x)=\\int_0^0 (3t^2+2t)\\,dt$. จงหา $F'(3)$",
+    "solution_html": "FTC Part 1: $F'(x)=3x^2+2x$ ดังนั้น $F'({b})=3({b})^2+2({b})$",
+    "answer": 33,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc1"
+    ]
+  },
+  {
+    "id": 109,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "ให้ $F(x)=\\int_0^0 (3t^2+2t)\\,dt$. จงหา $F'(5)$",
+    "solution_html": "FTC Part 1: $F'(x)=3x^2+2x$ ดังนั้น $F'({b})=3({b})^2+2({b})$",
+    "answer": 85,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc1"
+    ]
+  },
+  {
+    "id": 110,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "ให้ $F(x)=\\int_0^0 (3t^2+2t)\\,dt$. จงหา $F'(2)$",
+    "solution_html": "FTC Part 1: $F'(x)=3x^2+2x$ ดังนั้น $F'({b})=3({b})^2+2({b})$",
+    "answer": 16,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc1"
+    ]
+  },
+  {
+    "id": 111,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "ให้ $F(x)=\\int_0^0 (3t^2+2t)\\,dt$. จงหา $F'(4)$",
+    "solution_html": "FTC Part 1: $F'(x)=3x^2+2x$ ดังนั้น $F'({b})=3({b})^2+2({b})$",
+    "answer": 56,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc1"
+    ]
+  },
+  {
+    "id": 112,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_{0}^{1} (x^2+2x)\\,dx$ โดยใช้ปริพันธ์ไม่จำกัดเขต",
+    "solution_html": "หา $F(x)=\\frac{x^3}3 + x^2$. ดังนั้น $F(1)-F(0)=1.3333333333333333$",
+    "answer": 1.3333333333333333,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc2"
+    ]
+  },
+  {
+    "id": 113,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_{1}^{2} (x^2+2x)\\,dx$ โดยใช้ปริพันธ์ไม่จำกัดเขต",
+    "solution_html": "หา $F(x)=\\frac{x^3}3 + x^2$. ดังนั้น $F(2)-F(1)=5.333333333333333$",
+    "answer": 5.333333333333333,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc2"
+    ]
+  },
+  {
+    "id": 114,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_{2}^{3} (x^2+2x)\\,dx$ โดยใช้ปริพันธ์ไม่จำกัดเขต",
+    "solution_html": "หา $F(x)=\\frac{x^3}3 + x^2$. ดังนั้น $F(3)-F(2)=11.333333333333334$",
+    "answer": 11.333333333333334,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc2"
+    ]
+  },
+  {
+    "id": 115,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_{3}^{5} (x^2+2x)\\,dx$ โดยใช้ปริพันธ์ไม่จำกัดเขต",
+    "solution_html": "หา $F(x)=\\frac{x^3}3 + x^2$. ดังนั้น $F(5)-F(3)=48.66666666666666$",
+    "answer": 48.66666666666666,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc2"
+    ]
+  },
+  {
+    "id": 116,
+    "topic": "ftc",
+    "type": "numeric",
+    "level": 1,
+    "question_html": "คำนวณ $\\int_{0}^{4} (x^2+2x)\\,dx$ โดยใช้ปริพันธ์ไม่จำกัดเขต",
+    "solution_html": "หา $F(x)=\\frac{x^3}3 + x^2$. ดังนั้น $F(4)-F(0)=37.33333333333333$",
+    "answer": 37.33333333333333,
+    "tolerance": 1e-09,
+    "tags": [
+      "ftc2"
+    ]
+  },
+  {
+    "id": 117,
+    "topic": "derivatives",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ข้อเสริม: หา $\\dfrac{d}{dx}\\big(\\sin(x^{4})\\big)$",
+    "solution_html": "Chain rule: $\\cos(x^4)\\cdot 4x^{n-1}$",
+    "choices": [
+      "4x^3 \\cos(x^4)",
+      "\\cos(x)",
+      "4\\sin(x^4)",
+      "x^4 \\cos(x)"
+    ],
+    "correct": 0,
+    "tags": [
+      "chain",
+      "trig"
+    ]
+  },
+  {
+    "id": 118,
+    "topic": "derivatives",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ข้อเสริม: หา $\\dfrac{d}{dx}\\big(\\sin(x^{4})\\big)$",
+    "solution_html": "Chain rule: $\\cos(x^4)\\cdot 4x^{n-1}$",
+    "choices": [
+      "4x^3 \\cos(x^4)",
+      "\\cos(x)",
+      "4\\sin(x^4)",
+      "x^4 \\cos(x)"
+    ],
+    "correct": 0,
+    "tags": [
+      "chain",
+      "trig"
+    ]
+  },
+  {
+    "id": 119,
+    "topic": "derivatives",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ข้อเสริม: หา $\\dfrac{d}{dx}\\big(\\sin(x^{5})\\big)$",
+    "solution_html": "Chain rule: $\\cos(x^5)\\cdot 5x^{n-1}$",
+    "choices": [
+      "5x^4 \\cos(x^5)",
+      "\\cos(x)",
+      "5\\sin(x^5)",
+      "x^5 \\cos(x)"
+    ],
+    "correct": 0,
+    "tags": [
+      "chain",
+      "trig"
+    ]
+  },
+  {
+    "id": 120,
+    "topic": "derivatives",
+    "type": "mcq",
+    "level": 2,
+    "question_html": "ข้อเสริม: หา $\\dfrac{d}{dx}\\big(\\sin(x^{2})\\big)$",
+    "solution_html": "Chain rule: $\\cos(x^2)\\cdot 2x^{n-1}$",
+    "choices": [
+      "2x^1 \\cos(x^2)",
+      "\\cos(x)",
+      "2\\sin(x^2)",
+      "x^2 \\cos(x)"
+    ],
+    "correct": 0,
+    "tags": [
+      "chain",
+      "trig"
+    ]
+  }
+]

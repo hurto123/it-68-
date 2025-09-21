@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CALC I • เว็บไซต์การเรียนแคลคูลัส 1</title>
+  <meta name="description" content="สื่อการสอนแคลคูลัส 1 สำหรับมหาวิทยาลัย: อธิบายตั้งแต่พื้นฐานจนถึงขั้นสูง พร้อมโจทย์กว่า 100 ข้อและเฉลยละเอียด" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2025-09-21" />
+  <!-- MathJax -->
+  <script>
+    window.MathJax = { tex: {inlineMath: [['$','$'], ['\\(','\\)']]} };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">∫</span>
+      <div class="titles">
+        <h1>CALC I</h1>
+        <small>แคลคูลัส 1 สำหรับนิสิต/นักศึกษา</small>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">หน้าแรก</a>
+      <a href="topics.html">บทเรียน</a>
+      <a href="problem-bank.html">คลังโจทย์</a>
+      <a href="visualize.html">แผนภูมิ/กราฟ</a>
+      <a href="admin.html">เพิ่มโจทย์</a>
+      <button id="toggleTheme" aria-label="สลับโหมด">🌗</button>
+    </nav>
+  </header>
+  <main class="container">
+
+<section>
+  <h2>คลังโจทย์ (100+ ข้อ)</h2>
+  <p>เลือกหัวข้อและระดับ จากนั้นเริ่มทำได้เลย — ดูเฉลยแบบทีละขั้นเมื่อพร้อม</p>
+  <div class="filters">
+    <label>หัวข้อ
+      <select id="topicFilter">
+        <option value="all">ทั้งหมด</option>
+      </select>
+    </label>
+    <label>ระดับ
+      <select id="levelFilter">
+        <option value="all">ทั้งหมด</option>
+        <option value="1">ง่าย</option>
+        <option value="2">กลาง</option>
+        <option value="3">ยาก</option>
+      </select>
+    </label>
+    <button id="btnRandom">สุ่ม 10 ข้อ</button>
+  </div>
+
+  <div id="problemsContainer" class="problems"></div>
+
+  <div class="submit-box">
+    <button id="btnSubmit">ส่งคำตอบ</button>
+    <span id="submitMsg" role="status" aria-live="polite"></span>
+  </div>
+</section>
+
+  </main>
+  <footer class="site-footer">
+    <p>© CALC I — สร้างเพื่อการศึกษา • รองรับภาษาไทยและสัญกรณ์คณิต • อัปเดตล่าสุด: 2025-09-21</p>
+  </footer>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

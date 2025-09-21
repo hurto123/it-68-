@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CALC I • เว็บไซต์การเรียนแคลคูลัส 1</title>
+  <meta name="description" content="สื่อการสอนแคลคูลัส 1 สำหรับมหาวิทยาลัย: อธิบายตั้งแต่พื้นฐานจนถึงขั้นสูง พร้อมโจทย์กว่า 100 ข้อและเฉลยละเอียด" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2025-09-21" />
+  <!-- MathJax -->
+  <script>
+    window.MathJax = { tex: {inlineMath: [['$','$'], ['\\(','\\)']]} };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">∫</span>
+      <div class="titles">
+        <h1>CALC I</h1>
+        <small>แคลคูลัส 1 สำหรับนิสิต/นักศึกษา</small>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="index.html">หน้าแรก</a>
+      <a href="topics.html">บทเรียน</a>
+      <a href="problem-bank.html">คลังโจทย์</a>
+      <a href="visualize.html">แผนภูมิ/กราฟ</a>
+      <a href="admin.html">เพิ่มโจทย์</a>
+      <button id="toggleTheme" aria-label="สลับโหมด">🌗</button>
+    </nav>
+  </header>
+  <main class="container">
+
+<section>
+  <h2>แผนภูมิ/กราฟอินเตอร์แอคทีฟ</h2>
+  <p>พล็อตกราฟ $y=f(x)$, ดูความชัน ณ จุด, และดู Riemann sum</p>
+  <form id="vizForm" class="viz-form" onsubmit="return false;">
+    <label>f(x) = <input id="fx" value="Math.sin(x) + 0.3*x"></label>
+    <label>ช่วง x-min <input id="xmin" type="number" value="-6.28" step="0.1"></label>
+    <label>x-max <input id="xmax" type="number" value="6.28" step="0.1"></label>
+    <label>จุด a <input id="aPoint" type="number" value="1" step="0.1"></label>
+    <label>จำนวนสี่เหลี่ยม (Riemann) <input id="nRect" type="number" value="8" min="2" max="200"></label>
+    <div class="viz-buttons">
+      <button onclick="plotFunction()">พล็อต f(x)</button>
+      <button onclick="showTangent()">แสดงเส้นสัมผัสที่ a</button>
+      <button onclick="showRiemann()">แสดง Riemann sum</button>
+      <button class="secondary" onclick="clearCanvas()">ล้าง</button>
+    </div>
+  </form>
+  <canvas id="plot" width="900" height="520" aria-label="กราฟฟังก์ชันและสื่อประกอบ"></canvas>
+  <p class="hint">หมายเหตุ: ใส่ฟังก์ชันด้วยสคริปต์ JS มาตรฐาน เช่น <code>Math.sin(x)</code>, <code>Math.exp(x)</code>, <code>x*x</code>, <code>Math.log(x)</code></p>
+</section>
+
+  </main>
+  <footer class="site-footer">
+    <p>© CALC I — สร้างเพื่อการศึกษา • รองรับภาษาไทยและสัญกรณ์คณิต • อัปเดตล่าสุด: 2025-09-21</p>
+  </footer>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
