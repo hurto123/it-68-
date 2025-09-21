@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CALC I • เนื้อหาทั้งหมด (อธิบายสำหรับผู้เริ่มต้น)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=2025-09-21" />
+  <style>
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:16px}
+    .sidenav{position:sticky;top:68px;align-self:start;background:#141823;border:1px solid #222;border-radius:12px;padding:12px;max-height:80vh;overflow:auto}
+    .sidenav a{display:block;padding:6px 8px;border-radius:8px;color:#cfe6ff}
+    .sidenav a:hover{background:#1c2330}
+    .keybox{background:#151b26;border:1px solid #223047;border-radius:10px;padding:10px;margin:10px 0}
+    .exa{background:#0f1520;border:1px solid #233047;border-radius:10px;padding:10px;margin:10px 0}
+    .step{background:#0e1522;border-left:4px solid #7bdfff;border-radius:6px;padding:8px;margin:8px 0}
+    .section{background:#121722;border:1px solid #222;border-radius:12px;padding:14px;margin-bottom:14px}
+  </style>
+  <script>
+    window.MathJax = { tex: {inlineMath: [['$','$'], ['\\(','\\)']]} };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">∫</span>
+      <div class="titles">
+        <h1>CALC I</h1>
+        <small>ฉบับอธิบายเต็มสำหรับผู้เริ่มต้น</small>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <a href="preview.html">พรีวิว</a>
+      <a href="problem-bank-preview.html">คลังโจทย์</a>
+      <a href="visualize.html">กราฟ</a>
+    </nav>
+  </header>
+  <main class="container">
+
+<section class="layout">
+  <aside class="sidenav">
+    <a href="#intro">ภาพรวมรายวิชา</a>
+    <a href="#precalc">0) ปูพื้น</a>
+    <a href="#limits">1) ลิมิต & ความต่อเนื่อง</a>
+    <a href="#deriv-def">2) อนุพันธ์ (นิยาม)</a>
+    <a href="#deriv-rules">3) กฎอนุพันธ์</a>
+    <a href="#applications">4) การประยุกต์</a>
+    <a href="#integrals">5) ปริพันธ์ & Riemann</a>
+    <a href="#ftc">6) FTC & u-sub</a>
+  </aside>
+  <div>
+
+<section id="intro" class="section">
+  <h2>ภาพรวมรายวิชา</h2>
+  <p>เราเริ่มจากแนวคิด “เข้าใกล้” (ลิมิต) เพื่อสร้างอนุพันธ์ (ความชันทันที) และปริพันธ์ (ผลรวมอนันต์/พื้นที่) แล้วเชื่อมกันด้วย FTC.</p>
+
+<div class="keybox">
+  <h3>ทำไมต้องเรียนแคลคูลัส?</h3>
+  <p>เพราะเราอยากตอบคำถาม 2 แบบใหญ่ ๆ: <b>เปลี่ยนเร็วแค่ไหน</b> (อนุพันธ์) และ <b>สะสมมากเท่าไร</b> (ปริพันธ์).</p>
+</div>
+<div class="step"><b>ภาพรวม:</b> ลิมิต → นิยามอนุพันธ์/ปริพันธ์ → กฎคำนวณ → ประยุกต์จริง (กราฟ, การเหมาะที่สุด, อัตราเปลี่ยนสัมพันธ์)</div>
+<div class="exa">
+  <b>ตัวอย่างนำทาง:</b> รถออกตัวจากหยุดนิ่ง ความเร็วเพิ่มขึ้นเรื่อย ๆ — กราฟระยะทางเวลากลายเป็นโค้ง; ความชันทันทีบนกราฟคือ <i>ความเร็ว</i> ณ ขณะนั้น.
+</div>
+</section>
+
+<section id="precalc" class="section">
+  <h2>0) ปูพื้น</h2>
+  <ul>
+    <li>ฟังก์ชัน มุมมองกราฟ โดเมน/เรนจ์ หน่วย</li>
+    <li>ฟังก์ชันมาตรฐาน: กำลัง, exp, log, trig</li>
+  </ul>
+</section>
+
+<section id="limits" class="section">
+  <h2>1) ลิมิต & ความต่อเนื่อง</h2>
+  <div class="keybox"><b>นิยามง่าย ๆ:</b> ลิมิตคือค่าที่ $f(x)$ “จะไปถึง” เมื่อ $x$ เข้าใกล้จุดหนึ่ง ๆ</div>
+
+  <!-- BEGIN: Expanded Limits Lesson -->
+  <div class="keybox">
+    <h3>มองภาพก่อน (คนไม่เคยเรียนมาก่อน)</h3>
+    <p><b>ลิมิต</b> คือ “ค่าที่กราฟกำลังจะไปถึง” เมื่อ $x$ เข้าใกล้จุดหนึ่ง ๆ แม้ที่จุดนั้นจะไม่ได้กำหนดค่าก็ตาม</p>
+  </div>
+
+  <div class="step"><b>ที่มาของลิมิต:</b> เราอยากนิยาม “ความชันทันที” ของโค้ง → ดูความชันเฉลี่ยบนช่วงเล็ก ๆ แล้ว <em>ให้ช่วงสั้นลงเข้าใกล้ศูนย์</em>.</div>
+
+  <div class="keybox">
+    <h3>สูตร/รูปแบบที่ใช้บ่อย</h3>
+    <ul>
+      <li>$\lim_{x\to a}\dfrac{x^n-a^n}{x-a}=na^{n-1}$ (เมื่อ $n$ เป็นจำนวนเต็มบวก)</li>
+      <li>$\lim_{u\to 0}\dfrac{\sin u}{u}=1,\quad \lim_{u\to 0}\dfrac{1-\cos u}{u}=0$</li>
+      <li>กฎลอปิตาล (สำหรับรูป $\frac{0}{0}$ หรือ $\frac{\infty}{\infty}$): $\lim \dfrac{f}{g}=\lim \dfrac{f'}{g'}$ (ถ้ามีอยู่)</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h3>วิธีทำเป็นขั้น (Recipe)</h3>
+    <ol>
+      <li><b>แทนค่าโดยตรง</b> — ถ้าได้ค่าปกติจบ</li>
+      <li>ถ้าได้ <b>$0/0$</b>: <b>แยกตัวประกอบ/ตัดพจน์ร่วม</b> หรือ <b>คูณกู้ร่วม</b> (กรณีมีสแควร์รูท)</li>
+      <li>ยังไม่ได้? <b>ลองใช้ลอปิตาล</b> (ถ้าเข้าเงื่อนไข) หรือ <b>ตีกรอบ</b></li>
+      <li><b>สรุปค่า</b> — ใส่เหตุผลสั้น ๆ ว่าทำไมทำได้</li>
+    </ol>
+  </div>
+
+  <div class="exa">
+    <h3>ตัวอย่าง 1 — ตัดตัวประกอบ</h3>
+    <p>$\displaystyle \lim_{x\to 3}\frac{x^2-9}{x-3}$
+    <br>แยก: $x^2-9=(x-3)(x+3)$ → ตัด $(x-3)$ เหลือ $x+3$ → ใส่ $x=3$ ได้ <b>6</b>.</p>
+  </div>
+
+  <div class="exa">
+    <h3>ตัวอย่าง 2 — คูณกู้ร่วม</h3>
+    <p>$\displaystyle \lim_{x\to 0}\frac{\sqrt{x+1}-1}{x}$
+    <br>คูณด้วย $\dfrac{\sqrt{x+1}+1}{\sqrt{x+1}+1}$ → ได้ $\dfrac{(x+1)-1}{x(\sqrt{x+1}+1)}=\dfrac{x}{x(\sqrt{x+1}+1)}=\dfrac{1}{\sqrt{x+1}+1}\to \dfrac{1}{2}$.</p>
+  </div>
+
+  <div class="exa">
+    <h3>ตัวอย่าง 3 — ใช้ลิมิตมาตรฐาน</h3>
+    <p>$\displaystyle \lim_{x\to 0}\frac{\sin(5x)}{x}$ ให้ $u=5x$ → $\dfrac{\sin u}{u}\cdot 5 \to <b>5</b>$.</p>
+  </div>
+
+  <div class="keybox">
+    <h3>เช็กด้วยกราฟ (อินเตอร์แอคทีฟ)</h3>
+    <ol>
+      <li>เปิดหน้า <a href="visualize.html">กราฟ</a>, ตั้งค่า <code>f(x) = (x*x-9)/(x-3)</code></li>
+      <li>ใส่ <code>a = 3</code> แล้วกด “แสดงเส้นสัมผัส” เพื่อดูแนวโน้มค่าใกล้ ๆ 3</li>
+      <li>ลองซูมช่วง x ให้แคบลงเพื่อดูค่าที่เข้าใกล้</li>
+    </ol>
+  </div>
+
+  <div class="step">
+    <h3>ข้อควรระวัง</h3>
+    <ul>
+      <li>ลิมิตมอง “เข้าใกล้” ไม่ใช่ “ค่า ณ จุดนั้น” → ฟังก์ชัน <em>อาจไม่ได้กำหนดค่า</em> ที่จุด แต่ลิมิตยังมี</li>
+      <li>อย่าลืมเงื่อนไขการใช้ลอปิตาล (ต้องเป็นรูปกำหนดไม่ได้ และฟังก์ชันดิฟฯ ได้ใกล้จุดนั้น)</li>
+    </ul>
+  </div>
+
+  <div class="exa">
+    <h3>ลองทำดู (ยังไม่เฉลย):</h3>
+    <ol>
+      <li>$\displaystyle \lim_{x\to 2}\frac{x^2-4}{x-2}$</li>
+      <li>$\displaystyle \lim_{x\to 0}\frac{1-\cos(2x)}{x}$</li>
+    </ol>
+    <p><i>พิมพ์ขั้นที่คุณจะเริ่ม แล้วผมช่วยเช็กทีละสเต็ป</i></p>
+  </div>
+  <!-- END: Expanded Limits Lesson -->
+</section>
+
+<section id="deriv-def" class="section">
+  <h2>2) อนุพันธ์ (นิยาม)</h2>
+  <p>$f'(a)=\lim_{h\to 0}\dfrac{f(a+h)-f(a)}{h}$ คือความชันทันที</p>
+
+<!-- BEGIN: Chapter 3 Expanded -->
+<div class="keybox">
+  <h3>นิยามอนุพันธ์ & ความหมาย</h3>
+  <p>$f'(a)=\lim_{h\to 0}\dfrac{f(a+h)-f(a)}{h}$ คือความชันทันทีของกราฟที่ $x=a$ และคือ <i>อัตราการเปลี่ยนแปลงทันที</i>.</p>
+</div>
+<div class="step">
+  <h3>Recipe: หาค่าอนุพันธ์ดิบจากนิยาม</h3>
+  <ol>
+    <li>เขียน $f(a+h)-f(a)$ แล้ว <b>ขยายพจน์</b></li>
+    <li>หารด้วย $h$ แล้ว <b>ตัดพจน์ที่มี $h$</b></li>
+    <li>ให้ $h\to 0$ เพื่อได้ $f'(a)$</li>
+  </ol>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 1 — $f(x)=x^2$</h3>
+  <p>$\dfrac{(a+h)^2-a^2}{h}=\dfrac{2ah+h^2}{h}=2a+h \xrightarrow[h\to 0]{} 2a$ ดังนั้น $f'(x)=2x$</p>
+</div>
+<div class="keybox">
+  <h3>ความหมายทางฟิสิกส์</h3>
+  <p>ถ้า $s(t)$ คือระยะทาง — $s'(t)=v(t)$ คือความเร็วทันที, $v'(t)=a(t)$ คือความเร่งทันที</p>
+</div>
+<!-- END: Chapter 3 Expanded -->
+</section>
+
+<section id="deriv-rules" class="section">
+  <h2>3) กฎอนุพันธ์</h2>
+  <ul>
+    <li>Power/Product/Quotient/Chain</li>
+    <li>อนุพันธ์ฟังก์ชันมาตรฐาน: $\sin,\cos,e^x,\ln x$</li>
+  </ul>
+
+<!-- BEGIN: Chapter 4 Expanded -->
+<div class="keybox">
+  <h3>กฎอนุพันธ์สำคัญ</h3>
+  <ul>
+    <li><b>Power:</b> $\dfrac{d}{dx}x^n=nx^{n-1}$</li>
+    <li><b>Sum/Constant:</b> $(f+g)'=f'+g',\ \ (c)'=0$</li>
+    <li><b>Product:</b> $(fg)'=f'g+fg'$</li>
+    <li><b>Quotient:</b> $\big(\frac{f}{g}\big)'=\dfrac{f'g-fg'}{g^2}$</li>
+    <li><b>Chain:</b> $\dfrac{d}{dx}f(g(x))=f'(g(x))g'(x)$</li>
+  </ul>
+</div>
+<div class="step">
+  <h3>Recipe: เลือกใช้กฎให้ถูก</h3>
+  <ol>
+    <li><b>แยกพจน์</b>ให้เรียบร้อย (ดึงค่าคงที่/รวมกำลัง)</li>
+    <li>ดูว่าเป็น <i>คูณ</i> หรือ <i>หาร</i> → ใช้ Product/Quotient</li>
+    <li>มีซ้อนฟังก์ชันไหม? → ใช้ Chain</li>
+    <li>จัดรูปหลังดิฟฯ ให้อ่านง่าย</li>
+  </ol>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 1 — Product</h3>
+  <p>$\dfrac{d}{dx}\big((x^2+1)\,e^x\big)=(2x)\,e^x+(x^2+1)\,e^x=e^x(2x+x^2+1)$</p>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 2 — Quotient</h3>
+  <p>$\dfrac{d}{dx}\big(\frac{\ln x}{x}\big)=\dfrac{\frac{1}{x}\cdot x-\ln x\cdot 1}{x^2}=\dfrac{1-\ln x}{x^2}$ (สำหรับ $x>0$)</p>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 3 — Chain</h3>
+  <p>$\dfrac{d}{dx}\sin(3x^2)=\cos(3x^2)\cdot 6x$</p>
+</div>
+<div class="keybox">
+  <h3>เส้นสัมผัส</h3>
+  <p>ที่ $x=a$: $y-y_0=f'(a)(x-a)$ โดย $y_0=f(a)$. ลองพล็อตเส้นสัมผัสในหน้า <a href="visualize.html">กราฟ</a>.</p>
+</div>
+<!-- END: Chapter 4 Expanded -->
+</section>
+
+<section id="applications" class="section">
+  <h2>4) การประยุกต์</h2>
+  <ul>
+    <li>เพิ่ม–ลด, เว้า, จุดเปลี่ยนเว้า</li>
+    <li>Optimization, Related Rates</li>
+  </ul>
+
+<!-- BEGIN: Chapter 5 Expanded -->
+<div class="keybox">
+  <h3>การประยุกต์ของอนุพันธ์</h3>
+  <ul>
+    <li><b>เพิ่ม–ลด:</b> $f'(x)>0$ ⇒ เพิ่ม, $f'(x)<0$ ⇒ ลด</li>
+    <li><b>เว้า/จุดเปลี่ยนเว้า:</b> $f''(x)>0$ ⇒ เว้าเปิดขึ้น, $f''(x)<0$ ⇒ เว้าเปิดลง; จุดที่ $f''$ เปลี่ยนเครื่องหมาย ⇒ จุดเปลี่ยนเว้า</li>
+    <li><b>ค่าสูงสุด–ต่ำสุดเฉพาะที่:</b> จุดวิกฤต (ที่ $f'=0$ หรือไม่กำหนด) + ทดสอบด้วย $f'$ หรือ $f''$</li>
+    <li><b>Optimization:</b> ตั้งฟังก์ชันเป้าหมาย + เงื่อนไข → ลดตัวแปร → หา critical points → ตัดสิน</li>
+    <li><b>Related Rates:</b> เขียนความสัมพันธ์เชิงสมการ → ดิฟฯ ทั้งสองข้างตามเวลา</li>
+  </ul>
+</div>
+<div class="step">
+  <h3>Recipe: Optimization แบบสั้น</h3>
+  <ol>
+    <li>นิยามตัวแปร/ฟังก์ชันเป้าหมายที่ต้องการมากสุด/น้อยสุด</li>
+    <li>ใช้เงื่อนไขลดตัวแปรเหลือ 1 ตัว</li>
+    <li>หา $f'(x)=0$ → ได้ผู้ต้องสงสัย</li>
+    <li>ใช้ $f''$ หรือ first-derivative test ตัดสิน</li>
+  </ol>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 1 — เพิ่ม–ลด</h3>
+  <p>$f'(x)=(x-2)(x+2)$. ดังนั้นเพิ่มเมื่อ $x<-2$ หรือ $x>2$, ลดเมื่อ $-2<x<2$.</p>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 2 — Optimization (สี่เหลี่ยมผืนผ้าพื้นที่มากสุดจากเส้นรอบรูป $P$)</h3>
+  <p>ให้ $2(x+y)=P$ ⇒ $y=\frac{P}{2}-x$. พื้นที่ $A=xy=x(\frac{P}{2}-x)=\frac{P}{2}x-x^2$  
+  $A'(x)=\frac{P}{2}-2x=0$ ⇒ $x=\frac{P}{4}$ ⇒ $y=\frac{P}{4}$ ⇒ เป็นจตุรัส</p>
+</div>
+<div class="exa">
+  <h3>ตัวอย่าง 3 — Related Rates (วงกลม)</h3>
+  <p>$A=\pi r^2$, ให้ $\frac{dr}{dt}=k$ ⇒ $\frac{dA}{dt}=2\pi r\cdot \frac{dr}{dt}=2\pi r k$</p>
+</div>
+<div class="step">
+  <h3>ข้อควรระวัง</h3>
+  <ul>
+    <li>อย่าลืมตรวจขอบเขตของตัวแปร (domain/constraint)</li>
+    <li>จุด $f'=0$ เป็นได้ทั้ง สูงสุด/ต่ำสุด/จุดราบ — ต้องทดสอบต่อ</li>
+  </ul>
+</div>
+<div class="keybox">
+  <h3>ลองทำดู</h3>
+  <ol>
+    <li>ให้ $f(x)=x^3-3x$. หา ช่วงเพิ่ม–ลด และจุดเปลี่ยนเว้า</li>
+    <li>กล่องปิดฝาไม่มีฝา ฐานสี่เหลี่ยมจัตุรัส ใช้วัสดุผิวรวม $S$ หน่วย จงหาขนาดที่ให้ปริมาตรมากสุด</li>
+  </ol>
+  <p><i>บอกขั้นตอนที่คุณจะใช้ ผมช่วยตรวจทีละสเต็ปได้</i></p>
+</div>
+<!-- END: Chapter 5 Expanded -->
+</section>
+
+
+<section id="integrals" class="section">
+  <h2>5) ปริพันธ์ & Riemann (บทที่ 6: Integration – ส่วนหลัก)</h2>
+
+  <!-- 6.1 Antiderivatives -->
+  <div class="keybox">
+    <h3>6.1 Antiderivatives (ปริพันธ์ไม่จำกัดเขต)</h3>
+    <p><b>ความหมาย:</b> หา $F(x)$ ที่ $F'(x)=f(x)$. เขียน $F(x)=\int f(x)\,dx + C$ โดย $C$ คือค่าคงที่</p>
+    <ul>
+      <li><b>Power rule:</b> $\int x^n\,dx=\dfrac{x^{n+1}}{n+1}+C$ (ยกเว้น $n=-1$)</li>
+      <li><b>Exponential:</b> $\int e^x\,dx=e^x+C, \quad \int a^x\,dx=\dfrac{a^x}{\ln a}+C$</li>
+      <li><b>Trig:</b> $\int \cos x\,dx=\sin x+C,\ \int \sin x\,dx=-\cos x+C$</li>
+      <li><b>Log:</b> $\int \dfrac{1}{x}\,dx=\ln |x|+C$</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h3>Recipe — หา Antiderivative (4 ขั้น)</h3>
+    <ol>
+      <li>ปรับรูป integrand ให้ง่าย (กระจาย/แยกพจน์/ดึงค่าคงที่)</li>
+      <li>เลือกสูตรที่ตรง (power/exp/trig/log)</li>
+      <li>ตรวจเงื่อนไขพิเศษ เช่น $n=-1$</li>
+      <li>เติม $+C$ เสมอ</li>
+    </ol>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A1</h4>
+    <p>คำนวณ $\displaystyle \int (3x^2-2x+5)\,dx = x^3-x^2+5x + C$</p>
+  </div>
+
+  <!-- 6.2 Definite Integral & Riemann Sums -->
+  <div class="keybox">
+    <h3>6.2 ปริพันธ์จำกัดเขต & ผลรวม Riemann</h3>
+    <p><b>ความหมาย:</b> พื้นที่ signed ใต้กราฟ $y=f(x)$ จาก $x=a$ ถึง $x=b$ คือ $\displaystyle \int_a^b f(x)\,dx$.</p>
+    <p><b>Riemann sum:</b> แบ่งช่วง $[a,b]$ เป็นชิ้นย่อยกว้าง $\Delta x$, เลือกจุดตัวอย่าง $x_i^*$, แล้วรวม $f(x_i^*)\Delta x$ จากนั้นให้จำนวนชิ้น $\to \infty$</p>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A2</h4>
+    <p>$\displaystyle \int_0^2 4x\,dx = [2x^2]_0^2 = 8$ (พื้นที่ใต้เส้นตรง $y=4x$)</p>
+  </div>
+
+  <!-- 6.4 Techniques -->
+  <div class="keybox">
+    <h3>6.4 เทคนิคอินทิกรัล (เลือกใช้เท่าที่จำเป็นใน Calc I)</h3>
+    <ul>
+      <li><b>u‑substitution</b> — “ย้อน Chain Rule”: ให้ $u=g(x)$ แล้วแปลง $dx$ เป็น $du$</li>
+      <li><b>Integration by Parts</b> — “ย้อน Product Rule”: $\int u\,dv = uv-\int v\,du$</li>
+      <li><b>Trig Substitution (เบื้องต้น)</b> — ใช้กับรูป $\sqrt{a^2-x^2}$, $\sqrt{x^2-a^2}$, $\sqrt{x^2+a^2}$</li>
+    </ul>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A3 — u‑sub</h4>
+    <p>$\displaystyle \int (2x+1)^3\,dx$. ให้ $u=2x+1,\,du=2dx$ ⇒ $dx=\tfrac12 du$  
+    ได้ $ \int (2x+1)^3 dx = \tfrac12 \int u^3 du = \tfrac{u^4}{8}+C = \tfrac{(2x+1)^4}{8}+C$</p>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A4 — Parts</h4>
+    <p>$\displaystyle \int x e^x\,dx$ ให้ $u=x$ ⇒ $du=dx$, $dv=e^x dx$ ⇒ $v=e^x$  
+    ดังนั้น $ \int x e^x dx = x e^x - \int e^x dx = x e^x - e^x + C$</p>
+  </div>
+
+  <!-- 6.5 Applications -->
+  <div class="keybox">
+    <h3>6.5 การประยุกต์ของปริพันธ์</h3>
+    <ul>
+      <li><b>พื้นที่ระหว่างกราฟ:</b> $\int_a^b \big(f(x)-g(x)\big)\,dx$ เมื่อ $f\ge g$ บนช่วง</li>
+      <li><b>ค่าเฉลี่ยฟังก์ชัน:</b> $\dfrac{1}{b-a}\int_a^b f(x)\,dx$</li>
+      <li><b>ปริมาตรของ solids (Disk/Washer):</b>  
+        Disk: $V=\pi\int_a^b \big(R(x)\big)^2\,dx,\quad$ Washer: $V=\pi\int_a^b \big(R^2-r^2\big)\,dx$
+      </li>
+    </ul>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A5 — พื้นที่ระหว่างกราฟ</h4>
+    <p>หา $\text{Area}$ ระหว่าง $y=x$ และ $y=x^2$ บน $[0,1]$:  
+    $\text{Area}=\int_0^1 (x-x^2)\,dx = \left[\tfrac{x^2}{2}-\tfrac{x^3}{3}\right]_0^1=\tfrac{1}{2}-\tfrac{1}{3}=\tfrac{1}{6}$</p>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง A6 — ปริมาตร Disk</h4>
+    <p>หมุนพื้นที่ใต้ $y=x$ จาก $0$ ถึง $1$ รอบแกน $x$: $R(x)=x$  
+    $V=\pi\int_0^1 x^2 dx=\left[\tfrac{\pi x^3}{3}\right]_0^1=\tfrac{\pi}{3}$</p>
+  </div>
+
+  <!-- 6.6 Improper Integrals (เกริ่น) -->
+  <div class="keybox">
+    <h3>6.6 Improper Integrals (เกริ่น)</h3>
+    <ul>
+      <li>ขอบเขตเป็น $\infty$: $\int_1^{\infty}\dfrac{1}{x^p}dx$ ลู่เข้าถ้า $p>1$</li>
+      <li>เอกฐาน (singularity): $\int_0^1 \dfrac{1}{\sqrt{x}} dx$ ลู่เข้า, แต่ $\int_0^1 \dfrac{1}{x} dx$ ลู่ออก</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h3>ข้อควรระวัง</h3>
+    <ul>
+      <li>อย่าลืม $+C$ สำหรับปริพันธ์ไม่จำกัดเขต</li>
+      <li>ระวัง “signed area” — ถ้า $f$ ติดลบ พื้นที่จะหักลบ</li>
+      <li>เลือกเทคนิคให้เหมาะ: ถ้าเห็น “องค์ประกอบซ้อน” → u‑sub, ถ้าเห็น “ผลคูณ” → parts</li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section id="ftc" class="section">
+  <h2>6) FTC (Fundamental Theorem of Calculus)</h2>
+
+  <!-- 6.3 FTC -->
+  <div class="keybox">
+    <h3>6.3 FTC — เชื่อมอนุพันธ์กับปริพันธ์</h3>
+    <p><b>FTC Part I:</b> ถ้า $F(x)=\int_a^x f(t)\,dt$ และ $f$ ต่อเนื่อง ⇒ $F'(x)=f(x)$</p>
+    <p><b>FTC Part II:</b> $\displaystyle \int_a^b f(x)\,dx = F(b)-F(a)$ เมื่อ $F'(x)=f(x)$</p>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง F1</h4>
+    <p>ให้ $F(x)=\int_0^x \cos t\,dt$ ⇒ $F'(x)=\cos x$ (โดย FTC I). และ $\int_0^{\pi/2}\cos x\,dx=\sin(\pi/2)-\sin 0=1$ (โดย FTC II).</p>
+  </div>
+
+  <div class="step">
+    <h3>Recipe — ใช้ FTC II คำนวณปริพันธ์จำกัดเขต</h3>
+    <ol>
+      <li>หา $F(x)$ ที่ $F'(x)=f(x)$ (antiderivative)</li>
+      <li>คำนวณ $F(b)-F(a)$</li>
+      <li>ตรวจโดเมน/ความต่อเนื่อง</li>
+    </ol>
+  </div>
+
+  <div class="exa">
+    <h4>ตัวอย่าง F2</h4>
+    <p>$\displaystyle \int_1^e \frac{1}{x}\,dx = [\ln|x|]_1^e = 1$</p>
+  </div>
+
+  <div class="keybox">
+    <b>เช็กด้วยกราฟ:</b> เปิด <a href="visualize.html">หน้ากราฟ</a>, ใส่ $f(x)$ แล้วเปิดโหมด “แรเงาพื้นที่ใต้กราฟ” เพื่อมองภาพ $F(b)-F(a)$.
+  </div>
+</section>
+
+</div></section>
+  </main>
+  <footer class="site-footer">
+    <p>© CALC I — อัปเดต 2025-09-21</p>
+  </footer>
+</body>
+</html>
