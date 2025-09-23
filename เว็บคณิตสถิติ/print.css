@@ -19,11 +19,13 @@
   }
 
   header, footer, .searchbar, .actions, nav[aria-label="นำทางบทเรียน"] .chips,
-  .chip, .pill, .btn, .footnav, .chips {
+  .chip, .pill, .btn, .footnav, .chips,
+  .reading-toolbar, .reading-progress, .reading-toc {
     filter: none !important;
   }
 
-  nav, .chips, .searchbar, .actions, .btn, .chip, .pill, .footnav {
+  nav, .chips, .searchbar, .actions, .btn, .chip, .pill, .footnav,
+  .reading-toolbar, .reading-progress, .reading-toc {
     display: none !important;
   }
 
