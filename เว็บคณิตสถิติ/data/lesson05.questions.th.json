@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "lesson": "lesson05",
+    "title": "บทที่ 5: ทฤษฎีความน่าจะเป็น",
+    "language": "th",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "depends_on": [
+      "lesson05.html",
+      "summary-lesson05.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer|table_input",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": []
+}

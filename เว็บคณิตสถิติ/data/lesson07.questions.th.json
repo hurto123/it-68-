@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "lesson": "lesson07",
+    "title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง",
+    "language": "th",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "depends_on": [
+      "lesson07.html",
+      "summary-lesson07.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer|table_input",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": []
+}

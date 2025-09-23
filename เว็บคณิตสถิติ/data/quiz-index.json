@@ -1,0 +1,76 @@
+{
+  "version": "0.2.0",
+  "updated_at": "2025-09-24",
+  "quizzes": [
+    {
+      "id": "lesson01",
+      "title": "บทที่ 1 • ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+      "questions": "lesson01.questions.th.json",
+      "solutions": "lesson01.solutions.th.json",
+      "config": "quiz-lesson01.json"
+    },
+    {
+      "id": "lesson02",
+      "title": "บทที่ 2 • การนำเสนอข้อมูล",
+      "questions": "lesson02.questions.th.json",
+      "solutions": "lesson02.solutions.th.json",
+      "config": "quiz-lesson02.json"
+    },
+    {
+      "id": "lesson03",
+      "title": "บทที่ 3 • สถิติเชิงพรรณนา",
+      "questions": "lesson03.questions.th.json",
+      "solutions": "lesson03.solutions.th.json",
+      "config": "quiz-lesson03.json"
+    },
+    {
+      "id": "lesson04",
+      "title": "บทที่ 4 • ความน่าจะเป็นเบื้องต้น",
+      "questions": "lesson04.questions.th.json",
+      "solutions": "lesson04.solutions.th.json",
+      "config": "quiz-lesson04.json"
+    },
+    {
+      "id": "lesson05",
+      "title": "บทที่ 5 • ทฤษฎีความน่าจะเป็น",
+      "questions": "lesson05.questions.th.json",
+      "solutions": "lesson05.solutions.th.json",
+      "config": "quiz-lesson05.json"
+    },
+    {
+      "id": "lesson06",
+      "title": "บทที่ 6 • ตัวแปรสุ่ม",
+      "questions": "lesson06.questions.th.json",
+      "solutions": "lesson06.solutions.th.json",
+      "config": "quiz-lesson06.json"
+    },
+    {
+      "id": "lesson07",
+      "title": "บทที่ 7 • การแจกแจงไม่ต่อเนื่อง",
+      "questions": "lesson07.questions.th.json",
+      "solutions": "lesson07.solutions.th.json",
+      "config": "quiz-lesson07.json"
+    },
+    {
+      "id": "lesson08",
+      "title": "บทที่ 8 • แจกแจงต่อเนื่อง & โค้งปกติ",
+      "questions": "lesson08.questions.th.json",
+      "solutions": "lesson08.solutions.th.json",
+      "config": "quiz-lesson08.json"
+    },
+    {
+      "id": "lesson09",
+      "title": "บทที่ 9 • Sampling Distributions & CLT",
+      "questions": "lesson09.questions.th.json",
+      "solutions": "lesson09.solutions.th.json",
+      "config": "quiz-lesson09.json"
+    },
+    {
+      "id": "mixed",
+      "title": "รวมทุกบท (1–9)",
+      "questions": "*",
+      "solutions": "*",
+      "config": "quiz-mixed.json"
+    }
+  ]
+}

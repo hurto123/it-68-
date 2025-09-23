@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson08",
+    "title": "Quiz บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "language": "th",
+    "depends_on": [
+      "lesson08.questions.th.json",
+      "lesson08.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson08",
+      "title": "บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ",
+      "questions": "lesson08.questions.th.json",
+      "solutions": "lesson08.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 4,
+    "time_limit_seconds": 720,
+    "default_mode": "quiz"
+  }
+}

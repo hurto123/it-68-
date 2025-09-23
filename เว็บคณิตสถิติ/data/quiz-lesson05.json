@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson05",
+    "title": "Quiz บทที่ 5: ทฤษฎีความน่าจะเป็น",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "language": "th",
+    "depends_on": [
+      "lesson05.questions.th.json",
+      "lesson05.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson05",
+      "title": "บทที่ 5: ทฤษฎีความน่าจะเป็น",
+      "questions": "lesson05.questions.th.json",
+      "solutions": "lesson05.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 4,
+    "time_limit_seconds": 720,
+    "default_mode": "quiz"
+  }
+}

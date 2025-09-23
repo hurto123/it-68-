@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "lesson": "lesson01",
+    "title": "บทที่ 1 ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-09-23",
+    "depends_on": [
+      "lesson01.html#welcome",
+      "lesson01.html#data-types",
+      "lesson01.html#worked-example",
+      "glossary.html#data-quality"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer|table_input",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      { "key": "A", "text": "string" }
+    ],
+    "answer": "string",
+    "tags": ["string"]
+  },
+  "items": [
+    {
+      "id": "L01-Q-0001",
+      "type": "mcq",
+      "topic": "ประเภทข้อมูล",
+      "difficulty": 1,
+      "prompt": "ข้อมูลรายได้ครัวเรือน (บาท/เดือน) อยู่ในประเภทใด?",
+      "choices": [
+        { "key": "A", "text": "ข้อมูลเชิงคุณภาพ" },
+        { "key": "B", "text": "ข้อมูลเชิงปริมาณ" },
+        { "key": "C", "text": "ข้อมูลทุติยภูมิ" },
+        { "key": "D", "text": "ข้อมูลเชิงทดลอง" }
+      ],
+      "answer": "B",
+      "tags": ["data-type", "lesson01"]
+    },
+    {
+      "id": "L01-Q-0002",
+      "type": "short_answer",
+      "topic": "ค่าเฉลี่ย",
+      "difficulty": 2,
+      "prompt": "จากข้อมูลยอดขายกาแฟ 120, 85, 60, 95 แก้ว ให้คำนวณค่าเฉลี่ยต่อช่วงเวลา (ตอบเป็นจำนวนเต็ม)",
+      "answer": "90",
+      "tags": ["worked-example", "mean"]
+    },
+    {
+      "id": "L01-Q-0003",
+      "type": "mcq",
+      "topic": "คุณภาพข้อมูล",
+      "difficulty": 1,
+      "prompt": "ข้อใดคือการบันทึก metadata ที่ถูกต้องตามบทเรียน?",
+      "choices": [
+        { "key": "A", "text": "บันทึกเฉพาะตัวเลขโดยไม่ใส่หน่วย" },
+        { "key": "B", "text": "ระบุหน่วยและวันที่อัปเดตข้อมูลในตาราง" },
+        { "key": "C", "text": "ลบค่าที่ต่างจากค่าเฉลี่ยออกทั้งหมด" },
+        { "key": "D", "text": "ใช้ข้อมูลจากหลายแหล่งโดยไม่อ้างอิง" }
+      ],
+      "answer": "B",
+      "tags": ["data-quality", "metadata"]
+    }
+  ]
+}

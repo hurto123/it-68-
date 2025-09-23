@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson03",
+    "title": "Quiz บทที่ 3: สถิติเชิงพรรณนา",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "language": "th",
+    "depends_on": [
+      "lesson03.questions.th.json",
+      "lesson03.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson03",
+      "title": "บทที่ 3: สถิติเชิงพรรณนา",
+      "questions": "lesson03.questions.th.json",
+      "solutions": "lesson03.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 4,
+    "time_limit_seconds": 600,
+    "default_mode": "quiz"
+  }
+}
