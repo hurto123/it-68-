@@ -1,0 +1,56 @@
+{
+  "lesson_id": "lesson04",
+  "lesson_title": "บทที่ 4: ความน่าจะเป็นเบื้องต้น",
+  "questions": [
+    {
+      "question_id": "C1E02",
+      "lesson_id": "lesson04",
+      "question_type": "proof",
+      "question_title": "สมบัติพื้นฐานของความน่าจะเป็น",
+      "question_text": "พิสูจน์ว่า (i) $P(\\varnothing)=0$, (ii) ถ้า $A\\subseteq B$ แล้ว $P(A)\\le P(B)$, (iii) $0\\le P(A)\\le1$, (iv) $P(A^c)=1-P(A)$, (v) ถ้า $A\\cap B=\\varnothing$ แล้ว $P(A\\cup B)=P(A)+P(B)$."
+    },
+    {
+      "question_id": "C1E04",
+      "lesson_id": "lesson04",
+      "question_type": "proof",
+      "question_title": "กฎเดอมอร์แกน",
+      "question_text": "พิสูจน์ว่า $(\\bigcup_{i\\in I}A_i)^c = \\bigcap_{i\\in I}A_i^c$ และ $(\\bigcap_{i\\in I}A_i)^c = \\bigcup_{i\\in I}A_i^c$ สำหรับดัชนีทั่วไป $I$."
+    },
+    {
+      "question_id": "T5E01",
+      "lesson_id": "lesson04",
+      "question_type": "calculation",
+      "question_title": "ความน่าจะเป็นของการทอยลูกเต๋า 2 ลูก",
+      "question_text": "ความน่าจะเป็นที่จะได้ผลรวม = 7 เมื่อทอยลูกเต๋า 2 ลูก คือเท่าไร?"
+    },
+    {
+      "question_id": "T5E02",
+      "lesson_id": "lesson04",
+      "question_type": "calculation",
+      "question_title": "ความน่าจะเป็นของการจั่วไพ่",
+      "question_text": "จั่วไพ่ 1 ใบจากสำรับมาตรฐาน ความน่าจะเป็นที่จะได้ไพ่ King หรือโพธิ์แดง (Heart) คือเท่าไร?"
+    },
+    {
+      "question_id": "C1E13",
+      "lesson_id": "lesson04",
+      "question_type": "calculation",
+      "question_title": "ความน่าจะเป็นของการทอยเหรียญจนเห็นทั้งหัวและก้อย",
+      "question_text": "(a) กำหนด sample space ของการทอยเหรียญจนกระทั่งเห็นทั้งหัวและก้อยอย่างน้อยครั้งละหนึ่ง\n(b) หา $P(K=3)$ = ความน่าจะเป็นที่ใช้ 3 ครั้งพอดี"
+    },
+    {
+      "question_id": "T5E03",
+      "lesson_id": "lesson04",
+      "question_type": "calculation",
+      "question_title": "Hypergeometric Distribution",
+      "question_text": "คณะกรรมการ 3 คนถูกเลือกจากชาย 5 คนและหญิง 4 คน ความน่าจะเป็นที่คณะกรรมการจะประกอบด้วยชาย 2 คนและหญิง 1 คนคือเท่าใด?"
+    },
+    {
+      "question_id": "T5E04",
+      "lesson_id": "lesson04",
+      "question_type": "calculation",
+      "question_title": "ความน่าจะเป็นของเหตุการณ์อย่างน้อยหนึ่งครั้ง",
+      "question_text": "ทอยลูกเต๋า 4 ครั้ง ความน่าจะเป็นที่จะได้แต้ม 6 อย่างน้อยหนึ่งครั้งคือเท่าใด?"
+    }
+  ]
+}
+

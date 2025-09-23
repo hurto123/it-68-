@@ -1,0 +1,69 @@
+{
+  "lesson_id": "lesson06",
+  "lesson_title": "บทที่ 6: ตัวแปรสุ่ม",
+  "questions": [
+    {
+      "question_id": "C2E01",
+      "lesson_id": "lesson06",
+      "question_type": "proof",
+      "question_title": "CDF และความน่าจะเป็นที่จุด",
+      "question_text": "แสดงว่า $P(X=x)=F(x^+) - F(x^-)$"
+    },
+    {
+      "question_id": "C2E05",
+      "lesson_id": "lesson06",
+      "question_type": "proof",
+      "question_title": "ความเป็นอิสระของตัวแปรสุ่มไม่ต่อเนื่อง",
+      "question_text": "แสดงว่าตัวแปรสุ่มไม่ต่อเนื่อง $X$ และ $Y$ เป็นอิสระต่อกัน ก็ต่อเมื่อ $f_{X,Y}(x,y)=f_X(x)f_Y(y)$ สำหรับทุกค่า x, y"
+    },
+    {
+      "question_id": "C2E11",
+      "lesson_id": "lesson06",
+      "question_type": "explanation",
+      "question_title": "ความเป็นอิสระของฟังก์ชันของตัวแปรสุ่ม",
+      "question_text": "ถ้า $X$ และ $Y$ เป็นอิสระต่อกัน แสดงว่า $g(X)$ และ $h(Y)$ ก็เป็นอิสระต่อกันด้วย สำหรับฟังก์ชัน g และ h ใดๆ"
+    },
+    {
+      "question_id": "C3E01",
+      "lesson_id": "lesson06",
+      "question_type": "calculation",
+      "question_title": "ค่าคาดหมายเกมดับเบิล/ฮาล์ฟ",
+      "question_text": "เริ่มด้วยเงิน $c$. แต่ละครั้ง เงิน “คูณ 2” หรือ “หาร 2” ด้วยโอกาสอย่างละครึ่ง — หลังเล่นครบ $n$ ครั้ง คาดว่าจะได้เงินเท่าไร?"
+    },
+    {
+      "question_id": "C3E02",
+      "lesson_id": "lesson06",
+      "question_type": "proof",
+      "question_title": "เงื่อนไขของความแปรปรวนเท่ากับศูนย์",
+      "question_text": "พิสูจน์ว่า $V(X)=0$ ก็ต่อเมื่อมีค่าคงที่ $c$ ที่ทำให้ $P(X=c)=1$"
+    },
+    {
+      "question_id": "C3E04",
+      "lesson_id": "lesson06",
+      "question_type": "calculation",
+      "question_title": "Random Walk 1 มิติ",
+      "question_text": "อนุภาคเริ่มที่ 0 กระโดดครั้งละ 1 หน่วย ไปทางซ้ายด้วยโอกาส $p$ และไปทางขวาด้วยโอกาส $1-p$. ให้ $X_n$ คือพิกัดหลัง $n$ ก้าว จงหา $E(X_n)$ และ $V(X_n)$"
+    },
+    {
+      "question_id": "C2E02",
+      "lesson_id": "lesson06",
+      "question_type": "calculation",
+      "question_title": "พล็อต CDF และหาความน่าจะเป็น",
+      "question_text": "ให้ $X$ เป็นตัวแปรสุ่มที่ $P(X=2)=P(X=3)=\\tfrac{1}{10}$ และ $P(X=5)=\\tfrac{8}{10}$. จงวาดกราฟ cdf $F$ และใช้ $F$ หา $P(2<X\\le4.8)$ และ $P(2\\le X\\le4.8)$"
+    },
+    {
+      "question_id": "C2E08",
+      "lesson_id": "lesson06",
+      "question_type": "calculation",
+      "question_title": "CDF ของ X+",
+      "question_text": "ให้ $X$ มี cdf $F$. จงหา cdf ของ $X^+=\\max\\{0,X\\}$"
+    },
+    {
+      "question_id": "C3E13",
+      "lesson_id": "lesson06",
+      "question_type": "calculation",
+      "question_title": "ค่าคาดหมายและความแปรปรวนของ Mixture Distribution",
+      "question_text": "สุ่มโยนเหรียญแฟร์ ถ้าออกหัว ให้ $X \\sim U(0,1)$; ถ้าออกก้อย ให้ $X \\sim U(3,4)$.\n(ก) หา $E(X)$\n(ข) หา $\\text{SD}(X)$"
+    }
+  ]
+}

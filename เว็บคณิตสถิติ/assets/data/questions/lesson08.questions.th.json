@@ -1,0 +1,83 @@
+{
+  "lesson_id": "lesson08",
+  "lesson_title": "บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ",
+  "questions": [
+    {
+      "question_id": "C2E07",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "ค่าต่ำสุดของสองตัวแปร Uniform",
+      "question_text": "$X,Y$ i.i.d. Uniform(0,1). ให้ $Z=\\min\\{X,Y\\}$. จงหา pdf ของ $Z$."
+    },
+    {
+      "question_id": "C2E09",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "CDF และ Inverse CDF ของ Exponential",
+      "question_text": "ให้ $X\\sim \\text{Exp}(\\beta)$. จงหา $F(x)$ และ $F^{-1}(q)$"
+    },
+    {
+      "question_id": "C2E14",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "Uniform บนดิสก์หน่วย",
+      "question_text": "$(X,Y)$ uniform บนดิสก์หน่วย $x^2+y^2\\le1$. ให้ $R=\\sqrt{X^2+Y^2}$. จงหา cdf และ pdf ของ $R$"
+    },
+    {
+      "question_id": "C3E03",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "ค่าคาดหมายของค่าสูงสุด",
+      "question_text": "ให้ $X_i$ i.i.d. Uniform(0,1) จำนวน n ตัว หาค่าคาดหมายของค่าสูงสุด $Y_n=\\max(X_1,\\dots,X_n)$"
+    },
+    {
+      "question_id": "C3E10",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "ค่าคาดหมายของ Lognormal",
+      "question_text": "ถ้า $X\\sim N(0,1)$ และ $Y=e^X$, จงหาค่าคาดหมายและความแปรปรวนของ $Y$"
+    },
+    {
+      "question_id": "T7E01",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "การใช้ Z-score",
+      "question_text": "คะแนนสอบมีการแจกแจงปกติด้วย $\\mu=70, \\sigma=10$. จงหาความน่าจะเป็นที่นักเรียนคนหนึ่งจะได้คะแนนน้อยกว่า 85"
+    },
+    {
+      "question_id": "T7E02",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "การหาเปอร์เซ็นไทล์",
+      "question_text": "คะแนนสอบมีการแจกแจงปกติด้วย $\\mu=500, \\sigma=100$. คะแนนที่ตำแหน่งเปอร์เซ็นไทล์ที่ 90 คือเท่าไร?"
+    },
+    {
+      "question_id": "T7E03",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "Normal Approximation to Binomial",
+      "question_text": "ให้ $X\\sim Bin(n=100,p=0.6)$. จงใช้การประมาณด้วยโค้งปกติ (พร้อม Continuity Correction) เพื่อหาค่าประมาณของ $P(X\\ge 65)$"
+    },
+    {
+      "question_id": "T7E04",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "การหาพารามิเตอร์จากเปอร์เซ็นไทล์",
+      "question_text": "คะแนนสอบมีการแจกแจงปกติ เปอร์เซ็นไทล์ที่ 25 คือ 60 และเปอร์เซ็นไทล์ที่ 75 คือ 80. จงหา $\\mu$ และ $\\sigma$."
+    },
+    {
+      "question_id": "T7E05",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "การหาค่า Sigma จาก Tail Probability",
+      "question_text": "ตัวแปรสุ่มปกติมี $\\mu=100$. ถ้า 2.5% ของค่ามีการสังเกตที่สูงกว่า 140, จงหาค่า $\\sigma$."
+    },
+    {
+      "question_id": "T7E06",
+      "lesson_id": "lesson08",
+      "question_type": "calculation",
+      "question_title": "ผลบวกของตัวแปรสุ่มปกติอิสระ",
+      "question_text": "ให้ $X\\sim N(10,3^2)$ และ $Y\\sim N(20,4^2)$ เป็นอิสระต่อกัน จงหาการแจกแจงของ $S=X+Y$ และ $P(S>35)$"
+    }
+  ]
+}

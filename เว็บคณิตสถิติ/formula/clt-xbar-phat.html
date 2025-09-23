@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>อธิบายสูตร — CLT: x̄ & p̂ (Sampling Distributions) | คอร์สสถิติ</title>
+  <meta name="description" content="Central Limit Theorem (CLT) สำหรับค่าเฉลี่ยตัวอย่าง x̄ และสัดส่วนตัวอย่าง p̂: ที่มา สัญลักษณ์ วิธีทำ ขั้นตอน เหตุผล ตัวอย่าง ข้อผิดพลาด เครื่องคิดเลขและกราฟพื้นที่ใต้โค้ง">
+  <meta name="keywords" content="CLT, sampling distribution, standard error, sample mean, sample proportion, xbar, phat, สถิติ">
+  <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {inlineMath: [['\\(','\\)'], ['$', '$']]},
+      loader: {load: ['[tex]/physics']},
+      tex2jax: {inlineMath: [['\\(','\\)'], ['$', '$']]}
+    };
+  </script>
+  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b; --danger:#ef4444;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:0 auto;padding:1.2rem}
+    header{
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(1000px 400px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(800px 320px at 90% -20%, rgba(21,181,136,.14), transparent 60%),
+        var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    .brand{display:flex;align-items:center;gap:.8rem}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
+    .brand h1{margin:0;font-size:1.1rem}
+    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
+    nav.breadcrumb a{color:#cfe0ff}
+
+    .title{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+      padding:.6rem 0 1.0rem;
+    }
+    .title h2{margin:.2rem 0;font-size:1.8rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--border);background:#0e1220;border-radius:999px;padding:.25rem .6rem;color:#cfe0ff;font-size:.85rem}
+    .btn{
+      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
+      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
+    }
+    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
+    .btn.ghost{background:#0e1220;color:#cfe0ff;border:1px solid var(--border);box-shadow:none}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem
+    }
+    .hl{background:#0f2237;border-left:4px solid var(--accent-2);padding:.8rem;border-radius:12px}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.8rem;border-radius:12px}
+    .warn{background:#2a160c;border-left:4px solid var(--warn);padding:.8rem;border-radius:12px}
+    .muted{color:var(--muted)}
+    h3{margin:.2rem 0}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media (max-width:860px){.two{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:.5rem;vertical-align:top}
+    th{background:#111824}
+    .checklist li{margin:.2rem 0}
+    @keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .pop{animation:pop .6s cubic-bezier(.2,.7,.2,1)}
+    @media (prefers-reduced-motion:reduce){.pop{animation:none}}
+
+    .svgbox{background:#0c1020;border:1px solid var(--border);border-radius:14px;padding:.6rem;overflow:auto}
+    footer{border-top:1px solid var(--border);background:#0d1119;margin-top:1rem}
+    .footnav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+    .footnav a{color:#cfe0ff}
+
+    input[type="number"]{
+      width:140px;background:#0b0f19;color:#e8e8ea;border:1px solid var(--border);border-radius:10px;padding:.35rem .5rem
+    }
+    .pill{border:1px solid var(--border);background:#0a0e19;border-radius:999px;padding:.2rem .55rem;font-size:.8rem;color:#cfe0ff}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>อธิบายสูตร — CLT: x̄ & p̂ (Sampling Distributions)</h1>
+        <span class="badge">บท 9 • Sampling & CLT</span>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <a href="../index.html#formula">อธิบายสูตร</a> › <span class="muted">CLT: x̄ & p̂</span>
+      </nav>
+      <div class="title">
+        <div>
+          <h2>Central Limit Theorem — จาก “ข้อมูลดิบ” สู่ “การแจกแจงของสถิติ” 🚀</h2>
+          <p class="muted">สรุปสูตรสำคัญสำหรับค่าเฉลี่ยตัวอย่าง \\(\\bar{x}\\) และสัดส่วนตัวอย่าง \\(\\hat{p}\\) + เครื่องคิดเลข & กราฟระบายพื้นที่</p>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+          <a class="btn secondary" href="../lesson09.html">เปิดบท 9</a>
+          <a class="btn ghost" href="z-score.html">← Z-Score</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid" role="main">
+    <!-- Objectives / Prereq -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🎯 เป้าหมายการเรียนรู้</h3>
+          <ul>
+            <li>เข้าใจแนวคิด CLT และเหตุผลที่ “ค่าเฉลี่ยตัวอย่าง/สัดส่วนตัวอย่าง” มีรูปทรงใกล้ปกติ</li>
+            <li>ใช้ Standard Error (SE) เพื่อคำนวณความน่าจะเป็นของ \\(\\bar{x}\\) และ \\(\\hat{p}\\)</li>
+            <li>แก้โจทย์ซ้าย/ขวา/ช่วงได้ และตีความผลลัพธ์กับบริบทจริง</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧭 Prerequisites</h3>
+          <ul>
+            <li>คุ้นเคยกับ Normal/Z-Score, การตีความพื้นที่ใต้โค้ง</li>
+            <li>รู้จัก \\(\\mu,\\sigma\\) ของประชากร และนิยามของสัดส่วน \\(p\\)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intuition & Symbols -->
+    <section class="card pop">
+      <h3>1) ที่มาของสูตร (สัญชาตญาณ) 🔍</h3>
+      <p><strong>CLT</strong> กล่าวว่า: แม้ว่าประชากรดั้งเดิมจะไม่ปกติ แต่เมื่อสุ่มตัวอย่าง “ใหญ่พอ” การแจกแจงของสถิติอย่าง \\(\\bar{x}\\) หรือ \\(\\hat{p}\\) จะ “เข้าใกล้ปกติ” เสมอ</p>
+      <div class="hl">
+        <p><strong>ค่าเฉลี่ยตัวอย่าง</strong> (รู้ \\(\\sigma\\))</p>
+        $$\\boxed{\\bar{X} \\overset{\\text{approx}}\\sim \\mathcal{N}\\!\\Big(\\mu,\\; \\frac{\\sigma^2}{n}\\Big)}\\quad\\Rightarrow\\quad
+          Z = \\frac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$$
+        <p><strong>สัดส่วนตัวอย่าง</strong></p>
+        $$\\boxed{\\hat{P} \\overset{\\text{approx}}\\sim \\mathcal{N}\\!\\Big(p,\\; \\frac{p(1-p)}{n}\\Big)}\\quad\\Rightarrow\\quad
+          Z = \\frac{\\hat{p}-p}{\\sqrt{p(1-p)/n}}$$
+      </div>
+
+      <h3 style="margin-top:.8rem">2) สัญลักษณ์ ✍️</h3>
+      <table>
+        <tbody>
+          <tr><th>\\(\\mu,\\sigma\\)</th><td>ค่าเฉลี่ย/ส่วนเบี่ยงเบนมาตรฐานของ “ประชากร”</td></tr>
+          <tr><th>\\(n\\)</th><td>ขนาดตัวอย่าง</td></tr>
+          <tr><th>\\(\\bar{x}\\)</th><td>ค่าเฉลี่ยของ “กลุ่มตัวอย่าง”</td></tr>
+          <tr><th>\\(p\\)</th><td>สัดส่วนจริงของประชากร</td></tr>
+          <tr><th>\\(\\hat{p}\\)</th><td>สัดส่วนของ “กลุ่มตัวอย่าง” = \\(X/n\\)</td></tr>
+          <tr><th>SE</th><td>ความคลาดเคลื่อนมาตรฐานของสถิติ: \\(\\sigma/\\sqrt{n}\\) หรือ \\(\\sqrt{p(1-p)/n}\\)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Method & Steps & Why -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>3) วิธีทำโดยสรุป 🧠</h3>
+          <ol>
+            <li>เลือกโมเดลให้ถูก: \\(\\bar{x}\\) (รู้ \\(\\sigma\\)) หรือ \\(\\hat{p}\\)</li>
+            <li>คำนวณ SE และ Z ตามสูตร</li>
+            <li>ใช้ \\(\\Phi(z)\\) เพื่อหาพื้นที่ซ้าย แล้วแปลงเป็นโอกาสซ้าย/ขวา/ช่วง</li>
+          </ol>
+        </div>
+        <div>
+          <h3>4) ขั้นตอนละเอียด 🧩</h3>
+          <ul>
+            <li><strong>\\(\\bar{x}\\):</strong> \\(SE=\\sigma/\\sqrt{n}\\), \\(z=(\\bar{x}-\\mu)/SE\\)</li>
+            <li><strong>\\(\\hat{p}\\):</strong> \\(SE=\\sqrt{p(1-p)/n}\\), \\(z=(\\hat{p}-p)/SE\\)</li>
+            <li>ช่วง: \\(P(a\\le \\bar{X}\\le b)=\\Phi(z_b)-\\Phi(z_a)\\) (คล้ายกันสำหรับ \\(\\hat{P}\\))</li>
+          </ul>
+          <div class="ok"><strong>เงื่อนไขพอใช้:</strong> สำหรับ \\(\\hat{p}\\) โดยทั่วไปต้องมี \\(np\\ge 5\\) และ \\(n(1-p)\\ge 5\\) (ตัวเลขเกณฑ์อาจต่างบ้างตามตำรา)</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:.8rem">5) สิ่งใดมาจากไหน 🧱</h3>
+      <ul>
+        <li>SE มาจากความแปรปรวนของสถิติ: \\(\\operatorname{Var}(\\bar{X})=\\sigma^2/n\\), \\(\\operatorname{Var}(\\hat{P})=p(1-p)/n\\)</li>
+        <li>CLT อธิบายว่าการ “เฉลี่ย/นับสัดส่วน” ทำให้รูปทรงเข้าใกล้ปกติ</li>
+      </ul>
+
+      <h3 style="margin-top:.8rem">6) การปรับวิธีตอบ 🔧</h3>
+      <ul>
+        <li>ถ้าไม่รู้ \\(\\sigma\\) และ \\(n\\) เล็ก อาจต้องใช้ t-distribution แทน</li>
+        <li>ถ้าสุ่มจากประชากรจำกัด (โดยไม่ใส่คืน) และ \\(n\\) ใหญ่เมื่อเทียบกับ \\(N\\) อาจพิจารณา FPC</li>
+      </ul>
+    </section>
+
+    <!-- Examples -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🧪 ตัวอย่างสั้น (\\(\\bar{x}\\))</h3>
+          <p><strong>โจทย์:</strong> ประชากร \\(\\mu=500,\\;\\sigma=80\\). สุ่มตัวอย่าง \\(n=64\\). หา \\(P(\\bar{X}\\le 520)\\).</p>
+          <ul>
+            <li>\\(SE=80/\\sqrt{64}=10\\), \\(z=(520-500)/10=2\\)</li>
+            <li>\\(P=\\Phi(2)\\approx 0.9772\\)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧮 ตัวอย่างเต็มขั้น (\\(\\hat{p}\\))</h3>
+          <p><strong>โจทย์:</strong> ประชากรมีสัดส่วนจริง \\(p=0.4\\). สุ่ม \\(n=200\\). หา \\(P(\\hat{P}\\ge 0.45)\\).</p>
+          <ol>
+            <li>\\(SE=\\sqrt{0.4\\cdot 0.6/200}\\approx 0.0346\\)</li>
+            <li>\\(z=(0.45-0.4)/0.0346\\approx 1.445\\)</li>
+            <li>\\(P=1-\\Phi(1.445)\\) (คำนวณด้านล่าง)</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pitfalls & Checklist -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>⚠️ ข้อผิดพลาดที่พบบ่อย</h3>
+          <ul>
+            <li>ใช้ \\(\\sigma\\) ผิด (เอา \\(s\\) หรือหน่วยไม่ตรง)</li>
+            <li>ลืมหารด้วย \\(\\sqrt{n}\\) หรือกรณี \\(\\hat{p}\\) ใช้ SE ผิด</li>
+            <li>สำหรับ \\(\\hat{p}\\) ไม่ตรวจเงื่อนไข \\(np\\) และ \\(n(1-p)\\)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>✅ เช็กตัวเอง</h3>
+          <ul class="checklist">
+            <li>จำความหมาย SE ได้ และคำนวณถูกต้อง</li>
+            <li>เลือกซ้าย/ขวา/ช่วงได้เหมาะสม</li>
+            <li>ตีความคำตอบกับบริบทจริง</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator + Graph -->
+    <section class="card pop">
+      <h3>🧷 เครื่องคิดเลข CLT (x̄ & p̂) + กราฟพื้นที่ใต้โค้ง</h3>
+
+      <div class="two" role="group" aria-label="CLT calc">
+        <div>
+          <p><span class="pill">เลือกสถิติ:</span>
+            <label><input type="radio" name="stat" value="xbar" checked> \\(\\bar{x}\\) (รู้ \\(\\sigma\\))</label>
+            <label style="margin-left:.6rem"><input type="radio" name="stat" value="phat"> \\(\\hat{p}\\)</label>
+          </p>
+
+          <div id="xbarInputs">
+            <p>
+              <label>ค่าเฉลี่ยประชากร \\(\\mu\\)<br>
+                <input type="number" id="mu" value="500" step="0.001">
+              </label>
+            </p>
+            <p>
+              <label>ส่วนเบี่ยงเบนมาตรฐานประชากร \\(\\sigma\\) ( &gt; 0 )<br>
+                <input type="number" id="sd" value="80" min="0.0001" step="0.001">
+              </label>
+            </p>
+            <p>
+              <label>ขนาดตัวอย่าง \\(n\\) (≥ 1)<br>
+                <input type="number" id="n" value="64" min="1" step="1">
+              </label>
+            </p>
+          </div>
+
+          <div id="phatInputs" style="display:none">
+            <p>
+              <label>สัดส่วนประชากร \\(p\\) (0–1)<br>
+                <input type="number" id="ppop" value="0.40" min="0" max="1" step="0.0001">
+              </label>
+            </p>
+            <p>
+              <label>ขนาดตัวอย่าง \\(n\\) (≥ 1)<br>
+                <input type="number" id="n2" value="200" min="1" step="1">
+              </label>
+            </p>
+          </div>
+
+          <hr style="border-color:var(--border)">
+
+          <p><span class="pill">โหมดพื้นที่:</span>
+            <label><input type="radio" name="modeArea" value="left" checked> ซ้าย: P(สถิติ ≤ a)</label>
+            <label style="margin-left:.6rem"><input type="radio" name="modeArea" value="right"> ขวา: P(สถิติ ≥ a)</label>
+            <label style="margin-left:.6rem"><input type="radio" name="modeArea" value="between"> ช่วง: P(a ≤ สถิติ ≤ b)</label>
+          </p>
+
+          <div id="oneSide">
+            <label>a = <input type="number" id="aVal" value="520" step="0.001"></label>
+          </div>
+          <div id="twoSide" style="display:none">
+            <label>a = <input type="number" id="aVal2" value="480" step="0.001"></label>
+            <label style="margin-left:.6rem">b = <input type="number" id="bVal2" value="520" step="0.001"></label>
+          </div>
+
+          <p class="actions" style="margin-top:.6rem">
+            <button class="btn" id="calcBtn">คำนวณ</button>
+            <button class="btn ghost" id="fillExamples">เติมตัวอย่าง</button>
+          </p>
+        </div>
+
+        <div>
+          <h4>ผลลัพธ์</h4>
+          <div class="hl" id="resultBox">—</div>
+          <p class="muted" style="margin-top:.5rem">หมายเหตุ: ใช้การประมาณ CDF ของ Standard Normal (แม่นพอสำหรับการเรียนทั่วไป)</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem">
+        <h3>📈 กราฟโค้ง (ระบายพื้นที่ตามที่เลือก)</h3>
+        <div class="svgbox" id="chartBox" aria-label="กราฟแจกแจงของสถิติ + พื้นที่"></div>
+      </div>
+    </section>
+
+    <!-- Next -->
+    <section class="card pop">
+      <h3>🔗 ไปทำแบบฝึก/ควิซ</h3>
+      <div class="actions">
+        <a class="btn ghost" href="../practice/lesson09.html" aria-disabled="true" title="กำลังจะมี">แบบฝึกฝน (บท 9)</a>
+        <a class="btn ghost" href="../quiz/lesson09.html" aria-disabled="true" title="กำลังจะมี">ควิซท้ายบท (บท 9)</a>
+        <a class="btn secondary" href="../index.html#formula">กลับหน้าอธิบายสูตร</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footnav">
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../glossary.html" aria-disabled="true">Glossary</a>
+        <a href="../about.html" aria-disabled="true">About</a>
+        <a href="../credits.html" aria-disabled="true">Credits</a>
+      </div>
+      <p class="muted">© คอร์สสถิติ (ไทย). หน้านี้รองรับการพิมพ์เป็น PDF</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== UI toggles
+    const statRadios = document.getElementsByName('stat');
+    const xbarInputs = document.getElementById('xbarInputs');
+    const phatInputs = document.getElementById('phatInputs');
+    statRadios.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const v = document.querySelector('input[name="stat"]:checked').value;
+        xbarInputs.style.display = (v==='xbar') ? '' : 'none';
+        phatInputs.style.display = (v==='phat') ? '' : 'none';
+        drawChart();
+      });
+    });
+
+    const modeArea = document.getElementsByName('modeArea');
+    const oneSide = document.getElementById('oneSide');
+    const twoSide = document.getElementById('twoSide');
+    modeArea.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const v = document.querySelector('input[name="modeArea"]:checked').value;
+        oneSide.style.display = (v==='left' || v==='right') ? '' : 'none';
+        twoSide.style.display = (v==='between') ? '' : 'none';
+        drawChart();
+      });
+    });
+
+    // ===== Math helpers (Standard Normal)
+    const SQRT2PI = Math.sqrt(2*Math.PI);
+    function pdfStd(z){ return Math.exp(-0.5*z*z)/SQRT2PI; }
+    // erf approx (Abramowitz & Stegun 7.1.26)
+    function erf(x){
+      const sign = x<0?-1:1; x = Math.abs(x);
+      const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+      const t = 1/(1+p*x);
+      const y = 1 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+      return sign*y;
+    }
+    function cdfStd(z){ return 0.5*(1+erf(z/Math.SQRT2)); } // Φ(z)
+
+    function fmt(v){
+      if(!isFinite(v)) return 'NaN';
+      if(Math.abs(v)===0) return '0';
+      if(Math.abs(v)<1e-6) return v.toExponential(2);
+      return (+v).toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+    }
+
+    function getParams(){
+      const stat = document.querySelector('input[name="stat"]:checked').value;
+      if(stat==='xbar'){
+        const mu = Number(document.getElementById('mu').value);
+        const sd = Number(document.getElementById('sd').value);
+        const n  = Number(document.getElementById('n').value);
+        if(!(sd>0 && n>=1)) return {err:'σ ต้อง > 0 และ n ≥ 1'};
+        const mean = mu;
+        const se   = sd/Math.sqrt(n);
+        return {stat, mean, se, ok:true};
+      }else{
+        const p = Number(document.getElementById('ppop').value);
+        const n = Number(document.getElementById('n2').value);
+        if(!(p>=0 && p<=1 && n>=1)) return {err:'p ต้องอยู่ระหว่าง 0–1 และ n ≥ 1'};
+        const mean = p;
+        const se = Math.sqrt(p*(1-p)/n);
+        return {stat, mean, se, ok:true, p, n};
+      }
+    }
+
+    function calc(){
+      const res = document.getElementById('resultBox');
+      const pars = getParams();
+      if(!pars.ok){ res.textContent = pars.err; return; }
+
+      const mean = pars.mean, se = pars.se;
+      if(!(se>0)){ res.textContent='SE ต้อง > 0'; return; }
+
+      const mode = document.querySelector('input[name="modeArea"]:checked').value;
+      let text='';
+      if(mode==='left'){
+        const a = Number(document.getElementById('aVal').value);
+        const z = (a - mean)/se;
+        const p = cdfStd(z);
+        text = `SE = ${fmt(se)} • Z = ${(fmt(z))}<br> P(สถิติ ≤ ${fmt(a)}) = Φ(${fmt(z)}) = <strong>${fmt(p)}</strong>`;
+      }else if(mode==='right'){
+        const a = Number(document.getElementById('aVal').value);
+        const z = (a - mean)/se;
+        const p = 1 - cdfStd(z);
+        text = `SE = ${fmt(se)} • Z = ${(fmt(z))}<br> P(สถิติ ≥ ${fmt(a)}) = 1 - Φ(${fmt(z)}) = <strong>${fmt(p)}</strong>`;
+      }else{
+        const a = Number(document.getElementById('aVal2').value);
+        const b = Number(document.getElementById('bVal2').value);
+        if(a>b){ res.textContent='ช่วงผิดลำดับ: ต้องมี a ≤ b'; return; }
+        const za = (a - mean)/se, zb = (b - mean)/se;
+        const p = cdfStd(zb) - cdfStd(za);
+        text = `SE = ${fmt(se)}<br> P(${fmt(a)} ≤ สถิติ ≤ ${fmt(b)}) = Φ(${fmt(zb)}) - Φ(${fmt(za)}) = <strong>${fmt(p)}</strong>`;
+      }
+      res.innerHTML = text;
+      if(window.MathJax?.typeset) MathJax.typeset();
+
+      drawChart();
+    }
+    document.getElementById('calcBtn').addEventListener('click', calc);
+
+    document.getElementById('fillExamples').addEventListener('click', ()=>{
+      // เติมตัวอย่างของทั้ง 2 โหมด: default ใส่ของ x̄
+      document.querySelector('input[name="stat"][value="xbar"]').checked = true;
+      xbarInputs.style.display='';
+      phatInputs.style.display='none';
+      document.getElementById('mu').value = 500;
+      document.getElementById('sd').value = 80;
+      document.getElementById('n').value  = 64;
+      document.querySelector('input[name="modeArea"][value="left"]').checked = true;
+      oneSide.style.display=''; twoSide.style.display='none';
+      document.getElementById('aVal').value = 520;
+
+      document.getElementById('resultBox').textContent='—';
+      drawChart();
+    });
+
+    // ===== Chart (Normal with mean & SE) + shaded area
+    function drawChart(){
+      const box = document.getElementById('chartBox');
+      const pars = getParams();
+      if(!pars.ok){ box.innerHTML=''; return; }
+      const mean = pars.mean, se = pars.se;
+      const mode = document.querySelector('input[name="modeArea"]:checked').value;
+
+      const a = Number(document.getElementById('aVal')?.value ?? 0);
+      const a2 = Number(document.getElementById('aVal2')?.value ?? -1);
+      const b2 = Number(document.getElementById('bVal2')?.value ?? 1);
+
+      const W=720, H=300, pad={l:40,r:10,t:10,b:40};
+      const span = Math.max(4*se, 1e-6); // กันกรณี SE เล็กมาก
+      const xMin = mean - 4*se, xMax = mean + 4*se;
+      const yMax = pdfStd(0)/se; // สูงสุดที่ x=mean
+
+      const scaleX = x => pad.l + (x - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+      const scaleY = y => (H - pad.b) - y / yMax * (H - pad.t - pad.b);
+
+      // เส้นโค้ง
+      let path = '';
+      const n=220;
+      for(let i=0;i<=n;i++){
+        const x = xMin + (xMax - xMin)*i/n;
+        const z = (x - mean)/se;
+        const y = pdfStd(z)/se;
+        const X = scaleX(x), Y = scaleY(y);
+        path += (i===0?`M${X},${Y}`:` L${X},${Y}`);
+      }
+
+      // โซนระบาย
+      function clipPathForArea(){
+        let left=a, right=a;
+        if(mode==='left'){ left = xMin; right = a; }
+        else if(mode==='right'){ left = a; right = xMax; }
+        else { left = Math.max(a2, xMin); right = Math.min(b2, xMax); }
+        if(left>right){ const t=left; left=right; right=t; }
+        const L = Math.max(xMin, left), R = Math.min(xMax, right);
+
+        let p = `M${scaleX(L)},${scaleY(0)} `;
+        const steps=200;
+        for(let i=0;i<=steps;i++){
+          const x = L + (R-L)*i/steps;
+          const z = (x - mean)/se;
+          const y = pdfStd(z)/se;
+          p += `L${scaleX(x)},${scaleY(y)} `;
+        }
+        p += `L${scaleX(R)},${scaleY(0)} Z`;
+        return p;
+      }
+
+      // แกน & ticks
+      let ticks=''; const T=8;
+      for(let i=0;i<=T;i++){
+        const x = xMin + (xMax-xMin)*i/T;
+        const X = scaleX(x);
+        ticks += `<line x1="${X}" y1="${H-pad.b}" x2="${X}" y2="${H-pad.b+6}" stroke="#223049"/>`;
+        ticks += `<text x="${X}" y="${H-pad.b+18}" font-size="10" fill="#cfe0ff" text-anchor="middle">${fmt(x)}</text>`;
+      }
+
+      const svg = `
+        <svg viewBox="0 0 ${W} ${H}">
+          <defs></defs>
+          <rect x="0" y="0" width="${W}" height="${H}" fill="#0a0e19"/>
+          <g>
+            <line x1="${pad.l}" y1="${H-pad.b}" x2="${W-pad.r}" y2="${H-pad.b}" stroke="#223049"/>
+            <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${H-pad.b}" stroke="#223049"/>
+            ${ticks}
+            <text x="${W-pad.r}" y="${H-8}" fill="#cfe0ff" font-size="10" text-anchor="end">ค่าสถิติ</text>
+            <text x="${pad.l-10}" y="${pad.t+10}" fill="#cfe0ff" font-size="10" text-anchor="end">PDF</text>
+          </g>
+          <path d="${clipPathForArea()}" fill="#4f8cff" opacity="0.42">
+            <title>พื้นที่ที่เลือก</title>
+          </path>
+          <path d="${path}" fill="none" stroke="#15b588" stroke-width="2"/>
+          <line x1="${scaleX(mean)}" y1="${pad.t}" x2="${scaleX(mean)}" y2="${H-pad.b}" stroke="#274061" stroke-dasharray="6 6"/>
+          <g fill="#cfe0ff" font-size="10">
+            <text x="${scaleX(mean)}" y="${pad.t+12}" text-anchor="middle">mean</text>
+          </g>
+        </svg>
+      `;
+      box.innerHTML = svg;
+    }
+
+    // Bind redraw on inputs
+    ['mu','sd','n','ppop','n2','aVal','aVal2','bVal2'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('input', drawChart);
+    });
+
+    // initial draw
+    drawChart();
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "lesson_id": "lesson03",
+  "lesson_title": "บทที่ 3: สถิติเชิงพรรณนา",
+  "questions": [
+    {
+      "question_id": "L03Q01",
+      "lesson_id": "lesson03",
+      "question_type": "calculation",
+      "question_title": "การคำนวณค่ากลาง",
+      "question_text": "จากชุดข้อมูล {5, 8, 8, 10, 14} จงคำนวณหาค่าเฉลี่ย (Mean), มัธยฐาน (Median), และฐานนิยม (Mode)"
+    },
+    {
+      "question_id": "T1E02",
+      "lesson_id": "lesson03",
+      "question_type": "explanation",
+      "question_title": "ระดับการวัด",
+      "question_text": "“ระดับการวัด” มีความหมายอย่างไร? ระบุทั้งสี่ระดับพร้อมตัวอย่าง"
+    },
+    {
+      "question_id": "T3E01",
+      "lesson_id": "lesson03",
+      "question_type": "explanation",
+      "question_title": "ผลของ Outlier ต่อค่ากลาง",
+      "question_text": "ยกตัวอย่างชุดข้อมูลที่ค่าเฉลี่ยไม่ใช่ตัวแทนที่ดีของค่ากลาง และอธิบายว่าเมื่อใดควรใช้มัธยฐานแทนค่าเฉลี่ย"
+    },
+    {
+      "question_id": "T3E02",
+      "lesson_id": "lesson03",
+      "question_type": "calculation",
+      "question_title": "คำนวณค่าการกระจาย",
+      "question_text": "คำนวณ range, variance, และ standard deviation ของชุดข้อมูล: 2, 4, 4, 5, 7, 9"
+    }
+  ]
+}

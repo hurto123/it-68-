@@ -1,0 +1,55 @@
+{
+  "lesson_id": "lesson07",
+  "lesson_title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง",
+  "questions": [
+    {
+      "question_id": "C1E05",
+      "lesson_id": "lesson07",
+      "question_type": "calculation",
+      "question_title": "ทอยเหรียญจนได้หัวครบ 2 ครั้ง (Geometric)",
+      "question_text": "ให้ $K$ = จำนวนครั้งที่ต้องทอยจนกระทั่งได้หัว “ครบ 2 ครั้ง” เป็นครั้งแรก จงหา $P(K=k)$ สำหรับ $k=2,3,\\dots$."
+    },
+    {
+      "question_id": "C3E22",
+      "lesson_id": "lesson07",
+      "question_type": "proof",
+      "question_title": "พิสูจน์ E,V ของ Binomial",
+      "question_text": "ให้ $X\\sim Binomial(n,p)$. ใช้ตัวบ่งชี้ $X=\\sum I_i$ พิสูจน์ว่า $E(X)=np,\\;Var(X)=np(1-p)$."
+    },
+    {
+      "question_id": "C2E12",
+      "lesson_id": "lesson07",
+      "question_type": "explanation",
+      "question_title": "Poisson thinning",
+      "question_text": "ถ้า $N\\sim \\text{Poisson}(\\lambda)$ และเราทอยเหรียญ $N$ ครั้ง (p=P(H)), ให้ $X$=จำนวนหัว, $Y$=จำนวนก้อย. จงแสดงว่า $X,Y$ เป็นอิสระต่อกัน และหาการแจกแจงของ X และ Y"
+    },
+    {
+      "question_id": "C2E16",
+      "lesson_id": "lesson07",
+      "question_type": "proof",
+      "question_title": "Binomial จาก Poisson มีเงื่อนไข",
+      "question_text": "ให้ $X\\sim\\text{Poisson}(\\lambda)$, $Y\\sim\\text{Poisson}(\\mu)$ และเป็นอิสระต่อกัน จงแสดงว่าการแจกแจงของ $X$ เมื่อกำหนดให้ $X+Y=n$ คือ $\\text{Binomial}(n,\\pi)$ โดย $\\pi=\\lambda/(\\lambda+\\mu)$"
+    },
+    {
+      "question_id": "T5E05",
+      "lesson_id": "lesson07",
+      "question_type": "calculation",
+      "question_title": "Binomial Distribution",
+      "question_text": "เครื่องจักรผลิตของดี 90% ถ้าเลือก 5 ชิ้นแบบสุ่ม ความน่าจะเป็นที่จะได้ของดีทั้งหมดคือเท่าไหร่?"
+    },
+    {
+      "question_id": "T5E06",
+      "lesson_id": "lesson07",
+      "question_type": "calculation",
+      "question_title": "ค่าคาดหมายและความแปรปรวนของ Binomial",
+      "question_text": "ถ้า $X \\sim Binomial(n=8, p=0.25)$ จงหาค่าคาดหมายและความแปรปรวนของ X"
+    },
+    {
+      "question_id": "T5E07",
+      "lesson_id": "lesson07",
+      "question_type": "calculation",
+      "question_title": "Poisson Distribution",
+      "question_text": "ถ้า $\\lambda=3$ สำหรับการแจกแจงปัวซอง จงหา $P(X=2)$"
+    }
+  ]
+}

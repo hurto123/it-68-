@@ -1,0 +1,41 @@
+{
+  "lesson_id": "lesson07",
+  "lesson_title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง",
+  "solutions": [
+    {
+      "question_id": "C1E05",
+      "answer_summary": "$P(K=k)=\\frac{k-1}{2^k}, k\\ge2$.",
+      "explanation": "ลำดับต้องลงท้ายด้วย H และมีการปรากฏของ H อีกหนึ่งตำแหน่งใน k-1 ตำแหน่งแรก ซึ่งมี $\\binom{k-1}{1} = k-1$ วิธี. แต่ละลำดับมีความน่าจะเป็น $1/2^k$."
+    },
+    {
+      "question_id": "C3E22",
+      "answer_summary": "$E(X)=np, Var(X)=np(1-p)$",
+      "explanation": "ให้ $X=\\sum_{i=1}^n I_i$ โดย $I_i$ เป็น Bernoulli(p). $E(X)=\\sum E(I_i)=np$. $Var(X)=\\sum Var(I_i)=np(1-p)$ เนื่องจาก $I_i$ เป็นอิสระต่อกัน"
+    },
+    {
+      "question_id": "C2E12",
+      "answer_summary": "$X,Y$ อิสระ; $X \\sim \\text{Poisson}(\\lambda p), Y \\sim \\text{Poisson}(\\lambda(1-p))$",
+      "explanation": "ปรากฏการณ์นี้เรียกว่า Poisson thinning. สามารถแสดงได้โดยการหา pmf ร่วมของ (X, Y) และแสดงว่ามันสามารถแยกเป็นผลคูณของ pmf ของ Poisson สองตัวได้"
+    },
+    {
+      "question_id": "C2E16",
+      "answer_summary": "$X | (X+Y=n) \\sim \\text{Binomial}(n, \\lambda/(\\lambda+\\mu))$",
+      "explanation": "ใช้ Bayes' theorem และคุณสมบัติของ Poisson. $P(X=k|X+Y=n) = P(X=k, Y=n-k)/P(X+Y=n)$. เมื่อแทนค่า pmf ของ Poisson และคุณสมบัติผลบวกของ Poisson จะได้ pmf ของ Binomial"
+    },
+    {
+      "question_id": "T5E05",
+      "answer_summary": "≈ 0.590",
+      "explanation": "นี่คือการแจกแจงแบบ Binomial โดยมี n=5, p=0.9. ความน่าจะเป็นที่จะได้ของดีทั้งหมด (k=5) คือ $P(X=5) = \\binom{5}{5}(0.9)^5(0.1)^0 = (0.9)^5 \\approx 0.59049$"
+    },
+    {
+      "question_id": "T5E06",
+      "answer_summary": "E=2, Var=1.5",
+      "explanation": "สำหรับ Binomial(n,p): ค่าคาดหมาย E(X)=np = 8(0.25)=2. ความแปรปรวน Var(X)=np(1-p) = 8(0.25)(0.75)=1.5"
+    },
+    {
+      "question_id": "T5E07",
+      "answer_summary": "≈ 0.224",
+      "explanation": "ใช้สูตร pmf ของ Poisson: $P(X=k) = e^{-\\lambda}\\lambda^k/k!$. ดังนั้น $P(X=2) = e^{-3}3^2/2! = 4.5e^{-3} \\approx 0.224$"
+    }
+  ]
+}

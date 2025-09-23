@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สรุป 1 หน้า – บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <style>
+    body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
+    header h1{margin:.2rem 0}
+    header p{color:#9aa0a6;margin:0 0 1rem}
+    .summary-1page{display:block}
+    .summary-1page .col{display:inline-block;vertical-align:top;width:48%;margin:0 1% 12px 0}
+    .summary-1page h3{margin:.4rem 0}
+    .card{background:#141821;border:1px solid #242a35;border-radius:12px;padding:12px;margin:10px 0}
+    .ok{background:#0f231c;border-left:4px solid #15b588;padding:.6rem;border-radius:10px}
+    .warn{background:#2a160c;border-left:4px solid #f59e0b;padding:.6rem;border-radius:10px}
+    .muted{color:#9aa0a6}
+    .print-footer{margin-top:8px;color:#9aa0a6;font-size:.9rem}
+    .page-break{page-break-before:always;break-before:always;margin-top:16px}
+    @media (max-width:900px){
+      .summary-1page .col{display:block;width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📄 สรุป 1 หน้า – บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ</h1>
+    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+  </header>
+
+  <section class="summary-1page">
+    <div class="col">
+      <div class="card">
+        <h3>🎯 เป้าหมายการเรียนรู้</h3>
+        <ul>
+          <li>เข้าใจ Normal/Standard Normal และ Empirical Rule</li><li>ใช้ Z-score แปลงค่าและตีความพื้นที่ใต้โค้ง</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚠️ ข้อควรระวัง</h3>
+        <ul>
+          <li>ตีความ Z ผิดทิศ (ซ้าย/ขวา)</li><li>หน่วยของ X ไม่ตรงกับ μ,σ</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class='card'><h3>🧩 Normal</h3><ul><li>N(μ,σ²), สมมาตร, Mean=Median=Mode</li></ul></div><div class='card'><h3>🧩 Z-score</h3><ul><li>Z=(X−μ)/σ, ใช้ตาราง/Φ(z)</li></ul></div><div class='card'><h3>🧩 Empirical Rule</h3><ul><li>≈68% ใน μ±1σ, 95% ใน μ±2σ, 99.7% ใน μ±3σ</li></ul></div>
+    </div>
+  </section>
+  
+  <footer class="print-footer">
+    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+  </footer>
+</body>
+</html>

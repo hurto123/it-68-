@@ -1,0 +1,32 @@
+/* ========== Print Optimizations (เพิ่มเติม) ========== */
+@media print {
+  /* พื้นขาว ตัวหนังสือดำ อ่านง่าย */
+  html, body {
+    background:#fff !important;
+    color:#000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* ตัดกราเดียนต์/เงา/ภาพพื้นหลัง */
+  * {
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  header, footer, .searchbar, .actions, .chip {
+    display: none !important;
+  }
+  a { color:#000 !important; text-decoration: none !important; }
+  .card {
+    background:#fff !important;
+    border:1px solid #ccc !important;
+    border-radius: 0 !important;
+    padding: 10pt !important;
+  }
+  .section-title {
+    border-bottom:1px solid #ccc !important;
+    padding-bottom:4pt !important;
+    margin-bottom:6pt !important;
+  }
+  /* คั่นหน้าแต่ละ section */
+  #formula, #summaries { page-break-before: always; break-before: page; }
+}

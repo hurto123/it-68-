@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 05 • ทฤษฎีความน่าจะเป็น (Probability Theory)</title>
+  <style>
+    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
+    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+    header .wrap, footer .wrap, main{max-width:980px;margin:0 auto;padding:1rem}
+    h1,h2,h3{line-height:1.25;margin:.2rem 0}
+    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+    nav a:hover{background:#2a2e36}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
+    .muted{color:var(--muted)}
+    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
+    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
+    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
+    th{background:#1c1e25}
+    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
+    ul,ol{margin:.4rem 0 .4rem 1.2rem}
+    strong{color:#cfe0ff}
+    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block}
+    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 05 • ทฤษฎีความน่าจะเป็น (Probability Theory) 🧠</h1>
+      <nav>
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson04.html">⟵ บทก่อนหน้า</a>
+        <a href="lesson06.html">บทถัดไป ⟶</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Conditional Probability -->
+    <section class="card" id="cond-prob">
+      <h2>1) ความน่าจะเป็นแบบมีเงื่อนไข (Conditional Probability) 🤔</h2>
+      <p><strong>นิยาม:</strong> ความน่าจะเป็นของเหตุการณ์ <strong>A</strong> เมื่อทราบว่าเหตุการณ์ <strong>B</strong> เกิดขึ้นแล้ว เขียนเป็น <strong>P(A|B)</strong></p>
+      <div class="ex">สูตรพื้นฐาน:  P(A|B) = P(A ∩ B) / P(B),  โดยที่ P(B) &gt; 0</div>
+
+      <h3>ตัวอย่างง่าย</h3>
+      <p>สำรับไพ่ 52 ใบ อยากทราบว่า “ถ้าทราบแล้วว่าเป็นไพ่หน้าคน (J,Q,K) 1 ใน 12 ใบ” โอกาสเป็น “ควีน” เป็นเท่าใด?</p>
+      <table>
+        <caption>ตัวอย่างไพ่</caption>
+        <thead><tr><th>เงื่อนไข</th><th>สิ่งที่สนใจ</th><th>คำตอบ</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>B: ไพ่หน้าคน 12 ใบ</td>
+            <td>A: เป็น Q (มี 4 ใบ)</td>
+            <td>P(A|B) = 4/12 = 1/3 ≈ 0.3333</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="ผังต้นไม้แบบมีเงื่อนไข: เลือกหน้าไพ่ แล้วเลือกหน้า/ดอก">
+        <!-- Tree: First choose Face or Not; then choose rank Q among face cards -->
+        <svg viewBox="0 0 760 260" role="img" aria-labelledby="tree1-title tree1-desc">
+          <title id="tree1-title">Tree Diagram: Conditional (Cards)</title>
+          <desc id="tree1-desc">แตกแขนงไปหน้าไพ่ 12/52 กับไม่ใช่หน้าไพ่ 40/52 จากนั้นในแขนงหน้าไพ่ เลือก Q มี 4/12</desc>
+          <rect x="0" y="0" width="760" height="260" fill="#0f1116"/>
+          <!-- root -->
+          <circle cx="80" cy="130" r="6" fill="#cfe0ff"/><text x="60" y="110" fill="#9aa0a6" font-size="12">เริ่ม</text>
+          <!-- level1 -->
+          <line x1="86" y1="130" x2="280" y2="70" stroke="#4f8cff" stroke-width="2"/>
+          <line x1="86" y1="130" x2="280" y2="190" stroke="#4f8cff" stroke-width="2"/>
+          <circle cx="280" cy="70" r="6" fill="#cfe0ff"/><text x="248" y="58" fill="#e8e8ea" font-size="12">หน้าไพ่ 12/52</text>
+          <circle cx="280" cy="190" r="6" fill="#cfe0ff"/><text x="238" y="208" fill="#e8e8ea" font-size="12">ไม่ใช่หน้าไพ่ 40/52</text>
+          <!-- level2 face -->
+          <line x1="286" y1="70" x2="520" y2="40" stroke="#88aaff" stroke-width="2"/>
+          <line x1="286" y1="70" x2="520" y2="100" stroke="#88aaff" stroke-width="2"/>
+          <text x="530" y="44" fill="#e8e8ea" font-size="13">Q 4/12</text>
+          <text x="530" y="104" fill="#e8e8ea" font-size="13">ไม่ใช่ Q 8/12</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Total Probability -->
+    <section class="card" id="total-prob">
+      <h2>2) ความน่าจะเป็นทั้งหมด (Total Probability) ➕</h2>
+      <p>หา P(เหตุการณ์ปลายทาง) โดยรวมทุกกรณีที่เป็นไปได้ซึ่ง “แบ่งพื้นที่ตัวอย่าง” ออกเป็นส่วน ๆ</p>
+      <div class="ex">สูตรทั่วไป:  ถ้า {B₁, B₂, …, Bₖ} แบ่ง S และเกิดทีละส่วน  
+P(A) = Σ P(A|Bᵢ) P(Bᵢ)</div>
+
+      <h3>ตัวอย่างโรงงานผลิต (A1, A2, A3)</h3>
+      <p>มีเครื่อง 3 ตัว ผลิตสินค้าสัดส่วนต่างกัน และอัตราของเสียแต่ละเครื่องไม่เท่ากัน:</p>
+      <table>
+        <caption>สัดส่วนการผลิตและอัตราของเสีย</caption>
+        <thead><tr><th>เครื่อง</th><th>P(เครื่อง)</th><th>P(เสีย | เครื่อง)</th><th>ส่วนร่วม</th></tr></thead>
+        <tbody>
+          <tr><td>A1</td><td>0.30</td><td>0.01</td><td>0.30×0.01 = 0.0030</td></tr>
+          <tr><td>A2</td><td>0.45</td><td>0.02</td><td>0.45×0.02 = 0.0090</td></tr>
+          <tr><td>A3</td><td>0.25</td><td>0.04</td><td>0.25×0.04 = 0.0100</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><th colspan="3">รวมความน่าจะเป็นเจอของเสีย P(เสีย)</th><th><strong>0.0030 + 0.0090 + 0.0100 = 0.0220</strong> (2.2%)</th></tr>
+        </tfoot>
+      </table>
+
+      <div class="note">
+        <strong>สรุป:</strong> P(ของเสีย) = 0.0220 = 2.20% จากการรวมทุกกรณีของแหล่งผลิต
+      </div>
+    </section>
+
+    <!-- Bayes' Rule -->
+    <section class="card" id="bayes">
+      <h2>3) กฎของเบย์ (Bayes’ Rule) 💡</h2>
+      <p>ใช้ “คิดย้อนกลับ” เพื่อหาโอกาสของสาเหตุเมื่อเราทราบผลลัพธ์ปลายทางแล้ว</p>
+      <div class="ex">Bayes:  P(Bⱼ | A) = [ P(A | Bⱼ) P(Bⱼ) ] / [ Σᵢ P(A | Bᵢ) P(Bᵢ) ]</div>
+
+      <h3>ตัวอย่างต่อเนื่องจากโรงงาน</h3>
+      <p>ถ้าพบว่า “สินค้าเสีย” 1 ชิ้น โอกาสที่มาจากเครื่องใด?</p>
+      <table>
+        <caption>ค่าหลังอัปเดต (Posterior)</caption>
+        <thead><tr><th>เหตุการณ์</th><th>คำนวณ</th><th>ค่า</th></tr></thead>
+        <tbody>
+          <tr><td>P(A1 | เสีย)</td><td>(0.01×0.30)/0.0220</td><td>0.0030/0.0220 ≈ <strong>0.1364</strong> (13.64%)</td></tr>
+          <tr><td>P(A2 | เสีย)</td><td>(0.02×0.45)/0.0220</td><td>0.0090/0.0220 ≈ <strong>0.4091</strong> (40.91%)</td></tr>
+          <tr><td>P(A3 | เสีย)</td><td>(0.04×0.25)/0.0220</td><td>0.0100/0.0220 ≈ <strong>0.4545</strong> (45.45%)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>ตีความ:</strong> ถ้ารู้ว่าสินค้า “เสีย” มีโอกาสสูงสุดที่จะมาจากเครื่อง <strong>A3</strong> (~45.45%) เพราะแม้ผลิตน้อยกว่า A2 แต่ <em>อัตราเสียสูงกว่า</em>
+      </div>
+
+      <div class="svgbox" aria-label="ผังต้นไม้แบบมีเงื่อนไขสำหรับ Bayes (A1,A2,A3 → ดี/เสีย)">
+        <!-- Tree A1/A2/A3 then Good/Defect showing conditional probs -->
+        <svg viewBox="0 0 900 340" role="img" aria-labelledby="tree2-title tree2-desc">
+          <title id="tree2-title">Conditional Tree for Bayes</title>
+          <desc id="tree2-desc">แขนง A1(0.30), A2(0.45), A3(0.25) แตกเป็น ดี/เสีย ด้วยโอกาสตามเงื่อนไข</desc>
+          <rect x="0" y="0" width="900" height="340" fill="#0f1116"/>
+          <!-- root -->
+          <circle cx="80" cy="170" r="6" fill="#cfe0ff"/><text x="60" y="150" fill="#9aa0a6" font-size="12">เริ่ม</text>
+
+          <!-- level 1: A1 A2 A3 -->
+          <line x1="86" y1="170" x2="260" y2="70" stroke="#4f8cff" stroke-width="2"/>
+          <line x1="86" y1="170" x2="260" y2="170" stroke="#4f8cff" stroke-width="2"/>
+          <line x1="86" y1="170" x2="260" y2="270" stroke="#4f8cff" stroke-width="2"/>
+
+          <circle cx="260" cy="70" r="6" fill="#cfe0ff"/><text x="230" y="52" fill="#e8e8ea" font-size="12">A1 (0.30)</text>
+          <circle cx="260" cy="170" r="6" fill="#cfe0ff"/><text x="230" y="154" fill="#e8e8ea" font-size="12">A2 (0.45)</text>
+          <circle cx="260" cy="270" r="6" fill="#cfe0ff"/><text x="230" y="292" fill="#e8e8ea" font-size="12">A3 (0.25)</text>
+
+          <!-- level 2 from A1 -->
+          <line x1="266" y1="70" x2="520" y2="40" stroke="#88aaff" stroke-width="2"/>
+          <line x1="266" y1="70" x2="520" y2="100" stroke="#88aaff" stroke-width="2"/>
+          <text x="532" y="44" fill="#e8e8ea" font-size="12">ดี 0.99</text>
+          <text x="532" y="104" fill="#e8e8ea" font-size="12">เสีย 0.01</text>
+
+          <!-- level 2 from A2 -->
+          <line x1="266" y1="170" x2="520" y2="140" stroke="#88aaff" stroke-width="2"/>
+          <line x1="266" y1="170" x2="520" y2="200" stroke="#88aaff" stroke-width="2"/>
+          <text x="532" y="144" fill="#e8e8ea" font-size="12">ดี 0.98</text>
+          <text x="532" y="204" fill="#e8e8ea" font-size="12">เสีย 0.02</text>
+
+          <!-- level 2 from A3 -->
+          <line x1="266" y1="270" x2="520" y2="240" stroke="#88aaff" stroke-width="2"/>
+          <line x1="266" y1="270" x2="520" y2="300" stroke="#88aaff" stroke-width="2"/>
+          <text x="532" y="244" fill="#e8e8ea" font-size="12">ดี 0.96</text>
+          <text x="532" y="304" fill="#e8e8ea" font-size="12">เสีย 0.04</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Medical Test Example -->
+    <section class="card" id="medical">
+      <h2>4) ตัวอย่างทางการแพทย์: ผลตรวจเป็นบวก = เป็นโรคจริงเท่าไหร่? 🧪</h2>
+      <p>สมมติ:</p>
+      <ul>
+        <li>อัตราพบโรค (ความชุก, Prevalence) = 2% → P(D) = 0.02</li>
+        <li>ความไว (Sensitivity) = 95% → P(+|D) = 0.95</li>
+        <li>ความจำเพาะ (Specificity) = 98% → P(−|¬D) = 0.98 ⇒ P(+|¬D) = 0.02</li>
+      </ul>
+
+      <table>
+        <caption>ตาราง 2×2 (จากประชากรสมมติ 10,000 คน)</caption>
+        <thead><tr><th></th><th>ผลตรวจ +</th><th>ผลตรวจ −</th><th>รวม</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>มีโรค (D) 2% = 200</th>
+            <td>จริงเป็น+ : 0.95×200 = <strong>190</strong></td>
+            <td>พลาดเป็น− : 10</td>
+            <td>200</td>
+          </tr>
+          <tr>
+            <th>ไม่มีโรค (¬D) 98% = 9,800</th>
+            <td>เท็จเป็น+ : 0.02×9,800 = <strong>196</strong></td>
+            <td>จริงเป็น− : 9,604</td>
+            <td>9,800</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><th>รวม</th><th>190 + 196 = <strong>386</strong> คน</th><th>9,614 คน</th><th>10,000</th></tr>
+        </tfoot>
+      </table>
+
+      <div class="ex">คำนวณค่า PPV (Positive Predictive Value):  
+P(D|+) = 0.02×0.95 / [ 0.02×0.95 + 0.98×0.02 ]  
+= 0.019 / (0.019 + 0.0196) = 0.019 / 0.0386 ≈ <strong>0.4922</strong> (49.22%)</div>
+
+      <div class="note">
+        <strong>ตีความสำคัญ:</strong> แม้ชุดตรวจจะ “ไวและจำเพาะสูง” แต่ถ้าโรค “พบน้อยมาก” โอกาสที่ “ผลบวก” จะเป็นโรคจริงอาจไม่สูงอย่างที่คิด — นี่คือพลังของ Bayes ในโลกจริง
+      </div>
+
+      <div class="svgbox" aria-label="ผังต้นไม้ทดสอบแพทย์: D/¬D → +/−">
+        <svg viewBox="0 0 900 360" role="img" aria-labelledby="tree3-title tree3-desc">
+          <title id="tree3-title">Bayes Tree: Medical Testing</title>
+          <desc id="tree3-desc">แตกแขนง D(0.02)/¬D(0.98) แล้วไป +/− ด้วยความไวและความจำเพาะ</desc>
+          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
+          <circle cx="80" cy="180" r="6" fill="#cfe0ff"/><text x="60" y="160" fill="#9aa0a6" font-size="12">เริ่ม</text>
+
+          <!-- D and not D -->
+          <line x1="86" y1="180" x2="300" y2="100" stroke="#4f8cff" stroke-width="2"/>
+          <line x1="86" y1="180" x2="300" y2="260" stroke="#4f8cff" stroke-width="2"/>
+          <circle cx="300" cy="100" r="6" fill="#cfe0ff"/><text x="260" y="82" fill="#e8e8ea" font-size="12">D (0.02)</text>
+          <circle cx="300" cy="260" r="6" fill="#cfe0ff"/><text x="250" y="282" fill="#e8e8ea" font-size="12">¬D (0.98)</text>
+
+          <!-- From D -->
+          <line x1="306" y1="100" x2="560" y2="60" stroke="#88aaff" stroke-width="2"/>
+          <line x1="306" y1="100" x2="560" y2="140" stroke="#88aaff" stroke-width="2"/>
+          <text x="570" y="64" fill="#e8e8ea" font-size="12">+ 0.95</text>
+          <text x="570" y="144" fill="#e8e8ea" font-size="12">− 0.05</text>
+
+          <!-- From not D -->
+          <line x1="306" y1="260" x2="560" y2="220" stroke="#88aaff" stroke-width="2"/>
+          <line x1="306" y1="260" x2="560" y2="300" stroke="#88aaff" stroke-width="2"/>
+          <text x="570" y="224" fill="#e8e8ea" font-size="12">+ 0.02</text>
+          <text x="570" y="304" fill="#e8e8ea" font-size="12">− 0.98</text>
+
+          <!-- Labels outcome -->
+          <text x="700" y="70"  fill="#cfe0ff" font-size="12">เส้นทาง D → + : 0.02×0.95 = 0.019</text>
+          <text x="700" y="120" fill="#cfe0ff" font-size="12">D → − : 0.001</text>
+          <text x="700" y="230" fill="#cfe0ff" font-size="12">¬D → + : 0.98×0.02 = 0.0196</text>
+          <text x="700" y="310" fill="#cfe0ff" font-size="12">¬D → − : 0.9604</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Summary Table -->
+    <section class="card" id="summary">
+      <h2>สรุปสูตรสำคัญและการใช้งาน</h2>
+      <table>
+        <caption>Cheat Sheet: Conditional • Total Probability • Bayes</caption>
+        <thead><tr><th>หัวข้อ</th><th>สูตร</th><th>ใช้เมื่อ</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Conditional</td>
+            <td>P(A|B) = P(A∩B)/P(B)</td>
+            <td>ทราบว่า B เกิดแล้ว อยากรู้โอกาสของ A</td>
+          </tr>
+          <tr>
+            <td>Total Probability</td>
+            <td>P(A) = Σ P(A|Bᵢ)P(Bᵢ)</td>
+            <td>ต้องรวมโอกาสของ A จากทุกกรณี Bᵢ ที่แบ่งพื้นที่ตัวอย่าง</td>
+          </tr>
+          <tr>
+            <td>Bayes</td>
+            <td>P(Bⱼ|A) = P(A|Bⱼ)P(Bⱼ) / Σ P(A|Bᵢ)P(Bᵢ)</td>
+            <td>รู้ผลปลายทาง A แล้ว อยากย้อนหาสาเหตุ Bⱼ</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note">
+      ✅ บทนี้ฝึก “อัปเดตความเชื่อ” จากข้อมูลใหม่ด้วย Bayes และใช้กฎรวมความน่าจะเป็นเพื่อคำนวณ P(ผลรวมทุกกรณี) อย่างถูกต้อง<br/>
+      ▶ ต่อไป: <strong>บทที่ 06: ตัวแปรสุ่ม (Random Variables) 🎲➡️🔢</strong>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 05</small>
+    </div>
+  </footer>
+</body>
+</html>

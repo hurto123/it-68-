@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 07 • การแจกแจงแบบไม่ต่อเนื่อง (Bernoulli / Binomial / Poisson / Hypergeometric)</title>
+  <style>
+    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
+    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+    header .wrap, footer .wrap, main{max-width:1000px;margin:0 auto;padding:1rem}
+    h1,h2,h3{line-height:1.25;margin:.2rem 0}
+    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+    nav a:hover{background:#2a2e36}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
+    .muted{color:var(--muted)}
+    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
+    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
+    th{background:#1c1e25}
+    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
+    ul,ol{margin:.4rem 0 .4rem 1.2rem}
+    strong{color:#cfe0ff}
+    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 07 • การแจกแจงความน่าจะเป็นแบบไม่ต่อเนื่อง</h1>
+      <nav>
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson06.html">⟵ บทก่อนหน้า</a>
+        <a href="lesson08.html">บทถัดไป ⟶</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Bernoulli -->
+    <section class="card" id="bernoulli">
+      <h2>7.1 การแจกแจงแบบเบอร์นูลลี (Bernoulli) 👍👎</h2>
+      <p>การทดลอง 1 ครั้ง มีสองผลลัพธ์: <strong>สำเร็จ</strong> (1) ด้วยโอกาส <strong>p</strong> และ <strong>ล้มเหลว</strong> (0) ด้วยโอกาส <strong>1−p</strong></p>
+      <ul>
+        <li><strong>PMF:</strong> P(X=1)=p, P(X=0)=1−p</li>
+        <li><strong>ค่าเฉลี่ย:</strong> E(X)=p</li>
+        <li><strong>ความแปรปรวน:</strong> Var(X)=p(1−p)</li>
+      </ul>
+
+      <table>
+        <caption>ตัวอย่าง: p = 0.7</caption>
+        <thead><tr><th>x</th><th>P(X=x)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0.3</td></tr>
+          <tr><td>1</td><td>0.7</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="Bernoulli(p=0.7) PMF">
+        <!-- scale: 1.0 -> 200px; baseline 300 -->
+        <svg viewBox="0 0 640 360" role="img" aria-labelledby="ber-title ber-desc">
+          <title id="ber-title">PMF: Bernoulli(p=0.7)</title>
+          <desc id="ber-desc">แท่งที่ x=0 สูง 0.3 และ x=1 สูง 0.7</desc>
+          <rect x="0" y="0" width="640" height="360" fill="#0f1116"/>
+          <line x1="80" y1="300" x2="580" y2="300" stroke="#6b7280"/>
+          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280"/>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="60" y="300" text-anchor="end">0.0</text>
+            <text x="60" y="260" text-anchor="end">0.2</text>
+            <text x="60" y="220" text-anchor="end">0.4</text>
+            <text x="60" y="180" text-anchor="end">0.6</text>
+            <text x="60" y="140" text-anchor="end">0.8</text>
+            <text x="60" y="100" text-anchor="end">1.0</text>
+          </g>
+          <!-- heights: 0.3->60px; 0.7->140px -->
+          <rect x="220" y="240" width="80" height="60"  fill="#4f8cff"/>
+          <rect x="360" y="160" width="80" height="140" fill="#4f8cff"/>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="260" y="320" text-anchor="middle">x=0</text>
+            <text x="400" y="320" text-anchor="middle">x=1</text>
+          </g>
+          <g fill="#e8e8ea" font-size="12">
+            <text x="260" y="234" text-anchor="middle">0.30</text>
+            <text x="400" y="154" text-anchor="middle">0.70</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">
+        <strong>หัวใจ:</strong> Bernoulli คือ “อะตอม” ของการทดลองแบบสำเร็จ/ล้มเหลว ที่จะถูกนำไปประกอบเป็น Binomial ต่อไป
+      </div>
+    </section>
+
+    <!-- Binomial -->
+    <section class="card" id="binomial">
+      <h2>7.2 การแจกแจงแบบทวินาม (Binomial)</h2>
+      <p>ทำ Bernoulli ซ้ำ <strong>n</strong> ครั้ง (อิสระ, โอกาสสำเร็จคงที่ <strong>p</strong>) ให้ <strong>X</strong> = จำนวนครั้งที่สำเร็จ</p>
+      <ul>
+        <li><strong>PMF:</strong> P(X=k) = C(n,k) p^k (1−p)^{n−k},  k=0..n</li>
+        <li><strong>ค่าเฉลี่ย:</strong> E(X) = np</li>
+        <li><strong>ความแปรปรวน:</strong> Var(X) = np(1−p)</li>
+      </ul>
+
+      <table>
+        <caption>ตัวอย่าง: n=10, p=0.5</caption>
+        <thead><tr><th>k</th><th>P(X=k)</th><th>ประมาณ</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1/1024</td><td>0.001</td></tr>
+          <tr><td>1</td><td>10/1024</td><td>0.0098</td></tr>
+          <tr><td>2</td><td>45/1024</td><td>0.0439</td></tr>
+          <tr><td>3</td><td>120/1024</td><td>0.117</td></tr>
+          <tr><td>4</td><td>210/1024</td><td>0.205</td></tr>
+          <tr><td>5</td><td>252/1024</td><td><strong>0.246</strong></td></tr>
+          <tr><td>6</td><td>210/1024</td><td>0.205</td></tr>
+          <tr><td>7</td><td>120/1024</td><td>0.117</td></tr>
+          <tr><td>8</td><td>45/1024</td><td>0.0439</td></tr>
+          <tr><td>9</td><td>10/1024</td><td>0.0098</td></tr>
+          <tr><td>10</td><td>1/1024</td><td>0.001</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="Binomial(n=10,p=0.5) PMF">
+        <!-- scale: 1.0 -> 240px; baseline y=300 -->
+        <svg viewBox="0 0 900 360" role="img" aria-labelledby="bin-title bin-desc">
+          <title id="bin-title">PMF: Binomial(n=10, p=0.5)</title>
+          <desc id="bin-desc">แท่ง k=0..10 มีแนวสมมาตรรอบ k=5</desc>
+          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
+          <line x1="80" y1="300" x2="840" y2="300" stroke="#6b7280"/>
+          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280"/>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="60" y="300" text-anchor="end">0.0</text>
+            <text x="60" y="252" text-anchor="end">0.2</text>
+            <text x="60" y="204" text-anchor="end">0.4</text>
+            <text x="60" y="156" text-anchor="end">0.6</text>
+            <text x="60" y="108" text-anchor="end">0.8</text>
+          </g>
+          <!-- bar width 50, gap 10 -->
+          <!-- heights (×240): 0.001→0.24, 0.0098→2.35, 0.0439→10.54, 0.117→28.08, 0.205→49.2, 0.246→59.0 -->
+          <g fill="#4f8cff">
+            <rect x="100" y="299.76" width="50" height="0.24"/>
+            <rect x="160" y="297.65" width="50" height="2.35"/>
+            <rect x="220" y="289.46" width="50" height="10.54"/>
+            <rect x="280" y="271.92" width="50" height="28.08"/>
+            <rect x="340" y="250.80" width="50" height="49.20"/>
+            <rect x="400" y="241.00" width="50" height="59.00"/>
+            <rect x="460" y="250.80" width="50" height="49.20"/>
+            <rect x="520" y="271.92" width="50" height="28.08"/>
+            <rect x="580" y="289.46" width="50" height="10.54"/>
+            <rect x="640" y="297.65" width="50" height="2.35"/>
+            <rect x="700" y="299.76" width="50" height="0.24"/>
+          </g>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="125" y="320" text-anchor="middle">0</text>
+            <text x="185" y="320" text-anchor="middle">1</text>
+            <text x="245" y="320" text-anchor="middle">2</text>
+            <text x="305" y="320" text-anchor="middle">3</text>
+            <text x="365" y="320" text-anchor="middle">4</text>
+            <text x="425" y="320" text-anchor="middle">5</text>
+            <text x="485" y="320" text-anchor="middle">6</text>
+            <text x="545" y="320" text-anchor="middle">7</text>
+            <text x="605" y="320" text-anchor="middle">8</text>
+            <text x="665" y="320" text-anchor="middle">9</text>
+            <text x="725" y="320" text-anchor="middle">10</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">
+        <strong>สังเกต:</strong> สำหรับ p=0.5 การกระจายสมมาตรรอบ <strong>k = np = 5</strong> และ S.D. = √(np(1−p)) = √2.5 ≈ 1.58
+      </div>
+    </section>
+
+    <!-- Poisson -->
+    <section class="card" id="poisson">
+      <h2>7.3 การแจกแจงแบบปัวส์ซอง (Poisson) ⏳</h2>
+      <p>นับ “จำนวนครั้งของเหตุการณ์” ในช่วงเวลา/พื้นที่กำหนด เมื่อรู้ <strong>อัตราเฉลี่ย</strong> ต่อช่วง = <strong>λ</strong> และเหตุการณ์เกิดอิสระ</p>
+      <ul>
+        <li><strong>PMF:</strong> P(X=k) = e^{-λ} λ^k / k!,  k=0,1,2,…</li>
+        <li><strong>ค่าเฉลี่ยและความแปรปรวน:</strong> E(X) = Var(X) = λ</li>
+      </ul>
+
+      <table>
+        <caption>ตัวอย่าง: λ = 3 (คำนวณด้วยความแม่นยำเชิงตัวเลข)</caption>
+        <thead><tr><th>k</th><th>P(X=k)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0.0498</td></tr>
+          <tr><td>1</td><td>0.1494</td></tr>
+          <tr><td>2</td><td>0.2240</td></tr>
+          <tr><td>3</td><td>0.2240</td></tr>
+          <tr><td>4</td><td>0.1680</td></tr>
+          <tr><td>5</td><td>0.1008</td></tr>
+          <tr><td>6</td><td>0.0504</td></tr>
+          <tr><td>7</td><td>0.0216</td></tr>
+          <tr><td>8</td><td>0.0081</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="Poisson(λ=3) PMF">
+        <!-- scale: 1.0 -> 240px; baseline 300; bars k=0..8 -->
+        <svg viewBox="0 0 900 360" role="img" aria-labelledby="pois-title pois-desc">
+          <title id="pois-title">PMF: Poisson(λ=3)</title>
+          <desc id="pois-desc">แท่งมีจุดสูงสุดใกล้ k=2 หรือ 3</desc>
+          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
+          <line x1="80" y1="300" x2="840" y2="300" stroke="#6b7280"/>
+          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280"/>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="60" y="300" text-anchor="end">0.0</text>
+            <text x="60" y="252" text-anchor="end">0.2</text>
+            <text x="60" y="204" text-anchor="end">0.4</text>
+            <text x="60" y="156" text-anchor="end">0.6</text>
+          </g>
+          <!-- bar width 60, gap 10 -->
+          <!-- heights: 0.0498→11.95; 0.1494→35.86; 0.2240→53.76; 0.2240→53.76; 0.1680→40.32; 0.1008→24.19; 0.0504→12.10; 0.0216→5.18; 0.0081→1.94 -->
+          <g fill="#4f8cff">
+            <rect x="100" y="288.05" width="60" height="11.95"/>
+            <rect x="170" y="264.14" width="60" height="35.86"/>
+            <rect x="240" y="246.24" width="60" height="53.76"/>
+            <rect x="310" y="246.24" width="60" height="53.76"/>
+            <rect x="380" y="259.68" width="60" height="40.32"/>
+            <rect x="450" y="275.81" width="60" height="24.19"/>
+            <rect x="520" y="287.90" width="60" height="12.10"/>
+            <rect x="590" y="294.82" width="60" height="5.18"/>
+            <rect x="660" y="298.06" width="60" height="1.94"/>
+          </g>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="130" y="320" text-anchor="middle">0</text>
+            <text x="200" y="320" text-anchor="middle">1</text>
+            <text x="270" y="320" text-anchor="middle">2</text>
+            <text x="340" y="320" text-anchor="middle">3</text>
+            <text x="410" y="320" text-anchor="middle">4</text>
+            <text x="480" y="320" text-anchor="middle">5</text>
+            <text x="550" y="320" text-anchor="middle">6</text>
+            <text x="620" y="320" text-anchor="middle">7</text>
+            <text x="690" y="320" text-anchor="middle">8</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">
+        <strong>ใช้เมื่อ:</strong> เหตุการณ์เกิดสุ่มเป็นอิสระด้วยอัตราเฉลี่ยคงที่ เช่น จำนวนลูกค้าเข้าร้านต่อชั่วโมง, จำนวนอีเมลต่อช่วงเวลา
+      </div>
+    </section>
+
+    <!-- Hypergeometric -->
+    <section class="card" id="hyper">
+      <h2>7.4 การแจกแจงแบบไฮเปอร์จีออเมตริค (Hypergeometric)</h2>
+      <p>สุ่มหยิบ <strong>n</strong> ชิ้นจากกลุ่ม <strong>N</strong> ชิ้น ซึ่งมี “ของสำเร็จ” <strong>K</strong> ชิ้น โดย <strong>ไม่ใส่คืน</strong> ให้ X = จำนวนสำเร็จที่หยิบได้</p>
+      <ul>
+        <li><strong>PMF:</strong> P(X=k) = [C(K,k) · C(N−K, n−k)] / C(N, n),   k = max(0, n−(N−K)) … min(n, K)</li>
+        <li><strong>ค่าเฉลี่ย:</strong> E(X) = n · (K/N)</li>
+        <li><strong>ความแปรปรวน:</strong> Var(X) = n (K/N)(1−K/N) · ((N−n)/(N−1))</li>
+      </ul>
+
+      <table>
+        <caption>ตัวอย่าง: N=20, K=5, n=3</caption>
+        <thead><tr><th>k</th><th>สูตรย่อย</th><th>P(X=k)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>C(5,0)·C(15,3)/C(20,3)</td><td><strong>0.3991</strong></td></tr>
+          <tr><td>1</td><td>C(5,1)·C(15,2)/C(20,3)</td><td><strong>0.4605</strong></td></tr>
+          <tr><td>2</td><td>C(5,2)·C(15,1)/C(20,3)</td><td>0.1316</td></tr>
+          <tr><td>3</td><td>C(5,3)·C(15,0)/C(20,3)</td><td>0.0088</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><th colspan="2">รวม</th><th>≈ 1.0000</th></tr>
+        </tfoot>
+      </table>
+
+      <div class="svgbox" aria-label="Hypergeometric(N=20,K=5,n=3) PMF">
+        <!-- scale: 1.0 -> 240px; baseline 300; k=0..3 -->
+        <svg viewBox="0 0 720 360" role="img" aria-labelledby="hyp-title hyp-desc">
+          <title id="hyp-title">PMF: Hypergeometric(N=20,K=5,n=3)</title>
+          <desc id="hyp-desc">แท่ง k=0..3 โดย k=1 โดดเด่นสุด</desc>
+          <rect x="0" y="0" width="720" height="360" fill="#0f1116"/>
+          <line x1="80" y1="300" x2="660" y2="300" stroke="#6b7280"/>
+          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280"/>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="60" y="300" text-anchor="end">0.0</text>
+            <text x="60" y="252" text-anchor="end">0.2</text>
+            <text x="60" y="204" text-anchor="end">0.4</text>
+            <text x="60" y="156" text-anchor="end">0.6</text>
+          </g>
+          <!-- heights: 0.3991→95.8; 0.4605→110.5; 0.1316→31.6; 0.0088→2.1 -->
+          <g fill="#4f8cff">
+            <rect x="150" y="204.2" width="90" height="95.8"/>
+            <rect x="270" y="189.5" width="90" height="110.5"/>
+            <rect x="390" y="268.4" width="90" height="31.6"/>
+            <rect x="510" y="297.9" width="90" height="2.1"/>
+          </g>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="195" y="320" text-anchor="middle">k=0</text>
+            <text x="315" y="320" text-anchor="middle">k=1</text>
+            <text x="435" y="320" text-anchor="middle">k=2</text>
+            <text x="555" y="320" text-anchor="middle">k=3</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">
+        <strong>แยกจาก Binomial:</strong> ไม่มีการใส่คืน → โอกาสเปลี่ยนทุกครั้งและการสุ่ม “ไม่อิสระ” กัน
+      </div>
+    </section>
+
+    <!-- เปรียบเทียบสั้น ๆ -->
+    <section class="card" id="compare">
+      <h2>สรุปเปรียบเทียบฉบับเร็ว</h2>
+      <table>
+        <caption>Bernoulli / Binomial / Poisson / Hypergeometric</caption>
+        <thead>
+          <tr>
+            <th>แจกแจง</th>
+            <th>เงื่อนไขการใช้</th>
+            <th>PMF</th>
+            <th>E(X)</th>
+            <th>Var(X)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bernoulli</td>
+            <td>ทดลอง 1 ครั้ง สำเร็จ/ล้มเหลว</td>
+            <td>P(X=1)=p, P(X=0)=1−p</td>
+            <td>p</td>
+            <td>p(1−p)</td>
+          </tr>
+          <tr>
+            <td>Binomial</td>
+            <td>Bernoulli ซ้ำ n ครั้ง อิสระ p คงที่</td>
+            <td>C(n,k)p^k(1−p)^{n−k}</td>
+            <td>np</td>
+            <td>np(1−p)</td>
+          </tr>
+          <tr>
+            <td>Poisson</td>
+            <td>เกิดตามอัตราเฉลี่ย λ ต่อช่วง อิสระ</td>
+            <td>e^{−λ}λ^k/k!</td>
+            <td>λ</td>
+            <td>λ</td>
+          </tr>
+          <tr>
+            <td>Hypergeometric</td>
+            <td>สุ่ม n จาก N (มี K สำเร็จ) <u>ไม่ใส่คืน</u></td>
+            <td>[C(K,k)C(N−K,n−k)]/C(N,n)</td>
+            <td>n·(K/N)</td>
+            <td>n(K/N)(1−K/N)((N−n)/(N−1))</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note">
+      ✅ บทนี้ครอบคลุม “พิมพ์เขียวยอดนิยม” ของตัวแปรสุ่มไม่ต่อเนื่อง พร้อมตัวอย่างและกราฟให้เห็นรูปทรงจริง  
+      ▶ ต่อไป: <strong>บทที่ 08: การแจกแจงของข้อมูลต่อเนื่อง &amp; โค้งปกติ (Normal)</strong>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 07</small>
+    </div>
+  </footer>
+</body>
+</html>

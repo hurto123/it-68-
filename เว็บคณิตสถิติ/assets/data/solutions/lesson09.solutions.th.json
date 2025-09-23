@@ -1,0 +1,36 @@
+{
+  "lesson_id": "lesson09",
+  "lesson_title": "บทที่ 9: Sampling Distributions & CLT",
+  "solutions": [
+    {
+      "question_id": "C5E02",
+      "answer_summary": "พิสูจน์ได้ตาม WLLN",
+      "explanation": "ใช้ Chebyshev’s Inequality: $P(|\\bar X_n-\\mu|\\ge\\varepsilon) \\le Var(\\bar X_n)/\\varepsilon^2 = (\\sigma^2/n)/\\varepsilon^2$. เมื่อ $n\\to\\infty$ ค่านี้จะลู่เข้า 0"
+    },
+    {
+      "question_id": "C5E05",
+      "answer_summary": "(a) จริงตาม CLT; (b) $\\approx 2\\Phi(\\sqrt{n}\\varepsilon/\\sigma)-1$",
+      "explanation": "(a) คือข้อความมาตรฐานของ CLT. (b) จัดรูปอสมการ: $P(|\\bar X_n-\\mu|\\le \\varepsilon) = P(|\\frac{\\sqrt{n}(\\bar X_n-\\mu)}{\\sigma}| \\le \\frac{\\sqrt{n}\\varepsilon}{\\sigma}) \\approx P(|Z| \\le \\frac{\\sqrt{n}\\varepsilon}{\\sigma})$ ซึ่งเท่ากับ $2\\Phi(\\frac{\\sqrt{n}\\varepsilon}{\\sigma})-1$"
+    },
+    {
+      "question_id": "C5E06",
+      "answer_summary": "พิสูจน์ได้ตาม Delta Method",
+      "explanation": "ใช้ Taylor expansion: $g(\\hat\\theta_n) \\approx g(\\theta) + g'(\\theta)(\\hat\\theta_n-\\theta)$. จัดรูปแล้วคูณด้วย $\\sqrt{n}$ ทั้งสองข้าง จะได้ $\\sqrt{n}(g(\\hat\\theta_n)-g(\\theta)) \\approx g'(\\theta) \\sqrt{n}(\\hat\\theta_n-\\theta)$. ลิมิตของฝั่งขวาคือ $N(0, [g'(\\theta)]^2\\tau^2)$"
+    },
+    {
+      "question_id": "T9E01",
+      "answer_summary": "≈ 0.055",
+      "explanation": "Standard error (SE) ของ $\\bar{X}$ คือ $\\sigma/\\sqrt{n} = 15/\\sqrt{36} = 2.5$. $z = (104-100)/2.5 = 1.6$. ความน่าจะเป็น $P(\\bar{X}>104) = P(Z>1.6) \\approx 1-0.9452 = 0.0548$"
+    },
+    {
+      "question_id": "T9E02",
+      "answer_summary": "≈ 0.021",
+      "explanation": "SE ของสัดส่วนตัวอย่างคือ $\\sqrt{p(1-p)/n} = \\sqrt{0.4(0.6)/100} \\approx 0.049$. $z=(0.5-0.4)/0.049 \\approx 2.04$. $P(\\hat{p}>0.5) = P(Z>2.04) \\approx 1-0.9793 = 0.0207$"
+    },
+    {
+      "question_id": "C5E01",
+      "answer_summary": "(a) และ (b) จริง; reverse ไม่จริงโดยทั่วไป",
+      "explanation": "(a) $a.s. \\implies p$: การลู่เข้าเกือบทุกที่จะรุนแรงกว่าการลู่เข้าเชิงความน่าจะเป็น. (b) $p \\implies d$: การลู่เข้าเชิงความน่าจะเป็นหมายความว่าการแจกแจงจะลู่เข้าสู่การแจกแจงของลิมิตด้วย. ตัวอย่างที่กลับทิศไม่จริงสามารถสร้างได้"
+    }
+  ]
+}

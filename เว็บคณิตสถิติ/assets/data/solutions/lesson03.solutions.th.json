@@ -1,0 +1,26 @@
+{
+  "lesson_id": "lesson03",
+  "lesson_title": "บทที่ 3: สถิติเชิงพรรณนา",
+  "solutions": [
+    {
+      "question_id": "L03Q01",
+      "answer_summary": "ค่าเฉลี่ย = 9, มัธยฐาน = 8, ฐานนิยม = 8",
+      "explanation": "ค่าเฉลี่ย: (5+8+8+10+14)/5 = 45/5 = 9\nมัธยฐาน: ข้อมูลเรียงลำดับแล้ว ค่าที่อยู่ตรงกลางคือ 8\nฐานนิยม: ข้อมูลที่ปรากฏบ่อยที่สุดคือ 8"
+    },
+    {
+      "question_id": "T1E02",
+      "answer_summary": "Nominal, Ordinal, Interval, Ratio",
+      "explanation": "Nominal: จัดกลุ่ม (เพศ). Ordinal: จัดลำดับ (ระดับความพึงพอใจ). Interval: ช่วงเท่ากัน ไม่มีศูนย์แท้ (อุณหภูมิเซลเซียส). Ratio: มีศูนย์แท้ เปรียบเทียบอัตราส่วนได้ (น้ำหนัก)"
+    },
+    {
+      "question_id": "T3E01",
+      "answer_summary": "เมื่อมี Outlier หรือข้อมูลเบ้ (Skewed)",
+      "explanation": "ค่าเฉลี่ยจะถูกดึงโดยค่าที่สูงหรือต่ำผิดปกติ (outlier) ทำให้ไม่เป็นตัวแทนที่ดีของข้อมูลส่วนใหญ่ ในกรณีเช่นนี้ มัธยฐานซึ่งเป็นค่ากลางที่ไม่ได้รับผลกระทบจาก outlier จะเป็นตัวแทนที่ดีกว่า"
+    },
+    {
+      "question_id": "T3E02",
+      "answer_summary": "Range=7, Var≈5.14, SD≈2.27",
+      "explanation": "Range: 9-2=7. Mean: (2+4+4+5+7+9)/6≈5.17. Variance: Σ(x-mean)²/(n-1)≈5.14. Standard Deviation: √Var≈2.27"
+    }
+  ]
+}

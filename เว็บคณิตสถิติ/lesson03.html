@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics)</title>
+  <style>
+    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
+    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+    header .wrap, footer .wrap, main{max-width:980px;margin:0 auto;padding:1rem}
+    h1,h2,h3{line-height:1.25;margin:.2rem 0}
+    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+    nav a:hover{background:#2a2e36}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
+    .muted{color:var(--muted)}
+    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
+    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
+    th{background:#1c1e25}
+    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
+    ul,ol{margin:.4rem 0 .4rem 1.2rem}
+    strong{color:#cfe0ff}
+    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block}
+    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics) 🎯</h1>
+      <nav>
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson02.html">⟵ บทก่อนหน้า</a>
+        <a href="lesson04.html">บทถัดไป ⟶</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>แนวคิดรวม</h2>
+      <p>บทนี้คือการ “ย่อ” ข้อมูลกองโตให้เหลือ <strong>ตัวเลขมหัศจรรย์</strong> ไม่กี่ตัวที่บอกเรื่องราวสำคัญได้ เหมือนอ่าน “รีวิวหนัง” 🎬 เพื่อเข้าใจภาพรวมเร็วขึ้น</p>
+    </section>
+
+    <!-- 1) Measures of Central Tendency -->
+    <section class="card" id="central">
+      <h2>1) การวัดแนวโน้มเข้าสู่ส่วนกลาง (Measures of Central Tendency) 🎯</h2>
+      <ul>
+        <li><strong>ค่าเฉลี่ย (Mean) 🧮</strong> — เอาค่าทั้งหมดบวกกันแล้วหารด้วยจำนวนข้อมูล <em>ข้อควรระวัง:</em> อ่อนไหวต่อค่าโดดเดี่ยว (Outlier)</li>
+        <li><strong>มัธยฐาน (Median)</strong> 🧍‍♀️ — ค่าที่อยู่ “ตรงกลาง” หลังเรียงจากน้อยไปมาก <em>จุดแข็ง:</em> ทนทานต่อ Outlier</li>
+        <li><strong>ฐานนิยม (Mode)</strong> 👍 — ค่าที่พบ <em>บ่อยที่สุด</em> และยังใช้กับข้อมูลไม่เป็นตัวเลขได้ (เช่น สี/ประเภท)</li>
+      </ul>
+
+      <h3>ตัวอย่างข้อมูลเพื่อเปรียบเทียบ Mean–Median–Mode</h3>
+      <div class="ex">ข้อมูลรายได้ (พันบาท): 15, 18, 21, 21, 23, 24, 28, 30, 120</div>
+      <table>
+        <caption>สถิติจากชุดข้อมูลตัวอย่าง</caption>
+        <thead><tr><th>สถิติ</th><th>ค่า</th><th>คำอธิบาย</th></tr></thead>
+        <tbody>
+          <tr><td>Mean</td><td>33.33</td><td>รวม 300 หาร 9 = 33.33 (ถูกดึงสูงโดยรายได้ 120)</td></tr>
+          <tr><td>Median</td><td>23</td><td>ค่าตรงกลางลำดับที่ 5</td></tr>
+          <tr><td>Mode</td><td>21</td><td>พบซ้ำมากที่สุด (21 สองครั้ง)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="กราฟแท่งเปรียบเทียบ Mean Median Mode">
+        <!-- Bar chart: Mean=33.33, Median=23, Mode=21; scale 6px/unit, baseline y=300 -->
+        <svg viewBox="0 0 640 360" role="img" aria-labelledby="mmm-title mmm-desc">
+          <title id="mmm-title">Mean vs Median vs Mode</title>
+          <desc id="mmm-desc">เปรียบเทียบค่าเฉลี่ย 33.33 มัธยฐาน 23 ฐานนิยม 21</desc>
+          <rect x="0" y="0" width="640" height="360" fill="#0f1116"/>
+          <line x1="60" y1="300" x2="600" y2="300" stroke="#6b7280" stroke-width="1"/>
+          <line x1="60" y1="60"  x2="60"  y2="300" stroke="#6b7280" stroke-width="1"/>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="40" y="300" text-anchor="end">0</text>
+            <text x="40" y="240" text-anchor="end">10</text>
+            <text x="40" y="180" text-anchor="end">20</text>
+            <text x="40" y="120" text-anchor="end">30</text>
+            <text x="40" y="90"  text-anchor="end">35</text>
+          </g>
+          <!-- heights: mean 33.33→200px; median 23→138px; mode 21→126px -->
+          <g>
+            <rect x="120" y="100" width="110" height="200" fill="#4f8cff"/>
+            <rect x="270" y="162" width="110" height="138" fill="#4f8cff"/>
+            <rect x="420" y="174" width="110" height="126" fill="#4f8cff"/>
+          </g>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="175" y="320" text-anchor="middle">Mean</text>
+            <text x="325" y="320" text-anchor="middle">Median</text>
+            <text x="475" y="320" text-anchor="middle">Mode</text>
+          </g>
+          <g fill="#e8e8ea" font-size="12">
+            <text x="175" y="94"  text-anchor="middle">33.33</text>
+            <text x="325" y="156" text-anchor="middle">23</text>
+            <text x="475" y="168" text-anchor="middle">21</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note" style="margin-top:.6rem">
+        <strong>เราเห็นอะไร?</strong> ค่าเฉลี่ย (33.33) > มัธยฐาน (23) > ฐานนิยม (21) → รูปแบบนี้มักชี้ว่าการกระจาย “เบ้ขวา” เพราะมีค่าโดดเดี่ยวสูง (120) ดึงเฉลี่ยขึ้น 🔎
+      </div>
+    </section>
+
+    <!-- 2) Measures of Position -->
+    <section class="card" id="position">
+      <h2>2) การวัดตำแหน่งของข้อมูล (Measures of Position) 📍</h2>
+      <p><strong>เปอร์เซ็นไทล์ (Percentiles)</strong> คือการแบ่งข้อมูลที่เรียงแล้วออกเป็น 100 ส่วน เช่น อยู่ที่ <strong>P90</strong> หมายถึง “ดีกว่า 90% ของกลุ่ม”</p>
+      <p><strong>ควอร์ไทล์ (Quartiles)</strong> แบ่งเป็น 4 ส่วนเท่าๆ กัน:</p>
+      <ul>
+        <li><strong>Q1</strong> = P25 (25%)</li>
+        <li><strong>Q2</strong> = P50 = Median (50%)</li>
+        <li><strong>Q3</strong> = P75 (75%)</li>
+      </ul>
+
+      <h3>หาควอร์ไทล์จากข้อมูลตัวอย่างเดิม</h3>
+      <div class="ex">เรียงข้อมูล: 15, 18, 21, 21, <strong>23</strong>, 24, 28, 30, 120<br/>
+      Median (Q2) = <strong>23</strong><br/>
+      Q1 = ค่ากลางของ {15, 18, 21, 21} = (18 + 21)/2 = <strong>19.5</strong><br/>
+      Q3 = ค่ากลางของ {24, 28, 30, 120} = (28 + 30)/2 = <strong>29</strong></div>
+
+      <table>
+        <caption>สรุปตำแหน่งข้อมูล</caption>
+        <thead><tr><th>สถิติ</th><th>ค่า</th><th>ความหมาย</th></tr></thead>
+        <tbody>
+          <tr><td>Q1</td><td>19.5</td><td>25% แรกของข้อมูลอยู่ต่ำกว่าค่านี้</td></tr>
+          <tr><td>Q2 (Median)</td><td>23</td><td>ครึ่งหนึ่งของข้อมูลอยู่ต่ำกว่า/สูงกว่าพอดี</td></tr>
+          <tr><td>Q3</td><td>29</td><td>75% ของข้อมูลอยู่ต่ำกว่าค่านี้</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="Box Plot แสดง Q1 Median Q3 และ Outlier">
+        <!-- Box plot horizontal: x = 80 + 4*value (0..130 → 0..520) -->
+        <svg viewBox="0 0 640 220" role="img" aria-labelledby="box-title box-desc">
+          <title id="box-title">Box Plot</title>
+          <desc id="box-desc">Q1=19.5, Median=23, Q3=29, whiskers 15–30, outlier 120</desc>
+          <rect x="0" y="0" width="640" height="220" fill="#0f1116"/>
+          <!-- axis -->
+          <line x1="80" y1="140" x2="600" y2="140" stroke="#6b7280" stroke-width="1"/>
+          <!-- ticks every 20 -->
+          <g fill="#9aa0a6" font-size="12">
+            <text x="80"  y="160" text-anchor="middle">0</text>
+            <text x="160" y="160" text-anchor="middle">20</text>
+            <text x="240" y="160" text-anchor="middle">40</text>
+            <text x="320" y="160" text-anchor="middle">60</text>
+            <text x="400" y="160" text-anchor="middle">80</text>
+            <text x="480" y="160" text-anchor="middle">100</text>
+            <text x="560" y="160" text-anchor="middle">120</text>
+          </g>
+          <!-- positions -->
+          <!-- x(v) = 80 + 4*v -->
+          <!-- min=15→140, Q1=19.5→158, med=23→172, Q3=29→196, whisker high=30→200, outlier=120→560 -->
+          <!-- box -->
+          <rect x="158" y="120" width="38" height="40" fill="#101927" stroke="#4f8cff" stroke-width="2"/>
+          <!-- median -->
+          <line x1="172" y1="120" x2="172" y2="160" stroke="#e8e8ea" stroke-width="2"/>
+          <!-- whiskers -->
+          <line x1="140" y1="140" x2="158" y2="140" stroke="#cfe0ff" stroke-width="2"/>
+          <line x1="196" y1="140" x2="200" y2="140" stroke="#cfe0ff" stroke-width="2"/>
+          <line x1="140" y1="132" x2="140" y2="148" stroke="#cfe0ff" stroke-width="2"/>
+          <line x1="200" y1="132" x2="200" y2="148" stroke="#cfe0ff" stroke-width="2"/>
+          <!-- outlier -->
+          <circle cx="560" cy="140" r="5" fill="#ff7676"/>
+          <!-- labels -->
+          <g fill="#cfe0ff" font-size="12">
+            <text x="172" y="112" text-anchor="middle">Median 23</text>
+            <text x="158" y="112" text-anchor="end">Q1 19.5</text>
+            <text x="196" y="112" text-anchor="start">Q3 29</text>
+            <text x="140" y="176" text-anchor="middle">Min 15</text>
+            <text x="200" y="176" text-anchor="middle">Upper whisker 30</text>
+            <text x="560" y="176" text-anchor="middle">Outlier 120</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note" style="margin-top:.6rem">
+        <strong>เราเห็นอะไร?</strong> IQR = Q3 − Q1 = 29 − 19.5 = <strong>9.5</strong> และ 1.5×IQR = 14.25 → ค่ามากกว่า 29+14.25 = 43.25 จัดเป็น outlier ดังนั้น 120 คือ outlier ชัดเจน ✅
+      </div>
+    </section>
+
+    <!-- 3) Measures of Dispersion & Shape -->
+    <section class="card" id="dispersion">
+      <h2>3) การวัดการกระจายและรูปร่าง (Measures of Dispersion &amp; Shape) 📉</h2>
+      <ul>
+        <li><strong>ส่วนเบี่ยงเบนมาตรฐาน (Standard Deviation, S.D.)</strong> — บอกว่าโดยเฉลี่ยแล้วข้อมูลแต่ละตัวอยู่ห่างจากค่าเฉลี่ยมากแค่ไหน
+          <ul>
+            <li>S.D. <strong>น้อย</strong> = ข้อมูลเกาะกลุ่ม ความสามารถใกล้เคียงกัน</li>
+            <li>S.D. <strong>มาก</strong> = ข้อมูลกระจาย ต่างกันสูง</li>
+          </ul>
+        </li>
+        <li><strong>ความเบ้ (Skewness)</strong>
+          <ul>
+            <li><em>สมมาตร</em> (Symmetric): รูประฆังคว่ำ (Mean ≈ Median ≈ Mode)</li>
+            <li><em>เบ้ขวา</em> (Skewed Right): หางยาวไปทางค่ามาก (เช่น รายได้) → Mean &gt; Median</li>
+            <li><em>เบ้ซ้าย</em> (Skewed Left): หางยาวไปทางค่าน้อย (เช่น อายุเกษียณ) → Mean &lt; Median</li>
+          </ul>
+        </li>
+      </ul>
+
+      <table>
+        <caption>สรุปสัญญาณจากสถิติกึ่งกลาง + รูปร่าง</caption>
+        <thead><tr><th>รูปแบบ</th><th>ความสัมพันธ์</th><th>ตัวอย่าง</th></tr></thead>
+        <tbody>
+          <tr><td>สมมาตร</td><td>Mean = Median = Mode</td><td>คะแนนสอบที่กระจุกกลาง</td></tr>
+          <tr><td>เบ้ขวา</td><td>Mean &gt; Median &gt; Mode</td><td>รายได้, เวลารอคอย</td></tr>
+          <tr><td>เบ้ซ้าย</td><td>Mean &lt; Median &lt; Mode</td><td>อายุเกษียณ</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note">
+      ✅ บทนี้เรา “ย่อเรื่องราวของข้อมูล” ด้วย Mean/Median/Mode, Percentiles/Quartiles และ SD+Skewness พร้อมกราฟช่วยมองภาพชัดขึ้น<br/>
+      ▶ ต่อไป: <strong>บทที่ 4: ความน่าจะเป็นเบื้องต้น (Introduction to Probability) 🎲</strong>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 03</small>
+    </div>
+  </footer>
+</body>
+</html>

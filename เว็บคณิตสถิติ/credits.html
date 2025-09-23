@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Credits | คอร์สสถิติ (ไทย)</title>
+  <meta name="description" content="Credits: ผู้จัดทำ ทีมพัฒนา ผู้ทบทวน และบรรณานุกรมสำหรับคอร์สสถิติ (ไทย)">
+  <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+    }
+    a{color:#cfe0ff}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1020px;margin:0 auto;padding:1.2rem}
+    header{
+      background:var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    header h1{margin:0;font-size:1.6rem}
+    nav.breadcrumb{margin-top:.5rem;color:var(--muted);font-size:.9rem}
+    nav.breadcrumb a{color:#cfe0ff}
+    .title{margin:.6rem 0 1rem}
+    .btn{padding:.5rem .85rem;border-radius:12px;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021}
+    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border)}
+    .grid{display:grid;gap:1rem}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:800px){.two{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem
+    }
+    h3{margin:.2rem 0}
+    .muted{color:var(--muted)}
+    ul{margin:.4rem 0 0 1rem}
+    footer{border-top:1px solid var(--border);background:#0d1119;margin-top:1rem;padding:.8rem 0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>📑 Credits — ทีมผู้จัดทำ & บรรณานุกรม</h1>
+      <nav class="breadcrumb">
+        <a href="index.html">หน้าแรก</a> › <a href="about.html">About</a> › <span class="muted">Credits</span>
+      </nav>
+      <div class="title">
+        <button class="btn secondary" onclick="location.href='about.html'">← กลับ About</button>
+        <button class="btn primary" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <section class="card two">
+      <div>
+        <h3>👩‍💻 ทีมผู้จัดทำ</h3>
+        <ul>
+          <li><strong>ผู้เรียบเรียงเนื้อหา:</strong> (ใส่ชื่อ/นามสกุล)</li>
+          <li><strong>ผู้ออกแบบเว็บ/โครงสร้าง:</strong> (ใส่ชื่อ/นามสกุล)</li>
+          <li><strong>นักพัฒนา Front-end:</strong> (ใส่ชื่อ/นามสกุล)</li>
+        </ul>
+        <h3 style="margin-top:.8rem">🎓 ผู้ทบทวนวิชาการ</h3>
+        <ul>
+          <li>(เพิ่มชื่ออาจารย์/ผู้เชี่ยวชาญ)</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>🛠️ การมีส่วนร่วม</h3>
+        <ul>
+          <li>การจัดทำบทเรียน 1–9</li>
+          <li>การสร้าง Formula Explorer</li>
+          <li>Glossary & สัญลักษณ์</li>
+          <li>แบบฝึก & ควิซท้ายบท</li>
+        </ul>
+        <p class="muted">ถ้ามีผู้ร่วมสมทบ/แปล/ออกแบบภาพ สามารถใส่ไว้ในส่วนนี้</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>📚 บรรณานุกรม / แหล่งอ้างอิง</h3>
+      <ul>
+        <li>Rosen, K.H. <em>Discrete Mathematics and Its Applications</em>. 8th Ed.</li>
+        <li>Moore, McCabe, Craig. <em>Introduction to the Practice of Statistics</em>.</li>
+        <li>หนังสือสถิติภาษาไทย (เช่น สุชาติ สุภาพ, “สถิติสำหรับนักศึกษา”)</li>
+        <li>แหล่งข้อมูลออนไลน์: Wikipedia, Khan Academy, StatTrek ฯลฯ</li>
+      </ul>
+      <p class="muted">หมายเหตุ: สามารถเพิ่มเติม/แก้ไขรายชื่อหนังสือตามที่ใช้จริง</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="muted">© คอร์สสถิติ (ไทย) | Credits Page</p>
+    </div>
+  </footer>
+
+  <script>
+    // แอนิเมชันโผล่เบา ๆ
+    const cards = document.querySelectorAll('.card');
+    const obs = new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],{duration:500,fill:'forwards'});
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold:.15});
+    cards.forEach(c=>obs.observe(c));
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สรุป 1 หน้า – บทที่ 3 — สถิติเชิงพรรณนา</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <style>
+    body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
+    header h1{margin:.2rem 0}
+    header p{color:#9aa0a6;margin:0 0 1rem}
+    .summary-1page{display:block}
+    .summary-1page .col{display:inline-block;vertical-align:top;width:48%;margin:0 1% 12px 0}
+    .summary-1page h3{margin:.4rem 0}
+    .card{background:#141821;border:1px solid #242a35;border-radius:12px;padding:12px;margin:10px 0}
+    .ok{background:#0f231c;border-left:4px solid #15b588;padding:.6rem;border-radius:10px}
+    .warn{background:#2a160c;border-left:4px solid #f59e0b;padding:.6rem;border-radius:10px}
+    .muted{color:#9aa0a6}
+    .print-footer{margin-top:8px;color:#9aa0a6;font-size:.9rem}
+    .page-break{page-break-before:always;break-before:always;margin-top:16px}
+    @media (max-width:900px){
+      .summary-1page .col{display:block;width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📄 สรุป 1 หน้า – บทที่ 3 — สถิติเชิงพรรณนา</h1>
+    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+  </header>
+
+  <section class="summary-1page">
+    <div class="col">
+      <div class="card">
+        <h3>🎯 เป้าหมายการเรียนรู้</h3>
+        <ul>
+          <li>คำนวณและตีความ Mean/Median/Mode</li><li>เข้าใจ Measures of Position (Percentiles/Quartiles)</li><li>อธิบายการกระจาย (SD) และความเบ้</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚠️ ข้อควรระวัง</h3>
+        <ul>
+          <li>ใช้ Mean กับข้อมูลเบ้จัด → สรุปผิด ควรใช้ Median</li><li>สับสนหน่วยของ SD</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class='card'><h3>🧩 ศูนย์กลาง</h3><ul><li>Mean (ไวต่อ outliers), Median (ทน outliers), Mode (ใช้กับข้อมูลจัดหมวดได้)</li></ul></div><div class='card'><h3>🧩 ตำแหน่ง</h3><ul><li>Percentiles/Quartiles: Q1=P25, Q2=Median, Q3=P75</li></ul></div><div class='card'><h3>🧩 การกระจาย & รูปร่าง</h3><ul><li>SD ต่ำ = เกาะกลุ่ม, สูง = กระจาย</li><li>Skew: ขวา (หางขวา), ซ้าย (หางซ้าย)</li></ul></div>
+    </div>
+  </section>
+  
+  <footer class="print-footer">
+    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+  </footer>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>อธิบายสูตร — Binomial Distribution | คอร์สสถิติ</title>
+  <meta name="description" content="สูตรทวินาม (Binomial): ที่มา สัญลักษณ์ วิธีทำ ขั้นตอน เหตุผล ตัวอย่างสั้น/เต็มขั้น ข้อผิดพลาดที่พบบ่อย พร้อมเครื่องคิดเลขเล็ก ๆ สำหรับ P(X=x) และช่วง">
+  <meta name="keywords" content="binomial, ทวินาม, ความน่าจะเป็น, สถิติ, PMF, CDF, np, npq">
+  <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b; --danger:#ef4444;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:0 auto;padding:1.2rem}
+    header{
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(1000px 400px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(800px 320px at 90% -20%, rgba(21,181,136,.14), transparent 60%),
+        var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    .brand{display:flex;align-items:center;gap:.8rem}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
+    .brand h1{margin:0;font-size:1.1rem}
+    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
+    nav.breadcrumb a{color:#cfe0ff}
+    .title{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+      padding:.6rem 0 1.0rem;
+    }
+    .title h2{margin:.2rem 0;font-size:1.8rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--border);background:#0e1220;border-radius:999px;padding:.25rem .6rem;color:#cfe0ff;font-size:.85rem}
+    .btn{
+      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
+      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
+    }
+    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
+    .btn.ghost{background:#0e1220;color:#cfe0ff;border:1px solid var(--border);box-shadow:none}
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem
+    }
+    .hl{background:#0f2237;border-left:4px solid var(--accent-2);padding:.8rem;border-radius:12px}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.8rem;border-radius:12px}
+    .warn{background:#2a160c;border-left:4px solid var(--warn);padding:.8rem;border-radius:12px}
+    .muted{color:var(--muted)}
+    h3{margin:.2rem 0}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media (max-width:860px){.two{grid-template-columns:1fr}}
+    /* mini math badge */
+    code.math{background:#0c1020;border:1px solid #1a2233;padding:.05rem .35rem;border-radius:8px}
+    /* list check */
+    .checklist li{margin:.2rem 0}
+    /* small table */
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:.5rem;vertical-align:top}
+    th{background:#111824}
+    /* animation */
+    @keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .pop{animation:pop .6s cubic-bezier(.2,.7,.2,1)}
+    @media (prefers-reduced-motion:reduce){.pop{animation:none}}
+    footer{border-top:1px solid var(--border);background:#0d1119;margin-top:1rem}
+    .footnav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+    .footnav a{color:#cfe0ff}
+    /* calculator styles */
+    .calc input[type="number"]{
+      width:110px;background:#0b0f19;color:#e8e8ea;border:1px solid var(--border);border-radius:10px;padding:.35rem .5rem
+    }
+    .calc input[type="range"]{width:220px}
+    .pill{border:1px solid var(--border);background:#0a0e19;border-radius:999px;padding:.2rem .55rem;font-size:.8rem;color:#cfe0ff}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>อธิบายสูตร — Binomial Distribution</h1>
+        <span class="badge">บท 7 • แจกแจงไม่ต่อเนื่อง</span>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <a href="../index.html#formula">อธิบายสูตร</a> › <span class="muted">Binomial</span>
+      </nav>
+      <div class="title">
+        <div>
+          <h2>สูตรทวินาม (Binomial) — คิด “สำเร็จ x ครั้ง” จากการทดลอง n ครั้ง</h2>
+          <p class="muted">รวม: ที่มา • สัญลักษณ์ • วิธีทำ • ขั้นตอน • เหตุผล • ตัวอย่าง • ข้อผิดพลาดที่พบบ่อย • เครื่องคิดเลขย่อ</p>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="window.print()" aria-label="พิมพ์สรุปหน้านี้">🖨️ พิมพ์/บันทึก PDF</button>
+          <a class="btn secondary" href="../lesson07.html">เปิดบท 7</a>
+          <a class="btn ghost" href="poisson.html" aria-disabled="true" title="กำลังจะมี">ไป Poisson ➜</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid" role="main">
+    <!-- Objectives / Prereq -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🎯 เป้าหมายการเรียนรู้</h3>
+          <ul>
+            <li>อธิบายที่มาของ <code class="math">P(X=x)=C(n,x)p^x(1-p)^{n-x}</code></li>
+            <li>ใช้สัญลักษณ์ <code class="math">C(n,x), n, x, p, q</code> ได้ถูกต้อง</li>
+            <li>คำนวณแบบ “ค่าจุด/ช่วง/อย่างน้อย/ไม่เกิน” และ <code class="math">E[X]=np</code>, <code class="math">V[X]=np(1-p)</code></li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧭 Prerequisites</h3>
+          <ul>
+            <li>Bernoulli trial (สำเร็จ/ล้มเหลว, โอกาสคงที่)</li>
+            <li>จัดหมู่/จัดลำดับพื้นฐาน (สัญลักษณ์ <code class="math">C(n,x)</code>)</li>
+            <li>กฎบวก/คูณของความน่าจะเป็น</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intuition & Symbols -->
+    <section class="card pop">
+      <h3>1) ที่มาของสูตร 🔍</h3>
+      <p>ทดลองที่มี 2 ผลลัพธ์ (สำเร็จ/ล้มเหลว) ซ้ำ <strong>n</strong> ครั้ง โดยแต่ละครั้งเป็นอิสระและมีโอกาสสำเร็จคงที่ <strong>p</strong>. ต้องการหาโอกาสที่ “สำเร็จ<strong>พอดี x ครั้ง</strong>”</p>
+      <ul>
+        <li>จำนวนลำดับที่มีสำเร็จ <em>x</em> ครั้ง = <code class="math">C(n,x)</code></li>
+        <li>โอกาสของลำดับหนึ่ง ๆ = <code class="math">p^x(1-p)^{n-x}</code> (คูณกันเพราะอิสระ)</li>
+      </ul>
+      <div class="hl">
+        สูตรหลัก: <code class="math">P(X=x)=C(n,x)p^x(1-p)^{n-x}</code> สำหรับ <code class="math">x=0,1,…,n</code> และ
+        <code class="math">E[X]=np</code>, <code class="math">V[X]=np(1-p)</code>
+      </div>
+      <h3 style="margin-top:.8rem">2) สัญลักษณ์ ✍️</h3>
+      <table>
+        <tbody>
+          <tr><th>X</th><td>จำนวน “สำเร็จ” ที่เกิดขึ้นใน n ครั้ง</td></tr>
+          <tr><th>n</th><td>จำนวนครั้งทดลอง (คงที่)</td></tr>
+          <tr><th>x</th><td>ค่าที่สนใจ (0–n)</td></tr>
+          <tr><th>p</th><td>โอกาสสำเร็จใน 1 ครั้ง (คงที่)</td></tr>
+          <tr><th>q</th><td><code class="math">1 - p</code> = โอกาสล้มเหลวใน 1 ครั้ง</td></tr>
+          <tr><th>C(n,x)</th><td>จำนวนวิธีเลือกตำแหน่งสำเร็จ x ตำแหน่งจาก n (อ่านว่า “n choose x”)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Method & Steps & Why -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>3) วิธีทำโดยสรุป 🧠</h3>
+          <ol>
+            <li>ตรวจว่าเข้าเงื่อนไขทวินาม (อิสระ, 2 ผลลัพธ์, p คงที่, n คงที่)</li>
+            <li>ระบุ <code class="math">(n,p)</code> และค้าที่ต้องการ (จุด/ช่วง)</li>
+            <li>ใช้ <code class="math">P(X=x)=C(n,x)p^x(1-p)^{n-x}</code> หรือรวมหลายค่าเมื่อเป็นช่วง</li>
+            <li>หาค่าเฉลี่ย/ความแปรปรวนหากถูกถาม: <code class="math">E[np], Var[np(1-p)]</code></li>
+          </ol>
+        </div>
+        <div>
+          <h3>4) ขั้นตอนละเอียด 🧩</h3>
+          <ul>
+            <li><strong>ค่าจุด:</strong> คำนวณ <code class="math">C(n,x)</code> → คูณ <code class="math">p^x q^{n-x}</code></li>
+            <li><strong>ช่วง:</strong> รวมค่าจุด หรือใช้ส่วนเติมเต็ม เช่น <code class="math">P(X≥k)=1-P(X≤k-1)</code></li>
+          </ul>
+          <div class="ok"><strong>เคล็ดลับ:</strong> ใช้ “ส่วนเติมเต็ม” เพื่อลดจำนวนพจน์ที่ต้องรวม</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:.8rem">5) สิ่งใดมาจากไหน 🧱</h3>
+      <ul>
+        <li><code class="math">C(n,x)</code> มาจากการนับตำแหน่งที่เป็น “สำเร็จ”</li>
+        <li><code class="math">p^x q^{n-x}</code> มาจากการคูณของความน่าจะเป็นในลำดับหนึ่ง ๆ (อิสระ)</li>
+        <li><code class="math">E[X]=np</code> เพราะผลรวมของตัวแปร Bernoulli n ตัว</li>
+        <li><code class="math">V[X]=np(1-p)</code> ผลรวมความแปรปรวนของ Bernoulli อิสระ</li>
+      </ul>
+
+      <h3 style="margin-top:.8rem">6) การปรับวิธีตอบ 🔧</h3>
+      <ul>
+        <li>แปลง “อย่างน้อย/ไม่เกิน/ระหว่าง” เป็นผลรวมค่าจุดหรือส่วนเติมเต็ม</li>
+        <li>เปอร์เซ็นต์ → แปลงเป็นทศนิยมก่อนเสมอ</li>
+        <li>ทางเลือกใกล้เคียง: Normal Approx. (เมื่อ n ใหญ่, p ไม่สุดโต่ง) / Poisson Approx. (เมื่อ n ใหญ่, p เล็กมาก)</li>
+      </ul>
+    </section>
+
+    <!-- Examples -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🧪 ตัวอย่างสั้น</h3>
+          <p><strong>โจทย์:</strong> โยนเหรียญยุติธรรม 8 ครั้ง หา <code class="math">P(X=5)</code></p>
+          <ul>
+            <li><code class="math">n=8, p=0.5, q=0.5, x=5</code></li>
+            <li><code class="math">P= C(8,5)(0.5)^5(0.5)^3 = C(8,5)(0.5)^8 = 56/256 ≈ 0.21875</code></li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧮 ตัวอย่างเต็มขั้น</h3>
+          <p><strong>โจทย์:</strong> เครื่องจักรผลิตงานผ่านเกณฑ์โอกาส <code class="math">p=0.92</code> ตรวจ 12 ชิ้น หา <code class="math">P(X≥10)</code></p>
+          <ol>
+            <li>เช็กทวินาม: อิสระ, 2 ผลลัพธ์, p คงที่ ✔️</li>
+            <li>ใช้ส่วนเติมเต็ม: <code class="math">P(X≥10)=1-P(X≤9)</code></li>
+            <li><code class="math">P(X≤9)=Σ_{x=0}^{9} C(12,x)0.92^x0.08^{12-x}</code></li>
+            <li>คำนวณด้วยเครื่องมือ แล้วหักจาก 1 เพื่อสรุปผล</li>
+            <li>ค่าเฉลี่ยคาดหวัง: <code class="math">E[X]=np=11.04</code></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pitfalls & Checklist -->
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>⚠️ ข้อผิดพลาดที่พบบ่อย</h3>
+          <ul>
+            <li>ลืมตรวจ “อิสระ” / “p คงที่” → กรณีสุ่มแบบไม่คืนของจากประชากรเล็ก อาจเป็น Hypergeometric</li>
+            <li>สับสน “อย่างน้อย/ไม่เกิน/ระหว่าง” → ลืมใช้ส่วนเติมเต็ม</li>
+            <li>คำนวณ <code class="math">C(n,x)</code> ผิดเมื่อ n ใหญ่ → ควรใช้ฟังก์ชัน <em>nCr</em></li>
+            <li>เปอร์เซ็นต์ไม่แปลงเป็นทศนิยมก่อน</li>
+          </ul>
+        </div>
+        <div>
+          <h3>✅ เช็กตัวเอง</h3>
+          <ul class="checklist">
+            <li>รู้ที่มาของ <code class="math">C(n,x)p^x(1-p)^{n-x}</code></li>
+            <li>คำนวณค่าจุดและช่วงด้วยส่วนเติมเต็มได้</li>
+            <li>ใช้ <code class="math">E[X]=np</code> และ <code class="math">V[X]=np(1-p)</code> ได้</li>
+            <li>แยกบริบท Binomial vs Hypergeometric/Poisson/Normal ได้</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mini Calculator -->
+    <section class="card pop">
+      <h3>🧷 เครื่องคิดเลข Binomial (ย่อ)</h3>
+      <p class="muted">คำนวณ <strong>ค่าจุด</strong> <code class="math">P(X=x)</code> หรือ <strong>ช่วง</strong> <code class="math">P(a ≤ X ≤ b)</code> (สมมติการทดลองเข้าเงื่อนไขทวินาม)</p>
+      <div class="two calc" role="group" aria-label="เครื่องคิดเลข Binomial">
+        <div>
+          <p>
+            <label>จำนวนครั้งทดลอง n<br>
+              <input type="number" id="n" value="10" min="0" step="1">
+            </label>
+          </p>
+          <p>
+            <label>โอกาสสำเร็จ p (0–1)<br>
+              <input type="number" id="p" value="0.5" step="0.001" min="0" max="1">
+            </label>
+          </p>
+          <p>
+            <span class="pill">โหมด: </span>
+            <label><input type="radio" name="mode" value="point" checked> ค่าจุด x</label>
+            <label style="margin-left:.6rem"><input type="radio" name="mode" value="range"> ช่วง a…b</label>
+          </p>
+          <div id="pointInputs">
+            <label>x = <input type="number" id="x" value="5" min="0" step="1"></label>
+          </div>
+          <div id="rangeInputs" style="display:none">
+            <label>a = <input type="number" id="a" value="0" min="0" step="1"></label>
+            <label style="margin-left:.6rem">b = <input type="number" id="b" value="5" min="0" step="1"></label>
+          </div>
+          <p class="actions" style="margin-top:.6rem">
+            <button class="btn" id="calcBtn">คำนวณ</button>
+            <button class="btn ghost" id="fillExamples">เติมตัวอย่าง</button>
+          </p>
+        </div>
+        <div>
+          <h4>ผลลัพธ์</h4>
+          <div class="hl" id="resultBox">—</div>
+          <p class="muted" style="margin-top:.5rem">หมายเหตุ: คำนวณเชิงตัวเลขด้วยความแม่นยำทศนิยมทั่วไป เหมาะสำหรับการเรียน</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Next -->
+    <section class="card pop">
+      <h3>🔗 ไปทำแบบฝึก/ควิซ</h3>
+      <p class="muted">หน้าเหล่านี้เป็นโครงลิงก์ไว้ก่อน เมื่อสร้างไฟล์แล้วใช้งานได้ทันที</p>
+      <div class="actions">
+        <a class="btn ghost" href="../practice/lesson07.html" aria-disabled="true" title="กำลังจะมี">แบบฝึกฝน (บท 7)</a>
+        <a class="btn ghost" href="../quiz/lesson07.html" aria-disabled="true" title="กำลังจะมี">ควิซท้ายบท (บท 7)</a>
+        <a class="btn secondary" href="../index.html#formula">กลับหน้าอธิบายสูตร</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footnav">
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../glossary.html" aria-disabled="true">Glossary</a>
+        <a href="../about.html" aria-disabled="true">About</a>
+        <a href="../credits.html" aria-disabled="true">Credits</a>
+      </div>
+      <p class="muted">© คอร์สสถิติ (ไทย). หน้านี้ออกแบบให้พิมพ์ PDF ได้สวยด้วยเบราว์เซอร์</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== UI handlers
+    const modeRadios = document.querySelectorAll('input[name="mode"]');
+    const pointInputs = document.getElementById('pointInputs');
+    const rangeInputs = document.getElementById('rangeInputs');
+    modeRadios.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const mode = document.querySelector('input[name="mode"]:checked').value;
+        pointInputs.style.display = mode==='point' ? '' : 'none';
+        rangeInputs.style.display = mode==='range' ? '' : 'none';
+      });
+    });
+
+    // ===== Math helpers
+    function comb(n, k){
+      if(k<0 || k>n) return 0;
+      k = Math.min(k, n-k);
+      let res = 1;
+      for(let i=1;i<=k;i++){
+        res = res * (n - k + i) / i;
+      }
+      return res;
+    }
+    function pmf(n, p, x){
+      const q = 1 - p;
+      if(x<0 || x>n) return 0;
+      return comb(n, x) * Math.pow(p, x) * Math.pow(q, n - x);
+    }
+    function cdf(n, p, t){ // P(X<=t)
+      t = Math.floor(t);
+      let s = 0;
+      for(let x=0; x<=t; x++) s += pmf(n,p,x);
+      return s;
+    }
+
+    // ===== Calculator
+    function fmt(v){
+      if(!isFinite(v)) return 'NaN';
+      if(v===0) return '0';
+      if(v<1e-6) return v.toExponential(2);
+      return v.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+    }
+
+    function calc(){
+      const n = Number(document.getElementById('n').value);
+      const p = Number(document.getElementById('p').value);
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      const box = document.getElementById('resultBox');
+
+      if(!(n>=0 && Number.isInteger(n))) return box.textContent='กรุณาใส่ n เป็นจำนวนเต็มไม่ลบ';
+      if(!(p>=0 && p<=1)) return box.textContent='กรุณาใส่ p ระหว่าง 0–1';
+
+      if(mode==='point'){
+        const x = Number(document.getElementById('x').value);
+        if(!(x>=0 && x<=n && Number.isInteger(x))) return box.textContent='x ต้องอยู่ในช่วง 0..n และเป็นจำนวนเต็ม';
+        const prob = pmf(n,p,x);
+        const EX = n*p, VX = n*p*(1-p);
+        box.innerHTML = `
+          <div><strong>P(X=${x})</strong> = ${fmt(prob)}</div>
+          <div class="muted">C(${n},${x})·p^${x}·(1-p)^${n-x}</div>
+          <div style="margin-top:.4rem">E[X]=${fmt(EX)}, Var[X]=${fmt(VX)}</div>
+        `;
+      }else{
+        const a = Number(document.getElementById('a').value);
+        const b = Number(document.getElementById('b').value);
+        if(!(Number.isInteger(a)&&Number.isInteger(b))) return box.textContent='a,b เป็นจำนวนเต็ม';
+        if(a>b) return box.textContent='ช่วงผิดลำดับ: ต้องมี a ≤ b';
+        if(a<0 || b>n) return box.textContent='a,b ต้องอยู่ในช่วง 0..n';
+        let s=0;
+        for(let x=a;x<=b;x++) s += pmf(n,p,x);
+        box.innerHTML = `
+          <div><strong>P(${a} ≤ X ≤ ${b})</strong> = ${fmt(s)}</div>
+          <div class="muted">= Σ<sub>x=${a}..${b}</sub> C(${n},x)·p^x·(1-p)^${n}-x</div>
+          <div style="margin-top:.4rem">เคล็ดลับ: ใช้ส่วนเติมเต็มถ้าช่วงยาวมาก</div>
+        `;
+      }
+    }
+    document.getElementById('calcBtn').addEventListener('click', calc);
+
+    document.getElementById('fillExamples').addEventListener('click', ()=>{
+      document.getElementById('n').value = 8;
+      document.getElementById('p').value = 0.5;
+      document.querySelector('input[value="point"]').checked = true;
+      pointInputs.style.display='';
+      rangeInputs.style.display='none';
+      document.getElementById('x').value = 5;
+      document.getElementById('resultBox').textContent = '—';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>404 – หน้าไม่พบ | คอร์สสถิติ (ไทย)</title>
+  <meta name="description" content="ไม่พบหน้าที่ค้นหา (404). กลับหน้าแรก ไปบทเรียน หรือเปิดหน้าอธิบายสูตรได้ที่นี่">
+  <meta name="robots" content="noindex">
+
+  <!-- สไตล์หลักของโปรเจกต์ -->
+  <link rel="stylesheet" href="style.css">
+  <!-- โหมดพิมพ์ -->
+  <link rel="stylesheet" href="print.css" media="print">
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100dvh;
+      background:
+        radial-gradient(900px 360px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(700px 280px at 90% -15%, rgba(21,181,136,.14), transparent 60%),
+        linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      display:grid; place-items:center;
+      padding:1.2rem;
+    }
+    .wrap{width:100%; max-width:900px}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:1.2rem;
+    }
+    .center{display:grid; place-items:center; text-align:center; gap:.6rem}
+    .code{
+      font-weight:800; font-size:5rem; line-height:1; letter-spacing:.04em;
+      background:linear-gradient(135deg,#7fb0ff,#15b588); -webkit-background-clip:text; background-clip:text; color:transparent;
+      text-shadow:0 8px 30px rgba(79,140,255,.35);
+    }
+    .subtitle{color:#cfe0ff; font-size:1.2rem; margin-top:-.4rem}
+    .muted{color:var(--muted)}
+    .actions{display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-top:.4rem}
+    .btn{
+      appearance:none; border:none; cursor:pointer; padding:.6rem .9rem; border-radius:12px; font-weight:700;
+      background:linear-gradient(135deg,var(--accent-2),#7fb0ff); color:#071021; box-shadow:0 10px 20px rgba(79,140,255,.35)
+    }
+    .btn.secondary{background:#0f1320; color:var(--text); border:1px solid var(--border); box-shadow:none}
+    .btn.ghost{background:#0e1220; color:#cfe0ff; border:1px solid var(--border); box-shadow:none}
+    .suggest{display:grid; gap:.6rem; margin-top:.6rem}
+    .links{display:flex; flex-wrap:wrap; gap:.4rem; justify-content:center}
+    .chip{
+      display:inline-block; padding:.3rem .6rem; border:1px solid var(--border); border-radius:999px; background:#0a0e19; color:#cfe0ff;
+      font-size:.9rem;
+    }
+    .fld{display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin-top:.2rem}
+    input[type="search"]{
+      width:360px; max-width:100%; background:#0b0f19; border:1px solid var(--border); border-radius:10px; color:#e8e8ea;
+      padding:.55rem .7rem;
+    }
+    footer{margin-top:1rem; text-align:center; color:var(--muted)}
+    @media (prefers-reduced-motion:no-preference){
+      .card{ animation: floatIn .6s ease-out both }
+      @keyframes floatIn{ from{ opacity:0; transform:translateY(10px) } to{ opacity:1; transform:translateY(0) } }
+    }
+    @media print{
+      body{ background:#fff !important; color:#000 !important; }
+      .btn, .fld, .links{ display:none !important; }
+      .card{ background:#fff !important; border:1px solid #ccc !important; box-shadow:none !important; }
+      .code{ color:#000 !important; text-shadow:none !important; background:none !important; -webkit-text-fill-color:#000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <section class="card center" aria-labelledby="t404">
+      <div class="code" aria-hidden="true">404</div>
+      <h1 id="t404" class="subtitle">โอ๊ะ! ไม่พบหน้าที่คุณต้องการ</h1>
+      <p class="muted">อาจพิมพ์ URL ผิด หรือลิงก์ดังกล่าวถูกย้าย/ลบไปแล้ว</p>
+
+      <div class="actions" role="navigation" aria-label="ตัวเลือกนำทาง">
+        <a class="btn" href="index.html">← กลับหน้าแรก</a>
+        <a class="btn secondary" href="glossary.html">📚 Glossary</a>
+        <a class="btn ghost" href="index.html#formula">🧮 หน้าอธิบายสูตร</a>
+      </div>
+
+      <div class="suggest">
+        <div class="links" aria-label="ลิงก์ด่วน">
+          <a class="chip" href="lesson01.html">บท 1</a>
+          <a class="chip" href="lesson02.html">บท 2</a>
+          <a class="chip" href="lesson03.html">บท 3</a>
+          <a class="chip" href="lesson04.html">บท 4</a>
+          <a class="chip" href="lesson05.html">บท 5</a>
+          <a class="chip" href="lesson06.html">บท 6</a>
+          <a class="chip" href="lesson07.html">บท 7</a>
+          <a class="chip" href="lesson08.html">บท 8</a>
+          <a class="chip" href="lesson09.html">บท 9</a>
+          <a class="chip" href="summaries-all.html">สรุป 1 หน้า (รวม)</a>
+        </div>
+
+        <form class="fld" role="search" aria-label="ค้นหาภายในไซต์" onsubmit="return goSearch(event)">
+          <label class="visually-hidden" for="q">ค้นหา</label>
+          <input id="q" type="search" placeholder="ลองค้นคำ เช่น Binomial, Poisson, Z-score, CLT" aria-label="กล่องค้นหา">
+          <button class="btn" type="submit">ค้นหา</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      ถ้าคิดว่าหน้านี้ควรมีอยู่จริง กรุณาแจ้งทีมผู้ดูแลเว็บไซต์ 🙏
+    </footer>
+  </main>
+
+  <script>
+    // ค้นหาแบบง่าย: ส่งผู้ใช้ไปหน้า index พร้อมเติม hash คีย์เวิร์ด
+    function goSearch(e){
+      e.preventDefault();
+      const q = (document.getElementById('q').value || '').trim();
+      if(!q) { location.href = 'index.html'; return false; }
+      // แนวคิด: ถ้า index มีระบบค้นหา JS ให้ดึงจาก query string ได้
+      const url = new URL('index.html', location.href);
+      url.hash = '#search=' + encodeURIComponent(q);
+      location.href = url.toString();
+      return false;
+    }
+
+    // รองรับ .visually-hidden ถ้ามีใน style.css; ถ้าไม่ ให้กำหนดแบบย่อที่นี่
+    (function ensureVisuallyHidden(){
+      const style = document.createElement('style');
+      style.textContent = `
+        .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      `;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>
