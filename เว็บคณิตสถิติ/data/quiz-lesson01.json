@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "lesson": "lesson01",
+    "title": "Quiz บทที่ 1",
+    "version": "0.1.0",
+    "updated_at": "2025-09-23",
+    "language": "th",
+    "depends_on": [
+      "lesson01.questions.th.json",
+      "lesson01.solutions.th.json"
+    ]
+  },
+  "sources": {
+    "questions": "lesson01.questions.th.json",
+    "solutions": "lesson01.solutions.th.json"
+  },
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2
+  }
+}

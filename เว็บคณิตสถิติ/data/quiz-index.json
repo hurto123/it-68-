@@ -1,0 +1,13 @@
+{
+  "version": "0.1.0",
+  "updated_at": "2025-09-23",
+  "quizzes": [
+    {
+      "id": "lesson01",
+      "title": "บทที่ 1 • ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+      "questions": "lesson01.questions.th.json",
+      "solutions": "lesson01.solutions.th.json",
+      "config": "quiz-lesson01.json"
+    }
+  ]
+}
