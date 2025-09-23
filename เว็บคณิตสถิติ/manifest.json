@@ -1,0 +1,28 @@
+{
+  "project": "เว็บคณิตสถิติ",
+  "version": "2025.09.23",
+  "updated_at": "2025-09-23",
+  "lessons": [
+    {
+      "id": "lesson01",
+      "title": "บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+      "version": "1.1.0",
+      "updated_at": "2025-09-23",
+      "depends_on": [
+        "summary-lesson01.html",
+        "glossary.html#data-quality",
+        "data/lesson01.questions.th.json",
+        "data/lesson01.solutions.th.json",
+        "data/quiz-lesson01.json"
+      ],
+      "assets": {
+        "page": "lesson01.html",
+        "summary": "summary-lesson01.html",
+        "questions": "data/lesson01.questions.th.json",
+        "solutions": "data/lesson01.solutions.th.json",
+        "quiz_config": "data/quiz-lesson01.json"
+      }
+    }
+  ],
+  "notes": "Pilot metadata สำหรับระบบอัปเดตบทเรียนและแบบฝึกหัด JSON"
+}

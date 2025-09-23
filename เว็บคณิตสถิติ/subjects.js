@@ -9,7 +9,16 @@ export const lessons = [
     tags: "บท1 introduction สถิติ descriptive inferential",
     chip: "พื้นฐาน",
     link: "lesson01.html",
-    summary: "summary-lesson01.html"
+    summary: "summary-lesson01.html",
+    meta: {
+      version: "1.1.0",
+      updated_at: "2025-09-23",
+      depends_on: [
+        "summary-lesson01.html",
+        "data/lesson01.questions.th.json",
+        "data/lesson01.solutions.th.json"
+      ]
+    }
   },
   {
     id: "lesson02",
