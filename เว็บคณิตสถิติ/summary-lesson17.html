@@ -15,65 +15,42 @@
       svg: { fontCache: 'global' }
     };
   </script>
+  <script defer src="lesson-controls.js"></script>
   <script defer src="assets/js/reading-tools.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
-  <style>
-    body { margin: 0; padding: 28px 20px 40px; background: #0f1117; color: #eaecef; font: 16px/1.65 "Noto Sans Thai", system-ui, sans-serif; }
-    header { max-width: 880px; margin: 0 auto 1.5rem; }
-    header h1 { margin: 0 0 .35rem; font-size: 2.05rem; }
-    header p { margin: 0; color: #9aa0a6; }
-    main { max-width: 880px; margin: 0 auto; display: grid; gap: 1.25rem; }
-    .card { background: #141821; border: 1px solid #242a35; border-radius: 14px; padding: 1.1rem 1.35rem; box-shadow: 0 10px 28px rgba(0,0,0,.32); }
-    .card h2, .card h3 { margin-top: 0; }
-    .tagline { display: inline-flex; align-items: center; gap: .45rem; font-size: .95rem; color: #cfe0ff; background: rgba(125,146,255,.12); border: 1px solid #2f3542; border-radius: 999px; padding: .3rem .9rem; margin-top: .35rem; }
-    .grid-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-    .list-tight li + li { margin-top: .35rem; }
-    .flow { counter-reset: step; display: grid; gap: .55rem; }
-    .flow li { list-style: none; padding-left: 2.3rem; position: relative; }
-    .flow li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: rgba(79,140,255,.35); color: #081022; display: grid; place-items: center; font-weight: 700; }
-    .highlight { background: rgba(21,181,136,.12); border-left: 4px solid #15b588; border-radius: 10px; padding: .85rem 1rem; }
-    .warn { background: rgba(245,158,11,.14); border-left: 4px solid #f59e0b; border-radius: 10px; padding: .85rem 1rem; }
-    .practice li + li { margin-top: .65rem; }
-    .practice span { display: block; color: #9aa0a6; font-size: .88rem; margin-top: .15rem; }
-    footer { max-width: 880px; margin: 2rem auto 0; text-align: right; color: #9aa0a6; font-size: .9rem; }
-    @media (max-width: 720px) {
-      body { padding: 24px 16px 32px; }
-      header h1 { font-size: 1.7rem; }
-    }
-  </style>
 </head>
-<body>
-  <header>
+<body class="summary-inference">
+  <header class="summary-header">
     <h1>บทที่ 17 — พื้นฐานการทดสอบสมมติฐาน</h1>
-    <p class="tagline">H₀ vs H₁ · ระดับนัยสำคัญ · ข้อผิดพลาดสองประเภท</p>
+    <p class="summary-tagline">H₀ vs H₁ · ระดับนัยสำคัญ · ข้อผิดพลาดสองประเภท</p>
     <p>อัปเดตจากบท 8.1 เดิม: เพิ่มขั้นตอนภาพรวม, ตารางแยก Type I / II, และตัวอย่างตีความ P-value</p>
   </header>
 
-  <main>
-    <section class="card">
+  <main class="summary-main">
+    <section class="summary-card">
       <h2>🎯 วัตถุประสงค์</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li>ตั้งสมมติฐานหลัก (H₀) และสมมติฐานรอง (H₁) ได้ตรงกับโจทย์</li>
         <li>อธิบายความหมายของระดับนัยสำคัญ $\alpha$, พลังทดสอบ และข้อผิดพลาดประเภท I/II</li>
         <li>เข้าใจขั้นตอนทั่วไปของการทดสอบสมมติฐานก่อนลงลึกในบท 19–22</li>
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>🔎 ภาพรวมแนวคิด</h2>
-      <div class="grid-two">
-        <div class="highlight">
+      <div class="summary-grid-two">
+        <div class="summary-callout">
           <h3>บทบาทของ H₀</h3>
           <p>H₀ คือสถานะเดิม (Status Quo) ที่ต้องพิสูจน์ว่า “ยังคงจริง” เช่น ค่าเฉลี่ย = 50, ความต่าง = 0, ไม่มีผล</p>
         </div>
-        <div class="highlight">
+        <div class="summary-callout">
           <h3>บทบาทของ H₁</h3>
           <p>H₁ คือข้อเรียกร้องใหม่ ต้องการหลักฐานเพื่อ “ปฏิเสธ H₀” เช่น ค่าเฉลี่ย > 50, ความต่าง ≠ 0</p>
         </div>
       </div>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>🪜 ขั้นตอนการทดสอบสมมติฐาน</h2>
       <ol class="flow">
         <li>กำหนด H₀ และ H₁ ให้สอดคล้องกับคำถาม พร้อมกำหนด $\alpha$</li>
@@ -85,9 +62,9 @@
       </ol>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📋 ตารางข้อผิดพลาด</h2>
-      <table class="formula-table" style="margin-top:0;">
+      <table class="summary-table summary-table--flush">
         <thead>
           <tr>
             <th>การตัดสินใจ</th>
@@ -108,12 +85,12 @@
           </tr>
         </tbody>
       </table>
-      <p class="muted" style="margin-top:.65rem;">เราคุม $\alpha$ เป็นหลัก ส่วน $\beta$ และ Power ขึ้นกับขนาดตัวอย่างและขนาดผลที่แท้จริง</p>
+      <p class="muted summary-note">เราคุม $\alpha$ เป็นหลัก ส่วน $\beta$ และ Power ขึ้นกับขนาดตัวอย่างและขนาดผลที่แท้จริง</p>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>🔍 โครงสร้างสูตรสถิติทดสอบ</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li><strong>รูปแบบทั่วไป</strong>: \(\text{Test Statistic} = \dfrac{\text{Estimate} - \text{ค่าที่ตั้งใน }H_0}{\text{Standard Error}}\)</li>
         <li><strong>Z-test</strong> ใช้เมื่อรู้ $\sigma$ หรือ $n$ ใหญ่ → เปรียบเทียบกับการแจกแจงปกติมาตรฐาน</li>
         <li><strong>t-test</strong> ใช้เมื่อไม่รู้ $\sigma$ และต้องประมาณจากตัวอย่าง → อาศัย t-distribution กับ $df = n-1$</li>
@@ -122,10 +99,10 @@
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📊 ตัวอย่างตีความ P-value</h2>
-      <div class="highlight">
-        <ol class="list-tight">
+      <div class="summary-callout">
+        <ol class="summary-list-tight">
           <li>เปรียบเทียบความแรงของแบตเตอรี่รุ่นใหม่กับรุ่นเดิม → ได้ P-value = 0.028 ที่ $\alpha = 0.05$</li>
           <li>เนื่องจาก 0.028 &lt; 0.05 → ปฏิเสธ H₀ (แบตเตอรี่ใหม่มีผลต่างจากเดิม)</li>
           <li>อย่าพูดว่า “มีโอกาส 2.8% ที่ H₀ เป็นจริง” เพราะ P-value คือความน่าจะเป็นของข้อมูล “ภายใต้ H₀”</li>
@@ -133,18 +110,18 @@
       </div>
     </section>
 
-    <section class="card warn">
+    <section class="summary-card summary-card--warn">
       <h2>⚠️ Mistakes ที่พบบ่อย</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li>ตั้ง H₁ ผิดทิศ (เช่น ต้องการพิสูจน์ว่ามากกว่า แต่ตั้ง H₁ เป็น ≠)</li>
         <li>ตีความ “ไม่ปฏิเสธ H₀” ว่า “H₀ เป็นจริง” — จริง ๆ คือ “หลักฐานยังไม่พอ”</li>
         <li>ไม่รายงานขนาดตัวอย่าง ทำให้ผู้อ่านประเมินพลังทดสอบไม่ได้</li>
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📄 สรุป 1 หน้า</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li><strong>องค์ประกอบ 6 ขั้น</strong>: กำหนด H₀/H₁ → ตั้งระดับนัยสำคัญ → เลือกสถิติทดสอบ → กำหนดเขตวิกฤต/คำนวณ P-value → สรุป → ตีความ</li>
         <li><strong>H₀</strong> ใช้เครื่องหมาย =, ≤, ≥ เสมอ ส่วน H₁ ตรงกับสิ่งที่อยากพิสูจน์ (≠, &gt;, &lt;)</li>
         <li><strong>Type I vs Type II</strong>: ลด $\alpha$ → ลดโอกาสผิดพลาดชนิดที่ 1 แต่เพิ่มโอกาสชนิดที่ 2 เว้นแต่เพิ่ม $n$</li>
@@ -152,9 +129,9 @@
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📝 แบบฝึกหัด</h2>
-      <ol class="practice">
+      <ol class="summary-practice">
         <li>กำหนด H₀ และ H₁ สำหรับโจทย์: “เครื่องดื่มสูตรใหม่ต้องการพิสูจน์ว่ามีคาเฟอีนเฉลี่ยน้อยกว่า 60 มก.”</li>
         <li>ถ้าโรงงานตั้ง $\alpha = 0.01$ เพื่อความปลอดภัยสูง ควรเตรียมขนาดตัวอย่างอย่างไรให้มี Power สูง (โยงกับบท 16)</li>
         <li>อธิบายให้เพื่อนเข้าใจว่าทำไมการลด $\alpha$ ทำให้เพิ่มโอกาสเกิด Type II Error</li>
@@ -164,7 +141,7 @@
     </section>
   </main>
 
-  <footer>
+  <footer class="summary-footer">
     ปรับปรุงล่าสุด: 5 ตุลาคม 2025 · เตรียมพร้อมสำหรับบท 18–22 ที่ลงรายละเอียดแต่ละการทดสอบ
   </footer>
 </body>

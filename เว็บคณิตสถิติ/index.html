@@ -14,98 +14,6 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
-
-  <style>
-    :root{
-      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
-      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b;
-      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:
-        radial-gradient(900px 360px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
-        radial-gradient(700px 280px at 90% -15%, rgba(21,181,136,.14), transparent 60%),
-        linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
-      color:var(--text);
-      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a{color:#cfe0ff;text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1080px;margin:0 auto;padding:1.2rem}
-    header{
-      border-bottom:1px solid var(--border);
-      background:var(--surface);
-    }
-    .brand{display:flex;align-items:center;gap:.8rem}
-    .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
-    .brand h1{margin:0;font-size:1.2rem}
-    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
-    .title{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem}
-    .title h2{margin:.2rem 0;font-size:1.8rem}
-    .muted{color:var(--muted)}
-    .btn{
-      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
-      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
-    }
-    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
-    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-    @media (max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:680px){.cards{grid-template-columns:1fr}}
-    .card{
-      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
-      border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:1rem;position:relative;overflow:hidden
-    }
-    .card h3{margin:.2rem 0 .3rem}
-    .card p{margin:0}
-    .card-meta{margin:.7rem 0 0;font-size:.82rem}
-    .chip{
-      display:inline-block;padding:.25rem .55rem;margin:.2rem 0;border-radius:999px;border:1px solid var(--border);
-      background:#0e1220;color:#cfe0ff;font-size:.85rem
-    }
-    .searchbar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.3rem 0 1rem}
-    input[type="search"]{
-      width:420px;max-width:100%;background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;
-      padding:.55rem .7rem;
-    }
-    .match{outline:2px solid #79a7ff; outline-offset:2px}
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
-    .section-title h2{margin:.2rem 0}
-    .small{font-size:.92rem}
-    .fade-in{opacity:0;transform:translateY(8px)}
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{left:50%;top:12px;transform:translateX(-50%);width:auto;height:auto;padding:.6rem 1rem;background:var(--accent);color:#071021;border-radius:12px;z-index:999}
-    .hero-updates{margin:1.4rem 0}
-    .hero-updates .card{display:flex;flex-direction:column;gap:.8rem;border:1px solid rgba(79,140,255,.35)}
-    .hero-links{display:flex;flex-wrap:wrap;gap:.6rem}
-    .quick-nav{margin:1.6rem 0 0;display:grid;gap:.9rem}
-    .quick-nav__header{display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;justify-content:space-between}
-    .quick-nav__header h2{margin:0;font-size:1.25rem}
-    .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
-    .quick-card{
-      display:flex;flex-direction:column;gap:.45rem;padding:.95rem 1.05rem;border-radius:14px;
-      background:linear-gradient(135deg,rgba(79,140,255,.22),rgba(21,181,136,.18));
-      border:1px solid rgba(79,140,255,.28);
-      color:var(--text);
-      box-shadow:0 16px 30px rgba(8,16,34,.45);
-      transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
-    }
-    .quick-card:hover{transform:translateY(-4px);box-shadow:0 20px 36px rgba(8,16,34,.5);border-color:rgba(125,146,255,.55)}
-    .quick-card__title{font-weight:700;font-size:1.05rem}
-    .quick-card__desc{color:var(--muted);font-size:.9rem}
-    .quick-card__pill{
-      display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
-      padding:.25rem .65rem;border-radius:999px;font-size:.82rem;font-weight:600;
-      background:rgba(14,18,32,.72);border:1px solid rgba(207,224,255,.35);color:#cfe0ff;
-    }
-    @media (max-width:720px){
-      .quick-nav__header{flex-direction:column;align-items:flex-start}
-      .quick-nav__header h2{font-size:1.15rem}
-    }
-  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหา</a>
@@ -130,7 +38,7 @@
       </div>
 
       <section class="hero-updates" aria-label="อัปเดตล่าสุด">
-        <article class="card highlight">
+        <article class="card">
           <h2>🆕 อัปเดต: ชุดสรุปบทที่ 11–22 แบบขยาย</h2>
           <p class="muted">เพิ่มเนื้อหาเชิงลึก, สูตรสำคัญ, แบบฝึกหัดพร้อมคำใบ้ และสรุป 1 หน้า ที่อัปเดตวันที่ 5 ตุลาคม 2025</p>
           <div class="hero-links">
@@ -217,7 +125,7 @@
     </section>
   </main>
 
-  <footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <footer class="wrap" role="contentinfo">
     <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
   </footer>
 

@@ -15,50 +15,30 @@
       svg: { fontCache: 'global' }
     };
   </script>
+  <script defer src="lesson-controls.js"></script>
   <script defer src="assets/js/reading-tools.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
-  <style>
-    body { margin: 0; padding: 28px 20px 40px; background: #0f1117; color: #eaecef; font: 16px/1.65 "Noto Sans Thai", system-ui, sans-serif; }
-    header { max-width: 880px; margin: 0 auto 1.5rem; }
-    header h1 { margin: 0 0 .35rem; font-size: 2.05rem; }
-    header p { margin: 0; color: #9aa0a6; }
-    main { max-width: 880px; margin: 0 auto; display: grid; gap: 1.25rem; }
-    .card { background: #141821; border: 1px solid #242a35; border-radius: 14px; padding: 1.1rem 1.35rem; box-shadow: 0 10px 28px rgba(0,0,0,.32); }
-    .card h2, .card h3 { margin-top: 0; }
-    .tagline { display: inline-flex; align-items: center; gap: .45rem; font-size: .95rem; color: #cfe0ff; background: rgba(125,146,255,.12); border: 1px solid #2f3542; border-radius: 999px; padding: .3rem .9rem; margin-top: .35rem; }
-    .grid-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-    .list-tight li + li { margin-top: .35rem; }
-    .highlight { background: rgba(21,181,136,.12); border-left: 4px solid #15b588; border-radius: 10px; padding: .85rem 1rem; }
-    .warn { background: rgba(245,158,11,.14); border-left: 4px solid #f59e0b; border-radius: 10px; padding: .85rem 1rem; }
-    .practice li + li { margin-top: .65rem; }
-    .practice span { display: block; color: #9aa0a6; font-size: .88rem; margin-top: .15rem; }
-    footer { max-width: 880px; margin: 2rem auto 0; text-align: right; color: #9aa0a6; font-size: .9rem; }
-    @media (max-width: 720px) {
-      body { padding: 24px 16px 32px; }
-      header h1 { font-size: 1.7rem; }
-    }
-  </style>
 </head>
-<body>
-  <header>
+<body class="summary-inference">
+  <header class="summary-header">
     <h1>บทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม</h1>
-    <p class="tagline">Z-test for p · ตรวจเงื่อนไข np₀ · ตีความเปอร์เซ็นต์</p>
+    <p class="summary-tagline">Z-test for p · ตรวจเงื่อนไข np₀ · ตีความเปอร์เซ็นต์</p>
     <p>ต่อจากบท 8.4 เดิม: ย้ำเงื่อนไขการประมาณแบบปกติ เพิ่มตัวอย่างจริง และเชื่อมโยงกับการตัดสินใจเชิงธุรกิจ</p>
   </header>
 
-  <main>
-    <section class="card">
+  <main class="summary-main">
+    <section class="summary-card">
       <h2>🎯 วัตถุประสงค์</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li>ตั้งสมมติฐานเกี่ยวกับสัดส่วนประชากร (p) และเลือกทิศทางการทดสอบได้</li>
         <li>คำนวณสถิติ Z และ P-value พร้อมตรวจเงื่อนไข $np_0$, $n(1-p_0)$</li>
         <li>แปลผลเป็นเปอร์เซ็นต์ที่สื่อสารได้ง่ายกับผู้บริหารหรือผู้อ่านทั่วไป</li>
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>🧮 สูตรและขั้นตอน</h2>
-      <ol class="list-tight">
+      <ol class="summary-list-tight">
         <li>กำหนด H₀: $p = p_0$ (หรือ ≥, ≤) และ H₁ ตามคำถาม</li>
         <li>คำนวณสถิติทดสอบ: $\displaystyle Z = \frac{\hat p - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$</li>
         <li>ตรวจเงื่อนไข: $np_0 \ge 10$ และ $n(1-p_0) \ge 10$</li>
@@ -67,9 +47,9 @@
       </ol>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>🔍 ถอดสูตร Z-test สำหรับสัดส่วน</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li><strong>$\hat p$</strong> = จำนวนความสำเร็จ / $n$ → เล่าเรื่องจากตัวอย่าง</li>
         <li><strong>$p_0$</strong> = ค่าที่ H₀ อ้างว่าเป็นจริง → ใช้ทั้งในส่วนต่างและส่วนของ SE</li>
         <li><strong>Standard Error</strong> = $\sqrt{p_0(1-p_0)/n}$ แสดงความผันผวนที่คาดหาก H₀ จริง</li>
@@ -78,21 +58,21 @@
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📊 ตัวอย่างธุรกิจ</h2>
-      <div class="grid-two">
-        <div class="highlight">
+      <div class="summary-grid-two">
+        <div class="summary-callout">
           <h3>ทางขวา: เพิ่มอัตราสมัครสมาชิก</h3>
-          <ol class="list-tight">
+          <ol class="summary-list-tight">
             <li>$H_0: p = 0.30$, $H_1: p &gt; 0.30$</li>
             <li>สุ่มลูกค้า 250 คน พบสมัคร 92 คน → $\hat p = 0.368$</li>
             <li>$Z = \frac{0.368-0.30}{\sqrt{0.30(0.70)/250}} ≈ 2.34$</li>
             <li>$P(Z \ge 2.34) ≈ 0.0096$ → ปฏิเสธ H₀ (แคมเปญใหม่ช่วยเพิ่มสมัคร)</li>
           </ol>
         </div>
-        <div class="highlight">
+        <div class="summary-callout">
           <h3>สองทาง: ตรวจคุณภาพสินค้า</h3>
-          <ol class="list-tight">
+          <ol class="summary-list-tight">
             <li>$H_0: p = 0.05$, $H_1: p ≠ 0.05$</li>
             <li>สุ่มผลิตภัณฑ์ 400 ชิ้น พบเสีย 28 ชิ้น → $\hat p = 0.07$</li>
             <li>$Z = (0.07-0.05)/\sqrt{0.05(0.95)/400} ≈ 1.84$</li>
@@ -102,18 +82,18 @@
       </div>
     </section>
 
-    <section class="card warn">
+    <section class="summary-card summary-card--warn">
       <h2>⚠️ สิ่งที่ต้องระวัง</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li>อย่าใช้ $\hat p$ ในส่วนของ SE (ต้องใช้ $p_0$)</li>
         <li>ตัวอย่างต้องมาจากการสุ่มแบบ Bernoulli อิสระ</li>
         <li>ถ้าเงื่อนไข $np_0$ ไม่ถึง 10 → ใช้วิธี Exact (เช่น Binomial Test) หรือเพิ่มตัวอย่าง</li>
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📄 สรุป 1 หน้า</h2>
-      <ul class="list-tight">
+      <ul class="summary-list-tight">
         <li><strong>สถิติทดสอบ</strong>: $Z = \dfrac{\hat p - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$ ใช้ $p_0$ ในส่วนของ Standard Error เสมอ</li>
         <li><strong>ทิศทาง</strong>: H₁ ใช้ ≠, &gt;, &lt; ตามโจทย์ — ส่งผลต่อการหาพื้นที่ P-value</li>
         <li><strong>เงื่อนไข</strong>: $np_0, n(1-p_0) \ge 10$ เพื่อให้การประมาณ Normal ใช้ได้</li>
@@ -121,9 +101,9 @@
       </ul>
     </section>
 
-    <section class="card">
+    <section class="summary-card">
       <h2>📝 แบบฝึกหัด</h2>
-      <ol class="practice">
+      <ol class="summary-practice">
         <li>เมืองหนึ่งคาดว่ามีผู้ใช้ขนส่งสาธารณะอย่างน้อย 40% สุ่ม 180 คน พบใช้ 62 คน — ทำการทดสอบแบบ one-tailed left ที่ $\alpha = 0.05$</li>
         <li>ผลิตภัณฑ์ใหม่ต้องการพิสูจน์ว่าสัดส่วนลูกค้าที่ชอบ ≥ 70% สุ่ม 220 คน พบชอบ 146 คน — คำนวณ Z, P-value, และสรุปผล</li>
         <li>หากตั้ง $\alpha = 0.01$ ในข้อ 2 ผลจะเปลี่ยนหรือไม่ และควรตีความเชิงธุรกิจอย่างไร</li>
@@ -133,7 +113,7 @@
     </section>
   </main>
 
-  <footer>
+  <footer class="summary-footer">
     ปรับปรุงล่าสุด: 5 ตุลาคม 2025 · ต่อด้วยบท 21 เพื่อทดสอบผลต่างสัดส่วนสองกลุ่ม
   </footer>
 </body>
