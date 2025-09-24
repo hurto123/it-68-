@@ -96,6 +96,14 @@ export const lessons = [
 
 export const formulas = [
   {
+    id: "bernoulli",
+    title: "Bernoulli Distribution",
+    desc: "ลองครั้งเดียว สำเร็จ/ล้มเหลว พร้อมเครื่องคิดเลข p",
+    tags: "สูตร bernoulli trial success failure",
+    chip: "Discrete",
+    link: "formula/bernoulli.html"
+  },
+  {
     id: "binomial",
     title: "Binomial Distribution",
     desc: "X ~ Bin(n, p), PMF, E/Var, ตัวอย่างคำนวณ",
@@ -104,12 +112,28 @@ export const formulas = [
     link: "formula/binomial.html"
   },
   {
+    id: "hypergeometric",
+    title: "Hypergeometric Distribution",
+    desc: "สุ่มโดยไม่ใส่คืน + ตาราง PMF และขั้นบันได C(a,b)",
+    tags: "สูตร hypergeometric without replacement",
+    chip: "Discrete",
+    link: "formula/hypergeometric.html"
+  },
+  {
     id: "poisson",
     title: "Poisson Distribution",
     desc: "PMF, อัตราเกิด λ, การประมาณ Binomial",
     tags: "สูตร poisson นับเหตุการณ์ λ",
     chip: "Discrete",
     link: "formula/poisson.html"
+  },
+  {
+    id: "normal",
+    title: "Normal Distribution",
+    desc: "PDF/CDF, Empirical Rule, กราฟระบายพื้นที่ พร้อมดาวน์โหลด",
+    tags: "สูตร normal distribution pdf cdf",
+    chip: "Normal",
+    link: "formula/normal.html"
   },
   {
     id: "zscore",

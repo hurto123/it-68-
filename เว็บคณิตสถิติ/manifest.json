@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.09.24",
-  "updated_at": "2025-09-24",
+  "version": "2025.10.02",
+  "updated_at": "2025-10-02",
   "lessons": [
     {
       "id": "lesson01",
@@ -250,5 +250,119 @@
       "time_limit_seconds": 900
     }
   ],
-  "notes": "เพิ่มแม่แบบข้อมูลแบบฝึกหัดรายบท และไฟล์ config สำหรับระบบ Quiz/Exercise"
+  "formulas": [
+    {
+      "id": "bernoulli",
+      "title": "Bernoulli Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/bernoulli.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "binomial",
+      "title": "Binomial Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/binomial.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "hypergeometric",
+      "title": "Hypergeometric Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/hypergeometric.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "poisson",
+      "title": "Poisson Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/poisson.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "normal",
+      "title": "Normal Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson08.html",
+        "summary-lesson08.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/normal.html",
+        "lesson": "lesson08.html",
+        "summary": "summary-lesson08.html"
+      }
+    },
+    {
+      "id": "z-score",
+      "title": "Z-Score",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson08.html",
+        "summary-lesson08.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/z-score.html",
+        "lesson": "lesson08.html",
+        "summary": "summary-lesson08.html"
+      }
+    },
+    {
+      "id": "clt-xbar-phat",
+      "title": "CLT: x̄ & p̂",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/clt-xbar-phat.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    }
+  ],
+  "notes": "อัปเดตสูตร Bernoulli/Hypergeometric/Normal พร้อม metadata และปรับ index/formula manifest ให้สอดคล้อง"
 }
