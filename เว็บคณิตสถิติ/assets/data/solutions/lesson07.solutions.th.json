@@ -1,41 +1,31 @@
 {
   "lesson_id": "lesson07",
-  "lesson_title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง",
+  "lesson_title": "บทที่ 7: การประมาณค่าและการอนุมาน",
   "solutions": [
     {
-      "question_id": "C1E05",
-      "answer_summary": "$P(K=k)=\\frac{k-1}{2^k}, k\\ge2$.",
-      "explanation": "ลำดับต้องลงท้ายด้วย H และมีการปรากฏของ H อีกหนึ่งตำแหน่งใน k-1 ตำแหน่งแรก ซึ่งมี $\\binom{k-1}{1} = k-1$ วิธี. แต่ละลำดับมีความน่าจะเป็น $1/2^k$."
+      "question_id": "L07D01",
+      "answer_summary": "กล่าวถึงการทำซ้ำกระบวนการสุมตัวอย่าง",
+      "explanation": "ความเชื่อมั่น 95% หมายถึง หากสุ่มตัวอย่างและคำนวณช่วงแบบเดิมซ้ำ ๆ ประมาณ 95% ของช่วงจะครอบคลุมค่าเฉลี่ยจริง ไม่ได้หมายถึงโอกาสของค่าพารามิเตอร์"
     },
     {
-      "question_id": "C3E22",
-      "answer_summary": "$E(X)=np, Var(X)=np(1-p)$",
-      "explanation": "ให้ $X=\\sum_{i=1}^n I_i$ โดย $I_i$ เป็น Bernoulli(p). $E(X)=\\sum E(I_i)=np$. $Var(X)=\\sum Var(I_i)=np(1-p)$ เนื่องจาก $I_i$ เป็นอิสระต่อกัน"
+      "question_id": "L07C02",
+      "answer_summary": "[11.97, 12.23] กิโลกรัม",
+      "explanation": "ใช้สูตร Z-Interval: Margin = 1.96 × 0.4/√{36} = 0.13. ดังนั้น CI = 12.1 ± 0.13"
     },
     {
-      "question_id": "C2E12",
-      "answer_summary": "$X,Y$ อิสระ; $X \\sim \\text{Poisson}(\\lambda p), Y \\sim \\text{Poisson}(\\lambda(1-p))$",
-      "explanation": "ปรากฏการณ์นี้เรียกว่า Poisson thinning. สามารถแสดงได้โดยการหา pmf ร่วมของ (X, Y) และแสดงว่ามันสามารถแยกเป็นผลคูณของ pmf ของ Poisson สองตัวได้"
+      "question_id": "L07C03",
+      "answer_summary": "ประมาณ [61.9, 74.1] คะแนน",
+      "explanation": "ใช้สูตร t-Interval: df=10, t_{0.005,10} ≈ 3.169. Margin = 3.169 × 6.5/√{11} ≈ 6.1. ดังนั้น CI = 68 ± 6.1"
     },
     {
-      "question_id": "C2E16",
-      "answer_summary": "$X | (X+Y=n) \\sim \\text{Binomial}(n, \\lambda/(\\lambda+\\mu))$",
-      "explanation": "ใช้ Bayes' theorem และคุณสมบัติของ Poisson. $P(X=k|X+Y=n) = P(X=k, Y=n-k)/P(X+Y=n)$. เมื่อแทนค่า pmf ของ Poisson และคุณสมบัติผลบวกของ Poisson จะได้ pmf ของ Binomial"
+      "question_id": "L07C04",
+      "answer_summary": "601 คน",
+      "explanation": "สูตร n = Z_{0.025}^2 p(1-p)/E^2. ใช้ p=0.5, Z=1.96, E=0.04 ⇒ n = 600.25 ปัดขึ้นเป็น 601"
     },
     {
-      "question_id": "T5E05",
-      "answer_summary": "≈ 0.590",
-      "explanation": "นี่คือการแจกแจงแบบ Binomial โดยมี n=5, p=0.9. ความน่าจะเป็นที่จะได้ของดีทั้งหมด (k=5) คือ $P(X=5) = \\binom{5}{5}(0.9)^5(0.1)^0 = (0.9)^5 \\approx 0.59049$"
-    },
-    {
-      "question_id": "T5E06",
-      "answer_summary": "E=2, Var=1.5",
-      "explanation": "สำหรับ Binomial(n,p): ค่าคาดหมาย E(X)=np = 8(0.25)=2. ความแปรปรวน Var(X)=np(1-p) = 8(0.25)(0.75)=1.5"
-    },
-    {
-      "question_id": "T5E07",
-      "answer_summary": "≈ 0.224",
-      "explanation": "ใช้สูตร pmf ของ Poisson: $P(X=k) = e^{-\\lambda}\\lambda^k/k!$. ดังนั้น $P(X=2) = e^{-3}3^2/2! = 4.5e^{-3} \\approx 0.224$"
+      "question_id": "L07C05",
+      "answer_summary": "CI ประมาณ [0.3, 7.7] คะแนน",
+      "explanation": "คำนวณความแปรปรวนร่วม S_p^2 = [(11)(4.5^2)+(9)(5.2^2)]/(20) ≈ 23.77. Standard Error = √{S_p^2(1/12+1/10)} ≈ 1.8. ใช้ t_{0.025,20}=2.086 ⇒ Margin ≈ 3.8. ความแตกต่างของค่าเฉลี่ย = 4 ดังนั้น CI = 4 ± 3.8"
     }
   ]
 }
