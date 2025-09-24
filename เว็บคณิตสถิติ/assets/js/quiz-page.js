@@ -45,11 +45,18 @@ export async function initQuizPage(customOptions = {}) {
     summaryLinkEl.href = body.dataset.summaryLink;
   }
 
+  const allowedModes = body.dataset.allowedModes
+    ? body.dataset.allowedModes.split(',').map((m) => m.trim()).filter(Boolean)
+    : undefined;
+  const defaultMode = body.dataset.defaultMode?.trim();
+
   const player = new QuizPlayer({
     mount,
     configPath,
     practiceLabel: body.dataset.practiceLabel,
     quizLabel: body.dataset.quizLabel,
+    allowedModes,
+    defaultMode,
   });
   await player.init();
 

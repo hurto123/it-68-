@@ -192,6 +192,12 @@ export class QuizPlayer {
       practice: options.practiceLabel || "โหมดฝึก (เฉลยทันที)",
       quiz: options.quizLabel || "โหมด Quiz (จับเวลา)"
     };
+    this.allowedModes = Array.isArray(options.allowedModes) && options.allowedModes.length
+      ? options.allowedModes
+      : ["practice", "quiz"];
+    this.defaultMode = this.allowedModes.includes(options.defaultMode)
+      ? options.defaultMode
+      : (this.allowedModes[0] || "practice");
     this.state = {
       mode: "practice",
       questions: [],
@@ -256,6 +262,38 @@ export class QuizPlayer {
     this.summaryList = $(this.mount, "#summary-list");
     this.summaryRetry = $(this.mount, "#btn-retry");
     this.summaryBack = $(this.mount, "#btn-back-to-preflight");
+
+    this.applyModeConstraints();
+  }
+
+  applyModeConstraints() {
+    const select = this.modeSelect;
+    if (!select) return;
+    const allowed = this.allowedModes;
+    const options = Array.from(select.options);
+    options.forEach((opt) => {
+      if (!allowed.includes(opt.value)) {
+        opt.remove();
+      }
+    });
+    if (!allowed.length) {
+      const fallback = document.createElement("option");
+      fallback.value = "practice";
+      fallback.textContent = this.labels.practice;
+      select.appendChild(fallback);
+      allowed.push("practice");
+    }
+    if (!allowed.includes(this.defaultMode)) {
+      this.defaultMode = allowed[0];
+    }
+    select.value = this.defaultMode;
+    if (allowed.length === 1) {
+      select.disabled = true;
+      select.classList.add("quiz-single-mode");
+    }
+    if (allowed.length === 1 && allowed[0] === "practice") {
+      this.configCard.hidden = true;
+    }
   }
 
   bindPreflightEvents() {

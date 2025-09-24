@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.03",
-  "updated_at": "2025-10-03",
+  "version": "2025.10.04",
+  "updated_at": "2025-10-04",
   "lessons": [
     {
       "id": "lesson01",
@@ -248,6 +248,68 @@
       "config": "data/quiz-mixed.json",
       "items_per_quiz": 12,
       "time_limit_seconds": 900
+    }
+  ],
+  "practice_sets": [
+    {
+      "id": "lesson01",
+      "title": "แบบฝึกหัดบทที่ 1",
+      "page": "exercise-lesson01.html",
+      "config": "data/quiz-lesson01.json"
+    },
+    {
+      "id": "lesson02",
+      "title": "แบบฝึกหัดบทที่ 2",
+      "page": "exercise-lesson02.html",
+      "config": "data/quiz-lesson02.json"
+    },
+    {
+      "id": "lesson03",
+      "title": "แบบฝึกหัดบทที่ 3",
+      "page": "exercise-lesson03.html",
+      "config": "data/quiz-lesson03.json"
+    },
+    {
+      "id": "lesson04",
+      "title": "แบบฝึกหัดบทที่ 4",
+      "page": "exercise-lesson04.html",
+      "config": "data/quiz-lesson04.json"
+    },
+    {
+      "id": "lesson05",
+      "title": "แบบฝึกหัดบทที่ 5",
+      "page": "exercise-lesson05.html",
+      "config": "data/quiz-lesson05.json"
+    },
+    {
+      "id": "lesson06",
+      "title": "แบบฝึกหัดบทที่ 6",
+      "page": "exercise-lesson06.html",
+      "config": "data/quiz-lesson06.json"
+    },
+    {
+      "id": "lesson07",
+      "title": "แบบฝึกหัดบทที่ 7",
+      "page": "exercise-lesson07.html",
+      "config": "data/quiz-lesson07.json"
+    },
+    {
+      "id": "lesson08",
+      "title": "แบบฝึกหัดบทที่ 8",
+      "page": "exercise-lesson08.html",
+      "config": "data/quiz-lesson08.json"
+    },
+    {
+      "id": "lesson09",
+      "title": "แบบฝึกหัดบทที่ 9",
+      "page": "exercise-lesson09.html",
+      "config": "data/quiz-lesson09.json"
+    },
+    {
+      "id": "mixed",
+      "title": "แบบฝึกหัดรวมทุกบท",
+      "page": "exercise-mixed.html",
+      "config": "data/quiz-mixed.json"
     }
   ],
   "formulas": [
