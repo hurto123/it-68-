@@ -155,6 +155,14 @@ export const formulas = [
 
 export const summaries = [
   {
+    id: "inference-updates",
+    title: "แฟ้มรวมไฟล์สรุปอนุมาน (11–22)",
+    desc: "รวมลิงก์ไฟล์ที่แก้ไขและสร้างใหม่ เพื่อการตรวจทานอย่างรวดเร็ว",
+    tags: "สรุป อัปเดต inference summary 11 12 13 14 15 16 17 18 19 20 21 22",
+    chip: "อัปเดต",
+    link: "updates.html"
+  },
+  {
     id: "all",
     title: "รวมสรุปทุกบท (1–9)",
     desc: "มีคั่นหน้า — เหมาะสำหรับพิมพ์/บันทึก PDF",

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>แฟ้มรวมไฟล์ที่แก้ไข/สร้างใหม่ — เว็บคณิตสถิติ</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      main {
+        max-width: 960px;
+        margin: var(--space-7) auto;
+        padding: 0 var(--space-5) var(--space-8);
+      }
+      header.page-header {
+        margin-bottom: var(--space-6);
+        text-align: center;
+      }
+      .file-groups {
+        display: grid;
+        gap: var(--space-5);
+      }
+      .file-card {
+        background: var(--surface-raised, #ffffff);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--space-5);
+      }
+      .file-card h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        margin-top: 0;
+        margin-bottom: var(--space-3);
+      }
+      .file-card h2 span {
+        font-size: var(--text-sm);
+        color: var(--text-subtle);
+        font-weight: 500;
+      }
+      .file-card ul {
+        margin: 0;
+        padding-left: var(--space-5);
+      }
+      .file-card li + li {
+        margin-top: var(--space-2);
+      }
+      .file-card a {
+        font-weight: 600;
+      }
+      @media (max-width: 640px) {
+        main {
+          padding: 0 var(--space-4) var(--space-6);
+        }
+      }
+    </style>
+  </head>
+  <body class="theme-light">
+    <a class="skip-link" href="#content">ข้ามไปยังเนื้อหา</a>
+    <main id="content">
+      <header class="page-header">
+        <h1>แฟ้มรวมไฟล์ที่แก้ไขหรือสร้างใหม่</h1>
+        <p>
+          หน้านี้รวบรวมไฟล์ทั้งหมดที่มีการปรับปรุงหรือเพิ่มเข้ามาในรอบล่าสุด
+          เพื่อให้ง่ายต่อการตรวจทานเนื้อหา ตั้งแต่หน้าโฮม ไปจนถึงสรุปบทเรียนบทที่ 11–22
+        </p>
+      </header>
+      <section class="file-groups">
+        <article class="file-card">
+          <h2>ไฟล์หน้าแรกและทรัพยากรร่วม <span>ปรับปรุง</span></h2>
+          <ul>
+            <li><a href="index.html">index.html</a> — ปรับ UX/UI และดึงข้อมูลจากสคริปต์กลาง</li>
+            <li><a href="style.css">style.css</a> — เพิ่มธีมใหม่, ปุ่ม, การ์ด และองค์ประกอบสำหรับสรุป</li>
+            <li><a href="assets/js/home-page.js">assets/js/home-page.js</a> — สคริปต์สร้างการ์ดและระบบค้นหา</li>
+            <li><a href="subjects.js">subjects.js</a> — ข้อมูลบทเรียน/สรุปที่ใช้เรนเดอร์หน้าแรก</li>
+            <li><a href="lesson-controls.js">lesson-controls.js</a> — สคริปต์ควบคุมการนำทางในสรุปบทเรียน</li>
+            <li><a href="manifest.json">manifest.json</a> — ปรับปรุง metadata ให้ครอบคลุมบทสรุปใหม่</li>
+            <li><a href="summaries-all.html">summaries-all.html</a> — เชื่อมโยงไปยังบทสรุปอนุมาน</li>
+          </ul>
+        </article>
+        <article class="file-card">
+          <h2>แฟ้มสรุปบทเรียนอนุมาน <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="summary-lesson11.html">summary-lesson11.html</a> — รู้จักการประมาณค่า</li>
+            <li><a href="summary-lesson12.html">summary-lesson12.html</a> — หัวใจของการประมาณค่าแบบช่วง</li>
+            <li><a href="summary-lesson13.html">summary-lesson13.html</a> — การประมาณค่าเฉลี่ย 1 กลุ่ม</li>
+            <li><a href="summary-lesson14.html">summary-lesson14.html</a> — การประมาณค่าสัดส่วนประชากรเดียว</li>
+            <li><a href="summary-lesson15.html">summary-lesson15.html</a> — การประมาณค่าผลต่างของ 2 ประชากร</li>
+            <li><a href="summary-lesson16.html">summary-lesson16.html</a> — การคำนวณขนาดตัวอย่าง</li>
+            <li><a href="summary-lesson17.html">summary-lesson17.html</a> — พื้นฐานการทดสอบสมมติฐาน</li>
+            <li><a href="summary-lesson18.html">summary-lesson18.html</a> — ประเภทของการทดสอบ</li>
+            <li><a href="summary-lesson19.html">summary-lesson19.html</a> — การทดสอบค่าเฉลี่ย 1 กลุ่ม</li>
+            <li><a href="summary-lesson20.html">summary-lesson20.html</a> — การทดสอบสัดส่วน 1 กลุ่ม</li>
+            <li><a href="summary-lesson21.html">summary-lesson21.html</a> — การทดสอบเปรียบเทียบ 2 ประชากร</li>
+            <li><a href="summary-lesson22.html">summary-lesson22.html</a> — การทดสอบเกี่ยวกับความแปรปรวน</li>
+            <li><a href="summary-lesson11-22.html">summary-lesson11-22.html</a> — รวมเนื้อหาบทที่ 11–22 ในหน้าเดียว</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
