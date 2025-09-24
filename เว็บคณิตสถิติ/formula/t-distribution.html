@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Student's t-Distribution | อธิบายสูตร + Inverse & Compare</title>
+  <meta name="description" content="การแจกแจงแบบที: PDF, ค่า p, Inverse t จาก p, ค่าวิกฤต และกราฟเปรียบเทียบ t vs Normal พร้อมการระบายพื้นที่ใต้โค้ง">
+  <meta property="og:title" content="Student's t-Distribution | อธิบายสูตร + Inverse & Compare">
+  <meta property="og:description" content="คำนวณ p หรือ t-crit, เปรียบเทียบโค้ง t กับ Normal ในกราฟเดียว">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-03">
+  <meta name="doc:depends_on" content="lesson09.html,summary-lesson09.html,glossary.html#gl-dist">
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+
+  <style>
+    .wrap{max-width:1020px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+    .formula-box{background:#0f1320;border:1px solid var(--border);border-radius:12px;padding:.8rem;overflow:auto}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    table{width:100%;border-collapse:collapse;margin:.5rem 0}
+    th,td{border:1px solid var(--border);padding:.45rem .5rem;text-align:center}
+    th{background:#101525}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.6rem;border-radius:12px}
+    .warn{background:#231b0f;border-left:4px solid var(--warn);padding:.6rem;border-radius:12px}
+    .calc-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    input[type="number"], select{
+      background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    input[type="number"]{ width:120px; }
+    canvas{width:100%;height:280px;background:#0c111b;border:1px solid var(--border);border-radius:12px}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;background:#0e1220;color:#cfe0ff;margin-left:.35rem}
+    .mini{font-size:.9rem}
+    .step{margin:.25rem 0}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .chipline{display:flex;gap:.4rem;flex-wrap:wrap}
+    .chip2{display:inline-block;border:1px solid var(--border);background:#0e1220;color:#cfe0ff;border-radius:999px;padding:.15rem .55rem;font-size:.85rem}
+    .legend{display:flex;gap:.6rem;align-items:center;margin:.35rem 0}
+    .lg{display:inline-flex;align-items:center;gap:.35rem}
+    .lg .sw{width:18px;height:6px;border-radius:4px;display:inline-block}
+    .sw-t{background:#6ea8ff}
+    .sw-n{background:#87d78a}
+  </style>
+</head>
+<body>
+<header role="banner">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>Formula Explorer</h1>
+    </div>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="../index.html">หน้าแรก</a> › <span class="muted">t-Distribution</span>
+    </nav>
+    <div class="title" style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem">
+      <div>
+        <h2 style="margin:.2rem 0;font-size:1.8rem">การแจกแจงแบบที (Student's t)</h2>
+        <p class="muted">ใช้เมื่อไม่รู้ σ ของประชากรและประมาณด้วย s (หางหนากว่า Normal)</p>
+      </div>
+      <div class="toolbar">
+        <a class="btn secondary" href="../glossary.html">Glossary</a>
+        <a class="btn ghost" href="../lesson09.html">บทที่ 9</a>
+        <a class="btn ghost" href="../summary-lesson09.html">สรุป 1 หน้า</a>
+        <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        <button class="btn" id="btn-save-png">📥 บันทึกกราฟเป็น PNG</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap grid" role="main">
+  <section class="card grid2">
+    <div>
+      <h3>1) ที่มา &amp; คุณสมบัติ</h3>
+      <ul class="list-compact">
+        <li>สุ่มจากประชากรปกติและ <span class="mono">σ</span> ไม่ทราบ ใช้ <span class="mono">s</span> → สถิติ <span class="mono">T = (\bar{X} − μ) / (s/\sqrt{n})</span> มีการแจกแจงแบบที df=<span class="mono">n−1</span></li>
+        <li>สมมาตรรอบ 0, หางหนากว่า Normal; df มาก → เข้าใกล้ Normal</li>
+      </ul>
+      <div class="ok" style="margin-top:.4rem">
+        <strong>การใช้งานหลัก:</strong> ทดสอบค่าเฉลี่ย/ช่วงความเชื่อมั่น เมื่อไม่รู้ σ และ n ไม่ใหญ่มาก
+      </div>
+    </div>
+    <div>
+      <h3>2) สัญลักษณ์/สูตร</h3>
+      <div class="formula-box mono">
+        T ~ t(ν), &nbsp; ν=df&gt;0<br/>
+        PDF: f(t) = Γ((ν+1)/2) / ( √(νπ) · Γ(ν/2) ) · (1 + t²/ν)^{−(ν+1)/2}
+      </div>
+      <p class="mini muted">ค่า CDF ไม่มีรูปปิด — ใช้การคำนวณเชิงตัวเลข</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>3) เครื่องคิดเลข t 🧮 <span class="badge">Interactive</span></h3>
+    <div class="calc-row" style="margin:.35rem 0 .5rem">
+      <label for="df">df (ν):</label><input id="df" type="number" min="1" step="1" value="10">
+      <label for="mode">โหมด:</label>
+      <select id="mode">
+        <optgroup label="คำนวณ p จาก t">
+          <option value="left">P(T ≤ t)</option>
+          <option value="right">P(T ≥ t)</option>
+          <option value="two">P(|T| ≥ |t|) (สองทาง)</option>
+          <option value="density">f(t) (PDF) ที่ t</option>
+        </optgroup>
+        <optgroup label="คำนวณ t จาก p (Inverse)">
+          <option value="inv-left">t such that P(T ≤ t)=p</option>
+          <option value="inv-right">t such that P(T ≥ t)=p</option>
+          <option value="inv-two">t such that P(|T| ≥ |t|)=p</option>
+        </optgroup>
+      </select>
+
+      <span id="inputs-t" style="display:inline-flex;gap:.6rem;align-items:center">
+        <label for="tval">t:</label><input id="tval" type="number" step="0.01" value="1.8">
+      </span>
+      <span id="inputs-p" style="display:none;gap:.6rem;align-items:center">
+        <label for="pval">p (0–1):</label><input id="pval" type="number" step="0.0001" min="1e-6" max="0.999999" value="0.05">
+      </span>
+
+      <label style="margin-left:.5rem"><input id="show-normal" type="checkbox" /> เปรียบเทียบกับ Normal</label>
+
+      <button class="btn" id="btn-calc">คำนวณ</button>
+      <button class="btn secondary" id="btn-reset">รีเซ็ต</button>
+      <span class="mini muted" id="status" aria-live="polite"></span>
+    </div>
+
+    <div class="legend">
+      <span class="lg"><span class="sw sw-t"></span>โค้ง t(df)</span>
+      <span class="lg"><span class="sw sw-n"></span>โค้ง Normal N(0,1)</span>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <table>
+          <tbody>
+            <tr><th style="width:40%">ผลลัพธ์</th><td id="result">—</td></tr>
+            <tr><th>PDF f(t)</th><td id="pdfout">—</td></tr>
+            <tr><th>CDF F(t)=P(T≤t)</th><td id="cdfout">—</td></tr>
+          </tbody>
+        </table>
+        <div class="chipline">
+          <span class="chip2">สมมาตรรอบ 0</span>
+          <span class="chip2">df↑ → ปกติ</span>
+          <span class="chip2">หางหนา</span>
+        </div>
+      </div>
+      <div>
+        <canvas id="chart" aria-label="กราฟ t-Distribution vs Normal พร้อมพื้นที่ใต้โค้ง"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>4) ตารางค่าวิกฤต t* 📊 <span class="badge">Interactive</span></h3>
+    <div class="calc-row">
+      <label for="df2">df:</label><input id="df2" type="number" min="1" step="1" value="10">
+      <label for="alpha">α:</label>
+      <select id="alpha">
+        <option>0.10</option><option selected>0.05</option><option>0.025</option>
+        <option>0.01</option><option>0.005</option><option>0.001</option>
+      </select>
+      <button class="btn" id="btn-crit">คำนวณ t*</button>
+      <span class="mini muted" id="crit-status" aria-live="polite"></span>
+    </div>
+    <div class="grid2">
+      <div>
+        <table aria-label="หนึ่งทาง (ขวา)">
+          <thead><tr><th>α</th><th>t<sub>α,ν</sub> (ขวา)</th></tr></thead>
+          <tbody id="one-tail"></tbody>
+        </table>
+      </div>
+      <div>
+        <table aria-label="สองทาง (±)">
+          <thead><tr><th>α (รวมสองหาง)</th><th>±t<sub>α/2,ν</sub></th></tr></thead>
+          <tbody id="two-tail"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card grid2">
+    <div>
+      <h3>5) วิธีทำโจทย์ (Workflow)</h3>
+      <ol>
+        <li class="step">ตั้งสมมติฐาน/หรือ CI ว่าหนึ่งทางหรือสองทาง</li>
+        <li class="step">หาค่า t จากข้อมูล หรือกำหนด p เพื่อหา t-crit (inverse)</li>
+        <li class="step">ใช้ df = n−1 (one-sample) คำนวณ p ด้วย CDF ของ t</li>
+        <li class="step">เทียบ p กับ α หรือเทียบ |t| กับ t* จากตาราง</li>
+      </ol>
+    </div>
+    <div>
+      <h3>6) ตัวอย่างคำนวณ</h3>
+      <p><strong>ตัวอย่าง inverse:</strong> df=12 หา t สำหรับสองทาง p=0.05</p>
+      <ol class="list-compact">
+        <li>สองทาง: ใช้ครึ่งหาง → p/2 = 0.025</li>
+        <li>ต้องการ t ที่ F(t)=1−0.025=0.975 ⇒ t ≈ t<sub>0.025,12</sub> ≈ 2.179</li>
+      </ol>
+      <p class="mini muted">ตรวจด้วยโหมด “t such that P(|T|≥|t|)=p” กรอก p=0.05, df=12</p>
+      <div class="toolbar" style="margin-top:.4rem">
+        <a class="btn ghost" href="./normal.html">Normal</a>
+        <a class="btn ghost" href="./z-score.html">Z-Score</a>
+        <a class="btn ghost" href="./clt-xbar-phat.html">CLT: x̄ &amp; p̂</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+</footer>
+
+<script>
+  const fmt = (x, d=6) => Number.isFinite(x)
+    ? (Math.round(x*10**d)/10**d).toFixed(d).replace(/\.?0+$/,'')
+    : '—';
+
+  function lnGamma(z){
+    const p=[676.5203681218851, -1259.1392167224028, 771.32342877765313,
+      -176.61502916214059, 12.507343278686905, -0.13857109526572012,
+      9.9843695780195716e-6, 1.5056327351493116e-7];
+    let x=0.99999999999980993;
+    for(let i=0;i<p.length;i++){ x += p[i]/(z+i+1); }
+    const t = z + p.length - 0.5;
+    return 0.5*Math.log(2*Math.PI) + (z+0.5)*Math.log(t) - t + Math.log(x) - Math.log(z);
+  }
+  const gamma = z => Math.exp(lnGamma(z));
+
+  const normPdf = x => (1/Math.sqrt(2*Math.PI))*Math.exp(-0.5*x*x);
+
+  function tpdf(t, v){
+    const c = Math.exp( lnGamma((v+1)/2) - lnGamma(v/2) ) / Math.sqrt(v*Math.PI);
+    return c * Math.pow(1 + (t*t)/v, -(v+1)/2);
+  }
+
+  function tcdf(t, v){
+    if(!Number.isFinite(t) || !Number.isFinite(v) || v<=0) return NaN;
+    if(t===0) return 0.5;
+    const sgn = Math.sign(t);
+    const a = 0, b = Math.abs(t);
+    const n = 2000;
+    const h = (b-a)/n;
+    let S = tpdf(a, v) + tpdf(b, v);
+    for(let i=1;i<n;i++){
+      const x = a + i*h;
+      S += (i%2===0 ? 2 : 4) * tpdf(x, v);
+    }
+    const integral = S * h / 3;
+    return 0.5 + sgn * integral;
+  }
+
+  function tinv(p, v){
+    if(!(p>0 && p<1)) return NaN;
+    let lo = -30, hi = 30;
+    for(let i=0;i<90;i++){
+      const mid = (lo+hi)/2;
+      const F = tcdf(mid, v);
+      if(F<p) lo = mid; else hi = mid;
+    }
+    return (lo+hi)/2;
+  }
+
+  const dfEl = document.getElementById('df');
+  const modeEl = document.getElementById('mode');
+  const tEl = document.getElementById('tval');
+  const pEl = document.getElementById('pval');
+  const inputsT = document.getElementById('inputs-t');
+  const inputsP = document.getElementById('inputs-p');
+  const showNormalEl = document.getElementById('show-normal');
+
+  const btnCalc = document.getElementById('btn-calc');
+  const btnReset = document.getElementById('btn-reset');
+  const statusEl = document.getElementById('status');
+  const resultEl = document.getElementById('result');
+  const pdfEl = document.getElementById('pdfout');
+  const cdfEl = document.getElementById('cdfout');
+
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+
+  function updateInputs(){
+    const m = modeEl.value;
+    const inv = m.startsWith('inv-');
+    inputsT.style.display = inv ? 'none' : 'inline-flex';
+    inputsP.style.display = inv ? 'inline-flex' : 'none';
+  }
+
+  function drawCompare(v, shadeMode, t1, t2, compareNormal){
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.globalAlpha = 0.25; ctx.strokeStyle = '#223049';
+    for(let i=1;i<=4;i++){ const y=H-(H*i/5); ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+
+    const xmin = -6, xmax = 6;
+    const ymax = Math.max(tpdf(0, Math.max(v,1)), 0.4);
+    const mapX = x => ( (x - xmin) / (xmax - xmin) ) * (W-20) + 10;
+    const mapY = y => H - y * (H*0.9/Math.max(1e-9, ymax));
+
+    if(compareNormal){
+      ctx.beginPath();
+      let first=true;
+      for(let i=0;i<=400;i++){
+        const x = xmin + (xmax-xmin)*i/400;
+        const y = normPdf(x);
+        const X = mapX(x), Y = mapY(y);
+        if(first){ ctx.moveTo(X,Y); first=false; } else ctx.lineTo(X,Y);
+      }
+      ctx.strokeStyle = '#87d78a'; ctx.lineWidth=2; ctx.stroke();
+    }
+
+    ctx.beginPath();
+    let first=true;
+    for(let i=0;i<=400;i++){
+      const x = xmin + (xmax-xmin)*i/400;
+      const y = tpdf(x, v);
+      const X = mapX(x), Y = mapY(y);
+      if(first){ ctx.moveTo(X,Y); first=false; } else ctx.lineTo(X,Y);
+    }
+    ctx.strokeStyle = '#6ea8ff'; ctx.lineWidth=2; ctx.stroke();
+
+    ctx.fillStyle = 'rgba(110,168,255,0.35)';
+    if(shadeMode==='left' || shadeMode==='right'){
+      const t = t1;
+      const a = shadeMode==='left' ? xmin : t;
+      const b = shadeMode==='left' ? t    : xmax;
+      ctx.beginPath();
+      for(let i=0;i<=400;i++){
+        const xx = a + (b-a)*i/400;
+        const yy = tpdf(xx, v);
+        const X = mapX(xx), Y = mapY(yy);
+        if(i===0) ctx.moveTo(X,H);
+        ctx.lineTo(X,Y);
+      }
+      ctx.lineTo(mapX(b),H); ctx.closePath(); ctx.fill();
+    } else if(shadeMode==='two'){
+      const a = -Math.abs(t1), b = Math.abs(t1);
+      ctx.beginPath();
+      for(let i=0;i<=200;i++){
+        const xx = xmin + (a - xmin)*i/200;
+        const yy = tpdf(xx, v);
+        const X = mapX(xx), Y = mapY(yy);
+        if(i===0) ctx.moveTo(X,H);
+        ctx.lineTo(X,Y);
+      }
+      ctx.lineTo(mapX(a),H); ctx.closePath(); ctx.fill();
+      ctx.beginPath();
+      for(let i=0;i<=200;i++){
+        const xx = b + (xmax - b)*i/200;
+        const yy = tpdf(xx, v);
+        const X = mapX(xx), Y = mapY(yy);
+        if(i===0) ctx.moveTo(X,H);
+        ctx.lineTo(X,Y);
+      }
+      ctx.lineTo(mapX(xmax),H); ctx.closePath(); ctx.fill();
+    }
+  }
+
+  function compute(){
+    const v = Math.max(1, Math.round(Number(dfEl.value)||10));
+    dfEl.value = v;
+    const mode = modeEl.value;
+    const compare = !!showNormalEl.checked;
+
+    let out='—', f='—', F='—';
+    statusEl.textContent = '';
+
+    if(mode==='left' || mode==='right' || mode==='two' || mode==='density'){
+      const t = Number(tEl.value)||0;
+      tEl.value = t;
+      const pdf = tpdf(t, v);
+      const cdf = tcdf(t, v);
+      f = fmt(pdf,6); F = fmt(cdf,6);
+
+      if(mode==='left'){
+        out = `P(T ≤ ${t}) = ${fmt(cdf,6)}`;
+        drawCompare(v,'left', t, null, compare);
+      } else if(mode==='right'){
+        const p = 1 - cdf;
+        out = `P(T ≥ ${t}) = ${fmt(p,6)}`;
+        drawCompare(v,'right', t, null, compare);
+      } else if(mode==='two'){
+        const p = 2 * Math.max(0, 1 - tcdf(Math.abs(t), v));
+        out = `P(|T| ≥ ${Math.abs(t)}) = ${fmt(p,6)}`;
+        drawCompare(v,'two', t, null, compare);
+      } else {
+        out = `f(${t}) = ${fmt(pdf,6)}`;
+        drawCompare(v, null, null, null, compare);
+      }
+    } else {
+      const p = Math.min(0.999999, Math.max(1e-6, Number(pEl.value)||0.05));
+      pEl.value = p.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+      let tstar = NaN, note='';
+
+      if(mode==='inv-left'){
+        tstar = tinv(p, v);
+        note = `ให้ F(t*)=p ⇒ t*=tinv(${p})`;
+        drawCompare(v,'left', tstar, null, compare);
+        out = `t* (ซ้าย): F(t*)=p=${fmt(p,6)} ⇒ t*=${fmt(tstar,6)}`;
+        f = fmt(tpdf(tstar,v),6); F = fmt(tcdf(tstar,v),6);
+      } else if(mode==='inv-right'){
+        tstar = tinv(1-p, v);
+        note = `ให้ P(T≥t*)=p ⇒ F(t*)=1−p`;
+        drawCompare(v,'right', tstar, null, compare);
+        out = `t* (ขวา): P(T≥t*)=${fmt(p,6)} ⇒ t*=${fmt(tstar,6)}`;
+        f = fmt(tpdf(tstar,v),6); F = fmt(tcdf(tstar,v),6);
+      } else if(mode==='inv-two'){
+        tstar = tinv(1 - p/2, v);
+        note = `สองทาง: แต่ละหาง = p/2 ⇒ F(t*)=1−p/2`;
+        drawCompare(v,'two', tstar, null, compare);
+        out = `t* (สองทาง): p=${fmt(p,6)} ⇒ t* = ±${fmt(tstar,6)}`;
+        f = '—'; F = `F(t*)=${fmt(tcdf(tstar,v),6)}`;
+      }
+      statusEl.textContent = note;
+    }
+
+    resultEl.textContent = out;
+    pdfEl.textContent = f;
+    cdfEl.textContent = F;
+    if(!statusEl.textContent) statusEl.textContent = `อัปเดต df=${v}`;
+  }
+
+  modeEl.addEventListener('change', ()=>{ updateInputs(); compute(); });
+  showNormalEl.addEventListener('change', compute);
+  btnCalc.addEventListener('click', compute);
+  btnReset.addEventListener('click', ()=>{
+    dfEl.value = 10; modeEl.value='left'; tEl.value=1.8; pEl.value=0.05; showNormalEl.checked=false;
+    updateInputs(); compute();
+  });
+  window.addEventListener('resize', compute);
+
+  document.getElementById('btn-save-png').addEventListener('click', ()=>{
+    compute();
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replace(/[:.]/g,'-');
+    a.href = url; a.download = `t-vs-normal-${stamp}.png`; a.click();
+  });
+
+  const df2El = document.getElementById('df2');
+  const btnCrit = document.getElementById('btn-crit');
+  const oneTail = document.getElementById('one-tail');
+  const twoTail = document.getElementById('two-tail');
+  const critStatus = document.getElementById('crit-status');
+
+  function buildCritical(){
+    const v = Math.max(1, Math.round(Number(df2El.value)||10));
+    df2El.value = v;
+    const alphas = [0.10,0.05,0.025,0.01,0.005,0.001];
+    oneTail.innerHTML = '';
+    twoTail.innerHTML = '';
+    alphas.forEach(a=>{
+      const t_one = tinv(1-a, v);
+      const t_two = tinv(1-a/2, v);
+      const tr1 = document.createElement('tr');
+      tr1.innerHTML = `<td>${a}</td><td>${fmt(t_one,4)}</td>`;
+      oneTail.appendChild(tr1);
+      const tr2 = document.createElement('tr');
+      tr2.innerHTML = `<td>${a}</td><td>±${fmt(t_two,4)}</td>`;
+      twoTail.appendChild(tr2);
+    });
+    critStatus.textContent = `คำนวณค่าวิกฤตสำหรับ df=${v}`;
+  }
+
+  btnCrit.addEventListener('click', buildCritical);
+
+  const cards = document.querySelectorAll('.card');
+  const obs = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],
+          {duration:450, easing:'ease-out', fill:'forwards'});
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold:.12});
+  cards.forEach(c=>obs.observe(c));
+
+  function init(){
+    updateInputs();
+    compute();
+    buildCritical();
+  }
+  init();
+</script>
+</body>
+</html>

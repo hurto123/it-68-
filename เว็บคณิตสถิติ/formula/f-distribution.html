@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>F-Distribution | อธิบายสูตร</title>
+  <meta name="description" content="การแจกแจงแบบเอฟ: PDF, CDF, ค่า p, Inverse F* และตารางค่าวิกฤต พร้อมกราฟระบายพื้นที่ใต้โค้งแบบโต้ตอบ">
+  <meta property="og:title" content="F-Distribution | อธิบายสูตร">
+  <meta property="og:description" content="คำนวณ p หรือ F-crit และแสดงกราฟ/ตารางค่าวิกฤตสำหรับ df1, df2 ที่กำหนด">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-03">
+  <meta name="doc:depends_on" content="lesson09.html,summary-lesson09.html,glossary.html#gl-dist">
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+
+  <style>
+    .wrap{max-width:1020px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+    .formula-box{background:#0f1320;border:1px solid var(--border);border-radius:12px;padding:.8rem;overflow:auto}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    table{width:100%;border-collapse:collapse;margin:.5rem 0}
+    th,td{border:1px solid var(--border);padding:.45rem .5rem;text-align:center}
+    th{background:#101525}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.6rem;border-radius:12px}
+    .calc-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    input[type="number"], select{
+      background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    input[type="number"]{ width:120px; }
+    canvas{width:100%;height:280px;background:#0c111b;border:1px solid var(--border);border-radius:12px}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;background:#0e1220;color:#cfe0ff;margin-left:.35rem}
+    .mini{font-size:.9rem}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .chipline{display:flex;gap:.4rem;flex-wrap:wrap}
+    .chip2{display:inline-block;border:1px solid var(--border);background:#0e1220;color:#cfe0ff;border-radius:999px;padding:.15rem .55rem;font-size:.85rem}
+  </style>
+</head>
+<body>
+<header role="banner">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>Formula Explorer</h1>
+    </div>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="../index.html">หน้าแรก</a> › <span class="muted">F-Distribution</span>
+    </nav>
+    <div class="title" style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem">
+      <div>
+        <h2 style="margin:.2rem 0;font-size:1.8rem">การแจกแจงแบบเอฟ (F-Distribution)</h2>
+        <p class="muted">เปรียบเทียบความแปรปรวน: \(F = \dfrac{\chi^2_{d_1}/d_1}{\chi^2_{d_2}/d_2}\), ขวาเบ้, ช่วงค่า \(x \ge 0\)</p>
+      </div>
+      <div class="toolbar">
+        <a class="btn secondary" href="../glossary.html">Glossary</a>
+        <a class="btn ghost" href="../lesson09.html">บทที่ 9</a>
+        <a class="btn ghost" href="../summary-lesson09.html">สรุป 1 หน้า</a>
+        <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        <button class="btn" id="btn-save-png">📥 บันทึกกราฟเป็น PNG</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap grid" role="main">
+  <section class="card grid2">
+    <div>
+      <h3>1) ที่มา &amp; คุณสมบัติ</h3>
+      <ul class="list-compact">
+        <li>\(F=\dfrac{\chi^2_{d_1}/d_1}{\chi^2_{d_2}/d_2}\) โดย \(\chi^2\) สองตัวอิสระกัน</li>
+        <li>ไม่สมมาตร (เบ้ขวา), df มากขึ้น → โค้งแคบลง</li>
+        <li>ใช้มากใน ANOVA และการทดสอบอัตราส่วนความแปรปรวน</li>
+      </ul>
+      <div class="ok" style="margin-top:.4rem">
+        <strong>ช่วงค่า:</strong> \(x\ge 0\) • <strong>พารามิเตอร์:</strong> df1 = \(d_1\), df2 = \(d_2\)
+      </div>
+    </div>
+    <div>
+      <h3>2) สัญลักษณ์/สูตร</h3>
+      <div class="formula-box mono">
+        F ~ F(d₁,d₂)<br/>
+        PDF: f(x) = \(\dfrac{1}{B(d₁/2,d₂/2)}\left(\dfrac{d₁}{d₂}\right)^{d₁/2} x^{d₁/2-1} \left(1+\dfrac{d₁}{d₂}x\right)^{-(d₁+d₂)/2}\), x&gt;0<br/>
+        CDF: F(x) = I_{y}(a,b), &nbsp; y = d₁x/(d₁x+d₂), &nbsp; a=d₁/2, b=d₂/2
+      </div>
+      <p class="mini muted">ใช้ Regularized Incomplete Beta (เชิงตัวเลข) สำหรับ CDF/Inverse</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>3) เครื่องคิดเลข F 🧮 <span class="badge">Interactive</span></h3>
+    <div class="calc-row" style="margin:.35rem 0 .5rem">
+      <label for="df1">df1 (d₁):</label><input id="df1" type="number" min="1" step="1" value="5">
+      <label for="df2">df2 (d₂):</label><input id="df2" type="number" min="1" step="1" value="10">
+
+      <label for="mode">โหมด:</label>
+      <select id="mode" aria-label="เลือกโหมดคำนวณ">
+        <optgroup label="คำนวณ p จาก F">
+          <option value="left">P(F ≤ x)</option>
+          <option value="right">P(F ≥ x)</option>
+          <option value="between">P(a ≤ F ≤ b)</option>
+          <option value="density">f(x) (PDF) ที่ x</option>
+        </optgroup>
+        <optgroup label="คำนวณ F จาก p (Inverse)">
+          <option value="inv-right">F* such that P(F ≥ F*)=p</option>
+          <option value="inv-left">F* such that P(F ≤ F*)=p</option>
+        </optgroup>
+      </select>
+
+      <span id="inputs-x" style="display:inline-flex;gap:.6rem;align-items:center">
+        <label for="x">x:</label><input id="x" type="number" step="0.001" min="0" value="2.5">
+      </span>
+      <span id="inputs-ab" style="display:none;gap:.6rem;align-items:center">
+        <label for="a">a:</label><input id="a" type="number" step="0.001" min="0" value="1.5">
+        <label for="b">b:</label><input id="b" type="number" step="0.001" min="0" value="3.2">
+      </span>
+      <span id="inputs-p" style="display:none;gap:.6rem;align-items:center">
+        <label for="pval">p (0–1):</label><input id="pval" type="number" step="0.0001" min="1e-6" max="0.999999" value="0.05">
+      </span>
+
+      <button class="btn" id="btn-calc">คำนวณ</button>
+      <button class="btn secondary" id="btn-reset">รีเซ็ต</button>
+      <span class="mini muted" id="status" aria-live="polite"></span>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <table>
+          <tbody>
+            <tr><th style="width:42%">ผลลัพธ์</th><td id="result">—</td></tr>
+            <tr><th>PDF f(x)</th><td id="pdfout">—</td></tr>
+            <tr><th>CDF F(x)=P(F≤x)</th><td id="cdfout">—</td></tr>
+          </tbody>
+        </table>
+        <div class="chipline">
+          <span class="chip2">ขวาเบ้</span>
+          <span class="chip2">df1, df2 ↑ → โค้งแคบ</span>
+          <span class="chip2">นิยมใช้ขวาหาง</span>
+        </div>
+      </div>
+      <div>
+        <canvas id="chart" aria-label="กราฟ F-Distribution พร้อมพื้นที่ใต้โค้ง"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>4) ตารางค่าวิกฤต F* 📊 <span class="badge">Interactive</span></h3>
+    <div class="calc-row">
+      <label for="df1c">df1:</label><input id="df1c" type="number" min="1" step="1" value="5">
+      <label for="df2c">df2:</label><input id="df2c" type="number" min="1" step="1" value="10">
+      <button class="btn" id="btn-crit">คำนวณ F*</button>
+      <span class="mini muted" id="crit-status" aria-live="polite"></span>
+    </div>
+    <div class="grid2">
+      <div>
+        <table aria-label="ค่าวิกฤตขวาหาง">
+          <thead><tr><th>α</th><th>F* (ขวาหาง)</th></tr></thead>
+          <tbody id="crit-right"></tbody>
+        </table>
+      </div>
+      <div>
+        <table aria-label="ค่าวิกฤตซ้ายหาง (ทางเลือก)">
+          <thead><tr><th>α</th><th>F* (ซ้ายหาง)</th></tr></thead>
+          <tbody id="crit-left"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="mini muted">หมายเหตุ: ขวาหางมักใช้ใน ANOVA/variance ratio; ซ้ายหางใช้กรณีพิเศษ</p>
+  </section>
+
+  <section class="card grid2">
+    <div>
+      <h3>5) วิธีทำโจทย์ (Workflow)</h3>
+      <ol>
+        <li>ระบุวัตถุประสงค์: ทดสอบอัตราส่วนความแปรปรวน หรือ ANOVA</li>
+        <li>กำหนด df1, df2 ให้ถูกต้อง (ขึ้นกับโมเดล/จำนวนกลุ่ม)</li>
+        <li>คำนวณค่า F จากข้อมูล หรือกำหนด p เพื่อหา F* (inverse)</li>
+        <li>เทียบ p กับ α หรือเทียบ F กับ F*</li>
+      </ol>
+    </div>
+    <div>
+      <h3>6) ตัวอย่างคำนวณ</h3>
+      <p><strong>ตัวอย่าง:</strong> df1=5, df2=10, หา P(F ≥ 3.0)</p>
+      <ol class="list-compact">
+        <li>คำนวณ CDF: F(3.0) → ~0.xxx (โดยเครื่องคิดเลข)</li>
+        <li>ขวาหาง: 1 − F(3.0)</li>
+      </ol>
+      <p class="mini muted">ตรวจในเครื่องคิดเลขด้านบน: เลือกโหมด P(F≥x), ใส่ x=3.0</p>
+      <div class="toolbar" style="margin-top:.4rem">
+        <a class="btn ghost" href="./chi-square.html">Chi-Square</a>
+        <a class="btn ghost" href="./t-distribution.html">t-Distribution</a>
+        <a class="btn ghost" href="./normal.html">Normal</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+</footer>
+
+<script>
+  const fmt = (x, d=6) => Number.isFinite(x)
+    ? (Math.round(x*10**d)/10**d).toFixed(d).replace(/\.?0+$/,'')
+    : '—';
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  function lnGamma(z){
+    const p=[676.5203681218851,-1259.1392167224028,771.3234287776531,-176.6150291621406,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+    let x=0.99999999999980993;
+    for(let i=0;i<p.length;i++){ x += p[i]/(z+i+1); }
+    const t = z + p.length - 0.5;
+    return 0.5*Math.log(2*Math.PI) + (z+0.5)*Math.log(t) - t + Math.log(x) - Math.log(z);
+  }
+  const beta = (a,b) => Math.exp(lnGamma(a) + lnGamma(b) - lnGamma(a+b));
+
+  function betacf(x,a,b){
+    const MAXIT=200, EPS=1e-12, FPMIN=1e-30;
+    let qab=a+b, qap=a+1, qam=a-1;
+    let c=1, d=1 - qab*x/qap;
+    if(Math.abs(d) < FPMIN) d=FPMIN;
+    d=1/d;
+    let h=d;
+    for(let m=1;m<=MAXIT;m++){
+      const m2=2*m;
+      let aa = m*(b-m)*x/((qam+m2)*(a+m2));
+      d = 1+aa*d; if(Math.abs(d)<FPMIN) d=FPMIN;
+      c = 1+aa/c; if(Math.abs(c)<FPMIN) c=FPMIN;
+      d=1/d; h*=d*c;
+      aa = -(a+m)*(qab+m)*x/((a+m2)*(qap+m2));
+      d = 1+aa*d; if(Math.abs(d)<FPMIN) d=FPMIN;
+      c = 1+aa/c; if(Math.abs(c)<FPMIN) c=FPMIN;
+      d=1/d;
+      const del = d*c;
+      h*=del;
+      if(Math.abs(del-1)<EPS) break;
+    }
+    return h;
+  }
+
+  function betaincReg(x,a,b){
+    if(x<=0) return 0;
+    if(x>=1) return 1;
+    const bt = Math.exp(lnGamma(a+b) - lnGamma(a) - lnGamma(b) + a*Math.log(x) + b*Math.log(1-x));
+    if(x < (a+1)/(a+b+2)) return bt * betacf(x,a,b) / a;
+    return 1 - bt * betacf(1-x,b,a) / b;
+  }
+
+  function fpdf(x, d1, d2){
+    if(x<=0 || d1<=0 || d2<=0) return 0;
+    const a = d1/2, b = d2/2;
+    const term1 = a*Math.log(d1/d2);
+    const term2 = (a-1)*Math.log(x);
+    const logPdf = term1 + term2 - ((d1+d2)/2)*Math.log(1 + (d1/d2)*x) - Math.log(beta(a,b));
+    return Math.exp(logPdf);
+  }
+
+  function fcdf(x, d1, d2){
+    if(x<=0) return 0;
+    const a = d1/2, b = d2/2;
+    const y = (d1*x) / (d1*x + d2);
+    return betaincReg(y, a, b);
+  }
+
+  function finv(p, d1, d2){
+    if(!(p>0 && p<1)) return NaN;
+    let lo = 0, hi = 1000;
+    for(let i=0;i<120;i++){
+      const mid = (lo+hi)/2, F = fcdf(mid, d1, d2);
+      if(F < p) lo = mid; else hi = mid;
+    }
+    return (lo+hi)/2;
+  }
+
+  const df1El = document.getElementById('df1');
+  const df2El = document.getElementById('df2');
+  const modeEl = document.getElementById('mode');
+  const xEl = document.getElementById('x');
+  const aEl = document.getElementById('a');
+  const bEl = document.getElementById('b');
+  const pEl = document.getElementById('pval');
+
+  const inputsX = document.getElementById('inputs-x');
+  const inputsAB = document.getElementById('inputs-ab');
+  const inputsP = document.getElementById('inputs-p');
+
+  const btnCalc = document.getElementById('btn-calc');
+  const btnReset = document.getElementById('btn-reset');
+  const statusEl = document.getElementById('status');
+  const resultEl = document.getElementById('result');
+  const pdfEl = document.getElementById('pdfout');
+  const cdfEl = document.getElementById('cdfout');
+
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+
+  function updateModeUI(){
+    const m = modeEl.value;
+    inputsX.style.display = (m==='left' || m==='right' || m==='density') ? 'inline-flex' : 'none';
+    inputsAB.style.display = (m==='between') ? 'inline-flex' : 'none';
+    inputsP.style.display = (m.startsWith('inv-')) ? 'inline-flex' : 'none';
+  }
+
+  function drawF(d1, d2, shadeMode, v1, v2){
+    const W = ctx.canvas.width, H = ctx.canvas.height;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.globalAlpha = 0.25; ctx.strokeStyle = '#223049';
+    for(let i=1;i<=4;i++){ const y=H-(H*i/5); ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+
+    const m = Math.max(8, (d2/d1)*8);
+    const xmin = 0, xmax = m;
+    const modeVal = d1>2 ? ((d1-2)/d1) * (d2/(d2+2)) : 1e-3;
+    const ymax = fpdf(Math.max(1e-6, modeVal), d1, d2);
+
+    const mapX = x => ((x - xmin)/(xmax - xmin))*(W-20)+10;
+    const mapY = y => H - y * (H*0.9/Math.max(1e-12, ymax));
+
+    ctx.beginPath();
+    let first=true;
+    const steps = 500;
+    for(let i=0;i<=steps;i++){
+      const x = xmin + (xmax-xmin)*i/steps;
+      const y = fpdf(x, d1, d2);
+      const X = mapX(x), Y = mapY(y);
+      if(first){ ctx.moveTo(X,Y); first=false; } else ctx.lineTo(X,Y);
+    }
+    ctx.strokeStyle = '#6ea8ff'; ctx.lineWidth=2; ctx.stroke();
+
+    ctx.fillStyle = 'rgba(110,168,255,0.35)';
+    if(shadeMode==='left' || shadeMode==='right'){
+      const x = Math.max(0, v1);
+      const a = shadeMode==='left' ? xmin : x;
+      const b = shadeMode==='left' ? x    : xmax;
+      ctx.beginPath();
+      for(let i=0;i<=steps;i++){
+        const xx = a + (b-a)*i/steps;
+        const yy = fpdf(xx, d1, d2);
+        const X = mapX(xx), Y = mapY(yy);
+        if(i===0) ctx.moveTo(X,H);
+        ctx.lineTo(X,Y);
+      }
+      ctx.lineTo(mapX(b),H); ctx.closePath(); ctx.fill();
+    } else if(shadeMode==='between'){
+      const a = Math.max(0, Math.min(v1, v2)), b = Math.max(0, Math.max(v1, v2));
+      ctx.beginPath();
+      for(let i=0;i<=steps;i++){
+        const xx = a + (b-a)*i/steps;
+        const yy = fpdf(xx, d1, d2);
+        const X = mapX(xx), Y = mapY(yy);
+        if(i===0) ctx.moveTo(X,H);
+        ctx.lineTo(X,Y);
+      }
+      ctx.lineTo(mapX(b),H); ctx.closePath(); ctx.fill();
+    }
+  }
+
+  function compute(){
+    const d1 = Math.max(1, Math.round(Number(df1El.value)||5));
+    const d2 = Math.max(1, Math.round(Number(df2El.value)||10));
+    df1El.value = d1; df2El.value = d2;
+    const m = modeEl.value;
+    statusEl.textContent='';
+
+    let out='—', pdf='—', cdf='—';
+
+    if(m==='left' || m==='right' || m==='density'){
+      const x = Math.max(0, Number(xEl.value)||0);
+      xEl.value = x;
+      const f = fpdf(x, d1, d2);
+      const F = fcdf(x, d1, d2);
+      pdf = fmt(f,6);
+      cdf = fmt(F,6);
+
+      if(m==='left'){
+        out = `P(F ≤ ${x}) = ${fmt(F,6)}`;
+        drawF(d1,d2,'left',x);
+      } else if(m==='right'){
+        const p = 1 - F;
+        out = `P(F ≥ ${x}) = ${fmt(p,6)}`;
+        drawF(d1,d2,'right',x);
+      } else {
+        out = `f(${x}) = ${fmt(f,6)}`;
+        drawF(d1,d2,null,null);
+      }
+    } else if(m==='between'){
+      const a = Math.max(0, Number(aEl.value)||0);
+      const b = Math.max(0, Number(bEl.value)||0);
+      aEl.value = a; bEl.value = b;
+      const lo = Math.min(a,b), hi = Math.max(a,b);
+      const Fa = fcdf(lo, d1, d2), Fb = fcdf(hi, d1, d2);
+      const p = Math.max(0, Fb - Fa);
+      out = `P(${lo} ≤ F ≤ ${hi}) = ${fmt(p,6)}`;
+      pdf = '—'; cdf = `F(hi)−F(lo) = ${fmt(Fb,6)} − ${fmt(Fa,6)} = ${fmt(p,6)}`;
+      drawF(d1,d2,'between',lo,hi);
+    } else {
+      const p = clamp(Number(pEl.value)||0.05, 1e-6, 0.999999);
+      pEl.value = p.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+      if(m==='inv-right'){
+        const Fstar = finv(1 - p, d1, d2);
+        out = `F* (ขวาหาง): P(F ≥ F*) = ${fmt(p,6)} ⇒ F* = ${fmt(Fstar,6)}`;
+        pdf = fmt(fpdf(Fstar,d1,d2),6);
+        cdf = fmt(fcdf(Fstar,d1,d2),6);
+        drawF(d1,d2,'right',Fstar);
+      } else if(m==='inv-left'){
+        const Fstar = finv(p, d1, d2);
+        out = `F* (ซ้ายหาง): P(F ≤ F*) = ${fmt(p,6)} ⇒ F* = ${fmt(Fstar,6)}`;
+        pdf = fmt(fpdf(Fstar,d1,d2),6);
+        cdf = fmt(fcdf(Fstar,d1,d2),6);
+        drawF(d1,d2,'left',Fstar);
+      }
+    }
+
+    resultEl.textContent = out;
+    pdfEl.textContent = pdf;
+    cdfEl.textContent = cdf;
+    statusEl.textContent = statusEl.textContent || `อัปเดต df1=${d1}, df2=${d2}`;
+  }
+
+  btnCalc.addEventListener('click', compute);
+  btnReset.addEventListener('click', ()=>{
+    df1El.value=5; df2El.value=10; modeEl.value='left';
+    xEl.value=2.5; aEl.value=1.5; bEl.value=3.2; pEl.value=0.05;
+    updateModeUI(); compute();
+  });
+  modeEl.addEventListener('change', ()=>{ updateModeUI(); compute(); });
+  window.addEventListener('resize', compute);
+
+  document.getElementById('btn-save-png').addEventListener('click', ()=>{
+    compute();
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replace(/[:.]/g,'-');
+    a.href = url; a.download = `f-distribution-plot-${stamp}.png`; a.click();
+  });
+
+  const df1cEl = document.getElementById('df1c');
+  const df2cEl = document.getElementById('df2c');
+  const btnCrit = document.getElementById('btn-crit');
+  const critRight = document.getElementById('crit-right');
+  const critLeft = document.getElementById('crit-left');
+  const critStatus = document.getElementById('crit-status');
+
+  function buildCritical(){
+    const d1 = Math.max(1, Math.round(Number(df1cEl.value)||5));
+    const d2 = Math.max(1, Math.round(Number(df2cEl.value)||10));
+    df1cEl.value = d1; df2cEl.value = d2;
+    const alphas = [0.10,0.05,0.025,0.01,0.005,0.001];
+
+    critRight.innerHTML = '';
+    critLeft.innerHTML = '';
+
+    alphas.forEach(a=>{
+      const r = finv(1-a, d1, d2);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${a}</td><td>${fmt(r,4)}</td>`;
+      critRight.appendChild(tr);
+    });
+
+    alphas.forEach(a=>{
+      const l = finv(a, d1, d2);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${a}</td><td>${fmt(l,4)}</td>`;
+      critLeft.appendChild(tr);
+    });
+
+    critStatus.textContent = `คำนวณค่าวิกฤตสำหรับ df1=${d1}, df2=${d2}`;
+  }
+  btnCrit.addEventListener('click', buildCritical);
+
+  const cards = document.querySelectorAll('.card');
+  const obs = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],
+          {duration:450, easing:'ease-out', fill:'forwards'});
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold:.12});
+  cards.forEach(c=>obs.observe(c));
+
+  function init(){ updateModeUI(); compute(); buildCritical(); }
+  init();
+</script>
+</body>
+</html>

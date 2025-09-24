@@ -144,6 +144,30 @@ export const formulas = [
     link: "formula/z-score.html"
   },
   {
+    id: "t",
+    title: "t-Distribution",
+    desc: "ค่า p, t-crit, เปรียบเทียบกับ Normal และอินเวอร์ส",
+    tags: "สูตร t distribution student's t df",
+    chip: "Inference",
+    link: "formula/t-distribution.html"
+  },
+  {
+    id: "chi-square",
+    title: "Chi-Square Distribution",
+    desc: "ค่า p, ค่าวิกฤต, กราฟขวาเบ้สำหรับอนุมานความแปรปรวน",
+    tags: "สูตร chi-square ค่าวิกฤต ความแปรปรวน",
+    chip: "Inference",
+    link: "formula/chi-square.html"
+  },
+  {
+    id: "f-dist",
+    title: "F-Distribution",
+    desc: "เปรียบเทียบความแปรปรวน, F-crit, ตารางค่า α",
+    tags: "สูตร f distribution anova variance",
+    chip: "Inference",
+    link: "formula/f-distribution.html"
+  },
+  {
     id: "clt",
     title: "CLT: x̄ & p̂",
     desc: "การกระจายของค่าเฉลี่ย/สัดส่วนตัวอย่าง",
@@ -161,6 +185,14 @@ export const summaries = [
     tags: "สรุป รวม ทุกบท summary all",
     chip: "รวม",
     link: "summaries-all.html"
+  },
+  {
+    id: "index",
+    title: "สารบัญสรุป 1 หน้า",
+    desc: "ค้นหาและเปิดสรุปแต่ละบท พร้อมปุ่มไปบทเรียนเต็ม",
+    tags: "สรุป สารบัญ summary index",
+    chip: "สารบัญ",
+    link: "summary-index.html"
   },
   // สร้างสรุปรายบทจาก lessons อัตโนมัติ
   ...lessons.map(l => ({

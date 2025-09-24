@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.02",
-  "updated_at": "2025-10-02",
+  "version": "2025.10.03",
+  "updated_at": "2025-10-03",
   "lessons": [
     {
       "id": "lesson01",
@@ -348,6 +348,54 @@
       }
     },
     {
+      "id": "t",
+      "title": "t-Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/t-distribution.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
+      "id": "chi-square",
+      "title": "Chi-Square Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/chi-square.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
+      "id": "f-dist",
+      "title": "F-Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/f-distribution.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
       "id": "clt-xbar-phat",
       "title": "CLT: x̄ & p̂",
       "version": "1.0.0",
@@ -364,5 +412,32 @@
       }
     }
   ],
-  "notes": "อัปเดตสูตร Bernoulli/Hypergeometric/Normal พร้อม metadata และปรับ index/formula manifest ให้สอดคล้อง"
+  "notes": "เพิ่มสูตร t/Chi-Square/F พร้อม metadata และสร้าง resources (summary-index, rubric) เพื่อเชื่อมเครื่องมือทบทวน",
+  "resources": [
+    {
+      "id": "summary-index",
+      "title": "สารบัญสรุป 1 หน้า",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "assets": {
+        "page": "summary-index.html"
+      },
+      "depends_on": [
+        "summaries-all.html"
+      ]
+    },
+    {
+      "id": "rubric",
+      "title": "Rubric ประเมินตนเอง",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "assets": {
+        "page": "rubric.html"
+      },
+      "depends_on": [
+        "index.html",
+        "manifest.json"
+      ]
+    }
+  ]
 }
