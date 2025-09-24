@@ -6,6 +6,20 @@
   <title>สรุป 1 หน้า – บทที่ 5 — ทฤษฎีความน่าจะเป็น (เงื่อนไข/เบย์)</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
     header h1{margin:.2rem 0}
@@ -28,11 +42,12 @@
 
   <header>
     <h1>📄 สรุป 1 หน้า – บทที่ 5 — ทฤษฎีความน่าจะเป็น (เงื่อนไข/เบย์)</h1>
-    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+    <p class="muted">รุ่น 1.2.0 · อัปเดต 26 กันยายน 2025 · รวมสูตร Conditional/Total/Bayes พร้อม Reading Toolkit</p>
   </header>
 
-  <section class="summary-1page">
-    <div class="col">
+  <main>
+    <section class="summary-1page">
+      <div class="col">
       <div class="card">
         <h3>🎯 เป้าหมายการเรียนรู้</h3>
         <ul>
@@ -49,11 +64,33 @@
 
     <div class="col">
       <div class='card'><h3>🧩 Conditional</h3><ul><li>P(A|B) = P(A∩B)/P(B)</li></ul></div><div class='card'><h3>🧩 Total Probability</h3><ul><li>P(B) = Σ P(B|A_i)P(A_i)</li></ul></div><div class='card'><h3>🧩 Bayes</h3><ul><li>P(A|B) = P(B|A)P(A) / Σ P(B|A_i)P(A_i)</li></ul></div>
-    </div>
-  </section>
-  
+      <div class="col">
+        <div class='card'><h3>🧩 Conditional</h3><ul><li>P(A|B) = P(A∩B)/P(B)</li></ul></div><div class='card'><h3>🧩 Total Probability</h3><ul><li>P(B) = Σ P(B|A_i)P(A_i)</li></ul></div><div class='card'><h3>🧩 Bayes</h3><ul><li>P(A|B) = P(B|A)P(A) / Σ P(B|A_i)P(A_i)</li></ul></div>
+      </div>
+    </section>
+
+    <section class="card" id="summary-reading-tools">
+      <h2>ปรับแต่งก่อนสอบ</h2>
+      <p>แถบเครื่องมือช่วยขยายสูตรและเปิดโหมดโฟกัสสำหรับทบทวนแบบเร่งด่วน กด <strong>พิมพ์ PDF</strong> เพื่อเก็บเอกสารที่มีสูตร MathJax ชัดเจน</p>
+      <ul>
+        <li>ใช้ปุ่ม <em>สารบัญ</em> เพื่อกระโดดไปยังส่วน Bayes หรือสูตรรวมได้ทันที</li>
+        <li>สูตรในรูป LaTeX เช่น \(P(A\mid B)\) สามารถคัดลอกไปใส่ในโจทย์หรือสไลด์ได้โดยตรง</li>
+      </ul>
+    </section>
+
+    <section class="card" id="summary-extra">
+      <h2>Bayes Checklist</h2>
+      <ol>
+        <li>นิยามเหตุการณ์แบ่งพื้นที่ให้ครบ (A₁…Aₙ)</li>
+        <li>เขียนแผนภาพต้นไม้หรือจัดเป็นตารางเพื่อไม่ลืมทางเลือก</li>
+        <li>คำนวณ P(B) ด้วยกฎรวมก่อนแทนค่าลงสูตร Bayes</li>
+      </ol>
+      <div class="ok">ใช้ Checklist นี้แล้วทดลองกับโจทย์แพทย์/สแปมใน <a class="inline" href="lesson05.html">บทเรียนเต็ม</a></div>
+    </section>
+  </main>
+
   <footer class="print-footer">
-    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+    คอร์สสถิติ — พิมพ์เมื่อ: 26/09/2025
   </footer>
 </body>
 </html>

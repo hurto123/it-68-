@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Hypergeometric Distribution | อธิบายสูตร + ขั้นบันได C(a,b)</title>
+  <meta name="description" content="สูตร Hypergeometric: PMF, E, Var พร้อมเครื่องคิดเลข และโหมดแสดงขั้นบันไดคำนวณ C(a,b) (ย่อเศษส่วนทีละขั้น)">
+  <meta property="og:title" content="Hypergeometric Distribution | อธิบายสูตร + ขั้นบันได C(a,b)">
+  <meta property="og:description" content="สุ่มโดยไม่ใส่คืน + แสดงขั้นตอนคอมบิเนชัน C(a,b) แบบย่อเศษส่วนทีละขั้น">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-02">
+  <meta name="doc:depends_on" content="lesson07.html,summary-lesson07.html,glossary.html#gl-dist">
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+
+  <style>
+    .wrap{max-width:1020px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+    .formula-box{background:#0f1320;border:1px solid var(--border);border-radius:12px;padding:.8rem;overflow:auto}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    table{width:100%;border-collapse:collapse;margin:.4rem 0}
+    th,td{border:1px solid var(--border);padding:.45rem .5rem;text-align:center}
+    th{background:#101525}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.6rem;border-radius:12px}
+    .warn{background:#231b0f;border-left:4px solid var(--warn);padding:.6rem;border-radius:12px}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .mini{font-size:.9rem}
+    .calc-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    input[type="number"]{
+      width:120px;background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    select{
+      background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    canvas{width:100%;height:240px;background:#0c111b;border:1px solid var(--border);border-radius:12px}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;background:#0e1220;color:#cfe0ff;margin-left:.35rem}
+    .list-compact{margin:.2rem 0 0 .8rem}
+    .step{margin:.25rem 0}
+    .pill{display:inline-block;padding:.15rem .5rem;border:1px solid var(--border);border-radius:999px;background:#0e1220;color:#cfe0ff;font-size:.85rem;margin-left:.4rem}
+    .tag{display:inline-block;margin:.2rem .2rem 0 0;padding:.15rem .5rem;border-radius:999px;border:1px solid var(--border);background:#0e1220;color:#cfe0ff;font-size:.85rem}
+    .accent{color:#cfe0ff}
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Formula Explorer</h1>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <span class="muted">Hypergeometric</span>
+      </nav>
+      <div class="title" style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem">
+        <div>
+          <h2 style="margin:.2rem 0;font-size:1.8rem">การแจกแจงแบบไฮเปอร์จีออเมตริค (Hypergeometric)</h2>
+          <p class="muted">สุ่มจากประชากรจำกัด <strong>โดยไม่ใส่คืน</strong> : โอกาสหยิบได้ “ของสำเร็จ” k ชิ้น</p>
+        </div>
+        <div class="toolbar">
+          <a class="btn secondary" href="../glossary.html">Glossary</a>
+          <a class="btn ghost" href="../lesson07.html">บทที่ 7</a>
+          <a class="btn ghost" href="../summary-lesson07.html">สรุป 1 หน้า</a>
+          <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid" role="main">
+    <section class="card">
+      <h3>1) ที่มา (Intuition) &amp; บริบทที่ใช้</h3>
+      <p>มีประชากร <strong>N</strong> ชิ้น (จำกัด) ที่มี “สำเร็จ” <strong>K</strong> ชิ้น หยิบมา <strong>n</strong> ชิ้น <em>ไม่ใส่คืน</em> → ความน่าจะเป็นที่จะได้สำเร็จ <strong>k</strong> ชิ้นเป็นแบบ Hypergeometric</p>
+      <ul class="list-compact">
+        <li>ตัวอย่าง: ลูกบอลแดง (สำเร็จ) K ลูก + ลูกบอลขาว (ไม่สำเร็จ) (N−K) ลูก หยิบทีเดียว n ลูก</li>
+        <li>ต่างจาก Binomial: <em>Binomial</em> เหมาะกับสุ่มแบบ <strong>ใส่คืน</strong> หรือประชากรใหญ่มาก</li>
+      </ul>
+    </section>
+
+    <section class="card grid2">
+      <div>
+        <h3>2) สัญลักษณ์/พารามิเตอร์</h3>
+        <ul class="list-compact">
+          <li><strong>N</strong> = ขนาดประชากรทั้งหมด</li>
+          <li><strong>K</strong> = จำนวน “สำเร็จ” ในประชากร</li>
+          <li><strong>n</strong> = จำนวนที่หยิบ</li>
+          <li><strong>k</strong> = จำนวนสำเร็จที่หยิบได้</li>
+        </ul>
+        <p class="mini muted">เงื่อนไข: 0 ≤ K ≤ N, 0 ≤ n ≤ N และช่วง k ตามข้อ 4</p>
+      </div>
+      <div>
+        <h3>3) สูตรสำคัญ</h3>
+        <div class="formula-box mono">
+          PMF: P(X = k) = [ C(K, k) · C(N − K, n − k) ] / C(N, n)<br/>
+          E[X] = n · (K / N) &nbsp;&nbsp;|&nbsp;&nbsp;
+          Var(X) = n · (K/N) · (1 − K/N) · ((N − n) / (N − 1))
+        </div>
+        <div class="mini muted">C(a,b) = คอมบิเนชัน “เลือก b จาก a”</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>4) โดเมนของ k</h3>
+      <div class="formula-box mono">k ∈ { max(0, n − (N − K)), … , min(n, K) }</div>
+      <p class="mini muted">มากสุดคือ min(n, K); น้อยสุดเมื่ออีกสี (N−K) ทำให้หยิบสำเร็จน้อยลง</p>
+    </section>
+
+    <!-- เครื่องคำนวณ Hypergeometric -->
+    <section class="card">
+      <h3>5) เครื่องคิดเลข Hypergeometric 🧮 <span class="badge">Interactive</span></h3>
+      <div class="calc-row" style="margin:.35rem 0 .5rem">
+        <label for="N">N (ทั้งหมด):</label>
+        <input id="N" type="number" min="1" step="1" value="20">
+        <label for="K">K (สำเร็จ):</label>
+        <input id="K" type="number" min="0" step="1" value="7">
+        <label for="n">n (หยิบ):</label>
+        <input id="n" type="number" min="0" step="1" value="5">
+        <label for="k">k (สำเร็จที่ต้องการ):</label>
+        <select id="k"></select>
+        <button class="btn" id="btn-calc">คำนวณ</button>
+        <button class="btn secondary" id="btn-reset">รีเซ็ต</button>
+        <span class="mini muted" id="status" aria-live="polite"></span>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <table aria-label="ตาราง PMF Hypergeometric">
+            <thead>
+              <tr><th>k</th><th>P(X=k)</th></tr>
+            </thead>
+            <tbody id="pmf-rows"></tbody>
+            <tfoot>
+              <tr><th>รวม</th><th id="sum">—</th></tr>
+            </tfoot>
+          </table>
+          <p class="mini muted">สถิติสรุป: <span id="stats">E[X]=—, Var(X)=—, SD=—</span></p>
+          <p class="mini">P(X=<span id="k-show">—</span>) = <span id="pmf-k">—</span> <span class="pill" id="domain-pill" aria-live="polite"></span></p>
+        </div>
+        <div>
+          <canvas id="chart" aria-label="กราฟแท่ง PMF Hypergeometric"></canvas>
+        </div>
+      </div>
+
+      <div class="warn" style="margin-top:.6rem">
+        <strong>ข้อควรระวัง:</strong> ถ้า N ใหญ่มาก (หรือใส่คืน) → <a href="./binomial.html">Binomial</a>; ในบางกรณี Binomial อาจประมาณด้วย <a href="./poisson.html">Poisson</a>
+      </div>
+    </section>
+
+    <!-- วิธีทำ & ตัวอย่าง -->
+    <section class="card grid2">
+      <div>
+        <h3>6) วิธีทำโจทย์ (Workflow)</h3>
+        <ol>
+          <li class="step">นิยาม N, K, n ให้ถูกต้องตามสถานการณ์</li>
+          <li class="step">ตรวจช่วงของ k: <span class="mono">max(0, n − (N − K)) … min(n, K)</span></li>
+          <li class="step">คำนวณ PMF: <span class="mono">[C(K,k)·C(N−K,n−k)] / C(N,n)</span></li>
+          <li class="step">ต้องการ E/Var ใช้สูตรสรุป</li>
+        </ol>
+        <div class="ok" style="margin-top:.4rem">
+          <strong>ที่มาสั้น ๆ:</strong> ตัวเศษ = วิธี “สำเร็จ k” × วิธี “ไม่สำเร็จ n−k”; ตัวส่วน = วิธีหยิบ n จาก N
+        </div>
+      </div>
+      <div>
+        <h3>7) ตัวอย่างคำนวณ</h3>
+        <p><strong>ตัวอย่าง:</strong> N=20, K=7, n=5 หา P(X=2)</p>
+        <ol class="list-compact">
+          <li>ช่วง k: <span class="mono">0…5</span></li>
+          <li>PMF: <span class="mono">P(X=2) = [C(7,2)·C(13,3)] / C(20,5)</span></li>
+          <li>ค่า: <span class="mono">C(7,2)=21, C(13,3)=286, C(20,5)=15504</span> ⇒ P ≈ 0.387</li>
+        </ol>
+        <div class="toolbar" style="margin-top:.4rem">
+          <button class="btn ghost" id="btn-step-Ckk">ขั้นบันได C(K,k)</button>
+          <button class="btn ghost" id="btn-step-Cnk">ขั้นบันได C(N−K, n−k)</button>
+          <button class="btn ghost" id="btn-step-CNn">ขั้นบันได C(N, n)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- โหมดแสดงขั้นบันไดคอมบิเนชัน -->
+    <section class="card">
+      <h3>8) โหมดแสดงขั้นบันไดคำนวณ <span class="mono">C(a,b)</span> 🧩 <span class="badge">Interactive</span></h3>
+      <p class="mini muted">แสดงการคูณทีละพจน์และการย่อเศษส่วนด้วย <span class="mono">gcd</span> เพื่อเลี่ยงตัวเลขพองโต</p>
+
+      <div class="calc-row" style="margin:.35rem 0 .5rem">
+        <label for="a">a:</label><input id="a" type="number" min="0" step="1" value="20">
+        <label for="b">b:</label><input id="b" type="number" min="0" step="1" value="5">
+        <button class="btn" id="btn-steps">แสดงขั้นบันได</button>
+        <button class="btn secondary" id="btn-steps-reset">รีเซ็ต</button>
+        <span class="mini muted" id="steps-status" aria-live="polite"></span>
+      </div>
+
+      <div class="formula-box mono" id="steps-head">C(20,5) = ?</div>
+      <div class="mini" id="prod-view"></div>
+
+      <table aria-label="ตารางขั้นบันไดคอมบิเนชัน" id="steps-table">
+        <thead>
+          <tr>
+            <th>ขั้น</th>
+            <th>พจน์ตัวเศษ</th>
+            <th>พจน์ตัวส่วน</th>
+            <th>gcd</th>
+            <th>เศษหลังย่อ</th>
+            <th>ส่วนหลังย่อ</th>
+            <th>คูณสะสม (num)</th>
+            <th>คูณสะสม (den)</th>
+            <th>ค่า ณ ขั้นนี้</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr>
+            <th colspan="8" style="text-align:right">ผลลัพธ์สุดท้าย</th>
+            <th id="steps-final">—</th>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="mini muted" style="margin-top:.4rem">
+        เคล็ดลับ: ระบบนี้ใช้สูตร <span class="mono">C(n,r) = ∏<sub>i=1..r</sub> (n−r+i)/i</span> และ <span class="mono">r = min(r, n−r)</span> เพื่อให้คูณ/หารน้อยที่สุด
+      </div>
+    </section>
+
+    <section class="card grid2">
+      <div>
+        <h3>9) ลิงก์ที่เกี่ยวข้อง</h3>
+        <div class="toolbar">
+          <a class="btn ghost" href="./binomial.html">Binomial</a>
+          <a class="btn ghost" href="./poisson.html">Poisson</a>
+          <a class="btn ghost" href="./z-score.html">Z-Score</a>
+          <a class="btn ghost" href="./clt-xbar-phat.html">CLT: x̄ &amp; p̂</a>
+        </div>
+      </div>
+      <div>
+        <h3>10) หมายเหตุการใช้งาน</h3>
+        <ul class="list-compact">
+          <li>งานตรวจคุณภาพ/สุ่มตัวอย่างจากล็อตสินค้าจำกัด</li>
+          <li>ปัจจัยลดความแปรปรวน <span class="mono">(N−n)/(N−1)</span> เกิดจากการสุ่มโดยไม่ใส่คืน</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+    <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+  </footer>
+
+  <script>
+    // ===== Utility =====
+    const gcd = (a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a||1;};
+    const LIMIT_N = 200; // จำกัดเพื่อกันการคำนวณที่ช้า/เกินความแม่นยำของ Number
+    const LIMIT_COMB = 300;
+    function clampInt(v,min,max){ v = Math.round(Number(v)); if(!Number.isFinite(v)) v=min; return Math.max(min, Math.min(max, v)); }
+    function readInt(el, min, max, label, notes){
+      const upper = Math.max(min, max);
+      let raw = Math.round(Number(el.value));
+      if(!Number.isFinite(raw)){
+        raw = min;
+        notes?.push(`${label} รีเซ็ตเป็น ${min}`);
+      }
+      let value = raw;
+      if(value < min){
+        value = min;
+        notes?.push(`${label} ปรับให้ไม่ต่ำกว่า ${min}`);
+      }
+      if(value > upper){
+        value = upper;
+        notes?.push(`${label} จำกัดไม่เกิน ${upper}`);
+      }
+      el.value = value;
+      return value;
+    }
+    function fmt(x, d=6){ if(!Number.isFinite(x)) return '—'; const rounded = Math.round(x*10**d)/10**d; const str = rounded.toFixed(d).replace(/0+$/,'').replace(/\.$/,''); return str === '' ? '0' : str; }
+
+    // ===== Intersection animation =====
+    const cards = document.querySelectorAll('.card');
+    const obs = new IntersectionObserver((ents)=>{
+      ents.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],
+            {duration:450, easing:'ease-out', fill:'forwards'});
+          obs.unobserve(e.target);
+        }
+      });
+    }, {threshold:.12});
+    cards.forEach(c=>obs.observe(c));
+
+    // ===== Hypergeometric Calculator =====
+    const NEl = document.getElementById('N');
+    const KEl = document.getElementById('K');
+    const nEl = document.getElementById('n');
+    const kSel= document.getElementById('k');
+    const statusEl = document.getElementById('status');
+    const pmfRows = document.getElementById('pmf-rows');
+    const sumEl = document.getElementById('sum');
+    const statsEl = document.getElementById('stats');
+    const pmfKEl = document.getElementById('pmf-k');
+    const kShow = document.getElementById('k-show');
+    const domPill = document.getElementById('domain-pill');
+    const canvas = document.getElementById('chart');
+    const ctx = canvas.getContext('2d');
+    const btnCalc = document.getElementById('btn-calc');
+    const btnReset = document.getElementById('btn-reset');
+
+    let lastVals = [];
+    let lastKMin = 0;
+
+    function domainK(N,K,n){ const kmin = Math.max(0, n - (N - K)); const kmax = Math.min(n, K); return [kmin, kmax]; }
+
+    function comb(n,r){
+      n = Math.floor(n); r = Math.floor(r);
+      if(r<0 || r>n) return 0;
+      r = Math.min(r, n-r);
+      if(r===0) return 1;
+      let num = 1, den = 1;
+      for(let i=1;i<=r;i++){
+        num *= (n - r + i);
+        den *= i;
+        const g = gcd(num, den);
+        if (g>1){ num/=g; den/=g; }
+      }
+      return num/den;
+    }
+
+    function hyperPMF(N,K,n,k){
+      const top = comb(K,k) * comb(N-K, n-k);
+      const bot = comb(N, n);
+      if (bot === 0) return 0;
+      return top / bot;
+    }
+
+    function resizeCanvas(){
+      const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      if(rect.width === 0 || rect.height === 0){ return; }
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(ratio, ratio);
+    }
+
+    function drawBars(vals){
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0,0,w,h);
+      if(!vals || vals.length === 0){ return; }
+      ctx.globalAlpha = 0.25; ctx.strokeStyle = '#223049';
+      for(let i=1;i<=4;i++){ const y = h - (h*i/5); ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+      ctx.globalAlpha = 1;
+      const m = vals.length;
+      const pad = Math.max(16, w*0.06);
+      const barW = Math.min(60, (w - pad*2) / Math.max(1,(m*1.5)));
+      const gap = barW*0.5;
+      const totalWidth = m*barW + (m-1)*gap;
+      const startX = (w - totalWidth)/2;
+      const maxV = Math.max(...vals, 0.001);
+      vals.forEach((v,i)=>{
+        const x = startX + i*(barW+gap);
+        const y = h - (v/maxV)*h*0.9;
+        ctx.fillStyle = '#6ea8ff';
+        ctx.fillRect(x, y, barW, h-y);
+        ctx.fillStyle = '#cfe0ff';
+        ctx.textAlign = 'center';
+        ctx.font = '13px system-ui, -apple-system, "Noto Sans Thai", sans-serif';
+        ctx.fillText(`${lastKMin + i}`, x+barW/2, h-8);
+        ctx.fillText(fmt(v,3), x+barW/2, Math.max(16, y-6));
+      });
+    }
+
+    function refreshKOptions(N,K,n){
+      const [kmin,kmax] = domainK(N,K,n);
+      const prev = Number(kSel.value);
+      kSel.innerHTML = '';
+      if(kmin>kmax){
+        const opt = document.createElement('option');
+        opt.value = '0'; opt.textContent = '—';
+        kSel.appendChild(opt);
+        kSel.value = '0';
+        kShow.textContent = '—';
+        domPill.textContent = 'k ∈ —';
+        return [kmin,kmax];
+      }
+      for(let k=kmin;k<=kmax;k++){
+        const opt = document.createElement('option');
+        opt.value = String(k);
+        opt.textContent = k;
+        if(k === prev){ opt.selected = true; }
+        kSel.appendChild(opt);
+      }
+      if(!kSel.value){
+        kSel.value = String(kmin);
+      }
+      kShow.textContent = kSel.value;
+      domPill.textContent = `k ∈ [${kmin}, ${kmax}]`;
+      return [kmin,kmax];
+    }
+
+    function compute(){
+      const notes = [];
+      const N = readInt(NEl, 1, LIMIT_N, 'N', notes);
+      const K = readInt(KEl, 0, Math.min(N, LIMIT_N), 'K', notes);
+      const n = readInt(nEl, 0, Math.min(N, LIMIT_N), 'n', notes);
+      const [kmin,kmax] = refreshKOptions(N,K,n);
+      const k = clampInt(kSel.value, kmin, kmax);
+      kSel.value = String(k);
+      kShow.textContent = kSel.value;
+
+      pmfRows.innerHTML = '';
+      let total = 0; const vals = [];
+      for(let x=kmin;x<=kmax;x++){
+        const p = hyperPMF(N,K,n,x);
+        vals.push(p);
+        total += p;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${x}</td><td>${fmt(p,6)}</td>`;
+        pmfRows.appendChild(tr);
+      }
+      sumEl.textContent = fmt(total,6);
+
+      const mean = n * (K / N);
+      const variance = n * (K/N) * (1 - K/N) * ((N - n) / Math.max(1,(N - 1)));
+      const sd = Math.sqrt(Math.max(variance,0));
+      statsEl.textContent = `E[X]=${fmt(mean)}, Var(X)=${fmt(variance)}, SD=${fmt(sd)}`;
+
+      pmfKEl.textContent = fmt(hyperPMF(N,K,n,k), 6);
+      const base = `อัปเดตด้วย N=${N}, K=${K}, n=${n}`;
+      statusEl.textContent = notes.length ? `${notes.join(' • ')} • ${base}` : base;
+      lastVals = vals.slice();
+      lastKMin = kmin;
+      resizeCanvas();
+      drawBars(lastVals);
+    }
+
+    btnCalc.addEventListener('click', compute);
+    btnReset.addEventListener('click', ()=>{
+      NEl.value=20; KEl.value=7; nEl.value=5;
+      compute();
+    });
+    kSel.addEventListener('change', compute);
+
+    window.addEventListener('resize', ()=>{
+      resizeCanvas();
+      drawBars(lastVals);
+    });
+
+    // ===== Combination Step-by-step =====
+    const aEl = document.getElementById('a');
+    const bEl = document.getElementById('b');
+    const btnSteps = document.getElementById('btn-steps');
+    const btnStepsReset = document.getElementById('btn-steps-reset');
+    const stepsHead = document.getElementById('steps-head');
+    const prodView = document.getElementById('prod-view');
+    const stepsTable = document.querySelector('#steps-table tbody');
+    const stepsFinal = document.getElementById('steps-final');
+    const stepsStatus = document.getElementById('steps-status');
+
+    function combSteps(n,r){
+      n = Math.floor(n); r = Math.floor(r);
+      if(r<0 || r>n) return {steps:[], final:{num:0,den:1,val:0}, display:{numTerms:[],denTerms:[]}, rUsed:0};
+      const rr = Math.min(r, n-r);
+      const numTerms = [], denTerms = [];
+      for(let i=1;i<=rr;i++){
+        numTerms.push(n - rr + i);
+        denTerms.push(i);
+      }
+      let accNum = 1, accDen = 1;
+      const steps = [];
+      for(let i=1;i<=rr;i++){
+        const rawN = numTerms[i-1];
+        const rawD = denTerms[i-1];
+        let simpN = rawN, simpD = rawD;
+        const g1 = gcd(simpN, simpD);
+        if(g1>1){ simpN/=g1; simpD/=g1; }
+        accNum *= simpN;
+        accDen *= simpD;
+        const g2 = gcd(accNum, accDen);
+        if(g2>1){ accNum/=g2; accDen/=g2; }
+        steps.push({
+          i, rawN, rawD, gcd_pair:g1, simpN, simpD,
+          accNum, accDen, val: accNum/accDen
+        });
+      }
+      return { steps, final:{num:accNum, den:accDen, val: accNum/accDen}, display:{numTerms, denTerms}, rUsed: rr };
+    }
+
+    function renderSteps(n,r, notes=[]){
+      stepsHead.textContent = `C(${n}, ${r}) = ?`;
+      const { steps, final, display, rUsed } = combSteps(n,r);
+      const numStr = display.numTerms.length ? display.numTerms.join(' × ') : '1';
+      const denStr = display.denTerms.length ? display.denTerms.join(' × ') : '1';
+      prodView.innerHTML = `
+        <span class="tag">r = min(${r}, ${n}-${r}) = ${rUsed}</span>
+        <div class="mono" style="margin-top:.35rem">
+          C(${n}, ${r}) = (${numStr}) / (${denStr})
+        </div>
+      `;
+      stepsTable.innerHTML = '';
+      steps.forEach(st=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${st.i}</td>
+          <td>${st.rawN}</td>
+          <td>${st.rawD}</td>
+          <td>${st.gcd_pair}</td>
+          <td>${st.simpN}</td>
+          <td>${st.simpD}</td>
+          <td>${st.accNum}</td>
+          <td>${st.accDen}</td>
+          <td>${fmt(st.val,6)}</td>
+        `;
+        stepsTable.appendChild(tr);
+      });
+      stepsFinal.textContent = `${fmt(final.val,6)}  (= ${final.num}/${final.den})`;
+      const base = `แสดงขั้นบันไดสำเร็จ (รวม ${steps.length} ขั้น)`;
+      stepsStatus.textContent = notes.length ? `${notes.join(' • ')} • ${base}` : base;
+    }
+
+    btnSteps.addEventListener('click', ()=>{
+      const notes = [];
+      const a = readInt(aEl, 0, LIMIT_COMB, 'a', notes);
+      const b = readInt(bEl, 0, Math.min(a, LIMIT_COMB), 'b', notes);
+      renderSteps(a,b, notes);
+    });
+    btnStepsReset.addEventListener('click', ()=>{
+      aEl.value = 20; bEl.value = 5;
+      renderSteps(20,5, ['รีเซ็ตค่าเริ่มต้น']);
+    });
+
+    const btnCkk = document.getElementById('btn-step-Ckk');
+    const btnCnk = document.getElementById('btn-step-Cnk');
+    const btnCNn = document.getElementById('btn-step-CNn');
+
+    function currentParams(){
+      const N = clampInt(NEl.value, 1, LIMIT_N);
+      const K = clampInt(KEl.value, 0, Math.min(N, LIMIT_N));
+      const n = clampInt(nEl.value, 0, Math.min(N, LIMIT_N));
+      const [kmin,kmax] = domainK(N,K,n);
+      const k = clampInt(kSel.value, kmin, kmax);
+      return {N,K,n,k,kmin,kmax};
+    }
+
+    btnCkk?.addEventListener('click', ()=>{
+      const {K,k} = currentParams();
+      aEl.value = K; bEl.value = k;
+      renderSteps(K,k);
+      stepsHead.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    btnCnk?.addEventListener('click', ()=>{
+      const {N,K,n,k} = currentParams();
+      const a = (N-K), b = (n-k);
+      aEl.value = a; bEl.value = b;
+      renderSteps(a,b);
+      stepsHead.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    btnCNn?.addEventListener('click', ()=>{
+      const {N,n} = currentParams();
+      aEl.value = N; bEl.value = n;
+      renderSteps(N,n);
+      stepsHead.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    // ===== init =====
+    function init(){
+      resizeCanvas();
+      refreshKOptions(20,7,5);
+      compute();
+      renderSteps(20,5);
+    }
+    init();
+  </script>
+</body>
+</html>

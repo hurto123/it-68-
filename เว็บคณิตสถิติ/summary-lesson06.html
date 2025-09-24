@@ -6,6 +6,20 @@
   <title>สรุป 1 หน้า – บทที่ 6 — ตัวแปรสุ่ม (PMF/PDF/คาดหวัง/แปรปรวน)</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
     header h1{margin:.2rem 0}
@@ -28,11 +42,12 @@
 
   <header>
     <h1>📄 สรุป 1 หน้า – บทที่ 6 — ตัวแปรสุ่ม (PMF/PDF/คาดหวัง/แปรปรวน)</h1>
-    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+    <p class="muted">รุ่น 1.2.0 · อัปเดต 26 กันยายน 2025 · ครอบคลุม E[X], Var(X] และเครื่องมือปรับการอ่าน</p>
   </header>
 
-  <section class="summary-1page">
-    <div class="col">
+  <main>
+    <section class="summary-1page">
+      <div class="col">
       <div class="card">
         <h3>🎯 เป้าหมายการเรียนรู้</h3>
         <ul>
@@ -49,11 +64,33 @@
 
     <div class="col">
       <div class='card'><h3>🧩 ประเภท</h3><ul><li>Discrete (นับ), Continuous (วัด)</li></ul></div><div class='card'><h3>🧩 ฟังก์ชัน</h3><ul><li>PMF: Σ f(x)=1, PDF: พื้นที่ใต้โค้ง=1, CDF: P(X≤x)</li></ul></div><div class='card'><h3>🧩 สรุปค่า</h3><ul><li>E[X]=Σ x f(x) (discrete), Var(X)=E[X^2]−(E[X])^2</li></ul></div>
-    </div>
-  </section>
-  
+      <div class="col">
+        <div class='card'><h3>🧩 ประเภท</h3><ul><li>Discrete (นับ), Continuous (วัด)</li></ul></div><div class='card'><h3>🧩 ฟังก์ชัน</h3><ul><li>PMF: Σ f(x)=1, PDF: พื้นที่ใต้โค้ง=1, CDF: P(X≤x)</li></ul></div><div class='card'><h3>🧩 สรุปค่า</h3><ul><li>E[X]=Σ x f(x) (discrete), Var(X)=E[X^2]−(E[X])^2</li></ul></div>
+      </div>
+    </section>
+
+    <section class="card" id="summary-reading-tools">
+      <h2>Reading Toolkit Highlights</h2>
+      <p>ใช้ปุ่ม <strong>พิมพ์ PDF</strong> หลังปรับตัวอักษรเพื่อให้ตาราง PMF/PDF ชัดเจน พร้อมสูตร \(E[X]\) และ \(Var(X)\) จาก MathJax</p>
+      <ul>
+        <li>โหมดโฟกัสช่วยอ่านกราฟต่อเนื่องได้โดยไม่ถูกรบกวน</li>
+        <li>ปุ่ม <em>สารบัญ</em> พาไปยังส่วน Discrete/Continuous ได้อย่างรวดเร็ว</li>
+      </ul>
+    </section>
+
+    <section class="card" id="summary-extra">
+      <h2>Checklist การคำนวณ</h2>
+      <ol>
+        <li>ตรวจว่า PMF/PDF รวมได้ 1</li>
+        <li>หา E[X] ก่อน Var(X) เสมอ</li>
+        <li>ใช้สูตรลัด Var(X)=E[X²]−(E[X])² เพื่อประหยัดเวลา</li>
+      </ol>
+      <div class="ok">ใช้ Checklist นี้กับตัวอย่างใน <a class="inline" href="lesson06.html">บทเรียนเต็ม</a> และแบบฝึกหัด JSON</div>
+    </section>
+  </main>
+
   <footer class="print-footer">
-    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+    คอร์สสถิติ — พิมพ์เมื่อ: 26/09/2025
   </footer>
 </body>
 </html>

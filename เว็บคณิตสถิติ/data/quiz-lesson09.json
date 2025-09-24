@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson09",
+    "title": "Quiz บทที่ 9: Sampling Distributions & CLT",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "language": "th",
+    "depends_on": [
+      "lesson09.questions.th.json",
+      "lesson09.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson09",
+      "title": "บทที่ 9: Sampling Distributions & CLT",
+      "questions": "lesson09.questions.th.json",
+      "solutions": "lesson09.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 4,
+    "time_limit_seconds": 720,
+    "default_mode": "quiz"
+  }
+}

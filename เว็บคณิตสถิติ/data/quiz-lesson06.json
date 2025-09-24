@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson06",
+    "title": "Quiz บทที่ 6: ตัวแปรสุ่ม",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "language": "th",
+    "depends_on": [
+      "lesson06.questions.th.json",
+      "lesson06.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson06",
+      "title": "บทที่ 6: ตัวแปรสุ่ม",
+      "questions": "lesson06.questions.th.json",
+      "solutions": "lesson06.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 4,
+    "time_limit_seconds": 720,
+    "default_mode": "quiz"
+  }
+}

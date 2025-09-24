@@ -6,6 +6,20 @@
   <title>สรุป 1 หน้า – บทที่ 7 — การแจกแจงไม่ต่อเนื่อง (Bernoulli/Binomial/Poisson/Hypergeometric)</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
     header h1{margin:.2rem 0}
@@ -28,11 +42,12 @@
 
   <header>
     <h1>📄 สรุป 1 หน้า – บทที่ 7 — การแจกแจงไม่ต่อเนื่อง (Bernoulli/Binomial/Poisson/Hypergeometric)</h1>
-    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+    <p class="muted">รุ่น 1.2.0 · อัปเดต 26 กันยายน 2025 · มีสูตร PMF/E/Var และ Reading Toolkit</p>
   </header>
 
-  <section class="summary-1page">
-    <div class="col">
+  <main>
+    <section class="summary-1page">
+      <div class="col">
       <div class="card">
         <h3>🎯 เป้าหมายการเรียนรู้</h3>
         <ul>
@@ -49,11 +64,33 @@
 
     <div class="col">
       <div class='card'><h3>🧩 Bernoulli</h3><ul><li>P(X=1)=p, P(X=0)=1-p</li></ul></div><div class='card'><h3>🧩 Binomial</h3><ul><li>X~Bin(n,p), P(X=k)=C(n,k)p^k(1-p)^{n-k}</li></ul></div><div class='card'><h3>🧩 Poisson</h3><ul><li>P(X=x)=e^{-λ}λ^x/x!, E=Var=λ</li></ul></div><div class='card'><h3>🧩 Hypergeometric</h3><ul><li>ไม่ใส่คืน, N ประชากร, K สำเร็จ, n หยิบ</li></ul></div>
-    </div>
-  </section>
-  
+      <div class="col">
+        <div class='card'><h3>🧩 Bernoulli</h3><ul><li>P(X=1)=p, P(X=0)=1-p</li></ul></div><div class='card'><h3>🧩 Binomial</h3><ul><li>X~Bin(n,p), P(X=k)=\(\binom{n}{k}p^k(1-p)^{n-k}\)</li></ul></div><div class='card'><h3>🧩 Poisson</h3><ul><li>P(X=k)=e^{-λ}λ^k/k!, E=Var=λ</li></ul></div><div class='card'><h3>🧩 Hypergeometric</h3><ul><li>ไม่ใส่คืน, P(X=k)=\(\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}\)</li></ul></div>
+      </div>
+    </section>
+
+    <section class="card" id="summary-reading-tools">
+      <h2>Reading Toolkit</h2>
+      <p>ปรับขนาดตัวอักษรและโหมดโฟกัสสำหรับทบทวนสูตร แล้วกด <strong>พิมพ์ PDF</strong> เพื่อเก็บสรุปที่มี MathJax คมชัด</p>
+      <ul>
+        <li>สูตร Binomial/Poisson/Hypergeometric พร้อมคัดลอก LaTeX ได้ทันที</li>
+        <li>สารบัญช่วยเลือกหัวข้อที่ต้องการทบทวน</li>
+      </ul>
+    </section>
+
+    <section class="card" id="summary-extra">
+      <h2>Quick Decision Tree</h2>
+      <ol>
+        <li>2 outcome, 1 ครั้ง → Bernoulli</li>
+        <li>ซ้ำ n ครั้ง อิสระ → Binomial (หรือ Poisson ถ้า n ใหญ่ p เล็ก)</li>
+        <li>สุ่มโดยไม่คืน → Hypergeometric</li>
+      </ol>
+      <div class="ok">ใช้ decision tree นี้จับคู่กับโจทย์เพื่อเลือกแจกแจงได้เร็วขึ้น</div>
+    </section>
+  </main>
+
   <footer class="print-footer">
-    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+    คอร์สสถิติ — พิมพ์เมื่อ: 26/09/2025
   </footer>
 </body>
 </html>

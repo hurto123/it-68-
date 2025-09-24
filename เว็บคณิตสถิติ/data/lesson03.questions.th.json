@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "lesson": "lesson03",
+    "title": "บทที่ 3: สถิติเชิงพรรณนา",
+    "language": "th",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "depends_on": [
+      "lesson03.html",
+      "summary-lesson03.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer|table_input",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": []
+}

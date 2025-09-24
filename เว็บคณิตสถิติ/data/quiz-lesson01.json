@@ -1,23 +1,29 @@
 {
   "meta": {
     "lesson": "lesson01",
-    "title": "Quiz บทที่ 1",
-    "version": "0.1.0",
-    "updated_at": "2025-09-23",
+    "title": "Quiz บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+    "version": "0.2.0",
+    "updated_at": "2025-09-24",
     "language": "th",
     "depends_on": [
       "lesson01.questions.th.json",
       "lesson01.solutions.th.json"
     ]
   },
-  "sources": {
-    "questions": "lesson01.questions.th.json",
-    "solutions": "lesson01.solutions.th.json"
-  },
+  "sources": [
+    {
+      "lesson": "lesson01",
+      "title": "บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+      "questions": "lesson01.questions.th.json",
+      "solutions": "lesson01.solutions.th.json"
+    }
+  ],
   "config": {
     "items_per_quiz": 3,
     "shuffle": true,
     "allow_retry": true,
-    "passing_score": 2
+    "passing_score": 2,
+    "time_limit_seconds": 480,
+    "default_mode": "quiz"
   }
 }

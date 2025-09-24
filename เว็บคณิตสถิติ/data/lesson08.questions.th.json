@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "lesson": "lesson08",
+    "title": "บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ",
+    "language": "th",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "depends_on": [
+      "lesson08.html",
+      "summary-lesson08.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer|table_input",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": []
+}

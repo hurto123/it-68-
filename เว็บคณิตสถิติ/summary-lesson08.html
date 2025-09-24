@@ -6,6 +6,20 @@
   <title>สรุป 1 หน้า – บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
     header h1{margin:.2rem 0}
@@ -28,11 +42,12 @@
 
   <header>
     <h1>📄 สรุป 1 หน้า – บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ</h1>
-    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+    <p class="muted">รุ่น 1.2.0 · อัปเดต 26 กันยายน 2025 · Normal/Z-score พร้อม Reading Toolkit</p>
   </header>
 
-  <section class="summary-1page">
-    <div class="col">
+  <main>
+    <section class="summary-1page">
+      <div class="col">
       <div class="card">
         <h3>🎯 เป้าหมายการเรียนรู้</h3>
         <ul>
@@ -49,11 +64,33 @@
 
     <div class="col">
       <div class='card'><h3>🧩 Normal</h3><ul><li>N(μ,σ²), สมมาตร, Mean=Median=Mode</li></ul></div><div class='card'><h3>🧩 Z-score</h3><ul><li>Z=(X−μ)/σ, ใช้ตาราง/Φ(z)</li></ul></div><div class='card'><h3>🧩 Empirical Rule</h3><ul><li>≈68% ใน μ±1σ, 95% ใน μ±2σ, 99.7% ใน μ±3σ</li></ul></div>
-    </div>
-  </section>
-  
+      <div class="col">
+        <div class='card'><h3>🧩 Normal</h3><ul><li>N(μ,σ²), สมมาตร, Mean=Median=Mode</li></ul></div><div class='card'><h3>🧩 Z-score</h3><ul><li>Z=(X−μ)/σ, ใช้ตาราง Φ(z)</li></ul></div><div class='card'><h3>🧩 Empirical Rule</h3><ul><li>≈68% ใน μ±1σ, 95% ใน μ±2σ, 99.7% ใน μ±3σ</li></ul></div>
+      </div>
+    </section>
+
+    <section class="card" id="summary-reading-tools">
+      <h2>Reading Toolkit</h2>
+      <p>ใช้ปุ่ม <strong>พิมพ์ PDF</strong> หลังปรับตัวอักษรเพื่อเก็บกราฟปกติและสูตรคำนวณ Z-score</p>
+      <ul>
+        <li>MathJax ช่วยให้สูตร PDF ปกติอ่านง่ายทั้งบนหน้าจอและเอกสาร</li>
+        <li>โหมดโฟกัสเหมาะสำหรับทบทวนตาราง Z แบบไม่ถูกรบกวน</li>
+      </ul>
+    </section>
+
+    <section class="card" id="summary-extra">
+      <h2>Quick Steps หา Probability</h2>
+      <ol>
+        <li>สเกลค่าเป็น Z</li>
+        <li>หาพื้นที่จากตาราง/Empirical Rule</li>
+        <li>ถ้าขอบเขตเป็น “มากกว่า” ให้ลบออกจาก 1</li>
+      </ol>
+      <div class="ok">ใช้ขั้นตอนนี้กับตัวอย่างใน <a class="inline" href="lesson08.html">บทเรียนเต็ม</a></div>
+    </section>
+  </main>
+
   <footer class="print-footer">
-    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+    คอร์สสถิติ — พิมพ์เมื่อ: 26/09/2025
   </footer>
 </body>
 </html>

@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "lesson": "lesson04",
+    "language": "th",
+    "version": "0.1.0",
+    "updated_at": "2025-09-24",
+    "depends_on": [
+      "lesson04.questions.th.json"
+    ]
+  },
+  "items": []
+}

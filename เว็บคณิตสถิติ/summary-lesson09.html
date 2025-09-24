@@ -6,6 +6,20 @@
   <title>สรุป 1 หน้า – บทที่ 9 — Sampling Distributions & CLT (x̄, p̂)</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     body{font:16px/1.6 system-ui,'Noto Sans Thai',sans-serif;margin:0;padding:24px;background:#0f1117;color:#eaecef}
     header h1{margin:.2rem 0}
@@ -28,11 +42,12 @@
 
   <header>
     <h1>📄 สรุป 1 หน้า – บทที่ 9 — Sampling Distributions & CLT (x̄, p̂)</h1>
-    <p class="muted">บทสรุปย่อเพื่อพิมพ์/บันทึก PDF • ใช้ร่วมกับ print.css</p>
+    <p class="muted">รุ่น 1.2.0 · อัปเดต 26 กันยายน 2025 · เน้น SE, CLT และ Reading Toolkit</p>
   </header>
 
-  <section class="summary-1page">
-    <div class="col">
+  <main>
+    <section class="summary-1page">
+      <div class="col">
       <div class="card">
         <h3>🎯 เป้าหมายการเรียนรู้</h3>
         <ul>
@@ -49,11 +64,33 @@
 
     <div class="col">
       <div class='card'><h3>🧩 CLT — x̄</h3><ul><li>x̄ ~ approx N(μ, σ²/n) → Z=(x̄−μ)/(σ/√n)</li></ul></div><div class='card'><h3>🧩 CLT — p̂</h3><ul><li>p̂ ~ approx N(p, p(1−p)/n) → Z=(p̂−p)/√(p(1−p)/n)</li></ul></div><div class='card'><h3>🧩 เงื่อนไข p̂</h3><ul><li>โดยทั่วไป np≥5 และ n(1−p)≥5</li></ul></div>
-    </div>
-  </section>
-  
+      <div class="col">
+        <div class='card'><h3>🧩 CLT — x̄</h3><ul><li>x̄ ~ approx N(μ, σ²/n) → Z=(x̄−μ)/(σ/√n)</li></ul></div><div class='card'><h3>🧩 CLT — p̂</h3><ul><li>p̂ ~ approx N(p, p(1−p)/n) → Z=(p̂−p)/√(p(1−p)/n)</li></ul></div><div class='card'><h3>🧩 เงื่อนไข p̂</h3><ul><li>np≥5 และ n(1−p)≥5</li></ul></div>
+      </div>
+    </section>
+
+    <section class="card" id="summary-reading-tools">
+      <h2>Reading Toolkit</h2>
+      <p>กด <strong>พิมพ์ PDF</strong> หลังปรับฟอนต์เพื่อเก็บสูตร SE และการตีความ CLT พร้อมกราฟประกอบ</p>
+      <ul>
+        <li>MathJax แสดงสูตร SE ของค่าเฉลี่ยและสัดส่วนชัดเจน</li>
+        <li>สารบัญช่วยข้ามไปยังขั้นตอนคำนวณหรือเงื่อนไขได้ทันที</li>
+      </ul>
+    </section>
+
+    <section class="card" id="summary-extra">
+      <h2>Checklist ก่อนใช้ CLT</h2>
+      <ol>
+        <li>สุ่มตัวอย่างแบบอิสระ (หรือ n/Population เล็กพอ)</li>
+        <li>ขนาดตัวอย่างเพียงพอ (≥30 หรือ np,n(1−p) ≥ 10)</li>
+        <li>เลือกรูปแบบ SE ให้ถูก (ค่าเฉลี่ย vs สัดส่วน)</li>
+      </ol>
+      <div class="ok">ใช้ Checklist นี้ก่อนคำนวณเพื่อหลีกเลี่ยงการใช้สูตรผิด</div>
+    </section>
+  </main>
+
   <footer class="print-footer">
-    คอร์สสถิติ — พิมพ์เมื่อ: 22/09/2025
+    คอร์สสถิติ — พิมพ์เมื่อ: 26/09/2025
   </footer>
 </body>
 </html>

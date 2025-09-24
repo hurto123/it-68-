@@ -3,9 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print">
 
   <title>บทที่ 09 • การแจกแจงของตัวอย่างสุ่ม & CLT</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
@@ -30,20 +45,51 @@
     code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
     .center{text-align:center}
   </style>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson09",
+      "title": "บทที่ 9: การแจกแจงของตัวอย่างสุ่ม & CLT",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson09.html",
+        "data/lesson09.questions.th.json",
+        "data/lesson09.solutions.th.json",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["sampling", "clt", "standard-error", "reading-tools", "math-model"]
+    }
+  </script>
 </head>
 <body>
   <header>
     <div class="wrap">
       <h1>บทที่ 09 • การแจกแจงของตัวอย่างสุ่ม &amp; ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) ✨</h1>
-      <nav>
+      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Sampling Distributions, SE, CLT</p>
+      <nav aria-label="นำทางบทเรียน">
         <a href="index.html">🏠 หน้าแรก</a>
         <a href="lesson08.html">⟵ บทก่อนหน้า</a>
         <!-- <a href="quiz.html">แบบทดสอบท้ายบท ⟶</a> -->
       </nav>
+      <div class="chips">
+        <span class="pill">📝 <a class="inline" href="summary-lesson09.html">สรุป 1 หน้า</a></span>
+        <span class="pill">🧪 <a class="inline" href="quiz-lesson09.html">Quiz บทที่ 9</a></span>
+      </div>
     </div>
   </header>
 
   <main>
+    <section class="card" id="reading-support">
+      <h2>Reading Toolkit สำหรับ Sampling &amp; CLT</h2>
+      <p>แถบเครื่องมือช่วยปรับตัวอักษร, เปิดโหมดโฟกัส และพิมพ์ PDF พร้อมสูตร SE สำหรับ \(\bar{X}\) และ \(\hat{p}\)</p>
+      <ul>
+        <li>MathJax แสดงสูตร \(SE_{\bar{X}} = \sigma/\sqrt{n}\) และ \(SE_{\hat{p}} = \sqrt{p(1-p)/n}\)</li>
+        <li>สารบัญพาไปยังส่วน CLT หรือการสุ่มแบบมี/ไม่มีการทดแทนได้รวดเร็ว</li>
+        <li>เชื่อมกับ <a class="inline" href="summary-lesson09.html">summary-lesson09.html</a> เพื่อดูสรุปขั้นตอน</li>
+      </ul>
+    </section>
+
     <!-- 9.1 พารามิเตอร์ vs ค่าสถิติ -->
     <section class="card" id="param-stat">
       <h2>9.1 พารามิเตอร์ (Parameter) vs ค่าสถิติ (Statistic) 👑🥄</h2>
@@ -241,6 +287,34 @@ SE = σ/√n = 12/6 = 2
       </div>
     </section>
 
+    <section class="card" id="math-model">
+      <h2>9) แบบจำลองคณิตศาสตร์: ค่าเฉลี่ยของตัวอย่าง</h2>
+      <div class="grid-two">
+        <div>
+          <p>ถ้า X ~ Normal(μ, σ²) แล้วค่าเฉลี่ยตัวอย่าง \(\bar{X}\) จากการสุ่มขนาด n จะมีการแจกแจง Normal(μ, σ²/n)</p>
+          <p>สูตรสำคัญ: \(SE_{\bar{X}} = \frac{\sigma}{\sqrt{n}}\)</p>
+        </div>
+        <div>
+          <p>ถ้าไม่รู้ σ แต่ n ใหญ่ (≥30) และสัดส่วนคงที่ ให้ใช้ s แทน σ ได้: \(SE_{\bar{X}} ≈ \frac{s}{\sqrt{n}}\)</p>
+          <p class="muted">ช่วยกำหนดขนาดตัวอย่างเพื่อให้ความคลาดเคลื่อนอยู่ในช่วงที่ยอมรับได้</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="case-study">
+      <h2>10) Case Study: สำรวจคะแนนความพึงพอใจ</h2>
+      <div class="grid-two">
+        <div>
+          <p>สมมติคะแนน ~ Normal(μ=4.2, σ=0.6). เราต้องการให้ค่าเฉลี่ยตัวอย่างมีความคลาดเคลื่อนไม่เกิน 0.1 ที่ระดับ 95%</p>
+          <p>ใช้สูตร \(n = \left(\frac{1.96σ}{E}\right)^2\) → n ≈ 138</p>
+        </div>
+        <div>
+          <div class="warn">ลองเปลี่ยนเป็นสำรวจสัดส่วน (เช่น ผ่าน/ไม่ผ่าน) แล้วใช้สูตร \(SE_{\hat{p}}\) เพื่อออกแบบ n ใหม่</div>
+          <p>ดูตัวอย่างเพิ่มเติมใน <a class="inline" href="quiz-lesson09.html">Quiz บทที่ 9</a></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Summary -->
     <section class="card" id="summary">
       <h2>สรุปบทนี้</h2>
@@ -258,7 +332,7 @@ SE = σ/√n = 12/6 = 2
 
   <footer>
     <div class="wrap">
-      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 09</small>
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 09 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
     </div>
   </footer>
 </body>

@@ -1,13 +1,13 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.09.23",
-  "updated_at": "2025-09-23",
+  "version": "2025.10.02",
+  "updated_at": "2025-10-02",
   "lessons": [
     {
       "id": "lesson01",
       "title": "บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ",
-      "version": "1.1.0",
-      "updated_at": "2025-09-23",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
       "depends_on": [
         "summary-lesson01.html",
         "glossary.html#data-quality",
@@ -22,7 +22,347 @@
         "solutions": "data/lesson01.solutions.th.json",
         "quiz_config": "data/quiz-lesson01.json"
       }
+    },
+    {
+      "id": "lesson02",
+      "title": "บทที่ 2: การนำเสนอข้อมูล",
+      "version": "1.3.0",
+      "updated_at": "2025-10-01",
+      "depends_on": [
+        "summary-lesson02.html",
+        "data/lesson02.questions.th.json",
+        "data/lesson02.solutions.th.json",
+        "data/quiz-lesson02.json",
+        "glossary.html#gl-descriptive",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson02.html",
+        "summary": "summary-lesson02.html",
+        "questions": "data/lesson02.questions.th.json",
+        "solutions": "data/lesson02.solutions.th.json",
+        "quiz_config": "data/quiz-lesson02.json"
+      }
+    },
+    {
+      "id": "lesson03",
+      "title": "บทที่ 3: สถิติเชิงพรรณนา",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson03.html",
+        "data/lesson03.questions.th.json",
+        "data/lesson03.solutions.th.json",
+        "data/quiz-lesson03.json"
+      ],
+      "assets": {
+        "page": "lesson03.html",
+        "summary": "summary-lesson03.html",
+        "questions": "data/lesson03.questions.th.json",
+        "solutions": "data/lesson03.solutions.th.json",
+        "quiz_config": "data/quiz-lesson03.json"
+      }
+    },
+    {
+      "id": "lesson04",
+      "title": "บทที่ 4: ความน่าจะเป็นเบื้องต้น",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson04.html",
+        "data/lesson04.questions.th.json",
+        "data/lesson04.solutions.th.json",
+        "data/quiz-lesson04.json"
+      ],
+      "assets": {
+        "page": "lesson04.html",
+        "summary": "summary-lesson04.html",
+        "questions": "data/lesson04.questions.th.json",
+        "solutions": "data/lesson04.solutions.th.json",
+        "quiz_config": "data/quiz-lesson04.json"
+      }
+    },
+    {
+      "id": "lesson05",
+      "title": "บทที่ 5: ทฤษฎีความน่าจะเป็น",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson05.html",
+        "data/lesson05.questions.th.json",
+        "data/lesson05.solutions.th.json",
+        "data/quiz-lesson05.json"
+      ],
+      "assets": {
+        "page": "lesson05.html",
+        "summary": "summary-lesson05.html",
+        "questions": "data/lesson05.questions.th.json",
+        "solutions": "data/lesson05.solutions.th.json",
+        "quiz_config": "data/quiz-lesson05.json"
+      }
+    },
+    {
+      "id": "lesson06",
+      "title": "บทที่ 6: ตัวแปรสุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson06.html",
+        "data/lesson06.questions.th.json",
+        "data/lesson06.solutions.th.json",
+        "data/quiz-lesson06.json"
+      ],
+      "assets": {
+        "page": "lesson06.html",
+        "summary": "summary-lesson06.html",
+        "questions": "data/lesson06.questions.th.json",
+        "solutions": "data/lesson06.solutions.th.json",
+        "quiz_config": "data/quiz-lesson06.json"
+      }
+    },
+    {
+      "id": "lesson07",
+      "title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson07.html",
+        "data/lesson07.questions.th.json",
+        "data/lesson07.solutions.th.json",
+        "data/quiz-lesson07.json"
+      ],
+      "assets": {
+        "page": "lesson07.html",
+        "summary": "summary-lesson07.html",
+        "questions": "data/lesson07.questions.th.json",
+        "solutions": "data/lesson07.solutions.th.json",
+        "quiz_config": "data/quiz-lesson07.json"
+      }
+    },
+    {
+      "id": "lesson08",
+      "title": "บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson08.html",
+        "data/lesson08.questions.th.json",
+        "data/lesson08.solutions.th.json",
+        "data/quiz-lesson08.json"
+      ],
+      "assets": {
+        "page": "lesson08.html",
+        "summary": "summary-lesson08.html",
+        "questions": "data/lesson08.questions.th.json",
+        "solutions": "data/lesson08.solutions.th.json",
+        "quiz_config": "data/quiz-lesson08.json"
+      }
+    },
+    {
+      "id": "lesson09",
+      "title": "บทที่ 9: Sampling Distributions & CLT",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson09.html",
+        "data/lesson09.questions.th.json",
+        "data/lesson09.solutions.th.json",
+        "data/quiz-lesson09.json"
+      ],
+      "assets": {
+        "page": "lesson09.html",
+        "summary": "summary-lesson09.html",
+        "questions": "data/lesson09.questions.th.json",
+        "solutions": "data/lesson09.solutions.th.json",
+        "quiz_config": "data/quiz-lesson09.json"
+      }
     }
   ],
-  "notes": "Pilot metadata สำหรับระบบอัปเดตบทเรียนและแบบฝึกหัด JSON"
+  "quizzes": [
+    {
+      "id": "lesson01",
+      "title": "Quiz บทที่ 1",
+      "config": "data/quiz-lesson01.json",
+      "items_per_quiz": 3,
+      "time_limit_seconds": 480
+    },
+    {
+      "id": "lesson02",
+      "title": "Quiz บทที่ 2",
+      "config": "data/quiz-lesson02.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 600
+    },
+    {
+      "id": "lesson03",
+      "title": "Quiz บทที่ 3",
+      "config": "data/quiz-lesson03.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 600
+    },
+    {
+      "id": "lesson04",
+      "title": "Quiz บทที่ 4",
+      "config": "data/quiz-lesson04.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson05",
+      "title": "Quiz บทที่ 5",
+      "config": "data/quiz-lesson05.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson06",
+      "title": "Quiz บทที่ 6",
+      "config": "data/quiz-lesson06.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson07",
+      "title": "Quiz บทที่ 7",
+      "config": "data/quiz-lesson07.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson08",
+      "title": "Quiz บทที่ 8",
+      "config": "data/quiz-lesson08.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson09",
+      "title": "Quiz บทที่ 9",
+      "config": "data/quiz-lesson09.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "mixed",
+      "title": "Quiz รวมทุกบท",
+      "config": "data/quiz-mixed.json",
+      "items_per_quiz": 12,
+      "time_limit_seconds": 900
+    }
+  ],
+  "formulas": [
+    {
+      "id": "bernoulli",
+      "title": "Bernoulli Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/bernoulli.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "binomial",
+      "title": "Binomial Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/binomial.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "hypergeometric",
+      "title": "Hypergeometric Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/hypergeometric.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "poisson",
+      "title": "Poisson Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/poisson.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "normal",
+      "title": "Normal Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-02",
+      "depends_on": [
+        "lesson08.html",
+        "summary-lesson08.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/normal.html",
+        "lesson": "lesson08.html",
+        "summary": "summary-lesson08.html"
+      }
+    },
+    {
+      "id": "z-score",
+      "title": "Z-Score",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson08.html",
+        "summary-lesson08.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/z-score.html",
+        "lesson": "lesson08.html",
+        "summary": "summary-lesson08.html"
+      }
+    },
+    {
+      "id": "clt-xbar-phat",
+      "title": "CLT: x̄ & p̂",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/clt-xbar-phat.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    }
+  ],
+  "notes": "อัปเดตสูตร Bernoulli/Hypergeometric/Normal พร้อม metadata และปรับ index/formula manifest ให้สอดคล้อง"
 }

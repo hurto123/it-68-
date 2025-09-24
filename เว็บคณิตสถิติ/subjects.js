@@ -96,6 +96,14 @@ export const lessons = [
 
 export const formulas = [
   {
+    id: "bernoulli",
+    title: "Bernoulli Distribution",
+    desc: "ลองครั้งเดียว สำเร็จ/ล้มเหลว พร้อมเครื่องคิดเลข p",
+    tags: "สูตร bernoulli trial success failure",
+    chip: "Discrete",
+    link: "formula/bernoulli.html"
+  },
+  {
     id: "binomial",
     title: "Binomial Distribution",
     desc: "X ~ Bin(n, p), PMF, E/Var, ตัวอย่างคำนวณ",
@@ -104,12 +112,28 @@ export const formulas = [
     link: "formula/binomial.html"
   },
   {
+    id: "hypergeometric",
+    title: "Hypergeometric Distribution",
+    desc: "สุ่มโดยไม่ใส่คืน + ตาราง PMF และขั้นบันได C(a,b)",
+    tags: "สูตร hypergeometric without replacement",
+    chip: "Discrete",
+    link: "formula/hypergeometric.html"
+  },
+  {
     id: "poisson",
     title: "Poisson Distribution",
     desc: "PMF, อัตราเกิด λ, การประมาณ Binomial",
     tags: "สูตร poisson นับเหตุการณ์ λ",
     chip: "Discrete",
     link: "formula/poisson.html"
+  },
+  {
+    id: "normal",
+    title: "Normal Distribution",
+    desc: "PDF/CDF, Empirical Rule, กราฟระบายพื้นที่ พร้อมดาวน์โหลด",
+    tags: "สูตร normal distribution pdf cdf",
+    chip: "Normal",
+    link: "formula/normal.html"
   },
   {
     id: "zscore",
@@ -147,4 +171,117 @@ export const summaries = [
     chip: l.chip,
     link: l.summary
   }))
+];
+
+export const quizzes = [
+  {
+    id: "lesson01",
+    title: "Quiz บทที่ 1 — ความรู้เบื้องต้น",
+    desc: "โหมดฝึก + Quiz จับเวลา ข้อสอบตัวอย่าง 3+ ข้อ",
+    tags: "quiz บท1 แบบฝึกหัด สถิติพื้นฐาน",
+    chip: "พื้นฐาน",
+    link: "quiz-lesson01.html",
+    lesson: "lesson01.html",
+    summary: "summary-lesson01.html",
+    config: "data/quiz-lesson01.json"
+  },
+  {
+    id: "lesson02",
+    title: "Quiz บทที่ 2 — การนำเสนอข้อมูล",
+    desc: "ฝึกอ่านกราฟ ตาราง และอนุกรมเวลา พร้อมจับเวลา",
+    tags: "quiz บท2 การนำเสนอข้อมูล",
+    chip: "กราฟ",
+    link: "quiz-lesson02.html",
+    lesson: "lesson02.html",
+    summary: "summary-lesson02.html",
+    config: "data/quiz-lesson02.json"
+  },
+  {
+    id: "lesson03",
+    title: "Quiz บทที่ 3 — สถิติเชิงพรรณนา",
+    desc: "Mean/Median/Mode, SD, Skewness พร้อมเฉลยทีละขั้น",
+    tags: "quiz บท3 descriptive",
+    chip: "สรุปค่า",
+    link: "quiz-lesson03.html",
+    lesson: "lesson03.html",
+    summary: "summary-lesson03.html",
+    config: "data/quiz-lesson03.json"
+  },
+  {
+    id: "lesson04",
+    title: "Quiz บทที่ 4 — ความน่าจะเป็นเบื้องต้น",
+    desc: "ทดลอง กฎการนับ พื้นฐานความน่าจะเป็น",
+    tags: "quiz บท4 ความน่าจะเป็น",
+    chip: "Probability",
+    link: "quiz-lesson04.html",
+    lesson: "lesson04.html",
+    summary: "summary-lesson04.html",
+    config: "data/quiz-lesson04.json"
+  },
+  {
+    id: "lesson05",
+    title: "Quiz บทที่ 5 — ทฤษฎีความน่าจะเป็น",
+    desc: "Conditional / Total Probability / Bayes",
+    tags: "quiz บท5 bayes",
+    chip: "Bayes",
+    link: "quiz-lesson05.html",
+    lesson: "lesson05.html",
+    summary: "summary-lesson05.html",
+    config: "data/quiz-lesson05.json"
+  },
+  {
+    id: "lesson06",
+    title: "Quiz บทที่ 6 — ตัวแปรสุ่ม",
+    desc: "Discrete/Continuous, PMF/PDF, E[X], Var(X)",
+    tags: "quiz บท6 ตัวแปรสุ่ม",
+    chip: "Random Var",
+    link: "quiz-lesson06.html",
+    lesson: "lesson06.html",
+    summary: "summary-lesson06.html",
+    config: "data/quiz-lesson06.json"
+  },
+  {
+    id: "lesson07",
+    title: "Quiz บทที่ 7 — การแจกแจงไม่ต่อเนื่อง",
+    desc: "Bernoulli, Binomial, Poisson, Hypergeometric",
+    tags: "quiz บท7 การแจกแจงไม่ต่อเนื่อง",
+    chip: "Discrete",
+    link: "quiz-lesson07.html",
+    lesson: "lesson07.html",
+    summary: "summary-lesson07.html",
+    config: "data/quiz-lesson07.json"
+  },
+  {
+    id: "lesson08",
+    title: "Quiz บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ",
+    desc: "Normal, Z-score, Empirical Rule",
+    tags: "quiz บท8 normal",
+    chip: "Normal",
+    link: "quiz-lesson08.html",
+    lesson: "lesson08.html",
+    summary: "summary-lesson08.html",
+    config: "data/quiz-lesson08.json"
+  },
+  {
+    id: "lesson09",
+    title: "Quiz บทที่ 9 — Sampling Distributions & CLT",
+    desc: "x̄, p̂, Standard Error, CLT",
+    tags: "quiz บท9 sampling",
+    chip: "CLT",
+    link: "quiz-lesson09.html",
+    lesson: "lesson09.html",
+    summary: "summary-lesson09.html",
+    config: "data/quiz-lesson09.json"
+  },
+  {
+    id: "mixed",
+    title: "Quiz รวมทุกบท (1–9)",
+    desc: "สุ่มข้อสอบจากทุกบท พร้อมจับเวลาและเกณฑ์ผ่าน",
+    tags: "quiz รวมทุกบท",
+    chip: "Final",
+    link: "quiz-mixed.html",
+    lesson: "index.html",
+    summary: "summaries-all.html",
+    config: "data/quiz-mixed.json"
+  }
 ];
