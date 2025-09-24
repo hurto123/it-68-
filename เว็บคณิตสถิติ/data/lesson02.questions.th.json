@@ -3,11 +3,14 @@
     "lesson": "lesson02",
     "title": "บทที่ 2: การนำเสนอข้อมูล",
     "language": "th",
-    "version": "0.1.0",
-    "updated_at": "2025-09-24",
+    "version": "1.0.0",
+    "updated_at": "2025-10-01",
     "depends_on": [
-      "lesson02.html",
-      "summary-lesson02.html"
+      "lesson02.html#histogram",
+      "lesson02.html#math-model",
+      "lesson02.html#timeseries",
+      "summary-lesson02.html",
+      "glossary.html#gl-descriptive"
     ]
   },
   "schema": {
@@ -17,15 +20,50 @@
     "difficulty": 1,
     "prompt": "string",
     "choices": [
-      {
-        "key": "A",
-        "text": "string"
-      }
+      { "key": "A", "text": "string" }
     ],
     "answer": "string",
-    "tags": [
-      "string"
-    ]
+    "tags": ["string"]
   },
-  "items": []
+  "items": [
+    {
+      "id": "L02-Q-0001",
+      "type": "mcq",
+      "topic": "Class Width",
+      "difficulty": 2,
+      "prompt": "ต้องการสร้างฮิสโทแกรมสำหรับข้อมูลอายุ 20–68 ปี โดยตั้งใจใช้ 5 ชั้นเท่า ๆ กัน ความกว้างชั้น (w) ที่เหมาะสมที่สุดคือเท่าใด?",
+      "choices": [
+        { "key": "A", "text": "6 ปี" },
+        { "key": "B", "text": "8 ปี" },
+        { "key": "C", "text": "10 ปี" },
+        { "key": "D", "text": "12 ปี" }
+      ],
+      "answer": "C",
+      "tags": ["class-width", "histogram", "lesson02"]
+    },
+    {
+      "id": "L02-Q-0002",
+      "type": "short_answer",
+      "topic": "Relative Frequency",
+      "difficulty": 2,
+      "prompt": "ในตัวอย่างตารางความถี่ (40 คน) กลุ่มอายุ 30–39 ปีมีคน 15 คน จงหาความถี่สัมพัทธ์ (ตอบเป็นทศนิยม 3 ตำแหน่ง)",
+      "answer": "0.375",
+      "tags": ["relative-frequency", "table", "lesson02"]
+    },
+    {
+      "id": "L02-Q-0003",
+      "type": "mcq",
+      "topic": "Time Series Insight",
+      "difficulty": 1,
+      "prompt": "จากกราฟอนุกรมเวลาในบทเรียน ยอดขายไอศกรีมเพิ่มขึ้นมากที่สุดในช่วงเดือนใด (เทียบผลต่างต่อเนื่อง)?",
+      "choices": [
+        { "key": "A", "text": "ก.พ. → มี.ค." },
+        { "key": "B", "text": "มี.ค. → เม.ย." },
+        { "key": "C", "text": "เม.ย. → พ.ค." },
+        { "key": "D", "text": "พ.ค. → มิ.ย." }
+      ],
+      "answer": "B",
+      "tags": ["time-series", "trend", "lesson02"]
+    }
+  ]
 }

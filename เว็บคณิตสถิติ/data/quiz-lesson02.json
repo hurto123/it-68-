@@ -2,8 +2,8 @@
   "meta": {
     "lesson": "lesson02",
     "title": "Quiz บทที่ 2: การนำเสนอข้อมูล",
-    "version": "0.1.0",
-    "updated_at": "2025-09-24",
+    "version": "1.0.0",
+    "updated_at": "2025-10-01",
     "language": "th",
     "depends_on": [
       "lesson02.questions.th.json",

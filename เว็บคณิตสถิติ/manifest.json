@@ -26,13 +26,15 @@
     {
       "id": "lesson02",
       "title": "บทที่ 2: การนำเสนอข้อมูล",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
+      "version": "1.3.0",
+      "updated_at": "2025-10-01",
       "depends_on": [
         "summary-lesson02.html",
         "data/lesson02.questions.th.json",
         "data/lesson02.solutions.th.json",
-        "data/quiz-lesson02.json"
+        "data/quiz-lesson02.json",
+        "glossary.html#gl-descriptive",
+        "print.css"
       ],
       "assets": {
         "page": "lesson02.html",

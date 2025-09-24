@@ -48,6 +48,17 @@
     break-inside: avoid;
   }
 
+  .svgbox {
+    background: #fff !important;
+    border: 1px solid #999 !important;
+    padding: 8pt !important;
+  }
+
+  .svgbox svg {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
   table {
     width: 100% !important;
     border-collapse: collapse !important;
