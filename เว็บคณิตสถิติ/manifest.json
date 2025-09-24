@@ -366,6 +366,29 @@
   ],
   "supplements": [
     {
+      "id": "summary-lesson11-22-compilation",
+      "title": "รวมสรุปบทที่ 11–22",
+      "version": "1.0.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson11-22.html",
+        "summary-lesson11.html",
+        "summary-lesson12.html",
+        "summary-lesson13.html",
+        "summary-lesson14.html",
+        "summary-lesson15.html",
+        "summary-lesson16.html",
+        "summary-lesson17.html",
+        "summary-lesson18.html",
+        "summary-lesson19.html",
+        "summary-lesson20.html",
+        "summary-lesson21.html",
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
       "id": "summary-lesson11",
       "title": "สรุปบทที่ 11 — รู้จักการประมาณค่า",
       "version": "1.2.0",
