@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="print.css" media="print">
@@ -11,6 +15,7 @@
   <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
 
   <!-- MathJax สำหรับเรนเดอร์สูตร -->
+  <script defer src="assets/js/site-core.js"></script>
   <script>
     window.MathJax = {
       tex: {inlineMath: [['\\(','\\)'], ['$', '$']]},
@@ -98,6 +103,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
   <header>
     <div class="wrap">
       <div class="brand">
@@ -126,7 +132,7 @@
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main id="main-content" class="wrap grid" role="main">
     <!-- Symbols quick table -->
     <section class="card">
       <h3>🧩 สัญลักษณ์ยอดฮิต (ใช้งานบ่อยสุด)</h3>

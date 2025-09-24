@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.04",
-  "updated_at": "2025-10-04",
+  "version": "2025.10.05",
+  "updated_at": "2025-10-05",
   "lessons": [
     {
       "id": "lesson01",
@@ -474,7 +474,7 @@
       }
     }
   ],
-  "notes": "เพิ่มสูตร t/Chi-Square/F พร้อม metadata และสร้าง resources (summary-index, rubric) เพื่อเชื่อมเครื่องมือทบทวน",
+  "notes": "ยกระดับ front-end: design tokens, ฟอนต์ preload, skip link, page transition bar และสคริปต์ site-core สำหรับ prefetch",
   "resources": [
     {
       "id": "summary-index",
@@ -499,6 +499,29 @@
       "depends_on": [
         "index.html",
         "manifest.json"
+      ]
+    },
+    {
+      "id": "site-core",
+      "title": "Site Core Enhancements",
+      "version": "1.0.0",
+      "updated_at": "2025-10-05",
+      "assets": {
+        "script": "assets/js/site-core.js",
+        "fonts": [
+          "assets/fonts/NotoSansThai-Regular.ttf",
+          "assets/fonts/NotoSansThai-SemiBold.ttf",
+          "assets/fonts/NotoSerifThai-Regular.woff2"
+        ],
+        "styles": [
+          "style.css",
+          "print.css"
+        ]
+      },
+      "depends_on": [
+        "index.html",
+        "lesson01.html",
+        "summary-index.html"
       ]
     }
   ]

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>แบบฝึกหัด บทที่ 2 — คอร์สสถิติ (ไทย)</title>
@@ -9,6 +13,7 @@
   <link rel="stylesheet" href="print.css" media="print" />
 </head>
 <body data-config="data/quiz-lesson02.json" data-page-title="แบบฝึกหัดบทที่ 2" data-page-subtitle="ฝึกก่อนทำ Quiz จับเวลา" data-lesson-link="lesson02.html" data-summary-link="summary-lesson02.html" data-lesson-label="บทที่ 2: การนำเสนอข้อมูล" data-practice-label="ทำแบบฝึกหัด (เฉลยทันที)" data-allowed-modes="practice" data-default-mode="practice">
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
@@ -28,7 +33,7 @@
       </div>
     </div>
   </header>
-  <main class="wrap" role="main">
+  <main id="main-content" class="wrap" role="main">
     <div class="ok" style="margin:.8rem 0" role="note">
       โหมดนี้จะแสดงผลถูก/ผิดและเฉลยทันทีในแต่ละข้อ เหมาะสำหรับทบทวนก่อนสอบหรือเตรียมตัวทำ Quiz แบบจับเวลา
     </div>
@@ -41,6 +46,7 @@
   <footer class="wrap small muted" role="contentinfo">
     © คอร์สสถิติ (ไทย) — ระบบแบบฝึกหัดและ Quiz
   </footer>
+  <script defer src="assets/js/site-core.js"></script>
   <script type="module">
     import initQuizPage from './assets/js/quiz-page.js';
     initQuizPage();

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -86,6 +90,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
   <header role="banner">
     <div class="wrap">
       <div class="brand">
@@ -108,7 +113,7 @@
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main id="main-content" class="wrap grid" role="main">
     <section class="card two">
       <div>
         <h3>🎯 วัตถุประสงค์ของคอร์ส</h3>
@@ -165,7 +170,8 @@
         <div class="item"><strong>v1.2.0</strong> — เพิ่มหน้าสูตรใหม่ (เช่น CLT x̄/p̂), ปรับลิงก์นำทางใน index</div>
       </div>
       <p class="muted" id="updated">อัปเดตล่าสุด: —</p>
-      <script>
+      <script defer src="assets/js/site-core.js"></script>
+  <script>
         // แสดงวันที่อัปเดตเป็นเขตเวลาเครื่องของผู้ใช้
         const el = document.getElementById('updated');
         if (el) {

@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -39,6 +43,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
 <header role="banner">
   <div class="wrap">
     <div class="brand">
@@ -67,7 +72,7 @@
   </div>
 </header>
 
-<main class="wrap" role="main">
+<main id="main-content" class="wrap" role="main">
   <section class="cards" id="summary-cards" aria-label="รายชื่อสรุป 1 หน้า">
     <article class="card" data-tags="รวม summary all pdf" data-lesson="all">
       <div class="badge">รวม</div>
@@ -165,7 +170,8 @@
   <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
 </footer>
 
-<script>
+<script defer src="assets/js/site-core.js"></script>
+  <script>
   const searchInput = document.getElementById('search');
   const btnSearch = document.getElementById('btn-search');
   const btnClear = document.getElementById('btn-clear');

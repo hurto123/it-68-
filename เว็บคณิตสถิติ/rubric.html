@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rubric ประเมินตนเอง | คอร์สสถิติ</title>
@@ -50,6 +54,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
 <header role="banner">
   <div class="wrap header-hero">
     <div class="brand">
@@ -65,7 +70,7 @@
   </div>
 </header>
 
-<main class="wrap" role="main">
+<main id="main-content" class="wrap" role="main">
   <section class="card">
     <h2>เลือกบทเรียน</h2>
     <div class="grid2">
@@ -126,7 +131,8 @@
   <div class="muted">© คอร์สสถิติ (ไทย) — Rubric ประเมินตนเอง รองรับการพิมพ์ด้วย <code>print.css</code></div>
 </footer>
 
-<script>
+<script defer src="assets/js/site-core.js"></script>
+  <script>
 const RUBRICS = {
   1: {
     title: "บทที่ 1 — ความรู้เบื้องต้นเกี่ยวกับสถิติ",
