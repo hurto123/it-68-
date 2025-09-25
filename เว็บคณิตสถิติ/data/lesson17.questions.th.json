@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "lesson": "lesson17",
+    "title": "บทที่ 17",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson17.html",
+      "summary-lesson17.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L17-Q-0001",
+      "type": "mcq",
+      "topic": "Hypotheses",
+      "difficulty": 1,
+      "prompt": "ข้อใดเป็นตัวอย่างที่ถูกต้องของ $H_0$ และ $H_1$?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "$H_0: \\mu > 50$, $H_1: \\mu = 50$"
+        },
+        {
+          "key": "B",
+          "text": "$H_0: \\mu = 50$, $H_1: \\mu \ne 50$"
+        },
+        {
+          "key": "C",
+          "text": "$H_0: \\mu < 50$, $H_1: \\mu \\ge 50$"
+        },
+        {
+          "key": "D",
+          "text": "$H_0: \\mu \ne 50$, $H_1: \\mu = 50$"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "hypothesis"
+      ]
+    },
+    {
+      "id": "L17-Q-0002",
+      "type": "mcq",
+      "topic": "Type I/II",
+      "difficulty": 1,
+      "prompt": "Type I error หมายถึงอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ไม่ปฏิเสธ H₀ ทั้งที่จริง"
+        },
+        {
+          "key": "B",
+          "text": "ปฏิเสธ H₀ ทั้งที่จริง"
+        },
+        {
+          "key": "C",
+          "text": "ไม่ปฏิเสธ H₀ ทั้งที่ H₁ จริง"
+        },
+        {
+          "key": "D",
+          "text": "คำนวณสถิติผิด"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "type-i"
+      ]
+    },
+    {
+      "id": "L17-Q-0003",
+      "type": "short_answer",
+      "topic": "Power",
+      "difficulty": 2,
+      "prompt": "คำนิยามของพลังการทดสอบ (Power) คืออะไร (ตอบสั้น ๆ ไม่เกิน 20 คำ)",
+      "answer": "ความน่าจะเป็นที่จะปฏิเสธ H₀ เมื่อ H₁ จริง",
+      "tags": [
+        "power"
+      ]
+    },
+    {
+      "id": "L17-Q-0004",
+      "type": "mcq",
+      "topic": "ขั้นตอน",
+      "difficulty": 1,
+      "prompt": "ขั้นตอนสุดท้ายของการทดสอบสมมติฐานคืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "คำนวณค่า p-value"
+        },
+        {
+          "key": "B",
+          "text": "เลือกระดับนัยสำคัญ"
+        },
+        {
+          "key": "C",
+          "text": "สรุปผลด้วยภาษาคนในบริบทปัญหา"
+        },
+        {
+          "key": "D",
+          "text": "เก็บข้อมูลเพิ่มเติม"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "workflow"
+      ]
+    }
+  ]
+}

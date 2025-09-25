@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson20",
+    "title": "Quiz บทที่ 20: ทดสอบสัดส่วน 1 กลุ่ม",
+    "version": "0.1.0",
+    "updated_at": "2025-10-07",
+    "language": "th",
+    "depends_on": [
+      "lesson20.questions.th.json",
+      "lesson20.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson20",
+      "title": "บทที่ 20: ทดสอบสัดส่วน 1 กลุ่ม",
+      "questions": "lesson20.questions.th.json",
+      "solutions": "lesson20.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 3,
+    "time_limit_seconds": 600,
+    "default_mode": "quiz"
+  }
+}

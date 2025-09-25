@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 17 • พื้นฐานการทดสอบสมมติฐาน | คอร์สสถิติ (ไทย)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="lesson-controls.js"></script>
+  <script defer src="assets/js/inference-lesson-loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson17",
+      "title": "บทที่ 17: พื้นฐานการทดสอบสมมติฐาน",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson17.html",
+        "data/lesson17.questions.th.json",
+        "data/lesson17.solutions.th.json",
+        "data/quiz-lesson17.json",
+        "assets/js/inference-lesson-loader.js",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["hypothesis", "type-i", "type-ii", "testing"]
+    }
+  </script>
+</head>
+<body class="lesson-body" data-lesson="lesson17">
+  <header class="lesson-header">
+    <h1 class="lesson-title">บทที่ 17 • พื้นฐานการทดสอบสมมติฐาน</h1>
+    <p class="lesson-subtitle">กำหนด H₀/H₁, เข้าใจข้อผิดพลาด Type I/II และลำดับขั้นตอน 6 ข้อ</p>
+    <div class="lesson-actions-bar">
+      <a class="btn secondary" href="summary-lesson17.html">📄 สรุป 1 หน้า</a>
+      <a class="btn ghost" href="quiz-lesson17.html">🧪 ทำแบบฝึกหัด</a>
+    </div>
+  </header>
+
+  <main class="lesson-main-content" role="main">
+    <section id="lesson-content" class="lesson-section">
+      <p class="muted">กำลังโหลดเนื้อหาจากสรุปบทที่ 17…</p>
+    </section>
+
+    <section class="lesson-section" id="workflow">
+      <h2>ขั้นตอนหลัก</h2>
+      <ol class="lesson-list-tight">
+        <li>กำหนดสมมติฐาน $H_0$ และ $H_1$ ให้ชัดเจน</li>
+        <li>เลือกสถิติทดสอบและระดับนัยสำคัญ ($\alpha$)</li>
+        <li>ระบุเขตปฏิเสธ (Rejection Region) หรือคำนวณ p-value</li>
+        <li>เก็บข้อมูล/คำนวณสถิติจากตัวอย่าง</li>
+        <li>เปรียบเทียบกับเกณฑ์ → ตัดสินใจปฏิเสธหรือไม่ปฏิเสธ $H_0$</li>
+        <li>สรุปผลด้วยภาษาคนและอ้างอิงบริบท</li>
+      </ol>
+    </section>
+
+    <section class="lesson-section" id="practice">
+      <h2>📝 แบบฝึกหัด</h2>
+      <p>ฝึกกับไฟล์ <code>data/lesson17.questions.th.json</code>, <code>data/lesson17.solutions.th.json</code> หรือ <a class="inline" href="quiz-lesson17.html">Quiz บทที่ 17</a></p>
+      <ul class="lesson-list-tight">
+        <li>Q1 — ระบุ $H_0/H_1$ จากข้อความปัญหา</li>
+        <li>Q2 — แยกชนิดของข้อผิดพลาด Type I/II</li>
+        <li>Q3 — จัดลำดับขั้นตอนการทดสอบสมมติฐาน</li>
+        <li>Q4 — ตีความผลเมื่อรู้ค่า p-value</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="summary">
+      <h2>📄 สรุปย่อ</h2>
+      <ul class="lesson-list-tight">
+        <li>$H_0$ มักมีเครื่องหมาย =, ≤ หรือ ≥ ส่วน $H_1$ เป็น ≠, &gt;, &lt;</li>
+        <li>ควบคุมโอกาสผิดพลาด Type I (false positive) ด้วยการตั้ง $\alpha$</li>
+        <li>พลังการทดสอบ (Power) = 1 − $\beta$ บอกโอกาสตรวจจับความต่างจริง</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lesson-footer" role="contentinfo">
+    © 2025 คอร์สสถิติ (ไทย) • บทที่ 17 พื้นฐานการทดสอบสมมติฐาน
+  </footer>
+</body>
+</html>

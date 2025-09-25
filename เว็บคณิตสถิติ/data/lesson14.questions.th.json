@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "lesson": "lesson14",
+    "title": "บทที่ 14",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson14.html",
+      "summary-lesson14.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L14-Q-0001",
+      "type": "mcq",
+      "topic": "เงื่อนไข",
+      "difficulty": 1,
+      "prompt": "ถ้า $n\\hat p = 8$ ควรทำอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ใช้สูตร CI ตามปกติ"
+        },
+        {
+          "key": "B",
+          "text": "เพิ่มตัวอย่างหรือใช้วิธีอื่น"
+        },
+        {
+          "key": "C",
+          "text": "เปลี่ยนไปใช้ t-interval"
+        },
+        {
+          "key": "D",
+          "text": "ใช้ค่า p=0"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "np condition"
+      ]
+    },
+    {
+      "id": "L14-Q-0002",
+      "type": "short_answer",
+      "topic": "CI Proportion",
+      "difficulty": 2,
+      "prompt": "โพล 500 คน พบผู้สนับสนุน 210 คน ระดับเชื่อมั่น 95% ให้หาขอบเขตบนของ CI (ทศนิยม 3 ตำแหน่ง)",
+      "answer": "0.462",
+      "tags": [
+        "ci",
+        "proportion"
+      ]
+    },
+    {
+      "id": "L14-Q-0003",
+      "type": "mcq",
+      "topic": "ค่าเริ่มต้น",
+      "difficulty": 1,
+      "prompt": "เมื่อไม่รู้ p ควรเลือก p* เท่าไรในการคำนวณ n แบบอนุรักษ์นิยม?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "0"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "1"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "sample-size",
+        "proportion"
+      ]
+    },
+    {
+      "id": "L14-Q-0004",
+      "type": "mcq",
+      "topic": "การตีความ",
+      "difficulty": 1,
+      "prompt": "ข้อใดตีความช่วงความเชื่อมั่นของสัดส่วนได้ถูกต้อง?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ค่า p จริงมีโอกาส 95% อยู่ในช่วงนี้"
+        },
+        {
+          "key": "B",
+          "text": "95% ของตัวอย่างให้ค่า p เท่ากัน"
+        },
+        {
+          "key": "C",
+          "text": "ถ้าสุ่มซ้ำจำนวนมาก ประมาณ 95% ของช่วงจะครอบคลุม p จริง"
+        },
+        {
+          "key": "D",
+          "text": "ช่วงนี้ใช้ได้เฉพาะกับข้อมูลชุดเดียว"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "interpretation"
+      ]
+    }
+  ]
+}

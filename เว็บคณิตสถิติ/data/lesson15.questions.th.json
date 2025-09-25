@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "lesson": "lesson15",
+    "title": "บทที่ 15",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson15.html",
+      "summary-lesson15.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L15-Q-0001",
+      "type": "mcq",
+      "topic": "เลือกสูตร",
+      "difficulty": 2,
+      "prompt": "เมื่อทราบว่าความแปรปรวนสองกลุ่มต่างกันมาก ควรใช้สูตรใดสำหรับค่าเฉลี่ย?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Pooled t"
+        },
+        {
+          "key": "B",
+          "text": "Welch t"
+        },
+        {
+          "key": "C",
+          "text": "Z-test"
+        },
+        {
+          "key": "D",
+          "text": "Chi-square"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "difference",
+        "mean"
+      ]
+    },
+    {
+      "id": "L15-Q-0002",
+      "type": "short_answer",
+      "topic": "Pooled Variance",
+      "difficulty": 2,
+      "prompt": "ให้ $n_1=20, s_1^2=16, n_2=22, s_2^2=25$ จงหา $S_p^2$ (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "20.68",
+      "tags": [
+        "pooled-variance"
+      ]
+    },
+    {
+      "id": "L15-Q-0003",
+      "type": "mcq",
+      "topic": "CI Difference",
+      "difficulty": 2,
+      "prompt": "ถ้าช่วง CI ของ $(\\mu_1-\\mu_2)$ ครอบคลุม 0 บ่งบอกอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "มีหลักฐานชัดเจนว่า $\\mu_1$ > $\\mu_2$"
+        },
+        {
+          "key": "B",
+          "text": "อาจไม่มีความแตกต่างอย่างมีนัยสำคัญ"
+        },
+        {
+          "key": "C",
+          "text": "ต้องปฏิเสธ H₀"
+        },
+        {
+          "key": "D",
+          "text": "ค่าของทั้งสองกลุ่มเท่ากันเสมอ"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "ci",
+        "difference"
+      ]
+    },
+    {
+      "id": "L15-Q-0004",
+      "type": "mcq",
+      "topic": "Difference of Proportions",
+      "difficulty": 2,
+      "prompt": "ส่วนหนึ่งของสูตร SE สำหรับ $(p_1-p_2)$ คืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "$\\sqrt{p_1(1-p_1)/n}$"
+        },
+        {
+          "key": "B",
+          "text": "$\\sqrt{p_1(1-p_1)/n_1 + p_2(1-p_2)/n_2}$"
+        },
+        {
+          "key": "C",
+          "text": "$\\sqrt{p(1-p)/n}$"
+        },
+        {
+          "key": "D",
+          "text": "$s/\\sqrt{n}$"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "proportion",
+        "difference"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "lesson": "lesson11",
+    "title": "บทที่ 11",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson11.html",
+      "summary-lesson11.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L11-Q-0001",
+      "type": "mcq",
+      "topic": "Parameter vs Statistic",
+      "difficulty": 1,
+      "prompt": "ข้อใดเป็นตัวอย่างของ \"พารามิเตอร์\" ในบริบทการสำรวจ?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ค่าเฉลี่ยของคะแนนสอบจากตัวอย่างนักศึกษา 60 คน"
+        },
+        {
+          "key": "B",
+          "text": "สัดส่วนผู้ใช้บริการทั้งหมดที่พึงพอใจในประชากร"
+        },
+        {
+          "key": "C",
+          "text": "ค่าเฉลี่ยของกลุ่มทดลองและควบคุมที่สุ่มมา"
+        },
+        {
+          "key": "D",
+          "text": "ค่าเฉลี่ยที่คำนวณจากการทดลองซ้ำ 5 ครั้ง"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "estimation",
+        "parameter"
+      ]
+    },
+    {
+      "id": "L11-Q-0002",
+      "type": "mcq",
+      "topic": "Interval Estimation",
+      "difficulty": 1,
+      "prompt": "จุดเด่นของการประมาณค่าแบบช่วงเมื่อเทียบกับแบบจุดคืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ให้คำตอบเป็นตัวเลขเดียว ชัดเจน"
+        },
+        {
+          "key": "B",
+          "text": "ไม่ต้องอาศัยการสุ่มตัวอย่าง"
+        },
+        {
+          "key": "C",
+          "text": "สื่อสารความไม่แน่นอนผ่านระดับความเชื่อมั่น"
+        },
+        {
+          "key": "D",
+          "text": "ทำให้ Sampling Error เป็นศูนย์"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "interval",
+        "confidence"
+      ]
+    },
+    {
+      "id": "L11-Q-0003",
+      "type": "short_answer",
+      "topic": "Point Estimate",
+      "difficulty": 1,
+      "prompt": "สำรวจลูกค้า 200 คน พบว่า 86 คนแนะนำผลิตภัณฑ์ให้เพื่อน ค่า point estimate ของสัดส่วนคือเท่าไร (ตอบเป็นทศนิยม 2 ตำแหน่ง)",
+      "answer": "0.43",
+      "tags": [
+        "point-estimate",
+        "proportion"
+      ]
+    },
+    {
+      "id": "L11-Q-0004",
+      "type": "mcq",
+      "topic": "Bias",
+      "difficulty": 2,
+      "prompt": "ขั้นตอนไหนช่วยลดความลำเอียง (Bias) ได้ดีที่สุด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เลือกกลุ่มตัวอย่างจากผู้ที่สะดวกติดต่อ"
+        },
+        {
+          "key": "B",
+          "text": "สุ่มตัวอย่างหลายชุดจากเฟรมรายชื่อที่ครบถ้วน"
+        },
+        {
+          "key": "C",
+          "text": "ใช้ค่าเฉลี่ยของกลุ่มทดลองแทนทั้งประชากร"
+        },
+        {
+          "key": "D",
+          "text": "เพิ่มจำนวนคำถามในแบบสอบถาม"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "bias",
+        "sampling"
+      ]
+    }
+  ]
+}

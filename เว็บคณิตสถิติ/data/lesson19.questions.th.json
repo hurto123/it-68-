@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "lesson": "lesson19",
+    "title": "บทที่ 19",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson19.html",
+      "summary-lesson19.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L19-Q-0001",
+      "type": "mcq",
+      "topic": "เลือกสถิติ",
+      "difficulty": 1,
+      "prompt": "รู้ค่า σ และ n=50 ควรใช้สถิติใดในการทดสอบค่าเฉลี่ย?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "t"
+        },
+        {
+          "key": "B",
+          "text": "Z"
+        },
+        {
+          "key": "C",
+          "text": "F"
+        },
+        {
+          "key": "D",
+          "text": "Chi-square"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "mean-test"
+      ]
+    },
+    {
+      "id": "L19-Q-0002",
+      "type": "short_answer",
+      "topic": "Z-test",
+      "difficulty": 2,
+      "prompt": "ให้ \\(\bar X=74\\), $\\mu_0=72$, $\\sigma=6$, $n=36$ จงคำนวณค่า Z (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "2.00",
+      "tags": [
+        "z-test"
+      ]
+    },
+    {
+      "id": "L19-Q-0003",
+      "type": "short_answer",
+      "topic": "t-test",
+      "difficulty": 2,
+      "prompt": "ตัวอย่าง 15 ตัว \\(\bar X=28\\), $\\mu_0=30$, $s=4$ จงหาค่า t (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "-1.94",
+      "tags": [
+        "t-test"
+      ]
+    },
+    {
+      "id": "L19-Q-0004",
+      "type": "mcq",
+      "topic": "การตัดสินใจ",
+      "difficulty": 1,
+      "prompt": "ถ้า p-value = 0.012 และ \\(\u0007lpha=0.05\\) จะสรุปอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ไม่ปฏิเสธ H₀"
+        },
+        {
+          "key": "B",
+          "text": "ปฏิเสธ H₀"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มขนาดตัวอย่าง"
+        },
+        {
+          "key": "D",
+          "text": "ไม่สามารถตัดสินใจได้"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "decision"
+      ]
+    }
+  ]
+}

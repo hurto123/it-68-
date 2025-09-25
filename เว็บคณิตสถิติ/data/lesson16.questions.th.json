@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "lesson": "lesson16",
+    "title": "บทที่ 16",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson16.html",
+      "summary-lesson16.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L16-Q-0001",
+      "type": "short_answer",
+      "topic": "Sample Size Mean",
+      "difficulty": 2,
+      "prompt": "ต้องการประมาณค่าเฉลี่ยที่ $E=2$, $\\sigma=10$, ระดับเชื่อมั่น 95% (ใช้ Z=1.96) จงคำนวณ n (ปัดขึ้นเป็นจำนวนเต็ม)",
+      "answer": "97",
+      "tags": [
+        "sample-size",
+        "mean"
+      ]
+    },
+    {
+      "id": "L16-Q-0002",
+      "type": "mcq",
+      "topic": "ผลกระทบของ E",
+      "difficulty": 1,
+      "prompt": "หากต้องการลด Margin of Error ลงครึ่งหนึ่ง จำเป็นต้องทำอะไรกับ n?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ลดลงครึ่งหนึ่ง"
+        },
+        {
+          "key": "B",
+          "text": "เพิ่มขึ้น 2 เท่า"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มขึ้น 4 เท่า"
+        },
+        {
+          "key": "D",
+          "text": "ไม่เปลี่ยน"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "margin-of-error"
+      ]
+    },
+    {
+      "id": "L16-Q-0003",
+      "type": "short_answer",
+      "topic": "Sample Size Proportion",
+      "difficulty": 2,
+      "prompt": "สำรวจสัดส่วนโดยตั้ง p*=0.5, ต้องการ E=0.04 ที่ระดับเชื่อมั่น 95% (Z=1.96) จงหาจำนวนตัวอย่างขั้นต่ำ",
+      "answer": "601",
+      "tags": [
+        "sample-size",
+        "proportion"
+      ]
+    },
+    {
+      "id": "L16-Q-0004",
+      "type": "mcq",
+      "topic": "Pilot Study",
+      "difficulty": 1,
+      "prompt": "เหตุผลใดเหมาะสมที่สุดในการทำ Pilot Study ก่อนคำนวณ n?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เพื่อเลือกระดับความเชื่อมั่น"
+        },
+        {
+          "key": "B",
+          "text": "เพื่อประมาณค่า σ หรือ p ที่ใกล้เคียงจริง"
+        },
+        {
+          "key": "C",
+          "text": "เพื่อหลีกเลี่ยงการสุ่มตัวอย่าง"
+        },
+        {
+          "key": "D",
+          "text": "เพื่อให้สามารถใช้ Z-test ได้"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "pilot-study"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson13",
+    "title": "Quiz บทที่ 13: CI ค่าเฉลี่ย 1 กลุ่ม",
+    "version": "0.1.0",
+    "updated_at": "2025-10-07",
+    "language": "th",
+    "depends_on": [
+      "lesson13.questions.th.json",
+      "lesson13.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson13",
+      "title": "บทที่ 13: CI ค่าเฉลี่ย 1 กลุ่ม",
+      "questions": "lesson13.questions.th.json",
+      "solutions": "lesson13.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 3,
+    "time_limit_seconds": 600,
+    "default_mode": "quiz"
+  }
+}
