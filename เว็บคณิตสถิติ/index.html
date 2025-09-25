@@ -113,13 +113,42 @@
   </header>
 
   <main class="wrap grid" role="main" id="main-content">
-    <!-- บทเรียน 1–9 -->
-    <section id="lessons" class="fade-in">
+    <!-- บทเรียนพื้นฐาน 1–9 -->
+    <section id="lessons-core" class="fade-in">
       <div class="section-title">
-        <h2>📘 บทเรียน (1–9)</h2>
-        <a class="small" href="summaries-all.html">ดูสรุปทุกบท →</a>
+        <h2>📘 บทเรียนพื้นฐาน (1–9)</h2>
+        <a class="small" href="summaries-all.html#foundation">ดูสรุปพื้นฐาน →</a>
       </div>
-      <div class="cards" id="cards-lessons" aria-label="การ์ดบทเรียน" data-source="lessons"></div>
+      <p class="muted section-lede">
+        เริ่มต้นทำความเข้าใจกระบวนการทางสถิติ ตั้งแต่การนำเสนอข้อมูลจนถึง Central Limit Theorem
+        ก่อนต่อยอดสู่บทอนุมาน
+      </p>
+      <div
+        class="cards"
+        id="cards-lessons-core"
+        aria-label="การ์ดบทเรียนพื้นฐาน"
+        data-source="lessons-core"
+        data-kind="lessons"
+      ></div>
+    </section>
+
+    <!-- บทเรียน Inference 11–22 -->
+    <section id="lessons-inference" class="fade-in">
+      <div class="section-title">
+        <h2>📈 บทเรียน Inference (11–22)</h2>
+        <a class="small" href="summaries-all.html#inference">ดูสรุป Inference →</a>
+      </div>
+      <p class="muted section-lede">
+        ครอบคลุมการประมาณค่า, การทดสอบสมมติฐาน, การคำนวณขนาดตัวอย่าง และการเปรียบเทียบสองกลุ่ม
+        พร้อมเชื่อมโยงไปยังสรุป 1 หน้าและสูตรสำคัญ
+      </p>
+      <div
+        class="cards"
+        id="cards-lessons-inference"
+        aria-label="การ์ดบทเรียน Inference"
+        data-source="lessons-inference"
+        data-kind="lessons"
+      ></div>
     </section>
 
     <!-- แบบฝึกหัด & Quiz -->

@@ -5,11 +5,35 @@ const cloneItem = (item) => ({
   meta: item.meta ? { ...item.meta } : undefined
 });
 
+const lessonItems = lessons.map(cloneItem);
+const quizzesItems = quizzes.map(cloneItem);
+const summaryItems = summaries.map(cloneItem);
+const formulaItems = formulas.map(cloneItem);
+
+const parseLessonNumber = (lessonId = '') => {
+  const match = /^lesson(\d+)/.exec(lessonId);
+  if (!match) return null;
+  const num = Number(match[1]);
+  return Number.isNaN(num) ? null : num;
+};
+
+const coreLessons = lessonItems.filter((item) => {
+  const num = parseLessonNumber(item.id);
+  return num !== null && num >= 1 && num <= 9;
+});
+
+const inferenceLessons = lessonItems.filter((item) => {
+  const num = parseLessonNumber(item.id);
+  return num !== null && num >= 11 && num <= 22;
+});
+
 const dataMap = {
-  lessons: lessons.map(cloneItem),
-  quizzes: quizzes.map(cloneItem),
-  summaries: summaries.map(cloneItem),
-  formulas: formulas.map(cloneItem)
+  lessons: lessonItems,
+  'lessons-core': coreLessons,
+  'lessons-inference': inferenceLessons,
+  quizzes: quizzesItems,
+  summaries: summaryItems,
+  formulas: formulaItems
 };
 
 const manifestMetaByAsset = new Map();
@@ -205,11 +229,12 @@ const createCard = (item, kind) => {
 };
 
 const renderCards = () => {
-  document.querySelectorAll('[data-source]').forEach(container => {
+  document.querySelectorAll('[data-source]').forEach((container) => {
     const source = container.dataset.source;
+    const kind = container.dataset.kind || source;
     const items = dataMap[source] || [];
     const fragment = document.createDocumentFragment();
-    items.forEach(item => fragment.appendChild(createCard(item, source)));
+    items.forEach((item) => fragment.appendChild(createCard(item, kind)));
     container.replaceChildren(fragment);
   });
 };

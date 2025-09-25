@@ -434,6 +434,11 @@ input[type="search"] {
   gap:.6rem;
 }
 .section-title h2 { margin:.2rem 0; }
+.section-lede {
+  margin:.35rem 0 1.1rem;
+  line-height:1.55;
+  max-width:60ch;
+}
 .small { font-size:.92rem; color:var(--muted); }
 
 .hero-updates{ margin:1.4rem 0; }
