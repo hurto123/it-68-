@@ -242,42 +242,74 @@ const setupSearch = () => {
   const btnSearch = document.getElementById('btn-search');
   const btnClear = document.getElementById('btn-clear');
   const statusEl = document.getElementById('search-status');
+  const filterInputs = Array.from(document.querySelectorAll('.search-filters input[type="checkbox"]'));
+  const btnFilterReset = document.getElementById('btn-filter-reset');
+  const allKinds = filterInputs.map((input) => input.value);
 
   const cards = () => Array.from(document.querySelectorAll('[data-card]'));
   const sections = () => Array.from(document.querySelectorAll('main section'));
 
+  const activeKinds = () => new Set(filterInputs.filter((input) => input.checked).map((input) => input.value));
+
   const applySearch = (term, { scroll } = { scroll: false }) => {
     const displayTerm = term ?? qInput?.value ?? '';
     const keyword = normalize(displayTerm);
+    const tokens = keyword.split(/\s+/).filter(Boolean);
+    const kinds = activeKinds();
+    const selectionSize = kinds.size;
+    const totalKinds = allKinds.length;
+    const noneSelected = totalKinds > 0 && selectionSize === 0;
+    const filterActive = selectionSize > 0 && selectionSize < totalKinds;
     let hits = 0;
     let firstMatch = null;
 
     cards().forEach(card => {
       const text = normalize(card.dataset.search);
-      const matched = keyword ? text.includes(keyword) : true;
+      const cardKind = card.dataset.card;
+      const matchTokens = tokens.length ? tokens.every((token) => text.includes(token)) : true;
+      const matchKind = filterActive ? kinds.has(cardKind) : true;
+      const matched = matchTokens && (noneSelected ? false : matchKind);
       card.toggleAttribute('hidden', !matched);
-      card.classList.toggle('match', matched && Boolean(keyword));
-      if (matched && keyword && !firstMatch) {
+      card.classList.toggle('match', matched && tokens.length > 0);
+      if (matched && tokens.length > 0 && !firstMatch) {
         firstMatch = card;
       }
-      if (matched && keyword) hits += 1;
+      if (matched && (tokens.length > 0 || filterActive)) hits += 1;
     });
 
     sections().forEach(section => {
       const visible = section.querySelector('[data-card]:not([hidden])');
-      section.toggleAttribute('hidden', Boolean(keyword) && !visible);
+      section.toggleAttribute('hidden', (tokens.length > 0 || filterActive || noneSelected) && !visible);
     });
 
-    if (keyword) {
+    if (noneSelected) {
       if (statusEl) {
-        statusEl.textContent = `พบ ${hits} รายการสำหรับ “${displayTerm}”`;
+        statusEl.textContent = 'กรุณาเลือกอย่างน้อยหนึ่งหมวด';
+      }
+      return;
+    }
+
+    if (tokens.length > 0 || filterActive) {
+      if (statusEl) {
+        const categoryNames = filterActive
+          ? allKinds.filter((kind) => kinds.has(kind)).map(getCategoryLabel)
+          : [];
+        const categoryText = filterActive
+          ? ` ในหมวด ${categoryNames.join(', ')}`
+          : ' ในทุกหมวด';
+        const termText = tokens.length > 0 ? `สำหรับ “${displayTerm}”` : '';
+        statusEl.textContent = `พบ ${hits} รายการ${termText}${categoryText}`;
       }
       if (scroll && firstMatch) {
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else {
       if (statusEl) {
-        statusEl.textContent = '';
+        if (kinds && !kinds.size) {
+          statusEl.textContent = 'กรุณาเลือกอย่างน้อยหนึ่งหมวด';
+        } else {
+          statusEl.textContent = '';
+        }
       }
       sections().forEach(section => section.removeAttribute('hidden'));
     }
@@ -300,6 +332,22 @@ const setupSearch = () => {
     }
   });
 
+  filterInputs.forEach((input) => {
+    input.addEventListener('change', () => {
+      if (!filterInputs.some((field) => field.checked)) {
+        statusEl.textContent = 'กรุณาเลือกอย่างน้อยหนึ่งหมวด';
+      }
+      applySearch(undefined, { scroll: false });
+    });
+  });
+
+  btnFilterReset?.addEventListener('click', () => {
+    filterInputs.forEach((input) => {
+      input.checked = true;
+    });
+    applySearch(undefined, { scroll: false });
+  });
+
   const initFromHash = () => {
     const hash = decodeURIComponent(location.hash || '');
     if (hash.toLowerCase().startsWith('#search=')) {
@@ -318,3 +366,18 @@ loadManifest().finally(() => {
   setupFadeIn();
   setupSearch();
 });
+
+function getCategoryLabel(kind) {
+  switch (kind) {
+    case 'lessons':
+      return 'บทเรียน';
+    case 'quizzes':
+      return 'แบบฝึกหัด & Quiz';
+    case 'formulas':
+      return 'อธิบายสูตร';
+    case 'summaries':
+      return 'สรุป 1 หน้า';
+    default:
+      return kind;
+  }
+}

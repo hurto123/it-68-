@@ -372,6 +372,47 @@ nav.breadcrumb { margin-top:.6rem; color:var(--muted); font-size:.9rem; }
    Searchbar
    =============================== */
 .searchbar { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin:.3rem 0 1rem; }
+.search-filters {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  border:1px dashed rgba(133,149,206,.45);
+  border-radius:12px;
+  padding:.65rem .8rem;
+  margin:.2rem 0 0;
+  background:rgba(20,28,45,.55);
+}
+.search-filters legend {
+  font-size:.85rem;
+  padding:0 .35rem;
+}
+.filter-chip {
+  display:inline-flex;
+  align-items:center;
+  gap:.35rem;
+  background:rgba(79,140,255,.18);
+  border:1px solid rgba(79,140,255,.45);
+  border-radius:999px;
+  padding:.25rem .75rem;
+  font-size:.9rem;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,transform .2s ease;
+}
+.filter-chip input {
+  accent-color:var(--accent);
+}
+.filter-chip:hover {
+  background:rgba(79,140,255,.32);
+  border-color:rgba(79,140,255,.65);
+  transform:translateY(-1px);
+}
+.filter-reset {
+  margin-left:auto;
+  white-space:nowrap;
+}
+.searchbar input[type="checkbox"] {
+  width:auto;
+}
 input[type="search"] {
   width:420px;
   max-width:100%;

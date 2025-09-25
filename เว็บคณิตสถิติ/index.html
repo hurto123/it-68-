@@ -58,6 +58,27 @@
         <button class="btn" id="btn-search">ค้นหา</button>
         <button class="btn secondary" id="btn-clear" title="ล้างคำค้น">ล้าง</button>
         <span class="muted small" id="search-status" aria-live="polite"></span>
+
+        <fieldset class="search-filters" aria-label="กรองหมวดหมู่">
+          <legend class="muted small">กรองหมวดหมู่</legend>
+          <label class="filter-chip">
+            <input type="checkbox" value="lessons" checked>
+            <span>บทเรียน</span>
+          </label>
+          <label class="filter-chip">
+            <input type="checkbox" value="quizzes" checked>
+            <span>แบบฝึกหัด &amp; Quiz</span>
+          </label>
+          <label class="filter-chip">
+            <input type="checkbox" value="formulas" checked>
+            <span>อธิบายสูตร</span>
+          </label>
+          <label class="filter-chip">
+            <input type="checkbox" value="summaries" checked>
+            <span>สรุป 1 หน้า</span>
+          </label>
+          <button type="button" class="btn ghost filter-reset" id="btn-filter-reset">เลือกทุกหมวด</button>
+        </fieldset>
       </div>
 
       <section class="quick-nav" aria-label="ลัดไปยังสรุปบทที่ 11–22">
