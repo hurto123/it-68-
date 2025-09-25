@@ -183,13 +183,14 @@ const createCard = (item, kind) => {
     const metaParts = [];
     if (item.meta.updated_at) {
       anchor.dataset.updated = item.meta.updated_at;
-      metaParts.push(`อัปเดต ${item.meta.updated_at}`);
+      const friendlyDate = formatThaiDate(item.meta.updated_at) || item.meta.updated_at;
+      metaParts.push(`อัปเดต ${friendlyDate}`);
     }
     if (item.meta.read_time) {
       metaParts.push(item.meta.read_time);
     }
     if (item.meta.version) {
-      metaParts.push(`v${item.meta.version}`);
+      metaParts.push(`เวอร์ชัน ${item.meta.version}`);
     }
     if (metaParts.length) {
       const meta = document.createElement('p');

@@ -897,6 +897,29 @@
       }
     },
     {
+      "id": "inference-cheatsheet",
+      "title": "Inference Formula Cheat Sheet",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/inference-cheatsheet.html",
+        "formula/ci-structure.html",
+        "formula/ci-mean.html",
+        "formula/ci-proportion.html",
+        "formula/ci-difference.html",
+        "formula/sample-size.html",
+        "formula/mean-tests.html",
+        "formula/proportion-test.html",
+        "formula/two-sample-tests.html",
+        "formula/variance-tests.html",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/inference-cheatsheet.html"
+      }
+    },
+    {
       "id": "z-score",
       "title": "Z-Score",
       "version": "1.0.0",

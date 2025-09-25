@@ -987,6 +987,22 @@ body {
   background: rgba(12,18,28,0.92);
 }
 
+.formula-table td.formula {
+  font-weight: 600;
+  color: var(--accent-light);
+  font-size: 0.95rem;
+}
+
+.formula-table td a {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.formula-table td a:hover,
+.formula-table td a:focus {
+  text-decoration: underline;
+}
+
 .formula-callout {
   border-left: 4px solid var(--accent);
   background: rgba(79,140,255,0.12);

@@ -375,6 +375,20 @@ export const formulas = [
       version: "2.0.0",
       updated_at: "2025-10-07"
     }
+  },
+  {
+    id: "inference-cheatsheet",
+    title: "Inference Formula Cheat Sheet",
+    desc: "รวมสูตร CI, ขนาดตัวอย่าง และการทดสอบจากบทที่ 12–22 ในหน้าเดียว",
+    tags: "สูตร cheat sheet inference ci sample size test",
+    chip: "Inference",
+    link: "formula/inference-cheatsheet.html",
+    meta: {
+      category: "Inference",
+      version: "1.0.0",
+      updated_at: "2025-10-07",
+      read_time: "5 นาที"
+    }
   }
 ];
 

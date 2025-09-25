@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inference Formula Cheat Sheet | อธิบายสูตร</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <main class="formula-page">
+    <section class="formula-hero">
+      <h1>Inference Formula Cheat Sheet</h1>
+      <p class="muted">ตารางสรุปสูตรสำคัญจากบทที่ 12–22 ครอบคลุม CI, ขนาดตัวอย่าง, การทดสอบสมมติฐาน และการเปรียบเทียบสองกลุ่ม</p>
+      <div class="formula-meta">
+        <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>ครอบคลุมบทที่ 12–22</span>
+      </div>
+      <div class="formula-actions">
+        <a class="btn secondary" href="../summary-lesson11.html">เริ่มทบทวนบท 11</a>
+        <a class="btn ghost" href="../updates.html">ดูไฟล์ที่เกี่ยวข้อง</a>
+      </div>
+    </section>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#ci">Confidence Intervals</a></li>
+        <li><a href="#sample-size">Sample Size Planner</a></li>
+        <li><a href="#one-sample-tests">One-sample Tests</a></li>
+        <li><a href="#two-sample-tests">Two-sample Comparisons</a></li>
+        <li><a href="#variance-tests">Variance &amp; Consistency Tests</a></li>
+        <li><a href="#workflow">Quick Workflow &amp; Tips</a></li>
+      </ol>
+    </section>
+
+    <section id="ci" class="formula-section">
+      <h2>Confidence Intervals</h2>
+      <p class="section-subtitle">เริ่มจากโครงสร้าง CI แล้วเลือกสูตรเฉพาะสถานการณ์เพื่อคุมระดับความเชื่อมั่นและความแม่นยำ</p>
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th scope="col">หัวข้อ</th>
+            <th scope="col">สูตร</th>
+            <th scope="col">ใช้เมื่อ</th>
+            <th scope="col">อ้างอิง</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>โครงสร้าง CI</td>
+            <td class="formula">\(\text{Point Estimate} \pm (\text{Critical Value})(\text{SE})\)</td>
+            <td>ทุก CI ใช้โครงสร้างนี้ • คุมความเชื่อมั่นผ่านค่าวิกฤต • ลดความกว้างด้วยการเพิ่ม \(n\)</td>
+            <td><a href="ci-structure.html">CI Anatomy</a></td>
+          </tr>
+          <tr>
+            <td>ค่าเฉลี่ย (รู้ \(\sigma\))</td>
+            <td class="formula">\(\bar X \pm Z_{\alpha/2}\dfrac{\sigma}{\sqrt{n}}\)</td>
+            <td>ทราบ \(\sigma\) จากมาตรฐานหรือข้อมูลอดีต • ตัวอย่าง \(n \ge 30\) หรือใกล้ปกติ</td>
+            <td><a href="ci-mean.html#ci-known-sigma">CI Mean (Z)</a></td>
+          </tr>
+          <tr>
+            <td>ค่าเฉลี่ย (ไม่รู้ \(\sigma\))</td>
+            <td class="formula">\(\bar X \pm t_{\alpha/2,df}\dfrac{s}{\sqrt{n}}\)</td>
+            <td>ใช้ \(s\) แทน \(\sigma\) • ต้องอาศัย t-distribution ด้วย \(df = n-1\)</td>
+            <td><a href="ci-mean.html#ci-unknown-sigma">CI Mean (t)</a></td>
+          </tr>
+          <tr>
+            <td>สัดส่วน</td>
+            <td class="formula">\(\hat p \pm Z_{\alpha/2}\sqrt{\dfrac{\hat p(1-\hat p)}{n}}\)</td>
+            <td>เงื่อนไขเพียงพอ: \(n\hat p, n(1-\hat p) \ge 10\) • ใช้ p* = 0.5 เมื่อออกแบบล่วงหน้า</td>
+            <td><a href="ci-proportion.html">CI Proportion</a></td>
+          </tr>
+          <tr>
+            <td>ผลต่างค่าเฉลี่ย</td>
+            <td class="formula">\((\bar X_1-\bar X_2) \pm t_{\alpha/2,df} S_p\sqrt{\tfrac{1}{n_1}+\tfrac{1}{n_2}}\)</td>
+            <td>สองกลุ่มอิสระ • สมมติ \(\sigma_1^2 = \sigma_2^2\) • ใช้ pooled variance</td>
+            <td><a href="ci-difference.html#ci-mean">CI Difference (Mean)</a></td>
+          </tr>
+          <tr>
+            <td>Pooled variance</td>
+            <td class="formula">\(S_p^2 = \dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}\)</td>
+            <td>ใช้คำนวณ SE ใน CI/ทดสอบค่าเฉลี่ยสองกลุ่มเมื่อสมมติความแปรปรวนเท่ากัน</td>
+            <td><a href="ci-difference.html#pooled-variance">Pooled Var</a></td>
+          </tr>
+          <tr>
+            <td>ผลต่างสัดส่วน</td>
+              <td class="formula">\((\hat p_1-\hat p_2) \pm Z_{\alpha/2}\sqrt{\dfrac{\hat p_1(1-\hat p_1)}{n_1}+\dfrac{\hat p_2(1-\hat p_2)}{n_2}}\)</td>
+            <td>เปรียบเทียบ CTR/อัตราความสำเร็จสองแคมเปญ • ตรวจดูว่า 0 อยู่ในช่วงหรือไม่</td>
+            <td><a href="ci-difference.html#ci-proportion">CI Difference (Proportion)</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula-callout warn">
+        <strong>Tip:</strong> หาก CI กว้างเกินไปแต่ต้องการคงระดับความเชื่อมั่น ให้เพิ่มขนาดตัวอย่าง (ดูส่วน Sample Size ด้านล่าง)
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="sample-size" class="formula-section">
+      <h2>Sample Size Planner</h2>
+      <p class="section-subtitle">กำหนดจำนวนตัวอย่างที่ต้องเก็บเพื่อให้ช่วงความเชื่อมั่นแคบตามงบและเวลาที่มี</p>
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th scope="col">เป้าหมาย</th>
+            <th scope="col">สูตร</th>
+            <th scope="col">หมายเหตุ</th>
+            <th scope="col">อ้างอิง</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ค่าเฉลี่ย</td>
+            <td class="formula">\(n = \left(\dfrac{Z_{\alpha/2}\,\sigma}{E}\right)^2\)</td>
+            <td>ต้องประมาณ \(\sigma\) จากข้อมูลเดิม, pilot หรือกฎ range/4</td>
+            <td><a href="sample-size.html#mean">Sample Size — Mean</a></td>
+          </tr>
+          <tr>
+            <td>สัดส่วน</td>
+            <td class="formula">\(n = \dfrac{Z_{\alpha/2}^2 p(1-p)}{E^2}\)</td>
+            <td>ไม่รู้ \(p\) ให้ใช้ 0.5 (อนุรักษ์นิยม) • ปรับ FPC หากประชากรเล็ก</td>
+            <td><a href="sample-size.html#proportion">Sample Size — Proportion</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula-callout ok">
+        <strong>Checklist:</strong> ระบุระดับความเชื่อมั่น, กำหนด \(E\) (ความกว้างครึ่งหนึ่งของ CI) และตรวจสอบงบ/เวลาให้สอดคล้องกับ \(n\) ที่คำนวณได้
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="one-sample-tests" class="formula-section">
+      <h2>One-sample Tests</h2>
+      <p class="section-subtitle">สูตรทดสอบสมมติฐานสำหรับค่าเฉลี่ยและสัดส่วนเมื่อมีข้อมูลเพียงหนึ่งประชากร</p>
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th scope="col">สถิติทดสอบ</th>
+            <th scope="col">สูตร</th>
+            <th scope="col">ใช้เมื่อ</th>
+            <th scope="col">อ้างอิง</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Z-test ค่าเฉลี่ย</td>
+            <td class="formula">\(Z = \dfrac{\bar X - \mu_0}{\sigma/\sqrt{n}}\)</td>
+            <td>รู้ \(\sigma\) หรือ \(n \ge 30\) พร้อมแจกแจงใกล้ปกติ</td>
+            <td><a href="mean-tests.html#z-test">Mean Tests</a></td>
+          </tr>
+          <tr>
+            <td>t-test ค่าเฉลี่ย</td>
+            <td class="formula">\(t = \dfrac{\bar X - \mu_0}{s/\sqrt{n}}\)</td>
+            <td>ไม่รู้ \(\sigma\) • ใช้ \(df = n-1\) • ตรวจสอบความเป็นปกติ/ไม่มี outlier หนัก</td>
+            <td><a href="mean-tests.html#t-test">Mean Tests</a></td>
+          </tr>
+          <tr>
+            <td>Z-test สัดส่วน</td>
+            <td class="formula">\(Z = \dfrac{\hat p - p_0}{\sqrt{\dfrac{p_0(1-p_0)}{n}}}\)</td>
+            <td>เงื่อนไขเพียงพอ: \(np_0, n(1-p_0) \ge 10\) • ใช้ในการทดสอบ Claim ของอัตรา</td>
+            <td><a href="proportion-test.html">Proportion Test</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula-callout">
+        <strong>จำไว้ว่า:</strong> ตัดสินใจโดยเทียบสถิติกับค่าวิกฤตหรือหาค่า p-value และระบุนัยสำคัญทางปฏิบัติร่วมด้วย ไม่ใช่แค่ผลทางสถิติ
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="two-sample-tests" class="formula-section">
+      <h2>Two-sample Comparisons</h2>
+      <p class="section-subtitle">เลือกสูตรตามประเภทตัวแปรและสมมติฐานความแปรปรวน</p>
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th scope="col">สถานการณ์</th>
+            <th scope="col">สูตร</th>
+            <th scope="col">หมายเหตุ</th>
+            <th scope="col">อ้างอิง</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>t-test ค่าเฉลี่ย (pooled)</td>
+            <td class="formula">\(t = \dfrac{(\bar X_1-\bar X_2) - (\mu_1-\mu_2)_0}{S_p \sqrt{\tfrac{1}{n_1}+\tfrac{1}{n_2}}}\)</td>
+            <td>ต้องใช้ \(S_p\) จากสูตร pooled variance • \(df = n_1 + n_2 - 2\)</td>
+            <td><a href="two-sample-tests.html#t-test-pooled">Two-sample Tests</a></td>
+          </tr>
+          <tr>
+            <td>Pooled variance</td>
+            <td class="formula">\(S_p^2 = \dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}\)</td>
+            <td>ใช้กับทั้ง CI และการทดสอบเมื่อสมมติความแปรปรวนเท่ากัน</td>
+            <td><a href="two-sample-tests.html#pooled-variance">Two-sample Tests</a></td>
+          </tr>
+          <tr>
+            <td>Z-test ผลต่างสัดส่วน</td>
+            <td class="formula">\(Z = \dfrac{(\hat p_1-\hat p_2) - (p_1-p_2)_0}{\sqrt{\dfrac{\hat p_1(1-\hat p_1)}{n_1}+\dfrac{\hat p_2(1-\hat p_2)}{n_2}}}\)</td>
+            <td>นิยมตั้ง \((p_1-p_2)_0 = 0\) เพื่อตรวจว่าต่างกันหรือไม่ • ใช้เงื่อนไขเพียงพอแบบเดียวกับ CI สัดส่วน</td>
+            <td><a href="two-sample-tests.html#z-test-proportion">Two-sample Tests</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula-callout warn">
+        <strong>Note:</strong> หากหลักฐานชี้ว่าความแปรปรวนไม่เท่ากันหรือขนาดตัวอย่างต่างกันมาก ให้ใช้ Welch t-test (ดูรายละเอียดในสรุปบทที่ 21)
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="variance-tests" class="formula-section">
+      <h2>Variance &amp; Consistency Tests</h2>
+      <p class="section-subtitle">ใช้การแจกแจง \(\chi^2\) และ F เพื่อประเมินเสถียรภาพของกระบวนการ</p>
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th scope="col">ทดสอบ</th>
+            <th scope="col">สูตร</th>
+            <th scope="col">ใช้เมื่อ</th>
+            <th scope="col">อ้างอิง</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chi-square test</td>
+            <td class="formula">\(\chi^2 = \dfrac{(n-1)s^2}{\sigma_0^2}\)</td>
+            <td>ตรวจสอบว่าความแปรปรวนของกระบวนการเปลี่ยนไปจากมาตรฐานหรือไม่ • \(df = n-1\)</td>
+            <td><a href="variance-tests.html#chi-square">Variance Tests</a></td>
+          </tr>
+          <tr>
+            <td>F-test</td>
+            <td class="formula">\(F = \dfrac{s_1^2}{s_2^2}\)</td>
+            <td>เปรียบเทียบสองความแปรปรวน • จัดให้ \(s_1^2\) เป็นค่าที่มากกว่าเสมอเพื่อให้ \(F \ge 1\)</td>
+            <td><a href="variance-tests.html#f-test">Variance Tests</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="formula-callout">
+        <strong>ข้อควรระวัง:</strong> ทดสอบเหล่านี้ไวต่อการเบ้ของข้อมูล • หากแจกแจงไม่ใกล้ปกติควรใช้วิธี nonparametric หรือแปลงข้อมูลก่อน
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="workflow" class="formula-section">
+      <h2>Quick Workflow &amp; Tips</h2>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>ก่อนเริ่ม</h3>
+          <ol>
+            <li>ระบุชนิดข้อมูล (เชิงปริมาณ/สัดส่วน) และจำนวนกลุ่ม</li>
+            <li>ตรวจสมมติฐาน (การสุ่ม, ความเป็นอิสระ, รูปร่างแจกแจง)</li>
+            <li>ตั้งเป้าหมาย: สร้าง CI หรือทดสอบสมมติฐาน</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ระหว่างคำนวณ</h3>
+          <ol>
+            <li>เลือกสูตรให้ถูกกับสถานการณ์ (ตารางด้านบน)</li>
+            <li>แทนค่าอย่างมีขั้นตอน จด ME/SE แยกต่างหากเพื่อ debug ง่าย</li>
+            <li>ใช้เครื่องคิดเลข/สเปรดชีตช่วยเพื่อลดข้อผิดพลาดจากการป้อนค่า</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>หลังได้ผล</h3>
+          <ol>
+            <li>แปลผลเป็นภาษาที่ Stakeholder เข้าใจ (ช่วง, ความต่าง, นัยสำคัญ)</li>
+            <li>แนบข้อจำกัด (สมมติฐาน, ขนาดตัวอย่าง, คุณภาพข้อมูล)</li>
+            <li>แนะนำการเก็บข้อมูลเพิ่มหรือการวิเคราะห์ต่อยอดหากจำเป็น</li>
+          </ol>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+  </main>
+</body>
+</html>
