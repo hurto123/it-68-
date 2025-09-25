@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.02",
-  "updated_at": "2025-10-02",
+  "version": "2025.10.05",
+  "updated_at": "2025-10-05",
   "lessons": [
     {
       "id": "lesson01",
@@ -364,5 +364,162 @@
       }
     }
   ],
-  "notes": "อัปเดตสูตร Bernoulli/Hypergeometric/Normal พร้อม metadata และปรับ index/formula manifest ให้สอดคล้อง"
+  "supplements": [
+    {
+      "id": "summary-lesson11-22-compilation",
+      "title": "รวมสรุปบทที่ 11–22",
+      "version": "1.0.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson11-22.html",
+        "summary-lesson11.html",
+        "summary-lesson12.html",
+        "summary-lesson13.html",
+        "summary-lesson14.html",
+        "summary-lesson15.html",
+        "summary-lesson16.html",
+        "summary-lesson17.html",
+        "summary-lesson18.html",
+        "summary-lesson19.html",
+        "summary-lesson20.html",
+        "summary-lesson21.html",
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson11",
+      "title": "สรุปบทที่ 11 — รู้จักการประมาณค่า",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson11.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson12",
+      "title": "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson12.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson13",
+      "title": "สรุปบทที่ 13 — การประมาณค่าเฉลี่ย 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson13.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson14",
+      "title": "สรุปบทที่ 14 — การประมาณค่าสัดส่วน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson14.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson15",
+      "title": "สรุปบทที่ 15 — การประมาณค่าผลต่างสองกลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson15.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson16",
+      "title": "สรุปบทที่ 16 — การคำนวณขนาดตัวอย่าง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson16.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson17",
+      "title": "สรุปบทที่ 17 — พื้นฐานการทดสอบสมมติฐาน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson17.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson18",
+      "title": "สรุปบทที่ 18 — ประเภทของการทดสอบตามทิศทาง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson18.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson19",
+      "title": "สรุปบทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson19.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson20",
+      "title": "สรุปบทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson20.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson21",
+      "title": "สรุปบทที่ 21 — การทดสอบผลต่างสองกลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson21.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson22",
+      "title": "สรุปบทที่ 22 — การทดสอบความแปรปรวน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    }
+  ],
+  "notes": "แยกคู่มือสรุปบทที่ 11–22 เป็นไฟล์รายบท พร้อมเพิ่มเมตาดาตาและลิงก์สำหรับหน้าแรก"
 }

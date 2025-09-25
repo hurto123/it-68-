@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รวมสรุปบทเรียน 11–22 — Estimation &amp; Inference</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      margin: 0;
+      padding: 28px 20px 48px;
+      background: #0f1117;
+      color: #eaecef;
+      font: 16px/1.65 "Noto Sans Thai", system-ui, sans-serif;
+    }
+    header {
+      max-width: 920px;
+      margin: 0 auto 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0 0 .65rem;
+      font-size: 2.15rem;
+    }
+    header p {
+      margin: 0;
+      color: #9aa0a6;
+    }
+    .toc {
+      max-width: 920px;
+      margin: 0 auto 2.25rem;
+      background: #141821;
+      border: 1px solid #242a35;
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .35);
+    }
+    .toc h2 {
+      margin: 0 0 .85rem;
+      font-size: 1.25rem;
+      color: #d9e6ff;
+    }
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: .6rem .9rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .toc-list a {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem .75rem;
+      background: rgba(79,140,255,.12);
+      border-radius: 999px;
+      color: #9fc3ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .toc-list a span:first-child {
+      color: #f0f4ff;
+      font-weight: 600;
+    }
+    .toc-list a span:last-child {
+      font-size: .9rem;
+      color: #c4d4f5;
+    }
+    .toc-list a:hover {
+      background: rgba(79,140,255,.22);
+      transform: translateY(-2px);
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      display: grid;
+      gap: 2.75rem;
+    }
+    article {
+      border: 1px solid #242a35;
+      border-radius: 18px;
+      background: #111520;
+      box-shadow: 0 18px 44px rgba(0,0,0,.42);
+      overflow: hidden;
+    }
+    article header {
+      margin: 0;
+      padding: 1.75rem 1.75rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(79,140,255,.22);
+      background: linear-gradient(180deg, rgba(79,140,255,.18), rgba(17,21,32,.9));
+    }
+    article header h2 {
+      margin: 0 0 .4rem;
+      font-size: 1.65rem;
+      color: #f0f4ff;
+    }
+    article header p {
+      margin: 0;
+      color: #b1bfda;
+    }
+    .lesson-body {
+      padding: 1.5rem;
+    }
+    .lesson-body section + section {
+      margin-top: 1.25rem;
+    }
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .95rem;
+      color: #cfe0ff;
+      background: rgba(125,146,255,.12);
+      border: 1px solid #2f3542;
+      border-radius: 999px;
+      padding: .3rem .9rem;
+      margin-top: .35rem;
+    }
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .list-tight {
+      padding-left: 1.2rem;
+    }
+    .list-tight li + li {
+      margin-top: .35rem;
+    }
+    .card {
+      background: #141821;
+      border: 1px solid #242a35;
+      border-radius: 14px;
+      padding: 1.1rem 1.35rem;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .32);
+    }
+    .card h2,
+    .card h3 {
+      margin-top: 0;
+    }
+    .formula-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: .6rem;
+      font-size: .95rem;
+    }
+    .formula-table th,
+    .formula-table td {
+      border: 1px solid rgba(79,140,255,.25);
+      padding: .55rem .65rem;
+      vertical-align: top;
+    }
+    .formula-table th {
+      background: rgba(79,140,255,.18);
+      color: #d9e6ff;
+      text-align: left;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .85rem;
+      color: #15b588;
+      background: rgba(21,181,136,.12);
+      border: 1px solid rgba(21,181,136,.4);
+      border-radius: 999px;
+      padding: .2rem .7rem;
+    }
+    .highlight {
+      background: rgba(21,181,136,.12);
+      border-left: 4px solid #15b588;
+      border-radius: 10px;
+      padding: .85rem 1rem;
+    }
+    .warn {
+      background: rgba(245,158,11,.14);
+      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      padding: .85rem 1rem;
+    }
+    .practice li + li {
+      margin-top: .65rem;
+    }
+    .practice span {
+      display: block;
+      color: #9aa0a6;
+      font-size: .88rem;
+      margin-top: .15rem;
+    }
+    .checklist li + li {
+      margin-top: .4rem;
+    }
+    .muted {
+      color: #9aa0a6;
+    }
+    .lesson-body footer {
+      margin-top: 1.5rem;
+      text-align: right;
+      color: #9aa0a6;
+      font-size: .9rem;
+    }
+    .loading,
+    .error {
+      max-width: 920px;
+      margin: 0 auto;
+      color: #9aa0a6;
+      text-align: center;
+    }
+    .loading {
+      padding: 4rem 0 3rem;
+      font-size: 1.05rem;
+    }
+    .error {
+      padding: 2rem 1rem;
+      background: rgba(245,101,101,.12);
+      border: 1px solid rgba(245,101,101,.4);
+      border-radius: 14px;
+    }
+    @media (max-width: 720px) {
+      body {
+        padding: 24px 16px 40px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .toc {
+        padding: 1.1rem 1.2rem;
+      }
+      article header {
+        padding: 1.4rem 1.2rem 1.1rem;
+      }
+      .lesson-body {
+        padding: 1.2rem 1rem 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>รวมสรุปบทเรียน 11–22</h1>
+    <p>อ่านเนื้อหา Estimation และ Hypothesis Testing ที่ขยายใหม่ทั้งหมดในหน้าเดียว — พร้อมสูตร, แบบฝึกหัด, และสรุป 1 หน้า</p>
+  </header>
+
+  <nav class="toc" aria-label="Table of contents">
+    <h2>เลือกกระโดดไปยังบทที่ต้องการ</h2>
+    <ul class="toc-list" id="toc-list"></ul>
+  </nav>
+
+  <p class="loading" id="loading">กำลังรวบรวมเนื้อหาจากบทสรุปแต่ละไฟล์…</p>
+  <div class="error" id="error" hidden>เกิดข้อผิดพลาดในการดึงบางบท กรุณารีเฟรชหน้าหรือเปิดไฟล์สรุปแยกตามบทแทน</div>
+
+  <main id="lesson-compilation" hidden></main>
+
+  <script>
+    const lessons = [
+      { id: 11, file: 'summary-lesson11.html', label: 'บทที่ 11 — การประมาณค่า' },
+      { id: 12, file: 'summary-lesson12.html', label: 'บทที่ 12 — ช่วงความเชื่อมั่น' },
+      { id: 13, file: 'summary-lesson13.html', label: 'บทที่ 13 — ค่าเฉลี่ย 1 กลุ่ม' },
+      { id: 14, file: 'summary-lesson14.html', label: 'บทที่ 14 — สัดส่วน 1 กลุ่ม' },
+      { id: 15, file: 'summary-lesson15.html', label: 'บทที่ 15 — เปรียบเทียบ 2 กลุ่ม' },
+      { id: 16, file: 'summary-lesson16.html', label: 'บทที่ 16 — ขนาดตัวอย่าง' },
+      { id: 17, file: 'summary-lesson17.html', label: 'บทที่ 17 — พื้นฐานสมมติฐาน' },
+      { id: 18, file: 'summary-lesson18.html', label: 'บทที่ 18 — ประเภทการทดสอบ' },
+      { id: 19, file: 'summary-lesson19.html', label: 'บทที่ 19 — ทดสอบค่าเฉลี่ย' },
+      { id: 20, file: 'summary-lesson20.html', label: 'บทที่ 20 — ทดสอบสัดส่วน' },
+      { id: 21, file: 'summary-lesson21.html', label: 'บทที่ 21 — เปรียบเทียบ 2 ประชากร' },
+      { id: 22, file: 'summary-lesson22.html', label: 'บทที่ 22 — ความแปรปรวน' }
+    ];
+
+    const lessonContainer = document.getElementById('lesson-compilation');
+    const tocList = document.getElementById('toc-list');
+    const loadingEl = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+
+    function buildTOC() {
+      const frag = document.createDocumentFragment();
+      lessons.forEach(lesson => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `#lesson-${lesson.id}`;
+        const number = document.createElement('span');
+        number.textContent = `บทที่ ${lesson.id}`;
+        const textNode = document.createElement('span');
+        textNode.textContent = lesson.label.replace(/^บทที่ \d+ —\s*/, '');
+        link.append(number, textNode);
+        li.appendChild(link);
+        frag.appendChild(li);
+      });
+      tocList.appendChild(frag);
+    }
+
+    async function loadLessons() {
+      buildTOC();
+      const fragment = document.createDocumentFragment();
+      let hasContent = false;
+      let hadError = false;
+      for (const lesson of lessons) {
+        try {
+          const response = await fetch(lesson.file);
+          if (!response.ok) {
+            throw new Error(`โหลดไม่สำเร็จ: ${lesson.file}`);
+          }
+          const html = await response.text();
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+          const header = doc.querySelector('header');
+          const main = doc.querySelector('main');
+          const footer = doc.querySelector('footer');
+
+          const article = document.createElement('article');
+          article.id = `lesson-${lesson.id}`;
+
+          if (header) {
+            const importedHeader = document.importNode(header, true);
+            const title = importedHeader.querySelector('h1');
+            if (title) {
+              const newTitle = document.createElement('h2');
+              newTitle.innerHTML = title.innerHTML;
+              importedHeader.replaceChild(newTitle, title);
+            }
+            article.appendChild(importedHeader);
+          } else {
+            const fallbackHeader = document.createElement('header');
+            const h2 = document.createElement('h2');
+            h2.textContent = lesson.label;
+            fallbackHeader.appendChild(h2);
+            article.appendChild(fallbackHeader);
+          }
+
+          const lessonBody = document.createElement('div');
+          lessonBody.className = 'lesson-body';
+
+          if (main) {
+            const importedMain = document.importNode(main, true);
+            Array.from(importedMain.children).forEach(section => {
+              lessonBody.appendChild(section);
+            });
+          }
+
+          if (footer) {
+            const importedFooter = document.importNode(footer, true);
+            lessonBody.appendChild(importedFooter);
+          }
+
+          article.appendChild(lessonBody);
+          fragment.appendChild(article);
+          hasContent = true;
+        } catch (err) {
+          console.error(err);
+          hadError = true;
+        }
+      }
+      if (hasContent) {
+        lessonContainer.appendChild(fragment);
+        lessonContainer.hidden = false;
+        loadingEl.hidden = true;
+        errorEl.hidden = !hadError;
+        if (window.MathJax?.typesetPromise) {
+          MathJax.typesetPromise();
+        }
+      } else {
+        loadingEl.hidden = true;
+        errorEl.hidden = false;
+      }
+    }
+
+    loadLessons();
+  </script>
+</body>
+</html>
