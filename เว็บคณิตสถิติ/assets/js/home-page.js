@@ -1,10 +1,155 @@
 import { lessons, quizzes, summaries, formulas } from '../subjects.js';
 
+const cloneItem = (item) => ({
+  ...item,
+  meta: item.meta ? { ...item.meta } : undefined
+});
+
 const dataMap = {
-  lessons,
-  quizzes,
-  summaries,
-  formulas
+  lessons: lessons.map(cloneItem),
+  quizzes: quizzes.map(cloneItem),
+  summaries: summaries.map(cloneItem),
+  formulas: formulas.map(cloneItem)
+};
+
+const manifestMetaByAsset = new Map();
+
+const addManifestMeta = (asset, meta) => {
+  if (!asset) return;
+  const existing = manifestMetaByAsset.get(asset) || {};
+  manifestMetaByAsset.set(asset, { ...existing, ...meta });
+};
+
+const ingestManifest = (manifest) => {
+  if (!manifest) return;
+  const { lessons: lessonEntries = [], formulas: formulaEntries = [], supplements = [] } = manifest;
+
+  lessonEntries.forEach((entry) => {
+    const baseMeta = {
+      version: entry.version,
+      updated_at: entry.updated_at
+    };
+    const assets = entry.assets || {};
+    addManifestMeta(assets.page, baseMeta);
+    addManifestMeta(assets.summary, baseMeta);
+    addManifestMeta(assets.quiz_config, baseMeta);
+    addManifestMeta(assets.questions, baseMeta);
+    addManifestMeta(assets.solutions, baseMeta);
+  });
+
+  formulaEntries.forEach((entry) => {
+    const baseMeta = {
+      version: entry.version,
+      updated_at: entry.updated_at
+    };
+    const assets = entry.assets || {};
+    addManifestMeta(assets.page, baseMeta);
+  });
+
+  supplements.forEach((entry) => {
+    const baseMeta = {
+      version: entry.version,
+      updated_at: entry.updated_at
+    };
+    addManifestMeta(entry.id, baseMeta);
+    const dependents = Array.isArray(entry.depends_on) ? entry.depends_on : [];
+    dependents
+      .filter((asset) => typeof asset === 'string' && asset.endsWith('.html'))
+      .forEach((asset) => addManifestMeta(asset, baseMeta));
+  });
+};
+
+const applyManifestMeta = () => {
+  Object.keys(dataMap).forEach((key) => {
+    dataMap[key] = dataMap[key].map((item) => {
+      const manifestMeta = manifestMetaByAsset.get(item.link) || manifestMetaByAsset.get(item.id);
+      if (manifestMeta) {
+        item.meta = { ...(item.meta || {}), ...manifestMeta };
+      }
+      return item;
+    });
+  });
+};
+
+const formatThaiDate = (isoDate) => {
+  if (!isoDate) return null;
+  const [year, month, day] = isoDate.split('-');
+  if (!year || !month || !day) return null;
+  const monthNames = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+  ];
+  const monthIndex = Number(month) - 1;
+  const dayNumber = Number(day);
+  if (Number.isNaN(monthIndex) || Number.isNaN(dayNumber) || !monthNames[monthIndex]) return null;
+  return `${dayNumber} ${monthNames[monthIndex]} ${year}`;
+};
+
+const updateHeroAnnouncement = (manifest) => {
+  const dateTarget = document.querySelector('[data-hero-latest-date]');
+  const versionTarget = document.querySelector('[data-hero-latest-version]');
+  if (!dateTarget && !versionTarget) return;
+
+  const inferenceIds = new Set([
+    'summary-lesson11',
+    'summary-lesson12',
+    'summary-lesson13',
+    'summary-lesson14',
+    'summary-lesson15',
+    'summary-lesson16',
+    'summary-lesson17',
+    'summary-lesson18',
+    'summary-lesson19',
+    'summary-lesson20',
+    'summary-lesson21',
+    'summary-lesson22'
+  ]);
+
+  const supplements = manifest?.supplements || [];
+  const latest = supplements
+    .filter((entry) => inferenceIds.has(entry.id) && entry.updated_at)
+    .map((entry) => ({
+      date: entry.updated_at,
+      version: entry.version
+    }))
+    .sort((a, b) => (a.date > b.date ? -1 : a.date < b.date ? 1 : 0))[0];
+
+  if (latest?.date) {
+    const thaiDate = formatThaiDate(latest.date);
+    if (thaiDate && dateTarget) {
+      dateTarget.textContent = `อัปเดตล่าสุด ${thaiDate}`;
+    }
+  } else if (dateTarget) {
+    dateTarget.textContent = 'กำลังติดตามการอัปเดตล่าสุด';
+  }
+
+  if (latest?.version && versionTarget) {
+    versionTarget.textContent = `เวอร์ชัน ${latest.version}`;
+    versionTarget.hidden = false;
+  }
+};
+
+const loadManifest = async () => {
+  try {
+    const response = await fetch('manifest.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Manifest not reachable');
+    const manifest = await response.json();
+    ingestManifest(manifest);
+    applyManifestMeta();
+    updateHeroAnnouncement(manifest);
+  } catch (error) {
+    console.warn('[home-page] Unable to load manifest metadata:', error);
+  }
 };
 
 const createCard = (item, kind) => {
@@ -168,6 +313,8 @@ const setupSearch = () => {
   initFromHash();
 };
 
-renderCards();
-setupFadeIn();
-setupSearch();
+loadManifest().finally(() => {
+  renderCards();
+  setupFadeIn();
+  setupSearch();
+});

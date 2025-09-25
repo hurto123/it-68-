@@ -397,6 +397,8 @@ input[type="search"] {
 
 .hero-updates{ margin:1.4rem 0; }
 .hero-updates .card{ display:flex; flex-direction:column; gap:.8rem; border:1px solid rgba(79,140,255,.35); }
+.hero-update__date{ font-weight:600; color:var(--accent); }
+.hero-update__version{ margin-left:.35rem; font-weight:600; color:var(--accent-2); }
 .hero-links{ display:flex; flex-wrap:wrap; gap:.6rem; }
 
 .quick-nav{ margin:1.6rem 0 0; display:grid; gap:.9rem; }

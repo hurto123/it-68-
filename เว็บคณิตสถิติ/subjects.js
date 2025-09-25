@@ -333,7 +333,7 @@ export const formulas = [
   }
 ];
 
-export const summaries = [
+const summaryBase = [
   {
     id: "inference-updates",
     title: "แฟ้มรวมไฟล์สรุปอนุมาน (11–22)",
@@ -505,18 +505,21 @@ export const summaries = [
       updated_at: "2025-10-05",
       read_time: "6 นาที"
     }
-  },
-  // สร้างสรุปรายบทจาก lessons อัตโนมัติ
-  ...lessons.map(l => ({
-    id: `${l.id}-summary`,
-    title: `สรุป 1 หน้า — ${l.title}`,
-    desc: l.desc,
-    tags: `สรุป ${l.tags}`,
-    chip: l.title.split(':')[0].replace('บทที่', 'บท').trim(),
-    link: l.summary
-  }))
+  }
 ];
 
+const autoSummaries = lessons
+  .filter((lesson) => !summaryBase.some((summary) => summary.link === lesson.summary))
+  .map((lesson) => ({
+    id: `${lesson.id}-summary`,
+    title: `สรุป 1 หน้า — ${lesson.title}`,
+    desc: lesson.desc,
+    tags: `สรุป ${lesson.tags}`,
+    chip: lesson.title.split(':')[0].replace('บทที่', 'บท').trim(),
+    link: lesson.summary
+  }));
+
+export const summaries = [...summaryBase, ...autoSummaries];
 export const quizzes = [
   {
     id: "lesson01",
