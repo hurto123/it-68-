@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="print.css" media="print">
@@ -11,6 +15,7 @@
   <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
 
   <!-- MathJax สำหรับเรนเดอร์สูตร -->
+  <script defer src="assets/js/site-core.js"></script>
   <script>
     window.MathJax = {
       tex: {inlineMath: [['\\(','\\)'], ['$', '$']]},
@@ -98,6 +103,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
   <header>
     <div class="wrap">
       <div class="brand">
@@ -126,7 +132,7 @@
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main id="main-content" class="wrap grid" role="main">
     <!-- Symbols quick table -->
     <section class="card">
       <h3>🧩 สัญลักษณ์ยอดฮิต (ใช้งานบ่อยสุด)</h3>
@@ -213,8 +219,9 @@
           <h4>ต่อเนื่อง (Continuous)</h4>
           <div class="gl-item"><span class="key">Normal</span> — โค้งระฆังคว่ำ, \( \mathcal{N}(\mu,\sigma^2) \) <span class="tag">บท 8</span></div>
           <div class="gl-item"><span class="key">Standard Normal \( Z \)</span> — \( \mu=0,\sigma=1 \) <span class="tag">บท 8</span></div>
-          <div class="gl-item"><span class="key">\(\chi^2\)</span> — ใช้อนุมานความแปรปรวน (คร่าวในบท 8.4) <span class="tag">บท 8</span></div>
-          <div class="gl-item"><span class="key">t, F</span> — อนุมานค่าเฉลี่ย/เปรียบเทียบความแปรปรวน (คร่าวในบท 8.4) <span class="tag">บท 8</span></div>
+          <div class="gl-item"><span class="key">\(\chi^2(ν)\)</span> — ผลรวมกำลังสองของ Z ใช้อนุมานความแปรปรวน <span class="tag">บท 9</span></div>
+          <div class="gl-item"><span class="key">Student's t</span> — df = n−1 ใช้อนุมานค่าเฉลี่ยเมื่อไม่รู้ σ <span class="tag">บท 9</span></div>
+          <div class="gl-item"><span class="key">F</span> — อัตราส่วนความแปรปรวน ใช้ใน ANOVA/ทดสอบสองตัวอย่าง <span class="tag">บท 9</span></div>
         </div>
         <div>
           <h4>ตัวแปรสุ่ม/ฟังก์ชัน</h4>

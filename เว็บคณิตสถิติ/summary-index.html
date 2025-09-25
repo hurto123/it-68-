@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>สารบัญสรุป 1 หน้า | คอร์สสถิติ</title>
+  <meta name="description" content="เลือกดูสรุป 1 หน้า รายบท (1–9) พร้อมปุ่มทางลัดไปบทเรียนเต็มและไฟล์รวมสำหรับพิมพ์ PDF">
+  <meta property="og:title" content="สารบัญสรุป 1 หน้า | คอร์สสถิติ">
+  <meta property="og:description" content="ค้นหาสรุปบทเรียนแบบย่อ เลือกบทแล้วเปิดสรุปหรือบทเรียนเต็มได้ทันที">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-03">
+  <meta name="doc:depends_on" content="summaries-all.html,summary-lesson01.html,summary-lesson09.html">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+
+  <style>
+    body{background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);}
+    .wrap{max-width:1020px}
+    .hero{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1rem}
+    .hero h2{margin:.2rem 0;font-size:1.8rem}
+    .hero p{margin:0;color:var(--muted)}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .searchbar{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:0 0 1rem}
+    .searchbar input[type="search"]{width:360px;max-width:100%;background:#0b0f19;border:1px solid var(--border);border-radius:10px;padding:.5rem .65rem;color:#e8e8ea}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    @media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:680px){.cards{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+    .card h3{margin:.1rem 0 .2rem;font-size:1.15rem}
+    .card p{margin:0;color:var(--muted);min-height:3.4rem}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+    .btn-link{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .85rem;border-radius:12px;border:1px solid var(--border);text-decoration:none;background:#0e1220;color:#cfe0ff;font-weight:600}
+    .btn-link.primary{background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#08101e;border:none;box-shadow:0 10px 18px rgba(79,140,255,.28)}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .55rem;border-radius:999px;background:#0e1220;color:#cfe0ff;font-size:.85rem}
+    .match{outline:2px solid #79a7ff;outline-offset:3px}
+    @media print {.toolbar,.searchbar{display:none!important}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
+<header role="banner">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>สารบัญสรุป 1 หน้า</h1>
+    </div>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="index.html">หน้าแรก</a> › <span class="muted">สรุป 1 หน้า</span>
+    </nav>
+    <div class="hero">
+      <div>
+        <h2>เลือกสรุปฉบับย่อ ก่อนสอบหรือทบทวนเร็ว ๆ 📝</h2>
+        <p>ค้นชื่อบทหรือหัวข้อ เช่น “Bayes”, “Normal”, “Sampling” แล้วเปิดสรุปหรือบทเรียนเต็มได้ทันที</p>
+      </div>
+      <div class="toolbar">
+        <a class="btn secondary" href="summaries-all.html">รวมสรุปทุกบท</a>
+        <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+      </div>
+    </div>
+    <div class="searchbar" role="search" aria-label="ค้นหาสรุป">
+      <input id="search" type="search" placeholder="ค้นหา: Normal, CLT, กฎบวก, ฮิสโทแกรม…" aria-label="กล่องค้นหาสรุป">
+      <button class="btn" id="btn-search">ค้นหา</button>
+      <button class="btn secondary" id="btn-clear">ล้าง</button>
+      <span class="muted" id="search-status" aria-live="polite"></span>
+    </div>
+  </div>
+</header>
+
+<main id="main-content" class="wrap" role="main">
+  <section class="cards" id="summary-cards" aria-label="รายชื่อสรุป 1 หน้า">
+    <article class="card" data-tags="รวม summary all pdf" data-lesson="all">
+      <div class="badge">รวม</div>
+      <h3>รวมสรุปทุกบท (1–9)</h3>
+      <p>ไฟล์เดียวจบ มีคั่นหน้าสำหรับพิมพ์หรือบันทึก PDF</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summaries-all.html">เปิดสรุป</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท1 introduction กระบวนการ descriptive inferential" data-lesson="1">
+      <div class="badge">บท 1</div>
+      <h3>บทที่ 1 — ความรู้เบื้องต้นเกี่ยวกับสถิติ</h3>
+      <p>ภาพรวม 5 ขั้นตอน, ประเภทข้อมูล และแยก Descriptive vs Inferential</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson01.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson01.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท2 การนำเสนอข้อมูล ฮิสโทแกรม ก้านใบ อนุกรมเวลา" data-lesson="2">
+      <div class="badge">บท 2</div>
+      <h3>บทที่ 2 — การนำเสนอข้อมูล</h3>
+      <p>สร้างตารางความถี่ กราฟก้าน-ใบ ฮิสโทแกรม และอ่านอนุกรมเวลา</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson02.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson02.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท3 descriptive mean median mode sd skew" data-lesson="3">
+      <div class="badge">บท 3</div>
+      <h3>บทที่ 3 — สถิติเชิงพรรณนา</h3>
+      <p>สรุปศูนย์กลาง ตำแหน่ง การกระจาย และความเบ้ พร้อมตัวอย่างคำนวณ</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson03.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson03.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท4 probability การนับ permutation combination" data-lesson="4">
+      <div class="badge">บท 4</div>
+      <h3>บทที่ 4 — ความน่าจะเป็นเบื้องต้น</h3>
+      <p>Experiment, Sample Space, กฎการนับ และสูตรเบื้องต้นของความน่าจะเป็น</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson04.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson04.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท5 conditional bayes กฎผลรวม" data-lesson="5">
+      <div class="badge">บท 5</div>
+      <h3>บทที่ 5 — ทฤษฎีความน่าจะเป็น</h3>
+      <p>Conditional Probability, กฎผลรวม, กฎของเบย์ พร้อมคำอธิบายทีละขั้น</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson05.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson05.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท6 random variable pmf pdf expected variance" data-lesson="6">
+      <div class="badge">บท 6</div>
+      <h3>บทที่ 6 — ตัวแปรสุ่ม</h3>
+      <p>นิยามตัวแปรสุ่มแบบไม่ต่อเนื่อง/ต่อเนื่อง, PMF, PDF, CDF และ E[X], Var(X)</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson06.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson06.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท7 bernoulli binomial poisson hypergeometric" data-lesson="7">
+      <div class="badge">บท 7</div>
+      <h3>บทที่ 7 — การแจกแจงไม่ต่อเนื่อง</h3>
+      <p>Bernoulli, Binomial, Poisson, Hypergeometric พร้อมตัวอย่าง PMF และสูตรสำคัญ</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson07.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson07.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท8 normal z-score empirical rule" data-lesson="8">
+      <div class="badge">บท 8</div>
+      <h3>บทที่ 8 — แจกแจงต่อเนื่อง &amp; โค้งปกติ</h3>
+      <p>โค้งปกติ, Z-score, Empirical Rule และการระบายพื้นที่ใต้โค้ง</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson08.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson08.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+    <article class="card" data-tags="บท9 sampling clt xbar phat standard error" data-lesson="9">
+      <div class="badge">บท 9</div>
+      <h3>บทที่ 9 — Sampling Distributions &amp; CLT</h3>
+      <p>ค่าเฉลี่ย/สัดส่วนตัวอย่าง, Standard Error, CLT และการใช้ Z ของตัวอย่าง</p>
+      <div class="actions">
+        <a class="btn-link primary" href="summary-lesson09.html">ดูสรุป</a>
+        <a class="btn-link" href="lesson09.html">บทเรียนเต็ม</a>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+</footer>
+
+<script defer src="assets/js/site-core.js"></script>
+  <script>
+  const searchInput = document.getElementById('search');
+  const btnSearch = document.getElementById('btn-search');
+  const btnClear = document.getElementById('btn-clear');
+  const statusEl = document.getElementById('search-status');
+  const cards = Array.from(document.querySelectorAll('#summary-cards .card'));
+
+  function norm(s){ return (s || '').toString().toLowerCase().trim(); }
+
+  function applySearch(term){
+    const raw = term ?? searchInput.value;
+    const query = norm(raw);
+    let hits = 0;
+    cards.forEach(card => {
+      card.classList.remove('match');
+      const text = norm(card.innerText + ' ' + (card.dataset.tags || ''));
+      const ok = query ? text.includes(query) : true;
+      card.style.display = ok ? '' : 'none';
+      if(ok && query){ card.classList.add('match'); hits++; }
+    });
+    if(query){
+      statusEl.textContent = `พบ ${hits} รายการสำหรับ “${raw}”`;
+      const first = document.querySelector('.card.match');
+      if(first){ first.scrollIntoView({behavior:'smooth',block:'center'}); }
+    }else{
+      statusEl.textContent = '';
+    }
+  }
+
+  function clearSearch(){
+    searchInput.value = '';
+    applySearch('');
+    if(location.hash.startsWith('#search=')){
+      history.replaceState(null,'',location.pathname + location.search);
+    }
+  }
+
+  btnSearch.addEventListener('click', ()=>applySearch());
+  btnClear.addEventListener('click', clearSearch);
+  searchInput.addEventListener('keydown', e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      applySearch();
+    }
+  });
+
+  function initFromHash(){
+    const hash = decodeURIComponent(location.hash || '');
+    if(hash.toLowerCase().startsWith('#search=')){
+      const term = hash.slice(8);
+      searchInput.value = term;
+      applySearch(term);
+    }
+  }
+
+  const observer = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],
+          {duration:420,easing:'ease-out',fill:'forwards'});
+        observer.unobserve(e.target);
+      }
+    });
+  }, {threshold:.14});
+  cards.forEach(card=>observer.observe(card));
+
+  initFromHash();
+</script>
+</body>
+</html>

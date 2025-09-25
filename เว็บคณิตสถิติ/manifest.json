@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.05",
-  "updated_at": "2025-10-05",
+  "version": "2025.10.06",
+  "updated_at": "2025-10-06",
   "lessons": [
     {
       "id": "lesson01",
@@ -250,6 +250,68 @@
       "time_limit_seconds": 900
     }
   ],
+  "practice_sets": [
+    {
+      "id": "lesson01",
+      "title": "แบบฝึกหัดบทที่ 1",
+      "page": "exercise-lesson01.html",
+      "config": "data/quiz-lesson01.json"
+    },
+    {
+      "id": "lesson02",
+      "title": "แบบฝึกหัดบทที่ 2",
+      "page": "exercise-lesson02.html",
+      "config": "data/quiz-lesson02.json"
+    },
+    {
+      "id": "lesson03",
+      "title": "แบบฝึกหัดบทที่ 3",
+      "page": "exercise-lesson03.html",
+      "config": "data/quiz-lesson03.json"
+    },
+    {
+      "id": "lesson04",
+      "title": "แบบฝึกหัดบทที่ 4",
+      "page": "exercise-lesson04.html",
+      "config": "data/quiz-lesson04.json"
+    },
+    {
+      "id": "lesson05",
+      "title": "แบบฝึกหัดบทที่ 5",
+      "page": "exercise-lesson05.html",
+      "config": "data/quiz-lesson05.json"
+    },
+    {
+      "id": "lesson06",
+      "title": "แบบฝึกหัดบทที่ 6",
+      "page": "exercise-lesson06.html",
+      "config": "data/quiz-lesson06.json"
+    },
+    {
+      "id": "lesson07",
+      "title": "แบบฝึกหัดบทที่ 7",
+      "page": "exercise-lesson07.html",
+      "config": "data/quiz-lesson07.json"
+    },
+    {
+      "id": "lesson08",
+      "title": "แบบฝึกหัดบทที่ 8",
+      "page": "exercise-lesson08.html",
+      "config": "data/quiz-lesson08.json"
+    },
+    {
+      "id": "lesson09",
+      "title": "แบบฝึกหัดบทที่ 9",
+      "page": "exercise-lesson09.html",
+      "config": "data/quiz-lesson09.json"
+    },
+    {
+      "id": "mixed",
+      "title": "แบบฝึกหัดรวมทุกบท",
+      "page": "exercise-mixed.html",
+      "config": "data/quiz-mixed.json"
+    }
+  ],
   "formulas": [
     {
       "id": "bernoulli",
@@ -348,6 +410,54 @@
       }
     },
     {
+      "id": "t",
+      "title": "t-Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/t-distribution.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
+      "id": "chi-square",
+      "title": "Chi-Square Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/chi-square.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
+      "id": "f-dist",
+      "title": "F-Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/f-distribution.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
       "id": "clt-xbar-phat",
       "title": "CLT: x̄ & p̂",
       "version": "1.0.0",
@@ -364,162 +474,55 @@
       }
     }
   ],
-  "supplements": [
+  "notes": "ยกระดับ front-end: design tokens, ฟอนต์ preload, skip link, page transition bar และสคริปต์ site-core สำหรับ prefetch",
+  "resources": [
     {
-      "id": "summary-lesson11-22-compilation",
-      "title": "รวมสรุปบทที่ 11–22",
+      "id": "summary-index",
+      "title": "สารบัญสรุป 1 หน้า",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "assets": {
+        "page": "summary-index.html"
+      },
+      "depends_on": [
+        "summaries-all.html"
+      ]
+    },
+    {
+      "id": "rubric",
+      "title": "Rubric ประเมินตนเอง",
+      "version": "1.0.0",
+      "updated_at": "2025-10-03",
+      "assets": {
+        "page": "rubric.html"
+      },
+      "depends_on": [
+        "index.html",
+        "manifest.json"
+      ]
+    },
+    {
+      "id": "site-core",
+      "title": "Site Core Enhancements",
       "version": "1.0.0",
       "updated_at": "2025-10-05",
+      "assets": {
+        "script": "assets/js/site-core.js",
+        "fonts": [
+          "assets/fonts/NotoSansThai-Regular.ttf",
+          "assets/fonts/NotoSansThai-SemiBold.ttf",
+          "assets/fonts/NotoSerifThai-Regular.woff2"
+        ],
+        "styles": [
+          "style.css",
+          "print.css"
+        ]
+      },
       "depends_on": [
-        "summary-lesson11-22.html",
-        "summary-lesson11.html",
-        "summary-lesson12.html",
-        "summary-lesson13.html",
-        "summary-lesson14.html",
-        "summary-lesson15.html",
-        "summary-lesson16.html",
-        "summary-lesson17.html",
-        "summary-lesson18.html",
-        "summary-lesson19.html",
-        "summary-lesson20.html",
-        "summary-lesson21.html",
-        "summary-lesson22.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson11",
-      "title": "สรุปบทที่ 11 — รู้จักการประมาณค่า",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson11.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson12",
-      "title": "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson12.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson13",
-      "title": "สรุปบทที่ 13 — การประมาณค่าเฉลี่ย 1 กลุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson13.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson14",
-      "title": "สรุปบทที่ 14 — การประมาณค่าสัดส่วน",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson14.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson15",
-      "title": "สรุปบทที่ 15 — การประมาณค่าผลต่างสองกลุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson15.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson16",
-      "title": "สรุปบทที่ 16 — การคำนวณขนาดตัวอย่าง",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson16.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson17",
-      "title": "สรุปบทที่ 17 — พื้นฐานการทดสอบสมมติฐาน",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson17.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson18",
-      "title": "สรุปบทที่ 18 — ประเภทของการทดสอบตามทิศทาง",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson18.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson19",
-      "title": "สรุปบทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson19.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson20",
-      "title": "สรุปบทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson20.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson21",
-      "title": "สรุปบทที่ 21 — การทดสอบผลต่างสองกลุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson21.html",
-        "assets/js/reading-tools.js",
-        "print.css"
-      ]
-    },
-    {
-      "id": "summary-lesson22",
-      "title": "สรุปบทที่ 22 — การทดสอบความแปรปรวน",
-      "version": "1.2.0",
-      "updated_at": "2025-10-05",
-      "depends_on": [
-        "summary-lesson22.html",
-        "assets/js/reading-tools.js",
-        "print.css"
+        "index.html",
+        "lesson01.html",
+        "summary-index.html"
       ]
     }
-  ],
-  "notes": "แยกคู่มือสรุปบทที่ 11–22 เป็นไฟล์รายบท พร้อมเพิ่มเมตาดาตาและลิงก์สำหรับหน้าแรก"
+  ]
 }
