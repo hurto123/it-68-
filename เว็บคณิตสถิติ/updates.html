@@ -47,6 +47,61 @@
       .file-card a {
         font-weight: 600;
       }
+      .file-preview {
+        border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow: var(--shadow-xs);
+        overflow: hidden;
+      }
+      .file-preview[open] {
+        box-shadow: var(--shadow-sm);
+      }
+      .file-preview summary {
+        list-style: none;
+        padding: var(--space-3) var(--space-4);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        align-items: baseline;
+        cursor: pointer;
+      }
+      .file-preview summary::-webkit-details-marker {
+        display: none;
+      }
+      .file-name {
+        font-weight: 600;
+      }
+      .file-note {
+        color: var(--text-subtle);
+        font-size: var(--text-sm);
+      }
+      .file-open {
+        margin-left: auto;
+        font-size: var(--text-sm);
+      }
+      .code-shell {
+        background: rgba(16, 24, 40, 0.04);
+        border-top: 1px solid rgba(16, 24, 40, 0.08);
+        padding: var(--space-4);
+        overflow-x: auto;
+      }
+      .code-shell pre {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .code-shell .code-loading {
+        color: var(--text-subtle);
+        font-size: var(--text-sm);
+      }
+      .code-error {
+        color: #b42318;
+        font-weight: 600;
+      }
       @media (max-width: 640px) {
         main {
           padding: 0 var(--space-4) var(--space-6);
@@ -213,5 +268,93 @@
         </article>
       </section>
     </main>
+    <script>
+      (() => {
+        const items = document.querySelectorAll('.file-card li');
+
+        const escapeHtml = (str) =>
+          str.replace(/[&<>"']/g, (ch) =>
+            ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch])
+          );
+
+        items.forEach((li) => {
+          const anchor = li.querySelector('a');
+          const textNodes = Array.from(li.childNodes).filter((node) => node.nodeType === Node.TEXT_NODE);
+          const noteText = textNodes
+            .map((node) => node.textContent.replace(/\s+/g, ' ').trim())
+            .filter(Boolean)
+            .join(' ');
+
+          const details = document.createElement('details');
+          details.className = 'file-preview';
+
+          if (anchor) {
+            details.dataset.source = anchor.getAttribute('href');
+          }
+
+          const summary = document.createElement('summary');
+          summary.className = 'file-summary';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'file-name';
+          nameSpan.textContent = anchor ? anchor.textContent : li.textContent.trim();
+          summary.appendChild(nameSpan);
+
+          if (noteText) {
+            const noteSpan = document.createElement('span');
+            noteSpan.className = 'file-note';
+            noteSpan.textContent = noteText;
+            summary.appendChild(noteSpan);
+          }
+
+          if (anchor) {
+            const openLink = anchor.cloneNode(true);
+            openLink.textContent = 'เปิดไฟล์';
+            openLink.classList.add('file-open');
+            openLink.setAttribute('target', '_blank');
+            openLink.setAttribute('rel', 'noopener');
+            summary.appendChild(openLink);
+          }
+
+          details.appendChild(summary);
+
+          const codeShell = document.createElement('div');
+          codeShell.className = 'code-shell';
+          codeShell.innerHTML = '<p class="code-loading">คลิกเพื่อดูโค้ดเต็ม</p>';
+          details.appendChild(codeShell);
+
+          li.innerHTML = '';
+          li.appendChild(details);
+        });
+
+        const previews = document.querySelectorAll('.file-preview[data-source]');
+        previews.forEach((details) => {
+          details.addEventListener('toggle', async () => {
+            if (!details.open || details.dataset.loaded === 'true') {
+              return;
+            }
+
+            const path = details.dataset.source;
+            const codeShell = details.querySelector('.code-shell');
+            codeShell.innerHTML = '<p class="code-loading">กำลังดึงโค้ดจาก ' + path + '...</p>';
+
+            try {
+              const response = await fetch(path);
+              if (!response.ok) {
+                throw new Error(response.status + ' ' + response.statusText);
+              }
+              const text = await response.text();
+              const pre = document.createElement('pre');
+              pre.innerHTML = escapeHtml(text);
+              codeShell.innerHTML = '';
+              codeShell.appendChild(pre);
+              details.dataset.loaded = 'true';
+            } catch (error) {
+              codeShell.innerHTML = '<p class="code-error">ไม่สามารถโหลดไฟล์ได้: ' + error.message + '</p>';
+            }
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
