@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 15 • การประมาณค่าผลต่างของสองประชากร | คอร์สสถิติ (ไทย)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="lesson-controls.js"></script>
+  <script defer src="assets/js/inference-lesson-loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson15",
+      "title": "บทที่ 15: การประมาณค่าผลต่างของสองประชากร",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson15.html",
+        "formula/ci-difference.html",
+        "data/lesson15.questions.th.json",
+        "data/lesson15.solutions.th.json",
+        "data/quiz-lesson15.json",
+        "assets/js/inference-lesson-loader.js",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["difference", "confidence-interval", "two-sample", "pooled-variance"]
+    }
+  </script>
+</head>
+<body class="lesson-body" data-lesson="lesson15">
+  <header class="lesson-header">
+    <h1 class="lesson-title">บทที่ 15 • การประมาณค่าผลต่างของสองประชากร</h1>
+    <p class="lesson-subtitle">CI ของผลต่างค่าเฉลี่ย (Z/t) และผลต่างค่าสัดส่วน พร้อมสูตร Pooled Variance</p>
+    <div class="lesson-actions-bar">
+      <a class="btn secondary" href="summary-lesson15.html">📄 สรุป 1 หน้า</a>
+      <a class="btn secondary" href="formula/ci-difference.html">🧮 สูตรผลต่างสองกลุ่ม</a>
+      <a class="btn ghost" href="quiz-lesson15.html">🧪 ทำแบบฝึกหัด</a>
+    </div>
+  </header>
+
+  <main class="lesson-main-content" role="main">
+    <section id="lesson-content" class="lesson-section">
+      <p class="muted">กำลังโหลดเนื้อหาจากสรุปบทที่ 15…</p>
+    </section>
+
+    <section class="lesson-section" id="callouts">
+      <h2>จุดสังเกตก่อนคำนวณ</h2>
+      <ul class="lesson-list-tight">
+        <li>แยกกรณีค่าเฉลี่ยสองกลุ่ม (รู้/ไม่รู้ $\sigma$) และค่าสัดส่วนสองกลุ่ม</li>
+        <li>ตรวจสอบสมมติฐานความเท่าเทียมของความแปรปรวนก่อนใช้ Pooled Variance</li>
+        <li>ระวังทิศทางของผลต่าง: $(\bar X_1 - \bar X_2)$ ต้องสอดคล้องกับคำถาม</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="practice">
+      <h2>📝 แบบฝึกหัด</h2>
+      <p>ดาวน์โหลดโจทย์และเฉลย: <code>data/lesson15.questions.th.json</code>, <code>data/lesson15.solutions.th.json</code> หรือทำผ่าน <a class="inline" href="quiz-lesson15.html">Quiz บทที่ 15</a></p>
+      <ul class="lesson-list-tight">
+        <li>Q1 — เลือกใช้สูตร Pooled vs Welch</li>
+        <li>Q2 — คำนวณ CI ของผลต่างค่าเฉลี่ย</li>
+        <li>Q3 — คำนวณ CI ของผลต่างสัดส่วน</li>
+        <li>Q4 — ตีความว่าศูนย์อยู่ในช่วงหรือไม่</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="summary">
+      <h2>📄 สรุปย่อ</h2>
+      <ul class="lesson-list-tight">
+        <li>$CI_{\mu_1-\mu_2} = (\bar X_1-\bar X_2) \pm t_{\alpha/2, df} \sqrt{S_p^2(1/n_1+1/n_2)}$</li>
+        <li>$S_p^2 = \frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}$ ใช้เมื่อสมมติฐานความแปรปรวนเท่ากันเป็นจริง</li>
+        <li>$CI_{p_1-p_2} = (\hat p_1-\hat p_2) \pm Z_{\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}}$</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lesson-footer" role="contentinfo">
+    © 2025 คอร์สสถิติ (ไทย) • บทที่ 15 การประมาณค่าผลต่างของสองประชากร
+  </footer>
+</body>
+</html>

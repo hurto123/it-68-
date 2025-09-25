@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "lesson": "lesson21",
+    "title": "บทที่ 21",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson21.html",
+      "summary-lesson21.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L21-Q-0001",
+      "type": "mcq",
+      "topic": "เลือกการทดสอบ",
+      "difficulty": 2,
+      "prompt": "ต้องการเปรียบเทียบค่าเฉลี่ยสองกลุ่มที่มีความแปรปรวนไม่เท่ากัน ควรใช้?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Pooled t"
+        },
+        {
+          "key": "B",
+          "text": "Welch t"
+        },
+        {
+          "key": "C",
+          "text": "Z-test"
+        },
+        {
+          "key": "D",
+          "text": "F-test"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "two-sample"
+      ]
+    },
+    {
+      "id": "L21-Q-0002",
+      "type": "short_answer",
+      "topic": "t-statistic",
+      "difficulty": 2,
+      "prompt": "ให้ \\(\bar X_1-\bar X_2=4.2\\), $S_p=3.5$, $n_1=n_2=18$ จงคำนวณ t (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "1.60",
+      "tags": [
+        "t-test"
+      ]
+    },
+    {
+      "id": "L21-Q-0003",
+      "type": "mcq",
+      "topic": "Difference of proportions",
+      "difficulty": 2,
+      "prompt": "ในสูตร Z-test สำหรับ $(p_1-p_2)$ ส่วนของ SE คืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "$\\sqrt{p(1-p)/n}$"
+        },
+        {
+          "key": "B",
+          "text": "$\\sqrt{\\hat p_1(1-\\hat p_1)/n_1 + \\hat p_2(1-\\hat p_2)/n_2}$"
+        },
+        {
+          "key": "C",
+          "text": "$s/\\sqrt{n}$"
+        },
+        {
+          "key": "D",
+          "text": "$\\sigma/\\sqrt{n}$"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "proportion"
+      ]
+    },
+    {
+      "id": "L21-Q-0004",
+      "type": "mcq",
+      "topic": "การตีความ",
+      "difficulty": 1,
+      "prompt": "ถ้าผลต่างที่ประมาณไว้เป็น 5 และช่วงความเชื่อมั่นไม่ครอบคลุม 0 หมายถึงอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ไม่มีความแตกต่าง"
+        },
+        {
+          "key": "B",
+          "text": "มีความแตกต่างอย่างมีนัยสำคัญ"
+        },
+        {
+          "key": "C",
+          "text": "ค่าเฉลี่ยเท่ากัน"
+        },
+        {
+          "key": "D",
+          "text": "ต้องเพิ่มตัวอย่าง"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "interpretation"
+      ]
+    }
+  ]
+}

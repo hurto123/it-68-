@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 21 • การทดสอบผลต่างสองกลุ่ม | คอร์สสถิติ (ไทย)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="lesson-controls.js"></script>
+  <script defer src="assets/js/inference-lesson-loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson21",
+      "title": "บทที่ 21: การทดสอบผลต่างสองกลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson21.html",
+        "formula/two-sample-tests.html",
+        "data/lesson21.questions.th.json",
+        "data/lesson21.solutions.th.json",
+        "data/quiz-lesson21.json",
+        "assets/js/inference-lesson-loader.js",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["two-sample", "t-test", "z-test", "pooled"]
+    }
+  </script>
+</head>
+<body class="lesson-body" data-lesson="lesson21">
+  <header class="lesson-header">
+    <h1 class="lesson-title">บทที่ 21 • การทดสอบผลต่างสองกลุ่ม</h1>
+    <p class="lesson-subtitle">ตัดสินใจใช้ t-test (pooled/Welch) สำหรับค่าเฉลี่ย และ Z-test สำหรับสัดส่วนสองกลุ่ม</p>
+    <div class="lesson-actions-bar">
+      <a class="btn secondary" href="summary-lesson21.html">📄 สรุป 1 หน้า</a>
+      <a class="btn secondary" href="formula/two-sample-tests.html">🧮 สูตรการทดสอบสองกลุ่ม</a>
+      <a class="btn ghost" href="quiz-lesson21.html">🧪 ทำแบบฝึกหัด</a>
+    </div>
+  </header>
+
+  <main class="lesson-main-content" role="main">
+    <section id="lesson-content" class="lesson-section">
+      <p class="muted">กำลังโหลดเนื้อหาจากสรุปบทที่ 21…</p>
+    </section>
+
+    <section class="lesson-section" id="key-points">
+      <h2>จุดสำคัญ</h2>
+      <ul class="lesson-list-tight">
+        <li>ตรวจสอบความเท่าเทียมของความแปรปรวนก่อนเลือก Pooled หรือ Welch</li>
+        <li>สำหรับสัดส่วน ใช้สูตร Z-test ที่คล้ายกับ CI ของ $p_1 - p_2$</li>
+        <li>ให้ความสำคัญกับทิศทางของสมมติฐาน (เช่น ผลต่าง &gt; 0 หรือ ≠ 0)</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="practice">
+      <h2>📝 แบบฝึกหัด</h2>
+      <p>ไฟล์ <code>data/lesson21.questions.th.json</code>, <code>data/lesson21.solutions.th.json</code> หรือ <a class="inline" href="quiz-lesson21.html">Quiz บทที่ 21</a></p>
+      <ul class="lesson-list-tight">
+        <li>Q1 — เลือกใช้ Pooled vs Welch</li>
+        <li>Q2 — คำนวณสถิติทดสอบผลต่างค่าเฉลี่ย</li>
+        <li>Q3 — คำนวณ Z-test สำหรับผลต่างสัดส่วน</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="summary">
+      <h2>📄 สรุปย่อ</h2>
+      <ul class="lesson-list-tight">
+        <li>ตั้ง $H_0: \mu_1 - \mu_2 = 0$ หรือ $p_1 - p_2 = 0$</li>
+        <li>ใช้ $S_p^2$ เฉพาะกรณีสมมติฐานความแปรปรวนเท่ากันเป็นจริง</li>
+        <li>ตีความผลลัพธ์พร้อมช่วงความเชื่อมั่นประกอบเพื่อดูทิศทาง</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lesson-footer" role="contentinfo">
+    © 2025 คอร์สสถิติ (ไทย) • บทที่ 21 การทดสอบผลต่างสองกลุ่ม
+  </footer>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 20 • การทดสอบสัดส่วน 1 กลุ่ม | คอร์สสถิติ (ไทย)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="lesson-controls.js"></script>
+  <script defer src="assets/js/inference-lesson-loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson20",
+      "title": "บทที่ 20: การทดสอบสัดส่วน 1 กลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson20.html",
+        "formula/proportion-test.html",
+        "data/lesson20.questions.th.json",
+        "data/lesson20.solutions.th.json",
+        "data/quiz-lesson20.json",
+        "assets/js/inference-lesson-loader.js",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["proportion", "z-test", "one-sample"]
+    }
+  </script>
+</head>
+<body class="lesson-body" data-lesson="lesson20">
+  <header class="lesson-header">
+    <h1 class="lesson-title">บทที่ 20 • การทดสอบสัดส่วน 1 กลุ่ม</h1>
+    <p class="lesson-subtitle">ใช้ Z-test เปรียบเทียบสัดส่วนประชากรกับค่าที่ตั้งสมมติฐาน</p>
+    <div class="lesson-actions-bar">
+      <a class="btn secondary" href="summary-lesson20.html">📄 สรุป 1 หน้า</a>
+      <a class="btn secondary" href="formula/proportion-test.html">🧮 สูตร Z-test สำหรับสัดส่วน</a>
+      <a class="btn ghost" href="quiz-lesson20.html">🧪 ทำแบบฝึกหัด</a>
+    </div>
+  </header>
+
+  <main class="lesson-main-content" role="main">
+    <section id="lesson-content" class="lesson-section">
+      <p class="muted">กำลังโหลดเนื้อหาจากสรุปบทที่ 20…</p>
+    </section>
+
+    <section class="lesson-section" id="formula">
+      <h2>สูตรทดสอบ</h2>
+      <div class="lesson-formula-box">
+        <p>\[ Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \]</p>
+      </div>
+      <div class="lesson-callout warn">ตรวจเงื่อนไข $np_0$ และ $n(1-p_0)$ ≥ 10 เพื่อให้การประมาณแบบปกติใช้ได้</div>
+    </section>
+
+    <section class="lesson-section" id="practice">
+      <h2>📝 แบบฝึกหัด</h2>
+      <p>ไฟล์ <code>data/lesson20.questions.th.json</code>, <code>data/lesson20.solutions.th.json</code> หรือ <a class="inline" href="quiz-lesson20.html">Quiz บทที่ 20</a></p>
+      <ul class="lesson-list-tight">
+        <li>Q1 — ตรวจเงื่อนไขก่อนใช้ Z-test</li>
+        <li>Q2 — คำนวณสถิติทดสอบและ p-value</li>
+        <li>Q3 — สรุปผลในบริบททางธุรกิจหรือโพล</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="summary">
+      <h2>📄 สรุปย่อ</h2>
+      <ul class="lesson-list-tight">
+        <li>ตั้ง $H_0: p = p_0$ และ $H_1$ ตามทิศทางที่สนใจ</li>
+        <li>ใช้ $p_0$ ในส่วนของ SE ตามสูตร ไม่ใช้ $\hat p$</li>
+        <li>รายงานผลพร้อมค่า p-value และช่วงความเชื่อมั่นประกอบ</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lesson-footer" role="contentinfo">
+    © 2025 คอร์สสถิติ (ไทย) • บทที่ 20 การทดสอบสัดส่วน 1 กลุ่ม
+  </footer>
+</body>
+</html>

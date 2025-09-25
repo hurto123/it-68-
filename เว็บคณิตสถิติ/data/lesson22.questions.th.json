@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "lesson": "lesson22",
+    "title": "บทที่ 22",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson22.html",
+      "summary-lesson22.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L22-Q-0001",
+      "type": "mcq",
+      "topic": "เลือกการทดสอบ",
+      "difficulty": 1,
+      "prompt": "การทดสอบความแปรปรวนของกลุ่มเดียวใช้สถิติใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "F"
+        },
+        {
+          "key": "B",
+          "text": "t"
+        },
+        {
+          "key": "C",
+          "text": "Chi-square"
+        },
+        {
+          "key": "D",
+          "text": "Z"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "variance",
+        "chi-square"
+      ]
+    },
+    {
+      "id": "L22-Q-0002",
+      "type": "short_answer",
+      "topic": "Chi-square",
+      "difficulty": 2,
+      "prompt": "ให้ $n=12$, $s^2=18$, $\\sigma_0^2=15$ จงหาค่า \\(\\chi^2\\) (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "13.20",
+      "tags": [
+        "chi-square"
+      ]
+    },
+    {
+      "id": "L22-Q-0003",
+      "type": "mcq",
+      "topic": "F-test",
+      "difficulty": 1,
+      "prompt": "ใน F-test ควรจัดให้ $s_1^2$ เป็นอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ค่าที่น้อยกว่า"
+        },
+        {
+          "key": "B",
+          "text": "ค่าที่มากกว่า"
+        },
+        {
+          "key": "C",
+          "text": "ค่าเฉลี่ย"
+        },
+        {
+          "key": "D",
+          "text": "ไม่สำคัญ"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "f-test"
+      ]
+    },
+    {
+      "id": "L22-Q-0004",
+      "type": "short_answer",
+      "topic": "Degrees of Freedom",
+      "difficulty": 1,
+      "prompt": "F-test ที่เปรียบเทียบสองกลุ่ม ขนาด 16 และ 14 ตัวอย่าง มี df1 และ df2 เท่าไร (ตอบรูปแบบ a,b)",
+      "answer": "15,13",
+      "tags": [
+        "f-test",
+        "df"
+      ]
+    }
+  ]
+}

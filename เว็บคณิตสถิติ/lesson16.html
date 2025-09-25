@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 16 • การคำนวณขนาดตัวอย่าง | คอร์สสถิติ (ไทย)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="lesson-controls.js"></script>
+  <script defer src="assets/js/inference-lesson-loader.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson16",
+      "title": "บทที่ 16: การคำนวณขนาดตัวอย่าง",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson16.html",
+        "formula/sample-size.html",
+        "data/lesson16.questions.th.json",
+        "data/lesson16.solutions.th.json",
+        "data/quiz-lesson16.json",
+        "assets/js/inference-lesson-loader.js",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["sample-size", "planning", "margin-of-error"]
+    }
+  </script>
+</head>
+<body class="lesson-body" data-lesson="lesson16">
+  <header class="lesson-header">
+    <h1 class="lesson-title">บทที่ 16 • การคำนวณขนาดตัวอย่าง</h1>
+    <p class="lesson-subtitle">เลือกจำนวนตัวอย่างเพื่อควบคุม Margin of Error สำหรับค่าเฉลี่ยและสัดส่วน</p>
+    <div class="lesson-actions-bar">
+      <a class="btn secondary" href="summary-lesson16.html">📄 สรุป 1 หน้า</a>
+      <a class="btn secondary" href="formula/sample-size.html">🧮 สูตรขนาดตัวอย่าง</a>
+      <a class="btn ghost" href="quiz-lesson16.html">🧪 ทำแบบฝึกหัด</a>
+    </div>
+  </header>
+
+  <main class="lesson-main-content" role="main">
+    <section id="lesson-content" class="lesson-section">
+      <p class="muted">กำลังโหลดเนื้อหาจากสรุปบทที่ 16…</p>
+    </section>
+
+    <section class="lesson-section" id="key-formula">
+      <h2>สูตรหลัก</h2>
+      <div class="lesson-formula-box">
+        <p>\[ n_{\mu} = \left( \frac{Z_{\alpha/2} \sigma}{E} \right)^2 \quad ; \quad n_{p} = \frac{Z_{\alpha/2}^2 p(1-p)}{E^2} \]</p>
+      </div>
+      <div class="lesson-callout warn">หากไม่รู้ $p$ ให้ใช้ $p = 0.5$ เพื่อให้ได้ขนาดตัวอย่างสูงสุด (แผนอนุรักษ์นิยม)</div>
+    </section>
+
+    <section class="lesson-section" id="practice">
+      <h2>📝 แบบฝึกหัด</h2>
+      <p>ใช้ไฟล์ <code>data/lesson16.questions.th.json</code> และ <code>data/lesson16.solutions.th.json</code> หรือทำ <a class="inline" href="quiz-lesson16.html">Quiz บทที่ 16</a></p>
+      <ul class="lesson-list-tight">
+        <li>Q1 — คำนวณ $n$ สำหรับค่าเฉลี่ยเมื่อกำหนด Margin of Error</li>
+        <li>Q2 — คำนวณ $n$ สำหรับสัดส่วนพร้อม $p^*$</li>
+        <li>Q3 — วิเคราะห์ผลกระทบของการเพิ่มระดับความเชื่อมั่นต่อ $n$</li>
+        <li>Q4 — วางแผน Pilot Study เพื่อตีค่า $\sigma$ หรือ $p$</li>
+      </ul>
+    </section>
+
+    <section class="lesson-section" id="summary">
+      <h2>📄 สรุปย่อ</h2>
+      <ul class="lesson-list-tight">
+        <li>Margin of Error (E) ยิ่งเล็ก ต้องใช้ $n$ ใหญ่ขึ้นแบบกำลังสอง</li>
+        <li>การเพิ่มระดับความเชื่อมั่น (เพิ่ม $Z_{\alpha/2}$) ทำให้ $n$ เพิ่ม</li>
+        <li>ใช้ Pilot Study หรือข้อมูลในอดีตเพื่อประเมิน $\sigma$ หรือ $p$ ก่อนคำนวณ</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lesson-footer" role="contentinfo">
+    © 2025 คอร์สสถิติ (ไทย) • บทที่ 16 การคำนวณขนาดตัวอย่าง
+  </footer>
+</body>
+</html>

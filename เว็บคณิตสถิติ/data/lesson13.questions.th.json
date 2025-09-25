@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "lesson": "lesson13",
+    "title": "บทที่ 13",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson13.html",
+      "summary-lesson13.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L13-Q-0001",
+      "type": "mcq",
+      "topic": "เลือกสูตร",
+      "difficulty": 1,
+      "prompt": "ถ้าไม่ทราบค่า σ และมีตัวอย่าง 25 ตัวเลือกใช้สูตรใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Z-interval"
+        },
+        {
+          "key": "B",
+          "text": "t-interval"
+        },
+        {
+          "key": "C",
+          "text": "Chi-square interval"
+        },
+        {
+          "key": "D",
+          "text": "F-interval"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "ci",
+        "mean"
+      ]
+    },
+    {
+      "id": "L13-Q-0002",
+      "type": "short_answer",
+      "topic": "CI Known Sigma",
+      "difficulty": 2,
+      "prompt": "ให้ \\(\bar X=52\\), $\\sigma=8$, $n=36$, ระดับเชื่อมั่น 95% จงหาช่วงความเชื่อมั่นล่าง (ตอบทศนิยม 2 ตำแหน่ง)",
+      "answer": "49.39",
+      "tags": [
+        "ci",
+        "z"
+      ]
+    },
+    {
+      "id": "L13-Q-0003",
+      "type": "mcq",
+      "topic": "t-distribution",
+      "difficulty": 2,
+      "prompt": "ค่า degrees of freedom (df) สำหรับตัวอย่าง 18 ตัวคือเท่าไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "17"
+        },
+        {
+          "key": "B",
+          "text": "18"
+        },
+        {
+          "key": "C",
+          "text": "19"
+        },
+        {
+          "key": "D",
+          "text": "36"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "t-distribution"
+      ]
+    },
+    {
+      "id": "L13-Q-0004",
+      "type": "short_answer",
+      "topic": "Interpretation",
+      "difficulty": 2,
+      "prompt": "สรุปความหมายของช่วง 99% CI = (6.3, 7.8) ในประโยคสั้น ๆ (ตอบเป็นภาษาไทยไม่เกิน 25 คำ)",
+      "answer": "เชื่อมั่น 99% ว่าค่าเฉลี่ยประชากรอยู่ระหว่าง 6.3 ถึง 7.8",
+      "tags": [
+        "interpretation"
+      ]
+    }
+  ]
+}

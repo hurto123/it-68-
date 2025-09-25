@@ -1,7 +1,7 @@
 {
   "project": "เว็บคณิตสถิติ",
-  "version": "2025.10.02",
-  "updated_at": "2025-10-02",
+  "version": "2025.10.07",
+  "updated_at": "2025-10-07",
   "lessons": [
     {
       "id": "lesson01",
@@ -176,6 +176,300 @@
         "solutions": "data/lesson09.solutions.th.json",
         "quiz_config": "data/quiz-lesson09.json"
       }
+    },
+    {
+      "id": "lesson11",
+      "title": "บทที่ 11: รู้จักการประมาณค่า",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson11.html",
+        "data/lesson11.questions.th.json",
+        "data/lesson11.solutions.th.json",
+        "data/quiz-lesson11.json",
+        "formula/ci-structure.html",
+        "assets/js/reading-tools.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson11.html",
+        "summary": "summary-lesson11.html",
+        "questions": "data/lesson11.questions.th.json",
+        "solutions": "data/lesson11.solutions.th.json",
+        "quiz_config": "data/quiz-lesson11.json"
+      }
+    },
+    {
+      "id": "lesson12",
+      "title": "บทที่ 12: หัวใจของการประมาณค่าแบบช่วง",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson12.html",
+        "data/lesson12.questions.th.json",
+        "data/lesson12.solutions.th.json",
+        "data/quiz-lesson12.json",
+        "formula/ci-structure.html",
+        "assets/js/reading-tools.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson12.html",
+        "summary": "summary-lesson12.html",
+        "questions": "data/lesson12.questions.th.json",
+        "solutions": "data/lesson12.solutions.th.json",
+        "quiz_config": "data/quiz-lesson12.json"
+      }
+    },
+    {
+      "id": "lesson13",
+      "title": "บทที่ 13: การประมาณค่าเฉลี่ย 1 กลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson13.html",
+        "data/lesson13.questions.th.json",
+        "data/lesson13.solutions.th.json",
+        "data/quiz-lesson13.json",
+        "formula/ci-mean.html",
+        "assets/js/reading-tools.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson13.html",
+        "summary": "summary-lesson13.html",
+        "questions": "data/lesson13.questions.th.json",
+        "solutions": "data/lesson13.solutions.th.json",
+        "quiz_config": "data/quiz-lesson13.json"
+      }
+    },
+    {
+      "id": "lesson14",
+      "title": "บทที่ 14: การประมาณค่าสัดส่วนประชากรเดียว",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson14.html",
+        "data/lesson14.questions.th.json",
+        "data/lesson14.solutions.th.json",
+        "data/quiz-lesson14.json",
+        "formula/ci-proportion.html",
+        "assets/js/reading-tools.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson14.html",
+        "summary": "summary-lesson14.html",
+        "questions": "data/lesson14.questions.th.json",
+        "solutions": "data/lesson14.solutions.th.json",
+        "quiz_config": "data/quiz-lesson14.json"
+      }
+    },
+    {
+      "id": "lesson15",
+      "title": "บทที่ 15: การประมาณค่าผลต่างของสองประชากร",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson15.html",
+        "data/lesson15.questions.th.json",
+        "data/lesson15.solutions.th.json",
+        "data/quiz-lesson15.json",
+        "formula/ci-difference.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson15.html",
+        "summary": "summary-lesson15.html",
+        "questions": "data/lesson15.questions.th.json",
+        "solutions": "data/lesson15.solutions.th.json",
+        "quiz_config": "data/quiz-lesson15.json"
+      }
+    },
+    {
+      "id": "lesson16",
+      "title": "บทที่ 16: การคำนวณขนาดตัวอย่าง",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson16.html",
+        "data/lesson16.questions.th.json",
+        "data/lesson16.solutions.th.json",
+        "data/quiz-lesson16.json",
+        "formula/sample-size.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson16.html",
+        "summary": "summary-lesson16.html",
+        "questions": "data/lesson16.questions.th.json",
+        "solutions": "data/lesson16.solutions.th.json",
+        "quiz_config": "data/quiz-lesson16.json"
+      }
+    },
+    {
+      "id": "lesson17",
+      "title": "บทที่ 17: พื้นฐานการทดสอบสมมติฐาน",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson17.html",
+        "data/lesson17.questions.th.json",
+        "data/lesson17.solutions.th.json",
+        "data/quiz-lesson17.json",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson17.html",
+        "summary": "summary-lesson17.html",
+        "questions": "data/lesson17.questions.th.json",
+        "solutions": "data/lesson17.solutions.th.json",
+        "quiz_config": "data/quiz-lesson17.json"
+      }
+    },
+    {
+      "id": "lesson18",
+      "title": "บทที่ 18: ประเภทของการทดสอบตามทิศทาง",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson18.html",
+        "data/lesson18.questions.th.json",
+        "data/lesson18.solutions.th.json",
+        "data/quiz-lesson18.json",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson18.html",
+        "summary": "summary-lesson18.html",
+        "questions": "data/lesson18.questions.th.json",
+        "solutions": "data/lesson18.solutions.th.json",
+        "quiz_config": "data/quiz-lesson18.json"
+      }
+    },
+    {
+      "id": "lesson19",
+      "title": "บทที่ 19: การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson19.html",
+        "data/lesson19.questions.th.json",
+        "data/lesson19.solutions.th.json",
+        "data/quiz-lesson19.json",
+        "formula/mean-tests.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson19.html",
+        "summary": "summary-lesson19.html",
+        "questions": "data/lesson19.questions.th.json",
+        "solutions": "data/lesson19.solutions.th.json",
+        "quiz_config": "data/quiz-lesson19.json"
+      }
+    },
+    {
+      "id": "lesson20",
+      "title": "บทที่ 20: การทดสอบสัดส่วน 1 กลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson20.html",
+        "data/lesson20.questions.th.json",
+        "data/lesson20.solutions.th.json",
+        "data/quiz-lesson20.json",
+        "formula/proportion-test.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson20.html",
+        "summary": "summary-lesson20.html",
+        "questions": "data/lesson20.questions.th.json",
+        "solutions": "data/lesson20.solutions.th.json",
+        "quiz_config": "data/quiz-lesson20.json"
+      }
+    },
+    {
+      "id": "lesson21",
+      "title": "บทที่ 21: การทดสอบผลต่างสองกลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson21.html",
+        "data/lesson21.questions.th.json",
+        "data/lesson21.solutions.th.json",
+        "data/quiz-lesson21.json",
+        "formula/two-sample-tests.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson21.html",
+        "summary": "summary-lesson21.html",
+        "questions": "data/lesson21.questions.th.json",
+        "solutions": "data/lesson21.solutions.th.json",
+        "quiz_config": "data/quiz-lesson21.json"
+      }
+    },
+    {
+      "id": "lesson22",
+      "title": "บทที่ 22: การทดสอบเกี่ยวกับความแปรปรวน",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson22.html",
+        "data/lesson22.questions.th.json",
+        "data/lesson22.solutions.th.json",
+        "data/quiz-lesson22.json",
+        "formula/variance-tests.html",
+        "assets/js/reading-tools.js",
+        "assets/js/inference-lesson-loader.js",
+        "lesson-controls.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson22.html",
+        "summary": "summary-lesson22.html",
+        "questions": "data/lesson22.questions.th.json",
+        "solutions": "data/lesson22.solutions.th.json",
+        "quiz_config": "data/quiz-lesson22.json"
+      }
     }
   ],
   "quizzes": [
@@ -243,6 +537,90 @@
       "time_limit_seconds": 720
     },
     {
+      "id": "lesson11",
+      "title": "Quiz บทที่ 11",
+      "config": "data/quiz-lesson11.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson12",
+      "title": "Quiz บทที่ 12",
+      "config": "data/quiz-lesson12.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson13",
+      "title": "Quiz บทที่ 13",
+      "config": "data/quiz-lesson13.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson14",
+      "title": "Quiz บทที่ 14",
+      "config": "data/quiz-lesson14.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson15",
+      "title": "Quiz บทที่ 15",
+      "config": "data/quiz-lesson15.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson16",
+      "title": "Quiz บทที่ 16",
+      "config": "data/quiz-lesson16.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson17",
+      "title": "Quiz บทที่ 17",
+      "config": "data/quiz-lesson17.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson18",
+      "title": "Quiz บทที่ 18",
+      "config": "data/quiz-lesson18.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson19",
+      "title": "Quiz บทที่ 19",
+      "config": "data/quiz-lesson19.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson20",
+      "title": "Quiz บทที่ 20",
+      "config": "data/quiz-lesson20.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson21",
+      "title": "Quiz บทที่ 21",
+      "config": "data/quiz-lesson21.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
+      "id": "lesson22",
+      "title": "Quiz บทที่ 22",
+      "config": "data/quiz-lesson22.json",
+      "items_per_quiz": 5,
+      "time_limit_seconds": 720
+    },
+    {
       "id": "mixed",
       "title": "Quiz รวมทุกบท",
       "config": "data/quiz-mixed.json",
@@ -284,6 +662,98 @@
       }
     },
     {
+      "id": "ci-difference",
+      "title": "CI สำหรับผลต่างสองกลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/ci-difference.html",
+        "summary-lesson15.html",
+        "lesson15.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/ci-difference.html",
+        "lesson": "lesson15.html",
+        "summary": "summary-lesson15.html"
+      }
+    },
+    {
+      "id": "ci-mean",
+      "title": "CI สำหรับค่าเฉลี่ย (รู้/ไม่รู้ σ)",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/ci-mean.html",
+        "summary-lesson13.html",
+        "lesson13.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/ci-mean.html",
+        "lesson": "lesson13.html",
+        "summary": "summary-lesson13.html"
+      }
+    },
+    {
+      "id": "ci-proportion",
+      "title": "CI สำหรับสัดส่วน",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/ci-proportion.html",
+        "summary-lesson14.html",
+        "lesson14.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/ci-proportion.html",
+        "lesson": "lesson14.html",
+        "summary": "summary-lesson14.html"
+      }
+    },
+    {
+      "id": "ci-structure",
+      "title": "Confidence Interval Anatomy",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/ci-structure.html",
+        "summary-lesson12.html",
+        "lesson12.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/ci-structure.html",
+        "lesson": "lesson12.html",
+        "summary": "summary-lesson12.html"
+      }
+    },
+    {
+      "id": "clt-xbar-phat",
+      "title": "CLT: x̄ & p̂",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson09.html",
+        "summary-lesson09.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/clt-xbar-phat.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
+    },
+    {
       "id": "hypergeometric",
       "title": "Hypergeometric Distribution",
       "version": "1.0.0",
@@ -300,19 +770,22 @@
       }
     },
     {
-      "id": "poisson",
-      "title": "Poisson Distribution",
-      "version": "1.0.0",
-      "updated_at": "2025-09-24",
+      "id": "mean-tests",
+      "title": "Z/t-test สำหรับค่าเฉลี่ย",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
       "depends_on": [
-        "lesson07.html",
-        "summary-lesson07.html",
-        "glossary.html#gl-dist"
+        "formula/mean-tests.html",
+        "summary-lesson19.html",
+        "lesson19.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
       ],
       "assets": {
-        "page": "formula/poisson.html",
-        "lesson": "lesson07.html",
-        "summary": "summary-lesson07.html"
+        "page": "formula/mean-tests.html",
+        "lesson": "lesson19.html",
+        "summary": "summary-lesson19.html"
       }
     },
     {
@@ -332,6 +805,98 @@
       }
     },
     {
+      "id": "poisson",
+      "title": "Poisson Distribution",
+      "version": "1.0.0",
+      "updated_at": "2025-09-24",
+      "depends_on": [
+        "lesson07.html",
+        "summary-lesson07.html",
+        "glossary.html#gl-dist"
+      ],
+      "assets": {
+        "page": "formula/poisson.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
+    },
+    {
+      "id": "proportion-test",
+      "title": "Z-test สำหรับสัดส่วน",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/proportion-test.html",
+        "summary-lesson20.html",
+        "lesson20.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/proportion-test.html",
+        "lesson": "lesson20.html",
+        "summary": "summary-lesson20.html"
+      }
+    },
+    {
+      "id": "sample-size",
+      "title": "Sample Size Planner",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/sample-size.html",
+        "summary-lesson16.html",
+        "lesson16.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/sample-size.html",
+        "lesson": "lesson16.html",
+        "summary": "summary-lesson16.html"
+      }
+    },
+    {
+      "id": "two-sample-tests",
+      "title": "ทดสอบผลต่างสองกลุ่ม",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/two-sample-tests.html",
+        "summary-lesson21.html",
+        "lesson21.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/two-sample-tests.html",
+        "lesson": "lesson21.html",
+        "summary": "summary-lesson21.html"
+      }
+    },
+    {
+      "id": "variance-tests",
+      "title": "Chi-square & F-test",
+      "version": "2.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "formula/variance-tests.html",
+        "summary-lesson22.html",
+        "lesson22.html",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "formula/variance-tests.html",
+        "lesson": "lesson22.html",
+        "summary": "summary-lesson22.html"
+      }
+    },
+    {
       "id": "z-score",
       "title": "Z-Score",
       "version": "1.0.0",
@@ -346,23 +911,176 @@
         "lesson": "lesson08.html",
         "summary": "summary-lesson08.html"
       }
-    },
-    {
-      "id": "clt-xbar-phat",
-      "title": "CLT: x̄ & p̂",
-      "version": "1.0.0",
-      "updated_at": "2025-09-24",
-      "depends_on": [
-        "lesson09.html",
-        "summary-lesson09.html",
-        "glossary.html#gl-dist"
-      ],
-      "assets": {
-        "page": "formula/clt-xbar-phat.html",
-        "lesson": "lesson09.html",
-        "summary": "summary-lesson09.html"
-      }
     }
   ],
-  "notes": "อัปเดตสูตร Bernoulli/Hypergeometric/Normal พร้อม metadata และปรับ index/formula manifest ให้สอดคล้อง"
+  "supplements": [
+    {
+      "id": "inference-update-rollup",
+      "title": "แฟ้มรวมไฟล์ที่แก้ไข/สร้างใหม่ (บท 11–22)",
+      "version": "1.0.0",
+      "updated_at": "2025-10-06",
+      "depends_on": [
+        "updates.html",
+        "subjects.js",
+        "assets/js/home-page.js",
+        "manifest.json"
+      ]
+    },
+    {
+      "id": "summary-lesson11-22-compilation",
+      "title": "รวมสรุปบทที่ 11–22",
+      "version": "1.0.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson11-22.html",
+        "summary-lesson11.html",
+        "summary-lesson12.html",
+        "summary-lesson13.html",
+        "summary-lesson14.html",
+        "summary-lesson15.html",
+        "summary-lesson16.html",
+        "summary-lesson17.html",
+        "summary-lesson18.html",
+        "summary-lesson19.html",
+        "summary-lesson20.html",
+        "summary-lesson21.html",
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson11",
+      "title": "สรุปบทที่ 11 — รู้จักการประมาณค่า",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson11.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson12",
+      "title": "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson12.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson13",
+      "title": "สรุปบทที่ 13 — การประมาณค่าเฉลี่ย 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson13.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson14",
+      "title": "สรุปบทที่ 14 — การประมาณค่าสัดส่วน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson14.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson15",
+      "title": "สรุปบทที่ 15 — การประมาณค่าผลต่างสองกลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson15.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson16",
+      "title": "สรุปบทที่ 16 — การคำนวณขนาดตัวอย่าง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson16.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson17",
+      "title": "สรุปบทที่ 17 — พื้นฐานการทดสอบสมมติฐาน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson17.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson18",
+      "title": "สรุปบทที่ 18 — ประเภทของการทดสอบตามทิศทาง",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson18.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson19",
+      "title": "สรุปบทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson19.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson20",
+      "title": "สรุปบทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson20.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson21",
+      "title": "สรุปบทที่ 21 — การทดสอบผลต่างสองกลุ่ม",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson21.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    },
+    {
+      "id": "summary-lesson22",
+      "title": "สรุปบทที่ 22 — การทดสอบความแปรปรวน",
+      "version": "1.2.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "print.css"
+      ]
+    }
+  ],
+  "notes": "แยกคู่มือสรุปบทที่ 11–22 เป็นไฟล์รายบท พร้อมเพิ่มเมตาดาตาและลิงก์สำหรับหน้าแรก"
 }

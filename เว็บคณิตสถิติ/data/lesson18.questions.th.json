@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "lesson": "lesson18",
+    "title": "บทที่ 18",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson18.html",
+      "summary-lesson18.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L18-Q-0001",
+      "type": "mcq",
+      "topic": "Test Direction",
+      "difficulty": 1,
+      "prompt": "หาก $H_1: \\mu > 70$ การทดสอบเป็นแบบใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "สองทาง"
+        },
+        {
+          "key": "B",
+          "text": "ทางซ้าย"
+        },
+        {
+          "key": "C",
+          "text": "ทางขวา"
+        },
+        {
+          "key": "D",
+          "text": "ไม่สามารถระบุได้"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "tail"
+      ]
+    },
+    {
+      "id": "L18-Q-0002",
+      "type": "mcq",
+      "topic": "Rejection Region",
+      "difficulty": 2,
+      "prompt": "Two-tailed test ที่ \\(\u0007lpha=0.05\\) จะมีพื้นที่ปฏิเสธด้านละเท่าไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "0.05"
+        },
+        {
+          "key": "B",
+          "text": "0.025"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "0.95"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "rejection"
+      ]
+    },
+    {
+      "id": "L18-Q-0003",
+      "type": "short_answer",
+      "topic": "Interpretation",
+      "difficulty": 2,
+      "prompt": "หากพิจารณา $H_1: p < 0.2$ แล้วพบ p-value = 0.07 (ระดับนัยสำคัญ 0.05) ควรสรุปอย่างไร (ตอบสั้น ๆ)",
+      "answer": "ไม่ปฏิเสธ H₀ เพราะ p-value มากกว่า 0.05",
+      "tags": [
+        "interpretation"
+      ]
+    },
+    {
+      "id": "L18-Q-0004",
+      "type": "mcq",
+      "topic": "Graph",
+      "difficulty": 1,
+      "prompt": "ข้อใดเป็นการวาดกราฟเขตปฏิเสธที่ถูกต้องสำหรับ left-tailed test?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ระบายพื้นที่ด้านขวาของ critical value"
+        },
+        {
+          "key": "B",
+          "text": "ระบายพื้นที่ตรงกลาง"
+        },
+        {
+          "key": "C",
+          "text": "ระบายพื้นที่ด้านซ้ายของ critical value"
+        },
+        {
+          "key": "D",
+          "text": "ไม่ต้องระบายพื้นที่"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "tail"
+      ]
+    }
+  ]
+}

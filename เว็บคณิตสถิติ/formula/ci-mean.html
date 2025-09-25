@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CI สำหรับค่าเฉลี่ย 1 กลุ่ม | อธิบายสูตร</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <main class="formula-page">
+    <section class="formula-hero">
+      <h1>CI สำหรับค่าเฉลี่ย 1 กลุ่ม</h1>
+      <p class="muted">เลือกใช้ Z หรือ t เมื่อรู้/ไม่รู้ σ</p>
+      <div class="formula-meta">
+        <span>อัปเดต 7 ต.ค. 2025</span>
+      </div>
+      <div class="formula-actions">
+        <a class="btn secondary" href="../lesson13.html">เปิดบทเรียน</a>
+        <a class="btn ghost" href="../summary-lesson13.html">ดูสรุป</a>
+      </div>
+    </section>
+
+    <section class="formula-section">
+      <h2>สูตร</h2>
+      <div class="formula-callout">\[ CI_{\mu,\,\sigma\,\text{รู้}} = \bar X \pm Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</div>
+      <div class="formula-callout">\[ CI_{\mu,\,\sigma\,\text{ไม่รู้}} = \bar X \pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt{n}} \]</div>
+    </section>
+
+    <section class="formula-section">
+      <h2>ขั้นตอนตัดสินใจ</h2>
+      <ol>
+        <li>ตรวจสอบการสุ่มอิสระและความเป็นปกติ (หรือใช้กฎ $n \ge 30$)</li>
+        <li>หากรู้ $\sigma$ ใช้ Z-interval, หากไม่รู้ให้ใช้ $s$ และ t-interval</li>
+        <li>แทนค่าลงในสูตรและสรุปผลพร้อมระดับความเชื่อมั่น</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

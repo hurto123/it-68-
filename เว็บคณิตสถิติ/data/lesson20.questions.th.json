@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "lesson": "lesson20",
+    "title": "บทที่ 20",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson20.html",
+      "summary-lesson20.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L20-Q-0001",
+      "type": "mcq",
+      "topic": "เงื่อนไข",
+      "difficulty": 1,
+      "prompt": "หาก $np_0$ และ $n(1-p_0)$ มากกว่า 10 ทั้งคู่ หมายความว่าอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ใช้ Z-test สำหรับสัดส่วนได้"
+        },
+        {
+          "key": "B",
+          "text": "ต้องใช้ t-test แทน"
+        },
+        {
+          "key": "C",
+          "text": "ห้ามใช้การทดสอบ"
+        },
+        {
+          "key": "D",
+          "text": "ต้องลดตัวอย่าง"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "conditions"
+      ]
+    },
+    {
+      "id": "L20-Q-0002",
+      "type": "short_answer",
+      "topic": "Z-test proportion",
+      "difficulty": 2,
+      "prompt": "\\(\\hat p=0.46\\), $p_0=0.40$, $n=200$ จงคำนวณค่า Z (ทศนิยม 2 ตำแหน่ง)",
+      "answer": "1.74",
+      "tags": [
+        "z-test",
+        "proportion"
+      ]
+    },
+    {
+      "id": "L20-Q-0003",
+      "type": "mcq",
+      "topic": "การตีความ",
+      "difficulty": 1,
+      "prompt": "หากค่า p-value = 0.18 ภายใต้ \\(\u0007lpha=0.05\\) จะสรุปอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ไม่ปฏิเสธ H₀"
+        },
+        {
+          "key": "B",
+          "text": "ปฏิเสธ H₀"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มระดับนัยสำคัญ"
+        },
+        {
+          "key": "D",
+          "text": "ค่า p-value ผิดพลาด"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "interpretation"
+      ]
+    },
+    {
+      "id": "L20-Q-0004",
+      "type": "mcq",
+      "topic": "มาตรฐาน",
+      "difficulty": 1,
+      "prompt": "ในสูตร Z-test ของสัดส่วน ตัวส่วนประกอบ SE ใช้ค่าจากไหน?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ใช้ $\\hat p$"
+        },
+        {
+          "key": "B",
+          "text": "ใช้ $p_0$"
+        },
+        {
+          "key": "C",
+          "text": "ใช้ค่าเฉลี่ย 0.5"
+        },
+        {
+          "key": "D",
+          "text": "ใช้ค่า 0"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "proportion",
+        "se"
+      ]
+    }
+  ]
+}

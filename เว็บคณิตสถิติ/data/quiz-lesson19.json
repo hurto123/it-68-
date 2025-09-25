@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson19",
+    "title": "Quiz บทที่ 19: ทดสอบค่าเฉลี่ย 1 กลุ่ม",
+    "version": "0.1.0",
+    "updated_at": "2025-10-07",
+    "language": "th",
+    "depends_on": [
+      "lesson19.questions.th.json",
+      "lesson19.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson19",
+      "title": "บทที่ 19: ทดสอบค่าเฉลี่ย 1 กลุ่ม",
+      "questions": "lesson19.questions.th.json",
+      "solutions": "lesson19.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 5,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 3,
+    "time_limit_seconds": 600,
+    "default_mode": "quiz"
+  }
+}

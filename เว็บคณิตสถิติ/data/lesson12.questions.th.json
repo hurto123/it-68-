@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "lesson": "lesson12",
+    "title": "บทที่ 12",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-07",
+    "depends_on": [
+      "lesson12.html",
+      "summary-lesson12.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq|short_answer",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "L12-Q-0001",
+      "type": "mcq",
+      "topic": "Critical Value",
+      "difficulty": 1,
+      "prompt": "เมื่อเพิ่มระดับความเชื่อมั่นจาก 95% เป็น 99% จะเกิดอะไรกับค่า Critical Value?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ลดลง"
+        },
+        {
+          "key": "B",
+          "text": "ไม่เปลี่ยน"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มขึ้น"
+        },
+        {
+          "key": "D",
+          "text": "กลายเป็นศูนย์"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "critical-value",
+        "confidence"
+      ]
+    },
+    {
+      "id": "L12-Q-0002",
+      "type": "short_answer",
+      "topic": "Margin of Error",
+      "difficulty": 2,
+      "prompt": "ถ้า $Z_{0.025}=1.96$, $SE=2.4$ จงหาค่า Margin of Error (ตอบทศนิยม 2 ตำแหน่ง)",
+      "answer": "4.70",
+      "tags": [
+        "margin-of-error"
+      ]
+    },
+    {
+      "id": "L12-Q-0003",
+      "type": "mcq",
+      "topic": "Standard Error",
+      "difficulty": 2,
+      "prompt": "ข้อใดลดค่า Standard Error ได้โดยตรง?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ลดขนาดตัวอย่างลงครึ่งหนึ่ง"
+        },
+        {
+          "key": "B",
+          "text": "เพิ่มส่วนเบี่ยงเบนมาตรฐานของประชากร"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มขนาดตัวอย่างเป็น 4 เท่า"
+        },
+        {
+          "key": "D",
+          "text": "เพิ่มระดับความเชื่อมั่น"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "standard-error",
+        "sample-size"
+      ]
+    },
+    {
+      "id": "L12-Q-0004",
+      "type": "mcq",
+      "topic": "Workflow",
+      "difficulty": 1,
+      "prompt": "ขั้นตอนแรกสุดของการสร้างช่วงความเชื่อมั่นคืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เลือกเครื่องมือคำนวณ"
+        },
+        {
+          "key": "B",
+          "text": "ระบุพารามิเตอร์ที่สนใจ"
+        },
+        {
+          "key": "C",
+          "text": "หาค่า Margin of Error"
+        },
+        {
+          "key": "D",
+          "text": "สรุปผลเป็นภาษาคน"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "workflow"
+      ]
+    }
+  ]
+}

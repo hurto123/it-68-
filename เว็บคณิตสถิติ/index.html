@@ -14,70 +14,9 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
-
-  <style>
-    :root{
-      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
-      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b;
-      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:
-        radial-gradient(900px 360px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
-        radial-gradient(700px 280px at 90% -15%, rgba(21,181,136,.14), transparent 60%),
-        linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
-      color:var(--text);
-      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    a{color:#cfe0ff;text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:1080px;margin:0 auto;padding:1.2rem}
-    header{
-      border-bottom:1px solid var(--border);
-      background:var(--surface);
-    }
-    .brand{display:flex;align-items:center;gap:.8rem}
-    .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
-    .brand h1{margin:0;font-size:1.2rem}
-    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
-    .title{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem}
-    .title h2{margin:.2rem 0;font-size:1.8rem}
-    .muted{color:var(--muted)}
-    .btn{
-      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
-      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
-    }
-    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
-    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-    @media (max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:680px){.cards{grid-template-columns:1fr}}
-    .card{
-      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
-      border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:1rem;position:relative;overflow:hidden
-    }
-    .card h3{margin:.2rem 0 .3rem}
-    .card p{margin:0}
-    .chip{
-      display:inline-block;padding:.25rem .55rem;margin:.2rem 0;border-radius:999px;border:1px solid var(--border);
-      background:#0e1220;color:#cfe0ff;font-size:.85rem
-    }
-    .searchbar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.3rem 0 1rem}
-    input[type="search"]{
-      width:420px;max-width:100%;background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;
-      padding:.55rem .7rem;
-    }
-    .match{outline:2px solid #79a7ff; outline-offset:2px}
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
-    .section-title h2{margin:.2rem 0}
-    .small{font-size:.92rem}
-    .fade-in{opacity:0;transform:translateY(8px)}
-  </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหา</a>
   <header role="banner">
     <div class="wrap">
       <div class="brand">
@@ -90,13 +29,28 @@
       <div class="title">
         <div>
           <h2>เรียนสถิติให้สนุก เข้าใจง่าย พร้อมสรุป 1 หน้า ✨</h2>
-          <p class="muted">บทเรียน 1–9 • อธิบายสูตร • สรุป 1 หน้า • แบบฝึกหัด & Quiz • โหมดพิมพ์</p>
+          <p class="muted">บทเรียน 1–9 • อธิบายสูตร • สรุป 1 หน้า • แบบฝึกหัด & Quiz • ชุดสรุปบท 11–22 (Inference)</p>
         </div>
         <div class="actions">
           <a class="btn secondary" href="about.html">About</a>
           <a class="btn secondary" href="credits.html">Credits</a>
         </div>
       </div>
+
+      <section class="hero-updates" aria-label="อัปเดตล่าสุด">
+        <article class="card">
+          <h2>🆕 อัปเดต: ชุดสรุปบทที่ 11–22 แบบขยาย</h2>
+          <p class="muted" id="hero-update-copy">
+            เพิ่มเนื้อหาเชิงลึก, สูตรสำคัญ, แบบฝึกหัดพร้อมคำใบ้ และสรุป 1 หน้า —
+            <span class="hero-update__date" data-hero-latest-date>กำลังตรวจสอบวันที่อัปเดต…</span>
+            <span class="hero-update__version" data-hero-latest-version hidden></span>
+          </p>
+          <div class="hero-links">
+            <a class="btn" href="summaries-all.html#inference">เปิดดูสรุปทั้งหมด</a>
+            <a class="btn secondary" href="summary-lesson11.html">เริ่มที่บท 11 →</a>
+          </div>
+        </article>
+      </section>
 
       <!-- แถบค้นหา (รองรับ #search=) -->
       <div class="searchbar" role="search" aria-label="ค้นหาหน้านี้">
@@ -105,63 +59,46 @@
         <button class="btn secondary" id="btn-clear" title="ล้างคำค้น">ล้าง</button>
         <span class="muted small" id="search-status" aria-live="polite"></span>
       </div>
+
+      <section class="quick-nav" aria-label="ลัดไปยังสรุปบทที่ 11–22">
+        <div class="quick-nav__header">
+          <h2>Inference Toolkit — บท 11–22</h2>
+          <p class="muted small">ทางลัดไปยังสรุป 1 หน้า, สูตร และแบบฝึกหัดที่เพิ่มล่าสุด</p>
+        </div>
+        <div class="quick-grid">
+          <a class="quick-card" href="summary-lesson11.html">
+            <span class="quick-card__title">Estimation Essentials</span>
+            <span class="quick-card__desc">บท 11–14 · พื้นฐานการประมาณค่า + สูตรพร้อมตาราง</span>
+            <span class="quick-card__pill">เริ่มอ่าน</span>
+          </a>
+          <a class="quick-card" href="summary-lesson16.html">
+            <span class="quick-card__title">Sample Size &amp; Planning</span>
+            <span class="quick-card__desc">บท 16 · คำนวณขนาดตัวอย่าง + เช็คลิสต์วางแผน</span>
+            <span class="quick-card__pill">วางแผนการเก็บข้อมูล</span>
+          </a>
+          <a class="quick-card" href="summary-lesson19.html">
+            <span class="quick-card__title">One-sample Tests</span>
+            <span class="quick-card__desc">บท 17–20 · ทดสอบสมมติฐานค่าเฉลี่ยและสัดส่วน</span>
+            <span class="quick-card__pill">ฝึกตั้ง H₀ / H₁</span>
+          </a>
+          <a class="quick-card" href="summary-lesson21.html">
+            <span class="quick-card__title">Compare Two Groups</span>
+            <span class="quick-card__desc">บท 21–22 · ผลต่างสองกลุ่ม &amp; ความแปรปรวน</span>
+            <span class="quick-card__pill">ดูสูตรเปรียบเทียบ</span>
+          </a>
+        </div>
+      </section>
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main class="wrap grid" role="main" id="main-content">
     <!-- บทเรียน 1–9 -->
     <section id="lessons" class="fade-in">
       <div class="section-title">
         <h2>📘 บทเรียน (1–9)</h2>
         <a class="small" href="summaries-all.html">ดูสรุปทุกบท →</a>
       </div>
-      <div class="cards" id="cards-lessons" aria-label="การ์ดบทเรียน">
-        <a class="card" href="lesson01.html" data-tags="บท1 introduction สถิติ descriptive inferential">
-          <h3>บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ</h3>
-          <p class="muted">ภาพรวม, กระบวนการ 5 ขั้นตอน, Descriptive vs Inferential</p>
-          <span class="chip">พื้นฐาน</span>
-        </a>
-        <a class="card" href="lesson02.html" data-tags="บท2 การนำเสนอข้อมูล ก้านใบ ฮิสโทแกรม ความถี่สัมพัทธ์ อนุกรมเวลา">
-          <h3>บทที่ 2: การนำเสนอข้อมูล</h3>
-          <p class="muted">ก้าน-ใบ, ฮิสโทแกรม + สูตรสัมพัทธ์, อนุกรมเวลา</p>
-          <span class="chip">กราฟ</span>
-        </a>
-        <a class="card" href="lesson03.html" data-tags="บท3 descriptive mean median mode sd skew">
-          <h3>บทที่ 3: สถิติเชิงพรรณนา</h3>
-          <p class="muted">ศูนย์กลาง, ตำแหน่ง, การกระจาย & ความเบ้</p>
-          <span class="chip">สรุปค่า</span>
-        </a>
-        <a class="card" href="lesson04.html" data-tags="บท4 ความน่าจะเป็น การนับ permutation combination">
-          <h3>บทที่ 4: ความน่าจะเป็นเบื้องต้น</h3>
-          <p class="muted">Experiment, Sample Space, กฎการนับ</p>
-          <span class="chip">พื้นฐานความน่าจะเป็น</span>
-        </a>
-        <a class="card" href="lesson05.html" data-tags="บท5 เงื่อนไข conditional total probability bayes">
-          <h3>บทที่ 5: ทฤษฎีความน่าจะเป็น</h3>
-          <p class="muted">Conditional Probability, Total Probability, Bayes</p>
-          <span class="chip">Bayes</span>
-        </a>
-        <a class="card" href="lesson06.html" data-tags="บท6 ตัวแปรสุ่ม pmf pdf cdf expected variance">
-          <h3>บทที่ 6: ตัวแปรสุ่ม</h3>
-          <p class="muted">Discrete/Continuous, PMF/PDF, E[X], Var(X)</p>
-          <span class="chip">Random Variables</span>
-        </a>
-        <a class="card" href="lesson07.html" data-tags="บท7 การแจกแจงไม่ต่อเนื่อง bernoulli binomial poisson hypergeometric">
-          <h3>บทที่ 7: การแจกแจงไม่ต่อเนื่อง</h3>
-          <p class="muted">Bernoulli, Binomial, Poisson, Hypergeometric</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="lesson08.html" data-tags="บท8 แจกแจงต่อเนื่อง normal z-score empirical rule">
-          <h3>บทที่ 8: แจกแจงต่อเนื่อง & โค้งปกติ</h3>
-          <p class="muted">Normal, Z-score, Empirical Rule</p>
-          <span class="chip">Normal</span>
-        </a>
-        <a class="card" href="lesson09.html" data-tags="บท9 sampling distributions clt xbar phat se">
-          <h3>บทที่ 9: Sampling Distributions & CLT</h3>
-          <p class="muted">x̄, p̂, Standard Error, Z ของตัวอย่าง</p>
-          <span class="chip">CLT</span>
-        </a>
-      </div>
+      <div class="cards" id="cards-lessons" aria-label="การ์ดบทเรียน" data-source="lessons"></div>
     </section>
 
     <!-- แบบฝึกหัด & Quiz -->
@@ -170,58 +107,7 @@
         <h2>🧪 แบบฝึกหัด & Quiz</h2>
         <a class="small" href="quiz-mixed.html">ลองทำข้อสอบรวม →</a>
       </div>
-      <div class="cards" id="cards-quizzes" aria-label="การ์ดแบบฝึกหัด">
-        <a class="card" href="quiz-lesson01.html" data-tags="quiz บท1 แบบฝึกหัด สถิติพื้นฐาน">
-          <h3>Quiz บทที่ 1 — ความรู้เบื้องต้น</h3>
-          <p class="muted">โหมดฝึก + จับเวลา • เตรียมพร้อม 3+ ข้อ</p>
-          <span class="chip">พื้นฐาน</span>
-        </a>
-        <a class="card" href="quiz-lesson02.html" data-tags="quiz บท2 กราฟ การนำเสนอข้อมูล แบบฝึกหัด">
-          <h3>Quiz บทที่ 2 — การนำเสนอข้อมูล</h3>
-          <p class="muted">ฝึกอ่านกราฟ ตาราง สรุปข้อมูล • พร้อมจับเวลา</p>
-          <span class="chip">กราฟ</span>
-        </a>
-        <a class="card" href="quiz-lesson03.html" data-tags="quiz บท3 descriptive แบบฝึกหัด ค่าเฉลี่ย ส่วนเบี่ยงเบน">
-          <h3>Quiz บทที่ 3 — สถิติเชิงพรรณนา</h3>
-          <p class="muted">ค่าเฉลี่ย ตำแหน่ง การกระจาย • โหมดฝึก & Quiz</p>
-          <span class="chip">สรุปค่า</span>
-        </a>
-        <a class="card" href="quiz-lesson04.html" data-tags="quiz บท4 ความน่าจะเป็นเบื้องต้น แบบฝึกหัด">
-          <h3>Quiz บทที่ 4 — ความน่าจะเป็นเบื้องต้น</h3>
-          <p class="muted">ทดลอง นับทางเลือก กฎพื้นฐาน • จับเวลาทดสอบ</p>
-          <span class="chip">Probability</span>
-        </a>
-        <a class="card" href="quiz-lesson05.html" data-tags="quiz บท5 ทฤษฎีความน่าจะเป็น แบบฝึกหัด">
-          <h3>Quiz บทที่ 5 — ทฤษฎีความน่าจะเป็น</h3>
-          <p class="muted">Conditional, Total Probability, Bayes • พร้อมเฉลย</p>
-          <span class="chip">Bayes</span>
-        </a>
-        <a class="card" href="quiz-lesson06.html" data-tags="quiz บท6 ตัวแปรสุ่ม แบบฝึกหัด pmf pdf">
-          <h3>Quiz บทที่ 6 — ตัวแปรสุ่ม</h3>
-          <p class="muted">Discrete/Continuous, E[X], Var(X) • ฝึกและจับเวลา</p>
-          <span class="chip">Random Var</span>
-        </a>
-        <a class="card" href="quiz-lesson07.html" data-tags="quiz บท7 discrete distribution แบบฝึกหัด">
-          <h3>Quiz บทที่ 7 — การแจกแจงไม่ต่อเนื่อง</h3>
-          <p class="muted">Bernoulli, Binomial, Poisson, Hypergeometric</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="quiz-lesson08.html" data-tags="quiz บท8 normal z-score แบบฝึกหัด">
-          <h3>Quiz บทที่ 8 — แจกแจงต่อเนื่อง & โค้งปกติ</h3>
-          <p class="muted">Normal Curve, Z-score, Empirical Rule</p>
-          <span class="chip">Normal</span>
-        </a>
-        <a class="card" href="quiz-lesson09.html" data-tags="quiz บท9 sampling clt แบบฝึกหัด">
-          <h3>Quiz บทที่ 9 — Sampling Distributions & CLT</h3>
-          <p class="muted">x̄, p̂, Standard Error, CLT • พร้อมระบบจับเวลา</p>
-          <span class="chip">CLT</span>
-        </a>
-        <a class="card" href="quiz-mixed.html" data-tags="quiz รวมทุกบท final practice">
-          <h3>Quiz รวมทุกบท (1–9)</h3>
-          <p class="muted">สุ่มข้อสอบจากทุกบท • เกณฑ์ผ่าน/หมดเวลา</p>
-          <span class="chip">Final</span>
-        </a>
-      </div>
+      <div class="cards" id="cards-quizzes" aria-label="การ์ดแบบฝึกหัด" data-source="quizzes"></div>
     </section>
 
     <!-- อธิบายสูตร -->
@@ -230,43 +116,7 @@
         <h2>🧮 อธิบายสูตร (Formula Explorer)</h2>
         <a class="small" href="glossary.html">Glossary & สัญลักษณ์ →</a>
       </div>
-      <div class="cards" id="cards-formula" aria-label="การ์ดสูตร">
-        <a class="card" href="formula/bernoulli.html" data-tags="สูตร bernoulli trial success failure p">
-          <h3>Bernoulli Distribution</h3>
-          <p class="muted">ลองครั้งเดียว สำเร็จ/ล้มเหลว + เครื่องคิดเลข p</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="formula/binomial.html" data-tags="สูตร binomial การแจกแจงทวินาม">
-          <h3>Binomial Distribution</h3>
-          <p class="muted">X ~ Bin(n, p), PMF, E/Var, ตัวอย่างคำนวณ</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="formula/hypergeometric.html" data-tags="สูตร hypergeometric without replacement">
-          <h3>Hypergeometric Distribution</h3>
-          <p class="muted">สุ่มไม่ใส่คืน + ตาราง PMF และขั้นบันได C(a,b)</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="formula/poisson.html" data-tags="สูตร poisson นับเหตุการณ์ λ">
-          <h3>Poisson Distribution</h3>
-          <p class="muted">PMF, อัตราเกิด λ, การประมาณ Binomial</p>
-          <span class="chip">Discrete</span>
-        </a>
-        <a class="card" href="formula/normal.html" data-tags="สูตร normal distribution bell curve pdf cdf">
-          <h3>Normal Distribution</h3>
-          <p class="muted">PDF/CDF, Empirical Rule, กราฟระบายพื้นที่ &amp; PNG</p>
-          <span class="chip">Normal</span>
-        </a>
-        <a class="card" href="formula/z-score.html" data-tags="สูตร z-score มาตรฐาน normal">
-          <h3>Z-Score</h3>
-          <p class="muted">Z = (X−μ)/σ, ตาราง Φ(z), พื้นที่ใต้โค้ง</p>
-          <span class="chip">Normal</span>
-        </a>
-        <a class="card" href="formula/clt-xbar-phat.html" data-tags="สูตร clt xbar phat standard error sampling">
-          <h3>CLT: x̄ &amp; p̂</h3>
-          <p class="muted">การกระจายของค่าเฉลี่ย/สัดส่วนตัวอย่าง</p>
-          <span class="chip">CLT</span>
-        </a>
-      </div>
+      <div class="cards" id="cards-formula" aria-label="การ์ดสูตร" data-source="formulas"></div>
     </section>
 
     <!-- สรุป 1 หน้า -->
@@ -275,137 +125,14 @@
         <h2>📝 สรุป 1 หน้า</h2>
         <a class="small" href="summaries-all.html">เปิดดูแบบรวมทุกบท →</a>
       </div>
-      <div class="cards" aria-label="การ์ดสรุป 1 หน้า">
-        <a class="card" href="summaries-all.html" data-tags="สรุป รวม ทุกบท summary all">
-          <h3>รวมสรุปทุกบท (1–9)</h3>
-          <p class="muted">มีคั่นหน้า — เหมาะสำหรับพิมพ์/บันทึก PDF</p>
-          <span class="chip">รวม</span>
-        </a>
-        <a class="card" href="summary-lesson01.html" data-tags="สรุป บท1 introduction">
-          <h3>สรุป 1 หน้า — บท 1</h3>
-          <p class="muted">ภาพรวม, 5 ขั้นตอน, Descriptive vs Inferential</p>
-          <span class="chip">บท 1</span>
-        </a>
-        <a class="card" href="summary-lesson02.html" data-tags="สรุป บท2 การนำเสนอข้อมูล">
-          <h3>สรุป 1 หน้า — บท 2</h3>
-          <p class="muted">ก้าน-ใบ, ฮิสโทแกรม, อนุกรมเวลา</p>
-          <span class="chip">บท 2</span>
-        </a>
-        <a class="card" href="summary-lesson03.html" data-tags="สรุป บท3 descriptive">
-          <h3>สรุป 1 หน้า — บท 3</h3>
-          <p class="muted">Mean/Median/Mode, SD, Skewness</p>
-          <span class="chip">บท 3</span>
-        </a>
-        <a class="card" href="summary-lesson04.html" data-tags="สรุป บท4 ความน่าจะเป็น">
-          <h3>สรุป 1 หน้า — บท 4</h3>
-          <p class="muted">Experiment, Sample Space, การนับ</p>
-          <span class="chip">บท 4</span>
-        </a>
-        <a class="card" href="summary-lesson05.html" data-tags="สรุป บท5 เบย์ เงื่อนไข">
-          <h3>สรุป 1 หน้า — บท 5</h3>
-          <p class="muted">P(A|B), กฎผลรวม, Bayes</p>
-          <span class="chip">บท 5</span>
-        </a>
-        <a class="card" href="summary-lesson06.html" data-tags="สรุป บท6 ตัวแปรสุ่ม pmf pdf">
-          <h3>สรุป 1 หน้า — บท 6</h3>
-          <p class="muted">PMF/PDF/CDF, E[X], Var(X)</p>
-          <span class="chip">บท 6</span>
-        </a>
-        <a class="card" href="summary-lesson07.html" data-tags="สรุป บท7 bernoulli binomial poisson hypergeometric">
-          <h3>สรุป 1 หน้า — บท 7</h3>
-          <p class="muted">Bernoulli/Binomial/Poisson/Hypergeometric</p>
-          <span class="chip">บท 7</span>
-        </a>
-        <a class="card" href="summary-lesson08.html" data-tags="สรุป บท8 normal z-score">
-          <h3>สรุป 1 หน้า — บท 8</h3>
-          <p class="muted">Normal, Z-score, Empirical Rule</p>
-          <span class="chip">บท 8</span>
-        </a>
-        <a class="card" href="summary-lesson09.html" data-tags="สรุป บท9 sampling clt xbar phat">
-          <h3>สรุป 1 หน้า — บท 9</h3>
-          <p class="muted">x̄, p̂, SE, Z ของตัวอย่าง</p>
-          <span class="chip">บท 9</span>
-        </a>
-      </div>
+      <div class="cards" id="cards-summaries" aria-label="การ์ดสรุป 1 หน้า" data-source="summaries"></div>
     </section>
   </main>
 
-  <footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <footer class="wrap" role="contentinfo">
     <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
   </footer>
 
-  <script>
-    // ==== แอนิเมชันโผล่เบา ๆ ====
-    const fades = document.querySelectorAll('.fade-in');
-    const io = new IntersectionObserver((ents)=>{
-      ents.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],{duration:450, easing:'ease-out', fill:'forwards'});
-          io.unobserve(e.target);
-        }
-      });
-    }, {threshold:.12});
-    fades.forEach(x=>io.observe(x));
-
-    // ==== ค้นหา + รองรับ #search= ====
-    const qInput = document.getElementById('site-search');
-    const btnSearch = document.getElementById('btn-search');
-    const btnClear = document.getElementById('btn-clear');
-    const statusEl = document.getElementById('search-status');
-
-    function norm(s){ return (s||'').toString().toLowerCase().trim(); }
-
-    function doSearch(term){
-      const t = norm(term || qInput.value);
-      const cards = Array.from(document.querySelectorAll('.card[href]'));
-      let hits = 0;
-      cards.forEach(c=>{
-        c.classList.remove('match');
-        const text = norm(c.innerText + ' ' + (c.dataset.tags||''));
-        const ok = t ? text.includes(t) : true;
-        c.style.display = ok ? '' : 'none';
-        if(ok && t){ hits++; c.classList.add('match'); }
-      });
-      const sections = document.querySelectorAll('section');
-      sections.forEach(s=>{
-        // ซ่อน section ถ้าทุกการ์ดด้านในโดนซ่อนหมด
-        const visible = s.querySelectorAll('.card[href]:not([style*="display: none"])').length;
-        s.style.display = visible ? '' : 'none';
-      });
-      if(t){
-        statusEl.textContent = `พบ ${hits} รายการสำหรับ “${term}”`;
-        const firstHit = document.querySelector('.card.match');
-        if(firstHit){ firstHit.scrollIntoView({behavior:'smooth', block:'center'}); }
-      }else{
-        statusEl.textContent = '';
-      }
-    }
-
-    function clearSearch(){
-      qInput.value = '';
-      doSearch('');
-      // แก้ hash ให้สะอาด
-      if(location.hash.startsWith('#search=')){
-        history.replaceState(null,'',location.pathname + location.search);
-      }
-    }
-
-    btnSearch.addEventListener('click', ()=>doSearch());
-    btnClear.addEventListener('click', clearSearch);
-    qInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); doSearch(); }});
-
-    // อ่านค่า #search= จาก URL (เช่น index.html#search=binomial)
-    function initFromHash(){
-      const h = decodeURIComponent(location.hash || '');
-      if(h.toLowerCase().startsWith('#search=')){
-        const term = h.slice('#search='.length);
-        qInput.value = term;
-        // หน่วงเล็กน้อยให้ layout พร้อมก่อนกรอง
-        requestAnimationFrame(()=>doSearch(term));
-      }
-    }
-    window.addEventListener('hashchange', initFromHash);
-    initFromHash();
-  </script>
+  <script type="module" src="assets/js/home-page.js"></script>
 </body>
 </html>
