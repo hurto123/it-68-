@@ -66,18 +66,43 @@
       </header>
       <section class="file-groups">
         <article class="file-card">
-          <h2>ไฟล์หน้าแรกและทรัพยากรร่วม <span>ปรับปรุง</span></h2>
+          <h2>ไฟล์โครงสร้างหลักของเว็บไซต์ <span>ปรับปรุง</span></h2>
           <ul>
-            <li><a href="index.html">index.html</a> — ปรับ UX/UI และดึงข้อมูลจากสคริปต์กลาง</li>
-            <li><a href="style.css">style.css</a> — เพิ่มธีมใหม่, ปุ่ม, การ์ด และองค์ประกอบสำหรับสรุป</li>
-            <li><a href="assets/js/home-page.js">assets/js/home-page.js</a> — สคริปต์สร้างการ์ดและระบบค้นหา</li>
-            <li><a href="subjects.js">subjects.js</a> — ข้อมูลบทเรียน/สรุปที่ใช้เรนเดอร์หน้าแรก</li>
-            <li><a href="lesson-controls.js">lesson-controls.js</a> — สคริปต์ควบคุมการนำทางในสรุปบทเรียน</li>
-            <li><a href="manifest.json">manifest.json</a> — ปรับปรุง metadata ให้ครอบคลุมบทสรุปใหม่</li>
-            <li><a href="summaries-all.html">summaries-all.html</a> — เชื่อมโยงไปยังบทสรุปอนุมาน</li>
-            <li><a href="formula/inference-cheatsheet.html">formula/inference-cheatsheet.html</a> — รวมสูตรอนุมานไว้หน้าเดียวสำหรับทบทวนเร็ว</li>
+            <li><a href="index.html">index.html</a> — ปรับ UX/UI, ฮีโร่, ระบบค้นหา และนำทาง Inference</li>
+            <li><a href="style.css">style.css</a> — ธีมกลาง, การ์ด, ปุ่ม, quick-nav และสรุปบท 11–22</li>
+            <li><a href="print.css">print.css</a> — ปรับปรุงการพิมพ์สำหรับบทเรียนและสรุปชุดใหม่</li>
+            <li><a href="manifest.json">manifest.json</a> — บันทึก metadata/ dependencies ของบทเรียน สูตร และ quiz</li>
+            <li><a href="subjects.js">subjects.js</a> — ขยายข้อมูลบทเรียน/สูตร/สรุป 11–22 พร้อมแท็กและชิป</li>
           </ul>
         </article>
+
+        <article class="file-card">
+          <h2>สคริปต์ส่วนกลาง <span>ปรับปรุง</span></h2>
+          <ul>
+            <li><a href="assets/js/home-page.js">assets/js/home-page.js</a> — เรนเดอร์การ์ดจากข้อมูลกลางและอัปเดตเมตาจาก manifest</li>
+            <li><a href="assets/js/inference-lesson-loader.js">assets/js/inference-lesson-loader.js</a> — โหลดเนื้อหาสรุปอนุมานแบบ lazy</li>
+            <li><a href="lesson-controls.js">lesson-controls.js</a> — เติมปุ่มนำทางก่อนหน้า/ถัดไปและ quick selector ในบทสรุป</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>บทเรียนเต็มบทที่ 11–22 <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="lesson11.html">lesson11.html</a></li>
+            <li><a href="lesson12.html">lesson12.html</a></li>
+            <li><a href="lesson13.html">lesson13.html</a></li>
+            <li><a href="lesson14.html">lesson14.html</a></li>
+            <li><a href="lesson15.html">lesson15.html</a></li>
+            <li><a href="lesson16.html">lesson16.html</a></li>
+            <li><a href="lesson17.html">lesson17.html</a></li>
+            <li><a href="lesson18.html">lesson18.html</a></li>
+            <li><a href="lesson19.html">lesson19.html</a></li>
+            <li><a href="lesson20.html">lesson20.html</a></li>
+            <li><a href="lesson21.html">lesson21.html</a></li>
+            <li><a href="lesson22.html">lesson22.html</a></li>
+          </ul>
+        </article>
+
         <article class="file-card">
           <h2>แฟ้มสรุปบทเรียนอนุมาน <span>สร้างใหม่</span></h2>
           <ul>
@@ -94,6 +119,96 @@
             <li><a href="summary-lesson21.html">summary-lesson21.html</a> — การทดสอบเปรียบเทียบ 2 ประชากร</li>
             <li><a href="summary-lesson22.html">summary-lesson22.html</a> — การทดสอบเกี่ยวกับความแปรปรวน</li>
             <li><a href="summary-lesson11-22.html">summary-lesson11-22.html</a> — รวมเนื้อหาบทที่ 11–22 ในหน้าเดียว</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>หน้าอธิบายสูตร (Formula Explorer) <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="formula/ci-structure.html">formula/ci-structure.html</a> — โครงสร้าง CI</li>
+            <li><a href="formula/ci-mean.html">formula/ci-mean.html</a> — CI สำหรับค่าเฉลี่ย</li>
+            <li><a href="formula/ci-proportion.html">formula/ci-proportion.html</a> — CI สำหรับสัดส่วน</li>
+            <li><a href="formula/ci-difference.html">formula/ci-difference.html</a> — CI สำหรับผลต่างสองกลุ่ม</li>
+            <li><a href="formula/sample-size.html">formula/sample-size.html</a> — สูตรหาขนาดตัวอย่าง</li>
+            <li><a href="formula/mean-tests.html">formula/mean-tests.html</a> — Z-test / t-test ค่าเฉลี่ย</li>
+            <li><a href="formula/proportion-test.html">formula/proportion-test.html</a> — Z-test สัดส่วน</li>
+            <li><a href="formula/two-sample-tests.html">formula/two-sample-tests.html</a> — การทดสอบสองกลุ่ม</li>
+            <li><a href="formula/variance-tests.html">formula/variance-tests.html</a> — Chi-square &amp; F-test</li>
+            <li><a href="formula/inference-cheatsheet.html">formula/inference-cheatsheet.html</a> — ชุดสูตรสรุปในหน้าเดียว</li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>หน้าทดสอบ (Quiz Shell) <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="quiz-lesson11.html">quiz-lesson11.html</a></li>
+            <li><a href="quiz-lesson12.html">quiz-lesson12.html</a></li>
+            <li><a href="quiz-lesson13.html">quiz-lesson13.html</a></li>
+            <li><a href="quiz-lesson14.html">quiz-lesson14.html</a></li>
+            <li><a href="quiz-lesson15.html">quiz-lesson15.html</a></li>
+            <li><a href="quiz-lesson16.html">quiz-lesson16.html</a></li>
+            <li><a href="quiz-lesson17.html">quiz-lesson17.html</a></li>
+            <li><a href="quiz-lesson18.html">quiz-lesson18.html</a></li>
+            <li><a href="quiz-lesson19.html">quiz-lesson19.html</a></li>
+            <li><a href="quiz-lesson20.html">quiz-lesson20.html</a></li>
+            <li><a href="quiz-lesson21.html">quiz-lesson21.html</a></li>
+            <li><a href="quiz-lesson22.html">quiz-lesson22.html</a></li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>ฐานข้อมูลคำถาม &amp; เฉลย <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="data/lesson11.questions.th.json">data/lesson11.questions.th.json</a></li>
+            <li><a href="data/lesson11.solutions.th.json">data/lesson11.solutions.th.json</a></li>
+            <li><a href="data/lesson12.questions.th.json">data/lesson12.questions.th.json</a></li>
+            <li><a href="data/lesson12.solutions.th.json">data/lesson12.solutions.th.json</a></li>
+            <li><a href="data/lesson13.questions.th.json">data/lesson13.questions.th.json</a></li>
+            <li><a href="data/lesson13.solutions.th.json">data/lesson13.solutions.th.json</a></li>
+            <li><a href="data/lesson14.questions.th.json">data/lesson14.questions.th.json</a></li>
+            <li><a href="data/lesson14.solutions.th.json">data/lesson14.solutions.th.json</a></li>
+            <li><a href="data/lesson15.questions.th.json">data/lesson15.questions.th.json</a></li>
+            <li><a href="data/lesson15.solutions.th.json">data/lesson15.solutions.th.json</a></li>
+            <li><a href="data/lesson16.questions.th.json">data/lesson16.questions.th.json</a></li>
+            <li><a href="data/lesson16.solutions.th.json">data/lesson16.solutions.th.json</a></li>
+            <li><a href="data/lesson17.questions.th.json">data/lesson17.questions.th.json</a></li>
+            <li><a href="data/lesson17.solutions.th.json">data/lesson17.solutions.th.json</a></li>
+            <li><a href="data/lesson18.questions.th.json">data/lesson18.questions.th.json</a></li>
+            <li><a href="data/lesson18.solutions.th.json">data/lesson18.solutions.th.json</a></li>
+            <li><a href="data/lesson19.questions.th.json">data/lesson19.questions.th.json</a></li>
+            <li><a href="data/lesson19.solutions.th.json">data/lesson19.solutions.th.json</a></li>
+            <li><a href="data/lesson20.questions.th.json">data/lesson20.questions.th.json</a></li>
+            <li><a href="data/lesson20.solutions.th.json">data/lesson20.solutions.th.json</a></li>
+            <li><a href="data/lesson21.questions.th.json">data/lesson21.questions.th.json</a></li>
+            <li><a href="data/lesson21.solutions.th.json">data/lesson21.solutions.th.json</a></li>
+            <li><a href="data/lesson22.questions.th.json">data/lesson22.questions.th.json</a></li>
+            <li><a href="data/lesson22.solutions.th.json">data/lesson22.solutions.th.json</a></li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>ไฟล์ตั้งค่า Quiz <span>สร้างใหม่</span></h2>
+          <ul>
+            <li><a href="data/quiz-lesson11.json">data/quiz-lesson11.json</a></li>
+            <li><a href="data/quiz-lesson12.json">data/quiz-lesson12.json</a></li>
+            <li><a href="data/quiz-lesson13.json">data/quiz-lesson13.json</a></li>
+            <li><a href="data/quiz-lesson14.json">data/quiz-lesson14.json</a></li>
+            <li><a href="data/quiz-lesson15.json">data/quiz-lesson15.json</a></li>
+            <li><a href="data/quiz-lesson16.json">data/quiz-lesson16.json</a></li>
+            <li><a href="data/quiz-lesson17.json">data/quiz-lesson17.json</a></li>
+            <li><a href="data/quiz-lesson18.json">data/quiz-lesson18.json</a></li>
+            <li><a href="data/quiz-lesson19.json">data/quiz-lesson19.json</a></li>
+            <li><a href="data/quiz-lesson20.json">data/quiz-lesson20.json</a></li>
+            <li><a href="data/quiz-lesson21.json">data/quiz-lesson21.json</a></li>
+            <li><a href="data/quiz-lesson22.json">data/quiz-lesson22.json</a></li>
+          </ul>
+        </article>
+
+        <article class="file-card">
+          <h2>แฟ้มประกอบอื่น ๆ <span>อัปเดต</span></h2>
+          <ul>
+            <li><a href="summaries-all.html">summaries-all.html</a> — เพิ่มสารบัญเชื่อมไปยังบทสรุป Inference</li>
+            <li><a href="updates.html">updates.html</a> — หน้ารวมไฟล์ (หน้านี้)</li>
           </ul>
         </article>
       </section>
