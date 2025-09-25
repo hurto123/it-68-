@@ -15,26 +15,115 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>Sample Size Planner</h1>
-      <p class="muted">สูตรกำหนดจำนวนตัวอย่างสำหรับ μ และ p</p>
+      <p class="muted">กำหนดจำนวนตัวอย่างเป้าหมายให้เหมาะกับระดับความเชื่อมั่นและความคลาดเคลื่อนที่ยอมรับได้</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 16</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson16.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson16.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>สูตร</h2>
-      <div class="formula-callout">\[ n_{\mu} = \left(\frac{Z_{\alpha/2}\sigma}{E}\right)^2, \quad n_p = \frac{Z_{\alpha/2}^2 p(1-p)}{E^2} \]</div><p>หากไม่รู้ p ให้ใช้ 0.5 เพื่อให้ได้ขนาดตัวอย่างสูงสุด</p>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#n-mean">ขนาดตัวอย่างสำหรับค่าเฉลี่ย</a></li>
+        <li><a href="#n-proportion">ขนาดตัวอย่างสำหรับสัดส่วน</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>ขั้นตอน</h2>
-      <ol><li>ระบุ E (Margin of Error) ที่ต้องการ</li><li>เลือกระดับความเชื่อมั่น → หาค่า Z</li><li>ประมาณ σ หรือ p จากข้อมูลก่อนหน้า</li><li>แทนค่าเพื่อคำนวณ n และปัดขึ้น</li></ol>
+    <section id="n-mean" class="formula-section">
+      <h2>ขนาดตัวอย่างสำหรับค่าเฉลี่ย</h2>
+      <p class="section-subtitle">ใช้เมื่อเราต้องการประมาณ \(\mu\) ด้วยความคลาดเคลื่อนสูงสุด (Margin of Error) ที่กำหนด</p>
+      <div class="formula-callout">\[ n = \left(\frac{Z_{\alpha/2}\,\sigma}{E}\right)^2 \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>กำหนดจำนวนตัวอย่างที่ต้องเก็บเพื่อให้ช่วงความเชื่อมั่นของค่าเฉลี่ยมีความกว้างไม่เกิน \(\pm E\)</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(E\)</dt><dd>Margin of Error ที่ยอมรับได้</dd></div>
+            <div><dt>\(\sigma\)</dt><dd>ส่วนเบี่ยงเบนมาตรฐานของประชากร (หรือค่าประมาณ)</dd></div>
+            <div><dt>\(Z_{\alpha/2}\)</dt><dd>ค่าวิกฤตตามระดับความเชื่อมั่น</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>กำหนด CL และดึง \(Z_{\alpha/2}\)</li>
+            <li>ใช้ข้อมูลเดิม/Pilot เพื่อประมาณ \(\sigma\)</li>
+            <li>คำนวณ \(n\) ตามสูตร แล้วปัดขึ้นเป็นจำนวนเต็ม</li>
+            <li>ถ้าวางแผนเก็บตัวอย่างแบบ finite population ให้พิจารณา FPC เพิ่มเติม</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>ต้องการประมาณค่า IQ เฉลี่ยด้วย \(E = 3\), \(\sigma \approx 15\), CL = 95%</p>
+          <ol>
+            <li>\(Z_{0.025} = 1.96\)</li>
+            <li>\(n = (1.96 \times 15 / 3)^2 = (9.8)^2 ≈ 96.04\)</li>
+            <li>ปัดขึ้น ⇒ ต้องเก็บอย่างน้อย 97 คน</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>หากไม่รู้ \(\sigma\) จริง ให้ใช้ค่าประมาณอนุรักษ์นิยม เช่น ค่าจากช่วงก่อนหน้าหรือ pilot study</li>
+            <li>พิจารณาอัตราตอบกลับ (response rate) ที่อาจทำให้ต้องเผื่อเก็บมากกว่าที่สูตรระบุ</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
 
+    <section id="n-proportion" class="formula-section">
+      <h2>ขนาดตัวอย่างสำหรับสัดส่วน</h2>
+      <p class="section-subtitle">ใช้สำหรับข้อมูลสำเร็จ/ล้มเหลว โดยกำหนดความคลาดเคลื่อนของสัดส่วนที่ยอมรับได้</p>
+      <div class="formula-callout">\[ n = \frac{Z_{\alpha/2}^2\, p(1-p)}{E^2} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>กำหนดจำนวนผู้ตอบแบบสอบถามหรือการทดลองที่ต้องมีเพื่อให้ CI ของสัดส่วนอยู่ในระยะ \(\pm E\)</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(p\)</dt><dd>สัดส่วนคาดหมาย (Prior/ประมาณจากข้อมูลเก่า)</dd></div>
+            <div><dt>\(E\)</dt><dd>Margin of Error ที่ยอมรับได้ (เช่น 0.03 = 3 จุดเปอร์เซ็นต์)</dd></div>
+            <div><dt>\(Z_{\alpha/2}\)</dt><dd>ค่าวิกฤตตามระดับความเชื่อมั่น</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>กำหนด CL และดึง \(Z_{\alpha/2}\)</li>
+            <li>เลือกค่า \(p\) คาดหมาย — ถ้าไม่แน่ใจใช้ \(0.5\) เพื่อความปลอดภัย</li>
+            <li>แทนในสูตรและปัดขึ้นเป็นจำนวนเต็ม</li>
+            <li>เผื่ออัตราตอบกลับต่ำโดยคูณด้วยตัวปรับเพิ่มเติมหากจำเป็น</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>ต้องการสำรวจความพอใจ โดยคาด \(p ≈ 0.3\), \(E = 0.04\), CL = 95%</p>
+          <ol>
+            <li>\(n = (1.96^2 \times 0.3 \times 0.7)/0.04^2 = 503.9\)</li>
+            <li>ปัดขึ้น ⇒ ต้องเก็บอย่างน้อย 504 คน</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ถ้าคาดว่า \(p\) ใกล้ 0 หรือ 1 มาก ให้ใช้ข้อมูลเฉพาะกลุ่มเพื่อประเมิน เพราะสูตรนี้ไวต่อค่าดังกล่าว</li>
+            <li>เมื่อตัวอย่างไม่สุ่มอย่างแท้จริง (เช่น quota) อาจต้องปรับ n ด้วย design effect</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
   </main>
 </body>
 </html>

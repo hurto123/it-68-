@@ -18,71 +18,74 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>โครงสร้าง Confidence Interval</h1>
-      <p class="muted">Point Estimate ± Critical Value × Standard Error — รากฐานของบท 12 ถึง 16</p>
+      <p class="muted">Point Estimate ± Critical Value × Standard Error — หัวใจของบทที่ 12–16</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
         <span>บทที่เกี่ยวข้อง: 11–16</span>
       </div>
       <div class="formula-actions">
-        <a class="btn secondary" href="../lesson12.html">เปิดบทที่ 12</a>
+        <a class="btn secondary" href="../lesson12.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson12.html">ดูสรุป</a>
       </div>
     </section>
 
-    <section class="formula-section">
-      <h2>สูตรหลัก</h2>
-      <p>ความหมายของช่วงความเชื่อมั่น (Confidence Interval; CI) คือขอบเขตที่คาดว่าพารามิเตอร์ของประชากรจะอยู่ภายใน โดยอาศัยกระบวนการสุ่มตัวอย่างที่กำหนด</p>
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#ci-framework">โครงสร้างช่วงความเชื่อมั่น (CI Framework)</a></li>
+      </ol>
+    </section>
+
+    <section id="ci-framework" class="formula-section">
+      <h2>โครงสร้างช่วงความเชื่อมั่น</h2>
+      <p class="section-subtitle">ใช้กับพารามิเตอร์ใดก็ได้เมื่อเรามี Estimator, ค่าช่องผิดพลาดมาตรฐาน และการแจกแจงอ้างอิง</p>
       <div class="formula-callout">
         \[ CI = \text{Point Estimate} \pm (\text{Critical Value}) \times (\text{Standard Error}) \]
       </div>
-      <table class="formula-table">
-        <thead>
-          <tr>
-            <th>องค์ประกอบ</th>
-            <th>อธิบาย</th>
-            <th>ตัวอย่าง</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Point Estimate</td>
-            <td>ค่ากลางที่แทนพารามิเตอร์ เช่น $\bar X$, $\hat p$, $(\bar X_1-\bar X_2)$</td>
-            <td>\(\bar X = 12.1\) กรัม</td>
-          </tr>
-          <tr>
-            <td>Critical Value</td>
-            <td>ค่าจากการแจกแจง (Z หรือ t) ที่สัมพันธ์กับระดับความเชื่อมั่น</td>
-            <td>$Z_{0.025} = 1.96$, $t_{0.025, df}$</td>
-          </tr>
-          <tr>
-            <td>Standard Error</td>
-            <td>วัดความไม่แน่นอนของ Estimator ขึ้นกับการกระจายและขนาดตัวอย่าง</td>
-            <td>$SE_{\bar X}=\sigma/\sqrt{n}$, $SE_{\hat p}=\sqrt{\hat p(1-\hat p)/n}$</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="formula-section">
-      <h2>Workflow สร้างช่วงความเชื่อมั่น</h2>
-      <ol>
-        <li>กำหนดพารามิเตอร์ที่สนใจและตรวจสอบเงื่อนไข (การสุ่มอิสระ, ความเป็นปกติ, np≥10 ฯลฯ)</li>
-        <li>เลือกสูตร SE และชนิดของ Critical Value (Z หรือ t)</li>
-        <li>แทนค่าลงในสูตร \(CI = \hat\theta \pm CV \times SE\)</li>
-        <li>สรุปผลด้วยภาษาคน พร้อมระบุระดับความเชื่อมั่น</li>
-      </ol>
-      <div class="formula-callout warn">ระดับความเชื่อมั่นสูงขึ้น → Critical Value สูงขึ้น → ช่วงกว้างขึ้น หากต้องการช่วงแคบลงจำเป็นต้องเพิ่ม n</div>
-    </section>
-
-    <section class="formula-section">
-      <h2>ตัวอย่างย่อ</h2>
-      <p>สุ่มกาแฟ 45 ซอง ได้ \(\bar X = 12.1\) กรัม, $\sigma = 0.4$ กรัม, ต้องการ CI 95%</p>
-      <ol>
-        <li>$SE = 0.4/\sqrt{45} = 0.0596$</li>
-        <li>$CV = 1.96$ (จาก Z ตาราง)</li>
-        <li>Margin of Error = $1.96 \times 0.0596 = 0.117$</li>
-        <li>CI = $12.1 \pm 0.117 \Rightarrow (11.983, 12.217)$</li>
-      </ol>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>สร้างช่วงค่าที่เชื่อถือได้สำหรับพารามิเตอร์ของประชากรจากข้อมูลตัวอย่าง โดยสื่อสารความไม่แน่นอนอย่างโปร่งใส</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\hat\theta\)</dt><dd>Point estimate ที่ได้จากตัวอย่าง เช่น \(\bar X\), \(\hat p\)</dd></div>
+            <div><dt>CV</dt><dd>Critical Value จาก Z หรือ t ตามระดับความเชื่อมั่น</dd></div>
+            <div><dt>SE</dt><dd>Standard Error ของ Estimator ขึ้นกับรูปแบบข้อมูลและขนาดตัวอย่าง</dd></div>
+            <div><dt>CL</dt><dd>Confidence Level (เช่น 90%, 95%, 99%)</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ระบุพารามิเตอร์และ Estimator ที่จะใช้ พร้อมตรวจสอบว่าข้อสมมติพื้นฐานเป็นจริง</li>
+            <li>เลือกการแจกแจงอ้างอิง (Z, t, หรือการแจกแจงเฉพาะอื่น) แล้วดึงค่า CV ที่ตรงกับระดับความเชื่อมั่น</li>
+            <li>คำนวณ SE ด้วยสูตรของ Estimator นั้น ๆ</li>
+            <li>แทนค่าในสมการ \(CI = \hat\theta \pm CV \times SE\) และสรุปผลด้วยภาษาคน</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>สุ่มกาแฟ 45 ซองได้ \(\bar X = 12.1\) กรัม, \(\sigma = 0.4\) กรัม ต้องการ CI 95%</p>
+          <ol>
+            <li>\(SE = 0.4/\sqrt{45} = 0.0596\)</li>
+            <li>ระดับ 95% → \(CV = Z_{0.025} = 1.96\)</li>
+            <li>\(ME = 1.96 \times 0.0596 = 0.117\)</li>
+            <li>CI = \(12.1 \pm 0.117\) ⇒ (11.983, 12.217)</li>
+          </ol>
+          <p class="muted">สรุป: เรามั่นใจ 95% ว่าค่าเฉลี่ยปริมาณกาแฟต่อซองอยู่ในช่วง 11.98–12.22 กรัม</p>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ความเชื่อมั่นสูงขึ้น → CV สูงขึ้น → ช่วงกว้างขึ้น ต้องเพิ่ม \(n\) หากอยากได้ช่วงแคบ</li>
+            <li>อย่าตีความว่า “ความน่าจะเป็น 95% ที่ค่าจริงอยู่ในช่วง” เพราะค่าจริงคงที่ ช่วงต่างหากที่เปลี่ยนได้</li>
+            <li>ตรวจสอบข้อสมมติเกี่ยวกับการสุ่มอิสระและความเป็นปกติ (หรือใช้กฎ \(n \ge 30\)) ก่อนใช้สูตรอนุพันธ์จาก CLT</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
   </main>
 </body>

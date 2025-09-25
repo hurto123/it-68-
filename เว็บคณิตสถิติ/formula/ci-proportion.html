@@ -15,26 +15,73 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>CI สำหรับสัดส่วน</h1>
-      <p class="muted">\hat p ± Z SE พร้อมเงื่อนไข np ≥ 10</p>
+      <p class="muted">\(\hat p \pm Z SE\) พร้อมเงื่อนไขความเพียงพอของตัวอย่าง</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 14</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson14.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson14.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>สูตร</h2>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#ci-prop">ช่วงความเชื่อมั่นของสัดส่วนประชากร</a></li>
+      </ol>
+    </section>
+
+    <section id="ci-prop" class="formula-section">
+      <h2>ช่วงความเชื่อมั่นของสัดส่วนประชากร</h2>
+      <p class="section-subtitle">เหมาะสำหรับข้อมูลแบบสำเร็จ/ล้มเหลว เมื่อขนาดตัวอย่างเพียงพอสำหรับการประมาณด้วย Z</p>
       <div class="formula-callout">\[ CI_p = \hat p \pm Z_{\alpha/2} \sqrt{\frac{\hat p(1-\hat p)}{n}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ประมาณสัดส่วนความสำเร็จของประชากร เช่น สัดส่วนลูกค้าที่เลือกแพ็กเกจใหม่ หรืออัตราผ่านมาตรฐานคุณภาพ</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\hat p\)</dt><dd>สัดส่วนของตัวอย่าง (\(x/n\))</dd></div>
+            <div><dt>\(n\)</dt><dd>จำนวนการทดลอง/ตัวอย่างทั้งหมด</dd></div>
+            <div><dt>\(x\)</dt><dd>จำนวนความสำเร็จในตัวอย่าง</dd></div>
+            <div><dt>\(Z_{\alpha/2}\)</dt><dd>ค่าวิกฤตจาก Z สำหรับระดับความเชื่อมั่น</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตรวจสอบเงื่อนไขความเพียงพอ: \(n\hat p \ge 10\) และ \(n(1-\hat p) \ge 10\)</li>
+            <li>เลือกระดับความเชื่อมั่น → หา \(Z_{\alpha/2}\)</li>
+            <li>คำนวณ \(SE = \sqrt{\hat p(1-\hat p)/n}\)</li>
+            <li>สร้างช่วง \(CI = \hat p \pm Z_{\alpha/2} SE\) และสื่อสารเป็นเปอร์เซ็นต์</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>สำรวจผู้ชม 500 คน พบว่าชอบโฆษณาใหม่ 125 คน ต้องการ CI 95%</p>
+          <ol>
+            <li>\(\hat p = 125/500 = 0.25\)</li>
+            <li>เงื่อนไข: \(500 \times 0.25 = 125\) และ \(500 \times 0.75 = 375\) ≥ 10 ผ่าน</li>
+            <li>\(SE = \sqrt{0.25 \times 0.75 / 500} = 0.0188\)</li>
+            <li>\(ME = 1.96 \times 0.0188 = 0.0368\)</li>
+            <li>CI = 0.25 ± 0.0368 ⇒ (0.2132, 0.2868) หรือ 21.3%–28.7%</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ถ้าขนาดตัวอย่างเล็กหรือ \(\hat p\) ใกล้ 0/1 ให้พิจารณา Wilson interval หรือ Agresti–Coull</li>
+            <li>หากต้องวางแผน n ล่วงหน้าแต่ไม่รู้ \(p\) ให้ใช้ \(p^* = 0.5\) เพื่อได้ขนาดตัวอย่างสูงสุด (อนุรักษ์นิยม)</li>
+            <li>ตรวจสอบความเป็นอิสระของการทดลอง — การพึ่งพากันทำให้สูตรนี้ใช้ไม่ได้</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
-
-    <section class="formula-section">
-      <h2>เคล็ดลับ</h2>
-      <ul><li>ตรวจสอบให้ $n\hat p$ และ $n(1-\hat p)$ ≥ 10 ก่อนใช้สูตร</li><li>ถ้าต้องการคำนวณขนาดตัวอย่างล่วงหน้าแต่ไม่รู้ p ให้ตั้ง $p^*=0.5$</li></ul>
-    </section>
-
   </main>
 </body>
 </html>

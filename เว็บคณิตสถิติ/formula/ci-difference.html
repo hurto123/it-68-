@@ -15,26 +15,164 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>CI ผลต่างสองกลุ่ม</h1>
-      <p class="muted">ค่าเฉลี่ยสองกลุ่มและค่าสัดส่วนสองกลุ่ม</p>
+      <p class="muted">ครอบคลุมค่าเฉลี่ยสองกลุ่ม, Pooled Variance และสัดส่วนสองกลุ่ม</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 15</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson15.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson15.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>ค่าเฉลี่ย</h2>
-      <div class="formula-callout">\[ CI_{\mu_1-\mu_2} = (\bar X_1-\bar X_2) \pm t_{\alpha/2,df} \sqrt{S_p^2(1/n_1 + 1/n_2)} \]</div><p>โดย $S_p^2 = \dfrac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}$ หากสมมติฐานความแปรปรวนเท่ากันเป็นจริง</p>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#ci-mean-diff">CI ของผลต่างค่าเฉลี่ย (กลุ่มอิสระ)</a></li>
+        <li><a href="#pooled-variance">สูตรคำนวณ Pooled Variance</a></li>
+        <li><a href="#ci-prop-diff">CI ของผลต่างสัดส่วน</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>ค่าสัดส่วน</h2>
-      <div class="formula-callout">\[ CI_{p_1-p_2} = (\hat p_1-\hat p_2) \pm Z_{\alpha/2} \sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1}+\frac{\hat p_2(1-\hat p_2)}{n_2}} \]</div>
+    <section id="ci-mean-diff" class="formula-section">
+      <h2>CI ของผลต่างค่าเฉลี่ย</h2>
+      <p class="section-subtitle">ใช้กับตัวอย่างอิสระสองกลุ่มที่มีความแปรปรวนใกล้เคียงกันและไม่ทราบ \(\sigma^2\)</p>
+      <div class="formula-callout">\[ CI_{\mu_1-\mu_2} = (\bar X_1-\bar X_2) \pm t_{\alpha/2,\,df}\, \sqrt{S_p^2\left(\tfrac{1}{n_1}+\tfrac{1}{n_2}\right)} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ประเมินผลต่างค่าเฉลี่ยระหว่างสองประชากร เช่น คะแนนห้องเรียนสองห้อง หรือเวลาให้บริการสองช่องทาง</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\bar X_1, \bar X_2\)</dt><dd>ค่าเฉลี่ยของแต่ละกลุ่ม</dd></div>
+            <div><dt>\(n_1, n_2\)</dt><dd>ขนาดตัวอย่างแต่ละกลุ่ม</dd></div>
+            <div><dt>\(S_p^2\)</dt><dd>ความแปรปรวนน้ำหนักรวม (ดูสูตรด้านล่าง)</dd></div>
+            <div><dt>\(df\)</dt><dd>องศาอิสระ = \(n_1 + n_2 - 2\)</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตรวจสอบเงื่อนไข: สุ่มอิสระ, ความแปรปรวนใกล้เคียง, การแจกแจงใกล้ปกติ (หรือ \(n\) ใหญ่)</li>
+            <li>คำนวณ \(S_p^2\) จากข้อมูลทั้งสองกลุ่ม</li>
+            <li>หาค่า \(SE = \sqrt{S_p^2 (1/n_1 + 1/n_2)}\)</li>
+            <li>ดึง \(t_{\alpha/2, df}\) แล้วสร้างช่วงด้วยสูตร</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>กลุ่ม A (n=20, \(\bar X=74, s=8\)); กลุ่ม B (n=22, \(\bar X=80, s=7\)); ต้องการ CI 95%</p>
+          <ol>
+            <li>\(S_p^2 = \frac{19(8^2)+21(7^2)}{20+22-2} = 54.5\)</li>
+            <li>\(SE = \sqrt{54.5(1/20 + 1/22)} = 2.52\)</li>
+            <li>\(df = 40\) ⇒ \(t_{0.025,40} ≈ 2.021\)</li>
+            <li>\(ME = 2.021 \times 2.52 = 5.09\)</li>
+            <li>CI = (74−80) ± 5.09 ⇒ (−11.09, −0.91)</li>
+          </ol>
+          <p class="muted">ผลลัพธ์บอกว่าค่าเฉลี่ยกลุ่ม A ต่ำกว่ากลุ่ม B อย่างมีนัยสำคัญ (เพราะช่วงไม่คร่อมศูนย์)</p>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ถ้าความแปรปรวนต่างกันมากหรือมีหลักฐานคัดค้าน ให้ใช้ Welch interval แทน</li>
+            <li>อย่าลืมสื่อสารทิศทางของผลต่าง (กลุ่ม 1 ลบกลุ่ม 2) เพื่อป้องกันการตีความกลับด้าน</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
 
+    <section id="pooled-variance" class="formula-section">
+      <h2>สูตรคำนวณ Pooled Variance</h2>
+      <p class="section-subtitle">ผสานความแปรปรวนจากสองกลุ่มภายใต้สมมติฐานว่าความแปรปรวนประชากรเท่ากัน</p>
+      <div class="formula-callout">\[ S_p^2 = \dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>หาค่าประมาณเดียวของความแปรปรวนร่วม เพื่อใช้ในสูตร CI หรือ t-test แบบ Pooled</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(s_1^2, s_2^2\)</dt><dd>ความแปรปรวนตัวอย่างของแต่ละกลุ่ม</dd></div>
+            <div><dt>\(n_1, n_2\)</dt><dd>ขนาดตัวอย่าง</dd></div>
+            <div><dt>ตัวส่วน</dt><dd>องศาอิสระรวม \(n_1+n_2-2\)</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>นำความแปรปรวนแต่ละกลุ่มคูณด้วยองศาอิสระของตัวเอง</li>
+            <li>บวกสองผลลัพธ์เข้าด้วยกัน</li>
+            <li>หารด้วย \(n_1+n_2-2\) เพื่อให้ได้ค่าเฉลี่ยถ่วงน้ำหนัก</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>ต่อจากตัวอย่างด้านบน: \(s_1=8, n_1=20, s_2=7, n_2=22\)</p>
+          <p>\(S_p^2 = (19\times64 + 21\times49)/40 = 2180/40 = 54.5\)</p>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>หากข้อสมมติ “ความแปรปรวนเท่ากัน” ไม่เป็นจริง Pooled Variance จะทำให้ช่วงคลาดเคลื่อน</li>
+            <li>เมื่อมี outlier รุนแรง ควรตรวจสอบก่อนคำนวณเพราะค่ากำลังสองไวต่อจุดสุดโต่ง</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="ci-prop-diff" class="formula-section">
+      <h2>CI ของผลต่างสัดส่วน</h2>
+      <p class="section-subtitle">วิเคราะห์การตอบสนองสองกลุ่มอิสระ เช่น อัตราคลิกของแคมเปญ A/B</p>
+      <div class="formula-callout">\[ CI_{p_1-p_2} = (\hat p_1-\hat p_2) \pm Z_{\alpha/2}\, \sqrt{\tfrac{\hat p_1(1-\hat p_1)}{n_1} + \tfrac{\hat p_2(1-\hat p_2)}{n_2}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ประเมินว่าความแตกต่างของสัดส่วนระหว่างสองกลุ่มมีขนาดเท่าใดและมีทิศทางใด</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\hat p_1, \hat p_2\)</dt><dd>สัดส่วนตัวอย่างแต่ละกลุ่ม</dd></div>
+            <div><dt>\(n_1, n_2\)</dt><dd>ขนาดตัวอย่าง</dd></div>
+            <div><dt>\(Z_{\alpha/2}\)</dt><dd>ค่าวิกฤตจาก Z</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตรวจสอบ \(n_i\hat p_i\) และ \(n_i(1-\hat p_i)\) ≥ 10 สำหรับทั้งสองกลุ่ม</li>
+            <li>คำนวณ \(SE = \sqrt{\hat p_1(1-\hat p_1)/n_1 + \hat p_2(1-\hat p_2)/n_2}\)</li>
+            <li>เลือก \(Z_{\alpha/2}\) ตามระดับความเชื่อมั่น</li>
+            <li>สร้างช่วงและตีความว่าศูนย์อยู่ในช่วงหรือไม่</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>แคมเปญ A: 81 จาก 300 คนกดซื้อ ⇒ \(\hat p_1=0.27\); แคมเปญ B: 40 จาก 250 คน ⇒ \(\hat p_2=0.16\)</p>
+          <ol>
+            <li>\(SE = \sqrt{0.27(0.73)/300 + 0.16(0.84)/250} = 0.027\)</li>
+            <li>95% ⇒ \(Z_{0.025} = 1.96\)</li>
+            <li>\(ME = 1.96 \times 0.027 = 0.053\)</li>
+            <li>CI = 0.27 − 0.16 ± 0.053 ⇒ (0.057, 0.163)</li>
+          </ol>
+          <p class="muted">สัดส่วนของแคมเปญ A สูงกว่า B อย่างมีนัยสำคัญ (เพราะช่วงเป็นบวกทั้งหมด)</p>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>กรณีสัดส่วนต่ำมาก อาจต้องใช้การประมาณแบบ Exact (เช่น Newcombe) แทน</li>
+            <li>อย่าลืมรายงานส่วนต่างพร้อมหน่วย (จุดเปอร์เซ็นต์) เพื่อการสื่อสารที่เข้าใจง่าย</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
   </main>
 </body>
 </html>

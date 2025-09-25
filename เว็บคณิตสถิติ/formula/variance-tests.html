@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chi-square & F-test | อธิบายสูตร</title>
+  <title>Chi-square &amp; F-test | อธิบายสูตร</title>
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="../print.css" media="print" />
   <script>
@@ -14,27 +14,113 @@
 <body>
   <main class="formula-page">
     <section class="formula-hero">
-      <h1>Chi-square & F-test</h1>
-      <p class="muted">ทดสอบความแปรปรวน</p>
+      <h1>Chi-square &amp; F-test</h1>
+      <p class="muted">ทดสอบความแปรปรวนของกลุ่มเดียวและสองกลุ่ม</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 22</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson22.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson22.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>Chi-square</h2>
-      <div class="formula-callout">\[ \chi^2 = \frac{(n-1)s^2}{\sigma_0^2} \] สำหรับกลุ่มเดียว</div>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#chi-square">Chi-square test สำหรับความแปรปรวนกลุ่มเดียว</a></li>
+        <li><a href="#f-test">F-test สำหรับเปรียบเทียบความแปรปรวนสองกลุ่ม</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>F-test</h2>
-      <div class="formula-callout">\[ F = \frac{s_1^2}{s_2^2}, df_1=n_1-1, df_2=n_2-1 \]</div>
+    <section id="chi-square" class="formula-section">
+      <h2>Chi-square test</h2>
+      <p class="section-subtitle">ใช้ตรวจสอบว่าความแปรปรวนของประชากรหนึ่งแตกต่างจากค่าเป้าหมายหรือไม่</p>
+      <div class="formula-callout">\[ \chi^2 = \frac{(n-1)s^2}{\sigma_0^2}, \quad df = n-1 \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>พิสูจน์ว่าความแปรปรวนจริงยังคงเท่าเดิม (เช่น เครื่องจักรยังทำได้ตามสเปค \(\sigma_0^2\)) หรือเพิ่มขึ้น/ลดลง</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\sigma_0^2\)</dt><dd>ค่าความแปรปรวนภายใต้ H₀</dd></div>
+            <div><dt>\(s^2\)</dt><dd>ความแปรปรวนของตัวอย่าง</dd></div>
+            <div><dt>\(n\)</dt><dd>จำนวนตัวอย่าง</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตั้ง H₀ และ H₁ พร้อมระบุทิศทาง (สองหาง, ขวา, ซ้าย)</li>
+            <li>คำนวณสถิติ \(\chi^2\) จากสูตร</li>
+            <li>เปรียบเทียบกับ critical value จากตาราง \(\chi^2\) หรือใช้ p-value</li>
+            <li>สรุปผลและพิจารณาผลกระทบต่อการควบคุมคุณภาพ</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>บรรจุน้ำตาล (n=15) มี \(s^2 = 22\) ต้องการทดสอบกับ \(\sigma_0^2 = 18\) (ด้านขวา, \(\alpha = 0.05\))</p>
+          <ol>
+            <li>\(\chi^2 = (14\times22)/18 = 17.11\)</li>
+            <li>critical = 23.685 ⇒ 17.11 < 23.685 → ไม่ปฏิเสธ H₀</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ต้องการสมมติฐานว่าข้อมูลมาจากการแจกแจงปกติ หากไม่เป็นจริงผลจะเพี้ยน</li>
+            <li>สถิติไวต่อ outlier — ตรวจสอบค่าผิดปกติก่อนเสมอ</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
 
+    <section id="f-test" class="formula-section">
+      <h2>F-test สำหรับสองกลุ่ม</h2>
+      <p class="section-subtitle">เปรียบเทียบความแปรปรวนของสองประชากรอิสระ</p>
+      <div class="formula-callout">\[ F = \frac{s_1^2}{s_2^2}, \quad df_1 = n_1-1, \quad df_2 = n_2-1 \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ตรวจสอบว่าความสม่ำเสมอของสองกระบวนการเท่ากันหรือแตกต่างกัน เช่น เครื่องจักร A vs B</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(s_1^2, s_2^2\)</dt><dd>ความแปรปรวนตัวอย่างของแต่ละกลุ่ม (จัดให้ \(s_1^2 \ge s_2^2\))</dd></div>
+            <div><dt>\(df_1, df_2\)</dt><dd>องศาอิสระของแต่ละกลุ่ม</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>จัดกลุ่มให้ \(s_1^2\) เป็นค่าที่ใหญ่กว่าเพื่อให้ \(F \ge 1\)</li>
+            <li>คำนวณ F และเปรียบเทียบกับค่า critical ตามทิศทางการทดสอบ</li>
+            <li>ถ้าเป็นสองหาง ให้ตรวจสอบทั้งหางซ้ายและขวา</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>เครื่อง A: \(n_1=12, s_1^2=30\); เครื่อง B: \(n_2=10, s_2^2=12\); ทดสอบสองหางที่ \(\alpha=0.10\)</p>
+          <ol>
+            <li>\(F = 30/12 = 2.5\)</li>
+            <li>ใช้ df₁=11, df₂=9 เพื่อตรวจหาค่า critical → หาก 2.5 อยู่ในเขตปฏิเสธ ให้สรุปว่าความแปรปรวนต่างกัน</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ต้องมั่นใจว่าข้อมูลแต่ละกลุ่มแจกแจงปกติ มิฉะนั้นควรใช้ Levene หรือ Brown–Forsythe แทน</li>
+            <li>อย่าลืมรายงานทิศทาง เช่น “เครื่อง A มีความแปรปรวนสูงกว่า B ประมาณ 2.5 เท่า”</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
   </main>
 </body>
 </html>

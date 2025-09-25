@@ -15,26 +15,115 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>Z/t-test สำหรับค่าเฉลี่ย</h1>
-      <p class="muted">สรุปขั้นตอนทดสอบค่าเฉลี่ย 1 กลุ่ม</p>
+      <p class="muted">เลือกสูตรตามการรู้ค่า \(\sigma\) และขนาดตัวอย่าง</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 19</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson19.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson19.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>สูตร</h2>
-      <p>Z = \frac{\bar X-\mu_0}{\sigma/\sqrt{n}}, \quad t = \frac{\bar X-\mu_0}{s/\sqrt{n}}</p>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#z-test-mean">Z-test สำหรับค่าเฉลี่ย (รู้ \(\sigma\))</a></li>
+        <li><a href="#t-test-mean">t-test สำหรับค่าเฉลี่ย (ไม่รู้ \(\sigma\))</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>Workflow</h2>
-      <p>1. ตั้ง $H_0$ และ $H_1$</p><p>2. เลือกระดับนัยสำคัญ</p><p>3. คำนวณสถิติ Z หรือ t</p><p>4. เปรียบเทียบกับ Critical Value หรือ p-value</p><p>5. สรุปผลในบริบท</p>
+    <section id="z-test-mean" class="formula-section">
+      <h2>Z-test สำหรับค่าเฉลี่ย</h2>
+      <p class="section-subtitle">ใช้เมื่อทราบ \(\sigma\) หรือมีขนาดตัวอย่างใหญ่มากและข้อมูลใกล้ปกติ</p>
+      <div class="formula-callout">\[ Z = \frac{\bar X - \mu_0}{\sigma/\sqrt{n}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ทดสอบว่าค่าเฉลี่ยประชากรแตกต่างจากค่าที่อ้างอิง (\(\mu_0\)) มากพอที่จะสรุปเปลี่ยนแปลงหรือไม่</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\mu_0\)</dt><dd>ค่าที่สมมติไว้ใน H₀</dd></div>
+            <div><dt>\(\sigma\)</dt><dd>ส่วนเบี่ยงเบนมาตรฐานของประชากร (ทราบค่า)</dd></div>
+            <div><dt>อื่น ๆ</dt><dd>\(\bar X\), \(n\) คือค่าเฉลี่ยและขนาดตัวอย่าง</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตั้ง H₀ และ H₁ พร้อมระบุทิศทางการทดสอบ</li>
+            <li>คำนวณสถิติทดสอบตามสูตร</li>
+            <li>หา critical value หรือ p-value จาก Z</li>
+            <li>เปรียบเทียบกับ \(\alpha\) แล้วสรุปผล พร้อมเชื่อมโยงบริบท</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>หลอดไฟถูกอ้างว่ามีอายุ 50 ชม. สุ่ม 25 หลอดได้ \(\bar X = 47\), \(\sigma = 6\), ทดสอบแบบสองทางที่ \(\alpha = 0.05\)</p>
+          <ol>
+            <li>\(Z = (47-50)/(6/\sqrt{25}) = -2.5\)</li>
+            <li>ค่า critical ±1.96 → \(|Z| > 1.96\) ⇒ ปฏิเสธ H₀</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ถ้าขนาดตัวอย่างเล็กและไม่ทราบ \(\sigma\) ห้ามใช้ Z-test</li>
+            <li>ตรวจสอบความเป็นปกติหรือใช้กลยุทธ์ปรับก่อนทดสอบเมื่อข้อมูลเบ้</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
 
+    <section id="t-test-mean" class="formula-section">
+      <h2>t-test สำหรับค่าเฉลี่ย</h2>
+      <p class="section-subtitle">ใช้เมื่อไม่ทราบ \(\sigma\) และต้องใช้ \(s\) แทน พร้อมองศาอิสระ \(df = n-1\)</p>
+      <div class="formula-callout">\[ t = \frac{\bar X - \mu_0}{s/\sqrt{n}}, \quad df = n-1 \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ทดสอบสมมติฐานเกี่ยวกับค่าเฉลี่ยโดยใช้ความคลาดเคลื่อนที่วัดจากตัวอย่างเอง</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(s\)</dt><dd>ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง</dd></div>
+            <div><dt>\(df\)</dt><dd>องศาอิสระ = \(n-1\)</dd></div>
+            <div><dt>อื่น ๆ</dt><dd>เหมือนกรณี Z-test</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตรวจสอบเงื่อนไข: สุ่มอิสระ, ข้อมูลใกล้ปกติ (โดยเฉพาะเมื่อ \(n < 30\))</li>
+            <li>คำนวณสถิติทดสอบตามสูตร t</li>
+            <li>ใช้ตาราง t หรือเครื่องคิดเลขเพื่อหาค่า critical/p-value</li>
+            <li>สรุปผลโดยอ้างอิงกับ \(\alpha\) และบริบท</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>นักศึกษากลุ่มหนึ่งใช้เวลาอ่านบทเรียนเฉลี่ย \(\bar X = 12.3\) ชม./สัปดาห์, \(s = 3.2\), \(n = 18\); ต้องการทราบว่ามากกว่า 11 ชม. หรือไม่ (ทดสอบด้านขวา, \(\alpha = 0.05\))</p>
+          <ol>
+            <li>\(t = (12.3 - 11)/(3.2/\sqrt{18}) = 1.73\)</li>
+            <li>\(df = 17\); \(t_{0.95,17} ≈ 1.740\)</li>
+            <li>เพราะ 1.73 < 1.740 → ยังไม่ปฏิเสธ H₀ (ผลเฉียด)</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ตาราง t มีสองหาง — ตรวจสอบให้ใช้ค่าวิกฤตสอดคล้องกับทิศทางของ H₁</li>
+            <li>ข้อมูลที่มี outlier สูงทำให้ \(s\) พองเกินจริง ส่งผลให้การทดสอบมีพลังต่ำ</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
   </main>
 </body>
 </html>

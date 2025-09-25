@@ -18,9 +18,10 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>CI สำหรับค่าเฉลี่ย 1 กลุ่ม</h1>
-      <p class="muted">เลือกใช้ Z หรือ t เมื่อรู้/ไม่รู้ σ</p>
+      <p class="muted">เลือกใช้ Z หรือ t เมื่อรู้หรือไม่รู้ส่วนเบี่ยงเบนมาตรฐานของประชากร</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 13</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson13.html">เปิดบทเรียน</a>
@@ -28,19 +29,108 @@
       </div>
     </section>
 
-    <section class="formula-section">
-      <h2>สูตร</h2>
-      <div class="formula-callout">\[ CI_{\mu,\,\sigma\,\text{รู้}} = \bar X \pm Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</div>
-      <div class="formula-callout">\[ CI_{\mu,\,\sigma\,\text{ไม่รู้}} = \bar X \pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt{n}} \]</div>
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#ci-known-sigma">CI ของค่าเฉลี่ยเมื่อรู้ \(\sigma\)</a></li>
+        <li><a href="#ci-unknown-sigma">CI ของค่าเฉลี่ยเมื่อไม่รู้ \(\sigma\)</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>ขั้นตอนตัดสินใจ</h2>
-      <ol>
-        <li>ตรวจสอบการสุ่มอิสระและความเป็นปกติ (หรือใช้กฎ $n \ge 30$)</li>
-        <li>หากรู้ $\sigma$ ใช้ Z-interval, หากไม่รู้ให้ใช้ $s$ และ t-interval</li>
-        <li>แทนค่าลงในสูตรและสรุปผลพร้อมระดับความเชื่อมั่น</li>
-      </ol>
+    <section id="ci-known-sigma" class="formula-section">
+      <h2>CI ของค่าเฉลี่ยเมื่อรู้ \(\sigma\)</h2>
+      <p class="section-subtitle">ใช้ Z-interval เมื่อเราทราบส่วนเบี่ยงเบนมาตรฐานของประชากรหรือมีข้อมูลเชื่อถือได้จากอดีต</p>
+      <div class="formula-callout">\[ CI_{\mu} = \bar X \pm Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>คำนวณช่วงความเชื่อมั่นของค่าเฉลี่ยประชากรเมื่อ \(\sigma\) เป็นที่ทราบ (เช่น มาตรฐานโรงงาน)</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(\bar X\)</dt><dd>ค่าเฉลี่ยตัวอย่าง</dd></div>
+            <div><dt>\(\sigma\)</dt><dd>ส่วนเบี่ยงเบนมาตรฐานของประชากร (ทราบค่า)</dd></div>
+            <div><dt>\(n\)</dt><dd>ขนาดตัวอย่าง</dd></div>
+            <div><dt>\(Z_{\alpha/2}\)</dt><dd>ค่าวิกฤตจากการแจกแจงปกติมาตรฐาน</dd></div>
+            <div><dt>\(\alpha\)</dt><dd>นัยสำคัญ (1 − ระดับความเชื่อมั่น)</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตรวจสอบว่าการสุ่มเป็นอิสระ และการแจกแจงของตัวอย่างใกล้ปกติหรือมี \(n \ge 30\)</li>
+            <li>กำหนดระดับความเชื่อมั่น → หา \(Z_{\alpha/2}\)</li>
+            <li>คำนวณ \(SE = \sigma/\sqrt{n}\)</li>
+            <li>แทนค่าสูตร \(CI = \bar X \pm Z_{\alpha/2} SE\) และสรุปผล</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>โรงงานบรรจุกาแฟเคยวัดได้ \(\sigma = 0.4\) กรัม สุ่มซองใหม่ 45 ชิ้นได้ \(\bar X = 12.1\) กรัม ต้องการ CI 95%</p>
+          <ol>
+            <li>\(SE = 0.4/\sqrt{45} = 0.0596\)</li>
+            <li>95% ⇒ \(Z_{0.025} = 1.96\)</li>
+            <li>\(ME = 1.96 \times 0.0596 = 0.117\)</li>
+            <li>ช่วง = 12.1 ± 0.117 ⇒ (11.983, 12.217)</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>ถ้าค่า \(\sigma\) ที่นำมาใช้ล้าสมัยหรือไม่ตรงสถานการณ์ ควรใช้ t-interval แทน</li>
+            <li>เมื่อ \(n\) เล็ก (< 30) ต้องมั่นใจว่าข้อมูลใกล้ปกติจึงจะใช้สูตรนี้ได้</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
+    </section>
+
+    <section id="ci-unknown-sigma" class="formula-section">
+      <h2>CI ของค่าเฉลี่ยเมื่อไม่รู้ \(\sigma\)</h2>
+      <p class="section-subtitle">ใช้ t-interval พร้อมองศาอิสระ \(df = n-1\) เมื่อส่วนเบี่ยงเบนมาตรฐานของประชากรไม่ทราบ</p>
+      <div class="formula-callout">\[ CI_{\mu} = \bar X \pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt{n}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ประเมินค่าเฉลี่ยประชากรโดยใช้ \(s\) เป็นตัวแทน \(\sigma\) และคำนึงถึงความไม่แน่นอนที่เพิ่มขึ้น</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(s\)</dt><dd>ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง</dd></div>
+            <div><dt>\(t_{\alpha/2, df}\)</dt><dd>ค่าวิกฤตจาก t-distribution, \(df = n-1\)</dd></div>
+            <div><dt>อื่น ๆ</dt><dd>เหมือนกรณีรู้ \(\sigma\): \(\bar X, n, \alpha\)</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ยืนยันการสุ่มอิสระ และตรวจสอบความเป็นปกติ (กรณี \(n < 30\))</li>
+            <li>เลือกระดับความเชื่อมั่น → หา \(t_{\alpha/2, n-1}\)</li>
+            <li>คำนวณ \(SE = s/\sqrt{n}\)</li>
+            <li>สร้างช่วงด้วยสูตร t-interval และสื่อสารผล</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>สุ่มนักศึกษาจำนวน 16 คนพบเวลาอ่านหนังสือเฉลี่ย \(\bar X = 45\) นาที, \(s = 12\) นาที ต้องการ CI 95%</p>
+          <ol>
+            <li>\(SE = 12/\sqrt{16} = 3\)</li>
+            <li>\(df = 15\) ⇒ \(t_{0.025,15} ≈ 2.131\)</li>
+            <li>\(ME = 2.131 \times 3 = 6.393\)</li>
+            <li>CI = 45 ± 6.393 ⇒ (38.607, 51.393)</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>เมื่อ \(n\) ใหญ่ t-distribution จะเข้าใกล้ Z ใช้สูตรไหนผลแทบเท่ากัน</li>
+            <li>ข้อมูลที่เบ้รุนแรงหรือมี outlier มาก ควรใช้เทคนิคปรับก่อนสร้าง CI</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
   </main>
 </body>

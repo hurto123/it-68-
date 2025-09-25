@@ -15,26 +15,70 @@
   <main class="formula-page">
     <section class="formula-hero">
       <h1>Z-test สำหรับสัดส่วน</h1>
-      <p class="muted">เปรียบเทียบ p กับ $p_0$</p>
+      <p class="muted">เปรียบเทียบสัดส่วนประชากรกับค่าที่ตั้งสมมติฐานไว้</p>
       <div class="formula-meta">
         <span>อัปเดต 7 ต.ค. 2025</span>
+        <span>บทที่เกี่ยวข้อง: 20</span>
       </div>
       <div class="formula-actions">
         <a class="btn secondary" href="../lesson20.html">เปิดบทเรียน</a>
         <a class="btn ghost" href="../summary-lesson20.html">ดูสรุป</a>
       </div>
     </section>
-    
-    <section class="formula-section">
-      <h2>สูตร</h2>
-      <div class="formula-callout">\[ Z = \frac{\hat p - p_0}{\sqrt{p_0(1-p_0)/n}} \]</div>
+
+    <section id="toc" class="formula-section toc">
+      <h2>สารบัญ</h2>
+      <ol class="formula-toc">
+        <li><a href="#z-test-prop">Z-test สำหรับสัดส่วน 1 กลุ่ม</a></li>
+      </ol>
     </section>
 
-    <section class="formula-section">
-      <h2>ข้อควรระวัง</h2>
-      <ul><li>ใช้ $p_0$ ในส่วนของ SE</li><li>ตรวจสอบ $np_0$ และ $n(1-p_0)$ ≥ 10</li></ul>
+    <section id="z-test-prop" class="formula-section">
+      <h2>Z-test สำหรับสัดส่วน 1 กลุ่ม</h2>
+      <p class="section-subtitle">เหมาะสำหรับการทดสอบข้อมูลสำเร็จ/ล้มเหลวเมื่อขนาดตัวอย่างเพียงพอ</p>
+      <div class="formula-callout">\[ Z = \frac{\hat p - p_0}{\sqrt{\dfrac{p_0(1-p_0)}{n}}} \]</div>
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>เป้าหมาย</h3>
+          <p>ตรวจสอบว่าสัดส่วนในประชากรแตกต่างจากค่าที่ระบุในสมมติฐานมากพอหรือไม่ เช่น อัตราการผ่านมาตรฐาน ≥ 90%</p>
+        </article>
+        <article class="formula-card">
+          <h3>สัญลักษณ์</h3>
+          <dl class="symbol-list">
+            <div><dt>\(p_0\)</dt><dd>สัดส่วนที่สมมติใน H₀</dd></div>
+            <div><dt>\(\hat p\)</dt><dd>สัดส่วนตัวอย่าง = \(x/n\)</dd></div>
+            <div><dt>\(n\)</dt><dd>จำนวนการทดลอง/ตัวอย่าง</dd></div>
+          </dl>
+        </article>
+        <article class="formula-card">
+          <h3>วิธีทำ</h3>
+          <ol>
+            <li>ตั้ง H₀ และ H₁ พร้อมระบุทิศทาง (สองหาง, ขวา, ซ้าย)</li>
+            <li>ตรวจสอบเงื่อนไข \(np_0\) และ \(n(1-p_0)\) ≥ 10</li>
+            <li>คำนวณสถิติ Z และเปรียบเทียบกับ critical หรือ p-value</li>
+            <li>สรุปผลและให้คำอธิบายเชิงบริบท (เช่น ความหมายต่อธุรกิจ/นโยบาย)</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ตัวอย่าง</h3>
+          <p>โพลสำรวจผู้สมัครคนหนึ่งมีผู้สนับสนุน 78 จาก 150 คน ต้องการทดสอบว่ามีมากกว่า 50% หรือไม่ (ด้านขวา, \(\alpha = 0.05\))</p>
+          <ol>
+            <li>\(\hat p = 78/150 = 0.52\)</li>
+            <li>\(Z = (0.52 - 0.5)/\sqrt{0.5(0.5)/150} = 0.49\)</li>
+            <li>เนื่องจาก 0.49 < 1.645 ⇒ ไม่ปฏิเสธ H₀</li>
+          </ol>
+        </article>
+        <article class="formula-card">
+          <h3>ข้อควรระวัง</h3>
+          <ul>
+            <li>อย่าใช้ \(\hat p\) ในส่วนของ SE — ต้องใช้ \(p_0\) ตามสูตรการทดสอบ</li>
+            <li>กรณีเงื่อนไขไม่ผ่านให้ใช้การทดสอบแบบ Exact (เช่น binomial test)</li>
+            <li>รายงานผลควบคู่กับ CI เพื่อสื่อสารขนาดผลอย่างชัดเจน</li>
+          </ul>
+        </article>
+      </div>
+      <p class="back-to-top"><a href="#toc">↑ กลับไปสารบัญ</a></p>
     </section>
-
   </main>
 </body>
 </html>

@@ -265,7 +265,12 @@ export const formulas = [
     desc: "Point Estimate, Critical Value, Standard Error, Margin of Error",
     tags: "สูตร confidence interval critical value standard error",
     chip: "Inference",
-    link: "formula/ci-structure.html"
+    link: "formula/ci-structure.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "ci-mean",
@@ -273,7 +278,12 @@ export const formulas = [
     desc: "สูตร Z/t, ตารางเลือกเงื่อนไข, ตัวอย่างกาแฟ/เวลานอน",
     tags: "สูตร ci mean z t sigma",
     chip: "Inference",
-    link: "formula/ci-mean.html"
+    link: "formula/ci-mean.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "ci-proportion",
@@ -281,7 +291,12 @@ export const formulas = [
     desc: "สูตร \hat p ± Z SE, เงื่อนไข np≥10, เคล็ดลับเลือก p*",
     tags: "สูตร ci proportion z np>=10",
     chip: "Inference",
-    link: "formula/ci-proportion.html"
+    link: "formula/ci-proportion.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "ci-difference",
@@ -289,7 +304,12 @@ export const formulas = [
     desc: "ค่าเฉลี่ยสองกลุ่ม, Pooled Variance, ผลต่างสัดส่วน",
     tags: "สูตร ci difference pooled variance proportion",
     chip: "Inference",
-    link: "formula/ci-difference.html"
+    link: "formula/ci-difference.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "sample-size",
@@ -297,7 +317,12 @@ export const formulas = [
     desc: "สูตรกำหนด n สำหรับ μ และ p พร้อมตัวอย่าง",
     tags: "สูตร sample size margin error",
     chip: "Inference",
-    link: "formula/sample-size.html"
+    link: "formula/sample-size.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "mean-tests",
@@ -305,7 +330,12 @@ export const formulas = [
     desc: "ขั้นตอนทดสอบ, สูตร, การตีความ p-value",
     tags: "สูตร mean test z t",
     chip: "Inference",
-    link: "formula/mean-tests.html"
+    link: "formula/mean-tests.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "proportion-test",
@@ -313,7 +343,12 @@ export const formulas = [
     desc: "สูตรทดสอบ, เงื่อนไข np₀, ตัวอย่างธุรกิจ",
     tags: "สูตร proportion test z",
     chip: "Inference",
-    link: "formula/proportion-test.html"
+    link: "formula/proportion-test.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "two-sample-tests",
@@ -321,7 +356,12 @@ export const formulas = [
     desc: "ตารางเลือก t (pooled/Welch) & z สำหรับสัดส่วน",
     tags: "สูตร two sample t pooled welch z proportion",
     chip: "Inference",
-    link: "formula/two-sample-tests.html"
+    link: "formula/two-sample-tests.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   },
   {
     id: "variance-tests",
@@ -329,7 +369,12 @@ export const formulas = [
     desc: "ทดสอบความแปรปรวนกลุ่มเดียวและสองกลุ่ม",
     tags: "สูตร variance chi-square f-test",
     chip: "Inference",
-    link: "formula/variance-tests.html"
+    link: "formula/variance-tests.html",
+    meta: {
+      category: "Inference",
+      version: "2.0.0",
+      updated_at: "2025-10-07"
+    }
   }
 ];
 

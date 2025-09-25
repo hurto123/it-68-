@@ -968,6 +968,107 @@ body {
   text-decoration: none;
 }
 
+.formula-section.toc {
+  background: rgba(12,18,28,0.9);
+  border-style: dashed;
+}
+
+.formula-toc {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.formula-toc > li {
+  line-height: 1.55;
+}
+
+.formula-toc a {
+  color: var(--accent-light);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.formula-section .section-subtitle {
+  margin: -0.25rem 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.formula-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 1rem;
+}
+
+.formula-card {
+  background: rgba(18,25,38,0.85);
+  border: 1px solid rgba(120,142,182,0.28);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 8px 18px rgba(7,10,19,0.45);
+}
+
+.formula-card h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.formula-card ul,
+.formula-card ol {
+  margin: 0.5rem 0 0.25rem 1.1rem;
+  padding-left: 0;
+}
+
+.formula-card p {
+  margin: 0.35rem 0;
+}
+
+.symbol-list {
+  margin: 0.6rem 0 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.symbol-list div {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0.6rem;
+  align-items: start;
+}
+
+.symbol-list dt {
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.symbol-list dd {
+  margin: 0;
+}
+
+.back-to-top {
+  margin-top: 1.4rem;
+  text-align: right;
+}
+
+.back-to-top a {
+  color: var(--accent-light);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .symbol-list div {
+    grid-template-columns: 1fr;
+  }
+
+  .formula-section {
+    padding: 1.2rem 1.15rem;
+  }
+}
+
 /* ===============================
    Quiz & Exercise Pages
    =============================== */
