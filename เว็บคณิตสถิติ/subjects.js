@@ -144,30 +144,6 @@ export const formulas = [
     link: "formula/z-score.html"
   },
   {
-    id: "t",
-    title: "t-Distribution",
-    desc: "ค่า p, t-crit, เปรียบเทียบกับ Normal และอินเวอร์ส",
-    tags: "สูตร t distribution student's t df",
-    chip: "Inference",
-    link: "formula/t-distribution.html"
-  },
-  {
-    id: "chi-square",
-    title: "Chi-Square Distribution",
-    desc: "ค่า p, ค่าวิกฤต, กราฟขวาเบ้สำหรับอนุมานความแปรปรวน",
-    tags: "สูตร chi-square ค่าวิกฤต ความแปรปรวน",
-    chip: "Inference",
-    link: "formula/chi-square.html"
-  },
-  {
-    id: "f-dist",
-    title: "F-Distribution",
-    desc: "เปรียบเทียบความแปรปรวน, F-crit, ตารางค่า α",
-    tags: "สูตร f distribution anova variance",
-    chip: "Inference",
-    link: "formula/f-distribution.html"
-  },
-  {
     id: "clt",
     title: "CLT: x̄ & p̂",
     desc: "การกระจายของค่าเฉลี่ย/สัดส่วนตัวอย่าง",
@@ -187,12 +163,160 @@ export const summaries = [
     link: "summaries-all.html"
   },
   {
-    id: "index",
-    title: "สารบัญสรุป 1 หน้า",
-    desc: "ค้นหาและเปิดสรุปแต่ละบท พร้อมปุ่มไปบทเรียนเต็ม",
-    tags: "สรุป สารบัญ summary index",
-    chip: "สารบัญ",
-    link: "summary-index.html"
+    id: "lesson11-summary",
+    title: "สรุปบทที่ 11 — รู้จักการประมาณค่า",
+    desc: "ประชากร vs ตัวอย่าง พร้อมสูตร Bias/MSE, ตัวอย่างชิมต้มยำ และแบบฝึกคิด",
+    tags: "สรุป บท11 estimation population sample point interval",
+    chip: "บท11",
+    link: "summary-lesson11.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "7 นาที"
+    }
+  },
+  {
+    id: "lesson12-summary",
+    title: "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง",
+    desc: "โครงสร้าง CI + ตารางสูตร Z/t, Workflow ทีละขั้น, ตัวอย่าง 95% vs 99%",
+    tags: "สรุป บท12 confidence interval critical value standard error",
+    chip: "บท12",
+    link: "summary-lesson12.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "8 นาที"
+    }
+  },
+  {
+    id: "lesson13-summary",
+    title: "สรุปบทที่ 13 — การประมาณค่าเฉลี่ย 1 กลุ่ม",
+    desc: "เลือกใช้ Z หรือ t พร้อมตารางตัดสินใจ, ตัวอย่างรู้/ไม่รู้ σ, Checklist สมมติฐาน",
+    tags: "สรุป บท13 mean interval z t",
+    chip: "บท13",
+    link: "summary-lesson13.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "8 นาที"
+    }
+  },
+  {
+    id: "lesson14-summary",
+    title: "สรุปบทที่ 14 — การประมาณค่าสัดส่วน",
+    desc: "สูตร CI ของ p + FPC, ตัวอย่างโพลจริง, เคล็ดลับเลือก p*",
+    tags: "สรุป บท14 proportion interval np>=10",
+    chip: "บท14",
+    link: "summary-lesson14.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "7 นาที"
+    }
+  },
+  {
+    id: "lesson15-summary",
+    title: "สรุปบทที่ 15 — การประมาณค่าผลต่างสองกลุ่ม",
+    desc: "ผลต่างค่าเฉลี่ย/สัดส่วน, ตาราง pooled vs Welch, ตัวอย่างเปรียบเทียบ",
+    tags: "สรุป บท15 difference mean proportion pooled",
+    chip: "บท15",
+    link: "summary-lesson15.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "8 นาที"
+    }
+  },
+  {
+    id: "lesson16-summary",
+    title: "สรุปบทที่ 16 — การคำนวณขนาดตัวอย่าง",
+    desc: "สูตรกำหนด n สำหรับ μ/p, ตัวอย่างคุมงบ, เทคนิค Pilot Study",
+    tags: "สรุป บท16 sample size margin of error",
+    chip: "บท16",
+    link: "summary-lesson16.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "7 นาที"
+    }
+  },
+  {
+    id: "lesson17-summary",
+    title: "สรุปบทที่ 17 — พื้นฐานการทดสอบสมมติฐาน",
+    desc: "H0/H1, ตาราง Type I/II, ขั้นตอน 6 ข้อ และตัวอย่างตีความ P-value",
+    tags: "สรุป บท17 hypothesis testing basics type i type ii",
+    chip: "บท17",
+    link: "summary-lesson17.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "6 นาที"
+    }
+  },
+  {
+    id: "lesson18-summary",
+    title: "สรุปบทที่ 18 — ประเภทของการทดสอบตามทิศทาง",
+    desc: "Two/Left/Right-tailed พร้อมแผนภาพ, ตัวอย่างคำนวณ, คำแนะนำเลือกทิศ",
+    tags: "สรุป บท18 test direction two tailed right left",
+    chip: "บท18",
+    link: "summary-lesson18.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "5 นาที"
+    }
+  },
+  {
+    id: "lesson19-summary",
+    title: "สรุปบทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+    desc: "Z-test vs t-test, สูตร + ตัวอย่างเต็ม, Checklist ก่อนสรุป",
+    tags: "สรุป บท19 mean test z t",
+    chip: "บท19",
+    link: "summary-lesson19.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "7 นาที"
+    }
+  },
+  {
+    id: "lesson20-summary",
+    title: "สรุปบทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม",
+    desc: "Z-test สำหรับ p, เงื่อนไข np₀, ตัวอย่างธุรกิจพร้อมการตีความ",
+    tags: "สรุป บท20 proportion test z",
+    chip: "บท20",
+    link: "summary-lesson20.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "6 นาที"
+    }
+  },
+  {
+    id: "lesson21-summary",
+    title: "สรุปบทที่ 21 — การทดสอบผลต่างสองกลุ่ม",
+    desc: "ตารางเลือก t (pooled/Welch) + z สัดส่วน, ตัวอย่างเปรียบเทียบ",
+    tags: "สรุป บท21 two sample t z",
+    chip: "บท21",
+    link: "summary-lesson21.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "7 นาที"
+    }
+  },
+  {
+    id: "lesson22-summary",
+    title: "สรุปบทที่ 22 — การทดสอบความแปรปรวน",
+    desc: "Chi-square & F-test, ขั้นตอนตรวจ Normality, ตัวอย่างโรงงาน",
+    tags: "สรุป บท22 variance chi-square f-test",
+    chip: "บท22",
+    link: "summary-lesson22.html",
+    meta: {
+      version: "2.0.0",
+      updated_at: "2025-10-05",
+      read_time: "6 นาที"
+    }
   },
   // สร้างสรุปรายบทจาก lessons อัตโนมัติ
   ...lessons.map(l => ({
@@ -200,7 +324,7 @@ export const summaries = [
     title: `สรุป 1 หน้า — ${l.title}`,
     desc: l.desc,
     tags: `สรุป ${l.tags}`,
-    chip: l.chip,
+    chip: l.title.split(':')[0].replace('บทที่', 'บท').trim(),
     link: l.summary
   }))
 ];

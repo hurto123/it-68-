@@ -2,10 +2,6 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <link rel="preload" href="assets/fonts/NotoSerifThai-Regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/NotoSansThai-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="assets/fonts/NotoSansThai-Regular.ttf" as="font" type="font/ttf" crossorigin>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quiz บทที่ 5 — คอร์สสถิติ (ไทย)</title>
@@ -13,8 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
 </head>
-<body data-config="data/quiz-lesson05.json" data-page-title="Quiz บทที่ 5" data-page-subtitle="แบบฝึกหัดทฤษฎีความน่าจะเป็น" data-lesson-link="lesson05.html" data-summary-link="summary-lesson05.html" data-lesson-label="บทที่ 5: ทฤษฎีความน่าจะเป็น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)" data-default-mode="quiz">
-  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
+<body data-config="data/quiz-lesson05.json" data-page-title="Quiz บทที่ 5" data-page-subtitle="แบบฝึกหัดทฤษฎีความน่าจะเป็น" data-lesson-link="lesson05.html" data-summary-link="summary-lesson05.html" data-lesson-label="บทที่ 5: ทฤษฎีความน่าจะเป็น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
@@ -34,7 +29,7 @@
       </div>
     </div>
   </header>
-  <main id="main-content" class="wrap" role="main">
+  <main class="wrap" role="main">
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
@@ -44,7 +39,6 @@
   <footer class="wrap small muted" role="contentinfo">
     © คอร์สสถิติ (ไทย) — ระบบแบบฝึกหัดและ Quiz
   </footer>
-  <script defer src="assets/js/site-core.js"></script>
   <script type="module">
     import initQuizPage from './assets/js/quiz-page.js';
     initQuizPage();
