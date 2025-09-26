@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 04 • ความน่าจะเป็นเบื้องต้น (Introduction to Probability)</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/css/lesson-base.css" />
   <link rel="stylesheet" href="print.css" media="print" />
   <script>
     window.MathJax = {
@@ -19,62 +20,40 @@
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="assets/js/lesson-layout.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
-  <style>
-    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
-    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
-    header .wrap, footer .wrap, main{max-width:980px;margin:0 auto;padding:1rem}
-    h1,h2,h3{line-height:1.25;margin:.2rem 0}
-    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
-    nav a:hover{background:#2a2e36}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
-    .muted{color:var(--muted)}
-    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
-    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
-    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
-    table{width:100%;border-collapse:collapse;margin:.6rem 0}
-    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:center;vertical-align:middle}
-    th{background:#1c1e25}
-    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
-    ul,ol{margin:.4rem 0 .4rem 1.2rem}
-    strong{color:#cfe0ff}
-    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
-    .svgbox svg{max-width:100%;height:auto;display:block}
-    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
-  </style>
   <script type="application/json" id="lesson-meta">
     {
-      "id": "lesson04",
-      "title": "บทที่ 4: ความน่าจะเป็นเบื้องต้น",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
-      "depends_on": [
-        "summary-lesson04.html",
-        "data/lesson04.questions.th.json",
-        "data/lesson04.solutions.th.json",
-        "assets/js/reading-tools.js",
-        "style.css"
-      ],
-      "tags": ["probability", "sample-space", "counting", "reading-tools", "math-model"]
+        "id": "lesson04",
+        "title": "บทที่ 4: ความน่าจะเป็นเบื้องต้น",
+        "version": "1.2.0",
+        "updated_at": "2025-09-26",
+        "depends_on": [
+            "summary-lesson04.html",
+            "data/lesson04.questions.th.json",
+            "data/lesson04.solutions.th.json",
+            "assets/js/reading-tools.js",
+            "style.css",
+            "assets/css/lesson-base.css"
+        ],
+        "tags": [
+            "probability",
+            "sample-space",
+            "counting",
+            "reading-tools",
+            "math-model"
+        ]
     }
   </script>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>บทที่ 04 • ความน่าจะเป็นเบื้องต้น (Introduction to Probability) 🎲</h1>
-      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · ปูพื้น Sample Space &amp; กฎการนับ</p>
-      <nav aria-label="นำทางบทเรียน">
-        <a href="index.html">🏠 หน้าแรก</a>
-        <a href="lesson03.html">⟵ บทก่อนหน้า</a>
-        <a href="lesson05.html">บทถัดไป ⟶</a>
-      </nav>
-      <div class="chips">
-        <span class="pill">📝 <a class="inline" href="summary-lesson04.html">สรุป 1 หน้า</a></span>
-        <span class="pill">🧪 <a class="inline" href="quiz-lesson04.html">Quiz บทที่ 4</a></span>
+  <header data-lesson-header data-lesson-id="lesson04">
+    <noscript>
+      <div class="wrap">
+        <h1>บทที่ 04 • ความน่าจะเป็นเบื้องต้น (Introduction to Probability)</h1>
+        <p class="muted">กรุณาเปิดใช้ JavaScript เพื่อแสดงส่วนหัวของบทเรียน</p>
       </div>
-    </div>
+    </noscript>
   </header>
 
   <main>

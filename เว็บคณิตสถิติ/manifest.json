@@ -21,6 +21,78 @@
         "questions": "data/lesson01.questions.th.json",
         "solutions": "data/lesson01.solutions.th.json",
         "quiz_config": "data/quiz-lesson01.json"
+      },
+      "card": {
+        "desc": "ภาพรวม, กระบวนการ 5 ขั้นตอน, Descriptive vs Inferential",
+        "tags": "บท1 introduction สถิติ descriptive inferential",
+        "chip": "พื้นฐาน",
+        "summary": "summary-lesson01.html",
+        "meta": {
+          "version": "1.1.0",
+          "updated_at": "2025-09-23",
+          "depends_on": [
+            "summary-lesson01.html",
+            "data/lesson01.questions.th.json",
+            "data/lesson01.solutions.th.json"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 01 • ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+        "description": "เข้าใจความหมายของ \"สถิติ\" แยกประเภทข้อมูล และเห็นภาพกระบวนการวิเคราะห์ตั้งแต่ต้นจนจบ",
+        "badges": [
+          "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson01.html"
+          },
+          {
+            "label": "🔤 Glossary",
+            "href": "glossary.html"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "disabled": true
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "🔗",
+            "text": "สูตรที่เกี่ยวข้อง:",
+            "links": [
+              {
+                "label": "Z-Score",
+                "href": "formula/z-score.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "แบบฝึกหัด:",
+            "links": [
+              {
+                "label": "Quiz (กำลังจัดเตรียม)",
+                "href": "quiz-lesson01.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
       }
     },
     {
@@ -42,6 +114,69 @@
         "questions": "data/lesson02.questions.th.json",
         "solutions": "data/lesson02.solutions.th.json",
         "quiz_config": "data/quiz-lesson02.json"
+      },
+      "card": {
+        "desc": "ก้าน-ใบ, ฮิสโทแกรม, ตารางความถี่, อนุกรมเวลา",
+        "tags": "บท2 การนำเสนอข้อมูล ก้านใบ ฮิสโทแกรม อนุกรมเวลา",
+        "chip": "กราฟ",
+        "summary": "summary-lesson02.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 02 • การนำเสนอข้อมูล (Data Presentation) 📈",
+        "description": "รุ่น 1.3.0 · อัปเดต 1 ต.ค. 2025 · เพิ่มตัวอย่างฮิสโทแกรม+ตารางสัมพัทธ์ พร้อมชุดฝึกคิดเร็ว",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "🖨️ พิมพ์/บันทึก PDF",
+            "action": "print"
+          },
+          {
+            "type": "link",
+            "label": "📝 เปิดสรุป 1 หน้า",
+            "href": "summary-lesson02.html"
+          },
+          {
+            "type": "link",
+            "label": "🔤 ดูคำศัพท์: Relative Frequency",
+            "href": "glossary.html#gl-descriptive"
+          }
+        ],
+        "actions_label": "เครื่องมือด่วนบทที่ 2",
+        "chips": [
+          {
+            "type": "link",
+            "label": "📊 กระโดดไปฮิสโทแกรม",
+            "href": "#histogram"
+          },
+          {
+            "type": "link",
+            "label": "📐 สูตรสัมพัทธ์ & Cumulative",
+            "href": "#math-model"
+          },
+          {
+            "type": "link",
+            "label": "🧪 Quiz บทที่ 2",
+            "href": "quiz-lesson02.html"
+          }
+        ],
+        "chips_label": "ลิงก์ลัดในบท"
       }
     },
     {
@@ -61,6 +196,60 @@
         "questions": "data/lesson03.questions.th.json",
         "solutions": "data/lesson03.solutions.th.json",
         "quiz_config": "data/quiz-lesson03.json"
+      },
+      "card": {
+        "desc": "ศูนย์กลาง, ตำแหน่ง, การกระจาย & ความเบ้",
+        "tags": "บท3 descriptive mean median mode sd skew",
+        "chip": "สรุปค่า",
+        "summary": "summary-lesson03.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics) 🎯",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · เจาะ Mean/Median/Mode + การกระจาย",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson03.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 3",
+                "href": "quiz-lesson03.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -80,6 +269,60 @@
         "questions": "data/lesson04.questions.th.json",
         "solutions": "data/lesson04.solutions.th.json",
         "quiz_config": "data/quiz-lesson04.json"
+      },
+      "card": {
+        "desc": "Experiment, Sample Space, กฎการนับ",
+        "tags": "บท4 ความน่าจะเป็น การนับ permutation combination",
+        "chip": "พื้นฐานความน่าจะเป็น",
+        "summary": "summary-lesson04.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 04 • ความน่าจะเป็นเบื้องต้น (Introduction to Probability) 🎲",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · ปูพื้น Sample Space & กฎการนับ",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson04.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 4",
+                "href": "quiz-lesson04.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -99,6 +342,60 @@
         "questions": "data/lesson05.questions.th.json",
         "solutions": "data/lesson05.solutions.th.json",
         "quiz_config": "data/quiz-lesson05.json"
+      },
+      "card": {
+        "desc": "Conditional Probability, Total Probability, Bayes",
+        "tags": "บท5 เงื่อนไข conditional total probability bayes",
+        "chip": "Bayes",
+        "summary": "summary-lesson05.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 05 • ทฤษฎีความน่าจะเป็น (Probability Theory) 🧠",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · เจาะ Conditional Probability & Bayes",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson05.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 5",
+                "href": "quiz-lesson05.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -118,6 +415,60 @@
         "questions": "data/lesson06.questions.th.json",
         "solutions": "data/lesson06.solutions.th.json",
         "quiz_config": "data/quiz-lesson06.json"
+      },
+      "card": {
+        "desc": "Discrete/Continuous, PMF/PDF, E[X], Var(X)",
+        "tags": "บท6 ตัวแปรสุ่ม pmf pdf cdf expected variance",
+        "chip": "Random Variables",
+        "summary": "summary-lesson06.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 06 • ตัวแปรสุ่ม (Random Variables) 🎲➡️🔢",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · ครอบคลุม PMF/PDF, E[X], Var(X)",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson06.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 6",
+                "href": "quiz-lesson06.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -137,6 +488,60 @@
         "questions": "data/lesson07.questions.th.json",
         "solutions": "data/lesson07.solutions.th.json",
         "quiz_config": "data/quiz-lesson07.json"
+      },
+      "card": {
+        "desc": "Bernoulli, Binomial, Poisson, Hypergeometric",
+        "tags": "บท7 การแจกแจงไม่ต่อเนื่อง bernoulli binomial poisson hypergeometric",
+        "chip": "Discrete",
+        "summary": "summary-lesson07.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 07 • การแจกแจงความน่าจะเป็นแบบไม่ต่อเนื่อง",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Bernoulli, Binomial, Poisson, Hypergeometric",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson07.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 7",
+                "href": "quiz-lesson07.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -156,6 +561,60 @@
         "questions": "data/lesson08.questions.th.json",
         "solutions": "data/lesson08.solutions.th.json",
         "quiz_config": "data/quiz-lesson08.json"
+      },
+      "card": {
+        "desc": "Normal, Z-score, Empirical Rule",
+        "tags": "บท8 แจกแจงต่อเนื่อง normal z-score empirical rule",
+        "chip": "Normal",
+        "summary": "summary-lesson08.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 08 • การแจกแจงต่อเนื่อง & โค้งปกติ (Normal) 👑",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Normal Distribution, Z-Score, Empirical Rule",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson08.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 8",
+                "href": "quiz-lesson08.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     },
     {
@@ -175,6 +634,56 @@
         "questions": "data/lesson09.questions.th.json",
         "solutions": "data/lesson09.solutions.th.json",
         "quiz_config": "data/quiz-lesson09.json"
+      },
+      "card": {
+        "desc": "x̄, p̂, Standard Error, Z ของตัวอย่าง",
+        "tags": "บท9 sampling distributions clt xbar phat se",
+        "chip": "CLT",
+        "summary": "summary-lesson09.html",
+        "meta": null
+      },
+      "header": {
+        "title": "บทที่ 09 • การแจกแจงของตัวอย่างสุ่ม & ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) ✨",
+        "description": "รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Sampling Distributions, SE, CLT",
+        "badges": [],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [],
+        "actions_label": null,
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "",
+            "links": [
+              {
+                "label": "สรุป 1 หน้า",
+                "href": "summary-lesson09.html"
+              }
+            ]
+          },
+          {
+            "type": "pill",
+            "icon": "🧪",
+            "text": "",
+            "links": [
+              {
+                "label": "Quiz บทที่ 9",
+                "href": "quiz-lesson09.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": null
       }
     }
   ],
@@ -184,70 +693,170 @@
       "title": "Quiz บทที่ 1",
       "config": "data/quiz-lesson01.json",
       "items_per_quiz": 3,
-      "time_limit_seconds": 480
+      "time_limit_seconds": 480,
+      "card": {
+        "desc": "โหมดฝึก + Quiz จับเวลา ข้อสอบตัวอย่าง 3+ ข้อ",
+        "tags": "quiz บท1 แบบฝึกหัด สถิติพื้นฐาน",
+        "chip": "พื้นฐาน"
+      },
+      "assets": {
+        "page": "quiz-lesson01.html",
+        "lesson": "lesson01.html",
+        "summary": "summary-lesson01.html"
+      }
     },
     {
       "id": "lesson02",
       "title": "Quiz บทที่ 2",
       "config": "data/quiz-lesson02.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 600
+      "time_limit_seconds": 600,
+      "card": {
+        "desc": "ฝึกอ่านกราฟ ตาราง และอนุกรมเวลา พร้อมจับเวลา",
+        "tags": "quiz บท2 การนำเสนอข้อมูล",
+        "chip": "กราฟ"
+      },
+      "assets": {
+        "page": "quiz-lesson02.html",
+        "lesson": "lesson02.html",
+        "summary": "summary-lesson02.html"
+      }
     },
     {
       "id": "lesson03",
       "title": "Quiz บทที่ 3",
       "config": "data/quiz-lesson03.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 600
+      "time_limit_seconds": 600,
+      "card": {
+        "desc": "Mean/Median/Mode, SD, Skewness พร้อมเฉลยทีละขั้น",
+        "tags": "quiz บท3 descriptive",
+        "chip": "สรุปค่า"
+      },
+      "assets": {
+        "page": "quiz-lesson03.html",
+        "lesson": "lesson03.html",
+        "summary": "summary-lesson03.html"
+      }
     },
     {
       "id": "lesson04",
       "title": "Quiz บทที่ 4",
       "config": "data/quiz-lesson04.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "ทดลอง กฎการนับ พื้นฐานความน่าจะเป็น",
+        "tags": "quiz บท4 ความน่าจะเป็น",
+        "chip": "Probability"
+      },
+      "assets": {
+        "page": "quiz-lesson04.html",
+        "lesson": "lesson04.html",
+        "summary": "summary-lesson04.html"
+      }
     },
     {
       "id": "lesson05",
       "title": "Quiz บทที่ 5",
       "config": "data/quiz-lesson05.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "Conditional / Total Probability / Bayes",
+        "tags": "quiz บท5 bayes",
+        "chip": "Bayes"
+      },
+      "assets": {
+        "page": "quiz-lesson05.html",
+        "lesson": "lesson05.html",
+        "summary": "summary-lesson05.html"
+      }
     },
     {
       "id": "lesson06",
       "title": "Quiz บทที่ 6",
       "config": "data/quiz-lesson06.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "Discrete/Continuous, PMF/PDF, E[X], Var(X)",
+        "tags": "quiz บท6 ตัวแปรสุ่ม",
+        "chip": "Random Var"
+      },
+      "assets": {
+        "page": "quiz-lesson06.html",
+        "lesson": "lesson06.html",
+        "summary": "summary-lesson06.html"
+      }
     },
     {
       "id": "lesson07",
       "title": "Quiz บทที่ 7",
       "config": "data/quiz-lesson07.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "Bernoulli, Binomial, Poisson, Hypergeometric",
+        "tags": "quiz บท7 การแจกแจงไม่ต่อเนื่อง",
+        "chip": "Discrete"
+      },
+      "assets": {
+        "page": "quiz-lesson07.html",
+        "lesson": "lesson07.html",
+        "summary": "summary-lesson07.html"
+      }
     },
     {
       "id": "lesson08",
       "title": "Quiz บทที่ 8",
       "config": "data/quiz-lesson08.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "Normal, Z-score, Empirical Rule",
+        "tags": "quiz บท8 normal",
+        "chip": "Normal"
+      },
+      "assets": {
+        "page": "quiz-lesson08.html",
+        "lesson": "lesson08.html",
+        "summary": "summary-lesson08.html"
+      }
     },
     {
       "id": "lesson09",
       "title": "Quiz บทที่ 9",
       "config": "data/quiz-lesson09.json",
       "items_per_quiz": 5,
-      "time_limit_seconds": 720
+      "time_limit_seconds": 720,
+      "card": {
+        "desc": "x̄, p̂, Standard Error, CLT",
+        "tags": "quiz บท9 sampling",
+        "chip": "CLT"
+      },
+      "assets": {
+        "page": "quiz-lesson09.html",
+        "lesson": "lesson09.html",
+        "summary": "summary-lesson09.html"
+      }
     },
     {
       "id": "mixed",
       "title": "Quiz รวมทุกบท",
       "config": "data/quiz-mixed.json",
       "items_per_quiz": 12,
-      "time_limit_seconds": 900
+      "time_limit_seconds": 900,
+      "card": {
+        "desc": "สุ่มข้อสอบจากทุกบท พร้อมจับเวลาและเกณฑ์ผ่าน",
+        "tags": "quiz รวมทุกบท",
+        "chip": "Final"
+      },
+      "assets": {
+        "page": "quiz-mixed.html",
+        "lesson": "index.html",
+        "summary": "summaries-all.html"
+      }
     }
   ],
   "formulas": [
@@ -265,6 +874,11 @@
         "page": "formula/bernoulli.html",
         "lesson": "lesson07.html",
         "summary": "summary-lesson07.html"
+      },
+      "card": {
+        "desc": "ลองครั้งเดียว สำเร็จ/ล้มเหลว พร้อมเครื่องคิดเลข p",
+        "tags": "สูตร bernoulli trial success failure",
+        "chip": "Discrete"
       }
     },
     {
@@ -281,6 +895,11 @@
         "page": "formula/binomial.html",
         "lesson": "lesson07.html",
         "summary": "summary-lesson07.html"
+      },
+      "card": {
+        "desc": "X ~ Bin(n, p), PMF, E/Var, ตัวอย่างคำนวณ",
+        "tags": "สูตร binomial การแจกแจงทวินาม",
+        "chip": "Discrete"
       }
     },
     {
@@ -297,6 +916,11 @@
         "page": "formula/hypergeometric.html",
         "lesson": "lesson07.html",
         "summary": "summary-lesson07.html"
+      },
+      "card": {
+        "desc": "สุ่มโดยไม่ใส่คืน + ตาราง PMF และขั้นบันได C(a,b)",
+        "tags": "สูตร hypergeometric without replacement",
+        "chip": "Discrete"
       }
     },
     {
@@ -313,6 +937,11 @@
         "page": "formula/poisson.html",
         "lesson": "lesson07.html",
         "summary": "summary-lesson07.html"
+      },
+      "card": {
+        "desc": "PMF, อัตราเกิด λ, การประมาณ Binomial",
+        "tags": "สูตร poisson นับเหตุการณ์ λ",
+        "chip": "Discrete"
       }
     },
     {
@@ -329,6 +958,11 @@
         "page": "formula/normal.html",
         "lesson": "lesson08.html",
         "summary": "summary-lesson08.html"
+      },
+      "card": {
+        "desc": "PDF/CDF, Empirical Rule, กราฟระบายพื้นที่ พร้อมดาวน์โหลด",
+        "tags": "สูตร normal distribution pdf cdf",
+        "chip": "Normal"
       }
     },
     {
@@ -345,6 +979,11 @@
         "page": "formula/z-score.html",
         "lesson": "lesson08.html",
         "summary": "summary-lesson08.html"
+      },
+      "card": {
+        "desc": "",
+        "tags": "",
+        "chip": ""
       }
     },
     {
@@ -361,10 +1000,34 @@
         "page": "formula/clt-xbar-phat.html",
         "lesson": "lesson09.html",
         "summary": "summary-lesson09.html"
+      },
+      "card": {
+        "desc": "",
+        "tags": "",
+        "chip": ""
       }
     }
   ],
   "supplements": [
+    {
+      "id": "summaries-all",
+      "title": "รวมสรุปทุกบท (1–9)",
+      "version": "1.0.0",
+      "updated_at": "2025-10-05",
+      "depends_on": [
+        "summaries-all.html",
+        "print.css"
+      ],
+      "assets": {
+        "page": "summaries-all.html"
+      },
+      "card": {
+        "desc": "มีคั่นหน้า — เหมาะสำหรับพิมพ์/บันทึก PDF",
+        "tags": "สรุป รวม ทุกบท summary all",
+        "chip": "รวม",
+        "link": "summaries-all.html"
+      }
+    },
     {
       "id": "summary-lesson11-22-compilation",
       "title": "รวมสรุปบทที่ 11–22",
@@ -386,7 +1049,18 @@
         "summary-lesson22.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson11-22-compilation.html"
+      },
+      "card": {
+        "desc": "",
+        "tags": "",
+        "chip": "",
+        "meta": null,
+        "link": "summary-lesson11-22-compilation.html",
+        "title": "รวมสรุปบทที่ 11–22"
+      }
     },
     {
       "id": "summary-lesson11",
@@ -397,7 +1071,22 @@
         "summary-lesson11.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson11.html"
+      },
+      "card": {
+        "desc": "ประชากร vs ตัวอย่าง พร้อมสูตร Bias/MSE, ตัวอย่างชิมต้มยำ และแบบฝึกคิด",
+        "tags": "สรุป บท11 estimation population sample point interval",
+        "chip": "บท11",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "7 นาที"
+        },
+        "link": "summary-lesson11.html",
+        "title": "สรุปบทที่ 11 — รู้จักการประมาณค่า"
+      }
     },
     {
       "id": "summary-lesson12",
@@ -408,7 +1097,22 @@
         "summary-lesson12.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson12.html"
+      },
+      "card": {
+        "desc": "โครงสร้าง CI + ตารางสูตร Z/t, Workflow ทีละขั้น, ตัวอย่าง 95% vs 99%",
+        "tags": "สรุป บท12 confidence interval critical value standard error",
+        "chip": "บท12",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "8 นาที"
+        },
+        "link": "summary-lesson12.html",
+        "title": "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง"
+      }
     },
     {
       "id": "summary-lesson13",
@@ -419,7 +1123,22 @@
         "summary-lesson13.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson13.html"
+      },
+      "card": {
+        "desc": "เลือกใช้ Z หรือ t พร้อมตารางตัดสินใจ, ตัวอย่างรู้/ไม่รู้ σ, Checklist สมมติฐาน",
+        "tags": "สรุป บท13 mean interval z t",
+        "chip": "บท13",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "8 นาที"
+        },
+        "link": "summary-lesson13.html",
+        "title": "สรุปบทที่ 13 — การประมาณค่าเฉลี่ย 1 กลุ่ม"
+      }
     },
     {
       "id": "summary-lesson14",
@@ -430,7 +1149,22 @@
         "summary-lesson14.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson14.html"
+      },
+      "card": {
+        "desc": "สูตร CI ของ p + FPC, ตัวอย่างโพลจริง, เคล็ดลับเลือก p*",
+        "tags": "สรุป บท14 proportion interval np>=10",
+        "chip": "บท14",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "7 นาที"
+        },
+        "link": "summary-lesson14.html",
+        "title": "สรุปบทที่ 14 — การประมาณค่าสัดส่วน"
+      }
     },
     {
       "id": "summary-lesson15",
@@ -441,7 +1175,22 @@
         "summary-lesson15.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson15.html"
+      },
+      "card": {
+        "desc": "ผลต่างค่าเฉลี่ย/สัดส่วน, ตาราง pooled vs Welch, ตัวอย่างเปรียบเทียบ",
+        "tags": "สรุป บท15 difference mean proportion pooled",
+        "chip": "บท15",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "8 นาที"
+        },
+        "link": "summary-lesson15.html",
+        "title": "สรุปบทที่ 15 — การประมาณค่าผลต่างสองกลุ่ม"
+      }
     },
     {
       "id": "summary-lesson16",
@@ -452,7 +1201,22 @@
         "summary-lesson16.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson16.html"
+      },
+      "card": {
+        "desc": "สูตรกำหนด n สำหรับ μ/p, ตัวอย่างคุมงบ, เทคนิค Pilot Study",
+        "tags": "สรุป บท16 sample size margin of error",
+        "chip": "บท16",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "7 นาที"
+        },
+        "link": "summary-lesson16.html",
+        "title": "สรุปบทที่ 16 — การคำนวณขนาดตัวอย่าง"
+      }
     },
     {
       "id": "summary-lesson17",
@@ -463,7 +1227,22 @@
         "summary-lesson17.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson17.html"
+      },
+      "card": {
+        "desc": "H0/H1, ตาราง Type I/II, ขั้นตอน 6 ข้อ และตัวอย่างตีความ P-value",
+        "tags": "สรุป บท17 hypothesis testing basics type i type ii",
+        "chip": "บท17",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "6 นาที"
+        },
+        "link": "summary-lesson17.html",
+        "title": "สรุปบทที่ 17 — พื้นฐานการทดสอบสมมติฐาน"
+      }
     },
     {
       "id": "summary-lesson18",
@@ -474,7 +1253,22 @@
         "summary-lesson18.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson18.html"
+      },
+      "card": {
+        "desc": "Two/Left/Right-tailed พร้อมแผนภาพ, ตัวอย่างคำนวณ, คำแนะนำเลือกทิศ",
+        "tags": "สรุป บท18 test direction two tailed right left",
+        "chip": "บท18",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "5 นาที"
+        },
+        "link": "summary-lesson18.html",
+        "title": "สรุปบทที่ 18 — ประเภทของการทดสอบตามทิศทาง"
+      }
     },
     {
       "id": "summary-lesson19",
@@ -485,7 +1279,22 @@
         "summary-lesson19.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson19.html"
+      },
+      "card": {
+        "desc": "Z-test vs t-test, สูตร + ตัวอย่างเต็ม, Checklist ก่อนสรุป",
+        "tags": "สรุป บท19 mean test z t",
+        "chip": "บท19",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "7 นาที"
+        },
+        "link": "summary-lesson19.html",
+        "title": "สรุปบทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม"
+      }
     },
     {
       "id": "summary-lesson20",
@@ -496,7 +1305,22 @@
         "summary-lesson20.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson20.html"
+      },
+      "card": {
+        "desc": "Z-test สำหรับ p, เงื่อนไข np₀, ตัวอย่างธุรกิจพร้อมการตีความ",
+        "tags": "สรุป บท20 proportion test z",
+        "chip": "บท20",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "6 นาที"
+        },
+        "link": "summary-lesson20.html",
+        "title": "สรุปบทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม"
+      }
     },
     {
       "id": "summary-lesson21",
@@ -507,7 +1331,22 @@
         "summary-lesson21.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson21.html"
+      },
+      "card": {
+        "desc": "ตารางเลือก t (pooled/Welch) + z สัดส่วน, ตัวอย่างเปรียบเทียบ",
+        "tags": "สรุป บท21 two sample t z",
+        "chip": "บท21",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "7 นาที"
+        },
+        "link": "summary-lesson21.html",
+        "title": "สรุปบทที่ 21 — การทดสอบผลต่างสองกลุ่ม"
+      }
     },
     {
       "id": "summary-lesson22",
@@ -518,7 +1357,22 @@
         "summary-lesson22.html",
         "assets/js/reading-tools.js",
         "print.css"
-      ]
+      ],
+      "assets": {
+        "page": "summary-lesson22.html"
+      },
+      "card": {
+        "desc": "Chi-square & F-test, ขั้นตอนตรวจ Normality, ตัวอย่างโรงงาน",
+        "tags": "สรุป บท22 variance chi-square f-test",
+        "chip": "บท22",
+        "meta": {
+          "version": "2.0.0",
+          "updated_at": "2025-10-05",
+          "read_time": "6 นาที"
+        },
+        "link": "summary-lesson22.html",
+        "title": "สรุปบทที่ 22 — การทดสอบความแปรปรวน"
+      }
     }
   ],
   "notes": "แยกคู่มือสรุปบทที่ 11–22 เป็นไฟล์รายบท พร้อมเพิ่มเมตาดาตาและลิงก์สำหรับหน้าแรก"
