@@ -34,6 +34,26 @@
     padding: 0 !important;
   }
 
+  body.summary-page {
+    padding: 0 !important;
+  }
+
+  body.summary-page header,
+  body.summary-page main,
+  body.summary-page footer,
+  body.summary-page .toc {
+    max-width: 100% !important;
+    margin: 0 0 12pt 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.summary-page .toc {
+    padding: 10pt 12pt !important;
+    border: 1px solid #bbb !important;
+  }
+
   h1, h2, h3, h4 {
     color: #000 !important;
     page-break-after: avoid;
@@ -72,6 +92,25 @@
 
   figcaption, caption, .muted {
     color: #333 !important;
+  }
+
+  body.summary-page .tagline,
+  body.summary-page .badge {
+    background: #fff !important;
+    border: 1px solid #999 !important;
+    color: #000 !important;
+  }
+
+  body.summary-page .highlight,
+  body.summary-page .warn {
+    background: #fff !important;
+    border-left-color: #666 !important;
+    color: #000 !important;
+  }
+
+  body.summary-page .loading,
+  body.summary-page .error {
+    display: none !important;
   }
 
   .note, .ok, .warn {
