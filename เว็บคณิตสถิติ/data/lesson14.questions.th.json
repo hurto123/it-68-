@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson14",
+    "title": "บทที่ 14: การประมาณค่าผลต่างสองประชากร",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson14.html",
+      "summary-lesson15.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson14-q01",
+      "type": "mcq",
+      "topic": "paired",
+      "difficulty": 1,
+      "prompt": "ข้อมูลใดเหมาะกับการวิเคราะห์แบบจับคู่ (paired)?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "วัดก่อนและหลังบนคนกลุ่มเดียวกัน"
+        },
+        {
+          "key": "B",
+          "text": "สุ่มสองกลุ่มอิสระ"
+        },
+        {
+          "key": "C",
+          "text": "ข้อมูลจากสองประเทศต่างกันโดยไม่มีการจับคู่"
+        },
+        {
+          "key": "D",
+          "text": "ข้อมูลที่ไม่ใช่ตัวเลข"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "paired",
+        "lesson14"
+      ]
+    },
+    {
+      "id": "lesson14-q02",
+      "type": "mcq",
+      "topic": "pooled",
+      "difficulty": 1,
+      "prompt": "เมื่อใดจึงใช้ pooled variance?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เมื่อสันนิษฐานว่า σ₁² ≈ σ₂²"
+        },
+        {
+          "key": "B",
+          "text": "เมื่อสัดส่วนแตกต่างกันมาก"
+        },
+        {
+          "key": "C",
+          "text": "เมื่อ n₁ = n₂ เท่านั้น"
+        },
+        {
+          "key": "D",
+          "text": "เมื่อไม่รู้ค่าเฉลี่ย"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "pooled",
+        "lesson14"
+      ]
+    },
+    {
+      "id": "lesson14-q03",
+      "type": "mcq",
+      "topic": "interval",
+      "difficulty": 1,
+      "prompt": "ช่วงความเชื่อมั่นของผลต่างสัดส่วนมีโครงสร้างใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "(\\hat{p}_1 - \\hat{p}_2) ± Z_{α/2} × SE"
+        },
+        {
+          "key": "B",
+          "text": "Z × σ"
+        },
+        {
+          "key": "C",
+          "text": "t × s"
+        },
+        {
+          "key": "D",
+          "text": "σ₁ - σ₂"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "interval",
+        "lesson14"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson20",
+    "title": "บทที่ 20: การทดสอบผลต่างสองประชากร",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson20.html",
+      "summary-lesson21.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson20-q01",
+      "type": "mcq",
+      "topic": "pooled",
+      "difficulty": 1,
+      "prompt": "เงื่อนไขสำคัญของ two-sample pooled t-test คืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "n₁ = n₂ เท่านั้น"
+        },
+        {
+          "key": "B",
+          "text": "σ₁² ≈ σ₂²"
+        },
+        {
+          "key": "C",
+          "text": "ใช้ได้เฉพาะข้อมูลหมวดหมู่"
+        },
+        {
+          "key": "D",
+          "text": "ต้องรู้ค่าเฉลี่ยจริง"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "pooled",
+        "lesson20"
+      ]
+    },
+    {
+      "id": "lesson20-q02",
+      "type": "mcq",
+      "topic": "welch",
+      "difficulty": 1,
+      "prompt": "ถ้าความแปรปรวนต่างกันมากควรใช้วิธีใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Welch t-test"
+        },
+        {
+          "key": "B",
+          "text": "paired t-test"
+        },
+        {
+          "key": "C",
+          "text": "chi-square test"
+        },
+        {
+          "key": "D",
+          "text": "ANOVA เท่านั้น"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "welch",
+        "lesson20"
+      ]
+    },
+    {
+      "id": "lesson20-q03",
+      "type": "mcq",
+      "topic": "interpret",
+      "difficulty": 1,
+      "prompt": "หาก CI ของผลต่างค่าเฉลี่ยครอบ 0 หมายความว่าอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "มีหลักฐานว่าแตกต่างกันชัดเจน"
+        },
+        {
+          "key": "B",
+          "text": "ยังไม่มีหลักฐานเพียงพอว่าแตกต่าง"
+        },
+        {
+          "key": "C",
+          "text": "ค่าเฉลี่ยสองกลุ่มต้องเท่ากัน"
+        },
+        {
+          "key": "D",
+          "text": "ข้อมูลผิดพลาด"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "interpret",
+        "lesson20"
+      ]
+    }
+  ]
+}

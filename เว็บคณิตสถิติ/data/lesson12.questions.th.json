@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson12",
+    "title": "บทที่ 12: การประมาณค่าเฉลี่ยประชากรเดียว",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson12.html",
+      "summary-lesson13.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson12-q01",
+      "type": "mcq",
+      "topic": "z-or-t",
+      "difficulty": 1,
+      "prompt": "เมื่อไม่ทราบ σ และมีตัวอย่าง n = 18 ควรใช้การแจกแจงใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Z"
+        },
+        {
+          "key": "B",
+          "text": "t"
+        },
+        {
+          "key": "C",
+          "text": "F"
+        },
+        {
+          "key": "D",
+          "text": "χ²"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "z-or-t",
+        "lesson12"
+      ]
+    },
+    {
+      "id": "lesson12-q02",
+      "type": "mcq",
+      "topic": "fpc",
+      "difficulty": 1,
+      "prompt": "Finite Population Correction ใช้เมื่อใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เมื่อสุ่มโดยใส่คืน"
+        },
+        {
+          "key": "B",
+          "text": "เมื่อ n/N > 0.05 และสุ่มโดยไม่ใส่คืน"
+        },
+        {
+          "key": "C",
+          "text": "เมื่อค่าเฉลี่ยเป็นศูนย์"
+        },
+        {
+          "key": "D",
+          "text": "เมื่อใช้การแจกแจงปัวซอง"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "fpc",
+        "lesson12"
+      ]
+    },
+    {
+      "id": "lesson12-q03",
+      "type": "mcq",
+      "topic": "interpret",
+      "difficulty": 1,
+      "prompt": "ข้อใดคือการตีความ CI ที่ถูกต้อง?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ค่าเฉลี่ยจริงเปลี่ยนแปลงตามช่วง"
+        },
+        {
+          "key": "B",
+          "text": "มีโอกาส 95% ที่ขั้นตอนจะสร้างช่วงครอบค่าจริง"
+        },
+        {
+          "key": "C",
+          "text": "ข้อมูลทุกตัวอยู่ในช่วง"
+        },
+        {
+          "key": "D",
+          "text": "ช่วงกว้างเสมอเมื่อ n เพิ่มขึ้น"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "interpret",
+        "lesson12"
+      ]
+    }
+  ]
+}

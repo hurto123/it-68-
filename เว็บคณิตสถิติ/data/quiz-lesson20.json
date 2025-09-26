@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson20",
+    "title": "Quiz บทที่ 20: การทดสอบผลต่างสองประชากร",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "language": "th",
+    "depends_on": [
+      "lesson20.questions.th.json",
+      "lesson20.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson20",
+      "title": "บทที่ 20: การทดสอบผลต่างสองประชากร",
+      "questions": "lesson20.questions.th.json",
+      "solutions": "lesson20.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2,
+    "time_limit_seconds": 900,
+    "default_mode": "quiz"
+  }
+}

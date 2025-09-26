@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson19",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson19.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson19-q01",
+      "answer": "A",
+      "explanation": "สูตรของ one-proportion Z test",
+      "references": [
+        "summary-lesson20.html",
+        "lesson19.html"
+      ]
+    },
+    {
+      "id": "lesson19-q02",
+      "answer": "A",
+      "explanation": "เพื่อให้การประมาณแบบปกติใช้ได้",
+      "references": [
+        "summary-lesson20.html",
+        "lesson19.html"
+      ]
+    },
+    {
+      "id": "lesson19-q03",
+      "answer": "B",
+      "explanation": "p-value สำหรับสองทางคำนวณแล้วเทียบกับ α เช่นเดิม",
+      "references": [
+        "summary-lesson20.html",
+        "lesson19.html"
+      ]
+    }
+  ]
+}

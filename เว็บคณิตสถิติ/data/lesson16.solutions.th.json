@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson16",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson16.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson16-q01",
+      "answer": "B",
+      "explanation": "H₀ คือสมมติฐานศูนย์ที่ต้องการทดสอบ",
+      "references": [
+        "summary-lesson17.html",
+        "lesson16.html"
+      ]
+    },
+    {
+      "id": "lesson16-q02",
+      "answer": "B",
+      "explanation": "Type I = Reject H₀ when it is true",
+      "references": [
+        "summary-lesson17.html",
+        "lesson16.html"
+      ]
+    },
+    {
+      "id": "lesson16-q03",
+      "answer": "C",
+      "explanation": "p-value ประเมินหลักฐานต่อ H₀",
+      "references": [
+        "summary-lesson17.html",
+        "lesson16.html"
+      ]
+    }
+  ]
+}

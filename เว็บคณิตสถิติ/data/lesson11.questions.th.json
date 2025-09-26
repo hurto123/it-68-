@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson11",
+    "title": "บทที่ 11: ช่วงความเชื่อมั่น (Confidence Intervals)",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson11.html",
+      "summary-lesson12.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson11-q01",
+      "type": "mcq",
+      "topic": "confidence-level",
+      "difficulty": 1,
+      "prompt": "ระดับความเชื่อมั่น 95% หมายถึงอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "CI ที่ได้มีความกว้าง 95 หน่วย"
+        },
+        {
+          "key": "B",
+          "text": "เมื่อสุ่มซ้ำจำนวนมาก ช่วง 95% จะครอบค่าจริงประมาณ 95% ของครั้ง"
+        },
+        {
+          "key": "C",
+          "text": "มีโอกาส 95% ที่ค่าจริงอยู่กลางช่วง"
+        },
+        {
+          "key": "D",
+          "text": "CI นั้นใช้ Z ได้เท่านั้น"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "confidence-level",
+        "lesson11"
+      ]
+    },
+    {
+      "id": "lesson11-q02",
+      "type": "mcq",
+      "topic": "critical-value",
+      "difficulty": 1,
+      "prompt": "เมื่อใช้ระดับความเชื่อมั่น 90% สำหรับการแจกแจงปกติ ค่าจุดตัด Z_{α/2} คือเท่าไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "1.28"
+        },
+        {
+          "key": "B",
+          "text": "1.64"
+        },
+        {
+          "key": "C",
+          "text": "1.96"
+        },
+        {
+          "key": "D",
+          "text": "2.58"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "critical-value",
+        "lesson11"
+      ]
+    },
+    {
+      "id": "lesson11-q03",
+      "type": "mcq",
+      "topic": "margin",
+      "difficulty": 1,
+      "prompt": "Margin of Error ขึ้นกับองค์ประกอบใดมากที่สุด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "จำนวนตัวอย่างและ Critical Value"
+        },
+        {
+          "key": "B",
+          "text": "เฉพาะค่าเฉลี่ย"
+        },
+        {
+          "key": "C",
+          "text": "เฉพาะค่ามัธยฐาน"
+        },
+        {
+          "key": "D",
+          "text": "ไม่มีความเกี่ยวข้องกับ SE"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "margin",
+        "lesson11"
+      ]
+    }
+  ]
+}

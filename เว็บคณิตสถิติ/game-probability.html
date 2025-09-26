@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Probability Lab — เกมฝึกสถิติ &amp; ความน่าจะเป็น</title>
+  <meta name="description" content="เกม Probability Lab: ปรับพารามิเตอร์ ทดลองสุ่ม และสังเกตความแตกต่างของความน่าจะเป็นเชิงทฤษฎีกับผลลัพธ์จริง" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/css/game.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+</head>
+<body class="game-body">
+  <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
+  <header class="game-header" role="banner">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="index.html">หน้าแรก</a>
+        <span aria-hidden="true">›</span>
+        <span>Probability Lab</span>
+      </nav>
+      <h1>🎲 Probability Lab — ทดลองและคาดเดาความน่าจะเป็น</h1>
+      <p class="muted">เลือกความน่าจะเป็นที่ตั้งใจไว้ ปรับจำนวนการทดลอง แล้วทดสอบว่าผลลัพธ์จริงเข้าใกล้ทฤษฎีมากแค่ไหน</p>
+      <div class="game-cta">
+        <a class="btn" href="lesson17.html">ทบทวนบทที่ 17: สมมติฐาน &amp; ทิศทาง →</a>
+        <a class="btn secondary" href="summary-lesson18.html">ดูสรุปการทดสอบตามทิศทาง</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="wrap game-main" role="main">
+    <section class="game-panel" aria-labelledby="control-title">
+      <div class="game-panel__content">
+        <h2 id="control-title">ตั้งค่าการทดลอง</h2>
+        <p class="muted">กำหนดความน่าจะเป็นที่คาดหวัง (p) และจำนวนครั้งในการทดลอง (n) จากนั้นกด <strong>สุ่มทดลอง</strong> เพื่อดูผลจริง</p>
+        <div class="game-controls">
+          <label class="control" for="probability-range">
+            <span>ความน่าจะเป็นที่ตั้งใจไว้ <strong id="probability-label">50%</strong></span>
+            <input id="probability-range" type="range" min="5" max="95" value="50" step="1">
+          </label>
+          <label class="control" for="trial-range">
+            <span>จำนวนการทดลอง <strong id="trial-label">40 ครั้ง</strong></span>
+            <input id="trial-range" type="range" min="10" max="200" value="40" step="1">
+          </label>
+          <div class="game-buttons">
+            <button id="btn-run" class="btn primary" type="button">🎯 สุ่มทดลอง</button>
+            <button id="btn-reset" class="btn secondary" type="button">ล้างประวัติ</button>
+          </div>
+        </div>
+        <div class="game-target">
+          <p>ความคาดหวังทางทฤษฎี: <strong id="target-mean">20</strong> ความสำเร็จ จาก <span id="target-trials">40</span> ครั้ง</p>
+          <p class="muted small">* เกมนี้จำลองเหตุการณ์แบบ Bernoulli (สำเร็จ/ไม่สำเร็จ) เพื่อให้เข้าใจการแจกแจง Binomial</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-panel" aria-labelledby="result-title">
+      <div class="game-panel__content">
+        <h2 id="result-title">ผลลัพธ์ล่าสุด</h2>
+        <div class="game-result" aria-live="polite">
+          <div>
+            <p class="result-value" id="result-success">-</p>
+            <p class="muted">จำนวนความสำเร็จ</p>
+          </div>
+          <div>
+            <p class="result-value" id="result-rate">-</p>
+            <p class="muted">อัตราความสำเร็จ (%)</p>
+          </div>
+          <div>
+            <p class="result-value" id="result-diff">-</p>
+            <p class="muted">ต่างจากทฤษฎี</p>
+          </div>
+        </div>
+        <div class="game-hint ok" id="result-feedback" role="status"></div>
+        <div class="game-chart" aria-label="ประวัติการทดลอง 6 ครั้งล่าสุด">
+          <div class="chart-grid" id="history-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-panel" aria-labelledby="analysis-title">
+      <div class="game-panel__content">
+        <h2 id="analysis-title">วิเคราะห์ผลที่ได้</h2>
+        <div class="analysis-grid">
+          <div>
+            <h3>จดบันทึกสิ่งที่สังเกต</h3>
+            <ul>
+              <li>เมื่อเพิ่มจำนวนการทดลอง ผลลัพธ์เข้าใกล้ความน่าจะเป็นที่ตั้งใจไว้หรือไม่?</li>
+              <li>ผลต่างระหว่างทฤษฎีกับจริง (Difference) เปลี่ยนอย่างไร</li>
+              <li>ลองปรับ p ให้สุดขั้ว (ต่ำ/สูง) แล้วดูว่าความผันผวนต่างกันหรือไม่</li>
+            </ul>
+          </div>
+          <div>
+            <h3>เชื่อมโยงบทเรียน</h3>
+            <p>เกมนี้เชื่อมกับบท <a href="lesson10.html">การประมาณค่าเบื้องต้น</a> และ <a href="lesson16.html">พื้นฐานการทดสอบสมมติฐาน</a> โดยเฉพาะเรื่องการตีความ <strong>ค่าเฉลี่ยคาดหวัง</strong> และ <strong>การสุ่มซ้ำ</strong>.</p>
+            <p class="muted">Tip: ลองบันทึกผลซ้ำหลายครั้งแล้วคำนวณค่าเฉลี่ยของอัตราความสำเร็จด้วยตนเอง เพื่อสำรวจแนวคิดกฎจำนวนมาก (Law of Large Numbers).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap game-footer" role="contentinfo">
+    <p class="muted">© คอร์สสถิติ (ไทย) — Probability Lab · อัปเดต <time datetime="2025-10-05">5 ตุลาคม 2025</time></p>
+  </footer>
+
+  <script type="module" src="assets/js/game-probability.js"></script>
+</body>
+</html>

@@ -1,10 +1,11 @@
-import { lessons, quizzes, summaries, formulas } from '../subjects.js';
+import { lessons, quizzes, summaries, formulas, games } from '../../subjects.js';
 
 const dataMap = {
   lessons,
   quizzes,
   summaries,
-  formulas
+  formulas,
+  games
 };
 
 const createCard = (item, kind) => {

@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson17",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson17.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson17-q01",
+      "answer": "B",
+      "explanation": "เพิ่มขึ้น → ใช้ one-tailed ด้านขวา",
+      "references": [
+        "summary-lesson18.html",
+        "lesson17.html"
+      ]
+    },
+    {
+      "id": "lesson17-q02",
+      "answer": "B",
+      "explanation": "Two-tailed แบ่ง α/2 ให้แต่ละปลาย",
+      "references": [
+        "summary-lesson18.html",
+        "lesson17.html"
+      ]
+    },
+    {
+      "id": "lesson17-q03",
+      "answer": "B",
+      "explanation": "ทางเดียวใช้ α เต็ม → p-value < α → ปฏิเสธ H₀",
+      "references": [
+        "summary-lesson18.html",
+        "lesson17.html"
+      ]
+    }
+  ]
+}

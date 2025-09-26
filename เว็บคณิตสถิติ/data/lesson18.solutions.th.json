@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson18",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson18.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson18-q01",
+      "answer": "B",
+      "explanation": "ใช้ t เมื่อไม่รู้ σ และต้องประมาณจากตัวอย่าง",
+      "references": [
+        "summary-lesson19.html",
+        "lesson18.html"
+      ]
+    },
+    {
+      "id": "lesson18-q02",
+      "answer": "B",
+      "explanation": "d = (ค่าเฉลี่ยตัวอย่าง - ค่ามาตรฐาน)/ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง",
+      "references": [
+        "summary-lesson19.html",
+        "lesson18.html"
+      ]
+    },
+    {
+      "id": "lesson18-q03",
+      "answer": "B",
+      "explanation": "p-value > α → ยังไม่ปฏิเสธ H₀",
+      "references": [
+        "summary-lesson19.html",
+        "lesson18.html"
+      ]
+    }
+  ]
+}

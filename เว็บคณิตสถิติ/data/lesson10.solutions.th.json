@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson10",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson10.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson10-q01",
+      "answer": "A",
+      "explanation": "Estimator เป็นฟังก์ชันของข้อมูล เช่น x̄ หรือ p̂ ซึ่งเมื่อแทนค่าจะได้ Estimate",
+      "references": [
+        "summary-lesson11.html",
+        "lesson10.html"
+      ]
+    },
+    {
+      "id": "lesson10-q02",
+      "answer": "B",
+      "explanation": "Bias = E[Estimate] − ค่าจริง = 2",
+      "references": [
+        "summary-lesson11.html",
+        "lesson10.html"
+      ]
+    },
+    {
+      "id": "lesson10-q03",
+      "answer": "B",
+      "explanation": "MSE = Var(Estimator) + Bias²",
+      "references": [
+        "summary-lesson11.html",
+        "lesson10.html"
+      ]
+    }
+  ]
+}

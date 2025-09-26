@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson10",
+    "title": "บทที่ 10: การประมาณค่าเบื้องต้น",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson10.html",
+      "summary-lesson11.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson10-q01",
+      "type": "mcq",
+      "topic": "estimation",
+      "difficulty": 1,
+      "prompt": "ตัวประมาณ (Estimator) คือข้อใดต่อไปนี้?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "สูตรหรือกฎที่ใช้แปลงข้อมูลตัวอย่างให้เป็น Estimate"
+        },
+        {
+          "key": "B",
+          "text": "ค่าจริงของประชากร"
+        },
+        {
+          "key": "C",
+          "text": "ข้อมูลดิบจากการสำรวจ"
+        },
+        {
+          "key": "D",
+          "text": "ค่าคลาดเคลื่อนที่เกิดจากการประมาณ"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "estimation",
+        "lesson10"
+      ]
+    },
+    {
+      "id": "lesson10-q02",
+      "type": "mcq",
+      "topic": "bias",
+      "difficulty": 1,
+      "prompt": "ถ้า E[\\hat{\theta}] = \theta + 2 การประมาณมีลักษณะใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Unbiased"
+        },
+        {
+          "key": "B",
+          "text": "มี Bias เท่ากับ 2"
+        },
+        {
+          "key": "C",
+          "text": "มี Variance เท่ากับ 2"
+        },
+        {
+          "key": "D",
+          "text": "ไม่สามารถประเมินได้"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "bias",
+        "lesson10"
+      ]
+    },
+    {
+      "id": "lesson10-q03",
+      "type": "mcq",
+      "topic": "mse",
+      "difficulty": 1,
+      "prompt": "MSE รวมองค์ประกอบสำคัญกี่ส่วน?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "1 ส่วน"
+        },
+        {
+          "key": "B",
+          "text": "2 ส่วน (Variance และ Bias²)"
+        },
+        {
+          "key": "C",
+          "text": "3 ส่วน"
+        },
+        {
+          "key": "D",
+          "text": "ขึ้นกับข้อมูล"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "mse",
+        "lesson10"
+      ]
+    }
+  ]
+}

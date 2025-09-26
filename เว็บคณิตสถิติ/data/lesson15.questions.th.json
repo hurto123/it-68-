@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson15",
+    "title": "บทที่ 15: การคำนวณขนาดตัวอย่าง",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson15.html",
+      "summary-lesson16.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson15-q01",
+      "type": "mcq",
+      "topic": "margin",
+      "difficulty": 1,
+      "prompt": "หากต้องการ Margin of Error เล็กลงควรทำอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ลดขนาดตัวอย่าง"
+        },
+        {
+          "key": "B",
+          "text": "เพิ่มระดับความเชื่อมั่น"
+        },
+        {
+          "key": "C",
+          "text": "เพิ่มขนาดตัวอย่าง"
+        },
+        {
+          "key": "D",
+          "text": "ไม่ต้องเปลี่ยนอะไร"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "margin",
+        "lesson15"
+      ]
+    },
+    {
+      "id": "lesson15-q02",
+      "type": "mcq",
+      "topic": "sample-mean",
+      "difficulty": 1,
+      "prompt": "สูตรคำนวณขนาดตัวอย่างสำหรับค่าเฉลี่ยคือข้อใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "n = (Zσ/E)²"
+        },
+        {
+          "key": "B",
+          "text": "n = σ/Z"
+        },
+        {
+          "key": "C",
+          "text": "n = Z/E"
+        },
+        {
+          "key": "D",
+          "text": "n = E/Z"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "sample-mean",
+        "lesson15"
+      ]
+    },
+    {
+      "id": "lesson15-q03",
+      "type": "mcq",
+      "topic": "proportion",
+      "difficulty": 1,
+      "prompt": "ถ้าไม่มีข้อมูลเดิมสำหรับสัดส่วน p₀ ควรใช้ค่าใดเพื่อประเมินขนาดตัวอย่าง?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "0.0"
+        },
+        {
+          "key": "B",
+          "text": "0.25"
+        },
+        {
+          "key": "C",
+          "text": "0.5"
+        },
+        {
+          "key": "D",
+          "text": "1.0"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "proportion",
+        "lesson15"
+      ]
+    }
+  ]
+}

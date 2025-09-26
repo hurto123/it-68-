@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson21",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson21.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson21-q01",
+      "answer": "A",
+      "explanation": "χ² = (n-1)s²/σ₀²",
+      "references": [
+        "summary-lesson22.html",
+        "lesson21.html"
+      ]
+    },
+    {
+      "id": "lesson21-q02",
+      "answer": "B",
+      "explanation": "F ใช้ df สำหรับแต่ละกลุ่ม (น้อยกว่า 1)",
+      "references": [
+        "summary-lesson22.html",
+        "lesson21.html"
+      ]
+    },
+    {
+      "id": "lesson21-q03",
+      "answer": "A",
+      "explanation": "ผลของการทดสอบบอกว่าควรสมมติความแปรปรวนเท่ากันหรือไม่",
+      "references": [
+        "summary-lesson22.html",
+        "lesson21.html"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson14",
+    "title": "Quiz บทที่ 14: การประมาณค่าผลต่างสองประชากร",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "language": "th",
+    "depends_on": [
+      "lesson14.questions.th.json",
+      "lesson14.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson14",
+      "title": "บทที่ 14: การประมาณค่าผลต่างสองประชากร",
+      "questions": "lesson14.questions.th.json",
+      "solutions": "lesson14.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2,
+    "time_limit_seconds": 900,
+    "default_mode": "quiz"
+  }
+}

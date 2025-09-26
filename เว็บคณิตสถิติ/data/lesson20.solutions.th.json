@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson20",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson20.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson20-q01",
+      "answer": "B",
+      "explanation": "pooled ใช้เมื่อความแปรปรวนใกล้กัน",
+      "references": [
+        "summary-lesson21.html",
+        "lesson20.html"
+      ]
+    },
+    {
+      "id": "lesson20-q02",
+      "answer": "A",
+      "explanation": "Welch ปรับ df สำหรับความแปรปรวนไม่เท่ากัน",
+      "references": [
+        "summary-lesson21.html",
+        "lesson20.html"
+      ]
+    },
+    {
+      "id": "lesson20-q03",
+      "answer": "B",
+      "explanation": "ช่วงครอบ 0 → ไม่ชี้ว่าผลต่างมีทิศทางชัดเจน",
+      "references": [
+        "summary-lesson21.html",
+        "lesson20.html"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson19",
+    "title": "บทที่ 19: การทดสอบสัดส่วน 1 กลุ่ม",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson19.html",
+      "summary-lesson20.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson19-q01",
+      "type": "mcq",
+      "topic": "z-stat",
+      "difficulty": 1,
+      "prompt": "สถิติทดสอบสำหรับ one-sample proportion คือ?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "(\\hat{p}-p₀)/√(p₀(1-p₀)/n)"
+        },
+        {
+          "key": "B",
+          "text": "(\bar{x}-μ₀)/(s/√n)"
+        },
+        {
+          "key": "C",
+          "text": "(s₁²-s₂²)/s₂²"
+        },
+        {
+          "key": "D",
+          "text": "(n-1)s²/σ₀²"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "z-stat",
+        "lesson19"
+      ]
+    },
+    {
+      "id": "lesson19-q02",
+      "type": "mcq",
+      "topic": "condition",
+      "difficulty": 1,
+      "prompt": "ควรตรวจสอบเงื่อนไขใดก่อนใช้ one-proportion Z test?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "np₀ ≥ 10 และ n(1-p₀) ≥ 10"
+        },
+        {
+          "key": "B",
+          "text": "ข้อมูลต้องเป็นค่าเฉลี่ย"
+        },
+        {
+          "key": "C",
+          "text": "σ ต้องเป็นศูนย์"
+        },
+        {
+          "key": "D",
+          "text": "ไม่ต้องตรวจอะไร"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "condition",
+        "lesson19"
+      ]
+    },
+    {
+      "id": "lesson19-q03",
+      "type": "mcq",
+      "topic": "pvalue",
+      "difficulty": 1,
+      "prompt": "การทดสอบสองทางต้องเปรียบเทียบ p-value กับอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "α/2"
+        },
+        {
+          "key": "B",
+          "text": "α"
+        },
+        {
+          "key": "C",
+          "text": "2α"
+        },
+        {
+          "key": "D",
+          "text": "ไม่มีเกณฑ์"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "pvalue",
+        "lesson19"
+      ]
+    }
+  ]
+}

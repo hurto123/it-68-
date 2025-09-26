@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson17",
+    "title": "บทที่ 17: การทดสอบตามทิศทาง",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson17.html",
+      "summary-lesson18.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson17-q01",
+      "type": "mcq",
+      "topic": "direction",
+      "difficulty": 1,
+      "prompt": "หากสนใจว่าค่าเฉลี่ยเพิ่มขึ้นหรือไม่ ควรใช้การทดสอบแบบใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "Two-tailed"
+        },
+        {
+          "key": "B",
+          "text": "One-tailed (ขวา)"
+        },
+        {
+          "key": "C",
+          "text": "One-tailed (ซ้าย)"
+        },
+        {
+          "key": "D",
+          "text": "ไม่ต้องระบุ"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "direction",
+        "lesson17"
+      ]
+    },
+    {
+      "id": "lesson17-q02",
+      "type": "mcq",
+      "topic": "critical",
+      "difficulty": 1,
+      "prompt": "ในการทดสอบสองทาง ต้องทำอย่างไรกับระดับนัยสำคัญ α?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "คูณสอง"
+        },
+        {
+          "key": "B",
+          "text": "หารสองเพื่อแบ่งให้แต่ละปลาย"
+        },
+        {
+          "key": "C",
+          "text": "ไม่เปลี่ยนแปลง"
+        },
+        {
+          "key": "D",
+          "text": "กำหนดเป็นศูนย์"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "critical",
+        "lesson17"
+      ]
+    },
+    {
+      "id": "lesson17-q03",
+      "type": "mcq",
+      "topic": "interpret",
+      "difficulty": 1,
+      "prompt": "p-value = 0.03 ในการทดสอบทางเดียวที่ α = 0.05 ให้ข้อสรุปอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ยังไม่พอหลักฐาน ปฏิเสธ H₀"
+        },
+        {
+          "key": "B",
+          "text": "ปฏิเสธ H₀ เพราะ p-value < α"
+        },
+        {
+          "key": "C",
+          "text": "ต้องเปรียบเทียบกับ α/2 ก่อน"
+        },
+        {
+          "key": "D",
+          "text": "ไม่สามารถสรุปได้"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "interpret",
+        "lesson17"
+      ]
+    }
+  ]
+}
