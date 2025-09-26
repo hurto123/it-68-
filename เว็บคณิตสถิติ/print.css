@@ -90,3 +90,49 @@
     break-before: page;
   }
 }
+
+/* Harmonize inference summary pages when printing */
+@media print {
+  body.summary-inference,
+  body.summary-compilation {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  body.summary-inference .card,
+  body.summary-inference .highlight,
+  body.summary-inference .warn,
+  body.summary-compilation .card,
+  body.summary-compilation article,
+  body.summary-compilation .toc,
+  body.summary-compilation .highlight,
+  body.summary-compilation .warn {
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  body.summary-inference .tagline,
+  body.summary-compilation .tagline {
+    background: rgba(17, 24, 39, 0.08) !important;
+    color: #111827 !important;
+    border-color: rgba(0, 0, 0, 0.25) !important;
+  }
+
+  body.summary-inference .highlight,
+  body.summary-compilation .highlight {
+    border-left-color: #15803d !important;
+  }
+
+  body.summary-inference .warn,
+  body.summary-compilation .warn {
+    border-left-color: #d97706 !important;
+  }
+
+  body.summary-compilation .toc-list a {
+    background: transparent !important;
+    color: #111827 !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  }
+}

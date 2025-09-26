@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 01 • ความรู้เบื้องต้นเกี่ยวกับสถิติ</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="assets/css/lesson-base.css" />
   <link rel="stylesheet" href="print.css" media="print" />
   <script>
     window.MathJax = {
@@ -19,142 +20,42 @@
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
+  <script defer src="assets/js/lesson-layout.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
-  <style>
-    :root {
-      --bg: #0b0c10;
-      --surface: #15171c;
-      --surface-soft: #10131a;
-      --text: #e8e8ea;
-      --muted: #9aa0a6;
-      --link: #4f8cff;
-      --border: #2a2e36;
-      --accent: #4f8cff;
-      --ok: #15b588;
-      --warn: #f59e0b;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: radial-gradient(900px 320px at 10% -10%, rgba(79,140,255,.16), transparent 70%),
-        radial-gradient(720px 260px at 90% -20%, rgba(21,181,136,.14), transparent 70%),
-        var(--bg);
-      color: var(--text);
-      font: 16px/1.75 system-ui, "Noto Sans Thai", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    header, footer {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-    }
-    footer { border-top: 1px solid var(--border); }
-    header .wrap, footer .wrap, main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 1.1rem;
-    }
-    h1, h2, h3 { line-height: 1.25; margin: .2rem 0; }
-    p { margin: .45rem 0; }
-    nav a, .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: .25rem;
-      margin: .25rem .4rem .25rem 0;
-      padding: .45rem .85rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: #20232a;
-      color: var(--text);
-      text-decoration: none;
-      font-size: .92rem;
-    }
-    nav a:hover { background: #2a2e36; }
-    nav a[aria-disabled="true"] { opacity: .4; pointer-events: none; }
-    .wrap h1 { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
-    .tag { background: rgba(79,140,255,.12); color: #d3e2ff; border-color: rgba(79,140,255,.35); }
-    .card {
-      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.2rem;
-      margin: 1.1rem 0;
-      box-shadow: 0 18px 42px rgba(0, 0, 0, .22);
-    }
-    .muted { color: var(--muted); }
-    .note { background: #0f2237; border-left: 4px solid var(--accent); padding: .9rem; border-radius: 12px; }
-    .ok { background: #0f231c; border-left: 4px solid var(--ok); padding: .85rem; border-radius: 12px; }
-    .warn { background: #2a160c; border-left: 4px solid var(--warn); padding: .85rem; border-radius: 12px; }
-    .grid-two { display: grid; grid-template-columns: 1.05fr .95fr; gap: 1.2rem; }
-    .grid-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-    @media (max-width: 960px) {
-      .grid-two, .grid-three { grid-template-columns: 1fr; }
-    }
-    table { width: 100%; border-collapse: collapse; margin-top: .6rem; }
-    th, td { border: 1px solid rgba(255,255,255,.08); padding: .55rem; vertical-align: top; }
-    th { background: rgba(79,140,255,.08); font-weight: 600; }
-    caption { caption-side: bottom; font-size: .85rem; color: var(--muted); padding-top: .4rem; }
-    figure { margin: 1rem 0; }
-    figure svg { width: 100%; height: auto; background: rgba(15, 25, 44, .6); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; }
-    figcaption { font-size: .85rem; color: var(--muted); margin-top: .4rem; }
-    .ex { background: #20232a; border: 1px dashed var(--border); padding: .9rem; border-radius: 12px; white-space: pre-wrap; }
-    .steps { counter-reset: step; margin: .6rem 0; padding-left: 0; }
-    .steps li { list-style: none; margin: .5rem 0; padding-left: 2.2rem; position: relative; }
-    .steps li::before {
-      counter-increment: step;
-      content: counter(step);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 50%;
-      background: rgba(79,140,255,.2);
-      border: 1px solid rgba(79,140,255,.5);
-      display: grid;
-      place-items: center;
-      font-weight: 600;
-    }
-    .chips { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
-    a.inline { color: var(--link); }
-  </style>
   <script type="application/json" id="lesson-meta">
     {
-      "id": "lesson01",
-      "title": "ความรู้เบื้องต้นเกี่ยวกับสถิติ",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
-      "depends_on": [
-        "summary-lesson01.html",
-        "glossary.html#tblSymbols",
-        "data/lesson01.questions.th.json",
-        "data/lesson01.solutions.th.json",
-        "assets/js/reading-tools.js",
-        "style.css"
-      ],
-      "tags": ["introduction", "descriptive", "inferential", "process", "reading-tools", "math-model"]
+        "id": "lesson01",
+        "title": "ความรู้เบื้องต้นเกี่ยวกับสถิติ",
+        "version": "1.2.0",
+        "updated_at": "2025-09-26",
+        "depends_on": [
+            "summary-lesson01.html",
+            "glossary.html#tblSymbols",
+            "data/lesson01.questions.th.json",
+            "data/lesson01.solutions.th.json",
+            "assets/js/reading-tools.js",
+            "style.css",
+            "assets/css/lesson-base.css"
+        ],
+        "tags": [
+            "introduction",
+            "descriptive",
+            "inferential",
+            "process",
+            "reading-tools",
+            "math-model"
+        ]
     }
   </script>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>
-        บทที่ 01 • ความรู้เบื้องต้นเกี่ยวกับสถิติ
-        <span class="pill tag">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025</span>
-      </h1>
-      <p class="muted">เข้าใจความหมายของ "สถิติ" แยกประเภทข้อมูล และเห็นภาพกระบวนการวิเคราะห์ตั้งแต่ต้นจนจบ</p>
-      <nav aria-label="นำทางบทเรียน">
-        <a href="index.html">🏠 หน้าแรก</a>
-        <a href="summary-lesson01.html">📝 สรุป 1 หน้า</a>
-        <a href="glossary.html">🔤 Glossary</a>
-        <a href="lesson02.html">บทถัดไป ⟶</a>
-        <a aria-disabled="true">⟵ บทก่อนหน้า</a>
-      </nav>
-      <div class="chips" aria-label="ลิงก์เสริม">
-        <span class="pill">🔗 สูตรที่เกี่ยวข้อง: <a class="inline" href="formula/z-score.html">Z-Score</a></span>
-        <span class="pill">🧪 แบบฝึกหัด: <a class="inline" href="quiz-lesson01.html">Quiz (กำลังจัดเตรียม)</a></span>
+  <header data-lesson-header data-lesson-id="lesson01">
+    <noscript>
+      <div class="wrap">
+        <h1>บทที่ 01 • ความรู้เบื้องต้นเกี่ยวกับสถิติ</h1>
+        <p class="muted">กรุณาเปิดใช้ JavaScript เพื่อแสดงส่วนหัวของบทเรียน</p>
       </div>
-    </div>
+    </noscript>
   </header>
 
   <main>

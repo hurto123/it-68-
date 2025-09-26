@@ -64,6 +64,19 @@
             border-color: #FFFFFF; /* White border around the dot */
         }
 
+        /* Active state styling for navigation links */
+        .main-nav-link.active {
+            background-color: #00B4D8;
+            color: #0B1F2E;
+            box-shadow: 0 12px 24px rgba(0, 116, 182, 0.25);
+        }
+
+        .sub-nav-link.active {
+            background-color: #0077B6;
+            color: #FFFFFF;
+            box-shadow: 0 6px 16px rgba(0, 119, 182, 0.2);
+        }
+
         /* Main Page transition styling */
         .page-content {
             position: absolute; /* Allows pages to overlap */
@@ -628,78 +641,98 @@
         function setupSubPageListeners(mainPageElement) {
             const subNavLinks = mainPageElement.querySelectorAll('.sub-navbar a[data-sub-page]');
             const subPages = mainPageElement.querySelectorAll('.sub-page-content');
-            let currentSubPageId = '';
+            let defaultSubPageId = '';
 
             // Determine and set the default sub-page based on the main page ID
             const mainPageId = mainPageElement.id;
             if (mainPageId === 'it-page') {
-                currentSubPageId = 'it-curriculum';
+                defaultSubPageId = 'it-curriculum';
             } else if (mainPageId === 'ait-page') {
-                currentSubPageId = 'ait-curriculum';
+                defaultSubPageId = 'ait-curriculum';
             } else if (mainPageId === 'ds-page') {
-                currentSubPageId = 'ds-curriculum';
+                defaultSubPageId = 'ds-curriculum';
             }
 
-            // Deactivate all sub-pages and sub-nav links first
-            subPages.forEach(page => page.classList.remove('active', 'sub-slide-out'));
+            // Deactivate and hide all sub-pages, reset sub-nav link states
+            subPages.forEach(page => {
+                page.classList.remove('active', 'sub-slide-out');
+                page.style.display = 'none';
+            });
             subNavLinks.forEach(link => link.classList.remove('active'));
 
+            // Store the currently active sub-page on the main page element
+            mainPageElement.dataset.currentSubPageId = defaultSubPageId;
+
             // Activate the default sub-page and its nav link
-            const initialSubPage = document.getElementById(currentSubPageId);
+            const initialSubPage = document.getElementById(defaultSubPageId);
             if (initialSubPage) {
                 initialSubPage.style.display = 'block';
                 initialSubPage.classList.add('active');
-                const initialNavLink = mainPageElement.querySelector(`.sub-navbar a[data-sub-page="${currentSubPageId}"]`);
-                if (initialNavLink) initialNavLink.classList.add('active');
+                const initialNavLink = mainPageElement.querySelector(`.sub-navbar a[data-sub-page="${defaultSubPageId}"]`);
+                if (initialNavLink) {
+                    initialNavLink.classList.add('active');
+                }
             }
 
             // Re-initialize charts if the IT-Curriculum page is the active sub-page
-            if (currentSubPageId === 'it-curriculum') {
+            if (defaultSubPageId === 'it-curriculum') {
                 initializeCharts();
             }
 
             subNavLinks.forEach(link => {
-                link.addEventListener('click', (event) => {
+                if (link.dataset.listenerAttached === 'true') {
+                    return;
+                }
+
+                const handleSubNavClick = (event) => {
                     event.preventDefault();
-                    const targetSubPageId = event.target.dataset.subPage;
+                    const targetSubPageId = event.currentTarget.dataset.subPage;
+                    const currentSubPageId = mainPageElement.dataset.currentSubPageId;
 
                     if (targetSubPageId === currentSubPageId) {
                         return; // Do nothing if clicking the current sub-page
                     }
 
-                    const currentActiveSubPage = document.getElementById(currentSubPageId);
+                    const currentActiveSubPage = currentSubPageId ? document.getElementById(currentSubPageId) : null;
                     const newActiveSubPage = document.getElementById(targetSubPageId);
 
-                    if (!currentActiveSubPage || !newActiveSubPage) {
-                        console.error(`Sub-page element not found: Current: ${currentSubPageId}, Target: ${targetSubPageId}`);
+                    if (!newActiveSubPage) {
+                        console.error(`Sub-page element not found: Target: ${targetSubPageId}`);
                         return;
                     }
 
                     // Update active state of sub-nav links
                     mainPageElement.querySelector('.sub-navbar a.active')?.classList.remove('active');
-                    event.target.classList.add('active');
+                    event.currentTarget.classList.add('active');
 
-                    // Start exit animation for current sub-page
-                    currentActiveSubPage.classList.remove('active');
-                    currentActiveSubPage.classList.add('sub-slide-out');
+                    if (currentActiveSubPage) {
+                        // Start exit animation for current sub-page
+                        currentActiveSubPage.classList.remove('active');
+                        currentActiveSubPage.classList.add('sub-slide-out');
+                    }
 
-                    const subAnimationDuration = 500; // Must match CSS transition duration for sub-pages
+                    const subAnimationDuration = currentActiveSubPage ? 500 : 0; // Match CSS transition duration for sub-pages
 
                     setTimeout(() => {
-                        currentActiveSubPage.style.display = 'none'; // Fully hide old sub-page
-                        currentActiveSubPage.classList.remove('sub-slide-out'); // Clean up slide-out class
+                        if (currentActiveSubPage) {
+                            currentActiveSubPage.style.display = 'none'; // Fully hide old sub-page
+                            currentActiveSubPage.classList.remove('sub-slide-out'); // Clean up slide-out class
+                        }
 
                         newActiveSubPage.style.display = 'block'; // Make new sub-page visible
                         newActiveSubPage.classList.add('active'); // Add active class to trigger its entry animation
 
-                        currentSubPageId = targetSubPageId; // Update current sub-page ID
+                        mainPageElement.dataset.currentSubPageId = targetSubPageId; // Update current sub-page ID
 
                         // Re-initialize charts if the IT-Curriculum page is activated
                         if (targetSubPageId === 'it-curriculum') {
                             initializeCharts();
                         }
                     }, subAnimationDuration);
-                });
+                };
+
+                link.addEventListener('click', handleSubNavClick);
+                link.dataset.listenerAttached = 'true';
             });
         }
 
