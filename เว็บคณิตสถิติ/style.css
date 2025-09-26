@@ -505,6 +505,7 @@ td.group-header {
 }
 
 
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .lesson-title { font-size: 2rem; }
@@ -517,8 +518,7 @@ td.group-header {
 /* ===============================
    Quiz & Exercise Pages
    =============================== */
-.quiz-header {
-  background: var(--surface);
+ background: var(--surface);
   border-bottom: 1px solid var(--border);
   margin-bottom: 1.2rem;
 }
@@ -541,6 +541,38 @@ td.group-header {
   border-radius:var(--radius);
   box-shadow:var(--shadow);
   padding:1.2rem 1.4rem;
+}
+
+section.quiz-fallback {
+  background:#151922;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:1.25rem;
+  color:#e8e8ea;
+}
+
+section.quiz-fallback table {
+  width:100%;
+  border-collapse:collapse;
+  margin:1rem 0;
+}
+
+section.quiz-fallback th,
+section.quiz-fallback td {
+  border:1px solid rgba(255,255,255,.12);
+  padding:.6rem;
+  text-align:left;
+}
+
+section.quiz-fallback thead th {
+  background:rgba(79,140,255,.18);
+}
+
+section.quiz-fallback ol {
+  margin:0 0 0 1.25rem;
+  padding:0;
+  display:grid;
+  gap:.5rem;
 }
 
 .preflight-grid {
