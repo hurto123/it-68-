@@ -80,7 +80,7 @@
       if(url.origin !== window.location.origin){ return false; }
       if(url.pathname === window.location.pathname){ return false; }
     }catch(err){
-      return false;
+        return false;
     }
     return true;
   }
@@ -104,5 +104,15 @@
     const link = event.target.closest('a');
     if(link){ prefetch(link); }
   });
+
+  if(!doc.querySelector('script[src*="sw-register.js"]')) {
+    const current = doc.currentScript || Array.from(doc.scripts).find(script => (script.src || '').includes('/assets/js/site-core.js'));
+    const baseUrl = current ? new URL(current.getAttribute('src'), window.location.href) : new URL('./assets/js/site-core.js', window.location.href);
+    const swUrl = new URL('sw-register.js', baseUrl);
+    const loader = doc.createElement('script');
+    loader.defer = true;
+    loader.src = swUrl.href;
+    doc.head.appendChild(loader);
+  }
 
 })();
