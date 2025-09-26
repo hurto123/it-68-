@@ -1,4 +1,6 @@
 const DEFAULT_TIME_LIMIT = 10 * 60; // seconds
+const HISTORY_LIMIT = 20;
+const HISTORY_KEY_PREFIX = 'quiz-history:';
 
 function $(root, selector) {
   const el = root.querySelector(selector);
@@ -24,110 +26,7 @@ function createElement(tag, options = {}) {
 }
 
 function shuffle(array) {
-  const copy = array.slice();
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
-
-function normaliseAnswer(value) {
-  if (value === undefined || value === null) return "";
-  return value.toString().trim().toLowerCase();
-}
-
-function fmtSeconds(seconds) {
-  const s = Math.max(0, Math.floor(seconds));
-  const mins = Math.floor(s / 60).toString().padStart(2, "0");
-  const secs = (s % 60).toString().padStart(2, "0");
-  return `${mins}:${secs}`;
-}
-
-async function fetchJSON(path) {
-  const res = await fetch(path);
-  if (!res.ok) {
-    throw new Error(`ไม่สามารถโหลดไฟล์ ${path} (status ${res.status})`);
-  }
-  return res.json();
-}
-
-function resolveRelative(baseUrl, relativePath) {
-  try {
-    const url = new URL(relativePath, baseUrl);
-    return url.href;
-  } catch (err) {
-    return relativePath;
-  }
-}
-
-function buildPreflightTemplate(labels) {
-  return `
-    <section class="quiz-preflight" aria-labelledby="preflight-title">
-      <header>
-        <h2 id="preflight-title">เริ่มทำแบบฝึกหัด</h2>
-        <p class="muted" id="preflight-desc"></p>
-      </header>
-      <div class="preflight-grid">
-        <article class="stat-card" aria-live="polite">
-          <h3>คลังข้อสอบ</h3>
-          <p class="stat" id="stat-question-count">–</p>
-          <p class="muted small">ข้อที่พร้อมใช้งาน</p>
-        </article>
-        <article class="stat-card">
-          <h3>โหมด</h3>
-          <label class="control">
-            <span>เลือกโหมด</span>
-            <select id="mode-select">
-              <option value="practice">${labels.practice}</option>
-              <option value="quiz">${labels.quiz}</option>
-            </select>
-          </label>
-          <label class="control" id="count-wrapper">
-            <span>จำนวนข้อที่ต้องการ</span>
-            <input id="question-count" type="number" min="1" value="5" />
-          </label>
-        </article>
-        <article class="stat-card" id="config-card">
-          <h3>ตั้งค่า Quiz</h3>
-          <dl>
-            <div>
-              <dt>เวลาที่กำหนด</dt>
-              <dd id="stat-time-limit">–</dd>
-            </div>
-            <div>
-              <dt>ผ่านเมื่อ</dt>
-              <dd id="stat-passing">–</dd>
-            </div>
-          </dl>
-        </article>
-      </div>
-      <div class="preflight-actions">
-        <button class="btn" id="btn-start">เริ่มทำ</button>
-        <button class="btn ghost" id="btn-reload">รีเฟรชข้อมูล</button>
-      </div>
-      <div class="muted small" id="preflight-note"></div>
-    </section>
-  `;
-}
-
-function buildSessionTemplate() {
-  return `
-    <section class="quiz-session" id="quiz-session" hidden>
-      <header class="session-header">
-        <div class="progress" aria-live="polite">
-          <span id="progress-label">ข้อที่ 0</span>
-        </div>
-        <div class="timer" id="timer" role="timer">--:--</div>
-      </header>
-      <div class="question-shell" id="question-shell"></div>
-      <div class="feedback" id="feedback" aria-live="polite"></div>
-      <footer class="session-controls">
-        <div class="left">
+@@ -131,50 +133,58 @@ function buildSessionTemplate() {
           <button class="btn" id="btn-check">ตรวจคำตอบ</button>
         </div>
         <div class="right">
@@ -153,6 +52,14 @@ function buildSummaryTemplate() {
         <button class="btn" id="btn-retry">ทำซ้ำอีกครั้ง</button>
         <button class="btn secondary" id="btn-back-to-preflight">กลับไปตั้งค่า</button>
       </div>
+      <section class="summary-history" id="summary-history" aria-live="polite">
+        <header class="summary-history__header">
+          <h3 id="summary-history-title">ประวัติคะแนนล่าสุด</h3>
+          <button class="btn tertiary" type="button" id="btn-clear-history">ล้างประวัติ</button>
+        </header>
+        <p class="muted small" id="summary-history-empty">ยังไม่มีบันทึก ลองทำแบบฝึกหัดเพื่อเก็บสถิติ</p>
+        <ol class="summary-history__list" id="summary-history-list" aria-labelledby="summary-history-title"></ol>
+      </section>
       <details class="summary-details" id="summary-details">
         <summary>ดูรายละเอียดคำตอบ</summary>
         <div id="summary-list"></div>
@@ -178,7 +85,7 @@ function evaluateQuestion(question, rawAnswer) {
     return question.answer === rawAnswer;
   }
   if (question.type === "short_answer") {
-    return normaliseAnswer(question.answer) === normaliseAnswer(rawAnswer);
+@@ -182,116 +192,131 @@ function evaluateQuestion(question, rawAnswer) {
   }
   return false;
 }
@@ -205,6 +112,8 @@ export class QuizPlayer {
       attemptStartedAt: null,
       attemptFinished: null,
       results: []
+      results: [],
+      history: []
     };
   }
 
@@ -238,6 +147,10 @@ export class QuizPlayer {
     this.startButton = $(this.mount, "#btn-start");
     this.reloadButton = $(this.mount, "#btn-reload");
     this.configCard = $(this.mount, "#config-card");
+    this.preflightTitle = $(this.mount, '#preflight-title');
+    if (this.preflightTitle) {
+      this.preflightTitle.setAttribute('tabindex', '-1');
+    }
 
     this.timerEl = $(this.mount, "#timer");
     this.progressLabel = $(this.mount, "#progress-label");
@@ -256,6 +169,15 @@ export class QuizPlayer {
     this.summaryList = $(this.mount, "#summary-list");
     this.summaryRetry = $(this.mount, "#btn-retry");
     this.summaryBack = $(this.mount, "#btn-back-to-preflight");
+    this.summaryHeading = this.summarySection.querySelector('h2');
+    if (this.summaryHeading) {
+      this.summaryHeading.setAttribute('tabindex', '-1');
+    }
+    this.summaryHistorySection = $(this.mount, '#summary-history');
+    this.summaryHistorySection.setAttribute('tabindex', '-1');
+    this.summaryHistoryEmpty = $(this.mount, '#summary-history-empty');
+    this.summaryHistoryList = $(this.mount, '#summary-history-list');
+    this.summaryHistoryClear = $(this.mount, '#btn-clear-history');
   }
 
   bindPreflightEvents() {
@@ -270,6 +192,7 @@ export class QuizPlayer {
     this.btnFinishPractice.addEventListener("click", () => this.finishPractice());
     this.summaryRetry.addEventListener("click", () => this.retryAttempt());
     this.summaryBack.addEventListener("click", () => this.backToPreflight());
+    this.summaryHistoryClear.addEventListener('click', () => this.clearHistory());
   }
 
   async reloadData() {
@@ -295,80 +218,7 @@ export class QuizPlayer {
   async loadConfig(force = false) {
     if (this.loadingPromise && !force) {
       return this.loadingPromise;
-    }
-    const baseUrl = new URL(this.configPath, window.location.href).href;
-    this.loadingPromise = (async () => {
-      const config = await fetchJSON(this.configPath);
-      this.config = config;
-      const meta = config.meta || {};
-      this.meta = meta;
-      const rawSources = Array.isArray(config.sources)
-        ? config.sources
-        : (config.sources ? [config.sources] : []);
-      this.sources = rawSources.map((source) => ({
-        lesson: source.lesson || meta.lesson || "",
-        title: source.title || meta.title || "",
-        questions: resolveRelative(baseUrl, source.questions || source.question || ""),
-        solutions: resolveRelative(baseUrl, source.solutions || ""),
-        weight: source.weight || 1
-      }));
-
-      const results = await Promise.all(this.sources.map(async (source) => {
-        const [questionData, solutionData] = await Promise.all([
-          source.questions ? fetchJSON(source.questions) : Promise.resolve(null),
-          source.solutions ? fetchJSON(source.solutions).catch(() => ({ items: [] })) : Promise.resolve({ items: [] })
-        ]);
-        return { source, questionData, solutionData };
-      }));
-
-      const questions = [];
-      const solutionMap = new Map();
-
-      results.forEach(({ source, questionData, solutionData }) => {
-        if (!questionData || !Array.isArray(questionData.items)) return;
-        questionData.items.forEach((item) => {
-          const question = {
-            ...item,
-            lesson: source.lesson || questionData.meta?.lesson,
-            lessonTitle: questionData.meta?.title || source.title || this.meta?.title || "",
-          };
-          questions.push(question);
-        });
-        if (solutionData && Array.isArray(solutionData.items)) {
-          solutionData.items.forEach((sol) => {
-            solutionMap.set(sol.question_id || sol.id, sol);
-          });
-        }
-      });
-
-      const supportedTypes = new Set(["mcq", "short_answer"]);
-      const supportedQuestions = questions.filter((item) => supportedTypes.has(item.type));
-      this.state.unsupportedCount = questions.length - supportedQuestions.length;
-      this.state.questions = supportedQuestions;
-      this.state.solutions = solutionMap;
-      this.onDataLoaded();
-    })();
-
-    return this.loadingPromise;
-  }
-
-  onDataLoaded() {
-    const total = this.state.questions.length;
-    this.statQuestionCount.textContent = total.toString();
-    this.countInput.max = Math.max(1, total);
-    this.countInput.value = Math.min(parseInt(this.countInput.value || "5", 10), Math.max(1, total));
-
-    const config = this.config.config || {};
-    const timeLimit = config.time_limit_seconds ?? DEFAULT_TIME_LIMIT;
-    const configuredItems = config.items_per_quiz ?? total;
-    const itemsPerQuiz = total ? Math.min(configuredItems, total) : configuredItems;
-    const basePassing = config.passing_score ?? Math.ceil((configuredItems || total || 1) * 0.6);
-    const effectivePassing = total ? Math.min(basePassing, itemsPerQuiz) : basePassing;
-
-    this.statTimeLimit.textContent = timeLimit ? `${Math.round(timeLimit / 60)} นาที` : "–";
-    this.statPassing.textContent = total
-      ? `${effectivePassing} ข้อ (จาก ${itemsPerQuiz} ข้อ)`
-      : `${basePassing} ข้อ`;
+@@ -372,50 +397,52 @@ export class QuizPlayer {
 
     const updatedAt = this.meta?.updated_at ? `อัปเดตล่าสุด ${this.meta.updated_at}` : "";
     const version = this.meta?.version ? `เวอร์ชัน ${this.meta.version}` : "";
@@ -394,6 +244,8 @@ export class QuizPlayer {
       }
     }));
     this.updateModeUI();
+    this.state.history = this.loadHistory();
+    this.updateHistoryUI();
   }
 
   updateModeUI() {
@@ -419,51 +271,7 @@ export class QuizPlayer {
     if (!available.length) return;
 
     const config = this.config.config || {};
-    const shuffleEnabled = config.shuffle !== false;
-    const ordered = shuffleEnabled ? shuffle(available) : available;
-    const count = mode === "practice"
-      ? Math.min(desired, ordered.length)
-      : Math.min(desired, ordered.length, config.items_per_quiz || ordered.length);
-
-    this.state.mode = mode;
-    this.state.order = ordered.slice(0, count);
-    this.state.currentIndex = 0;
-    this.state.answers = {};
-    this.state.checked = new Set();
-    this.state.results = [];
-    this.state.attemptStartedAt = new Date();
-    this.state.attemptFinished = null;
-    this.feedbackEl.innerHTML = "";
-    this.summarySection.hidden = true;
-
-    this.preflightSection.hidden = true;
-    this.sessionSection.hidden = false;
-    this.sessionSection.dataset.mode = mode;
-
-    if (mode === "quiz") {
-      const timeLimit = this.config.config?.time_limit_seconds ?? DEFAULT_TIME_LIMIT;
-      this.state.remainingSeconds = timeLimit;
-      this.updateTimerDisplay();
-      this.startTimer();
-      this.btnCheck.hidden = true;
-      this.btnFinishPractice.hidden = true;
-      this.btnSubmit.hidden = false;
-      this.btnPrev.hidden = false;
-      this.btnNext.hidden = false;
-    } else {
-      this.clearTimer();
-      this.timerEl.textContent = "โหมดฝึก (ไม่มีจับเวลา)";
-      this.btnCheck.hidden = false;
-      this.btnFinishPractice.hidden = false;
-      this.btnSubmit.hidden = true;
-      this.btnPrev.hidden = true;
-      this.btnNext.hidden = false;
-      this.btnFinishPractice.disabled = true;
-    }
-
-    this.renderCurrentQuestion();
-    this.mount.dispatchEvent(new CustomEvent("quiz:started", {
-      detail: {
+@@ -467,72 +494,83 @@ export class QuizPlayer {
         mode,
         total: count
       }
@@ -489,6 +297,11 @@ export class QuizPlayer {
       this.modeSelect.value = "practice";
       this.updateModeUI();
     }
+    if (this.preflightTitle) {
+      requestAnimationFrame(() => {
+        this.preflightTitle.focus({ preventScroll: true });
+      });
+    }
   }
 
   renderCurrentQuestion() {
@@ -511,6 +324,13 @@ export class QuizPlayer {
     if (typeof question.difficulty === "number") metaChips.push(`ระดับ: ${question.difficulty}`);
 
     container.appendChild(createElement("h3", { text: question.prompt || "(ไม่มีคำถาม)" }));
+    const heading = createElement("h3", { text: question.prompt || "(ไม่มีคำถาม)" });
+    const headingId = `question-${question.id || index}`;
+    heading.id = headingId;
+    container.appendChild(heading);
+    container.setAttribute('tabindex', '-1');
+    container.setAttribute('role', 'group');
+    container.setAttribute('aria-labelledby', headingId);
     if (metaChips.length) {
       container.appendChild(createElement("p", { className: "question-meta", text: metaChips.join(" • ") }));
     }
@@ -536,12 +356,7 @@ export class QuizPlayer {
         }
         const span = createElement("span", { html: `<strong>${choice.key}.</strong> ${choice.text}` });
         label.appendChild(input);
-        label.appendChild(span);
-        item.appendChild(label);
-        list.appendChild(item);
-      });
-      body.appendChild(list);
-    } else if (question.type === "short_answer") {
+@@ -545,50 +583,53 @@ export class QuizPlayer {
       const input = createElement("input", {
         className: "short-answer",
         attrs: {
@@ -567,6 +382,9 @@ export class QuizPlayer {
     container.appendChild(body);
     this.questionShell.innerHTML = "";
     this.questionShell.appendChild(container);
+    requestAnimationFrame(() => {
+      container.focus({ preventScroll: true });
+    });
 
     if (this.state.mode === "practice") {
       const answer = this.state.answers[question.id];
@@ -592,84 +410,7 @@ export class QuizPlayer {
     const question = this.state.order[this.state.currentIndex];
     if (!question) return;
     const answer = this.state.answers[question.id];
-    if (answer === undefined || answer === "") {
-      this.feedbackEl.textContent = "โปรดเลือกหรือกรอกคำตอบก่อน";
-      return;
-    }
-    const correct = evaluateQuestion(question, answer);
-    this.state.checked.add(question.id);
-    if (correct) {
-      this.feedbackEl.innerHTML = `<div class="callout success">ตอบถูกต้อง! ✅</div>`;
-    } else {
-      this.feedbackEl.innerHTML = `<div class="callout danger">ตอบยังไม่ถูก ลองอ่านเฉลยด้านล่าง 👇</div>`;
-    }
-    this.renderSolution(question, correct);
-    this.btnNext.disabled = this.state.currentIndex >= this.state.order.length - 1;
-    const allChecked = this.state.order.every((item) => this.state.checked.has(item.id));
-    this.btnFinishPractice.disabled = !allChecked;
-  }
-
-  renderSolution(question, correct) {
-    const solution = this.state.solutions.get(question.id);
-    const wrapper = createElement("div", { className: "solution" });
-    const answerText = solution?.final_answer ?? question.answer ?? "–";
-    wrapper.appendChild(createElement("p", {
-      className: "solution-answer",
-      html: `คำตอบที่ถูกต้อง: <strong>${answerText}</strong>`
-    }));
-    if (solution?.why) {
-      wrapper.appendChild(createElement("p", {
-        className: "solution-why",
-        text: solution.why
-      }));
-    }
-    if (Array.isArray(solution?.steps) && solution.steps.length) {
-      const list = createElement("ol", { className: "solution-steps" });
-      solution.steps.forEach((step) => {
-        list.appendChild(createElement("li", { text: step }));
-      });
-      wrapper.appendChild(list);
-    }
-    if (!correct && !solution) {
-      wrapper.appendChild(createElement("p", {
-        className: "muted",
-        text: "ยังไม่มีคำอธิบายละเอียดสำหรับคำถามนี้"
-      }));
-    }
-    this.feedbackEl.appendChild(wrapper);
-  }
-
-  finishPractice() {
-    const total = this.state.order.length;
-    const checkedCount = this.state.checked.size;
-    if (checkedCount < total) {
-      this.feedbackEl.innerHTML = `<div class="callout warn">คุณยังตรวจคำตอบไม่ครบทุกข้อ (${checkedCount}/${total})</div>`;
-      return;
-    }
-    let correct = 0;
-    this.state.order.forEach((question) => {
-      const answer = this.state.answers[question.id];
-      if (evaluateQuestion(question, answer)) {
-        correct += 1;
-      }
-    });
-    this.state.attemptFinished = new Date();
-    this.showSummary({
-      mode: "practice",
-      total,
-      correct,
-      duration: this.getAttemptDuration(),
-      details: this.state.order.map((question) => ({
-        question,
-        answer: this.state.answers[question.id],
-        correct: evaluateQuestion(question, this.state.answers[question.id])
-      }))
-    });
-  }
-
-  finishQuiz(reason = "submit") {
-    this.clearTimer();
-    const total = this.state.order.length;
+@@ -673,100 +714,212 @@ export class QuizPlayer {
     let correct = 0;
     const details = this.state.order.map((question) => {
       const answer = this.state.answers[question.id];
@@ -694,6 +435,9 @@ export class QuizPlayer {
   showSummary(result) {
     this.sessionSection.hidden = true;
     this.summarySection.hidden = false;
+
+    this.recordHistory(result);
+    this.updateHistoryUI();
 
     const { mode, total, correct, duration, passed, reason, details } = result;
     const ratio = total ? Math.round((correct / total) * 100) : 0;
@@ -735,6 +479,12 @@ export class QuizPlayer {
         reason
       }
     }));
+
+    if (this.summaryHeading) {
+      requestAnimationFrame(() => {
+        this.summaryHeading.focus({ preventScroll: true });
+      });
+    }
   }
 
   startTimer() {
@@ -768,5 +518,108 @@ export class QuizPlayer {
     if (!this.state.attemptStartedAt) return 0;
     const end = this.state.attemptFinished || new Date();
     return Math.round((end - this.state.attemptStartedAt) / 1000);
+  }
+
+  getHistoryKey() {
+    const lessonId = this.meta?.lesson || this.config?.meta?.lesson;
+    const identifier = lessonId || this.meta?.title || this.configPath;
+    return `${HISTORY_KEY_PREFIX}${identifier}`;
+  }
+
+  loadHistory() {
+    const key = this.getHistoryKey();
+    if (!key) return [];
+    try {
+      const saved = localStorage.getItem(key);
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .filter((entry) => entry && typeof entry.total === 'number' && typeof entry.correct === 'number')
+        .slice(0, HISTORY_LIMIT);
+    } catch (error) {
+      console.warn('[quiz] ไม่สามารถอ่านประวัติจาก localStorage', error);
+      return [];
+    }
+  }
+
+  persistHistory(history) {
+    const key = this.getHistoryKey();
+    if (!key) return;
+    try {
+      localStorage.setItem(key, JSON.stringify(history.slice(0, HISTORY_LIMIT)));
+    } catch (error) {
+      console.warn('[quiz] ไม่สามารถบันทึกประวัติลง localStorage', error);
+    }
+  }
+
+  recordHistory(result) {
+    if (!result) return;
+    const entry = {
+      ts: new Date().toISOString(),
+      mode: result.mode,
+      total: result.total,
+      correct: result.correct,
+      duration: result.duration,
+      passed: result.mode === 'quiz' ? Boolean(result.passed) : undefined,
+      reason: result.reason
+    };
+    const history = [entry, ...this.state.history].slice(0, HISTORY_LIMIT);
+    this.state.history = history;
+    this.persistHistory(history);
+  }
+
+  updateHistoryUI() {
+    if (!this.summaryHistorySection || !this.summaryHistoryList || !this.summaryHistoryEmpty) {
+      return;
+    }
+    const history = this.state.history || [];
+    this.summaryHistoryEmpty.hidden = history.length > 0;
+    if (this.summaryHistoryClear) {
+      this.summaryHistoryClear.disabled = history.length === 0;
+    }
+    this.summaryHistoryList.innerHTML = '';
+    history.forEach((entry, index) => {
+      const item = createElement('li', { className: 'summary-history__item' });
+      if (index === 0) {
+        item.classList.add('summary-history__item--latest');
+      }
+      const timestamp = entry.ts ? new Date(entry.ts) : null;
+      const timeText = timestamp
+        ? timestamp.toLocaleString('th-TH', {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          })
+        : '—';
+      const modeLabel = entry.mode === 'quiz' ? 'โหมด Quiz' : 'โหมดฝึก';
+      const scoreText = `ได้ ${entry.correct}/${entry.total} ข้อ (${entry.total ? Math.round((entry.correct / entry.total) * 100) : 0}%)`;
+      const metaBits = [modeLabel, timeText];
+      if (entry.mode === 'quiz') {
+        metaBits.push(entry.passed ? 'ผ่านเกณฑ์' : 'ยังไม่ผ่าน');
+        if (entry.reason === 'timeout') metaBits.push('หมดเวลา');
+      }
+      if (entry.duration) {
+        metaBits.push(`ใช้เวลา ${fmtSeconds(entry.duration)}`);
+      }
+      item.appendChild(createElement('p', { className: 'summary-history__score', text: scoreText }));
+      item.appendChild(createElement('p', { className: 'summary-history__meta muted small', text: metaBits.join(' • ') }));
+      this.summaryHistoryList.appendChild(item);
+    });
+  }
+
+  clearHistory() {
+    this.state.history = [];
+    const key = this.getHistoryKey();
+    if (key) {
+      try {
+        localStorage.removeItem(key);
+      } catch (error) {
+        console.warn('[quiz] ไม่สามารถลบประวัติ', error);
+      }
+    }
+    this.updateHistoryUI();
+    if (this.summaryHistorySection && typeof this.summaryHistorySection.focus === 'function') {
+      this.summaryHistorySection.focus({ preventScroll: true });
+    }
   }
 }
