@@ -6,6 +6,7 @@
   <title>สรุปบทเรียน บทที่ 12 — หัวใจของการประมาณค่าแบบช่วง</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="print.css" media="print">
+  <link rel="stylesheet" href="assets/css/summary-inference.css">
   <script>
     window.MathJax = {
       tex: {
@@ -17,35 +18,38 @@
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
-  <style>
-    body { margin: 0; padding: 28px 20px 40px; background: #0f1117; color: #eaecef; font: 16px/1.65 "Noto Sans Thai", system-ui, sans-serif; }
-    header { max-width: 880px; margin: 0 auto 1.5rem; }
-    header h1 { margin: 0 0 .35rem; font-size: 2.05rem; }
-    header p { margin: 0; color: #9aa0a6; }
-    main { max-width: 880px; margin: 0 auto; display: grid; gap: 1.25rem; }
-    .card { background: #141821; border: 1px solid #242a35; border-radius: 14px; padding: 1.1rem 1.35rem; box-shadow: 0 10px 28px rgba(0,0,0,.32); }
-    .card h2, .card h3 { margin-top: 0; }
-    .tagline { display: inline-flex; align-items: center; gap: .45rem; font-size: .95rem; color: #cfe0ff; background: rgba(125,146,255,.12); border: 1px solid #2f3542; border-radius: 999px; padding: .3rem .9rem; margin-top: .35rem; }
-    .grid-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
-    .list-tight li + li { margin-top: .35rem; }
-    .formula-table { width: 100%; border-collapse: collapse; margin-top: .6rem; font-size: .95rem; }
-    .formula-table th, .formula-table td { border: 1px solid rgba(125,146,255,.3); padding: .55rem .65rem; vertical-align: top; }
-    .formula-table th { background: rgba(125,146,255,.18); color: #dbe4ff; text-align: left; }
-    .flow { counter-reset: step; display: grid; gap: .55rem; }
-    .flow li { list-style: none; padding-left: 2.3rem; position: relative; }
-    .flow li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: rgba(79,140,255,.35); color: #081022; display: grid; place-items: center; font-weight: 700; }
-    .highlight { background: rgba(21,181,136,.12); border-left: 4px solid #15b588; border-radius: 10px; padding: .85rem 1rem; }
-    .warn { background: rgba(245,158,11,.14); border-left: 4px solid #f59e0b; border-radius: 10px; padding: .85rem 1rem; }
-    .practice li + li { margin-top: .65rem; }
-    .practice span { display: block; color: #9aa0a6; font-size: .88rem; margin-top: .15rem; }
-    footer { max-width: 880px; margin: 2rem auto 0; text-align: right; color: #9aa0a6; font-size: .9rem; }
-    @media (max-width: 720px) {
-      body { padding: 24px 16px 32px; }
-      header h1 { font-size: 1.7rem; }
-    }
-  </style>
+  <script type="application/json" id="summary-meta">
+{
+    "id": "summary-lesson12",
+    "type": "summary",
+    "title": "สรุปบทที่ 12 — หัวใจของการประมาณค่าแบบช่วง",
+    "version": "1.2.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+        "summary-lesson12.html",
+        "assets/js/reading-tools.js",
+        "print.css",
+        "style.css",
+        "assets/css/summary-inference.css"
+    ],
+    "tags": [
+        "confidence",
+        "critical",
+        "error",
+        "interval",
+        "standard",
+        "value",
+        "บท12",
+        "สรุป"
+    ],
+    "related_lessons": [
+        "lesson12"
+    ],
+    "read_time": "8 นาที"
+}
+  </script>
 </head>
-<body>
+<body class="summary-inference">
   <header>
     <h1>บทที่ 12 — หัวใจของการประมาณค่าแบบช่วง (Confidence Intervals)</h1>
     <p class="tagline">Estimate ± Margin of Error · คุมความไม่แน่นอนด้วยระดับความเชื่อมั่น</p>
