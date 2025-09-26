@@ -14,7 +14,7 @@
 </head>
 <body data-config="data/quiz-lesson03.json" data-page-title="แบบฝึกหัดบทที่ 3" data-page-subtitle="ฝึกก่อนทำ Quiz จับเวลา" data-lesson-link="lesson03.html" data-summary-link="summary-lesson03.html" data-lesson-label="บทที่ 3: สถิติเชิงพรรณนา" data-practice-label="ทำแบบฝึกหัด (เฉลยทันที)" data-allowed-modes="practice" data-default-mode="practice">
   <a class="skip-link" href="#main-content">ข้ามไปยังเนื้อหา</a>
-  <header class="quiz-header" role="banner">
+   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
         <a href="index.html">หน้าแรก</a>
@@ -40,6 +40,24 @@
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
+        <section class="quiz-fallback" aria-label="ชุดฝึกซ้อมแบบออฟไลน์">
+          <h2>แบบฝึกหัดสำรอง (ไม่ใช้ JavaScript)</h2>
+          <p>เปิดไฟล์คำถาม <code>data/lesson03.questions.th.json</code> แล้วทำลงในกระดาษหรือสเปรดชีต จากนั้นตรวจคำตอบจากไฟล์เฉลย <code>data/lesson03.solutions.th.json</code>.</p>
+          <table>
+            <thead>
+              <tr><th scope="col">รูปแบบ</th><th scope="col">คำแนะนำ</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">ฝึกเอง (ไม่จับเวลา)</th><td>ทำทีละข้อ ตรวจเฉลยทันที และจดบันทึกจุดที่ต้องทบทวน</td></tr>
+              <tr><th scope="row">จำลอง Quiz</th><td>เลือก 3 ข้อ ตั้งเวลา 10 นาที แล้วเฉลยเมื่อครบเวลาเพื่อจำลองสภาพสอบ</td></tr>
+            </tbody>
+          </table>
+          <h3>หัวข้อที่ควรลองฝึก</h3>
+          <ol>
+                  <li>คำนวณค่าเฉลี่ย มัธยฐาน และฐานนิยมจากชุดข้อมูลขนาดเล็กแล้วเปรียบเทียบกัน</li>
+                  <li>ตีความค่าพิสัยและส่วนเบี่ยงเบนมาตรฐานสำหรับคะแนนสอบสองห้องเรียน</li>
+          </ol>
+        </section>
       </noscript>
     </div>
   </main>
