@@ -1,4 +1,7 @@
 import { lessons, quizzes, summaries, formulas } from '../subjects.js';
+import ensurePwaLinks from './pwa-helpers.js';
+
+ensurePwaLinks();
 
 const dataMap = {
   lessons,
@@ -24,25 +27,7 @@ const createCard = (item, kind) => {
     const desc = document.createElement('p');
     desc.className = 'muted';
     desc.textContent = descText;
-    anchor.appendChild(desc);
-  }
-
-  if (item.chip && item.chip.trim()) {
-    const chip = document.createElement('span');
-    chip.className = 'chip';
-    chip.textContent = item.chip.trim();
-    anchor.appendChild(chip);
-  }
-
-  if (item.meta) {
-    const metaParts = [];
-    if (item.meta.updated_at) {
-      anchor.dataset.updated = item.meta.updated_at;
-      metaParts.push(`อัปเดต ${item.meta.updated_at}`);
-    }
-    if (item.meta.read_time) {
-      metaParts.push(item.meta.read_time);
-    }
+@@ -46,111 +49,136 @@ const createCard = (item, kind) => {
     if (item.meta.version) {
       metaParts.push(`v${item.meta.version}`);
     }
@@ -68,8 +53,17 @@ const renderCards = () => {
   });
 };
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 const setupFadeIn = () => {
   const fades = document.querySelectorAll('.fade-in');
+  if (prefersReducedMotion.matches) {
+    fades.forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
@@ -88,6 +82,21 @@ const setupFadeIn = () => {
     { threshold: 0.12 }
   );
   fades.forEach(el => observer.observe(el));
+
+  const handleChange = (event) => {
+    if (event.matches) {
+      observer.disconnect();
+      fades.forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  };
+  if (typeof prefersReducedMotion.addEventListener === 'function') {
+    prefersReducedMotion.addEventListener('change', handleChange);
+  } else if (typeof prefersReducedMotion.addListener === 'function') {
+    prefersReducedMotion.addListener(handleChange);
+  }
 };
 
 const normalize = (value) => (value || '').toString().toLowerCase().trim();
@@ -129,6 +138,8 @@ const setupSearch = () => {
       }
       if (scroll && firstMatch) {
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+        firstMatch.scrollIntoView({ behavior, block: 'center' });
       }
     } else {
       if (statusEl) {
@@ -154,20 +165,3 @@ const setupSearch = () => {
       applySearch(undefined, { scroll: true });
     }
   });
-
-  const initFromHash = () => {
-    const hash = decodeURIComponent(location.hash || '');
-    if (hash.toLowerCase().startsWith('#search=')) {
-      const term = hash.slice('#search='.length);
-      if (qInput) qInput.value = term;
-      requestAnimationFrame(() => applySearch(term, { scroll: true }));
-    }
-  };
-
-  window.addEventListener('hashchange', initFromHash);
-  initFromHash();
-};
-
-renderCards();
-setupFadeIn();
-setupSearch();
