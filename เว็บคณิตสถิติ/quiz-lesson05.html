@@ -9,23 +9,23 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
 </head>
-<body data-config="data/quiz-lesson05.json" data-page-title="Quiz บทที่ 5" data-page-subtitle="แบบฝึกหัดทฤษฎีความน่าจะเป็น" data-lesson-link="lesson05.html" data-summary-link="summary-lesson05.html" data-lesson-label="บทที่ 5: ทฤษฎีความน่าจะเป็น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
+<body data-config="data/quiz-lesson04.json" data-page-title="Quiz บทที่ 4" data-page-subtitle="แบบฝึกหัดความน่าจะเป็นเบื้องต้น" data-lesson-link="lesson04.html" data-summary-link="summary-lesson04.html" data-lesson-label="บทที่ 4: ความน่าจะเป็นเบื้องต้น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
         <a href="index.html">หน้าแรก</a>
         <span aria-hidden="true">›</span>
-        <a id="link-lesson" href="lesson05.html">บทเรียน</a>
+        <a id="link-lesson" href="lesson04.html">บทเรียน</a>
         <span aria-hidden="true">›</span>
         <span>Quiz</span>
       </nav>
-      <h1 id="quiz-title">Quiz บทที่ 5</h1>
+      <h1 id="quiz-title">Quiz บทที่ 4</h1>
       <p id="quiz-subtitle" class="muted"></p>
       <p id="quiz-meta" class="small muted"></p>
       <p id="quiz-status" class="small"></p>
       <div class="quiz-links">
-        <a class="btn secondary" id="link-summary" href="summary-lesson05.html">ดูสรุปที่เกี่ยวข้อง</a>
-        <a class="btn ghost" href="lesson05.html">ย้อนกลับบทเรียน</a>
+        <a class="btn secondary" id="link-summary" href="summary-lesson04.html">ดูสรุปที่เกี่ยวข้อง</a>
+        <a class="btn ghost" href="lesson04.html">ย้อนกลับบทเรียน</a>
       </div>
     </div>
   </header>
@@ -33,6 +33,25 @@
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
+        <section class="quiz-fallback" aria-label="โหมดสำรอง">
+          <h2>โหมดสำรอง (ไม่ใช้ JavaScript)</h2>
+          <p>ดาวน์โหลดคำถามจากไฟล์ <code>data/lesson04.questions.th.json</code> หรือเปิดไฟล์ Quiz <code>data/quiz-lesson04.json</code> เพื่อสุ่มข้อ พร้อมเฉลยใน <code>data/lesson04.solutions.th.json</code>.</p>
+          <table>
+            <thead>
+              <tr><th scope="col">โหมด</th><th scope="col">วิธีใช้งาน</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Quiz (จับเวลา)</th><td>ตั้งเวลา 8 นาทีต่อชุดคำถาม 3 ข้อ ใช้ตารางสรุปคำตอบของตนเองแล้วตรวจจากไฟล์เฉลยหลังหมดเวลา</td></tr>
+              <tr><th scope="row">โหมดฝึก (ไม่จับเวลา)</th><td>เลือกข้อจากไฟล์คำถาม อ่านเฉลยทีละขั้นจากไฟล์เฉลยเพื่อทำความเข้าใจวิธีคิด</td></tr>
+            </tbody>
+          </table>
+          <h3>ตัวอย่างคำถาม</h3>
+          <ol>
+                  <li>กำหนดเหตุการณ์ตัวอย่างในการโยนลูกเต๋า 2 ลูกพร้อมคำนวณความน่าจะเป็นรวม</li>
+                  <li>แตกต่างระหว่างเหตุการณ์อิสระกับไม่อิสระและให้ตัวอย่างจริง</li>
+          </ol>
+          <p class="muted">ปล. หากต้องการจัดพิมพ์ ให้ใช้คำสั่งพิมพ์ของเบราว์เซอร์และเลือกบันทึกเป็น PDF</p>
+        </section>
       </noscript>
     </div>
   </main>
