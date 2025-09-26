@@ -33,6 +33,25 @@
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
+        <section class="quiz-fallback" aria-label="โหมดสำรอง">
+          <h2>โหมดสำรอง (ไม่ใช้ JavaScript)</h2>
+          <p>ดาวน์โหลดคำถามจากไฟล์ <code>data/lesson08.questions.th.json</code> หรือเปิดไฟล์ Quiz <code>data/quiz-lesson08.json</code> เพื่อสุ่มข้อ พร้อมเฉลยใน <code>data/lesson08.solutions.th.json</code>.</p>
+          <table>
+            <thead>
+              <tr><th scope="col">โหมด</th><th scope="col">วิธีใช้งาน</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Quiz (จับเวลา)</th><td>ตั้งเวลา 8 นาทีต่อชุดคำถาม 3 ข้อ ใช้ตารางสรุปคำตอบของตนเองแล้วตรวจจากไฟล์เฉลยหลังหมดเวลา</td></tr>
+              <tr><th scope="row">โหมดฝึก (ไม่จับเวลา)</th><td>เลือกข้อจากไฟล์คำถาม อ่านเฉลยทีละขั้นจากไฟล์เฉลยเพื่อทำความเข้าใจวิธีคิด</td></tr>
+            </tbody>
+          </table>
+          <h3>ตัวอย่างคำถาม</h3>
+          <ol>
+                  <li>หาคะแนน Z จากคะแนนสอบที่ให้และตีความพื้นที่ใต้โค้งปกติ</li>
+                  <li>อธิบาย Empirical Rule (68-95-99.7) พร้อมตัวอย่าง</li>
+          </ol>
+          <p class="muted">ปล. หากต้องการจัดพิมพ์ ให้ใช้คำสั่งพิมพ์ของเบราว์เซอร์และเลือกบันทึกเป็น PDF</p>
+        </section>
       </noscript>
     </div>
   </main>
