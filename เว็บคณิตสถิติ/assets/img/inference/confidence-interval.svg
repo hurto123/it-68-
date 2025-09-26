@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-labelledby="title desc">
+  <title id="title">Confidence interval illustration</title>
+  <desc id="desc">Diagram of a bell curve with highlighted confidence interval and margin of error annotations.</desc>
+  <defs>
+    <linearGradient id="ci-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111a2d" />
+      <stop offset="100%" stop-color="#101522" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="240" fill="url(#ci-bg)" rx="20" />
+  <path d="M60 170c60-200 300-200 360 0" fill="none" stroke="#79a7ff" stroke-width="4" />
+  <line x1="140" y1="170" x2="140" y2="95" stroke="#ffdd57" stroke-width="3" stroke-linecap="round" />
+  <line x1="340" y1="170" x2="340" y2="95" stroke="#ffdd57" stroke-width="3" stroke-linecap="round" />
+  <line x1="240" y1="170" x2="240" y2="70" stroke="#15b588" stroke-width="4" stroke-linecap="round" />
+  <path d="M140 95Q240 60 340 95" fill="rgba(125,146,255,0.2)" stroke="#7d92ff" stroke-width="2" />
+  <text x="240" y="60" text-anchor="middle" fill="#eafff7" font-family="'Noto Sans Thai', sans-serif" font-size="16">ค่าเฉลี่ยตัวอย่าง</text>
+  <text x="240" y="200" text-anchor="middle" fill="#9fc3ff" font-family="'Noto Sans Thai', sans-serif" font-size="14">ช่วงความเชื่อมั่น 95%</text>
+  <text x="140" y="185" text-anchor="middle" fill="#ffdd57" font-family="'Noto Sans Thai', sans-serif" font-size="13">Lower bound</text>
+  <text x="340" y="185" text-anchor="middle" fill="#ffdd57" font-family="'Noto Sans Thai', sans-serif" font-size="13">Upper bound</text>
+  <text x="240" y="110" text-anchor="middle" fill="#cfe0ff" font-family="'Noto Sans Thai', sans-serif" font-size="13">Margin of Error</text>
+</svg>
