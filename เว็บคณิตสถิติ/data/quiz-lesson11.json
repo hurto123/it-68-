@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson11",
+    "title": "Quiz บทที่ 11: ช่วงความเชื่อมั่น (Confidence Intervals)",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "language": "th",
+    "depends_on": [
+      "lesson11.questions.th.json",
+      "lesson11.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson11",
+      "title": "บทที่ 11: ช่วงความเชื่อมั่น (Confidence Intervals)",
+      "questions": "lesson11.questions.th.json",
+      "solutions": "lesson11.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2,
+    "time_limit_seconds": 900,
+    "default_mode": "quiz"
+  }
+}

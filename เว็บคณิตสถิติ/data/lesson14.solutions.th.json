@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson14",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson14.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson14-q01",
+      "answer": "A",
+      "explanation": "paired ใช้เมื่อมีการจับคู่ตัวอย่างอย่างเป็นระบบ",
+      "references": [
+        "summary-lesson15.html",
+        "lesson14.html"
+      ]
+    },
+    {
+      "id": "lesson14-q02",
+      "answer": "A",
+      "explanation": "pooled ใช้เมื่อความแปรปรวนใกล้กัน",
+      "references": [
+        "summary-lesson15.html",
+        "lesson14.html"
+      ]
+    },
+    {
+      "id": "lesson14-q03",
+      "answer": "A",
+      "explanation": "CI ของผลต่างสัดส่วนใช้ Z และ SE รวมของทั้งสองกลุ่ม",
+      "references": [
+        "summary-lesson15.html",
+        "lesson14.html"
+      ]
+    }
+  ]
+}

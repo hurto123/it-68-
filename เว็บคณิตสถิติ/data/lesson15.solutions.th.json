@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson15",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson15.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson15-q01",
+      "answer": "C",
+      "explanation": "เพิ่ม n ช่วยลด SE และ Margin",
+      "references": [
+        "summary-lesson16.html",
+        "lesson15.html"
+      ]
+    },
+    {
+      "id": "lesson15-q02",
+      "answer": "A",
+      "explanation": "ใช้สูตร n = (Z_{α/2}σ/E)²",
+      "references": [
+        "summary-lesson16.html",
+        "lesson15.html"
+      ]
+    },
+    {
+      "id": "lesson15-q03",
+      "answer": "C",
+      "explanation": "ใช้ 0.5 ให้ได้ขนาดสูงสุด ครอบคลุมกรณีเลวร้ายที่สุด",
+      "references": [
+        "summary-lesson16.html",
+        "lesson15.html"
+      ]
+    }
+  ]
+}

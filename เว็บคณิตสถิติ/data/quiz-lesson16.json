@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson16",
+    "title": "Quiz บทที่ 16: พื้นฐานการทดสอบสมมติฐาน",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "language": "th",
+    "depends_on": [
+      "lesson16.questions.th.json",
+      "lesson16.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson16",
+      "title": "บทที่ 16: พื้นฐานการทดสอบสมมติฐาน",
+      "questions": "lesson16.questions.th.json",
+      "solutions": "lesson16.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2,
+    "time_limit_seconds": 900,
+    "default_mode": "quiz"
+  }
+}

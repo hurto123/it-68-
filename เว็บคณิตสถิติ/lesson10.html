@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <title>บทที่ 10 • การประมาณค่าเบื้องต้น</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
+
+<style>
+  :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36;--accent:#79a7ff;--accent-soft:rgba(79,140,255,.18)}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 "Noto Sans Thai",system-ui,sans-serif}
+  header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+  header .wrap, footer .wrap, main{max-width:1000px;margin:0 auto;padding:1rem}
+  h1,h2,h3{line-height:1.25;margin:.2rem 0}
+  nav a{display:inline-flex;align-items:center;gap:.35rem;margin:.25rem .4rem .25rem 0;padding:.55rem .9rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+  nav a:hover{background:#2a2e36}
+  .chipbar{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}
+  .chipbar .pill{display:inline-flex;align-items:center;gap:.35rem;padding:.35rem .75rem;border-radius:999px;background:rgba(79,140,255,.16);border:1px solid rgba(79,140,255,.35);color:#cfe0ff;font-size:.9rem}
+  .chipbar .pill a{color:inherit;text-decoration:none}
+  .chipbar .pill a:hover{text-decoration:underline}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.1rem;margin:1.15rem 0;box-shadow:0 18px 32px rgba(0,0,0,.25)}
+  .card h2{font-size:1.35rem}
+  .muted{color:var(--muted)}
+  .note{background:rgba(79,140,255,.14);border-left:4px solid var(--link);padding:.9rem;border-radius:10px}
+  .ok{background:rgba(21,181,136,.14);border-left:4px solid #15b588;padding:.9rem;border-radius:10px}
+  .warn{background:rgba(245,158,11,.18);border-left:4px solid #f59e0b;padding:.9rem;border-radius:10px}
+  table{width:100%;border-collapse:collapse;margin:.8rem 0}
+  th,td{border:1px solid var(--border);padding:.55rem .7rem;text-align:left;vertical-align:top}
+  th{background:#1d2028}
+  ul,ol{margin:.5rem 0 .5rem 1.3rem}
+  strong{color:#cfe0ff}
+  .concept-grid{display:grid;gap:1rem;margin-top:.8rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .concept-card{background:rgba(16,18,26,.65);border:1px solid rgba(79,140,255,.22);border-radius:14px;padding:.85rem}
+  .concept-card h3{margin:0 0 .4rem;font-size:1.05rem}
+  .svgbox{background:#101218;border:1px solid #222630;border-radius:14px;padding:.7rem;overflow:auto}
+  .svgbox svg{display:block;max-width:100%;height:auto}
+  .footnav{display:flex;justify-content:space-between;gap:1rem;margin:2.4rem 0 1rem}
+  .footnav a{flex:1;text-align:center;padding:.8rem;border-radius:12px;background:#20232a;border:1px solid var(--border);color:var(--text);text-decoration:none}
+  .footnav a:hover{background:#2a2e36}
+  figure{margin:1rem 0;text-align:center}
+  figcaption{color:var(--muted);font-size:.9rem;margin-top:.4rem}
+  @media (max-width:640px){nav a{width:100%;justify-content:center}.footnav{flex-direction:column}.footnav a{width:100%}}
+</style>
+
+<script type="application/json" id="lesson-meta">
+{
+    "id": "lesson10",
+    "title": "บทที่ 10: การประมาณค่าเบื้องต้น",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+        "summary-lesson11.html",
+        "data/lesson10.questions.th.json",
+        "data/lesson10.solutions.th.json",
+        "data/quiz-lesson10.json",
+        "style.css",
+        "assets/js/reading-tools.js"
+    ],
+    "tags": [
+        "estimation",
+        "point-estimate",
+        "bias",
+        "mse"
+    ]
+}
+</script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 10 • การประมาณค่าเบื้องต้น</h1>
+      <p class="muted">เชื่อมพารามิเตอร์ของประชากรกับสถิติของตัวอย่าง</p>
+      <nav aria-label="นำทางบทเรียน">
+        <a href="lesson09.html">⟵ บทก่อนหน้า</a>
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson11.html">บทถัดไป ⟶</a>
+      </nav>
+
+<div class="chipbar" aria-label="ทรัพยากรที่เกี่ยวข้อง">
+  <span class="pill">📝 <a href="summary-lesson11.html">สรุปบทนี้</a></span>
+  <span class="pill">🧪 <a href="quiz-lesson10.html">Quiz</a></span>
+  <span class="pill">📘 <a href="exercise-lesson10.html">แบบฝึกหัด</a></span>
+</div>
+    </div>
+  </header>
+  <main>
+    <section class="card" id="objectives">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>จำแนกพารามิเตอร์, สถิติ, Estimator และ Estimate ได้ชัดเจน</li>
+        <li>อธิบายความแตกต่างของการประมาณค่าแบบจุดและแบบช่วง</li>
+        <li>วิเคราะห์แหล่งที่มาของ Bias และ Sampling Error พร้อมเสนอแนวทางลดความเสี่ยง</li>
+      </ul>
+    </section>
+    <section class="card" id="concept-map">
+      <h2>ภาพรวมแนวคิดหลัก</h2>
+      <div class="concept-grid">
+      <div class="concept-card"><h3>Parameter</h3><p>ค่าคงที่ของประชากร เช่น μ, σ², p</p></div>
+      <div class="concept-card"><h3>Statistic</h3><p>ค่าที่คำนวณจากตัวอย่าง เช่น x̄, s², p̂</p></div>
+      <div class="concept-card"><h3>Estimator</h3><p>สูตรที่ใช้แปลงข้อมูลตัวอย่างให้เป็น Estimate</p></div>
+      <div class="concept-card"><h3>Estimate</h3><p>ค่าที่ได้จาก Estimator เมื่อแทนข้อมูลจริง</p></div>
+      </div>
+            <div class="svgbox" role="img" aria-label="สะพานเชื่อม Population → Estimator → Estimate">
+        <svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad10" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#4f8cff" stop-opacity="0.7" />
+              <stop offset="100%" stop-color="#15b588" stop-opacity="0.7" />
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="640" height="320" fill="#0f1116" rx="16" />
+          <g stroke="#2a2e36" stroke-width="1">
+            <line x1="60" y1="260" x2="580" y2="260" />
+            <line x1="100" y1="60" x2="100" y2="260" />
+            <line x1="220" y1="60" x2="220" y2="260" />
+            <line x1="340" y1="60" x2="340" y2="260" />
+            <line x1="460" y1="60" x2="460" y2="260" />
+          </g>
+          <path d="M100,240 C160,120 220,160 280,120 C340,80 400,140 460,90 C520,40 540,120 580,80" fill="none" stroke="url(#grad10)" stroke-width="6" stroke-linecap="round" />
+          <g fill="#cfe0ff" font-family="'Noto Sans Thai', sans-serif" font-size="18">
+            <text x="80" y="290">ขั้นตอน</text>
+            <text x="260" y="290">ข้อมูล</text>
+            <text x="460" y="290">สรุป</text>
+          </g>
+        </svg>
+      </div>
+      <p class="muted">ภาพนี้แสดงการไหลของข้อมูลจากสถานการณ์จริง → การเลือกเครื่องมือ → ผลลัพธ์เชิงสถิติ</p>
+    </section>
+    <section class="card" id="formulas">
+      <h2>สูตรสำคัญและคำอธิบาย</h2>
+      <table>
+        <thead><tr><th>แนวคิด</th><th>รายละเอียด</th></tr></thead>
+        <tbody>
+          <tr><td>Point Estimate</td><td>$\hat{\theta} = T(X) \Rightarrow \hat{p} = x/n,\; ar{X} = \sum x_i/n$</td></tr>
+          <tr><td>Bias</td><td>$\operatorname{Bias}(\hat{\theta}) = E[\hat{\theta}] - \theta$</td></tr>
+          <tr><td>MSE</td><td>$\operatorname{MSE}(\hat{\theta}) = \operatorname{Var}(\hat{\theta}) + (\operatorname{Bias}(\hat{\theta}))^2$</td></tr>
+          <tr><td>Interval Idea</td><td>Estimate ± Margin of Error (เน้นต่อในบท 11)</td></tr>
+        </tbody>
+      </table>
+      <div class="note">ตรวจสอบว่าก่อนใช้สูตร ทุกสมมติฐานได้รับการทบทวนแล้วเสมอ เช่น ความเป็นอิสระของตัวอย่าง หรือการแจกแจงที่ต้องประมาณ</div>
+    </section>
+    <section class="card" id="example">
+      <h2>ตัวอย่าง: ชิมซุป 1 ช้อนแล้วประเมินรสชาติทั้งหม้อ</h2>
+      <ol>
+        <li>สุ่มช้อนละ 1 ช้อน 5 ครั้ง → บันทึกคะแนนความเผ็ด (0–10)</li>
+        <li>ใช้ค่าเฉลี่ยตัวอย่าง \(\bar{x} = 7.2\) เป็น Estimate ของระดับความเผ็ดเฉลี่ย</li>
+        <li>ตรวจสอบ Bias: ถ้าช้อนสุ่มเฉพาะด้านบนของหม้อ จะมี Bias → ปรับวิธีการสุ่ม</li>
+        <li>สรุปด้วยการระบุว่าค่าเฉลี่ยและความคลาดเคลื่อน (s) มีค่าเท่าไร</li>
+      </ol>
+      <div class="ok">สังเกตว่าทุกขั้นตอนมีการระบุสมมติฐานและเครื่องมือที่ใช้ เพื่อลดความสับสนเมื่อสื่อสารกับผู้เรียน</div>
+    </section>
+    <section class="card" id="practice">
+      <h2>ฝึกต่อยอดด้วยตัวเอง</h2>
+      <ul>
+        <li>ระบุว่าแต่ละรายการเป็น Parameter หรือ Statistic</li>
+        <li>พิจารณาสถานการณ์ที่ Estimator มี Bias แล้วเสนอการแก้ไข</li>
+        <li>ลองคำนวณ MSE จากข้อมูลที่มี Bias เล็กน้อย</li>
+      </ul>
+      <p>ลองจดสรุปลงใน <a href="summary-lesson11.html">สรุปบทเรียน</a> หรือไปฝึกเพิ่มใน <a href="exercise-lesson10.html">แบบฝึกหัด</a> เพื่อเสริมความเข้าใจ</p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footnav">
+      <a href="lesson09.html">⟵ บทก่อนหน้า</a>
+      <a href="lesson11.html">บทถัดไป ⟶</a>
+    </div>
+  </footer>
+</body>
+</html>

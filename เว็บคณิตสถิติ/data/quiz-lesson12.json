@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "lesson": "lesson12",
+    "title": "Quiz บทที่ 12: การประมาณค่าเฉลี่ยประชากรเดียว",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "language": "th",
+    "depends_on": [
+      "lesson12.questions.th.json",
+      "lesson12.solutions.th.json"
+    ]
+  },
+  "sources": [
+    {
+      "lesson": "lesson12",
+      "title": "บทที่ 12: การประมาณค่าเฉลี่ยประชากรเดียว",
+      "questions": "lesson12.questions.th.json",
+      "solutions": "lesson12.solutions.th.json"
+    }
+  ],
+  "config": {
+    "items_per_quiz": 3,
+    "shuffle": true,
+    "allow_retry": true,
+    "passing_score": 2,
+    "time_limit_seconds": 900,
+    "default_mode": "quiz"
+  }
+}

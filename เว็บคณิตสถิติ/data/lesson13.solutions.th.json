@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson13",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson13.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson13-q01",
+      "answer": "A",
+      "explanation": "สัดส่วนตัวอย่าง = จำนวนความสำเร็จหารด้วยจำนวนทดลองทั้งหมด",
+      "references": [
+        "summary-lesson14.html",
+        "lesson13.html"
+      ]
+    },
+    {
+      "id": "lesson13-q02",
+      "answer": "A",
+      "explanation": "เป็นเกณฑ์ทั่วไปเพื่อให้การแจกแจงใกล้ปกติ",
+      "references": [
+        "summary-lesson14.html",
+        "lesson13.html"
+      ]
+    },
+    {
+      "id": "lesson13-q03",
+      "answer": "A",
+      "explanation": "Margin = 1.96 × √(0.4×0.6/100) ≈ 0.049",
+      "references": [
+        "summary-lesson14.html",
+        "lesson13.html"
+      ]
+    }
+  ]
+}

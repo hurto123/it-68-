@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson11",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson11.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson11-q01",
+      "answer": "B",
+      "explanation": "ระดับความเชื่อมั่นอธิบายพฤติกรรมของขั้นตอนการสร้างช่วงเมื่อทำซ้ำ",
+      "references": [
+        "summary-lesson12.html",
+        "lesson11.html"
+      ]
+    },
+    {
+      "id": "lesson11-q02",
+      "answer": "B",
+      "explanation": "สำหรับ 90% → α = 0.10 และ α/2 = 0.05 → Z_{0.05} ≈ 1.645",
+      "references": [
+        "summary-lesson12.html",
+        "lesson11.html"
+      ]
+    },
+    {
+      "id": "lesson11-q03",
+      "answer": "A",
+      "explanation": "Margin = Critical Value × Standard Error ซึ่งขึ้นกับ n",
+      "references": [
+        "summary-lesson12.html",
+        "lesson11.html"
+      ]
+    }
+  ]
+}

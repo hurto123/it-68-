@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson16",
+    "title": "บทที่ 16: พื้นฐานการทดสอบสมมติฐาน",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson16.html",
+      "summary-lesson17.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson16-q01",
+      "type": "mcq",
+      "topic": "hypothesis",
+      "difficulty": 1,
+      "prompt": "H₀ หมายถึงอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ข้ออ้างที่ต้องการพิสูจน์"
+        },
+        {
+          "key": "B",
+          "text": "สมมติฐานที่ถือว่าเป็นจริงจนกว่าจะมีหลักฐานปฏิเสธ"
+        },
+        {
+          "key": "C",
+          "text": "ค่ากลางของข้อมูล"
+        },
+        {
+          "key": "D",
+          "text": "ระดับความเชื่อมั่น"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "hypothesis",
+        "lesson16"
+      ]
+    },
+    {
+      "id": "lesson16-q02",
+      "type": "mcq",
+      "topic": "type-i",
+      "difficulty": 1,
+      "prompt": "ข้อใดคือความผิดพลาดประเภทที่ 1 (Type I error)?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ไม่ปฏิเสธ H₀ ทั้งที่ H₀ จริง"
+        },
+        {
+          "key": "B",
+          "text": "ปฏิเสธ H₀ ทั้งที่ H₀ จริง"
+        },
+        {
+          "key": "C",
+          "text": "ปฏิเสธ H₀ ทั้งที่ H₁ จริง"
+        },
+        {
+          "key": "D",
+          "text": "ไม่เกี่ยวกับ H₀"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "type-i",
+        "lesson16"
+      ]
+    },
+    {
+      "id": "lesson16-q03",
+      "type": "mcq",
+      "topic": "pvalue",
+      "difficulty": 1,
+      "prompt": "p-value แสดงถึงอะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "โอกาสที่ H₀ เป็นจริง"
+        },
+        {
+          "key": "B",
+          "text": "ความยาวช่วงความเชื่อมั่น"
+        },
+        {
+          "key": "C",
+          "text": "ความน่าจะเป็นที่จะได้สถิติอย่างน้อยสุดโต่งเท่าที่สังเกต เมื่อ H₀ จริง"
+        },
+        {
+          "key": "D",
+          "text": "ระดับความเชื่อมั่น"
+        }
+      ],
+      "answer": "C",
+      "tags": [
+        "pvalue",
+        "lesson16"
+      ]
+    }
+  ]
+}

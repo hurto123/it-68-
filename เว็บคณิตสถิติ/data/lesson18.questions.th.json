@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson18",
+    "title": "บทที่ 18: การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson18.html",
+      "summary-lesson19.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson18-q01",
+      "type": "mcq",
+      "topic": "z-vs-t",
+      "difficulty": 1,
+      "prompt": "one-sample t-test ใช้เมื่อใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "รู้ σ และ n ใหญ่"
+        },
+        {
+          "key": "B",
+          "text": "ไม่รู้ σ และ n เล็ก"
+        },
+        {
+          "key": "C",
+          "text": "ข้อมูลไม่ใช่ตัวเลข"
+        },
+        {
+          "key": "D",
+          "text": "ต้องการทดสอบความแปรปรวน"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "z-vs-t",
+        "lesson18"
+      ]
+    },
+    {
+      "id": "lesson18-q02",
+      "type": "mcq",
+      "topic": "effect-size",
+      "difficulty": 1,
+      "prompt": "Cohen’s d สำหรับ one-sample t-test คำนวณอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "(\bar{x} - μ₀)/σ"
+        },
+        {
+          "key": "B",
+          "text": "(\bar{x} - μ₀)/s"
+        },
+        {
+          "key": "C",
+          "text": "(σ - s)/n"
+        },
+        {
+          "key": "D",
+          "text": "p × (1-p)"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "effect-size",
+        "lesson18"
+      ]
+    },
+    {
+      "id": "lesson18-q03",
+      "type": "mcq",
+      "topic": "decision",
+      "difficulty": 1,
+      "prompt": "ถ้า p-value = 0.18 และ α = 0.05 เราควรทำอย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "ปฏิเสธ H₀"
+        },
+        {
+          "key": "B",
+          "text": "ไม่ปฏิเสธ H₀"
+        },
+        {
+          "key": "C",
+          "text": "ยอมรับ H₁"
+        },
+        {
+          "key": "D",
+          "text": "สรุปว่าข้อมูลผิด"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "decision",
+        "lesson18"
+      ]
+    }
+  ]
+}

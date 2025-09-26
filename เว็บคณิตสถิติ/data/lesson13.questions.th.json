@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson13",
+    "title": "บทที่ 13: การประมาณค่าสัดส่วนประชากรเดียว",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson13.html",
+      "summary-lesson14.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson13-q01",
+      "type": "mcq",
+      "topic": "p-hat",
+      "difficulty": 1,
+      "prompt": "สูตรของสัดส่วนตัวอย่าง \\(\\hat{p}\\) คือข้อใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "x/n"
+        },
+        {
+          "key": "B",
+          "text": "n/x"
+        },
+        {
+          "key": "C",
+          "text": "x^2/n"
+        },
+        {
+          "key": "D",
+          "text": "x/(n-1)"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "p-hat",
+        "lesson13"
+      ]
+    },
+    {
+      "id": "lesson13-q02",
+      "type": "mcq",
+      "topic": "np-rule",
+      "difficulty": 1,
+      "prompt": "การใช้การประมาณแบบปกติสำหรับสัดส่วนต้องตรวจสอบเงื่อนไขใด?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "n\\hat{p} ≥ 10 และ n(1-\\hat{p}) ≥ 10"
+        },
+        {
+          "key": "B",
+          "text": "n = 5"
+        },
+        {
+          "key": "C",
+          "text": "σ รู้ค่า"
+        },
+        {
+          "key": "D",
+          "text": "เฉลี่ยเท่ากัน"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "np-rule",
+        "lesson13"
+      ]
+    },
+    {
+      "id": "lesson13-q03",
+      "type": "mcq",
+      "topic": "interval",
+      "difficulty": 1,
+      "prompt": "หาก \\(\\hat{p} = 0.4\\), n = 100 และใช้ระดับความเชื่อมั่น 95% Margin of Error ประมาณเท่าไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "0.049"
+        },
+        {
+          "key": "B",
+          "text": "0.010"
+        },
+        {
+          "key": "C",
+          "text": "0.160"
+        },
+        {
+          "key": "D",
+          "text": "0.400"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "interval",
+        "lesson13"
+      ]
+    }
+  ]
+}

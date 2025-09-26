@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "lesson": "lesson21",
+    "title": "บทที่ 21: การทดสอบความแปรปรวน",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson21.html",
+      "summary-lesson22.html"
+    ]
+  },
+  "schema": {
+    "id": "string",
+    "type": "mcq",
+    "topic": "string",
+    "difficulty": 1,
+    "prompt": "string",
+    "choices": [
+      {
+        "key": "A",
+        "text": "string"
+      }
+    ],
+    "answer": "string",
+    "tags": [
+      "string"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson21-q01",
+      "type": "mcq",
+      "topic": "chi-square",
+      "difficulty": 1,
+      "prompt": "สถิติสำหรับการทดสอบความแปรปรวนของกลุ่มเดียวคือ?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "(n-1)s²/σ₀²"
+        },
+        {
+          "key": "B",
+          "text": "(\bar{x}-μ₀)/(s/√n)"
+        },
+        {
+          "key": "C",
+          "text": "(s₁²-s₂²)/s₂²"
+        },
+        {
+          "key": "D",
+          "text": "(\\hat{p}-p₀)/SE"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "chi-square",
+        "lesson21"
+      ]
+    },
+    {
+      "id": "lesson21-q02",
+      "type": "mcq",
+      "topic": "f-test",
+      "difficulty": 1,
+      "prompt": "ในการทดสอบ F ต้องระบุ degree of freedom อย่างไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "n ทั้งหมด"
+        },
+        {
+          "key": "B",
+          "text": "(n₁-1, n₂-1)"
+        },
+        {
+          "key": "C",
+          "text": "(n₁, n₂)"
+        },
+        {
+          "key": "D",
+          "text": "ไม่ต้องระบุ"
+        }
+      ],
+      "answer": "B",
+      "tags": [
+        "f-test",
+        "lesson21"
+      ]
+    },
+    {
+      "id": "lesson21-q03",
+      "type": "mcq",
+      "topic": "usage",
+      "difficulty": 1,
+      "prompt": "เหตุผลที่ต้องทดสอบความแปรปรวนก่อนเลือก two-sample t-test คืออะไร?",
+      "choices": [
+        {
+          "key": "A",
+          "text": "เพื่อตัดสินใจว่าจะใช้ pooled หรือ Welch"
+        },
+        {
+          "key": "B",
+          "text": "เพื่อหา p-value โดยตรง"
+        },
+        {
+          "key": "C",
+          "text": "เพื่อหาค่าเฉลี่ย"
+        },
+        {
+          "key": "D",
+          "text": "เพื่อสร้างกราฟ"
+        }
+      ],
+      "answer": "A",
+      "tags": [
+        "usage",
+        "lesson21"
+      ]
+    }
+  ]
+}

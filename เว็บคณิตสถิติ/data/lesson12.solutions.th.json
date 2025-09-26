@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "lesson": "lesson12",
+    "language": "th",
+    "version": "1.0.0",
+    "updated_at": "2025-10-05",
+    "depends_on": [
+      "lesson12.questions.th.json"
+    ]
+  },
+  "items": [
+    {
+      "id": "lesson12-q01",
+      "answer": "B",
+      "explanation": "n เล็กและไม่รู้ σ → ใช้ t",
+      "references": [
+        "summary-lesson13.html",
+        "lesson12.html"
+      ]
+    },
+    {
+      "id": "lesson12-q02",
+      "answer": "B",
+      "explanation": "FPC ปรับ SE เมื่อสุ่มจำนวนมากจากประชากรจำกัด",
+      "references": [
+        "summary-lesson13.html",
+        "lesson12.html"
+      ]
+    },
+    {
+      "id": "lesson12-q03",
+      "answer": "B",
+      "explanation": "CI บอกพฤติกรรมของขั้นตอน ไม่ใช่ความน่าจะเป็นของค่าคงที่",
+      "references": [
+        "summary-lesson13.html",
+        "lesson12.html"
+      ]
+    }
+  ]
+}
