@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" role="img" aria-labelledby="title desc">
+  <title id="title">Estimation bridge between population and sample</title>
+  <desc id="desc">Simple diagram showing a population distribution connected to a sample summary through an estimation bridge.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#1b2133" />
+      <stop offset="100%" stop-color="#0f141f" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="240" fill="url(#bg)" rx="20" />
+  <g fill="none" stroke="#4f8cff" stroke-width="3">
+    <path d="M80 170c50-90 270-90 320 0" stroke-linecap="round" />
+    <path d="M80 170h320" stroke-linecap="round" />
+  </g>
+  <g>
+    <circle cx="120" cy="120" r="52" fill="rgba(125,146,255,0.25)" stroke="#7d92ff" stroke-width="2" />
+    <text x="120" y="118" text-anchor="middle" fill="#f0f4ff" font-family="'Noto Sans Thai', sans-serif" font-size="16">Population</text>
+    <text x="120" y="140" text-anchor="middle" fill="#c4d4f5" font-family="'Noto Sans Thai', sans-serif" font-size="13">μ, σ², p</text>
+  </g>
+  <g>
+    <rect x="320" y="85" width="110" height="70" rx="12" fill="rgba(21,181,136,0.18)" stroke="#15b588" stroke-width="2" />
+    <text x="375" y="115" text-anchor="middle" fill="#eafff7" font-family="'Noto Sans Thai', sans-serif" font-size="16">Sample</text>
+    <text x="375" y="135" text-anchor="middle" fill="#bff2df" font-family="'Noto Sans Thai', sans-serif" font-size="13">x̄, s, p̂</text>
+  </g>
+  <g>
+    <path d="M180 120h120" stroke="#15b588" stroke-width="4" stroke-linecap="round" />
+    <path d="M240 120l-10-10m10 10l-10 10" stroke="#cfe0ff" stroke-width="3" stroke-linecap="round" />
+    <text x="240" y="105" text-anchor="middle" fill="#cfe0ff" font-family="'Noto Sans Thai', sans-serif" font-size="14">Estimator</text>
+    <text x="240" y="150" text-anchor="middle" fill="#9fc3ff" font-family="'Noto Sans Thai', sans-serif" font-size="13">สูตร + ตัวอย่าง = Estimate</text>
+  </g>
+</svg>
