@@ -685,6 +685,966 @@
         ],
         "chips_label": null
       }
+    },
+    {
+      "id": "lesson11",
+      "title": "บทที่ 11 : รู้จักการประมาณค่า (Introduction to Estimation)",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson11.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson10.html",
+        "summary": "summary-lesson11.html"
+      },
+      "card": {
+        "desc": "Population ↔ Sample · เปลี่ยนข้อมูลตัวอย่างให้เป็นเรื่องราวของประชากร",
+        "tags": "inference estimation interval point population sample บท11 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson11.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson11.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 11 — รู้จักการประมาณค่า (Introduction to Estimation)",
+        "description": "Population ↔ Sample · เปลี่ยนข้อมูลตัวอย่างให้เป็นเรื่องราวของประชากร",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson11.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson11.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson12",
+      "title": "บทที่ 12 : หัวใจของการประมาณค่าแบบช่วง (Confidence Intervals)",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson12.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson11.html",
+        "summary": "summary-lesson12.html"
+      },
+      "card": {
+        "desc": "Estimate ± Margin of Error · คุมความไม่แน่นอนด้วยระดับความเชื่อมั่น",
+        "tags": "inference confidence critical error interval standard value บท12 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson12.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson12.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 12 — หัวใจของการประมาณค่าแบบช่วง (Confidence Intervals)",
+        "description": "Estimate ± Margin of Error · คุมความไม่แน่นอนด้วยระดับความเชื่อมั่น",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson12.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson12.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson13",
+      "title": "บทที่ 13 : การประมาณค่าเฉลี่ยของประชากร 1 กลุ่ม",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson13.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson12.html",
+        "summary": "summary-lesson13.html"
+      },
+      "card": {
+        "desc": "เลือก Z หรือ t · ใส่ใจ Standard Error · แปลผลพร้อมบริบท",
+        "tags": "inference interval mean t z บท13 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson13.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson13.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 13 — การประมาณค่าเฉลี่ยของประชากร 1 กลุ่ม",
+        "description": "เลือก Z หรือ t · ใส่ใจ Standard Error · แปลผลพร้อมบริบท",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson13.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson13.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson14",
+      "title": "บทที่ 14 : การประมาณค่าสัดส่วนประชากรเดียว",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson14.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson13.html",
+        "summary": "summary-lesson14.html"
+      },
+      "card": {
+        "desc": "Binomial → Normal Approximation · เมื่อไรใช้ได้ · แปลผลเปอร์เซ็นต์อย่างมีบริบท",
+        "tags": "inference interval np>=10 proportion บท14 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson14.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson14.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 14 — การประมาณค่าสัดส่วนประชากรเดียว",
+        "description": "Binomial → Normal Approximation · เมื่อไรใช้ได้ · แปลผลเปอร์เซ็นต์อย่างมีบริบท",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson14.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson14.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson15",
+      "title": "บทที่ 15 : การประมาณค่าผลต่างของสองประชากร",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson15.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson14.html",
+        "summary": "summary-lesson15.html"
+      },
+      "card": {
+        "desc": "เปรียบเทียบค่าเฉลี่ย · เปรียบเทียบสัดส่วน · ดูว่าศูนย์อยู่ในช่วงหรือไม่",
+        "tags": "inference difference mean pooled proportion บท15 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson15.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson15.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 15 — การประมาณค่าผลต่างของสองประชากร",
+        "description": "เปรียบเทียบค่าเฉลี่ย · เปรียบเทียบสัดส่วน · ดูว่าศูนย์อยู่ในช่วงหรือไม่",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson15.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson15.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson16",
+      "title": "บทที่ 16 : การคำนวณขนาดตัวอย่าง",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson16.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson15.html",
+        "summary": "summary-lesson16.html"
+      },
+      "card": {
+        "desc": "กำหนด Margin of Error · เลือกระดับความเชื่อมั่น · วางแผนงบประมาณการเก็บข้อมูล",
+        "tags": "inference error margin of sample size บท16 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson16.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson16.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 16 — การคำนวณขนาดตัวอย่าง",
+        "description": "กำหนด Margin of Error · เลือกระดับความเชื่อมั่น · วางแผนงบประมาณการเก็บข้อมูล",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson16.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson16.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson17",
+      "title": "บทที่ 17 : พื้นฐานการทดสอบสมมติฐาน",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson17.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson16.html",
+        "summary": "summary-lesson17.html"
+      },
+      "card": {
+        "desc": "H₀ vs H₁ · ระดับนัยสำคัญ · ข้อผิดพลาดสองประเภท",
+        "tags": "inference basics hypothesis i ii testing type บท17 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson17.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson17.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 17 — พื้นฐานการทดสอบสมมติฐาน",
+        "description": "H₀ vs H₁ · ระดับนัยสำคัญ · ข้อผิดพลาดสองประเภท",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson17.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson17.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson18",
+      "title": "บทที่ 18 : ประเภทของการทดสอบตามทิศทาง",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson18.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson17.html",
+        "summary": "summary-lesson18.html"
+      },
+      "card": {
+        "desc": "Two-tailed · Left-tailed · Right-tailed · เลือกให้ตรงกับสมมติฐาน",
+        "tags": "inference direction left right tailed test two บท18 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson18.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson18.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 18 — ประเภทของการทดสอบตามทิศทาง",
+        "description": "Two-tailed · Left-tailed · Right-tailed · เลือกให้ตรงกับสมมติฐาน",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson18.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson18.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson19",
+      "title": "บทที่ 19 : การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson19.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson18.html",
+        "summary": "summary-lesson19.html"
+      },
+      "card": {
+        "desc": "Z-test หรือ t-test · ตั้ง H₀/H₁ · ใช้ P-value หรือ Critical Value",
+        "tags": "inference mean t test z บท19 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson19.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson19.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 19 — การทดสอบค่าเฉลี่ย 1 กลุ่ม",
+        "description": "Z-test หรือ t-test · ตั้ง H₀/H₁ · ใช้ P-value หรือ Critical Value",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson19.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson19.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson20",
+      "title": "บทที่ 20 : การทดสอบสัดส่วน 1 กลุ่ม",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson20.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson19.html",
+        "summary": "summary-lesson20.html"
+      },
+      "card": {
+        "desc": "Z-test for p · ตรวจเงื่อนไข np₀ · ตีความเปอร์เซ็นต์",
+        "tags": "inference proportion test z บท20 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson20.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson20.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 20 — การทดสอบสัดส่วน 1 กลุ่ม",
+        "description": "Z-test for p · ตรวจเงื่อนไข np₀ · ตีความเปอร์เซ็นต์",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson20.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson20.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson21",
+      "title": "บทที่ 21 : การทดสอบผลต่างสองประชากร",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson21.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson20.html",
+        "summary": "summary-lesson21.html"
+      },
+      "card": {
+        "desc": "Two-sample t-test · Two-proportion z-test · เลือกสูตรให้ตรงบริบท",
+        "tags": "inference sample t two z บท21 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson21.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson21.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 21 — การทดสอบผลต่างสองประชากร",
+        "description": "Two-sample t-test · Two-proportion z-test · เลือกสูตรให้ตรงบริบท",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson21.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson21.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
+    },
+    {
+      "id": "lesson22",
+      "title": "บทที่ 22 : การทดสอบความแปรปรวน",
+      "version": "1.0.0",
+      "updated_at": "2025-10-07",
+      "depends_on": [
+        "summary-lesson22.html",
+        "assets/js/reading-tools.js",
+        "assets/js/lesson-layout.js",
+        "style.css",
+        "assets/css/lesson-base.css",
+        "print.css"
+      ],
+      "assets": {
+        "page": "lesson21.html",
+        "summary": "summary-lesson22.html"
+      },
+      "card": {
+        "desc": "Chi-square test · F-test · ตรวจความเป็นปกติและอิสระของข้อมูล",
+        "tags": "inference chi-square f-test variance บท22 สรุป",
+        "chip": "Inference",
+        "summary": "summary-lesson22.html",
+        "meta": {
+          "version": "1.0.0",
+          "updated_at": "2025-10-07",
+          "depends_on": [
+            "summary-lesson22.html"
+          ]
+        }
+      },
+      "header": {
+        "title": "บทที่ 22 — การทดสอบความแปรปรวน",
+        "description": "Chi-square test · F-test · ตรวจความเป็นปกติและอิสระของข้อมูล",
+        "badges": [
+          "รุ่น 1.0.0 · อัปเดต 7 ต.ค. 2025"
+        ],
+        "nav": [
+          {
+            "label": "🏠 หน้าแรก",
+            "href": "index.html"
+          },
+          {
+            "label": "📝 สรุป 1 หน้า",
+            "href": "summary-lesson22.html"
+          },
+          {
+            "label": "⟵ บทก่อนหน้า",
+            "rel": "prev"
+          },
+          {
+            "label": "บทถัดไป ⟶",
+            "rel": "next"
+          }
+        ],
+        "nav_label": "นำทางบทเรียน",
+        "actions": [
+          {
+            "type": "button",
+            "label": "พิมพ์บทเรียน (PDF)",
+            "action": "print",
+            "ariaLabel": "พิมพ์บทเรียน"
+          }
+        ],
+        "actions_label": "ตัวเลือกเสริมบทเรียน",
+        "chips": [
+          {
+            "type": "pill",
+            "icon": "📝",
+            "text": "สรุปย่อ:",
+            "links": [
+              {
+                "label": "เปิดสรุป 1 หน้า",
+                "href": "summary-lesson22.html"
+              }
+            ]
+          }
+        ],
+        "chips_label": "ลิงก์เสริม"
+      }
     }
   ],
   "quizzes": [

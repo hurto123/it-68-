@@ -165,7 +165,7 @@ nav a[aria-disabled="true"] {
 }
 
 .warn {
-  background: #2a160c;
+  background: rgba(245, 158, 11, 0.14);
   border-left: 4px solid var(--warn);
   padding: 0.85rem;
   border-radius: 12px;
@@ -177,6 +177,65 @@ nav a[aria-disabled="true"] {
   padding: 0.9rem;
   border-radius: 12px;
   white-space: pre-wrap;
+}
+
+.list-tight {
+  padding-left: 1.2rem;
+}
+
+.list-tight li + li {
+  margin-top: 0.35rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--ok);
+  background: rgba(21, 181, 136, 0.12);
+  border: 1px solid rgba(21, 181, 136, 0.4);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.highlight {
+  background: rgba(21, 181, 136, 0.12);
+  border-left: 4px solid var(--ok);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.practice li + li,
+.checklist li + li {
+  margin-top: 0.45rem;
+}
+
+.practice span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+.formula-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.formula-table th,
+.formula-table td {
+  border: 1px solid rgba(79, 140, 255, 0.35);
+  padding: 0.55rem 0.65rem;
+  vertical-align: top;
+}
+
+.formula-table th {
+  background: rgba(79, 140, 255, 0.18);
+  color: #d9e6ff;
+  text-align: left;
 }
 
 .grid-two {

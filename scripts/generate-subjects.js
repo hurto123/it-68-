@@ -77,7 +77,11 @@ const supplementEntries = (manifest.supplements || [])
   return summary;
 }).filter(entry => entry.link);
 
-const summariesFromLessons = lessons.map(lesson => {
+const supplementLinks = new Set(supplementEntries.map(entry => entry.link));
+
+const summariesFromLessons = lessons
+  .filter(lesson => lesson.summary && !supplementLinks.has(lesson.summary))
+  .map(lesson => {
   const chip = lesson.title.split(':')[0].replace('บทที่', 'บท').trim();
   return {
     id: `${lesson.id}-summary`,
