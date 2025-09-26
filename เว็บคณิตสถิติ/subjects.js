@@ -153,6 +153,7 @@ export const formulas = [
   }
 ];
 
+
 export const summaries = [
   {
     id: "all",
@@ -413,7 +414,6 @@ export const quizzes = [
     desc: "Normal, Z-score, Empirical Rule",
     tags: "quiz บท8 normal",
     chip: "Normal",
-    link: "quiz-lesson08.html",
     lesson: "lesson08.html",
     summary: "summary-lesson08.html",
     config: "data/quiz-lesson08.json"
@@ -439,5 +439,15 @@ export const quizzes = [
     lesson: "index.html",
     summary: "summaries-all.html",
     config: "data/quiz-mixed.json"
+  },
+  {
+    id: "probability-game",
+    title: "เกม Probability Playground",
+    desc: "ประเมินโอกาสของเหตุการณ์ผ่านเกมแบบโต้ตอบ เล่นได้ทั้งโหมดจับเวลาและฝึกซ้อม",
+    tags: "เกม probability interactive",
+    chip: "เกม",
+    link: "game-probability/index.html",
+    lesson: "lesson04.html",
+    summary: "summary-lesson04.html"
   }
 ];
