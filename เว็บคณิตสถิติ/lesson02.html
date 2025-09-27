@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
+  <meta name="description" content="บทที่\ 2\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 02 • การนำเสนอข้อมูล (Data Presentation)</title>
@@ -19,7 +20,6 @@
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36;--ok:#15b588}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
@@ -61,8 +61,8 @@
       "updated_at": "2025-10-01",
       "depends_on": [
         "summary-lesson02.html",
-        "data/lesson02.questions.th.json",
-        "data/lesson02.solutions.th.json",
+        "assets/data/questions/lesson02.questions.th.json",
+        "assets/data/solutions/lesson02.solutions.th.json",
         "assets/js/reading-tools.js",
         "style.css",
         "print.css",
@@ -95,7 +95,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="content lesson-page">
     <section class="card" id="reading-support">
       <h2>เครื่องมือช่วยอ่าน &amp; การพิมพ์ PDF</h2>
       <p>ปรับการอ่านบทนี้ให้ง่ายขึ้นด้วยแถบ Reading Toolbar ใต้หัวเรื่อง: ขยายตัวอักษร, สลับฟอนต์ Serif/Sans, เพิ่มระยะห่างบรรทัด และเปิด Focus Mode เมื่อทำงานร่วมกับเพื่อน</p>
@@ -346,5 +346,9 @@
       <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 02 • Meta version 1.3.0 • ปรับปรุง 1 ต.ค. 2025 • รองรับ MathJax + พิมพ์ PDF</small>
     </div>
   </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

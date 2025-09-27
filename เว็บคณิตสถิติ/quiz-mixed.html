@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
 </head>
-<body data-config="data/quiz-mixed.json" data-page-title="Quiz รวมทุกบท" data-page-subtitle="สุ่มข้อสอบจากทุกบท" data-lesson-link="index.html" data-summary-link="summaries-all.html" data-lesson-label="Quiz รวมทุกบท (1–9)" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
+<body data-config="assets/data/quiz-mixed.json" data-page-title="Quiz รวมทุกบท" data-page-subtitle="สุ่มข้อสอบจากทุกบท" data-lesson-link="index.html" data-summary-link="summaries-all.html" data-lesson-label="Quiz รวมทุกบท (1–9)" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
@@ -29,13 +29,17 @@
       </div>
     </div>
   </header>
-  <main class="wrap" role="main">
+  <main class="wrap" role="main" class="content quiz-page">
+<section class="hero"><h1>🧪 ควิซรวมหลายบท</h1><p class="quiz-intro">สุ่มโจทย์จากหลายบท เพื่อทบทวนภาพรวม</p></section>
+
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
       </noscript>
     </div>
-  </main>
+  
+<div id="quiz-root"></div>
+</main>
   <footer class="wrap small muted" role="contentinfo">
     © คอร์สสถิติ (ไทย) — ระบบแบบฝึกหัดและ Quiz
   </footer>
@@ -43,5 +47,9 @@
     import initQuizPage from './assets/js/quiz-page.js';
     initQuizPage();
   </script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/quiz-exam.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

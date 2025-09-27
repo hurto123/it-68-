@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
+  <meta name="description" content="บทที่\ 7\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 07 • การแจกแจงแบบไม่ต่อเนื่อง (Bernoulli / Binomial / Poisson / Hypergeometric)</title>
@@ -33,14 +34,16 @@
       "updated_at": "2025-09-26",
       "depends_on": [
         "summary-lesson07.html",
-        "data/lesson07.questions.th.json",
-        "data/lesson07.solutions.th.json",
+        "assets/data/questions/lesson07.questions.th.json",
+        "assets/data/solutions/lesson07.solutions.th.json",
         "assets/js/reading-tools.js",
         "style.css"
       ],
       "tags": ["discrete-distribution", "binomial", "poisson", "hypergeometric", "reading-tools", "math-model"]
     }
   </script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
   <header>
@@ -59,7 +62,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="content lesson-page">
     <section class="card" id="reading-support">
       <h2>Reading Toolkit สำหรับการแจกแจงไม่ต่อเนื่อง</h2>
       <p>ใช้แถบเครื่องมือเพื่อซูม PMF, ปรับฟอนต์ และเปิดโหมดโฟกัสตอนเทียบสูตร Binomial/Poisson/Hypergeometric พร้อมกด <strong>พิมพ์ PDF</strong> เพื่อเก็บกราฟ</p>
@@ -427,5 +430,9 @@
       <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 07 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
     </div>
   </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

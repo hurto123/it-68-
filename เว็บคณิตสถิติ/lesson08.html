@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
+  <meta name="description" content="บทที่\ 8\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 08 • การแจกแจงต่อเนื่อง & โค้งปกติ (Normal)</title>
@@ -36,14 +37,18 @@
       "updated_at": "2025-09-26",
       "depends_on": [
         "summary-lesson08.html",
-        "data/lesson08.questions.th.json",
-        "data/lesson08.solutions.th.json",
+        "assets/data/questions/lesson08.questions.th.json",
+        "assets/data/solutions/lesson08.solutions.th.json",
         "assets/js/reading-tools.js",
         "style.css"
       ],
       "tags": ["continuous", "normal", "z-score", "reading-tools", "math-model"]
     }
   </script>
+
+  <link rel="stylesheet" href="print.css" media="print">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
   <header>
@@ -62,7 +67,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="content lesson-page">
     <section class="card" id="reading-support">
       <h2>Reading Toolkit สำหรับโค้งปกติ</h2>
       <p>ปรับตัวอักษรหรือโหมดโฟกัสเพื่อดูกราฟ PDF และพื้นที่ใต้โค้งได้ชัด กด <strong>พิมพ์ PDF</strong> เพื่อเก็บตาราง Z และ Empirical Rule ไปใช้ต่อ</p>
@@ -321,5 +326,9 @@ Z = (82−70)/8 = 1.5 → พื้นที่ด้านซ้าย ≈ 0.93
       <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 08 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
     </div>
   </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

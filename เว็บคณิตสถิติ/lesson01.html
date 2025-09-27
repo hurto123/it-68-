@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
+  <meta name="description" content="บทที่\ 1\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 01 • ความรู้เบื้องต้นเกี่ยวกับสถิติ</title>
@@ -19,7 +20,6 @@
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     :root {
       --bg: #0b0c10;
@@ -126,8 +126,8 @@
       "depends_on": [
         "summary-lesson01.html",
         "glossary.html#tblSymbols",
-        "data/lesson01.questions.th.json",
-        "data/lesson01.solutions.th.json",
+        "assets/data/questions/lesson01.questions.th.json",
+        "assets/data/solutions/lesson01.solutions.th.json",
         "assets/js/reading-tools.js",
         "style.css"
       ],
@@ -157,7 +157,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="content lesson-page">
     <section class="card" id="reading-support">
       <h2>เครื่องมือช่วยอ่าน &amp; ดาวน์โหลด PDF</h2>
       <p>แถบ <strong>Reading Toolbar</strong> ใต้หัวเรื่องรองรับการขยายตัวอักษร ปรับระยะห่างบรรทัด สลับฟอนต์ และเปิด <em>Focus Mode</em> เพื่ออ่านแบบไม่ถูกรบกวน ส่วนมุมขวาบนมีปุ่ม <strong>สารบัญ</strong> ที่ดึงหัวข้ออัตโนมัติจากหน้านี้</p>
@@ -367,7 +367,7 @@
       <div class="chips">
         <a class="pill" href="lesson02.html">📈 ไปต่อบทที่ 2</a>
         <a class="pill" href="summary-lesson01.html">📝 เปิดสรุป 1 หน้า</a>
-        <a class="pill" href="data/lesson01.questions.th.json">🧩 ดูโครงแบบฝึกหัด JSON</a>
+        <a class="pill" href="assets/data/questions/lesson01.questions.th.json">🧩 ดูโครงแบบฝึกหัด JSON</a>
       </div>
     </section>
   </main>
@@ -377,5 +377,9 @@
       <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 01 • Meta version 1.2.0 • Synced กับแบบฝึกหัด JSON + Reading Toolkit</small>
     </div>
   </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

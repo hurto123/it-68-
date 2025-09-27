@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
+  <meta name="description" content="บทที่\ 3\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics)</title>
@@ -19,7 +20,6 @@
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="mathjax-script" async></script>
   <style>
     :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
@@ -50,8 +50,8 @@
       "updated_at": "2025-09-26",
       "depends_on": [
         "summary-lesson03.html",
-        "data/lesson03.questions.th.json",
-        "data/lesson03.solutions.th.json",
+        "assets/data/questions/lesson03.questions.th.json",
+        "assets/data/solutions/lesson03.solutions.th.json",
         "assets/js/reading-tools.js",
         "style.css"
       ],
@@ -76,7 +76,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="content lesson-page">
     <section class="card" id="reading-support">
       <h2>Reading Toolkit สำหรับบทค่ากลาง &amp; การกระจาย</h2>
       <p>แถบเครื่องมือด้านบนช่วยปรับตัวอักษรและโหมดโฟกัส ทำให้ตารางค่าเฉลี่ย/มัธยฐาน/ส่วนเบี่ยงเบนมาตรฐานอ่านง่ายขึ้น โดยเฉพาะเมื่อพิมพ์เป็น PDF เพื่อใช้ในห้องเรียน</p>
@@ -307,5 +307,9 @@
       <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 03 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
     </div>
   </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </body>
 </html>

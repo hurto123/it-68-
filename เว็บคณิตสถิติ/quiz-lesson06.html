@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
 </head>
-<body data-config="data/quiz-lesson05.json" data-page-title="Quiz บทที่ 5" data-page-subtitle="แบบฝึกหัดทฤษฎีความน่าจะเป็น" data-lesson-link="lesson05.html" data-summary-link="summary-lesson05.html" data-lesson-label="บทที่ 5: ทฤษฎีความน่าจะเป็น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
+<body data-config="assets/data/quiz-lesson05.json" data-page-title="Quiz บทที่ 5" data-page-subtitle="แบบฝึกหัดทฤษฎีความน่าจะเป็น" data-lesson-link="lesson05.html" data-summary-link="summary-lesson05.html" data-lesson-label="บทที่ 5: ทฤษฎีความน่าจะเป็น" data-practice-label="โหมดฝึก (เฉลยทันที)" data-quiz-label="โหมด Quiz (จับเวลา)">
   <header class="quiz-header" role="banner">
     <div class="wrap">
       <nav class="breadcrumb" aria-label="breadcrumb">
@@ -29,7 +29,10 @@
       </div>
     </div>
   </header>
-  <main class="wrap" role="main">
+  <main class="wrap" role="main" class="content quiz-page">
+<section class="hero"><h1>🧪 ควิซท้ายบทที่ 6</h1><p class="quiz-intro">เลือกคำตอบที่ถูกต้อง แล้วกดตรวจคำตอบได้ทันที (ไม่เก็บข้อมูลผู้เรียน)</p></section>
+<div id="quiz-root"></div>
+
     <div id="quiz-app" class="quiz-app" data-quiz-mount>
       <noscript>
         โปรดเปิดใช้งาน JavaScript เพื่อทำแบบฝึกหัดออนไลน์
@@ -62,5 +65,9 @@
     import initQuizPage from './assets/js/quiz-page.js';
     initQuizPage();
   </script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/progress.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/quiz-exam.js" defer></script>
 </body>
 </html>
