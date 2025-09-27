@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,7 +17,6 @@
       tex2jax: {inlineMath: [['\\(','\\)'], ['$', '$']]}
     };
   </script>
-  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     :root{
@@ -94,6 +93,8 @@
     .pill{border:1px solid var(--border);background:#0a0e19;border-radius:999px;padding:.2rem .55rem;font-size:.8rem;color:#cfe0ff}
     .actions{display:flex;gap:.5rem;flex-wrap:wrap}
   </style>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
 </head>
 <body>
   <header>
@@ -120,7 +121,7 @@
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main class="wrap grid content formula-page narrow" role="main">
     <!-- Objectives / Prereq -->
     <section class="card pop">
       <div class="two">
@@ -559,5 +560,9 @@
     // initial draw
     drawChart();
   </script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
 </body>
 </html>

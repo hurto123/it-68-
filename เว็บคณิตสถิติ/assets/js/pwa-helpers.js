@@ -1,5 +1,5 @@
 const ROOT_URL = new URL('../..', import.meta.url);
-const manifestHref = new URL('manifest.json', ROOT_URL).href;
+const manifestHref = new URL('content-manifest.json', ROOT_URL).href;
 const icon192Href = new URL('assets/icons/icon-192.png', ROOT_URL).href;
 const icon512Href = new URL('assets/icons/icon-512.png', ROOT_URL).href;
 

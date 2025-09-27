@@ -1,0 +1,51 @@
+{
+  "updated_at": "2025-09-27",
+  "lessons": [
+    {"title": "บทที่ 1: ความรู้เบื้องต้นเกี่ยวกับสถิติ", "path": "lesson01.html"},
+    {"title": "บทที่ 2: การนำเสนอข้อมูล", "path": "lesson02.html"},
+    {"title": "บทที่ 3: สถิติเชิงพรรณนา", "path": "lesson03.html"},
+    {"title": "บทที่ 4: ความน่าจะเป็นเบื้องต้น", "path": "lesson04.html"},
+    {"title": "บทที่ 5: ทฤษฎีความน่าจะเป็น", "path": "lesson05.html"},
+    {"title": "บทที่ 6: ตัวแปรสุ่ม", "path": "lesson06.html"},
+    {"title": "บทที่ 7: แจกแจงไม่ต่อเนื่อง", "path": "lesson07.html"},
+    {"title": "บทที่ 8: แจกแจงต่อเนื่อง & Normal", "path": "lesson08.html"},
+    {"title": "บทที่ 9: Sampling Distributions & CLT", "path": "lesson09.html"}
+  ],
+  "formulas": [
+    {"title": "Bernoulli", "path": "formula/bernoulli.html"},
+    {"title": "Binomial", "path": "formula/binomial.html"},
+    {"title": "Poisson", "path": "formula/poisson.html"},
+    {"title": "Hypergeometric", "path": "formula/hypergeometric.html"},
+    {"title": "Normal", "path": "formula/normal.html"},
+    {"title": "Z-Score", "path": "formula/z-score.html"},
+    {"title": "t-Distribution", "path": "formula/t-distribution.html"},
+    {"title": "Chi-Square", "path": "formula/chi-square.html"},
+    {"title": "F-Distribution", "path": "formula/f-distribution.html"},
+    {"title": "CLT (x̄ & p̂)", "path": "formula/clt-xbar-phat.html"},
+    {"title": "Formula Explorer", "path": "formula/index.html"}
+  ],
+  "quizzes": [
+    {"title": "Quiz บท 1", "path": "quiz-lesson01.html"},
+    {"title": "Quiz บท 2", "path": "quiz-lesson02.html"},
+    {"title": "Quiz บท 3", "path": "quiz-lesson03.html"},
+    {"title": "Quiz บท 4", "path": "quiz-lesson04.html"},
+    {"title": "Quiz บท 5", "path": "quiz-lesson05.html"},
+    {"title": "Quiz บท 6", "path": "quiz-lesson06.html"},
+    {"title": "Quiz บท 7", "path": "quiz-lesson07.html"},
+    {"title": "Quiz บท 8", "path": "quiz-lesson08.html"},
+    {"title": "Quiz บท 9", "path": "quiz-lesson09.html"},
+    {"title": "Quiz รวมหลายบท", "path": "quiz-mixed.html"}
+  ],
+  "summaries": [
+    {"title": "สรุปรวมทุกบท", "path": "summaries-all.html"},
+    {"title": "สรุปบท 1", "path": "summary-lesson01.html"},
+    {"title": "สรุปบท 2", "path": "summary-lesson02.html"},
+    {"title": "สรุปบท 3", "path": "summary-lesson03.html"},
+    {"title": "สรุปบท 4", "path": "summary-lesson04.html"},
+    {"title": "สรุปบท 5", "path": "summary-lesson05.html"},
+    {"title": "สรุปบท 6", "path": "summary-lesson06.html"},
+    {"title": "สรุปบท 7", "path": "summary-lesson07.html"},
+    {"title": "สรุปบท 8", "path": "summary-lesson08.html"},
+    {"title": "สรุปบท 9", "path": "summary-lesson09.html"}
+  ]
+}

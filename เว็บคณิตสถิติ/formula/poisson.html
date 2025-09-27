@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,7 +17,6 @@
       }
     };
   </script>
-  <script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     :root{
@@ -90,6 +89,8 @@
     .actions{display:flex;gap:.5rem;flex-wrap:wrap}
     .svgbox{background:#0c1020;border:1px solid var(--border);border-radius:14px;padding:.6rem;overflow:auto}
   </style>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
 </head>
 <body>
   <header>
@@ -117,7 +118,7 @@
     </div>
   </header>
 
-  <main class="wrap grid" role="main">
+  <main class="wrap grid content formula-page narrow" role="main">
     <section class="card pop">
       <div class="two">
         <div>
@@ -443,5 +444,9 @@
     // initial draw
     drawChart();
   </script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
 </body>
 </html>
