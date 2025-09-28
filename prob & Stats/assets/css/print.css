@@ -1,0 +1,5 @@
+@media print {
+  body { font-size: 12pt; background: #ffffff !important; color: #000 !important; }
+  a { color: #000 !important; text-decoration: underline; }
+  nav, footer { display: none !important; }
+}
