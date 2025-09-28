@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="บทนำการทดสอบสมมติฐาน สรุปขั้นตอน H0/Ha ระดับนัยสำคัญ และข้อผิดพลาดชนิดที่ 1/2" />
+  <title>บทที่ 23 • บทนำทดสอบสมมติฐาน</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #06060d;
+      --surface: #101223;
+      --surface-alt: #161933;
+      --surface-soft: #1c2240;
+      --text: #f2f4ff;
+      --muted: #9aa0c6;
+      --accent: #8cf0ff;
+      --accent-soft: rgba(140, 240, 255, 0.22);
+      --border: #232a48;
+      --danger: #ff7c9c;
+    }
+
+    body { margin: 0; background: radial-gradient(circle at 12% -15%, rgba(140,240,255,0.22), transparent 58%), radial-gradient(circle at 85% 0%, rgba(255,124,156,0.18), transparent 60%), var(--bg); color: var(--text); font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif; }
+    header { background: linear-gradient(135deg, rgba(16, 18, 35, 0.95), rgba(140,240,255,0.24)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(140,240,255,0.16); }
+    header .wrap,
+    main,
+    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill { display: inline-flex; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(18, 22, 40, 0.7); font-size: 0.88rem; color: var(--text); }
+
+    .flow { display: grid; gap: 0.8rem; }
+    .flow-step { border-left: 3px solid var(--accent); padding-left: 0.9rem; }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc select { background: rgba(12, 15, 30, 0.55); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #052530; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 23</p>
+      <h1>บทนำสู่การทดสอบสมมติฐาน</h1>
+      <p>เข้าใจแนวคิด $H_0$, $H_a$, ระดับนัยสำคัญ และความผิดพลาดประเภทต่างๆ ก่อนเริ่มลงมือคำนวณ</p>
+      <div class="pill-row">
+        <span class="pill">Formulate → Compute → Decide</span>
+        <span class="pill">ระวังข้อผิดพลาดชนิดที่ 1 และ 2</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>นิยามสำคัญ</h2>
+      <ul>
+        <li><strong>$H_0$ (สมมติฐานศูนย์):</strong> ข้อความที่เราต้องการทดสอบ เช่น $\mu = 50$</li>
+        <li><strong>$H_a$ (สมมติฐานทางเลือก):</strong> สิ่งที่เราจะสรุปหากหลักฐานเพียงพอ เช่น $\mu \neq 50$</li>
+        <li><strong>ระดับนัยสำคัญ ($\alpha$):</strong> ความเสี่ยงที่จะปฏิเสธ $H_0$ ทั้งที่จริงแล้ว $H_0$ เป็นจริง (Type I error)</li>
+        <li><strong>พลังการทดสอบ:</strong> โอกาสที่จะปฏิเสธ $H_0$ ได้ถูกต้องเมื่อ $H_a$ เป็นจริง (1 - Type II error)</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>โครงร่างขั้นตอน</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <h3>1. นิยามสมมติฐาน</h3>
+          <p>กำหนด $H_0$ และ $H_a$ ให้ชัดเจน รวมทั้งตั้งระดับนัยสำคัญ $\alpha$</p>
+        </div>
+        <div class="flow-step">
+          <h3>2. เลือกสถิติทดสอบ</h3>
+          <p>เช่น $z$, $t$, $\chi^2$, หรือ $F$ ตามลักษณะข้อมูล</p>
+        </div>
+        <div class="flow-step">
+          <h3>3. คำนวณค่า test statistic และ p-value</h3>
+          <p>เปรียบเทียบกับ critical value หรือดู p-value เทียบกับ $\alpha$</p>
+        </div>
+        <div class="flow-step">
+          <h3>4. ตัดสินใจและสรุปผล</h3>
+          <p>หากหลักฐานเพียงพอให้ปฏิเสธ $H_0$ และสื่อสารผลในบริบท</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>จำแนกทิศทางการทดสอบ (Interactive)</h2>
+      <form class="calc" id="testDirectionForm">
+        <label>ข้อกล่าวอ้างที่ต้องการพิสูจน์
+          <select name="claim">
+            <option value="greater">ตัวอย่างมากกว่าค่าอ้างอิง</option>
+            <option value="less">ตัวอย่างน้อยกว่าค่าอ้างอิง</option>
+            <option value="notEqual" selected>ตัวอย่างแตกต่าง</option>
+          </select>
+        </label>
+        <label>พารามิเตอร์ที่สนใจ
+          <select name="param">
+            <option value="mean">ค่าเฉลี่ย (µ)</option>
+            <option value="proportion">สัดส่วน (p)</option>
+            <option value="variance">ความแปรปรวน (σ²)</option>
+          </select>
+        </label>
+        <label>ระดับนัยสำคัญ
+          <select name="alpha">
+            <option value="0.10">10%</option>
+            <option value="0.05" selected>5%</option>
+            <option value="0.01">1%</option>
+          </select>
+        </label>
+        <button type="submit">สร้างคำอธิบาย</button>
+      </form>
+      <div class="result-box" id="testDirectionResult">
+        <strong>ผลลัพธ์จะปรากฏที่นี่</strong>
+        <p class="muted">ระบบจะช่วยแปลงข้อกล่าวอ้างเป็น $H_0$/$H_a$ พร้อมเตือนเรื่องข้อผิดพลาดที่เกี่ยวข้อง</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ข้อผิดพลาดที่ควรจำ</h2>
+      <ul>
+        <li><strong>Type I error:</strong> ปฏิเสธ $H_0$ ทั้งที่จริง $H_0$ เป็นจริง โอกาสเท่ากับ $\alpha$</li>
+        <li><strong>Type II error:</strong> ไม่ปฏิเสธ $H_0$ ทั้งที่จริง $H_a$ เป็นจริง</li>
+        <li>ลด Type II error ได้ด้วยการเพิ่มขนาดตัวอย่างหรือเลือกการทดสอบที่มีพลังสูงขึ้น</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const testDirectionForm = document.getElementById('testDirectionForm');
+    const testDirectionResult = document.getElementById('testDirectionResult');
+
+    const paramSymbol = {
+      mean: '\\mu',
+      proportion: 'p',
+      variance: '\\sigma^2'
+    };
+
+    testDirectionForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = new FormData(testDirectionForm);
+      const claim = form.get('claim');
+      const param = form.get('param');
+      const alpha = Number(form.get('alpha'));
+      const symbol = paramSymbol[param];
+
+      let h0, ha, directionText;
+      if (claim === 'greater') {
+        h0 = `${symbol} \leq ${symbol}_0`;
+        ha = `${symbol} > ${symbol}_0`;
+        directionText = 'ทดสอบด้านขวา (Right-tailed)';
+      } else if (claim === 'less') {
+        h0 = `${symbol} \geq ${symbol}_0`;
+        ha = `${symbol} < ${symbol}_0`;
+        directionText = 'ทดสอบด้านซ้าย (Left-tailed)';
+      } else {
+        h0 = `${symbol} = ${symbol}_0`;
+        ha = `${symbol} \neq ${symbol}_0`;
+        directionText = 'ทดสอบสองด้าน (Two-tailed)';
+      }
+
+      const type1 = (alpha * 100).toFixed(1);
+
+      testDirectionResult.innerHTML = `
+        <strong>${directionText}</strong>
+        <p>$H_0: ${h0}$</p>
+        <p>$H_a: ${ha}$</p>
+        <p class="muted">Type I error = ${type1}% — ระวังการปฏิเสธ $H_0$ ผิดพลาดเมื่อข้อมูลผันผวน</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([testDirectionResult]);
+      }
+    });
+  </script>
+</body>
+</html>

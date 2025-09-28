@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="คำนวณขนาดตัวอย่างสำหรับค่าเฉลี่ยและสัดส่วน พร้อมขั้นตอนและแบบฝึกหัด" />
+  <title>บทที่ 21 • การคำนวณขนาดตัวอย่าง</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020c0a;
+      --surface: #091a18;
+      --surface-alt: #0e2522;
+      --surface-soft: #12312d;
+      --text: #f2fff9;
+      --muted: #8fb1a4;
+      --accent: #5df2c1;
+      --accent-soft: rgba(93, 242, 193, 0.2);
+      --border: #16443a;
+    }
+
+    body { margin: 0; background: radial-gradient(circle at 12% -10%, rgba(93,242,193,0.2), transparent 58%), radial-gradient(circle at 90% 0%, rgba(93, 173, 242, 0.16), transparent 60%), var(--bg); color: var(--text); font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif; }
+    header { background: linear-gradient(135deg, rgba(14, 37, 34, 0.95), rgba(93,242,193,0.24)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(93,242,193,0.18); }
+    header .wrap,
+    main,
+    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill { display: inline-flex; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(10, 32, 28, 0.75); font-size: 0.88rem; color: var(--text); }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc input, .calc select { background: rgba(4, 16, 14, 0.55); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #063125; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 880px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 21</p>
+      <h1>การคำนวณขนาดตัวอย่าง</h1>
+      <p>กำหนด $n$ ให้เหมาะกับ Margin of Error ที่ต้องการ ทั้งสำหรับค่าเฉลี่ยและสัดส่วน</p>
+      <div class="pill-row">
+        <span class="pill">ต้องรู้ระดับความเชื่อมั่นและ Margin of Error</span>
+        <span class="pill">เลือกค่าประมาณความแปรปรวนจากการศึกษาเดิม</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>ภาพรวม</h2>
+      <p>สูตรทั่วไป: $n = \left(\dfrac{z_{\alpha/2}\times \text{SD}}{E}\right)^2$ สำหรับค่าเฉลี่ย และ $n = \dfrac{z_{\alpha/2}^2 \hat p (1-\hat p)}{E^2}$ สำหรับสัดส่วน</p>
+      <ul>
+        <li>$E$ คือ Margin of Error ที่ต้องการ</li>
+        <li>$\text{SD}$ ใช้ $\sigma$ หรือ $s$ จากการศึกษานำร่อง</li>
+        <li>สำหรับสัดส่วน นิยมตั้ง $\hat p=0.5$ หากไม่ทราบข้อมูล เพื่อได้ $n$ สูงสุด</li>
+      </ul>
+    </section>
+
+    <section class="card grid two">
+      <article>
+        <h3>ขั้นตอนสำหรับค่าเฉลี่ย</h3>
+        <ol>
+          <li>กำหนด $E$ และระดับความเชื่อมั่น</li>
+          <li>เลือก $\sigma$ (หรือ $s$) จากข้อมูลที่เชื่อถือได้</li>
+          <li>คำนวณ $n = \left(\dfrac{z\sigma}{E}\right)^2$ แล้วปัดขึ้นเป็นจำนวนเต็ม</li>
+        </ol>
+      </article>
+      <article>
+        <h3>ขั้นตอนสำหรับสัดส่วน</h3>
+        <ol>
+          <li>คาดการณ์ $\hat p$ จากการสำรวจเก่าหรือใช้ 0.5</li>
+          <li>คำนวณ $n = \dfrac{z^2 \hat p (1-\hat p)}{E^2}$</li>
+          <li>หากต้องการ finite population correction ให้คูณปรับภายหลัง</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>เครื่องมือคำนวณ</h2>
+      <form class="calc" id="sampleSizeForm">
+        <label>ประเภทการประมาณ
+          <select name="type">
+            <option value="mean">ค่าเฉลี่ย</option>
+            <option value="prop">สัดส่วน</option>
+          </select>
+        </label>
+        <label>ระดับความเชื่อมั่น
+          <select name="conf">
+            <option value="0.80">80%</option>
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </label>
+        <label>Margin of Error (E)
+          <input type="number" step="0.0001" min="0" name="margin" value="2" required />
+        </label>
+        <label id="sdField">ส่วนเบี่ยงเบนมาตรฐานที่คาด (\(\sigma\))
+          <input type="number" step="0.0001" min="0" name="sd" value="10" required />
+        </label>
+        <label id="pField" style="display:none">สัดส่วนคาดการณ์ (\(\hat p\))
+          <input type="number" step="0.0001" min="0" max="1" name="p" value="0.5" />
+        </label>
+        <button type="submit">หาขนาดตัวอย่าง</button>
+      </form>
+      <div class="result-box" id="sampleSizeResult">
+        <strong>ผลลัพธ์จะแสดงที่นี่</strong>
+        <p class="muted">ตัวอย่าง: ต้องการวัดส่วนสูงเฉลี่ยด้วยความคลาด ±2 ซม. ที่ 95% เมื่อ $\sigma \approx 10$ → ต้องการ $n \approx 97$</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>แบบฝึกหัด</h2>
+      <ol>
+        <li>อยากให้ Margin of Error ของสัดส่วนไม่เกิน ±4% ที่ 95% โดยคาด $p=0.3$ ต้องใช้ $n$ เท่าใด?</li>
+        <li>หากเปลี่ยนระดับความเชื่อมั่นจาก 95% เป็น 90% ขนาดตัวอย่างจะลดลงกี่เปอร์เซ็นต์?</li>
+        <li>งานภาคสนามมีงบสูงสุด 400 ตัวอย่าง ควรเลือกระดับความเชื่อมั่นและ Margin อย่างไร?</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    const zCritical = {
+      '0.80': 1.2816,
+      '0.90': 1.6449,
+      '0.95': 1.96,
+      '0.99': 2.5758
+    };
+
+    const form = document.getElementById('sampleSizeForm');
+    const resultBox = document.getElementById('sampleSizeResult');
+    const sdField = document.getElementById('sdField');
+    const pField = document.getElementById('pField');
+
+    form.type.addEventListener('change', () => {
+      const isProp = form.type.value === 'prop';
+      sdField.style.display = isProp ? 'none' : 'grid';
+      pField.style.display = isProp ? 'grid' : 'none';
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const type = form.type.value;
+      const conf = form.conf.value;
+      const margin = Number(form.margin.value);
+      const z = zCritical[conf];
+
+      if (!Number.isFinite(margin) || margin <= 0) {
+        resultBox.innerHTML = '<p>กรุณากำหนด Margin of Error &gt; 0</p>';
+        return;
+      }
+
+      let n;
+      if (type === 'mean') {
+        const sd = Number(form.sd.value);
+        if (!Number.isFinite(sd) || sd <= 0) {
+          resultBox.innerHTML = '<p>ส่วนเบี่ยงเบนต้องมากกว่า 0</p>';
+          return;
+        }
+        n = Math.ceil(Math.pow((z * sd) / margin, 2));
+      } else {
+        let p = Number(form.p.value);
+        if (!Number.isFinite(p) || p <= 0 || p >= 1) {
+          p = 0.5;
+        }
+        n = Math.ceil((Math.pow(z, 2) * p * (1 - p)) / Math.pow(margin, 2));
+      }
+
+      resultBox.innerHTML = `
+        <strong>ต้องใช้ตัวอย่างอย่างน้อย ${n.toLocaleString('th-TH')}</strong>
+        <p class="muted">ใช้การปัดขึ้นเพื่อให้ Margin of Error ไม่เกินที่ต้องการจริง</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([resultBox]);
+      }
+    });
+  </script>
+</body>
+</html>

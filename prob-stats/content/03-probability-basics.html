@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="theme-light" lang="th">
 <head>
-  <meta name="description" content="บทที่\ 3\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics)</title>
+  <meta name="description" content="บทเรียนความน่าจะเป็นเบื้องต้น: นิยาม แซมเปิลสเปซ เหตุการณ์ พร้อมแผนภาพโต้ตอบ" />
+  <title>บทที่ 03 • นิยามของความน่าจะเป็น (Probability Basics)</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
   <script>
@@ -13,305 +13,491 @@
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]']]
       },
+      svg: { fontCache: 'global' },
       options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      svg: { fontCache: 'global' }
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea']
+      }
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
   <style>
-    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
-    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
-    header .wrap, footer .wrap, main{max-width:980px;margin:0 auto;padding:1rem}
-    h1,h2,h3{line-height:1.25;margin:.2rem 0}
-    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
-    nav a:hover{background:#2a2e36}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
-    .muted{color:var(--muted)}
-    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
-    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
-    table{width:100%;border-collapse:collapse;margin:.6rem 0}
-    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
-    th{background:#1c1e25}
-    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
-    ul,ol{margin:.4rem 0 .4rem 1.2rem}
-    strong{color:#cfe0ff}
-    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
-    .svgbox svg{max-width:100%;height:auto;display:block}
-    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
-  </style>
-  <script type="application/json" id="lesson-meta">
-    {
-      "id": "lesson03",
-      "title": "บทที่ 3: สถิติเชิงพรรณนา",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
-      "depends_on": [
-        "summary-lesson03.html",
-        "assets/data/questions/lesson03.questions.th.json",
-        "assets/data/solutions/lesson03.solutions.th.json",
-        "assets/js/reading-tools.js",
-        "style.css"
-      ],
-      "tags": ["descriptive", "central-tendency", "dispersion", "reading-tools", "math-model"]
+    :root {
+      color-scheme: dark;
+      --bg: #04060a;
+      --surface: #0d111a;
+      --surface-alt: #151c28;
+      --surface-soft: #1c2636;
+      --text: #f4f7ff;
+      --muted: #9aa5c6;
+      --accent: #f18df2;
+      --accent-soft: rgba(241, 141, 242, 0.16);
+      --border: #20283a;
+      --ok: #6fe7c5;
+      --warn: #ffcf5c;
     }
-  </script>
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% -10%, rgba(241, 141, 242, 0.25), transparent 55%),
+                  radial-gradient(circle at 80% 0%, rgba(111, 231, 197, 0.25), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.7 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: rgba(13, 17, 26, 0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.2rem 1.25rem 1.6rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    nav a,
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(244, 247, 255, 0.08);
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.92rem;
+    }
+
+    nav a:hover,
+    .pill:hover {
+      background: rgba(241, 141, 242, 0.18);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    h1 {
+      margin-bottom: 0.2rem;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+    }
+
+    h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0 0 0.6rem; }
+    h3 { font-size: clamp(1.15rem, 2.6vw, 1.4rem); margin: 0.3rem 0 0.5rem; }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    ul, ol { padding-left: 1.2rem; }
+
+    .muted { color: var(--muted); }
+
+    .card {
+      background: rgba(13, 17, 26, 0.88);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: clamp(1.1rem, 1.5vw, 1.8rem);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .note, .ok, .warn {
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      margin: 0.75rem 0;
+    }
+
+    .note { background: var(--accent-soft); border-left: 4px solid var(--accent); }
+    .ok { background: rgba(111, 231, 197, 0.12); border-left: 4px solid var(--ok); }
+    .warn { background: rgba(255, 207, 92, 0.12); border-left: 4px solid var(--warn); }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 0.6rem 0 1rem;
+    }
+
+    th, td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: left;
+    }
+
+    th { background: rgba(244, 247, 255, 0.08); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    details {
+      background: rgba(241, 141, 242, 0.08);
+      border-radius: 16px;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(241, 141, 242, 0.18);
+      margin: 0.75rem 0;
+    }
+
+    details summary { cursor: pointer; font-weight: 600; }
+
+    .svg-box {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1rem;
+      margin: 0.8rem 0;
+      overflow: auto;
+    }
+
+    .sample-space {
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .sample-card {
+      background: var(--surface-soft);
+      border-radius: 14px;
+      padding: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem 0.65rem;
+      background: rgba(244, 247, 255, 0.08);
+      border-radius: 999px;
+      margin: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0.7rem 0 0.9rem;
+    }
+
+    label span { font-weight: 600; }
+
+    select, input[type="number"] {
+      background: var(--surface-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0.4rem 0.6rem;
+      color: var(--text);
+      font: inherit;
+    }
+
+    footer {
+      background: rgba(13, 17, 26, 0.88);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      header .wrap,
+      main,
+      footer .wrap { padding-inline: 1rem; }
+    }
+  </style>
   <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
   <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <h1>บทที่ 03 • สถิติเชิงพรรณนา (Descriptive Statistics) 🎯</h1>
-      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · เจาะ Mean/Median/Mode + การกระจาย</p>
-      <nav aria-label="นำทางบทเรียน">
+      <h1>บทเรียนที่ 3: นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์ 🎲</h1>
+      <p class="muted">ต่อยอดจากหลักการนับ สู่ความเข้าใจพื้นฐานของความน่าจะเป็นด้วยนิยามชัดเจน ตัวอย่างจริง และแผนภาพโต้ตอบ</p>
+      <nav>
         <a href="index.html">🏠 หน้าแรก</a>
-        <a href="lesson02.html">⟵ บทก่อนหน้า</a>
-        <a href="lesson04.html">บทถัดไป ⟶</a>
+        <a href="02-descriptive.html">⟵ บทก่อนหน้า</a>
+        <a href="04-conditional.html">บทถัดไป ⟶</a>
+        <a href="#prob-lab">🧪 Probability Lab</a>
       </nav>
-      <div class="chips">
-        <span class="pill">📝 <a class="inline" href="summary-lesson03.html">สรุป 1 หน้า</a></span>
-        <span class="pill">🧪 <a class="inline" href="quiz-lesson03.html">Quiz บทที่ 3</a></span>
+      <div class="hero">
+        <div class="metric">
+          <h3>คุณจะได้เรียนรู้</h3>
+          <ul>
+            <li>นิยามของการทดลองสุ่ม แซมเปิลสเปซ และเหตุการณ์</li>
+            <li>สูตรพื้นฐานของความน่าจะเป็น</li>
+            <li>คุณสมบัติที่ต้องถือไว้เสมอ</li>
+          </ul>
+        </div>
+        <div class="metric">
+          <h3>Quick Tools</h3>
+          <div class="pill" role="button" onclick="window.print()">🖨️ บันทึก PDF</div>
+          <a class="pill" href="quiz-lesson03.html">📝 Quiz ท้ายบท</a>
+          <a class="pill" href="#examples">📌 ตัวอย่างคำนวณ</a>
+        </div>
+        <div class="metric">
+          <h3>คำสำคัญ</h3>
+          <span class="chip">Sample Space</span>
+          <span class="chip">Event</span>
+          <span class="chip">Probability</span>
+          <span class="chip">Mutually Exclusive</span>
+        </div>
       </div>
     </div>
   </header>
 
   <main class="content lesson-page">
-    <section class="card" id="reading-support">
-      <h2>Reading Toolkit สำหรับบทค่ากลาง &amp; การกระจาย</h2>
-      <p>แถบเครื่องมือด้านบนช่วยปรับตัวอักษรและโหมดโฟกัส ทำให้ตารางค่าเฉลี่ย/มัธยฐาน/ส่วนเบี่ยงเบนมาตรฐานอ่านง่ายขึ้น โดยเฉพาะเมื่อพิมพ์เป็น PDF เพื่อใช้ในห้องเรียน</p>
-      <ul>
-        <li>MathJax แสดงสูตรสำคัญ เช่น \(\bar{x} = \frac{\sum x_i}{n}\) และ \(s = \sqrt{\frac{\sum (x_i-\bar{x})^2}{n-1}}\)</li>
-        <li>Progress Bar ด้านบนช่วยบอกตำแหน่งว่ากำลังอ่านส่วนค่ากลางหรือการกระจาย</li>
-        <li>เปิด <a class="inline" href="summary-lesson03.html">สรุป 1 หน้า</a> แล้วใช้ปุ่ม <em>สารบัญ</em> กระโดดระหว่างสูตรและตัวอย่างได้ทันที</li>
-      </ul>
+    <section class="card" id="intro">
+      <h2>1. สามคำหลัก: การทดลองสุ่ม, แซมเปิลสเปซ, เหตุการณ์</h2>
+      <p><strong>การทดลองสุ่ม</strong> (Random Experiment) คือการกระทำที่เรารู้ว่ามีผลลัพธ์อะไรบ้าง แต่ไม่รู้ว่าจะเกิดอะไรขึ้นในครั้งถัดไป เช่น การโยนเหรียญ การทอดลูกเต๋า หรือการสุ่มหยิบไพ่</p>
+      <p><strong>แซมเปิลสเปซ</strong> (Sample Space, \( S \)) คือเซตของผลลัพธ์ทั้งหมดที่เป็นไปได้จากการทดลองสุ่มนั้น</p>
+      <p><strong>เหตุการณ์</strong> (Event, \( E \)) คือผลลัพธ์ที่เราสนใจ เป็นสับเซตของ \( S \)</p>
+      <div class="note">จำ: “นิยามก่อนนับ” — ถ้าเราระบุ \( S \) ไม่ชัดเจน ผลการคำนวณความน่าจะเป็นจะผิดได้ง่าย!</div>
+      <div class="sample-space" role="list" aria-label="ตัวอย่างแซมเปิลสเปซ">
+        <div class="sample-card" role="listitem">
+          <h3>โยนเหรียญ 1 ครั้ง</h3>
+          <p>\( S = \{หัว, ก้อย\} \)</p>
+          <p class="muted">เหตุการณ์: “ได้หัว” = \( \{หัว\} \)</p>
+        </div>
+        <div class="sample-card" role="listitem">
+          <h3>ทอดลูกเต๋า 1 ลูก</h3>
+          <p>\( S = \{1,2,3,4,5,6\} \)</p>
+          <p class="muted">เหตุการณ์: “แต้มคู่” = \( \{2,4,6\} \)</p>
+        </div>
+        <div class="sample-card" role="listitem">
+          <h3>สุ่มหยิบไพ่ 1 ใบ</h3>
+          <p>\( S \) = ไพ่ 52 ใบทั้งหมด</p>
+          <p class="muted">เหตุการณ์: “ได้ไพ่หัวใจ” = ไพ่ชุดหัวใจ 13 ใบ</p>
+        </div>
+      </div>
     </section>
 
-    <section class="card">
-      <h2>แนวคิดรวม</h2>
-      <p>บทนี้คือการ “ย่อ” ข้อมูลกองโตให้เหลือ <strong>ตัวเลขมหัศจรรย์</strong> ไม่กี่ตัวที่บอกเรื่องราวสำคัญได้ เหมือนอ่าน “รีวิวหนัง” 🎬 เพื่อเข้าใจภาพรวมเร็วขึ้น</p>
+    <section class="card" id="formula">
+      <h2>2 &amp; 3. นิยามความน่าจะเป็นและการใช้สูตร</h2>
+      <p>เราวัดโอกาสของเหตุการณ์ด้วยค่าระหว่าง 0 ถึง 1 หาก \( P(E) = 0 \) แปลว่าเหตุการณ์นั้นไม่เกิดเลย และถ้า \( P(E) = 1 \) แปลว่าเกิดแน่นอน</p>
+      <div class="ok">สูตรหลัก: \( P(E) = \dfrac{n(E)}{n(S)} \) — จำนวนกรณีที่สนใจหารด้วยจำนวนกรณีทั้งหมด (ใช้หลักการนับจากบทก่อนมาช่วยหา \( n(E) \) และ \( n(S) \))</div>
+      <details>
+        <summary>ขั้นตอนคำนวณอย่างเป็นระบบ</summary>
+        <ol>
+          <li>นิยาม \( S \) ให้ชัดเจน</li>
+          <li>ใช้หลักการนับหา \( n(S) \)</li>
+          <li>กำหนดเหตุการณ์ \( E \) และหา \( n(E) \)</li>
+          <li>แทนค่าลงสูตรและย่อให้เรียบร้อย</li>
+        </ol>
+      </details>
     </section>
 
-    <!-- 1) Measures of Central Tendency -->
-    <section class="card" id="central">
-      <h2>1) การวัดแนวโน้มเข้าสู่ส่วนกลาง (Measures of Central Tendency) 🎯</h2>
-      <ul>
-        <li><strong>ค่าเฉลี่ย (Mean) 🧮</strong> — เอาค่าทั้งหมดบวกกันแล้วหารด้วยจำนวนข้อมูล <em>ข้อควรระวัง:</em> อ่อนไหวต่อค่าโดดเดี่ยว (Outlier)</li>
-        <li><strong>มัธยฐาน (Median)</strong> 🧍‍♀️ — ค่าที่อยู่ “ตรงกลาง” หลังเรียงจากน้อยไปมาก <em>จุดแข็ง:</em> ทนทานต่อ Outlier</li>
-        <li><strong>ฐานนิยม (Mode)</strong> 👍 — ค่าที่พบ <em>บ่อยที่สุด</em> และยังใช้กับข้อมูลไม่เป็นตัวเลขได้ (เช่น สี/ประเภท)</li>
-      </ul>
-
-      <h3>ตัวอย่างข้อมูลเพื่อเปรียบเทียบ Mean–Median–Mode</h3>
-      <div class="ex">ข้อมูลรายได้ (พันบาท): 15, 18, 21, 21, 23, 24, 28, 30, 120</div>
-      <table>
-        <caption>สถิติจากชุดข้อมูลตัวอย่าง</caption>
-        <thead><tr><th>สถิติ</th><th>ค่า</th><th>คำอธิบาย</th></tr></thead>
-        <tbody>
-          <tr><td>Mean</td><td>33.33</td><td>รวม 300 หาร 9 = 33.33 (ถูกดึงสูงโดยรายได้ 120)</td></tr>
-          <tr><td>Median</td><td>23</td><td>ค่าตรงกลางลำดับที่ 5</td></tr>
-          <tr><td>Mode</td><td>21</td><td>พบซ้ำมากที่สุด (21 สองครั้ง)</td></tr>
-        </tbody>
-      </table>
-
-      <div class="svgbox" aria-label="กราฟแท่งเปรียบเทียบ Mean Median Mode">
-        <!-- Bar chart: Mean=33.33, Median=23, Mode=21; scale 6px/unit, baseline y=300 -->
-        <svg viewBox="0 0 640 360" role="img" aria-labelledby="mmm-title mmm-desc">
-          <title id="mmm-title">Mean vs Median vs Mode</title>
-          <desc id="mmm-desc">เปรียบเทียบค่าเฉลี่ย 33.33 มัธยฐาน 23 ฐานนิยม 21</desc>
-          <rect x="0" y="0" width="640" height="360" fill="#0f1116"/>
-          <line x1="60" y1="300" x2="600" y2="300" stroke="#6b7280" stroke-width="1"/>
-          <line x1="60" y1="60"  x2="60"  y2="300" stroke="#6b7280" stroke-width="1"/>
-          <g fill="#9aa0a6" font-size="12">
-            <text x="40" y="300" text-anchor="end">0</text>
-            <text x="40" y="240" text-anchor="end">10</text>
-            <text x="40" y="180" text-anchor="end">20</text>
-            <text x="40" y="120" text-anchor="end">30</text>
-            <text x="40" y="90"  text-anchor="end">35</text>
-          </g>
-          <!-- heights: mean 33.33→200px; median 23→138px; mode 21→126px -->
-          <g>
-            <rect x="120" y="100" width="110" height="200" fill="#4f8cff"/>
-            <rect x="270" y="162" width="110" height="138" fill="#4f8cff"/>
-            <rect x="420" y="174" width="110" height="126" fill="#4f8cff"/>
-          </g>
-          <g fill="#cfe0ff" font-size="12">
-            <text x="175" y="320" text-anchor="middle">Mean</text>
-            <text x="325" y="320" text-anchor="middle">Median</text>
-            <text x="475" y="320" text-anchor="middle">Mode</text>
-          </g>
-          <g fill="#e8e8ea" font-size="12">
-            <text x="175" y="94"  text-anchor="middle">33.33</text>
-            <text x="325" y="156" text-anchor="middle">23</text>
-            <text x="475" y="168" text-anchor="middle">21</text>
-          </g>
+    <section class="card" id="prob-lab">
+      <h2>Lab: เล่นกับแซมเปิลสเปซ</h2>
+      <p>เลือกการทดลองและเหตุการณ์เพื่อดูแซมเปิลสเปซแบบโต้ตอบ พร้อมกราฟแสดงความน่าจะเป็น</p>
+      <div class="control-row">
+        <label><span>เลือกการทดลอง</span>
+          <select id="experiment-select">
+            <option value="coin">โยนเหรียญ 1 ครั้ง</option>
+            <option value="dice">ทอดลูกเต๋า 1 ลูก</option>
+            <option value="dice2">ทอดลูกเต๋า 2 ลูก (ผลรวม)</option>
+          </select>
+        </label>
+        <label><span>เลือกเหตุการณ์</span>
+          <select id="event-select"></select>
+        </label>
+      </div>
+      <div class="svg-box" aria-live="polite">
+        <svg id="prob-chart" viewBox="0 0 360 220" role="img" aria-labelledby="probChartTitle probChartDesc">
+          <title id="probChartTitle">กราฟความน่าจะเป็นของเหตุการณ์ที่เลือก</title>
+          <desc id="probChartDesc">กราฟแท่งแสดงจำนวนผลลัพธ์ที่สนใจเทียบกับผลลัพธ์ทั้งหมด พร้อมค่าเป็นทศนิยม</desc>
         </svg>
       </div>
-
-      <div class="note" style="margin-top:.6rem">
-        <strong>เราเห็นอะไร?</strong> ค่าเฉลี่ย (33.33) > มัธยฐาน (23) > ฐานนิยม (21) → รูปแบบนี้มักชี้ว่าการกระจาย “เบ้ขวา” เพราะมีค่าโดดเดี่ยวสูง (120) ดึงเฉลี่ยขึ้น 🔎
-      </div>
+      <p id="prob-summary" class="muted"></p>
     </section>
 
-    <!-- 2) Measures of Position -->
-    <section class="card" id="position">
-      <h2>2) การวัดตำแหน่งของข้อมูล (Measures of Position) 📍</h2>
-      <p><strong>เปอร์เซ็นไทล์ (Percentiles)</strong> คือการแบ่งข้อมูลที่เรียงแล้วออกเป็น 100 ส่วน เช่น อยู่ที่ <strong>P90</strong> หมายถึง “ดีกว่า 90% ของกลุ่ม”</p>
-      <p><strong>ควอร์ไทล์ (Quartiles)</strong> แบ่งเป็น 4 ส่วนเท่าๆ กัน:</p>
-      <ul>
-        <li><strong>Q1</strong> = P25 (25%)</li>
-        <li><strong>Q2</strong> = P50 = Median (50%)</li>
-        <li><strong>Q3</strong> = P75 (75%)</li>
-      </ul>
-
-      <h3>หาควอร์ไทล์จากข้อมูลตัวอย่างเดิม</h3>
-      <div class="ex">เรียงข้อมูล: 15, 18, 21, 21, <strong>23</strong>, 24, 28, 30, 120<br/>
-      Median (Q2) = <strong>23</strong><br/>
-      Q1 = ค่ากลางของ {15, 18, 21, 21} = (18 + 21)/2 = <strong>19.5</strong><br/>
-      Q3 = ค่ากลางของ {24, 28, 30, 120} = (28 + 30)/2 = <strong>29</strong></div>
-
-      <table>
-        <caption>สรุปตำแหน่งข้อมูล</caption>
-        <thead><tr><th>สถิติ</th><th>ค่า</th><th>ความหมาย</th></tr></thead>
-        <tbody>
-          <tr><td>Q1</td><td>19.5</td><td>25% แรกของข้อมูลอยู่ต่ำกว่าค่านี้</td></tr>
-          <tr><td>Q2 (Median)</td><td>23</td><td>ครึ่งหนึ่งของข้อมูลอยู่ต่ำกว่า/สูงกว่าพอดี</td></tr>
-          <tr><td>Q3</td><td>29</td><td>75% ของข้อมูลอยู่ต่ำกว่าค่านี้</td></tr>
-        </tbody>
-      </table>
-
-      <div class="svgbox" aria-label="Box Plot แสดง Q1 Median Q3 และ Outlier">
-        <!-- Box plot horizontal: x = 80 + 4*value (0..130 → 0..520) -->
-        <svg viewBox="0 0 640 220" role="img" aria-labelledby="box-title box-desc">
-          <title id="box-title">Box Plot</title>
-          <desc id="box-desc">Q1=19.5, Median=23, Q3=29, whiskers 15–30, outlier 120</desc>
-          <rect x="0" y="0" width="640" height="220" fill="#0f1116"/>
-          <!-- axis -->
-          <line x1="80" y1="140" x2="600" y2="140" stroke="#6b7280" stroke-width="1"/>
-          <!-- ticks every 20 -->
-          <g fill="#9aa0a6" font-size="12">
-            <text x="80"  y="160" text-anchor="middle">0</text>
-            <text x="160" y="160" text-anchor="middle">20</text>
-            <text x="240" y="160" text-anchor="middle">40</text>
-            <text x="320" y="160" text-anchor="middle">60</text>
-            <text x="400" y="160" text-anchor="middle">80</text>
-            <text x="480" y="160" text-anchor="middle">100</text>
-            <text x="560" y="160" text-anchor="middle">120</text>
-          </g>
-          <!-- positions -->
-          <!-- x(v) = 80 + 4*v -->
-          <!-- min=15→140, Q1=19.5→158, med=23→172, Q3=29→196, whisker high=30→200, outlier=120→560 -->
-          <!-- box -->
-          <rect x="158" y="120" width="38" height="40" fill="#101927" stroke="#4f8cff" stroke-width="2"/>
-          <!-- median -->
-          <line x1="172" y1="120" x2="172" y2="160" stroke="#e8e8ea" stroke-width="2"/>
-          <!-- whiskers -->
-          <line x1="140" y1="140" x2="158" y2="140" stroke="#cfe0ff" stroke-width="2"/>
-          <line x1="196" y1="140" x2="200" y2="140" stroke="#cfe0ff" stroke-width="2"/>
-          <line x1="140" y1="132" x2="140" y2="148" stroke="#cfe0ff" stroke-width="2"/>
-          <line x1="200" y1="132" x2="200" y2="148" stroke="#cfe0ff" stroke-width="2"/>
-          <!-- outlier -->
-          <circle cx="560" cy="140" r="5" fill="#ff7676"/>
-          <!-- labels -->
-          <g fill="#cfe0ff" font-size="12">
-            <text x="172" y="112" text-anchor="middle">Median 23</text>
-            <text x="158" y="112" text-anchor="end">Q1 19.5</text>
-            <text x="196" y="112" text-anchor="start">Q3 29</text>
-            <text x="140" y="176" text-anchor="middle">Min 15</text>
-            <text x="200" y="176" text-anchor="middle">Upper whisker 30</text>
-            <text x="560" y="176" text-anchor="middle">Outlier 120</text>
-          </g>
-        </svg>
-      </div>
-
-      <div class="note" style="margin-top:.6rem">
-        <strong>เราเห็นอะไร?</strong> IQR = Q3 − Q1 = 29 − 19.5 = <strong>9.5</strong> และ 1.5×IQR = 14.25 → ค่ามากกว่า 29+14.25 = 43.25 จัดเป็น outlier ดังนั้น 120 คือ outlier ชัดเจน ✅
-      </div>
-    </section>
-
-    <!-- 3) Measures of Dispersion & Shape -->
-    <section class="card" id="dispersion">
-      <h2>3) การวัดการกระจายและรูปร่าง (Measures of Dispersion &amp; Shape) 📉</h2>
-      <ul>
-        <li><strong>ส่วนเบี่ยงเบนมาตรฐาน (Standard Deviation, S.D.)</strong> — บอกว่าโดยเฉลี่ยแล้วข้อมูลแต่ละตัวอยู่ห่างจากค่าเฉลี่ยมากแค่ไหน
-          <ul>
-            <li>S.D. <strong>น้อย</strong> = ข้อมูลเกาะกลุ่ม ความสามารถใกล้เคียงกัน</li>
-            <li>S.D. <strong>มาก</strong> = ข้อมูลกระจาย ต่างกันสูง</li>
-          </ul>
-        </li>
-        <li><strong>ความเบ้ (Skewness)</strong>
-          <ul>
-            <li><em>สมมาตร</em> (Symmetric): รูประฆังคว่ำ (Mean ≈ Median ≈ Mode)</li>
-            <li><em>เบ้ขวา</em> (Skewed Right): หางยาวไปทางค่ามาก (เช่น รายได้) → Mean &gt; Median</li>
-            <li><em>เบ้ซ้าย</em> (Skewed Left): หางยาวไปทางค่าน้อย (เช่น อายุเกษียณ) → Mean &lt; Median</li>
-          </ul>
-        </li>
-      </ul>
-
-      <table>
-        <caption>สรุปสัญญาณจากสถิติกึ่งกลาง + รูปร่าง</caption>
-        <thead><tr><th>รูปแบบ</th><th>ความสัมพันธ์</th><th>ตัวอย่าง</th></tr></thead>
-        <tbody>
-          <tr><td>สมมาตร</td><td>Mean = Median = Mode</td><td>คะแนนสอบที่กระจุกกลาง</td></tr>
-          <tr><td>เบ้ขวา</td><td>Mean &gt; Median &gt; Mode</td><td>รายได้, เวลารอคอย</td></tr>
-          <tr><td>เบ้ซ้าย</td><td>Mean &lt; Median &lt; Mode</td><td>อายุเกษียณ</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card" id="math-model">
-      <h2>7) แบบจำลองคณิตศาสตร์: ความแปรปรวน &amp; CV</h2>
+    <section class="card" id="properties">
+      <h2>4. คุณสมบัติของความน่าจะเป็น</h2>
       <div class="grid-two">
         <div>
-          <p>สูตรความแปรปรวนของตัวอย่าง \(s^2 = \frac{\sum (x_i-\bar{x})^2}{n-1}\) วัดการกระจายรอบค่าเฉลี่ย ส่วนส่วนเบี่ยงเบนมาตรฐานคือ \(s = \sqrt{s^2}\)</p>
-          <p>ค่าดังกล่าวช่วยบอกว่า “ข้อมูลกระจายแค่ไหน” เมื่อเทียบกับค่าเฉลี่ย เช่น ถ้า \(\bar{x} = 72\) และ \(s = 8\) หมายถึงคะแนนส่วนใหญ่กระจายอยู่ในช่วง 72 ± 16 (กฎ 68–95–99.7)</p>
+          <h3>กฎพื้นฐาน 3 ข้อ</h3>
+          <ul>
+            <li>\( 0 \leq P(E) \leq 1 \) — ความน่าจะเป็นไม่ติดลบหรือเกิน 1</li>
+            <li>\( P(S) = 1 \) — แซมเปิลสเปซต้องเกิดบางอย่างแน่นอน</li>
+            <li>ถ้า \( A \) และ \( B \) ไม่เกิดพร้อมกัน: \( P(A \cup B) = P(A) + P(B) \)</li>
+          </ul>
         </div>
         <div>
-          <div class="ex">Coefficient of Variation (CV)
-\( \text{CV} = \frac{s}{\bar{x}} \times 100\% \)
-
-ใช้เปรียบเทียบความเสี่ยงระหว่างชุดข้อมูลที่หน่วยต่างกัน เช่น รายได้ (บาท) vs เวลา (นาที)
-</div>
-          <p class="muted">หาก CV &lt; 15% ถือว่าข้อมูลค่อนข้างสม่ำเสมอ ในขณะที่ CV &gt; 30% ต้องระวังค่าสุดโต่ง</p>
+          <h3>ทำไมต้องระวัง?</h3>
+          <p>ถ้ารวมเหตุการณ์แล้วได้ค่ามากกว่า 1 แปลว่ามีส่วนทับซ้อน ต้องลบ \( P(A \cap B) \) ออก</p>
+          <div class="warn">อย่าลืมตรวจว่าเหตุการณ์ “ไม่เกิดร่วมกัน” จริงหรือไม่ ก่อนใช้กฎการบวกแบบง่าย</div>
         </div>
       </div>
     </section>
 
-    <section class="card" id="case-study">
-      <h2>8) Mini Case Study: คะแนนสอบ 2 ห้อง</h2>
-      <div class="grid-two">
-        <div>
-          <table>
-            <caption>คะแนนเฉลี่ยและส่วนเบี่ยงเบนมาตรฐาน</caption>
-            <thead><tr><th>ห้อง</th><th>\(\bar{x}\)</th><th>\(s\)</th><th>CV</th></tr></thead>
-            <tbody>
-              <tr><td>A</td><td>78</td><td>6</td><td>7.7%</td></tr>
-              <tr><td>B</td><td>74</td><td>12</td><td>16.2%</td></tr>
-            </tbody>
-          </table>
+    <section class="card" id="examples">
+      <h2>5. ตัวอย่างฝึกคิด</h2>
+      <article>
+        <h3>ตัวอย่างที่ 1: ลูกเต๋าได้เลขคี่</h3>
+        <p>\( S = \{1,2,3,4,5,6\},\ n(S) = 6 \)</p>
+        <p>เหตุการณ์เลขคี่ \( E = \{1,3,5\},\ n(E) = 3 \)</p>
+        <p>ดังนั้น \( P(E) = 3/6 = 0.5 \)</p>
+        <div class="svg-box">
+          <svg viewBox="0 0 420 200" aria-hidden="true">
+            <g fill="none" stroke="#2a3142" stroke-width="1">
+              <rect x="20" y="20" width="380" height="160" rx="18"></rect>
+            </g>
+            <g fill="#f4f7ff" font-size="14">
+              <text x="40" y="60">เลขคี่</text>
+              <text x="40" y="140">เลขทั้งหมด</text>
+            </g>
+            <rect x="140" y="40" width="220" height="40" rx="10" fill="rgba(241,141,242,0.6)"></rect>
+            <rect x="140" y="120" width="220" height="40" rx="10" fill="rgba(244,247,255,0.2)"></rect>
+            <g fill="#f4f7ff" font-size="32" font-weight="700">
+              <text x="190" y="72">3 / 6 = 0.5</text>
+            </g>
+          </svg>
         </div>
-        <div>
-          <div class="warn">คำถาม: ถ้าต้องเลือกกลุ่มนักเรียนไปแข่งขัน ห้องใดสม่ำเสมอกว่า? — ใช้ CV เป็นตัวช่วยและดูการเบ้ใน box plot ที่สร้างจาก Percentile</div>
-          <p>ลองตอบคำถามใน <a class="inline" href="quiz-lesson03.html">Quiz บทที่ 3</a> ก่อน แล้วเปรียบเทียบกับเฉลยทีละขั้น</p>
-        </div>
-      </div>
+      </article>
+      <article>
+        <h3>ตัวอย่างที่ 2: ลูกบอลสีแดง</h3>
+        <p>กล่องมีลูกบอลสีแดง 5 ลูก สีขาว 3 ลูก ดังนั้น \( n(S) = 8,\ n(E) = 5 \)</p>
+        <p>ความน่าจะเป็น = \( \frac{5}{8} = 0.625 \)</p>
+      </article>
     </section>
 
-    <section class="note">
-      ✅ บทนี้เรา “ย่อเรื่องราวของข้อมูล” ด้วย Mean/Median/Mode, Percentiles/Quartiles และ SD+Skewness พร้อมกราฟช่วยมองภาพชัดขึ้น<br/>
-      ▶ ต่อไป: <strong>บทที่ 4: ความน่าจะเป็นเบื้องต้น (Introduction to Probability) 🎲</strong>
+    <section class="card" id="self-check">
+      <h2>Self Check 🔍</h2>
+      <ol>
+        <li>เหตุการณ์ที่เป็นไปไม่ได้มีค่า \( P(E) \) เท่าใด?</li>
+        <li>เหตุการณ์ใดต้องลบ \( P(A \cap B) \) ออกเมื่อใช้กฎการบวก?</li>
+        <li>ถ้ามีผลลัพธ์ที่สนใจ 4 แบบจากทั้งหมด 20 แบบ ความน่าจะเป็นเป็นเท่าไร?</li>
+      </ol>
+      <details>
+        <summary>เฉลย</summary>
+        <ul>
+          <li>0</li>
+          <li>เหตุการณ์ที่เกิดร่วมกันได้ (ไม่ใช่ mutually exclusive)</li>
+          <li>\( 4/20 = 0.2 \)</li>
+        </ul>
+      </details>
     </section>
   </main>
 
   <footer>
     <div class="wrap">
-      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 03 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
+      <p class="muted">© 2025 Prob &amp; Stats Interactive Notes — Lesson 03 Probability Basics</p>
     </div>
   </footer>
-  <script src="assets/js/mathjax-loader.js" defer></script>
-  <script src="assets/js/router.js" defer></script>
-  <script src="assets/js/breadcrumbs.js" defer></script>
-  <script src="assets/js/theme.js" defer></script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script>
+    const experimentSelect = document.getElementById('experiment-select');
+    const eventSelect = document.getElementById('event-select');
+    const chart = document.getElementById('prob-chart');
+    const summary = document.getElementById('prob-summary');
+
+    const experiments = {
+      coin: {
+        sampleSpace: ['หัว', 'ก้อย'],
+        events: {
+          head: { label: 'ได้หัว', outcomes: ['หัว'] },
+          tail: { label: 'ได้ก้อย', outcomes: ['ก้อย'] }
+        }
+      },
+      dice: {
+        sampleSpace: ['1','2','3','4','5','6'],
+        events: {
+          even: { label: 'ได้แต้มเลขคู่', outcomes: ['2','4','6'] },
+          gt4: { label: 'ได้แต้มมากกว่า 4', outcomes: ['5','6'] },
+          prime: { label: 'ได้จำนวนเฉพาะ', outcomes: ['2','3','5'] }
+        }
+      },
+      dice2: {
+        sampleSpace: Array.from({ length: 11 }, (_, i) => (i + 2).toString()),
+        events: {
+          sum7: { label: 'ผลรวมเท่ากับ 7', outcomes: ['7'] },
+          sumEven: { label: 'ผลรวมเป็นเลขคู่', outcomes: ['2','4','6','8','10','12'].filter(v => Number(v) <= 12) },
+          gt9: { label: 'ผลรวมมากกว่า 9', outcomes: ['10','11','12'] }
+        },
+        weights: { 2:1,3:2,4:3,5:4,6:5,7:6,8:5,9:4,10:3,11:2,12:1 }
+      }
+    };
+
+    function populateEvents() {
+      const exp = experiments[experimentSelect.value];
+      eventSelect.innerHTML = '';
+      Object.entries(exp.events).forEach(([value, data]) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = data.label;
+        eventSelect.appendChild(option);
+      });
+    }
+
+    function computeProbability(expKey, eventKey) {
+      const exp = experiments[expKey];
+      const event = exp.events[eventKey];
+      if (expKey === 'dice2') {
+        const weights = exp.weights;
+        const total = Object.values(weights).reduce((sum, w) => sum + w, 0);
+        const success = event.outcomes.reduce((sum, outcome) => sum + (weights[outcome] || 0), 0);
+        return { total, success };
+      }
+      return { total: exp.sampleSpace.length, success: event.outcomes.length };
+    }
+
+    function updateChart() {
+      const expKey = experimentSelect.value;
+      const eventKey = eventSelect.value;
+      const exp = experiments[expKey];
+      const event = exp.events[eventKey];
+      const { total, success } = computeProbability(expKey, eventKey);
+      const probability = success / total;
+      const scale = 260 / total;
+      chart.innerHTML = `
+        <rect x="10" y="10" width="340" height="200" rx="18" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" />
+        <g fill="#f4f7ff" font-size="14">
+          <text x="24" y="58">ผลลัพธ์ที่สนใจ</text>
+          <text x="24" y="138">ผลลัพธ์ทั้งหมด</text>
+        </g>
+        <rect x="160" y="36" width="${success * scale}" height="44" rx="12" fill="rgba(241,141,242,0.7)"></rect>
+        <rect x="160" y="116" width="${total * scale}" height="44" rx="12" fill="rgba(244,247,255,0.2)"></rect>
+        <g fill="#f4f7ff" font-size="18" font-weight="600">
+          <text x="${170 + success * scale}" y="64">${success}</text>
+          <text x="${170 + total * scale}" y="144">${total}</text>
+        </g>
+        <g fill="#6fe7c5" font-size="24" font-weight="700">
+          <text x="120" y="190">P(E) = ${(probability).toFixed(3)}</text>
+        </g>
+      `;
+      summary.innerHTML = `<strong>${event.label}</strong> → มี ${success} วิธี จากทั้งหมด ${total} วิธี ดังนั้น <strong>P(E) = ${(probability).toFixed(3)}</strong>`;
+    }
+
+    experimentSelect.addEventListener('change', () => {
+      populateEvents();
+      updateChart();
+    });
+    eventSelect.addEventListener('change', updateChart);
+
+    populateEvents();
+    updateChart();
+  </script>
 </body>
 </html>

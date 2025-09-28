@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="เปรียบเทียบวิธีตัดสินใจด้วยค่า critical value และ p-value พร้อมตัวอย่างคำนวณ" />
+  <title>บทที่ 24 • Critical Value vs p-value</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05080f;
+      --surface: #10172b;
+      --surface-alt: #17213a;
+      --surface-soft: #1e2a47;
+      --text: #f3f6ff;
+      --muted: #9fa9cc;
+      --accent: #ffcc66;
+      --accent-soft: rgba(255, 204, 102, 0.18);
+      --border: #243251;
+    }
+
+    body { margin: 0; background: radial-gradient(circle at 12% -10%, rgba(255,204,102,0.2), transparent 58%), radial-gradient(circle at 90% 0%, rgba(116, 176, 255, 0.16), transparent 60%), var(--bg); color: var(--text); font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif; }
+    header { background: linear-gradient(135deg, rgba(23, 33, 58, 0.95), rgba(255,204,102,0.22)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(255,204,102,0.16); }
+    header .wrap,
+    main,
+    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc input, .calc select { background: rgba(14, 18, 32, 0.55); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #2d1b00; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 24</p>
+      <h1>Critical Value vs p-value</h1>
+      <p>สองวิธีในการตัดสินใจทดสอบสมมติฐานให้ผลเหมือนกัน แต่เน้นมุมมองต่างกัน</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>แนวคิด</h2>
+      <ul>
+        <li><strong>Critical value:</strong> หาค่าขอบเขตของพื้นที่ปฏิเสธโดยตรงจาก $\alpha$</li>
+        <li><strong>p-value:</strong> วัดความสุดโต่งของข้อมูล แล้วเปรียบเทียบกับ $\alpha$</li>
+        <li>เลือกใช้แบบที่สื่อสารง่ายกับผู้ฟัง แต่ควรเข้าใจทั้งคู่</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่างเปรียบเทียบ</h2>
+      <form class="calc" id="critVsPForm">
+        <label>ประเภทการทดสอบ
+          <select name="tail">
+            <option value="two" selected>สองด้าน</option>
+            <option value="right">ด้านขวา</option>
+            <option value="left">ด้านซ้าย</option>
+          </select>
+        </label>
+        <label>ค่า test statistic (เช่น z หรือ t ที่ df ใหญ่มาก)
+          <input type="number" step="0.01" name="stat" value="2.1" required />
+        </label>
+        <label>ระดับนัยสำคัญ ($\alpha$)
+          <select name="alpha">
+            <option value="0.10">0.10</option>
+            <option value="0.05" selected>0.05</option>
+            <option value="0.01">0.01</option>
+          </select>
+        </label>
+        <button type="submit">เปรียบเทียบ</button>
+      </form>
+      <div class="result-box" id="critVsPResult">
+        <strong>ผลการเปรียบเทียบจะปรากฏที่นี่</strong>
+        <p class="muted">กรอกค่า test statistic แล้วระบบจะแสดง critical value และ p-value เพื่อให้เห็นว่าผลสรุปเหมือนกัน</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ข้อดีของแต่ละวิธี</h2>
+      <ul>
+        <li>Critical value เหมาะกับการอธิบายเชิงเรขาคณิต แสดงโซนปฏิเสธชัดเจน</li>
+        <li>p-value เหมาะกับการสื่อสาร “ความเข้มข้นของหลักฐาน” และเปรียบเทียบหลายระดับนัยสำคัญ</li>
+        <li>รายงานทั้งสองแบบในงานวิชาการเพื่อความโปร่งใส</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    function erf(x) {
+      const sign = Math.sign(x);
+      const ax = Math.abs(x);
+      const t = 1 / (1 + 0.5 * ax);
+      const tau = t * Math.exp(-ax * ax - 1.26551223 +
+        t * (1.00002368 +
+        t * (0.37409196 +
+        t * (0.09678418 +
+        t * (-0.18628806 +
+        t * (0.27886807 +
+        t * (-1.13520398 +
+        t * (1.48851587 +
+        t * (-0.82215223 + t * 0.17087277)))))))));
+      return 1 - tau * sign;
+    }
+
+    function normCDF(x) {
+      return 0.5 * (1 + erf(x / Math.SQRT2));
+    }
+
+    const zCritical = {
+      '0.10_two': 1.6449,
+      '0.05_two': 1.96,
+      '0.01_two': 2.5758,
+      '0.10_right': 1.2816,
+      '0.05_right': 1.6449,
+      '0.01_right': 2.3263,
+      '0.10_left': -1.2816,
+      '0.05_left': -1.6449,
+      '0.01_left': -2.3263
+    };
+
+    const form = document.getElementById('critVsPForm');
+    const result = document.getElementById('critVsPResult');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const tail = form.tail.value;
+      const stat = Number(form.stat.value);
+      const alpha = form.alpha.value;
+
+      if (!Number.isFinite(stat)) {
+        result.innerHTML = '<p>ระบุค่า test statistic ให้ถูกต้อง</p>';
+        return;
+      }
+
+      let pValue;
+      if (tail === 'two') {
+        pValue = 2 * (1 - normCDF(Math.abs(stat)));
+      } else if (tail === 'right') {
+        pValue = 1 - normCDF(stat);
+      } else {
+        pValue = normCDF(stat);
+      }
+
+      const key = `${alpha}_${tail}`;
+      let critDesc;
+      if (tail === 'two') {
+        const crit = zCritical[key];
+        critDesc = `$z_{\alpha/2} = \pm${crit.toFixed(3)}`;
+      } else {
+        const crit = zCritical[key];
+        critDesc = `ขอบเขต = ${crit.toFixed(3)}`;
+      }
+
+      const decision = pValue <= Number(alpha) ? 'ปฏิเสธ $H_0$' : 'ยังไม่ปฏิเสธ $H_0$';
+
+      result.innerHTML = `
+        <strong>สรุป: ${decision}</strong>
+        <p>${critDesc}</p>
+        <p>$p\text{-value} = ${pValue.toFixed(4)}$</p>
+        <p class="muted">การใช้วิธีใดให้ผลตัดสินใจเหมือนกัน หากใช้ข้อมูลและระดับนัยสำคัญเดียวกัน</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([result]);
+      }
+    });
+  </script>
+</body>
+</html>

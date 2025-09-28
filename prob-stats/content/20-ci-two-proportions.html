@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ช่วงความเชื่อมั่นสำหรับผลต่างสัดส่วนสองประชากร พร้อมตัวอย่างและกราฟเชิงแนวคิด" />
+  <title>บทที่ 20 • ช่วงความเชื่อมั่นผลต่างสัดส่วน</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08050e;
+      --surface: #120e23;
+      --surface-alt: #1c1833;
+      --surface-soft: #231f3f;
+      --text: #f4f3ff;
+      --muted: #a4a2c6;
+      --accent: #c19dff;
+      --accent-soft: rgba(193, 157, 255, 0.2);
+      --border: #2a254a;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 12% -10%, rgba(193,157,255,0.22), transparent 60%),
+                  radial-gradient(circle at 90% 0%, rgba(106, 217, 255, 0.18), transparent 62%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header { background: linear-gradient(135deg, rgba(28, 24, 51, 0.94), rgba(193,157,255,0.24)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(193,157,255,0.18); }
+    header .wrap,
+    main,
+    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill { display: inline-flex; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(24, 20, 46, 0.75); font-size: 0.88rem; color: var(--text); }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc input, .calc select { background: rgba(11, 8, 28, 0.6); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #1b1140; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 880px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 20</p>
+      <h1>ช่วงความเชื่อมั่นผลต่างสัดส่วนสองประชากร</h1>
+      <p>เปรียบเทียบโอกาสสำเร็จระหว่างสองกลุ่ม พร้อมเน้นสมมติฐานการสุ่มและเงื่อนไข $np$</p>
+      <div class="pill-row">
+        <span class="pill">แต่ละกลุ่มสุ่มอิสระ</span>
+        <span class="pill">ใช้ $z$ และ Approximate Normal</span>
+        <span class="pill">รายงานทิศทางชัดเจน</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>ภาพรวม</h2>
+      <p>ตัวประมาณจุดคือ $\hat p_1 - \hat p_2$ โดย $\hat p_i = x_i/n_i$</p>
+      <ul>
+        <li>สมมติ $n_i \hat p_i \ge 5$ และ $n_i(1-\hat p_i) \ge 5$ เพื่อใช้การประมาณปกติ</li>
+        <li>สูตร Wald: $(\hat p_1 - \hat p_2) \pm z_{\alpha/2}\sqrt{\dfrac{\hat p_1(1-\hat p_1)}{n_1} + \dfrac{\hat p_2(1-\hat p_2)}{n_2}}$</li>
+        <li>ถ้าต้องการเพิ่มความเสถียร ใช้วิธี Newcombe หรือ Wilson score (ซึ่งผสานจากบทก่อน)</li>
+      </ul>
+    </section>
+
+    <section class="card grid two">
+      <article>
+        <h3>ขั้นตอนสรุป</h3>
+        <ol>
+          <li>คำนวณ $\hat p_1$ และ $\hat p_2$ จากข้อมูล</li>
+          <li>ตรวจสอบเงื่อนไขความเพียงพอของตัวอย่าง</li>
+          <li>หาค่า $SE$ และคูณด้วย $z_{\alpha/2}$ เพื่อได้ Margin of Error</li>
+          <li>บวก-ลบจากผลต่างเชิงจุด</li>
+        </ol>
+      </article>
+      <article>
+        <h3>การตีความ</h3>
+        <p>ถ้า CI ไม่ครอบ 0 แสดงว่ามีหลักฐานว่าความต่างไม่เป็นศูนย์</p>
+        <p>รายงานทิศทาง เช่น “กลุ่ม A สูงกว่ากลุ่ม B อยู่ 8% (95% CI 2%–14%)”</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ทดลองคำนวณ</h2>
+      <form class="calc" id="ciDiffPropForm">
+        <label>$x_1$ (จำนวนสำเร็จกลุ่ม 1)
+          <input type="number" name="x1" value="58" min="0" required />
+        </label>
+        <label>$n_1$
+          <input type="number" name="n1" value="210" min="1" required />
+        </label>
+        <label>$x_2$ (จำนวนสำเร็จกลุ่ม 2)
+          <input type="number" name="x2" value="44" min="0" required />
+        </label>
+        <label>$n_2$
+          <input type="number" name="n2" value="195" min="1" required />
+        </label>
+        <label>ระดับความเชื่อมั่น
+          <select name="conf">
+            <option value="0.80">80%</option>
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </label>
+        <button type="submit">คำนวณช่วง</button>
+      </form>
+      <div class="result-box" id="ciDiffPropResult">
+        <strong>ผลต่างสัดส่วน</strong>
+        <p class="muted">ใส่ข้อมูลเพื่อดูผลลัพธ์และข้อความตีความอัตโนมัติ</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ข้อควรระวัง</h2>
+      <ul>
+        <li>ถ้าตัวอย่างไม่ใหญ่ ให้ใช้วิธี exact หรือ Wilson score difference</li>
+        <li>ตรวจสอบว่ากลุ่มเป็นอิสระ: ถ้าเป็นข้อมูลจับคู่ ต้องใช้วิธี McNemar</li>
+        <li>ระบุสัดส่วนเริ่มต้นเพื่อให้ผู้อ่านเห็นบริบท (เช่น 0.276 vs 0.226)</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const zCritical = {
+      '0.80': 1.2816,
+      '0.90': 1.6449,
+      '0.95': 1.96,
+      '0.99': 2.5758
+    };
+
+    const ciDiffPropForm = document.getElementById('ciDiffPropForm');
+    const ciDiffPropResult = document.getElementById('ciDiffPropResult');
+
+    ciDiffPropForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = new FormData(ciDiffPropForm);
+      const x1 = Number(form.get('x1'));
+      const n1 = Number(form.get('n1'));
+      const x2 = Number(form.get('x2'));
+      const n2 = Number(form.get('n2'));
+      const conf = form.get('conf');
+
+      if ([x1, x2, n1, n2].some(v => !Number.isFinite(v)) || n1 <= 0 || n2 <= 0 || x1 < 0 || x2 < 0 || x1 > n1 || x2 > n2) {
+        ciDiffPropResult.innerHTML = '<p>ข้อมูลไม่ถูกต้อง ตรวจสอบว่า 0 ≤ x ≤ n และ n &gt; 0</p>';
+        return;
+      }
+
+      const p1 = x1 / n1;
+      const p2 = x2 / n2;
+      const diff = p1 - p2;
+      const z = zCritical[conf];
+      const se = Math.sqrt((p1 * (1 - p1)) / n1 + (p2 * (1 - p2)) / n2);
+      const moe = z * se;
+      const lower = diff - moe;
+      const upper = diff + moe;
+
+      const cond1 = n1 * p1 >= 5 && n1 * (1 - p1) >= 5;
+      const cond2 = n2 * p2 >= 5 && n2 * (1 - p2) >= 5;
+      const note = cond1 && cond2 ? 'ผ่านเงื่อนไขการประมาณปกติ' : '⚠️ ระวัง: ตัวอย่างเล็ก อาจใช้วิธีอื่นแทน';
+
+      ciDiffPropResult.innerHTML = `
+        <strong>CI ${(Number(conf) * 100).toFixed(0)}% สำหรับ $p_1 - p_2$</strong>
+        <p>$\hat p_1 = ${p1.toFixed(4)}$, $\hat p_2 = ${p2.toFixed(4)}$, $SE = ${se.toFixed(4)}$</p>
+        <p><strong>ช่วง:</strong> (${lower.toFixed(4)}, ${upper.toFixed(4)})</p>
+        <p class="muted">${note}</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([ciDiffPropResult]);
+      }
+    });
+  </script>
+</body>
+</html>
