@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 15 — Sampling &amp; Estimators</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 15 — Sampling Distributions อื่น ๆ</h1>
+      <p>สำรวจการแจกแจงของตัวประมาณอื่นนอกจากค่าเฉลี่ย เช่น สัดส่วน ความแปรปรวน และส่วนต่างของค่าเฉลี่ย</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>สัดส่วนตัวอย่าง (Sample Proportion)</h2>
+        <ul class="list-tight">
+          <li>$\hat p = X/n$ โดย X ~ Binomial(n, p)</li>
+          <li>$E[\hat p] = p$ (ตัวประมาณไม่มีอคติ)</li>
+          <li>$Var(\hat p) = \dfrac{p(1-p)}{n}$ → Standard Error = $\sqrt{p(1-p)/n}$</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>ความแปรปรวนตัวอย่าง</h2>
+        <ul class="list-tight">
+          <li>เมื่อข้อมูลมาจาก Normal: $\dfrac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}$</li>
+          <li>ใช้ในการสร้างช่วงความเชื่อมั่นของ σ และทดสอบความแปรปรวน</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>ส่วนต่างของค่าเฉลี่ย</h2>
+        <ul class="list-tight">
+          <li>สองกลุ่มอิสระ: $\bar X_1 - \bar X_2$ มีค่าเฉลี่ย = µ<sub>1</sub> - µ<sub>2</sub></li>
+          <li>Standard Error = $\sqrt{\dfrac{\sigma_1^2}{n_1} + \dfrac{\sigma_2^2}{n_2}}$</li>
+          <li>ถ้า σ ไม่ทราบใช้ s และ t-distribution</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>เคล็ดลับการสุ่มตัวอย่าง</h2>
+      <ol class="list-tight">
+        <li>แยกชั้น (stratified) เมื่อกลุ่มมีความแตกต่างสูง เพื่อให้ค่าเฉลี่ยแม่นยำขึ้น</li>
+        <li>สุ่มแบบกลุ่ม (cluster) เพื่อลดต้นทุน แต่ต้องระวังความสัมพันธ์ภายในกลุ่ม</li>
+        <li>ใช้ขนาดตัวอย่างตามเป้าความคลาดเคลื่อน (margin of error)</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

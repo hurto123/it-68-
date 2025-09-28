@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 11 — Continuous &amp; Normal Distribution</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 11 — การแจกแจงต่อเนื่องและการแจกแจงปกติ</h1>
+      <p>ปูพื้นฐานจาก PDF, CDF ของตัวแปรสุ่มต่อเนื่อง สู่คุณสมบัติสำคัญของการแจกแจงปกติ (Normal Distribution)</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>คุณสมบัติของตัวแปรต่อเนื่อง</h2>
+        <ul class="list-tight">
+          <li>ความน่าจะเป็นได้จากพื้นที่ใต้เส้นโค้งของ PDF: $P(a \le X \le b) = \int_a^b f(x)\,dx$</li>
+          <li>CDF: $F(x) = P(X \le x) = \int_{-\infty}^x f(t)\,dt$</li>
+          <li>พื้นที่ทั้งหมดใต้เส้น PDF เท่ากับ 1</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Normal Distribution</h2>
+        <ul class="list-tight">
+          <li>รูปแบบ: $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^2/(2\sigma^2)}$</li>
+          <li>สมมาตรรอบค่าเฉลี่ย µ</li>
+          <li>ค่าเฉลี่ย = มัธยฐาน = ฐานนิยม</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>กฎ 68-95-99.7</h2>
+      <ul class="list-tight">
+        <li>$\mu \pm 1\sigma$ ครอบคลุมประมาณ 68% ของข้อมูล</li>
+        <li>$\mu \pm 2\sigma$ ครอบคลุมประมาณ 95%</li>
+        <li>$\mu \pm 3\sigma$ ครอบคลุมประมาณ 99.7%</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่าง</h2>
+      <p>คะแนนสอบแจกแจงปกติด้วย µ = 70, σ = 10 จงหาความน่าจะเป็นที่นักเรียนได้คะแนนระหว่าง 60 ถึง 80</p>
+      <ol class="list-tight">
+        <li>แปลงเป็น Z: $Z = \dfrac{X-70}{10}$ → ช่วง [60, 80] เป็น [-1, 1]</li>
+        <li>จากตาราง Z: $P(-1 \le Z \le 1) = 0.6826$</li>
+        <li>ดังนั้นโอกาสประมาณ 68.26%</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

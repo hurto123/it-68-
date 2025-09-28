@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 16 — Confidence Intervals</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 16 — บทนำช่วงความเชื่อมั่น (Confidence Interval)</h1>
+      <p>ปิดท้ายด้วยแนวคิดช่วงความเชื่อมั่น วัตถุประสงค์ และวิธีตีความอย่างถูกต้อง</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>นิยาม</h2>
+        <p>ช่วงความเชื่อมั่นระดับ $1-\alpha$ คือช่วงที่หากทำการสุ่มซ้ำจำนวนมาก จะครอบคลุมค่าพารามิเตอร์จริงประมาณ $(1-\alpha)\times 100\%$ ของครั้งทั้งหมด</p>
+      </article>
+
+      <article class="card">
+        <h2>องค์ประกอบ</h2>
+        <ul class="list-tight">
+          <li><strong>ตัวประมาณจุด</strong> เช่น $\bar x$, $\hat p$</li>
+          <li><strong>Margin of Error (MoE)</strong> = ค่าความน่าเชื่อมั่น × Standard Error</li>
+          <li><strong>ช่วง</strong> = ตัวประมาณ ± MoE</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่าง: ค่าเฉลี่ย</h2>
+      <p>มีตัวอย่าง 40 คน ค่าเฉลี่ย = 68, ส่วนเบี่ยงเบนตัวอย่าง = 12 ต้องการ CI 95% ของค่าเฉลี่ยประชากร</p>
+      <ol class="list-tight">
+        <li>$SE = s/\sqrt{n} = 12/\sqrt{40} = 1.897$</li>
+        <li>$t_{0.025,39} ≈ 2.022$</li>
+        <li>ช่วง = 68 ± 2.022 × 1.897 = (64.16, 71.84)</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>การตีความที่ถูกต้อง</h2>
+      <ul class="list-tight">
+        <li>ช่วงที่ได้ไม่ใช่ความน่าจะเป็นของพารามิเตอร์ แต่เป็นช่วงที่เชื่อว่าครอบคลุมค่าจริงด้วยอัตราส่วนที่กำหนด</li>
+        <li>รายงานช่วงควบคู่กับบริบท เช่น หน่วยวัด และเงื่อนไขการสุ่ม</li>
+        <li>ถ้าต้องการให้ช่วงแคบลง → เพิ่มขนาดตัวอย่าง หรือลดระดับความเชื่อมั่น</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

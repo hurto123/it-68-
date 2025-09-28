@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ข้อควรระวังในการทำสถิติ</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>ข้อควรระวังและความผิดพลาดที่พบบ่อย</h1>
+      <p>รายการด้านล่างรวบรวมจากประสบการณ์สอนและงานจริง เพื่อช่วยลดจุดพลาดในการวิเคราะห์ข้อมูล</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>การเก็บข้อมูล</h2>
+        <ul class="list-tight">
+          <li>ไม่ระบุวิธีสุ่มตัวอย่าง → ทำให้ผลลัพธ์ไม่สามารถสรุปไปยังประชากรได้</li>
+          <li>แบบสอบถามไม่สมดุล ระดับตอบไม่เท่ากัน ทำให้เกิด Bias</li>
+          <li>เก็บข้อมูลแบบอาสาสมัคร (Self-selection) → ไม่ควรนำไปเปรียบเทียบกับกลุ่มควบคุม</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>การวิเคราะห์</h2>
+        <ul class="list-tight">
+          <li>ลืมตรวจสอบ Outlier ก่อนคำนวณค่าเฉลี่ย → ทำให้ค่าเฉลี่ยผิดเพี้ยน</li>
+          <li>ใช้สูตรส่วนเบี่ยงเบนมาตรฐานของประชากรกับข้อมูลตัวอย่าง (ควรใช้ n-1)</li>
+          <li>เลือกการทดสอบผิดประเภท เช่น ใช้ t-test กับข้อมูลนับจำนวนน้อย</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>การสื่อสารผล</h2>
+        <ul class="list-tight">
+          <li>รายงานเฉพาะ p-value โดยไม่ระบุขนาดเอฟเฟกต์หรือช่วงความเชื่อมั่น</li>
+          <li>ละเว้นการระบุวิธีจัดการ Missing Data</li>
+          <li>ใช้กราฟที่เริ่มแกน Y ไม่เท่ากับศูนย์ ทำให้คนอ่านเข้าใจผิด</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>เช็กลิสต์ก่อนส่งงาน</h2>
+      <ol class="list-tight">
+        <li>ตรวจคำอธิบายแผนภูมิและหน่วยวัดให้ชัดเจน</li>
+        <li>แนบไฟล์ข้อมูลหรือสคริปต์ที่ใช้วิเคราะห์เพื่อความโปร่งใส</li>
+        <li>บันทึกสมมติฐานและข้อจำกัดของข้อมูลไว้ในรายงาน</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

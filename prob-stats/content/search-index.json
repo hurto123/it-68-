@@ -1,0 +1,39 @@
+{
+  "entries": [
+    {
+      "id": "lesson-10",
+      "title": "บทที่ 10: Poisson Distribution",
+      "url": "content/10-poisson.html",
+      "keywords": ["poisson", "rare events", "discrete"],
+      "excerpt": "เรียนรู้การแจกแจงปัวซอง การประมาณแบบลิมิต และการใช้กับข้อมูลจำนวนครั้งเกิดเหตุการณ์"
+    },
+    {
+      "id": "lesson-12",
+      "title": "บทที่ 12: Standard Normal (Z)",
+      "url": "content/12-standard-normal-z.html",
+      "keywords": ["z-score", "standard normal", "cdf"],
+      "excerpt": "ตาราง Z, การหาค่าเปอร์เซ็นไทล์ และการแปลงข้อมูลเป็นหน่วยมาตรฐาน"
+    },
+    {
+      "id": "lesson-14",
+      "title": "บทที่ 14: Central Limit Theorem",
+      "url": "content/14-clt.html",
+      "keywords": ["clt", "sampling distribution", "mean"],
+      "excerpt": "สรุป CLT เงื่อนไขการใช้งาน และตัวอย่างเปรียบเทียบการแจกแจงของค่าเฉลี่ยตัวอย่าง"
+    },
+    {
+      "id": "decision-map",
+      "title": "Decision Map เลือกการทดสอบ",
+      "url": "content/decision-map.html",
+      "keywords": ["test selection", "flow", "hypothesis"],
+      "excerpt": "แผนผังช่วยเลือกการทดสอบสถิติตามประเภทตัวแปรและเป้าหมายการวิเคราะห์"
+    },
+    {
+      "id": "tools-normal",
+      "title": "เครื่องคิดเลข Normal CDF",
+      "url": "tools/normal-cdf.html",
+      "keywords": ["calculator", "normal", "probability"],
+      "excerpt": "ป้อนค่าเฉลี่ย ส่วนเบี่ยงเบนมาตรฐาน และช่วง Z เพื่อหาความน่าจะเป็น"
+    }
+  ]
+}

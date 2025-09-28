@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta name="description" content="บทที่\ 8\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 08 • การแจกแจงต่อเนื่อง & โค้งปกติ (Normal)</title>
+  <style>
+    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
+    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+    header .wrap, footer .wrap, main{max-width:1000px;margin:0 auto;padding:1rem}
+    h1,h2,h3{line-height:1.25;margin:.2rem 0}
+    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+    nav a:hover{background:#2a2e36}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
+    .muted{color:var(--muted)}
+    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
+    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
+    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
+    table{width:100%;border-collapse:collapse;margin:.6rem 0}
+    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
+    th{background:#1c1e25}
+    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
+    ul,ol{margin:.4rem 0 .4rem 1.2rem}
+    strong{color:#cfe0ff}
+    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block}
+    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
+    .center{text-align:center}
+  </style>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson08",
+      "title": "บทที่ 8: การแจกแจงต่อเนื่อง & โค้งปกติ",
+      "version": "1.2.0",
+      "updated_at": "2025-09-26",
+      "depends_on": [
+        "summary-lesson08.html",
+        "assets/data/questions/lesson08.questions.th.json",
+        "assets/data/solutions/lesson08.solutions.th.json",
+        "assets/js/reading-tools.js",
+        "style.css"
+      ],
+      "tags": ["continuous", "normal", "z-score", "reading-tools", "math-model"]
+    }
+  </script>
+
+  <link rel="stylesheet" href="print.css" media="print">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 08 • การแจกแจงต่อเนื่อง &amp; โค้งปกติ (Normal) 👑</h1>
+      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Normal Distribution, Z-Score, Empirical Rule</p>
+      <nav aria-label="นำทางบทเรียน">
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson07.html">⟵ บทก่อนหน้า</a>
+        <a href="lesson09.html">บทถัดไป ⟶</a>
+      </nav>
+      <div class="chips">
+        <span class="pill">📝 <a class="inline" href="summary-lesson08.html">สรุป 1 หน้า</a></span>
+        <span class="pill">🧪 <a class="inline" href="quiz-lesson08.html">Quiz บทที่ 8</a></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="content lesson-page">
+    <section class="card" id="reading-support">
+      <h2>Reading Toolkit สำหรับโค้งปกติ</h2>
+      <p>ปรับตัวอักษรหรือโหมดโฟกัสเพื่อดูกราฟ PDF และพื้นที่ใต้โค้งได้ชัด กด <strong>พิมพ์ PDF</strong> เพื่อเก็บตาราง Z และ Empirical Rule ไปใช้ต่อ</p>
+      <ul>
+        <li>MathJax เรนเดอร์สูตร \(f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\) และ \(Z = (X-\mu)/\sigma\)</li>
+        <li>สารบัญช่วยข้ามไปยังส่วน Z-score, Empirical Rule หรือการแปลงมาตรฐานได้ทันที</li>
+        <li>ดูสรุปย่อเพิ่มเติมที่ <a class="inline" href="summary-lesson08.html">summary-lesson08.html</a></li>
+      </ul>
+    </section>
+
+    <!-- 8.1 Intro Continuous -->
+    <section class="card" id="cont-intro">
+      <h2>8.1 ก้าวสู่โลกของข้อมูลต่อเนื่อง (Continuous Distributions) 🌊</h2>
+      <ul>
+        <li>ข้อมูลจากการ <strong>วัด</strong> (เช่น ส่วนสูง น้ำหนัก เวลา อุณหภูมิ) มีค่าได้ <em>ทุกค่า</em> ในช่วงหนึ่ง ๆ</li>
+        <li>ใช้ <strong>PDF</strong> (Probability Density Function) — “ความน่าจะเป็น” = “พื้นที่ใต้กราฟ” ในช่วงที่สนใจ</li>
+        <li>กฎเหล็ก: f(x) ≥ 0 และ <strong>พื้นที่รวม = 1</strong>; สำหรับตัวแปรต่อเนื่อง <strong>P(X = ค่าใดค่าหนึ่ง) = 0</strong></li>
+      </ul>
+      <div class="ex">ตัวอย่าง: Uniform(0,10) → f(x)=0.1 เมื่อ 0≤x≤10, พื้นที่รวม = 10×0.1 = 1</div>
+    </section>
+
+    <!-- 8.2 Normal -->
+    <section class="card" id="normal">
+      <h2>8.2 การแจกแจงแบบปกติ (Normal Distribution) “โค้งระฆังคว่ำ” 🔔</h2>
+      <p>พบได้บ่อยมากในธรรมชาติและกระบวนการต่าง ๆ รูปร่างโค้งสมมาตรแบบระฆังคว่ำ กำหนดโดยพารามิเตอร์ 2 ตัว:</p>
+      <ul>
+        <li><strong>μ (มิว)</strong> — กำหนด “ตำแหน่ง” ของโค้ง (ค่าเฉลี่ย/จุดกึ่งกลาง)</li>
+        <li><strong>σ (ซิกมา)</strong> — กำหนด “การกระจาย” (σ น้อย → โค้งสูงและผอม, σ มาก → โค้งเตี้ยและอ้วน)</li>
+      </ul>
+      <ul>
+        <li>สมบัติสำคัญ: <strong>สมมาตร</strong> และ <strong>Mean = Median = Mode</strong></li>
+      </ul>
+
+      <div class="svgbox" aria-label="กราฟโค้งปกติเทียบ σ ต่างกัน">
+        <!-- โค้งปกติ 2 เส้น: sigma เล็ก/ใหญ่ (สัญลักษณ์) -->
+        <svg viewBox="0 0 900 360" role="img" aria-labelledby="normcmp-title normcmp-desc">
+          <title id="normcmp-title">Normal Curves: σ เล็ก vs σ ใหญ่</title>
+          <desc id="normcmp-desc">สองโค้งศูนย์กลางเดียวกันแต่กระจายต่างกัน</desc>
+          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
+          <line x1="60" y1="300" x2="840" y2="300" stroke="#6b7280"/>
+          <line x1="450" y1="320" x2="450" y2="60" stroke="#6b7280"/>
+          <!-- โค้งผอม (σ เล็ก) -->
+          <path d="M120,300 
+                   C220,300 360,120 450,110
+                   C540,120 680,300 780,300" 
+                fill="none" stroke="#4f8cff" stroke-width="3"/>
+          <!-- โค้งกว้าง (σ ใหญ่) -->
+          <path d="M80,300 
+                   C220,260 360,170 450,160
+                   C540,170 680,260 820,300" 
+                fill="none" stroke="#88aaff" stroke-width="3" opacity="0.8"/>
+          <g fill="#cfe0ff" font-size="12">
+            <text x="458" y="330">μ</text>
+            <text x="720" y="130">σ เล็ก (สูง/ผอม)</text>
+            <text x="720" y="180">σ ใหญ่ (เตี้ย/อ้วน)</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 8.3 Standard Normal -->
+    <section class="card" id="standard-normal">
+      <h2>8.3 โค้งปกติมาตรฐาน (Standard Normal) และ Z-Score 🧭</h2>
+      <p>เพื่อให้ค้นหาพื้นที่ได้จาก “ตารางเดียว” เราแปลงตัวแปรปกติใด ๆ ให้เป็นโค้งมาตรฐานที่มี <strong>μ=0</strong> และ <strong>σ=1</strong> ด้วยสูตร:</p>
+      <div class="ex"><strong>Z = (X − μ) / σ</strong></div>
+      <ul>
+        <li><strong>Z</strong> บอกว่าค่า X อยู่ห่างจากค่าเฉลี่ยกี่เท่าของส่วนเบี่ยงเบนมาตรฐาน</li>
+        <li>เมื่อแปลงเป็น Z แล้ว ให้อ่านพื้นที่ใต้โค้งมาตรฐาน (หรือใช้คอมพิวเตอร์/ตาราง Z)</li>
+      </ul>
+
+      <div class="svgbox" aria-label="โค้งปกติมาตรฐานพร้อมพื้นที่ซ้าย/ขวาของ z">
+        <svg viewBox="0 0 900 360" role="img" aria-labelledby="z-title z-desc">
+          <title id="z-title">Standard Normal with Z</title>
+          <desc id="z-desc">โค้งสมมาตรศูนย์กลางที่ 0 มีไฮไลต์ช่วงระหว่าง −1 ถึง 1</desc>
+          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
+          <line x1="60" y1="300" x2="840" y2="300" stroke="#6b7280"/>
+          <!-- tick for 0 -->
+          <line x1="450" y1="300" x2="450" y2="305" stroke="#9aa0a6"/>
+          <text x="450" y="322" fill="#9aa0a6" text-anchor="middle">0</text>
+          <!-- ticks for ±1 ±2 ±3 (ระยะห่างเท่า ๆ กันเพื่อภาพรวม) -->
+          <g stroke="#9aa0a6">
+            <line x1="370" y1="300" x2="370" y2="305"/>
+            <line x1="290" y1="300" x2="290" y2="305"/>
+            <line x1="210" y1="300" x2="210" y2="305"/>
+            <line x1="530" y1="300" x2="530" y2="305"/>
+            <line x1="610" y1="300" x2="610" y2="305"/>
+            <line x1="690" y1="300" x2="690" y2="305"/>
+          </g>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="370" y="322" text-anchor="middle">−1</text>
+            <text x="290" y="322" text-anchor="middle">−2</text>
+            <text x="210" y="322" text-anchor="middle">−3</text>
+            <text x="530" y="322" text-anchor="middle">1</text>
+            <text x="610" y="322" text-anchor="middle">2</text>
+            <text x="690" y="322" text-anchor="middle">3</text>
+          </g>
+
+          <!-- โค้ง Z (ทรงระฆังคว่ำ) -->
+          <path d="M100,300 
+                   C200,300 330,120 450,100
+                   C570,120 700,300 800,300" 
+                fill="none" stroke="#4f8cff" stroke-width="3"/>
+
+          <!-- เฉดพื้นที่ระหว่าง -1 ถึง 1 -->
+          <path d="M370,300 
+                   L370,180 
+                   C395,140 425,112 450,100
+                   C475,112 505,140 530,180
+                   L530,300 Z" 
+                fill="#4f8cff" fill-opacity="0.25" stroke="none"/>
+
+          <g fill="#cfe0ff" font-size="12">
+            <text x="450" y="135" text-anchor="middle">พื้นที่ ~ 68%</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 8.4 Empirical Rule -->
+    <section class="card" id="empirical">
+      <h2>8.4 กฎแห่งประสบการณ์ (Empirical Rule) 📏</h2>
+      <p>สำหรับข้อมูลที่ “ใกล้เคียงปกติ” พื้นที่ใต้โค้งจะกระจายโดยประมาณดังนี้:</p>
+      <table>
+        <caption>สัดส่วนข้อมูลรอบค่าเฉลี่ย (≈)</caption>
+        <thead><tr><th>ช่วง</th><th>สัดส่วน</th><th>ตีความ</th></tr></thead>
+        <tbody>
+          <tr><td>μ ± 1σ</td><td><strong>68%</strong></td><td>ส่วนใหญ่ของข้อมูลอยู่ใกล้ค่าเฉลี่ย</td></tr>
+          <tr><td>μ ± 2σ</td><td><strong>95%</strong></td><td>เกือบทั้งหมด</td></tr>
+          <tr><td>μ ± 3σ</td><td><strong>99.7%</strong></td><td>แทบทั้งหมด</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="Empirical Rule: เฉดพื้นที่ 1σ, 2σ, 3σ">
+        <svg viewBox="0 0 900 380" role="img" aria-labelledby="emp-title emp-desc">
+          <title id="emp-title">Empirical Rule Areas</title>
+          <desc id="emp-desc">สีเงาแสดงพื้นที่ 68%, 95%, 99.7%</desc>
+          <rect x="0" y="0" width="900" height="380" fill="#0f1116"/>
+          <line x1="60" y1="320" x2="840" y2="320" stroke="#6b7280"/>
+          <line x1="450" y1="340" x2="450" y2="60" stroke="#6b7280"/>
+          <!-- โค้งหลัก -->
+          <path d="M100,320 
+                   C210,320 330,130 450,110
+                   C570,130 690,320 800,320" 
+                fill="none" stroke="#4f8cff" stroke-width="3"/>
+
+          <!-- เฉด 3σ -->
+          <path d="M210,320 L210,190 
+                   C260,140 355,115 450,110
+                   C545,115 640,140 690,190
+                   L690,320 Z"
+                fill="#4f8cff" fill-opacity="0.15"/>
+          <!-- เฉด 2σ -->
+          <path d="M290,320 L290,170 
+                   C340,130 395,112 450,110
+                   C505,112 560,130 610,170
+                   L610,320 Z"
+                fill="#4f8cff" fill-opacity="0.25"/>
+          <!-- เฉด 1σ -->
+          <path d="M370,320 L370,180 
+                   C395,140 425,112 450,110
+                   C475,112 505,140 530,180
+                   L530,320 Z"
+                fill="#4f8cff" fill-opacity="0.35"/>
+
+          <!-- ticks μ±1σ ±2σ ±3σ -->
+          <g stroke="#9aa0a6">
+            <line x1="370" y1="320" x2="370" y2="325"/>
+            <line x1="290" y1="320" x2="290" y2="325"/>
+            <line x1="210" y1="320" x2="210" y2="325"/>
+            <line x1="530" y1="320" x2="530" y2="325"/>
+            <line x1="610" y1="320" x2="610" y2="325"/>
+            <line x1="690" y1="320" x2="690" y2="325"/>
+          </g>
+          <g fill="#9aa0a6" font-size="12">
+            <text x="450" y="344" text-anchor="middle">μ</text>
+            <text x="370" y="344" text-anchor="middle">−1σ</text>
+            <text x="290" y="344" text-anchor="middle">−2σ</text>
+            <text x="210" y="344" text-anchor="middle">−3σ</text>
+            <text x="530" y="344" text-anchor="middle">+1σ</text>
+            <text x="610" y="344" text-anchor="middle">+2σ</text>
+            <text x="690" y="344" text-anchor="middle">+3σ</text>
+          </g>
+
+          <g fill="#cfe0ff" font-size="12">
+            <text x="450" y="150" text-anchor="middle">68%</text>
+            <text x="450" y="200" text-anchor="middle">95%</text>
+            <text x="450" y="235" text-anchor="middle">99.7%</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note">
+        <strong>ใช้ยังไง?</strong> ถ้าคะแนนเฉลี่ยสอบ = 70 และ σ = 8 → ราว ๆ 95% ของนักเรียนจะได้คะแนนอยู่ในช่วง <strong>70 ± 16</strong> (= 54 ถึง 86)
+      </div>
+    </section>
+
+    <!-- 8.5 ตัวอย่าง Z-score -->
+    <section class="card" id="z-example">
+      <h2>8.5 ตัวอย่างแปลงเป็น Z-Score & ตีความพื้นที่ 🧮</h2>
+      <p>สมมติส่วนสูงนักเรียน ~ Normal(μ=170, σ=6). โอกาสที่นักเรียนสูงระหว่าง 164 ถึง 176 ซม. คือเท่าไร?</p>
+      <ol>
+        <li>แปลงเป็น Z:  
+          <div class="ex">Z₁ = (164−170)/6 = −1,  Z₂ = (176−170)/6 = +1</div>
+        </li>
+        <li>พื้นที่ระหว่าง Z = −1 ถึง 1 สำหรับโค้งมาตรฐาน ≈ <strong>68%</strong> (Empirical Rule)</li>
+      </ol>
+      <div class="note">ดังนั้น P(164 ≤ X ≤ 176) ≈ 0.68</div>
+    </section>
+
+    <section class="card" id="math-model">
+      <h2>8) แบบจำลองคณิตศาสตร์: การแปลงมาตรฐาน</h2>
+      <div class="grid-two">
+        <div>
+          <p>สูตร \(Z = \frac{X-\mu}{\sigma}\) ทำให้เราสามารถใช้ตารางมาตรฐานเดียว (Standard Normal Table) เพื่อหาร้อยละได้</p>
+          <div class="ex">ตัวอย่าง: คะแนนสอบ \(X=82\), \(\mu=70, \sigma=8\)
+Z = (82−70)/8 = 1.5 → พื้นที่ด้านซ้าย ≈ 0.9332
+หมายความว่า 93.32% ของนักเรียนได้คะแนนต่ำกว่า</div>
+        </div>
+        <div>
+          <p>ถ้าต้องการหาร้อยละระหว่างสองค่าก็แปลงทั้งสองเป็น Z จากนั้นหาพื้นที่ระหว่างค่า Z เหล่านั้น</p>
+          <p class="muted">โค้งปกติใด ๆ สามารถแปลงเป็น Standard Normal ได้เสมอ → ลดจำนวนตารางที่ต้องจำ</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="case-study">
+      <h2>9) Case Study: SLA ของศูนย์บริการ</h2>
+      <div class="grid-two">
+        <div>
+          <p>เวลารอคอยลูกค้า ~ Normal(μ=4 นาที, σ=1.2 นาที) ต้องการรู้ว่ากี่ % ที่จะรอนานเกิน 6 นาที</p>
+          <p>แปลง: \(Z = (6−4)/1.2 = 1.67\) → พื้นที่ขวา ≈ 0.0475 ⇒ 4.75% เกิน SLA</p>
+        </div>
+        <div>
+          <div class="warn">หากต้องการให้ SLA ไม่เกิน 2% ต้องลด σ หรือ μ ลงเท่าไร? ลองคำนวณใน <a class="inline" href="quiz-lesson08.html">Quiz บทที่ 8</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section class="card" id="summary">
+      <h2>สรุปบทนี้</h2>
+      <ul>
+        <li><strong>Continuous</strong>: ความน่าจะเป็น = พื้นที่ใต้ <strong>PDF</strong>; P(X=ค่าหนึ่ง)=0</li>
+        <li><strong>Normal</strong>: สมมาตร, ควบคุมด้วย μ และ σ; Mean=Median=Mode</li>
+        <li><strong>Standard Normal</strong>: ใช้ <strong>Z = (X−μ)/σ</strong> เพื่ออ่านพื้นที่จากตารางเดียว</li>
+        <li><strong>Empirical Rule</strong>: μ±1σ ≈ 68%, μ±2σ ≈ 95%, μ±3σ ≈ 99.7%</li>
+      </ul>
+      <div class="note">
+        ✅ พร้อมลุยต่อบทที่ 09: <strong>การแจกแจงของตัวอย่างสุ่ม (Sampling Distributions) &amp; CLT</strong>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 08 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
+    </div>
+  </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
+</body>
+</html>

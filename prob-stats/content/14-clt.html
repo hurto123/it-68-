@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 14 — Central Limit Theorem</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 14 — Central Limit Theorem (CLT)</h1>
+      <p>อธิบายว่าทำไมค่าเฉลี่ยของตัวอย่างจำนวนมากจะมีการแจกแจงใกล้เคียง Normal แม้ข้อมูลเดิมจะไม่ปกติก็ตาม</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>ข้อความของ CLT</h2>
+        <p>เมื่อสุ่มตัวอย่างขนาด $n$ จากประชากรที่มีค่าเฉลี่ย µ และส่วนเบี่ยงเบนมาตรฐาน σ</p>
+        <ul class="list-tight">
+          <li>$\bar X$ มีค่าเฉลี่ยเท่ากับ µ</li>
+          <li>Standard Error = $\sigma/\sqrt{n}$</li>
+          <li>เมื่อ $n$ ใหญ่พอ ($n \ge 30$ โดยทั่วไป) การแจกแจงของ $\bar X$ ใกล้ Normal</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>ผลที่ตามมา</h2>
+        <ul class="list-tight">
+          <li>สามารถใช้ตาราง Z เพื่อประมาณความน่าจะเป็นของค่าเฉลี่ยตัวอย่าง</li>
+          <li>เป็นฐานของการสร้างช่วงความเชื่อมั่นและการทดสอบค่าเฉลี่ย</li>
+          <li>หาก $n$ เล็กและข้อมูลเบ้มาก → ควรใช้ Bootstrap หรือปรับรูปแบบ</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่างจำลอง</h2>
+      <p>สุ่มข้อมูลจากการแจกแจง Exponential (เบ้ขวา) จำนวน 10,000 ครั้ง</p>
+      <ol class="list-tight">
+        <li>เก็บค่าเฉลี่ยของกลุ่มตัวอย่างขนาด 5, 20, 50</li>
+        <li>สร้างฮิสโตแกรมของแต่ละขนาด → ยิ่ง n ใหญ่ฮิสโตแกรมยิ่งใกล้รูปทรงปกติ</li>
+        <li>ค่าเฉลี่ยของฮิสโตแกรม ~ µ เดิม, ส่วนเบี่ยงเบนมาตรฐาน ~ σ/√n</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
