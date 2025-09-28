@@ -1,52 +1,401 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>บทที่ 14 — Central Limit Theorem</title>
-  <link rel="stylesheet" href="../assets/css/theme-light.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
-  <link rel="stylesheet" href="../assets/css/print.css" media="print">
-  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
-  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="บทที่ 14 อธิบายการแจกแจงของค่าสถิติตัวอย่าง ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) พร้อมแล็บจำลองการแจกแจงของค่าเฉลี่ยตัวอย่าง" />
+  <title>บทที่ 14 • การแจกแจงของตัวอย่างสุ่มและ CLT</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea']
+      }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #04060c;
+      --surface: rgba(12, 16, 30, 0.92);
+      --surface-alt: rgba(17, 22, 40, 0.84);
+      --surface-soft: rgba(20, 26, 46, 0.7);
+      --text: #f4f6ff;
+      --muted: #9aa5c4;
+      --accent: #6ee7d5;
+      --accent-soft: rgba(110, 231, 213, 0.18);
+      --border: rgba(110, 231, 213, 0.18);
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 18% -10%, rgba(110, 231, 213, 0.18), transparent 60%),
+                  radial-gradient(circle at 88% 6%, rgba(110, 180, 255, 0.2), transparent 65%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.75 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(14, 20, 40, 0.95), rgba(110, 231, 213, 0.24));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 18px 48px rgba(4, 12, 24, 0.55);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1.4rem 1.6rem;
+    }
+
+    h1,
+    h2,
+    h3 { line-height: 1.25; margin: 0.25rem 0 0.6rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.52rem); }
+    h2 { font-size: clamp(1.34rem, 3vw, 1.88rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.4rem); }
+
+    p,
+    ul,
+    ol { margin: 0.45rem 0 0.75rem; }
+
+    .hero {
+      background: var(--surface);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      padding: clamp(1.35rem, 2.5vw, 2.1rem);
+      display: grid;
+      gap: 0.9rem;
+      box-shadow: 0 20px 52px rgba(6, 12, 24, 0.5);
+    }
+
+    .hero p { color: var(--muted); margin: 0; }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(20, 26, 46, 0.82);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.88rem;
+    }
+
+    main.wrap,
+    main,
+    .wrap main { display: grid; gap: 1.25rem; }
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: clamp(1.1rem, 2vw, 1.75rem);
+      box-shadow: 0 18px 44px rgba(5, 12, 24, 0.45);
+    }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 900px) {
+      .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .callout {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.9rem 1rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0.45rem 0.35rem;
+      text-align: left;
+    }
+
+    th { color: var(--muted); font-weight: 600; }
+
+    .lab {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1.1rem 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .lab label {
+      display: grid;
+      gap: 0.3rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .lab input[type="range"] { width: 100%; }
+
+    .svg-box {
+      background: var(--surface-soft);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.75rem;
+    }
+
+    svg { width: 100%; height: auto; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: rgba(6, 10, 20, 0.9);
+    }
+
+    footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="wrap hero">
+      <span class="eyebrow">บทที่ 14</span>
+      <h1>การแจกแจงของตัวอย่างสุ่ม &amp; ทฤษฎีบทขีดจำกัดส่วนกลาง</h1>
+      <p>สะพานที่เชื่อมจากความน่าจะเป็นสู่การอนุมาน: เมื่อค่าสถิติจากตัวอย่างมีรูปทรงที่คาดเดาได้ เราจึงวัดความไม่แน่นอนและสร้างข้อสรุปได้อย่างมั่นใจ</p>
+      <div class="pill-row">
+        <span class="pill">Sampling Distribution</span>
+        <span class="pill">Standard Error</span>
+        <span class="pill">Monte Carlo Lab</span>
+      </div>
+    </div>
+  </header>
+
   <main class="wrap">
-    <article class="card">
-      <h1>บทที่ 14 — Central Limit Theorem (CLT)</h1>
-      <p>อธิบายว่าทำไมค่าเฉลี่ยของตัวอย่างจำนวนมากจะมีการแจกแจงใกล้เคียง Normal แม้ข้อมูลเดิมจะไม่ปกติก็ตาม</p>
-    </article>
-
-    <section class="card-grid">
-      <article class="card">
-        <h2>ข้อความของ CLT</h2>
-        <p>เมื่อสุ่มตัวอย่างขนาด $n$ จากประชากรที่มีค่าเฉลี่ย µ และส่วนเบี่ยงเบนมาตรฐาน σ</p>
-        <ul class="list-tight">
-          <li>$\bar X$ มีค่าเฉลี่ยเท่ากับ µ</li>
-          <li>Standard Error = $\sigma/\sqrt{n}$</li>
-          <li>เมื่อ $n$ ใหญ่พอ ($n \ge 30$ โดยทั่วไป) การแจกแจงของ $\bar X$ ใกล้ Normal</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>ผลที่ตามมา</h2>
-        <ul class="list-tight">
-          <li>สามารถใช้ตาราง Z เพื่อประมาณความน่าจะเป็นของค่าเฉลี่ยตัวอย่าง</li>
-          <li>เป็นฐานของการสร้างช่วงความเชื่อมั่นและการทดสอบค่าเฉลี่ย</li>
-          <li>หาก $n$ เล็กและข้อมูลเบ้มาก → ควรใช้ Bootstrap หรือปรับรูปแบบ</li>
-        </ul>
-      </article>
+    <section class="card">
+      <h2>1. จากประชากรสู่ค่าสถิติ</h2>
+      <p>ค่าสถิติ (เช่น \(\bar{x}, s, \hat{p}\)) เป็น <strong>ตัวแปรสุ่ม</strong> เพราะจะเปลี่ยนไปตามตัวอย่างที่สุ่มมาแต่ละครั้ง การแจกแจงของค่าสถิติเหล่านี้เรียกว่า <strong>Sampling Distribution</strong></p>
+      <ul>
+        <li>ค่าสถิติที่สำคัญ: \(\bar{x}\) (ค่าเฉลี่ยตัวอย่าง), \(\hat{p}\) (สัดส่วนตัวอย่าง)</li>
+        <li>หากรู้การแจกแจงของค่าสถิติ → สามารถคำนวณความน่าจะเป็นและสร้างช่วงความเชื่อมั่นได้</li>
+      </ul>
     </section>
 
     <section class="card">
-      <h2>ตัวอย่างจำลอง</h2>
-      <p>สุ่มข้อมูลจากการแจกแจง Exponential (เบ้ขวา) จำนวน 10,000 ครั้ง</p>
-      <ol class="list-tight">
-        <li>เก็บค่าเฉลี่ยของกลุ่มตัวอย่างขนาด 5, 20, 50</li>
-        <li>สร้างฮิสโตแกรมของแต่ละขนาด → ยิ่ง n ใหญ่ฮิสโตแกรมยิ่งใกล้รูปทรงปกติ</li>
-        <li>ค่าเฉลี่ยของฮิสโตแกรม ~ µ เดิม, ส่วนเบี่ยงเบนมาตรฐาน ~ σ/√n</li>
+      <h2>2. ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT)</h2>
+      <p class="callout">ไม่ว่าประชากรเริ่มต้นจะมีรูปแบบใด ถ้าขนาดตัวอย่าง \(n\) ใหญ่พอ (โดยทั่วไป \(n \ge 30\)) การแจกแจงของค่าเฉลี่ยตัวอย่าง \(\bar{x}\) จะมีลักษณะใกล้เคียงการแจกแจงปกติ</p>
+      <div class="grid two">
+        <article class="callout">
+          <h3>พารามิเตอร์ของ \(\bar{x}\)</h3>
+          <ul>
+            <li>ค่าเฉลี่ย: \(\mu_{\bar{x}} = \mu\)</li>
+            <li>ส่วนเบี่ยงเบนมาตรฐาน: \(\sigma_{\bar{x}} = \dfrac{\sigma}{\sqrt{n}}\)</li>
+          </ul>
+        </article>
+        <article class="callout">
+          <h3>ตีความ</h3>
+          <ul>
+            <li>ยิ่ง \(n\) ใหญ่ → การกระจายของ \(\bar{x}\) ยิ่งแคบ</li>
+            <li>ค่าเฉลี่ยของตัวอย่างจำนวนมากจะเกาะกลุ่มใกล้ค่าเฉลี่ยประชากร</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Lab: จำลอง CLT ด้วย Monte Carlo</h2>
+      <p>เลือกขนาดตัวอย่างเพื่อดูการเปลี่ยนแปลงของการแจกแจงค่าเฉลี่ยตัวอย่าง \(\bar{x}\) จากประชากรที่มีความเบ้</p>
+      <div class="lab">
+        <label>ขนาดตัวอย่าง \(n\)
+          <input id="sample-size" type="range" min="1" max="120" value="5" />
+        </label>
+        <div class="grid two">
+          <div class="callout" id="population-stats"></div>
+          <div class="callout" id="sampling-stats"></div>
+        </div>
+        <div class="svg-box">
+          <svg id="clt-svg" viewBox="0 0 460 260" role="img" aria-label="ฮิสโตแกรมของค่าเฉลี่ยตัวอย่าง"></svg>
+        </div>
+        <p class="muted">สร้างจากการจำลอง 400 ชุดต่อรอบ เปรียบเทียบกับโค้งปกติที่มี \(\mu\) เดียวกันและ \(\sigma/\sqrt{n}\)</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่าง: หลอดไฟ</h2>
+      <ol>
+        <li>ประชากร: \(\mu = 800\) ชั่วโมง, \(\sigma = 40\) ชั่วโมง</li>
+        <li>สุ่มตัวอย่าง 100 หลอด → \(\mu_{\bar{x}} = 800\), \(\sigma_{\bar{x}} = 40/\sqrt{100} = 4\)</li>
+        <li>หา \(P(795 &lt; \bar{x} &lt; 805)\): แปลงเป็น Z = [-1.25, 1.25]</li>
+        <li>\(P = 0.8944 - 0.1056 = 0.7888\)</li>
       </ol>
+      <p class="callout">โอกาส ~78.88% ที่ค่าเฉลี่ย 100 หลอดจะอยู่ระหว่าง 795–805 ชั่วโมง</p>
+    </section>
+
+    <section class="card">
+      <h2>Self Check 🔍</h2>
+      <ol>
+        <li>ทำไม \(\bar{x}\) จึงเป็นตัวแปรสุ่ม?</li>
+        <li>เมื่อ \(n\) เพิ่มขึ้น Standard Error จะเป็นอย่างไร?</li>
+        <li>ถ้า CLT ต้องการ \(n \ge 30\) แต่เรามี \(n = 15\) จะทำอย่างไร?</li>
+      </ol>
+      <details>
+        <summary>เฉลย</summary>
+        <ul>
+          <li>เพราะค่าเฉลี่ยขึ้นกับตัวอย่างที่สุ่มมาแต่ละครั้ง</li>
+          <li>มันลดลงตาม \(1/\sqrt{n}\) ทำให้ค่าเฉลี่ยเสถียรมากขึ้น</li>
+          <li>ถ้าประชากรใกล้ปกติอยู่แล้ว CLT สามารถใช้ได้แม้ \(n\) เล็ก หรือใช้การจำลอง/วิธีไม่อาศัยพารามิเตอร์</li>
+        </ul>
+      </details>
     </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2025 Prob &amp; Stats Interactive Notes — Lesson 14 Central Limit Theorem</p>
+    </div>
+  </footer>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script>
+    const sampleSize = document.getElementById('sample-size');
+    const cltSvg = document.getElementById('clt-svg');
+    const populationStats = document.getElementById('population-stats');
+    const samplingStats = document.getElementById('sampling-stats');
+
+    const popWeights = [0.7, 0.3];
+    const popRanges = [
+      { min: 2, max: 4 },
+      { min: 6, max: 10 }
+    ];
+
+    const popMean = popWeights[0] * 3 + popWeights[1] * 8;
+    const popVar = popWeights[0] * (1/3 + Math.pow(3 - popMean, 2)) +
+                   popWeights[1] * (4/3 + Math.pow(8 - popMean, 2));
+    const popSd = Math.sqrt(popVar);
+
+    populationStats.innerHTML = `
+      <strong>ประชากร (แจกแจงแบบผสม)</strong>
+      <ul>
+        <li>70%: Uniform(2, 4) — เบ้ซ้าย</li>
+        <li>30%: Uniform(6, 10) — หางขวายาว</li>
+        <li>\(\mu = ${popMean.toFixed(2)}\), \(\sigma \approx ${popSd.toFixed(2)}\)</li>
+      </ul>
+    `;
+
+    function randomPopulationValue() {
+      const r = Math.random();
+      if (r < popWeights[0]) {
+        return popRanges[0].min + Math.random() * (popRanges[0].max - popRanges[0].min);
+      }
+      return popRanges[1].min + Math.random() * (popRanges[1].max - popRanges[1].min);
+    }
+
+    function normalPdf(x, mu, sigma) {
+      const z = (x - mu) / sigma;
+      return Math.exp(-0.5 * z * z) / (sigma * Math.sqrt(2 * Math.PI));
+    }
+
+    function simulate(n) {
+      const means = [];
+      const simulations = 400;
+      for (let i = 0; i < simulations; i++) {
+        let sum = 0;
+        for (let j = 0; j < n; j++) {
+          sum += randomPopulationValue();
+        }
+        means.push(sum / n);
+      }
+      return means;
+    }
+
+    function drawClt() {
+      const n = Number(sampleSize.value);
+      const means = simulate(n);
+      const se = popSd / Math.sqrt(n);
+      const meanOfMeans = means.reduce((acc, v) => acc + v, 0) / means.length;
+      const sdOfMeans = Math.sqrt(means.reduce((acc, v) => acc + Math.pow(v - meanOfMeans, 2), 0) / means.length);
+
+      samplingStats.innerHTML = `
+        <strong>ตัวอย่างสุ่ม (n = ${n})</strong>
+        <ul>
+          <li>\(\sigma_{\bar{x}}^{ทฤษฎี} = ${se.toFixed(2)}\)</li>
+          <li>\(\bar{x}\) จำลองเฉลี่ย ≈ ${meanOfMeans.toFixed(2)}</li>
+          <li>SD จากการจำลอง ≈ ${sdOfMeans.toFixed(2)}</li>
+        </ul>
+        <p class="muted">เส้นโค้งปกติสีเขียวใช้ \(\mu = ${popMean.toFixed(2)}\) และ \(\sigma/\sqrt{n}\)</p>
+      `;
+
+      const min = Math.min(...means) - 0.5;
+      const max = Math.max(...means) + 0.5;
+      const bins = 20;
+      const binWidth = (max - min) / bins;
+      const counts = new Array(bins).fill(0);
+      means.forEach(m => {
+        const idx = Math.min(bins - 1, Math.max(0, Math.floor((m - min) / binWidth)));
+        counts[idx] += 1;
+      });
+
+      const maxCount = Math.max(...counts);
+      const points = counts.map((count, idx) => {
+        const x = min + idx * binWidth + binWidth / 2;
+        return { x, count };
+      });
+
+      const histogramRects = counts
+        .map((count, idx) => {
+          const barWidth = 420 / bins;
+          const height = (count / maxCount) * 160;
+          const x = 20 + idx * barWidth;
+          const y = 210 - height;
+          return `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barWidth.toFixed(2)}" height="${height.toFixed(2)}" fill="rgba(110,231,213,0.7)" rx="6" />`;
+        })
+        .join('');
+
+      const normalPath = [];
+      for (let i = 0; i <= 200; i++) {
+        const xVal = min + (i / 200) * (max - min);
+        const pdf = normalPdf(xVal, popMean, se);
+        normalPath.push({ x: xVal, y: pdf });
+      }
+      const maxPdf = Math.max(...normalPath.map(p => p.y));
+      const normalLine = normalPath
+        .map((pt, idx) => {
+          const sx = 20 + (pt.x - min) / (max - min) * 420;
+          const sy = 210 - (pt.y / maxPdf) * 170;
+          return `${idx === 0 ? 'M' : 'L'}${sx.toFixed(2)} ${sy.toFixed(2)}`;
+        })
+        .join(' ');
+
+      cltSvg.innerHTML = `
+        <rect x="0" y="0" width="460" height="260" rx="22" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" />
+        ${histogramRects}
+        <path d="${normalLine}" fill="none" stroke="#64ffe1" stroke-width="2" />
+        <line x1="20" x2="440" y1="210" y2="210" stroke="rgba(255,255,255,0.08)" />
+        <text x="230" y="240" text-anchor="middle" font-size="14" fill="#c5d2eb">ค่าเฉลี่ยตัวอย่าง \(\bar{x}\)</text>
+      `;
+    }
+
+    sampleSize.addEventListener('input', drawClt);
+    drawClt();
+  </script>
 </body>
 </html>
