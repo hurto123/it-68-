@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยประชากรเดียว พร้อมสูตร สรุปทีละขั้น และเครื่องมือคำนวณแบบโต้ตอบ" />
+  <title>บทที่ 17 • ช่วงความเชื่อมั่นค่าเฉลี่ย (ประชากรเดียว)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea']
+      }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #04070f;
+      --surface: #0d1423;
+      --surface-alt: #131c2f;
+      --surface-soft: #19253b;
+      --text: #f4f6ff;
+      --muted: #9aa6c9;
+      --accent: #7dc4ff;
+      --accent-soft: rgba(125, 196, 255, 0.18);
+      --ok: #60e4b5;
+      --border: #1d2740;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 15% -10%, rgba(125, 196, 255, 0.22), transparent 58%),
+                  radial-gradient(circle at 85% 0%, rgba(96, 228, 181, 0.16), transparent 62%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(13, 20, 35, 0.95), rgba(125, 196, 255, 0.22));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 20px 55px rgba(125, 196, 255, 0.16);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.2rem 1.35rem 1.8rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.25;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.38rem); }
+
+    p,
+    ul,
+    ol {
+      margin: 0.45rem 0 0.7rem;
+    }
+
+    a { color: var(--accent); }
+
+    .wrap main,
+    main.wrap {
+      display: grid;
+      gap: 1.2rem;
+      padding-bottom: 4rem;
+    }
+
+    section.card,
+    article.card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: clamp(1.1rem, 1.6vw, 1.85rem);
+      box-shadow: 0 18px 40px rgba(5, 10, 18, 0.35);
+    }
+
+    .hero {
+      background: var(--surface-alt);
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .eyebrow {
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(12, 18, 30, 0.7);
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 880px) {
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .calc {
+      display: grid;
+      gap: 0.9rem;
+      background: var(--surface-alt);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 1rem 1.1rem;
+    }
+
+    .calc label {
+      display: grid;
+      gap: 0.35rem;
+      font-weight: 600;
+    }
+
+    .calc input,
+    .calc select {
+      background: rgba(4, 7, 15, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 0.55rem 0.75rem;
+      font: inherit;
+    }
+
+    .calc button {
+      justify-self: start;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #04101d;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+    }
+
+    .result-box {
+      background: var(--surface-soft);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 0.9rem 1rem;
+    }
+
+    .result-box strong { font-size: 1.05rem; }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      padding: 0.45rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-align: left;
+    }
+
+    tbody tr:hover { background: rgba(125, 196, 255, 0.08); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 17</p>
+      <h1>ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยประชากรเดียว</h1>
+      <p>สรุปสูตร $\mu$ เมื่อมีข้อมูลตัวอย่างเดียว พร้อมเช็กลิสต์การเลือกใช้ $z$ หรือ $t$ และตัวอย่างการตีความ</p>
+      <div class="pill-row">
+        <span class="pill">เลือกใช้เมื่อรู้ส่วนเบี่ยงเบนมาตรฐานประชากร</span>
+        <span class="pill">หรือใช้ $t$ เมื่อรู้แค่ $s$ และ $n$ เล็ก</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>ภาพรวม</h2>
+      <p>ช่วงความเชื่อมั่น (Confidence Interval; CI) คือช่วงตัวเลขที่เรามั่นใจในระดับ $(1-\alpha)$ ว่าจะครอบคลุมค่าเฉลี่ยประชากร $\mu$ เมื่อทำการสุ่มซ้ำๆ ภายใต้เงื่อนไขเดียวกัน</p>
+      <ul>
+        <li>ตัวประมาณจุด: $\bar x$</li>
+        <li>ส่วนเบี่ยงเบนมาตรฐานของตัวประมาณ: $SE = \sigma/\sqrt{n}$ หรือ $s/\sqrt{n}$</li>
+        <li>Margin of Error: ตัวคูณวิกฤต × $SE$</li>
+        <li>ช่วงผลลัพธ์: $\bar x \pm \text{MoE}$</li>
+      </ul>
+    </section>
+
+    <section class="card grid two">
+      <article>
+        <h3>เลือกสถิติวิกฤตอย่างไร?</h3>
+        <ol>
+          <li>รู้ $\sigma$ และ $n \ge 30$ → ใช้ค่า $z_{\alpha/2}$</li>
+          <li>ไม่รู้ $\sigma$ และตัวอย่างสุ่มจากประชากรใกล้เคียงปกติ → ใช้ $t_{\alpha/2,\,n-1}$</li>
+          <li>หาก $n$ ใหญ่ (เช่น &gt; 40) การใช้ $z$ กับ $s$ มักให้ผลต่างไม่มาก แต่ควรรายงานสมมติฐาน</li>
+        </ol>
+      </article>
+      <article>
+        <h3>สูตรสองกรณียอดนิยม</h3>
+        <ul class="list-tight">
+          <li>$CI_z: \; \bar x \pm z_{\alpha/2} \dfrac{\sigma}{\sqrt{n}}$</li>
+          <li>$CI_t: \; \bar x \pm t_{\alpha/2,\,n-1} \dfrac{s}{\sqrt{n}}$</li>
+        </ul>
+        <p>สื่อสารผลลัพธ์ควบคู่กับระดับความเชื่อมั่น ขนาดตัวอย่าง และหน่วยวัดเสมอ</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ทดลองคำนวณ</h2>
+      <p>กรอกข้อมูลตัวอย่างและเลือกวิธีเพื่อสร้างช่วงความเชื่อมั่นแบบโต้ตอบ</p>
+      <form class="calc" id="ciMeanForm">
+        <label>วิธีที่ใช้
+          <select name="method">
+            <option value="z">รู้ $\sigma$ (ใช้ $z$)</option>
+            <option value="t">ไม่รู้ $\sigma$ (ใช้ $t$)</option>
+          </select>
+        </label>
+        <label>ค่าเฉลี่ยตัวอย่าง ($\bar x$)
+          <input type="number" step="0.01" name="mean" value="68" required />
+        </label>
+        <label>ส่วนเบี่ยงเบนที่ทราบ ($\sigma$ หรือ $s$)
+          <input type="number" step="0.01" name="sd" value="12" min="0" required />
+        </label>
+        <label>ขนาดตัวอย่าง ($n$)
+          <input type="number" name="n" value="40" min="2" required />
+        </label>
+        <label>ระดับความเชื่อมั่น
+          <select name="conf">
+            <option value="0.80">80%</option>
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </label>
+        <button type="submit">คำนวณช่วง</button>
+      </form>
+      <div class="result-box" id="ciMeanResult">
+        <strong>ช่วงความเชื่อมั่น 95%:</strong>
+        <p>ระบุข้อมูลแล้วกดคำนวณ ระบบจะแสดง Margin of Error และช่วงผลลัพธ์ที่ตีความได้ทันที</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ตารางตัวคูณยอดนิยม</h2>
+      <table>
+        <thead>
+          <tr><th>ระดับความเชื่อมั่น</th><th>$z_{\alpha/2}$</th><th>ตัวอย่าง $t_{\alpha/2,\,9}$</th><th>ข้อสังเกต</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>80%</td><td>1.282</td><td>1.383</td><td>MoE เล็ก เหมาะกับงานสำรวจเบื้องต้น</td></tr>
+          <tr><td>90%</td><td>1.645</td><td>1.833</td><td>สมดุลระหว่างความกว้างกับความมั่นใจ</td></tr>
+          <tr><td>95%</td><td>1.960</td><td>2.262</td><td>มาตรฐานงานวิชาการ</td></tr>
+          <tr><td>99%</td><td>2.576</td><td>3.250</td><td>ช่วงกว้าง ใช้เมื่อต้องการความมั่นใจสูง</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>แบบฝึกหัด</h2>
+      <ol>
+        <li>รายงาน 95% CI เมื่อรู้เพียง $\bar x=52$, $s=8$, $n=25$ ต้องสมมติอะไรบ้าง?</li>
+        <li>อยากให้ช่วงแคบลงครึ่งหนึ่ง แต่คงระดับความเชื่อมั่นเดิม ต้องเพิ่มขนาดตัวอย่างกี่เท่า?</li>
+        <li>สถานการณ์ใดควรใช้ $t$ distribution เสมอ แม้ $n$ มากกว่า 30?</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    const zCritical = {
+      '0.80': 1.2816,
+      '0.90': 1.6449,
+      '0.95': 1.96,
+      '0.99': 2.5758
+    };
+
+    const tCriticalTable = {
+      1: { '0.80': 3.078, '0.90': 6.314, '0.95': 12.706, '0.99': 63.657 },
+      2: { '0.80': 1.886, '0.90': 2.92, '0.95': 4.303, '0.99': 9.925 },
+      3: { '0.80': 1.638, '0.90': 2.353, '0.95': 3.182, '0.99': 5.841 },
+      4: { '0.80': 1.533, '0.90': 2.132, '0.95': 2.776, '0.99': 4.604 },
+      5: { '0.80': 1.476, '0.90': 2.015, '0.95': 2.571, '0.99': 4.032 },
+      6: { '0.80': 1.44, '0.90': 1.943, '0.95': 2.447, '0.99': 3.707 },
+      7: { '0.80': 1.415, '0.90': 1.895, '0.95': 2.365, '0.99': 3.499 },
+      8: { '0.80': 1.397, '0.90': 1.86, '0.95': 2.306, '0.99': 3.355 },
+      9: { '0.80': 1.383, '0.90': 1.833, '0.95': 2.262, '0.99': 3.25 },
+      10: { '0.80': 1.372, '0.90': 1.812, '0.95': 2.228, '0.99': 3.169 }, 
+      11: { '0.80': 1.363, '0.90': 1.796, '0.95': 2.201, '0.99': 3.106 },
+      12: { '0.80': 1.356, '0.90': 1.782, '0.95': 2.179, '0.99': 3.055 },
+      13: { '0.80': 1.35, '0.90': 1.771, '0.95': 2.16, '0.99': 3.012 },
+      14: { '0.80': 1.345, '0.90': 1.761, '0.95': 2.145, '0.99': 2.977 },
+      15: { '0.80': 1.341, '0.90': 1.753, '0.95': 2.131, '0.99': 2.947 },
+      16: { '0.80': 1.337, '0.90': 1.746, '0.95': 2.12, '0.99': 2.921 },
+      17: { '0.80': 1.333, '0.90': 1.74, '0.95': 2.11, '0.99': 2.898 },
+      18: { '0.80': 1.33, '0.90': 1.734, '0.95': 2.101, '0.99': 2.878 },
+      19: { '0.80': 1.328, '0.90': 1.729, '0.95': 2.093, '0.99': 2.861 },
+      20: { '0.80': 1.325, '0.90': 1.725, '0.95': 2.086, '0.99': 2.845 },
+      25: { '0.80': 1.316, '0.90': 1.708, '0.95': 2.06, '0.99': 2.787 },
+      30: { '0.80': 1.31, '0.90': 1.697, '0.95': 2.042, '0.99': 2.75 },
+      40: { '0.80': 1.303, '0.90': 1.684, '0.95': 2.021, '0.99': 2.704 },
+      60: { '0.80': 1.296, '0.90': 1.671, '0.95': 2, '0.99': 2.66 },
+      120: { '0.80': 1.289, '0.90': 1.658, '0.95': 1.98, '0.99': 2.617 },
+      Infinity: { '0.80': 1.282, '0.90': 1.645, '0.95': 1.96, '0.99': 2.576 }
+    };
+
+    function getTCritical(df, conf) {
+      const keys = Object.keys(tCriticalTable).map(Number).sort((a, b) => a - b);
+      let selected = Infinity;
+      for (const key of keys) {
+        if (df <= key) {
+          selected = key;
+          break;
+        }
+      }
+      const record = tCriticalTable[selected] || tCriticalTable[Infinity];
+      return record[conf] || record['0.95'];
+    }
+
+    const ciMeanForm = document.getElementById('ciMeanForm');
+    const ciMeanResult = document.getElementById('ciMeanResult');
+
+    ciMeanForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = new FormData(ciMeanForm);
+      const method = form.get('method');
+      const mean = Number(form.get('mean'));
+      const sd = Number(form.get('sd'));
+      const n = Number(form.get('n'));
+      const conf = form.get('conf');
+
+      if (!n || n < 2 || !sd || sd <= 0) {
+        ciMeanResult.innerHTML = '<p>โปรดกรอกขนาดตัวอย่างมากกว่า 1 และส่วนเบี่ยงเบนมาตรฐาน &gt; 0</p>';
+        return;
+      }
+
+      const se = sd / Math.sqrt(n);
+      const crit = method === 'z' ? zCritical[conf] : getTCritical(n - 1, conf);
+      const moe = crit * se;
+      const lower = mean - moe;
+      const upper = mean + moe;
+
+      ciMeanResult.innerHTML = `
+        <strong>ช่วงความเชื่อมั่น ${(Number(conf) * 100).toFixed(0)}%:</strong>
+        <p>$${mean.toFixed(3)} \pm ${crit.toFixed(3)} \times ${se.toFixed(3)}$</p>
+        <p><strong>ผลลัพธ์:</strong> (${lower.toFixed(3)}, ${upper.toFixed(3)})</p>
+        <p class="muted">ตีความ: เราคาดว่าค่าเฉลี่ยประชากรจะอยู่ในช่วงนี้ด้วยความเชื่อมั่น ${(Number(conf) * 100).toFixed(0)}% ภายใต้สมมติฐานที่ระบุ</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([ciMeanResult]);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -41,6 +41,15 @@
   will-change: opacity, transform, filter;
 }
 
+.ps-animations-disabled .ps-animate,
+.ps-animations-disabled .ps-animate[data-ps-variant="stagger"] > *,
+.ps-animations-disabled .ps-animate--visible {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
 .ps-animate[data-ps-variant="slide-up"].ps-animate--visible {
   animation: ps-fade-up var(--ps-anim-duration, 0.82s) var(--ps-anim-ease, cubic-bezier(0.22, 0.61, 0.36, 1)) var(--ps-anim-delay, 0s) both;
 }

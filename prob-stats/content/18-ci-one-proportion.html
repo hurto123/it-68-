@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ช่วงความเชื่อมั่นสำหรับสัดส่วนประชากรเดียว อธิบายสูตร Wald/Wilson และมีเครื่องมือคำนวณแบบโต้ตอบ" />
+  <title>บทที่ 18 • ช่วงความเชื่อมั่นสัดส่วน (ประชากรเดียว)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #06050c;
+      --surface: #110f1d;
+      --surface-alt: #19172a;
+      --surface-soft: #221f35;
+      --text: #f4f5ff;
+      --muted: #a2a5c4;
+      --accent: #ffa3d1;
+      --accent-soft: rgba(255, 163, 209, 0.2);
+      --ok: #6df1c8;
+      --border: #221f35;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 5% -20%, rgba(255, 163, 209, 0.25), transparent 60%),
+                  radial-gradient(circle at 85% 5%, rgba(109, 241, 200, 0.18), transparent 62%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(25, 23, 42, 0.92), rgba(255, 163, 209, 0.22));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 22px 55px rgba(255, 163, 209, 0.16);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.2rem 1.35rem 1.8rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.25;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    h1 { font-size: clamp(1.9rem, 4vw, 2.4rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.38rem); }
+
+    p,
+    ul,
+    ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+
+    section.card,
+    article.card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: clamp(1.1rem, 1.6vw, 1.85rem);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill { display: inline-flex; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(16, 14, 28, 0.7); font-size: 0.88rem; color: var(--text); }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 880px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc input,
+    .calc select { background: rgba(6, 5, 12, 0.6); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #2b1126; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 0.6rem; font-size: 0.95rem; }
+    th, td { padding: 0.45rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
+    tbody tr:hover { background: rgba(255, 163, 209, 0.08); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 18</p>
+      <h1>ช่วงความเชื่อมั่นสัดส่วนประชากรเดียว</h1>
+      <p>เรียนรู้การสร้างช่วงสำหรับ $p$ ด้วยสูตร Wald และ Wilson พร้อมคำแนะนำการใช้งาน</p>
+      <div class="pill-row">
+        <span class="pill">ต้องการตัวอย่างที่สอดคล้องเงื่อนไข $np$ และ $n(1-p)$ &gt; 5</span>
+        <span class="pill">Wilson ช่วยลดปัญหาขอบเขต 0–1</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>ภาพรวม</h2>
+      <p>เมื่อเราสุ่มตัวอย่างขนาด $n$ แล้วพบความสำเร็จ $x$ ครั้ง ค่า $\hat p = x/n$ เป็นตัวประมาณของสัดส่วนประชากร $p$</p>
+      <ul>
+        <li>สมมติการสุ่มแบบ Bernoulli และ $n$ มากพอสำหรับการประมาณด้วยปกติ</li>
+        <li>ช่วงมาตรฐาน (Wald): $\hat p \pm z_{\alpha/2}\sqrt{\hat p(1-\hat p)/n}$</li>
+        <li>ช่วง Wilson: ปรับสมดุลกรณี $n$ เล็กหรือ $\hat p$ ใกล้ขอบ</li>
+      </ul>
+    </section>
+
+    <section class="card grid two">
+      <article>
+        <h3>สูตร Wald</h3>
+        <p>ง่ายและจำไม่ยาก แต่มีแนวโน้มกะช่วงแคบเกินจริงเมื่อ $n$ เล็กหรือ $\hat p$ ใกล้ 0 หรือ 1</p>
+        <p>$CI = \hat p \pm z_{\alpha/2} \sqrt{\dfrac{\hat p(1-\hat p)}{n}}$</p>
+      </article>
+      <article>
+        <h3>สูตร Wilson (score interval)</h3>
+        <p>ใช้การแก้สมการจากการทดสอบ score ให้ช่วงมีขอบล่าง-บนอยู่ใน [0, 1]</p>
+        <p>$CI = \dfrac{\hat p + \dfrac{z^2}{2n} \pm z\sqrt{\dfrac{\hat p(1-\hat p)}{n} + \dfrac{z^2}{4n^2}}}{1 + \dfrac{z^2}{n}}$</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ทดลองคำนวณ</h2>
+      <form class="calc" id="ciPropForm">
+        <label>จำนวนความสำเร็จ ($x$)
+          <input type="number" name="success" value="52" min="0" required />
+        </label>
+        <label>ขนาดตัวอย่าง ($n$)
+          <input type="number" name="n" value="200" min="1" required />
+        </label>
+        <label>ระดับความเชื่อมั่น
+          <select name="conf">
+            <option value="0.80">80%</option>
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </label>
+        <label>สูตรที่ต้องการ
+          <select name="method">
+            <option value="wald" selected>Wald</option>
+            <option value="wilson">Wilson</option>
+          </select>
+        </label>
+        <button type="submit">คำนวณช่วง</button>
+      </form>
+      <div class="result-box" id="ciPropResult">
+        <strong>รอผลคำนวณ...</strong>
+        <p class="muted">ใส่ข้อมูลแล้วกดคำนวณเพื่อดู $\hat p$, Margin of Error และการตีความ</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>แนวทางตีความ</h2>
+      <ul>
+        <li>รายงานทั้ง $\hat p$ และช่วง เช่น “คาดว่าสัดส่วนผู้สนับสนุนอยู่ที่ 0.26–0.36 ด้วยความเชื่อมั่น 95%”</li>
+        <li>ระบุเงื่อนไขการสุ่ม เช่น การสุ่มอย่างง่ายและตัวอย่างเป็นอิสระ</li>
+        <li>หากช่วงล้ำออกนอก [0, 1] ให้พิจารณาใช้ Wilson หรือแปลงข้อมูล (เช่น logit)</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>แบบฝึกหัด</h2>
+      <ol>
+        <li>กรณีศึกษา: พบผู้ใช้พึงพอใจ 42 จาก 60 คน จงเปรียบเทียบช่วง Wald และ Wilson ที่ระดับ 95%</li>
+        <li>เหตุใด Wilson จึงสำคัญเมื่อผลสำเร็จมีน้อยมาก? ลองอธิบายในมุมมองเชิงกราฟ</li>
+        <li>ถ้าต้องการ Margin of Error ±3% ที่ระดับ 95% ต้องใช้ตัวอย่างอย่างน้อยเท่าใด (สมมติ $p \approx 0.5$)?</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    const zCritical = {
+      '0.80': 1.2816,
+      '0.90': 1.6449,
+      '0.95': 1.96,
+      '0.99': 2.5758
+    };
+
+    const ciPropForm = document.getElementById('ciPropForm');
+    const ciPropResult = document.getElementById('ciPropResult');
+
+    ciPropForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = new FormData(ciPropForm);
+      const x = Number(form.get('success'));
+      const n = Number(form.get('n'));
+      const conf = form.get('conf');
+      const method = form.get('method');
+
+      if (!Number.isFinite(x) || !Number.isFinite(n) || n <= 0 || x < 0 || x > n) {
+        ciPropResult.innerHTML = '<p>โปรดตรวจสอบว่าจำนวนความสำเร็จอยู่ระหว่าง 0 ถึง n และ n &gt; 0</p>';
+        return;
+      }
+
+      const phat = x / n;
+      const z = zCritical[conf];
+      let lower, upper, moe;
+
+      if (method === 'wilson') {
+        const z2 = z * z;
+        const center = (phat + z2 / (2 * n)) / (1 + z2 / n);
+        const half = (z * Math.sqrt((phat * (1 - phat)) / n + z2 / (4 * n * n))) / (1 + z2 / n);
+        lower = Math.max(0, center - half);
+        upper = Math.min(1, center + half);
+        moe = half;
+      } else {
+        const se = Math.sqrt(phat * (1 - phat) / n);
+        moe = z * se;
+        lower = Math.max(0, phat - moe);
+        upper = Math.min(1, phat + moe);
+      }
+
+      ciPropResult.innerHTML = `
+        <strong>${method === 'wilson' ? 'Wilson' : 'Wald'} CI ${(Number(conf) * 100).toFixed(0)}%:</strong>
+        <p>$\hat p = ${phat.toFixed(4)}$ &nbsp; | &nbsp; $MOE = ${moe.toFixed(4)}$</p>
+        <p><strong>ช่วง:</strong> (${lower.toFixed(4)}, ${upper.toFixed(4)})</p>
+        <p class="muted">ตีความ: ภายใต้การสุ่มที่เหมาะสม เราคาดว่าค่าสัดส่วนจริงอยู่ในช่วงนี้ด้วยความเชื่อมั่น ${(Number(conf) * 100).toFixed(0)}%</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([ciPropResult]);
+      }
+    });
+  </script>
+</body>
+</html>
