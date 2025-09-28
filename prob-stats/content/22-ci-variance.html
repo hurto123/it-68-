@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="ช่วงความเชื่อมั่นสำหรับความแปรปรวนและส่วนเบี่ยงเบนมาตรฐาน โดยใช้การแจกแจงไคสแควร์" />
+  <title>บทที่ 22 • ช่วงความเชื่อมั่นความแปรปรวน</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0612;
+      --surface: #160f29;
+      --surface-alt: #1e1737;
+      --surface-soft: #261f46;
+      --text: #f3f1ff;
+      --muted: #a69fca;
+      --accent: #ff9b6a;
+      --accent-soft: rgba(255, 155, 106, 0.2);
+      --border: #2f254d;
+    }
+
+    body { margin: 0; background: radial-gradient(circle at 12% -10%, rgba(255,155,106,0.22), transparent 58%), radial-gradient(circle at 90% 0%, rgba(116, 143, 255, 0.16), transparent 62%), var(--bg); color: var(--text); font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif; }
+    header { background: linear-gradient(135deg, rgba(30, 23, 55, 0.94), rgba(255,155,106,0.24)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(255,155,106,0.18); }
+    header .wrap,
+    main,
+    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    a { color: var(--accent); }
+
+    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
+    .hero p { margin: 0; color: var(--muted); }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
+    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
+    .calc input, .calc select { background: rgba(18, 12, 32, 0.55); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
+    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #2d1406; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+
+    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .result-box strong { font-size: 1.05rem; }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 880px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">บทที่ 22</p>
+      <h1>ช่วงความเชื่อมั่นสำหรับความแปรปรวนและส่วนเบี่ยงเบนมาตรฐาน</h1>
+      <p>ใช้การแจกแจงไคสแควร์เพื่อสร้างช่วงสำหรับ $\sigma^2$ และ $\sigma$ เมื่อข้อมูลมาจากประชากรปกติ</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h2>ภาพรวม</h2>
+      <p>ถ้าตัวอย่างสุ่มจากประชากรปกติ $X \sim N(\mu, \sigma^2)$ แล้ว $\dfrac{(n-1)S^2}{\sigma^2}$ มีการแจกแจงไคสแควร์ด้วย $df = n-1$</p>
+      <p>ช่วงความเชื่อมั่นระดับ $(1-\alpha)$ สำหรับ $\sigma^2$:</p>
+      <p class="formula">$\left( \dfrac{(n-1)S^2}{\chi^2_{\alpha/2,\,df}}, \dfrac{(n-1)S^2}{\chi^2_{1-\alpha/2,\,df}} \right)$</p>
+      <p>ช่วงสำหรับ $\sigma$ คือการถอดรากที่สองจากช่วงข้างต้น</p>
+    </section>
+
+    <section class="card grid two">
+      <article>
+        <h3>ขั้นตอน</h3>
+        <ol>
+          <li>ตรวจสอบสมมติฐานว่าข้อมูลใกล้เคียงปกติ</li>
+          <li>คำนวณ $S^2$ และ $df = n-1$</li>
+          <li>หาค่าขอบไคสแควร์ที่ระดับ $\alpha/2$ และ $1-\alpha/2$</li>
+          <li>เสียบสูตรเพื่อได้ช่วงสำหรับ $\sigma^2$ และ $\sigma$</li>
+        </ol>
+      </article>
+      <article>
+        <h3>การตีความ</h3>
+        <p>ช่วงกว้างขึ้นหาก $n$ เล็กหรือระดับความเชื่อมั่นสูง</p>
+        <p>รายงานทั้งความแปรปรวนและส่วนเบี่ยงเบน เช่น “95% CI สำหรับ $\sigma$ อยู่ระหว่าง 4.1–7.3”</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ทดลองคำนวณ</h2>
+      <form class="calc" id="ciVarForm">
+        <label>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง ($s$)
+          <input type="number" step="0.001" min="0" name="sd" value="5.2" required />
+        </label>
+        <label>ขนาดตัวอย่าง ($n$)
+          <input type="number" name="n" value="18" min="2" required />
+        </label>
+        <label>ระดับความเชื่อมั่น
+          <select name="conf">
+            <option value="0.80">80%</option>
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </label>
+        <button type="submit">คำนวณช่วง</button>
+      </form>
+      <div class="result-box" id="ciVarResult">
+        <strong>ผลลัพธ์</strong>
+        <p class="muted">กรอกข้อมูลแล้วกดคำนวณเพื่อดูช่วงสำหรับ $\sigma^2$ และ $\sigma$</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>แบบฝึกหัด</h2>
+      <ol>
+        <li>กลุ่มตัวอย่าง 25 คน มี $s=4.5$. สร้าง 90% CI สำหรับ $\sigma$ แล้วอธิบายความหมาย</li>
+        <li>เพิ่มขนาดตัวอย่างเป็น 60 คน โดย $s$ เท่าเดิม ช่วงจะเปลี่ยนอย่างไร?</li>
+        <li>หากข้อมูลเบ้หนักๆ ควรใช้วิธีใดแทน CI แบบไคสแควร์?</li>
+      </ol>
+    </section>
+  </main>
+
+  <script>
+    const zCritical = {
+      '0.80': 1.2816,
+      '0.90': 1.6449,
+      '0.95': 1.96,
+      '0.99': 2.5758
+    };
+
+    function normInv(p) {
+      if (p <= 0 || p >= 1) {
+        throw new Error('p must be between 0 and 1');
+      }
+      const a1 = -39.69683028665376;
+      const a2 = 220.9460984245205;
+      const a3 = -275.9285104469687;
+      const a4 = 138.3577518672690;
+      const a5 = -30.66479806614716;
+      const a6 = 2.506628277459239;
+      const b1 = -54.47609879822406;
+      const b2 = 161.5858368580409;
+      const b3 = -155.6989798598866;
+      const b4 = 66.80131188771972;
+      const b5 = -13.28068155288572;
+      const c1 = -0.007784894002430293;
+      const c2 = -0.3223964580411365;
+      const c3 = -2.400758277161838;
+      const c4 = -2.549732539343734;
+      const c5 = 4.374664141464968;
+      const c6 = 2.938163982698783;
+      const d1 = 0.007784695709041462;
+      const d2 = 0.3224671290700398;
+      const d3 = 2.445134137142996;
+      const d4 = 3.754408661907416;
+      const plow = 0.02425;
+      const phigh = 1 - plow;
+      let q, r;
+      if (p < plow) {
+        q = Math.sqrt(-2 * Math.log(p));
+        return (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
+               ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+      }
+      if (p > phigh) {
+        q = Math.sqrt(-2 * Math.log(1 - p));
+        return -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
+                ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+      }
+      q = p - 0.5;
+      r = q * q;
+      return (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q /
+             (((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1);
+    }
+
+    function chiSquareQuantile(p, df) {
+      if (df <= 0) return NaN;
+      const z = normInv(p);
+      const term = 2 / (9 * df);
+      return df * Math.pow(1 - term + z * Math.sqrt(term), 3);
+    }
+
+    const form = document.getElementById('ciVarForm');
+    const resultBox = document.getElementById('ciVarResult');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const sd = Number(form.sd.value);
+      const n = Number(form.n.value);
+      const conf = form.conf.value;
+
+      if (!Number.isFinite(sd) || sd <= 0 || !Number.isFinite(n) || n < 2) {
+        resultBox.innerHTML = '<p>ตรวจสอบว่า s &gt; 0 และ n ≥ 2</p>';
+        return;
+      }
+
+      const df = n - 1;
+      const alpha = 1 - Number(conf);
+      const chiLow = chiSquareQuantile(1 - alpha / 2, df);
+      const chiHigh = chiSquareQuantile(alpha / 2, df);
+      const sampleVar = sd * sd;
+      const lowerVar = (df * sampleVar) / chiLow;
+      const upperVar = (df * sampleVar) / chiHigh;
+      const lowerSd = Math.sqrt(lowerVar);
+      const upperSd = Math.sqrt(upperVar);
+
+      resultBox.innerHTML = `
+        <strong>CI ${(Number(conf) * 100).toFixed(0)}% สำหรับ $\sigma^2$</strong>
+        <p>$\sigma^2 \in (${lowerVar.toFixed(3)}, ${upperVar.toFixed(3)})$</p>
+        <p><strong>ส่วนเบี่ยงเบนมาตรฐาน:</strong> (${lowerSd.toFixed(3)}, ${upperSd.toFixed(3)})</p>
+        <p class="muted">ใช้วิธีนี้เมื่อข้อมูลมาจากการแจกแจงปกติ หากไม่แน่ใจให้ใช้ bootstrap</p>
+      `;
+      if (window.MathJax?.typeset) {
+        MathJax.typeset([resultBox]);
+      }
+    });
+  </script>
+</body>
+</html>
