@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta name="description" content="บทที่\ 2\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 02 • การนำเสนอข้อมูล (Data Presentation)</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36;--ok:#15b588}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
+    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
+    header .wrap, footer .wrap, main{max-width:980px;margin:0 auto;padding:1rem}
+    h1,h2,h3{line-height:1.25;margin:.2rem 0}
+    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
+    nav a:hover{background:#2a2e36}
+    .actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+    .pill-link,.pill-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.48rem .9rem;border-radius:999px;border:1px solid var(--border);background:#20232a;color:var(--text);text-decoration:none;font-size:.92rem}
+    .pill-link:hover,.pill-btn:hover{background:#2a2e36}
+    .pill-btn{cursor:pointer}
+    .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
+    .muted{color:var(--muted)}
+    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
+    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.9rem;border-radius:10px}
+    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
+    table{width:100%;border-collapse:collapse;margin:.5rem 0}
+    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left}
+    th{background:#1c1e25}
+    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
+    ul,ol{margin:.4rem 0 .4rem 1.2rem}
+    strong{color:#cfe0ff}
+    .inline{color:var(--link)}
+    .grid-two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .grid-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+    @media (max-width:960px){.grid-two,.grid-three{grid-template-columns:1fr}}
+    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
+    .svgbox svg{max-width:100%;height:auto;display:block}
+    .formula-box{margin-top:.75rem}
+  </style>
+  <script type="application/json" id="lesson-meta">
+    {
+      "id": "lesson02",
+      "title": "บทที่ 2: การนำเสนอข้อมูล",
+      "version": "1.3.0",
+      "updated_at": "2025-10-01",
+      "depends_on": [
+        "summary-lesson02.html",
+        "assets/data/questions/lesson02.questions.th.json",
+        "assets/data/solutions/lesson02.solutions.th.json",
+        "assets/js/reading-tools.js",
+        "style.css",
+        "print.css",
+        "glossary.html#gl-descriptive"
+      ],
+      "tags": ["data-presentation", "visualization", "tables", "graphs", "reading-tools", "math-model", "relative-frequency", "print-ready"]
+    }
+  </script>
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>บทที่ 02 • การนำเสนอข้อมูล (Data Presentation) 📈</h1>
+      <p class="muted">รุ่น 1.3.0 · อัปเดต 1 ต.ค. 2025 · เพิ่มตัวอย่างฮิสโทแกรม+ตารางสัมพัทธ์ พร้อมชุดฝึกคิดเร็ว</p>
+      <nav aria-label="นำทางบทเรียน">
+        <a href="index.html">🏠 หน้าแรก</a>
+        <a href="lesson01.html">⟵ บทก่อนหน้า</a>
+        <a href="lesson03.html">บทถัดไป ⟶</a>
+      </nav>
+      <div class="actions" role="group" aria-label="เครื่องมือด่วนบทที่ 2">
+        <button type="button" class="pill-btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        <a class="pill-link" href="summary-lesson02.html">📝 เปิดสรุป 1 หน้า</a>
+        <a class="pill-link" href="glossary.html#gl-descriptive">🔤 ดูคำศัพท์: Relative Frequency</a>
+      </div>
+      <div class="chips" aria-label="ลิงก์ลัดในบท">
+        <a class="pill-link" href="#histogram">📊 กระโดดไปฮิสโทแกรม</a>
+        <a class="pill-link" href="#math-model">📐 สูตรสัมพัทธ์ &amp; Cumulative</a>
+        <a class="pill-link" href="quiz-lesson02.html">🧪 Quiz บทที่ 2</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content lesson-page">
+    <section class="card" id="reading-support">
+      <h2>เครื่องมือช่วยอ่าน &amp; การพิมพ์ PDF</h2>
+      <p>ปรับการอ่านบทนี้ให้ง่ายขึ้นด้วยแถบ Reading Toolbar ใต้หัวเรื่อง: ขยายตัวอักษร, สลับฟอนต์ Serif/Sans, เพิ่มระยะห่างบรรทัด และเปิด Focus Mode เมื่อทำงานร่วมกับเพื่อน</p>
+      <ul>
+        <li>กดปุ่ม <strong>พิมพ์/บันทึก PDF</strong> ด้านบนเพื่อใช้สไตล์ (print.css) ใหม่ที่ช่วยให้ตาราง/กราฟไม่หลุดกรอบ</li>
+        <li>ปุ่ม <strong>สารบัญ</strong> แสดงหัวข้อย่อยทุกกราฟ ทำให้ข้ามไปยังฮิสโทแกรมหรืออนุกรมเวลาได้ทันที</li>
+        <li>สูตรที่เกี่ยวกับสัดส่วนและความถี่ใช้ MathJax แสดงผล เช่น \( f_i = \frac{n_i}{n} \) เพื่อฝึกคำนวณควบคู่ไปกับกราฟ</li>
+      </ul>
+      <div class="note">เปิดอ่าน <a class="inline" href="summary-lesson02.html">สรุป 1 หน้า</a> ควบคู่แล้วใช้ปุ่ม <em>สารบัญ</em> เพื่อย้ายระหว่าง “ตัวอย่างกราฟ” กับ “Checklist” อย่างรวดเร็ว</div>
+    </section>
+
+    <section class="card">
+      <h2>ทำไมต้อง “นำเสนอข้อมูล”? 👕👖 → จากกองผ้า สู่ตู้ที่เป็นระเบียบ</h2>
+      <p>หลังจากเก็บข้อมูลมาแล้ว ข้อมูลดิบมักกระจัดกระจาย การนำเสนอข้อมูลจึงเหมือนการ “พับผ้าแล้วจัดเข้าตู้” เพื่อให้ <strong>เห็นภาพรวม</strong> และ <strong>ค้นพบสิ่งที่น่าสนใจ</strong> ได้ง่ายขึ้น</p>
+    </section>
+
+    <!-- 1) Stem-and-Leaf -->
+    <section class="card" id="stem-leaf">
+      <h2>1) แผนภูมิก้านและใบ (Stem-and-Leaf Plot) 🌿</h2>
+      <p>เหมาะสำหรับข้อมูลจำนวนไม่มาก (ประมาณ 15–150 ตัว) ช่วยให้เห็นการกระจายของข้อมูลโดยที่ “ข้อมูลดิบไม่หายไปไหน”</p>
+      <ul>
+        <li><strong>ก้าน (Stem)</strong>: ตัวเลขหลักสิบ/หลักหน้าของข้อมูล</li>
+        <li><strong>ใบ (Leaf)</strong>: ตัวเลขหลักหน่วย/ตัวท้ายสุด</li>
+      </ul>
+      <div class="ex">ตัวอย่างข้อมูลคะแนน (10 คน): 25, 42, 38, 29, 31, 25, 47, 34, 21, 38</div>
+
+      <table aria-describedby="stem-leaf-desc">
+        <caption>ตารางก้าน-ใบจากชุดข้อมูลตัวอย่าง</caption>
+        <thead>
+          <tr><th style="width:20%">Stem</th><th>Leaf (เรียงจากน้อยไปมาก)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2</td><td>1 &nbsp; 5 &nbsp; 5 &nbsp; 9</td></tr>
+          <tr><td>3</td><td>1 &nbsp; 4 &nbsp; 8 &nbsp; 8</td></tr>
+          <tr><td>4</td><td>2 &nbsp; 7</td></tr>
+        </tbody>
+      </table>
+      <p id="stem-leaf-desc" class="muted">Key: <code>2 | 1</code> หมายถึงค่า 21</p>
+
+      <div class="note">
+        <strong>เราเห็นอะไร?</strong><br/>
+        • นักเรียนส่วนใหญ่ได้คะแนนช่วง <strong>20–39</strong><br/>
+        • <em>ต่ำสุด</em> = 21, <em>สูงสุด</em> = 47
+      </div>
+    </section>
+
+    <!-- 2) Histogram & Frequency Distribution -->
+    <section class="card" id="histogram">
+      <h2>2) ฮิสโทแกรม และ ตารางแจกแจงความถี่ (Histogram & Frequency Distribution) 📊</h2>
+      <p>วิธีที่นิยมมากกับ “ข้อมูลเยอะ” โดยการ <strong>จัดกลุ่ม</strong> เป็นช่วง ๆ (class) แล้วนับความถี่ในแต่ละช่วง</p>
+
+      <h3>ขั้นตอนที่ 1: สร้าง “ตารางแจกแจงความถี่”</h3>
+      <table>
+        <caption>ตัวอย่าง: ช่วงอายุและจำนวนคน</caption>
+        <thead>
+          <tr><th>ช่วงอายุ (ชั้น)</th><th>จำนวนคน (ความถี่)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>20–29</td><td>8</td></tr>
+          <tr><td>30–39</td><td>15</td></tr>
+          <tr><td>40–49</td><td>5</td></tr>
+          <tr><td>50–59</td><td>2</td></tr>
+        </tbody>
+      </table>
+
+      <div class="ok formula-box" id="histogram-formula">
+        <strong>สูตรที่ต้องจำ:</strong>
+        <ul>
+          <li>ความกว้างชั้น \(w = \frac{\text{ค่าสูงสุด} - \text{ค่าต่ำสุด}}{k}\) (ปัดให้เหมาะกับข้อมูล) เช่น อายุ 20–59 ปี ต้องการ 4 ชั้น ⇒ \(w = \frac{59-20}{4} = 9.75\) ≈ 10 ปี</li>
+          <li>ความถี่สัมพัทธ์ \(f_i = \frac{n_i}{n}\) ใช้เปรียบเทียบกลุ่มแม้จำนวนคนไม่เท่ากัน</li>
+          <li>ความถี่สะสม \(F_i = \sum_{j=1}^{i} f_j\) นำไปวาดเส้น Ogive ได้ในขั้นถัดไป</li>
+        </ul>
+        <p class="muted">เคล็ดลับ: ตรวจสอบให้ผลรวมความถี่สัมพัทธ์เท่ากับ 1 เสมอ (หรือ 100%) ก่อนนำเสนอ</p>
+      </div>
+
+      <h3>ขั้นตอนที่ 2: แปลงเป็น “ฮิสโทแกรม” (แท่งต้องติดกัน)</h3>
+      <div class="svgbox" aria-label="ฮิสโทแกรมจากตารางความถี่">
+        <!-- SVG Histogram: classes 20–29, 30–39, 40–49, 50–59 -->
+        <svg viewBox="0 0 640 360" role="img" aria-labelledby="hist-title hist-desc">
+          <title id="hist-title">Histogram: Age Frequency</title>
+          <desc id="hist-desc">แท่งแทนกลุ่มอายุ 20–29, 30–39, 40–49, 50–59 พร้อมความถี่ 8, 15, 5, 2 ตามลำดับ</desc>
+          <!-- Axes -->
+          <rect x="0" y="0" width="640" height="360" fill="#0f1116"/>
+          <line x1="60" y1="300" x2="600" y2="300" stroke="#6b7280" stroke-width="1"/>
+          <line x1="60" y1="60"  x2="60"  y2="300" stroke="#6b7280" stroke-width="1"/>
+          <!-- y ticks -->
+          <g fill="#9aa0a6" font-size="12">
+            <text x="30" y="300" text-anchor="end">0</text>
+            <text x="30" y="260" text-anchor="end">5</text>
+            <text x="30" y="220" text-anchor="end">10</text>
+            <text x="30" y="180" text-anchor="end">15</text>
+          </g>
+          <!-- Bars (scale 12px per unit; baseline 300) -->
+          <g>
+            <rect x="90"  y="204" width="100" height="96"  fill="#4f8cff"/>
+            <rect x="210" y="120" width="100" height="180" fill="#4f8cff"/>
+            <rect x="330" y="240" width="100" height="60"  fill="#4f8cff"/>
+            <rect x="450" y="276" width="100" height="24"  fill="#4f8cff"/>
+          </g>
+          <!-- x labels -->
+          <g fill="#cfe0ff" font-size="12">
+            <text x="140" y="320" text-anchor="middle">20–29</text>
+            <text x="260" y="320" text-anchor="middle">30–39</text>
+            <text x="380" y="320" text-anchor="middle">40–49</text>
+            <text x="500" y="320" text-anchor="middle">50–59</text>
+          </g>
+          <!-- value labels -->
+          <g fill="#e8e8ea" font-size="12">
+            <text x="140" y="198" text-anchor="middle">8</text>
+            <text x="260" y="114" text-anchor="middle">15</text>
+            <text x="380" y="234" text-anchor="middle">5</text>
+            <text x="500" y="270" text-anchor="middle">2</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note" style="margin-top:.8rem">
+        <strong>เราเห็นอะไร?</strong><br/>
+        • กลุ่มคนส่วนใหญ่อยู่ในช่วงอายุ <strong>30–39 ปี</strong> (แท่งสูงสุด)<br/>
+        • รูปร่างการกระจาย “โน้มเข้าหากลาง” และลดลงเมื่ออายุมากขึ้น
+      </div>
+
+      <div class="warn" style="margin-top:.8rem">
+        <strong>ข้อควรระวัง</strong> ฮิสโทแกรมไม่เหมือน “กราฟแท่งทั่วไป”: แท่งต้อง <em>ติดกัน</em> เพื่อแสดงความต่อเนื่องของช่วงข้อมูล
+      </div>
+    </section>
+
+    <!-- 3) Time Series -->
+    <section class="card" id="timeseries">
+      <h2>3) แผนภาพอนุกรมเวลา (Time Series Plot) ⏳</h2>
+      <p>ใช้เมื่อข้อมูลมีมิติเวลา เพื่อดู <strong>แนวโน้ม (Trend)</strong>, รูปแบบตามฤดูกาล, และการเปลี่ยนแปลงตามเวลา</p>
+
+      <table>
+        <caption>ตัวอย่าง: ยอดขายไอศกรีม (หน่วย: พันบาท)</caption>
+        <thead><tr><th>เดือน</th><th>ยอดขาย</th></tr></thead>
+        <tbody>
+          <tr><td>ม.ค.</td><td>10</td></tr>
+          <tr><td>ก.พ.</td><td>12</td></tr>
+          <tr><td>มี.ค.</td><td>18</td></tr>
+          <tr><td>เม.ย.</td><td>25</td></tr>
+          <tr><td>พ.ค.</td><td>23</td></tr>
+          <tr><td>มิ.ย.</td><td>28</td></tr>
+        </tbody>
+      </table>
+
+      <div class="svgbox" aria-label="กราฟเส้นอนุกรมเวลา ยอดขายไอศกรีมรายเดือน">
+        <!-- Simple line chart (x: months 1..6, y = 300 - value*8) -->
+        <svg viewBox="0 0 640 360" role="img" aria-labelledby="ts-title ts-desc">
+          <title id="ts-title">Time Series: Ice Cream Sales</title>
+          <desc id="ts-desc">ยอดขายเดือน ม.ค.–มิ.ย.: 10, 12, 18, 25, 23, 28 หน่วยพันบาท</desc>
+          <rect x="0" y="0" width="640" height="360" fill="#0f1116"/>
+          <line x1="60" y1="300" x2="600" y2="300" stroke="#6b7280" stroke-width="1"/>
+          <line x1="60" y1="60"  x2="60"  y2="300" stroke="#6b7280" stroke-width="1"/>
+
+          <!-- y ticks (0–30 step 5) -->
+          <g fill="#9aa0a6" font-size="12">
+            <text x="40" y="300" text-anchor="end">0</text>
+            <text x="40" y="260" text-anchor="end">5</text>
+            <text x="40" y="220" text-anchor="end">10</text>
+            <text x="40" y="180" text-anchor="end">15</text>
+            <text x="40" y="140" text-anchor="end">20</text>
+            <text x="40" y="100" text-anchor="end">25</text>
+            <text x="40" y="80"  text-anchor="end">30</text>
+          </g>
+
+          <!-- points (x: 100,180,260,340,420,500) -->
+          <!-- y: 300 - value*8  => 10→220, 12→204, 18→156, 25→100, 23→116, 28→76 -->
+          <g stroke="#4f8cff" fill="none" stroke-width="2">
+            <polyline points="
+              100,220
+              180,204
+              260,156
+              340,100
+              420,116
+              500,76
+            " />
+          </g>
+          <g fill="#cfe0ff">
+            <circle cx="100" cy="220" r="4"/>
+            <circle cx="180" cy="204" r="4"/>
+            <circle cx="260" cy="156" r="4"/>
+            <circle cx="340" cy="100" r="4"/>
+            <circle cx="420" cy="116" r="4"/>
+            <circle cx="500" cy="76" r="4"/>
+          </g>
+
+          <!-- x labels -->
+          <g fill="#cfe0ff" font-size="12">
+            <text x="100" y="320" text-anchor="middle">ม.ค.</text>
+            <text x="180" y="320" text-anchor="middle">ก.พ.</text>
+            <text x="260" y="320" text-anchor="middle">มี.ค.</text>
+            <text x="340" y="320" text-anchor="middle">เม.ย.</text>
+            <text x="420" y="320" text-anchor="middle">พ.ค.</text>
+            <text x="500" y="320" text-anchor="middle">มิ.ย.</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="note" style="margin-top:.8rem">
+        <strong>เราเห็นอะไร?</strong><br/>
+        • แนวโน้มยอดขาย “เพิ่มขึ้นเรื่อย ๆ” และสูงชัดในช่วงฤดูร้อน (เม.ย.–มิ.ย.)<br/>
+        • อาจมีปัจจัยฤดูกาล (Seasonality) ที่ควรพิจารณาในบทถัดไป
+      </div>
+    </section>
+
+    <section class="card" id="math-model">
+      <h2>7) แบบจำลองคณิตศาสตร์: ตารางความถี่เชิงสัมพันธ์</h2>
+      <p>ให้ \(n_i\) คือจำนวนข้อมูลในชั้นที่ \(i\) และ \(n\) คือจำนวนรวม สูตร \(f_i = \frac{n_i}{n}\) ใช้สร้าง <em>Relative Frequency Table</em> ช่วยเปรียบเทียบข้อมูลต่างชุดได้แม้จำนวนตัวอย่างไม่เท่ากัน</p>
+      <table>
+        <caption>ตารางความถี่: เวลาที่นักศึกษาใช้เรียนออนไลน์ (หน่วย: ชั่วโมง/สัปดาห์)</caption>
+        <thead>
+          <tr><th>ช่วงเวลา</th><th>จำนวนคน \(n_i\)</th><th>ความถี่สัมพัทธ์ \(f_i\)</th><th>ความถี่สะสม \(F_i\)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0–4</td><td>6</td><td>\(6/40 = 0.15\)</td><td>0.15</td></tr>
+          <tr><td>5–9</td><td>14</td><td>\(14/40 = 0.35\)</td><td>0.50</td></tr>
+          <tr><td>10–14</td><td>12</td><td>\(12/40 = 0.30\)</td><td>0.80</td></tr>
+          <tr><td>15–19</td><td>8</td><td>\(8/40 = 0.20\)</td><td>1.00</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">ค่าความถี่สะสม \(F_i = \sum_{j=1}^{i} f_j\) ช่วยวางเส้น Cumulative Frequency (Ogive) ในกราฟได้ทันที</p>
+    </section>
+
+    <section class="card" id="case-study">
+      <h2>8) เลือกกราฟให้เหมาะ: กรณีศึกษาร้านกาแฟ 2 สาขา</h2>
+      <div class="grid-two">
+        <div>
+          <p>สาขา A มีข้อมูลรายชั่วโมง ส่วนสาขา B เก็บเฉพาะรอบเช้า/บ่าย/เย็น การนำเสนอร่วมกันทำได้ 2 วิธี</p>
+          <ol>
+            <li>สร้างตารางความถี่สัมพัทธ์แล้วใช้กราฟแท่งกลุ่ม (Clustered Bar)</li>
+            <li>สร้างเส้นสะสมรายชั่วโมงให้สาขา A จากนั้นตีความช่วงที่ยอดขายทะลุ 50% เทียบกับสาขา B</li>
+          </ol>
+        </div>
+        <div>
+          <div class="warn">คำถามชวนคิด: ถ้าใช้ฮิสโทแกรมร่วมกัน ข้อมูลสาขา B ที่เป็นกลุ่มกว้างจะทำให้ตีความผิดได้หรือไม่? ลองตอบก่อนดูเฉลยใน <a class="inline" href="quiz-lesson02.html">Quiz บทที่ 2</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="note">
+      ✅ บทนี้เรา “จัดระเบียบข้อมูล” ด้วยก้าน-ใบ, ตาราง+ฮิสโทแกรม และกราฟอนุกรมเวลาเพื่อเห็นภาพรวมชัดเจนขึ้น<br/>
+      ▶ ต่อไป: <strong>บทที่ 3: สถิติเชิงพรรณนา (Descriptive Statistics) 🎯</strong>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 02 • Meta version 1.3.0 • ปรับปรุง 1 ต.ค. 2025 • รองรับ MathJax + พิมพ์ PDF</small>
+    </div>
+  </footer>
+  <script src="assets/js/mathjax-loader.js" defer></script>
+  <script src="assets/js/router.js" defer></script>
+  <script src="assets/js/breadcrumbs.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
+</body>
+</html>

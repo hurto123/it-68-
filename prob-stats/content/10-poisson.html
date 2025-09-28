@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 10 — Poisson Distribution</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 10 — การแจกแจงปัวซอง (Poisson)</h1>
+      <p>เรียนรู้การแจกแจงสำหรับเหตุการณ์ที่เกิดขึ้นแบบสุ่มในช่วงเวลาหรือพื้นที่ โดยเฉลี่ยเกิดขึ้น λ ครั้งต่อหนึ่งหน่วย</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>เงื่อนไขการใช้งาน</h2>
+        <ul class="list-tight">
+          <li>เหตุการณ์เกิดขึ้นอย่างเป็นอิสระ</li>
+          <li>โอกาสเกิดเหตุการณ์ในช่วงเวลาสั้น ๆ เท่ากันและไม่ขึ้นกับที่ผ่านมา</li>
+          <li>โอกาสเกิดมากกว่าหนึ่งเหตุการณ์ในช่วงสั้นมาก ≈ 0</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>สูตรพื้นฐาน</h2>
+        <ul class="list-tight">
+          <li>ความน่าจะเป็น: $P(X=k) = e^{-\lambda} \dfrac{\lambda^k}{k!}$</li>
+          <li>ค่าเฉลี่ยและความแปรปรวน: $E[X] = Var[X] = \lambda$</li>
+          <li>ช่วงเวลาใหม่: ถ้าช่วงเวลาขยายเป็น $t$ หน่วย → พารามิเตอร์ใหม่ $\lambda_t = \lambda \times t$</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่าง</h2>
+      <p><strong>โจทย์:</strong> Call Center มีลูกค้าโทรเข้าเฉลี่ย 12 ครั้งต่อชั่วโมง จงหาความน่าจะเป็นที่จะมีลูกค้าโทรเข้าไม่เกิน 8 ครั้งในหนึ่งชั่วโมง</p>
+      <ol class="list-tight">
+        <li>ให้ $\lambda = 12$, ต้องการ $P(X \le 8)$</li>
+        <li>คำนวณจากตารางหรือใช้สูตรรวม: $P(X \le 8) = \sum_{k=0}^{8} e^{-12}\dfrac{12^k}{k!}$</li>
+        <li>ผลลัพธ์ประมาณ 0.191 → มีโอกาส 19.1% ที่สายเข้าจะไม่เกิน 8 ครั้ง</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>การเชื่อมโยงกับ Binomial</h2>
+      <p>เมื่อ Binomial($n$, $p$) มี $n$ ใหญ่และ $p$ เล็ก สามารถประมาณด้วย Poisson โดยตั้ง $\lambda = np$ ช่วยให้คำนวณง่ายขึ้น</p>
+    </section>
+
+    <section class="card">
+      <h2>การประยุกต์</h2>
+      <ul class="list-tight">
+        <li>จำนวนอุบัติเหตุในหนึ่งวัน</li>
+        <li>จำนวนอีเมลแจ้งเตือนระบบในหนึ่งชั่วโมง</li>
+        <li>จำนวนตำหนิ (defect) ต่อหนึ่งเมตรของสายเคเบิล</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

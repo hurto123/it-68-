@@ -1,0 +1,123 @@
+{
+  "project": "prob-stats",
+  "version": "0.3.0",
+  "updated_at": "2024-05-15",
+  "lessons": [
+    { "id": "ch01", "title": "บทที่ 1: บทนำ", "path": "content/01-intro.html" },
+    { "id": "ch02", "title": "บทที่ 2: การนำเสนอข้อมูล", "path": "content/02-descriptive.html" },
+    { "id": "ch03", "title": "บทที่ 3: ความน่าจะเป็นเบื้องต้น", "path": "content/03-probability-basics.html" },
+    { "id": "ch04", "title": "บทที่ 4: เงื่อนไขและความน่าจะเป็นร่วม", "path": "content/04-conditional.html" },
+    { "id": "ch05", "title": "บทที่ 5: ตัวแปรสุ่ม", "path": "content/05-random-variables.html" },
+    { "id": "ch06", "title": "บทที่ 6: ความคาดหมายและความแปรปรวน", "path": "content/06-expectation-variance.html" },
+    { "id": "ch07", "title": "บทที่ 7: การแจกแจงไม่ต่อเนื่อง", "path": "content/07-discrete-uniform.html" },
+    { "id": "ch08", "title": "บทที่ 8: Binomial", "path": "content/08-binomial.html" },
+    { "id": "ch09", "title": "บทที่ 9: Hypergeometric", "path": "content/09-hypergeometric.html" },
+    { "id": "ch10", "title": "บทที่ 10: Poisson", "path": "content/10-poisson.html" },
+    { "id": "ch11", "title": "บทที่ 11: Continuous & Normal", "path": "content/11-continuous-normal.html" },
+    { "id": "ch12", "title": "บทที่ 12: Standard Normal & Z", "path": "content/12-standard-normal-z.html" },
+    { "id": "ch13", "title": "บทที่ 13: t, χ², F", "path": "content/13-t-chi2-f.html" },
+    { "id": "ch14", "title": "บทที่ 14: CLT", "path": "content/14-clt.html" },
+    { "id": "ch15", "title": "บทที่ 15: Sampling Distributions", "path": "content/15-sampling-other-stats.html" },
+    { "id": "ch16", "title": "บทที่ 16: Confidence Interval", "path": "content/16-ci-intro.html" }
+  ],
+  "resources": {
+    "exercises": [
+      { "id": "ch01", "title": "แบบฝึกหัดบทที่ 1", "path": "exercises/ch01.html" },
+      { "id": "ch02", "title": "แบบฝึกหัดบทที่ 2", "path": "exercises/ch02.html" },
+      { "id": "ch03", "title": "แบบฝึกหัดบทที่ 3", "path": "exercises/ch03.html" },
+      { "id": "ch04", "title": "แบบฝึกหัดบทที่ 4", "path": "exercises/ch04.html" },
+      { "id": "ch05", "title": "แบบฝึกหัดบทที่ 5", "path": "exercises/ch05.html" },
+      { "id": "ch06", "title": "แบบฝึกหัดบทที่ 6", "path": "exercises/ch06.html" },
+      { "id": "ch07", "title": "แบบฝึกหัดบทที่ 7", "path": "exercises/ch07.html" },
+      { "id": "ch08", "title": "แบบฝึกหัดบทที่ 8", "path": "exercises/ch08.html" },
+      { "id": "ch09", "title": "แบบฝึกหัดบทที่ 9", "path": "exercises/ch09.html" },
+      { "id": "ch10", "title": "แบบฝึกหัดบทที่ 10", "path": "exercises/ch10.html" },
+      { "id": "ch11", "title": "แบบฝึกหัดบทที่ 11", "path": "exercises/ch11.html" },
+      { "id": "ch12", "title": "แบบฝึกหัดบทที่ 12", "path": "exercises/ch12.html" },
+      { "id": "ch13", "title": "แบบฝึกหัดบทที่ 13", "path": "exercises/ch13.html" },
+      { "id": "ch14", "title": "แบบฝึกหัดบทที่ 14", "path": "exercises/ch14.html" },
+      { "id": "ch15", "title": "แบบฝึกหัดบทที่ 15", "path": "exercises/ch15.html" },
+      { "id": "ch16", "title": "แบบฝึกหัดบทที่ 16", "path": "exercises/ch16.html" }
+    ],
+    "solutions": [
+      { "id": "ch01", "title": "เฉลยบทที่ 1", "path": "exercises/ch01-answer.html" },
+      { "id": "ch02", "title": "เฉลยบทที่ 2", "path": "exercises/ch02-answer.html" },
+      { "id": "ch03", "title": "เฉลยบทที่ 3", "path": "exercises/ch03-answer.html" },
+      { "id": "ch04", "title": "เฉลยบทที่ 4", "path": "exercises/ch04-answer.html" },
+      { "id": "ch05", "title": "เฉลยบทที่ 5", "path": "exercises/ch05-answer.html" },
+      { "id": "ch06", "title": "เฉลยบทที่ 6", "path": "exercises/ch06-answer.html" },
+      { "id": "ch07", "title": "เฉลยบทที่ 7", "path": "exercises/ch07-answer.html" },
+      { "id": "ch08", "title": "เฉลยบทที่ 8", "path": "exercises/ch08-answer.html" },
+      { "id": "ch09", "title": "เฉลยบทที่ 9", "path": "exercises/ch09-answer.html" },
+      { "id": "ch10", "title": "เฉลยบทที่ 10", "path": "exercises/ch10-answer.html" },
+      { "id": "ch11", "title": "เฉลยบทที่ 11", "path": "exercises/ch11-answer.html" },
+      { "id": "ch12", "title": "เฉลยบทที่ 12", "path": "exercises/ch12-answer.html" },
+      { "id": "ch13", "title": "เฉลยบทที่ 13", "path": "exercises/ch13-answer.html" },
+      { "id": "ch14", "title": "เฉลยบทที่ 14", "path": "exercises/ch14-answer.html" },
+      { "id": "ch15", "title": "เฉลยบทที่ 15", "path": "exercises/ch15-answer.html" },
+      { "id": "ch16", "title": "เฉลยบทที่ 16", "path": "exercises/ch16-answer.html" }
+    ],
+    "simulators": [
+      { "id": "sim-lln", "title": "Law of Large Numbers", "path": "simulators/lln.html" },
+      { "id": "sim-clt", "title": "Central Limit Theorem", "path": "simulators/clt.html" },
+      { "id": "sim-binomial", "title": "Binomial", "path": "simulators/binomial.html" },
+      { "id": "sim-hypergeo", "title": "Hypergeometric", "path": "simulators/hypergeometric.html" },
+      { "id": "sim-poisson", "title": "Poisson", "path": "simulators/poisson.html" },
+      { "id": "sim-normal", "title": "Normal", "path": "simulators/normal.html" },
+      { "id": "sim-power", "title": "Hypothesis Power", "path": "simulators/hypothesis-power.html" },
+      { "id": "sim-sampling", "title": "Sampling", "path": "simulators/sampling.html" }
+    ],
+    "tools": [
+      { "id": "tool-z", "title": "Z Calculator", "path": "tools/z.html" },
+      { "id": "tool-t", "title": "t Calculator", "path": "tools/t.html" },
+      { "id": "tool-chi2", "title": "Chi-Square Calculator", "path": "tools/chi2.html" },
+      { "id": "tool-f", "title": "F Calculator", "path": "tools/f.html" },
+      { "id": "tool-normal-cdf", "title": "Normal CDF", "path": "tools/normal-cdf.html" },
+      { "id": "tool-power", "title": "Power & Sample Size", "path": "tools/power-sample-size.html" },
+      { "id": "table-z", "title": "Z Table", "path": "tools/z-table.html" },
+      { "id": "table-t", "title": "t Table", "path": "tools/t-table.html" },
+      { "id": "table-chi2", "title": "Chi-Square Table", "path": "tools/chi2-table.html" },
+      { "id": "table-f", "title": "F Table", "path": "tools/f-table.html" }
+    ],
+    "datasets": [
+      { "id": "data-lln", "title": "lln.csv", "path": "data/lln.csv" },
+      { "id": "data-clt", "title": "clt_heights.csv", "path": "data/clt_heights.csv" },
+      { "id": "data-qc", "title": "qc_defects.csv", "path": "data/qc_defects.csv" },
+      { "id": "data-poisson", "title": "poisson_calls.csv", "path": "data/poisson_calls.csv" },
+      { "id": "data-binomial", "title": "binomial_shots.csv", "path": "data/binomial_shots.csv" },
+      { "id": "data-hypergeo", "title": "hypergeo_urn.csv", "path": "data/hypergeo_urn.csv" },
+      { "id": "data-normal", "title": "normal_noise.csv", "path": "data/normal_noise.csv" },
+      { "id": "data-two-sample", "title": "two_sample_weight.csv", "path": "data/two_sample_weight.csv" },
+      { "id": "data-paired", "title": "paired_prepost.csv", "path": "data/paired_prepost.csv" },
+      { "id": "data-abtest", "title": "abtest_conversions.csv", "path": "data/abtest_conversions.csv" }
+    ],
+    "cheatsheets": [
+      { "title": "Cheatsheet: CI & Tests", "path": "content/cheatsheets/ci-tests.html" },
+      { "title": "Cheatsheet: Distributions", "path": "content/cheatsheets/distributions.html" },
+      { "title": "Formula Sheet", "path": "content/cheatsheets/formulas-1page.html" }
+    ],
+    "references": [
+      { "title": "Glossary", "path": "content/glossary.html" },
+      { "title": "Symbols", "path": "content/symbols.html" },
+      { "title": "Decision Map", "path": "content/decision-map.html" },
+      { "title": "Pitfalls", "path": "content/pitfalls.html" }
+    ],
+    "workers": [
+      { "title": "CLT Worker", "path": "workers/clt.worker.js" },
+      { "title": "Bootstrap Worker", "path": "workers/bootstrap.worker.js" }
+    ],
+    "locales": [
+      { "title": "ภาษาไทย", "path": "i18n/th.json" },
+      { "title": "English", "path": "i18n/en.json" }
+    ],
+    "pwa": [
+      { "title": "Manifest", "path": "pwa/manifest.json" },
+      { "title": "Service Worker", "path": "pwa/sw.js" }
+    ],
+    "print": [
+      { "title": "Cover", "path": "pdf/cover.html" },
+      { "title": "Table of Contents", "path": "pdf/toc.html" },
+      { "title": "รวบรวมบททั้งหมด", "path": "build/print-all.html" }
+    ]
+  }
+}

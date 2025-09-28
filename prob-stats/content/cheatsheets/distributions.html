@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheatsheet: Distributions</title>
+  <link rel="stylesheet" href="../../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../../assets/css/components.css">
+  <link rel="stylesheet" href="../../assets/css/print.css">
+  <link rel="stylesheet" href="../../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="card">
+      <h1>Cheatsheet — Distributions</h1>
+      <p>สรุปลักษณะและพารามิเตอร์ของการแจกแจงที่ใช้บ่อย พร้อมคำอธิบายตัวแปร</p>
+    </header>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>Binomial</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: $n$ (จำนวนการทดลอง), $p$ (โอกาสสำเร็จ)</li>
+          <li>ค่าสำคัญ: $E[X] = np$, $Var[X] = np(1-p)$</li>
+          <li>ใช้กับเหตุการณ์ที่มีสองผลลัพธ์ และอิสระเหมือนกันทุกครั้ง</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Poisson</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: $\lambda$ (อัตราเกิดเหตุการณ์เฉลี่ยต่อช่วงเวลา/พื้นที่)</li>
+          <li>ค่าสำคัญ: $E[X] = Var[X] = \lambda$</li>
+          <li>เหมาะกับเหตุการณ์หายาก เช่น จำนวนสายที่โทรเข้าในหนึ่งนาที</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Normal</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: $\mu$, $\sigma$</li>
+          <li>รูปทรงระฆังคว่ำ สมมาตร</li>
+          <li>68-95-99.7 rule: 1σ, 2σ, 3σ รอบค่าเฉลี่ย</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>t Distribution</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: df = n-1</li>
+          <li>หางหนากว่า Normal ใช้เมื่อ σ ไม่ทราบและ n เล็ก</li>
+          <li>df สูง → เข้าใกล้ Normal</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Chi-square</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: df = จำนวนข้อจำกัด</li>
+          <li>ใช้ตรวจสอบความพอดี และการเป็นอิสระของตารางความถี่</li>
+          <li>ค่าติดลบเป็นไปไม่ได้ การแจกแจงเบ้ขวา</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>F Distribution</h2>
+        <ul class="list-tight">
+          <li>พารามิเตอร์: df<sub>1</sub> (ตัวเศษ), df<sub>2</sub> (ตัวส่วน)</li>
+          <li>ใช้ทดสอบอัตราส่วนความแปรปรวน และ ANOVA</li>
+          <li>มีหางขวายาว ต้องระบุทั้งสอง df</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

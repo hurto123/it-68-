@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 12 — Standard Normal &amp; Z-Score</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 12 — Standard Normal และค่า Z</h1>
+      <p>ต่อยอดจากบทก่อนด้วยการแปลงค่าปกติใด ๆ ให้อยู่ในรูปมาตรฐานเพื่อใช้ตาราง Z และการเปรียบเทียบคะแนน</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>การแปลงเป็น Z</h2>
+        <ul class="list-tight">
+          <li>$Z = \dfrac{X - \mu}{\sigma}$</li>
+          <li>ทำให้ค่าเฉลี่ยอยู่ที่ 0 และส่วนเบี่ยงเบนมาตรฐานเป็น 1</li>
+          <li>ใช้เทียบคะแนนต่างสเกล (เช่น คะแนนสอบ 2 วิชา)</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>การใช้ตาราง Z</h2>
+        <ol class="list-tight">
+          <li>เขียนภาพเพื่อกำหนดพื้นที่ที่ต้องการ</li>
+          <li>แปลงค่าขอบเขตเป็น Z</li>
+          <li>ค้นหาพื้นที่จากตารางและปรับตามบริเวณที่ต้องการ (ซ้าย/ขวา/ระหว่าง)</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>เปอร์เซ็นไทล์</h2>
+      <p>ต้องการหาคะแนน $X$ ที่อยู่ในเปอร์เซ็นไทล์ที่ $p$:</p>
+      <ol class="list-tight">
+        <li>หาค่า $Z_p$ จากตารางด้านใน (พื้นที่สะสม)</li>
+        <li>ย้อนกลับด้วย $X = \mu + Z_p\sigma$</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่าง</h2>
+      <p>คะแนนสอบแจกแจงปกติ µ = 500, σ = 100 หาคะแนนขั้นต่ำที่อยู่ใน Top 10%</p>
+      <ol class="list-tight">
+        <li>Top 10% → ต้องการพื้นที่ทางขวา 0.10 → ตารางให้ $Z_{0.90} ≈ 1.2816$</li>
+        <li>คะแนน = 500 + 1.2816×100 = 628.16</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>

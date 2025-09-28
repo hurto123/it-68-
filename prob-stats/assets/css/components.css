@@ -1,0 +1,119 @@
+@import url('./tokens.css');
+
+.card-grid {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card p {
+  margin-bottom: 0.8rem;
+}
+
+.search-results mark {
+  background: var(--ps-color-primary-soft);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.site-footer code {
+  background: rgba(255, 255, 255, 0.16);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.ps-tooltip {
+  position: absolute;
+  transform: translateY(calc(100% + 6px));
+  background: rgba(0, 0, 0, 0.82);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.has-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.category-grid {
+  display: grid;
+  gap: clamp(16px, 2vw, 20px);
+  margin-top: clamp(20px, 2vw, 28px);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.category-card {
+  background: var(--ps-color-surface-muted);
+  border: 1px solid var(--ps-color-border);
+  border-radius: var(--ps-radius-md);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.category-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.category-count {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ps-color-primary);
+  white-space: nowrap;
+}
+
+.category-description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ps-color-text);
+}
+
+.category-examples {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--ps-color-text-muted);
+}
+
+.category-examples li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.category-examples li::before {
+  content: '•';
+  color: var(--ps-color-accent);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.category-footer {
+  margin-top: 4px;
+}
+
+.category-footer a {
+  font-weight: 600;
+  color: var(--ps-color-primary);
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บทที่ 13 — t, χ² และ F Distribution</title>
+  <link rel="stylesheet" href="../assets/css/theme-light.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/print.css" media="print">
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>บทที่ 13 — t / χ² / F Distributions</h1>
+      <p>สามการแจกแจงสำคัญที่ใช้ในงานอนุมาน: t สำหรับค่าเฉลี่ย, χ² สำหรับความแปรปรวน/ความพอดี, และ F สำหรับการเปรียบเทียบความแปรปรวนหลายกลุ่ม</p>
+    </article>
+
+    <section class="card-grid">
+      <article class="card">
+        <h2>t Distribution</h2>
+        <ul class="list-tight">
+          <li>ใช้เมื่อ σ ของประชากรไม่ทราบและ n เล็ก</li>
+          <li>พารามิเตอร์: df = n-1</li>
+          <li>หางหนากว่า Normal → ให้ความไม่แน่นอนเพิ่ม</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Chi-square (χ²)</h2>
+        <ul class="list-tight">
+          <li>ใช้ตรวจสอบความพอดีของโมเดล หรือการเป็นอิสระของตัวแปร</li>
+          <li>พารามิเตอร์: df = (แถว-1)×(คอลัมน์-1)</li>
+          <li>ค่าติดลบเป็นไปไม่ได้ → พื้นที่อยู่ด้านขวา</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>F Distribution</h2>
+        <ul class="list-tight">
+          <li>ใช้เปรียบเทียบความแปรปรวนสองกลุ่มขึ้นไป (ANOVA)</li>
+          <li>พารามิเตอร์: df<sub>1</sub> (ตัวเศษ), df<sub>2</sub> (ตัวส่วน)</li>
+          <li>หาก F ใหญ่กว่าค่า critical → มีหลักฐานว่ามีความแตกต่าง</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ตัวอย่างสั้น ๆ</h2>
+      <ol class="list-tight">
+        <li><strong>t-test:</strong> ค่าเฉลี่ยความดันหลังออกกำลังกาย (n=12) เปรียบเทียบกับ 120 mmHg → ใช้ t(df=11)</li>
+        <li><strong>χ² test:</strong> ตารางเพศ × การเลือกสาขา → df = (2-1)(4-1) = 3</li>
+        <li><strong>ANOVA:</strong> เปรียบเทียบคะแนน 3 คณะ → ใช้ F(df<sub>1</sub>=2, df<sub>2</sub>=n-3)</li>
+      </ol>
+    </section>
+  </main>
+</body>
+</html>
