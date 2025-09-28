@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="theme-light" lang="th">
 <head>
-  <meta name="description" content="บทที่\ 6\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>บทที่ 06 • ตัวแปรสุ่ม (Random Variables)</title>
+  <meta name="description" content="บทเรียนค่าคาดหวังและความแปรปรวน พร้อมกราฟโต้ตอบและเครื่องมือคำนวณตัวแปรสุ่ม" />
+  <title>บทที่ 06 • ค่าคาดหวังและความแปรปรวน</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
   <script>
@@ -13,327 +13,477 @@
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]']]
       },
-      options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      svg: { fontCache: 'global' }
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
   <style>
-    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
-    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
-    header .wrap, footer .wrap, main{max-width:1000px;margin:0 auto;padding:1rem}
-    h1,h2,h3{line-height:1.25;margin:.2rem 0}
-    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
-    nav a:hover{background:#2a2e36}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
-    .muted{color:var(--muted)}
-    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
-    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
-    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
-    table{width:100%;border-collapse:collapse;margin:.6rem 0}
-    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
-    th{background:#1c1e25}
-    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
-    ul,ol{margin:.4rem 0 .4rem 1.2rem}
-    strong{color:#cfe0ff}
-    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
-    .svgbox svg{max-width:100%;height:auto;display:block}
-    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
-  </style>
-  <script type="application/json" id="lesson-meta">
-    {
-      "id": "lesson06",
-      "title": "บทที่ 6: ตัวแปรสุ่ม",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
-      "depends_on": [
-        "summary-lesson06.html",
-        "assets/data/questions/lesson06.questions.th.json",
-        "assets/data/solutions/lesson06.solutions.th.json",
-        "assets/js/reading-tools.js",
-        "style.css"
-      ],
-      "tags": ["random-variable", "expectation", "variance", "reading-tools", "math-model"]
+    :root {
+      color-scheme: dark;
+      --bg: #05070f;
+      --surface: #0f1522;
+      --surface-alt: #151d2d;
+      --surface-soft: #1a2336;
+      --text: #f4f6ff;
+      --muted: #9aa6c9;
+      --accent: #ffb454;
+      --accent-soft: rgba(255, 180, 84, 0.18);
+      --ok: #59e0c2;
+      --border: #232a3d;
     }
-  </script>
-  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 15% -10%, rgba(255, 180, 84, 0.18), transparent 60%),
+                  radial-gradient(circle at 85% 0%, rgba(89, 224, 194, 0.16), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.7 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(15, 21, 34, 0.95), rgba(255, 180, 84, 0.22));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 18px 60px rgba(255, 180, 84, 0.15);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1.3rem 1.6rem;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 0.25rem 0 0.55rem;
+    }
+
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    ul, ol { padding-left: 1.2rem; }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 18, 32, 0.55);
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover,
+    .pill:hover {
+      background: rgba(255, 180, 84, 0.22);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .metric {
+      background: rgba(0, 0, 0, 0.35);
+      padding: 1rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .metric strong {
+      font-size: 1.2rem;
+      display: block;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.8rem;
+    }
+
+    .pill {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+    }
+
+    main {
+      display: grid;
+      gap: 1.2rem;
+      padding-bottom: 4rem;
+    }
+
+    section.card {
+      background: var(--surface);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      padding: clamp(1.15rem, 1.6vw, 1.85rem);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.24);
+    }
+
+    .note {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      margin: 0.85rem 0;
+    }
+
+    .ok {
+      background: rgba(89, 224, 194, 0.16);
+      border-left: 4px solid var(--ok);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      margin: 0.85rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 0.9rem 0 1.1rem;
+      background: var(--surface-alt);
+    }
+
+    th, td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: left;
+    }
+
+    th { background: rgba(255, 255, 255, 0.08); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .mini-card {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem 1.1rem;
+    }
+
+    .svg-box {
+      background: var(--surface-alt);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      margin: 0.8rem 0;
+      overflow: auto;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 0.7rem 0 1rem;
+    }
+
+    .control-row label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .control-row input[type="number"],
+    .control-row input[type="range"] {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.45rem 0.6rem;
+      color: var(--text);
+      min-width: 120px;
+    }
+
+    details summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 0.7rem;
+    }
+
+    footer {
+      background: rgba(10, 16, 27, 0.92);
+      border-top: 1px solid var(--border);
+    }
+
+    .muted { color: var(--muted); }
+  </style>
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles" />
   <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <h1>บทที่ 06 • ตัวแปรสุ่ม (Random Variables) 🎲➡️🔢</h1>
-      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · ครอบคลุม PMF/PDF, E[X], Var(X)</p>
-      <nav aria-label="นำทางบทเรียน">
-        <a href="index.html">🏠 หน้าแรก</a>
-        <a href="lesson05.html">⟵ บทก่อนหน้า</a>
-        <a href="lesson07.html">บทถัดไป ⟶</a>
+      <h1>บทที่ 06 • ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</h1>
+      <p class="muted">ศูนย์กลางและการกระจายของการแจกแจง ทั้งแบบไม่ต่อเนื่องและต่อเนื่อง พร้อมตัวอย่างและแลบโต้ตอบ</p>
+      <nav aria-label="บทก่อนหน้าและถัดไป">
+        <a href="03-probability-basics.html">🏠 ภาพรวมความน่าจะเป็น</a>
+        <a href="05-random-variables.html">⟵ บทที่ 05</a>
+        <a href="07-discrete-uniform.html">บทที่ 07 ⟶</a>
       </nav>
-      <div class="chips">
-        <span class="pill">📝 <a class="inline" href="summary-lesson06.html">สรุป 1 หน้า</a></span>
-        <span class="pill">🧪 <a class="inline" href="quiz-lesson06.html">Quiz บทที่ 6</a></span>
+      <div class="pill-row">
+        <span class="pill">สูตรย่อ E[X], Var(X)</span>
+        <span class="pill">ตัวอย่าง: เกมโยนเหรียญ & การโยน 2 ครั้ง</span>
+        <span class="pill">Interactive Labs ภายในบท</span>
+      </div>
+      <div class="hero-grid">
+        <div class="metric">
+          <strong>E(X)</strong>
+          <p>ค่าเฉลี่ยที่ถ่วงน้ำหนักด้วยความน่าจะเป็น เป็นหัวใจของการสรุปการแจกแจง</p>
+        </div>
+        <div class="metric">
+          <strong>Var(X)</strong>
+          <p>ค่าที่บอกความผันผวนรอบค่าเฉลี่ย ยิ่งสูงยิ่งกระจาย</p>
+        </div>
+        <div class="metric">
+          <strong>σ</strong>
+          <p>ส่วนเบี่ยงเบนมาตรฐาน = √Var(X) มีหน่วยเดียวกับตัวแปร</p>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="content lesson-page">
-    <section class="card" id="reading-support">
-      <h2>Reading Toolkit สำหรับตัวแปรสุ่ม</h2>
-      <p>เปิดแถบเครื่องมือเพื่อปรับตัวอักษรและขยายสูตร PMF/PDF ให้ชัดเจน โดยเฉพาะเมื่อดูตารางค่าและกราฟ PDF ในโหมดพิมพ์ PDF</p>
-      <ul>
-        <li>สูตร \(E[X] = \sum x_i p_i\) และ \(Var(X) = \sum (x_i-\mu)^2 p_i\) เรนเดอร์ด้วย MathJax</li>
-        <li>ปุ่ม <em>สารบัญ</em> ใช้กระโดดไปยังส่วน Discrete หรือ Continuous ได้ทันที</li>
-        <li>เชื่อมโยงกับ <a class="inline" href="summary-lesson06.html">สรุป 1 หน้า</a> เพื่อดูสูตรย่อและตัวอย่างสั้น</li>
-      </ul>
-    </section>
-
-    <!-- 6.1 ตัวแปรสุ่มคืออะไร -->
-    <section class="card" id="what">
-      <h2>6.1 ตัวแปรสุ่มคืออะไร?</h2>
-      <p><strong>นิยาม:</strong> ฟังก์ชันที่แปลง “เหตุการณ์” ในแซมเปิลสเปซให้เป็น “ตัวเลข” เพื่อให้คำนวณทางคณิตศาสตร์ต่อได้</p>
-      <ul>
-        <li>ใช้ตัวพิมพ์ใหญ่แทนตัวแปรสุ่ม: <strong>X, Y</strong></li>
-        <li>ใช้ตัวพิมพ์เล็กแทนค่าที่เป็นไปได้: <strong>x, y</strong></li>
-      </ul>
-      <div class="ex">ตัวอย่าง: โยนเหรียญ 2 เหรียญ 1 ครั้ง, S = {HH, HT, TH, TT}  
-กำหนด X = จำนวนหัว → TT→0, HT/TH→1, HH→2 ⇒ ค่าที่เป็นไปได้ของ X คือ {0, 1, 2}</div>
-    </section>
-
-    <!-- 6.2 ประเภท -->
-    <section class="card" id="types">
-      <h2>6.2 ประเภทของตัวแปรสุ่ม</h2>
-      <table>
-        <caption>Discrete vs Continuous</caption>
-        <thead><tr><th>คุณสมบัติ</th><th>ไม่ต่อเนื่อง (Discrete)</th><th>ต่อเนื่อง (Continuous)</th></tr></thead>
-        <tbody>
-          <tr><td>ที่มา</td><td>มาจากการ <strong>นับ</strong> 🔢</td><td>มาจากการ <strong>วัด</strong> 📏</td></tr>
-          <tr><td>ลักษณะค่า</td><td>จำนวนเต็ม/นับได้</td><td>เป็นค่าใดก็ได้ในช่วง</td></tr>
-          <tr><td>ช่องว่างระหว่างค่า</td><td>มีช่องว่าง (กระโดดเป็นขั้น)</td><td>ไม่มีช่องว่าง (ต่อเนื่อง)</td></tr>
-          <tr><td>ตัวอย่าง</td><td>จำนวนคน, แต้มลูกเต๋า</td><td>ส่วนสูง, น้ำหนัก, เวลา, อุณหภูมิ</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 6.3 PMF / PDF -->
-    <section class="card" id="pmf-pdf">
-      <h2>6.3 ฟังก์ชันความน่าจะเป็น (Probability Function) 📜</h2>
-      <h3>ตัวแปรสุ่มไม่ต่อเนื่อง: PMF (Probability Mass Function)</h3>
-      <ul>
-        <li>ให้ “ก้อนความน่าจะเป็น” ณ จุด x: <strong>f(x) = P(X = x)</strong></li>
-        <li>คุณสมบัติ: 0 ≤ f(x) ≤ 1 และผลรวมทุกค่าเท่ากับ 1</li>
-      </ul>
-
-      <div class="ex">ตัวอย่าง (X = จำนวนหัวจากการโยนเหรียญ 2 เหรียญ):  
-f(0)=1/4, f(1)=2/4, f(2)=1/4</div>
-
-      <div class="svgbox" aria-label="กราฟแท่ง PMF ของ X=จำนวนหัว เมื่อโยน 2 เหรียญ">
-        <!-- Bar chart PMF: x=0,1,2 with probs 0.25,0.5,0.25 -->
-        <svg viewBox="0 0 680 360" role="img" aria-labelledby="pmf-title pmf-desc">
-          <title id="pmf-title">PMF: #Heads in 2 Tosses</title>
-          <desc id="pmf-desc">แท่งที่ x=0,1,2 มีความสูง 0.25, 0.5, 0.25</desc>
-          <rect x="0" y="0" width="680" height="360" fill="#0f1116"/>
-          <line x1="80" y1="300" x2="620" y2="300" stroke="#6b7280" stroke-width="1"/>
-          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280" stroke-width="1"/>
-          <!-- y ticks (0..0.5 step 0.1) scale 400px height for 0.5? We'll map 1.0→200px; so 0.5→100 -->
-          <g fill="#9aa0a6" font-size="12">
-            <text x="60" y="300" text-anchor="end">0.0</text>
-            <text x="60" y="260" text-anchor="end">0.1</text>
-            <text x="60" y="220" text-anchor="end">0.2</text>
-            <text x="60" y="180" text-anchor="end">0.3</text>
-            <text x="60" y="140" text-anchor="end">0.4</text>
-            <text x="60" y="100" text-anchor="end">0.5</text>
-          </g>
-          <!-- scale: 1.0 -> 200px; baseline 300 -->
-          <!-- heights: 0.25->50px; 0.5->100px; 0.25->50px -->
-          <g>
-            <rect x="180" y="250" width="100" height="50" fill="#4f8cff"/>
-            <rect x="300" y="200" width="100" height="100" fill="#4f8cff"/>
-            <rect x="420" y="250" width="100" height="50" fill="#4f8cff"/>
-          </g>
-          <!-- x labels -->
-          <g fill="#cfe0ff" font-size="12">
-            <text x="230" y="320" text-anchor="middle">x = 0</text>
-            <text x="350" y="320" text-anchor="middle">x = 1</text>
-            <text x="470" y="320" text-anchor="middle">x = 2</text>
-          </g>
-          <!-- value labels -->
-          <g fill="#e8e8ea" font-size="12">
-            <text x="230" y="244" text-anchor="middle">0.25</text>
-            <text x="350" y="194" text-anchor="middle">0.50</text>
-            <text x="470" y="244" text-anchor="middle">0.25</text>
-          </g>
-        </svg>
-      </div>
-
-      <h3 style="margin-top:1rem">ตัวแปรสุ่มต่อเนื่อง: PDF (Probability Density Function)</h3>
-      <ul>
-        <li>ความน่าจะเป็นคือ “พื้นที่ใต้กราฟ” ใน <em>ช่วง</em> ที่สนใจ (ไม่ใช่ความสูงที่จุด)</li>
-        <li>คุณสมบัติ: f(x) ≥ 0 และพื้นที่ใต้กราฟทั้งหมด = 1</li>
-      </ul>
-
-      <div class="ex">ตัวอย่าง PDF แบบ Uniform(0,10):  
-f(x) = 0.1 เมื่อ 0 ≤ x ≤ 10, อื่น ๆ = 0 → พื้นที่สี่เหลี่ยม = ฐาน 10 × สูง 0.1 = 1</div>
-
-      <div class="svgbox" aria-label="PDF ของ Uniform(0,10)">
-        <!-- Uniform(0,10): rectangle height 0.1 between 0..10 -->
-        <svg viewBox="0 0 680 360" role="img" aria-labelledby="pdf-title pdf-desc">
-          <title id="pdf-title">PDF: Uniform(0,10)</title>
-          <desc id="pdf-desc">สี่เหลี่ยมผืนผ้าแสดงความหนาแน่น 0.1 ระหว่าง 0 ถึง 10</desc>
-          <rect x="0" y="0" width="680" height="360" fill="#0f1116"/>
-          <line x1="80" y1="300" x2="620" y2="300" stroke="#6b7280" stroke-width="1"/>
-          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280" stroke-width="1"/>
-          <!-- x ticks: 0..10 -->
-          <g fill="#9aa0a6" font-size="12">
-            <text x="80"  y="320" text-anchor="middle">0</text>
-            <text x="140" y="320" text-anchor="middle">1</text>
-            <text x="200" y="320" text-anchor="middle">2</text>
-            <text x="260" y="320" text-anchor="middle">3</text>
-            <text x="320" y="320" text-anchor="middle">4</text>
-            <text x="380" y="320" text-anchor="middle">5</text>
-            <text x="440" y="320" text-anchor="middle">6</text>
-            <text x="500" y="320" text-anchor="middle">7</text>
-            <text x="560" y="320" text-anchor="middle">8</text>
-            <text x="620" y="320" text-anchor="middle">9</text>
-          </g>
-          <!-- y ticks for density 0..0.1 (0.1 -> 100px) -->
-          <g fill="#9aa0a6" font-size="12">
-            <text x="60" y="300" text-anchor="end">0.00</text>
-            <text x="60" y="200" text-anchor="end">0.10</text>
-          </g>
-          <!-- rectangle from x=80 to x=620 (length 540) representing 10 equal units; height 100px from y=200 to 300? baseline 300 so height 100 upward -->
-          <rect x="80" y="200" width="540" height="100" fill="#4f8cff" fill-opacity="0.35" stroke="#4f8cff"/>
-          <g fill="#cfe0ff" font-size="12">
-            <text x="350" y="190" text-anchor="middle">f(x)=0.1 (0 ≤ x ≤ 10)</text>
-          </g>
-        </svg>
-      </div>
-
-      <div class="note" style="margin-top:.6rem">
-        <strong>สังเกต:</strong> สำหรับตัวแปรต่อเนื่อง P(X = ค่าใดค่าหนึ่ง) = 0 เสมอ ต้องพิจารณาเป็นช่วง เช่น P(2 ≤ X ≤ 5) = พื้นที่ใต้กราฟช่วง 2–5
-      </div>
-    </section>
-
-    <!-- 6.4 Expected Value & Variance -->
-    <section class="card" id="ev-var">
-      <h2>6.4 ค่าคาดหวัง (Expected Value) และความแปรปรวน (Variance) 🎯</h2>
-      <h3>Discrete</h3>
-      <ul>
-        <li><strong>E(X) = Σ x · f(x)</strong></li>
-        <li><strong>Var(X) = Σ (x − μ)² · f(x)</strong> โดย μ = E(X)</li>
-      </ul>
-
-      <h4>ตัวอย่าง: X = จำนวนหัวจากการโยนเหรียญ 2 เหรียญ</h4>
-      <table>
-        <caption>คำนวณ E(X) และ Var(X)</caption>
-        <thead><tr><th>x</th><th>f(x)</th><th>x·f(x)</th><th>(x−μ)²·f(x)</th></tr></thead>
-        <tbody>
-          <tr><td>0</td><td>0.25</td><td>0</td><td>—</td></tr>
-          <tr><td>1</td><td>0.50</td><td>0.50</td><td>—</td></tr>
-          <tr><td>2</td><td>0.25</td><td>0.50</td><td>—</td></tr>
-        </tbody>
-        <tfoot>
-          <tr><th colspan="2">E(X) = Σ x·f(x)</th><th colspan="2"><strong>1.00</strong></th></tr>
-        </tfoot>
-      </table>
-      <p class="muted">วิธีเร็ว (Binomial n=2, p=0.5): E(X) = np = 1, Var(X) = np(1−p) = 0.5</p>
-
-      <h3>Continuous</h3>
-      <ul>
-        <li><strong>E(X) = ∫ x f(x) dx</strong> ในช่วงที่ f(x) > 0</li>
-        <li><strong>Var(X) = ∫ (x − μ)² f(x) dx</strong> โดย μ = E(X)</li>
-      </ul>
-
-      <h4>ตัวอย่าง: Uniform(0,10)</h4>
-      <ul>
-        <li>E(X) = (a+b)/2 = (0+10)/2 = <strong>5</strong></li>
-        <li>Var(X) = (b−a)²/12 = 10²/12 = <strong>8.333…</strong></li>
-      </ul>
-
-      <div class="svgbox" aria-label="แถบพื้นที่ใต้กราฟ PDF Uniform(0,10) ช่วง 2–5">
-        <!-- Shade area for P(2<=X<=5) -->
-        <svg viewBox="0 0 680 360" role="img" aria-labelledby="area-title area-desc">
-          <title id="area-title">พื้นที่ใต้โค้ง: P(2 ≤ X ≤ 5) สำหรับ Uniform(0,10)</title>
-          <desc id="area-desc">ระบายพื้นที่สี่เหลี่ยมย่อยช่วง 2–5 ที่สูง 0.1</desc>
-          <rect x="0" y="0" width="680" height="360" fill="#0f1116"/>
-          <line x1="80" y1="300" x2="620" y2="300" stroke="#6b7280" stroke-width="1"/>
-          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280" stroke-width="1"/>
-          <!-- same scale asก่อนหน้า: 0..10 mapped to x=80..620 => 54px per unit -->
-          <!-- rectangle 0..10 -->
-          <rect x="80" y="200" width="540" height="100" fill="#4f8cff" fill-opacity="0.15" stroke="#4f8cff" stroke-opacity="0.4"/>
-          <!-- shade 2..5: width 3*54=162 -->
-          <rect x="80+108" y="200" width="162" height="100" fill="#4f8cff" fill-opacity="0.45"/>
-          <g fill="#cfe0ff" font-size="12">
-            <text x="269" y="190" text-anchor="middle">P(2 ≤ X ≤ 5) = ฐาน 3 × สูง 0.1 = 0.3</text>
-          </g>
-          <!-- ticks -->
-          <g fill="#9aa0a6" font-size="12">
-            <text x="80"  y="320" text-anchor="middle">0</text>
-            <text x="188" y="320" text-anchor="middle">2</text>
-            <text x="350" y="320" text-anchor="middle">5</text>
-            <text x="620" y="320" text-anchor="middle">10</text>
-            <text x="60"  y="300" text-anchor="end">0.00</text>
-            <text x="60"  y="200" text-anchor="end">0.10</text>
-          </g>
-        </svg>
-      </div>
-    </section>
-
-    <section class="card" id="math-model">
-      <h2>7) แบบจำลองคณิตศาสตร์: ความคาดหมาย &amp; ความแปรปรวน</h2>
-      <div class="grid-two">
-        <div>
-          <p>สำหรับตัวแปรสุ่มไม่ต่อเนื่อง ใช้สูตร \(E[X] = \sum x_i p_i\) และ \(Var(X) = \sum (x_i-\mu)^2 p_i\). หากคำนวณลำบาก ให้ใช้สูตรทางลัด \(Var(X) = E[X^2] - (E[X])^2\)</p>
-          <div class="ex">ตัวอย่าง: X = จำนวนลูกค้าที่เข้าร้าน (0,1,2) กับโอกาส (0.2,0.5,0.3)
-E[X] = 0(0.2)+1(0.5)+2(0.3)=1.1
-E[X²] = 0²(0.2)+1²(0.5)+2²(0.3)=1.9
-Var(X) = 1.9 - (1.1)² = 0.69</div>
-        </div>
-        <div>
-          <p>ตัวแปรสุ่มต่อเนื่อง: \(E[X] = \int_{-\infty}^{\infty} x f(x) dx\). เช่น Normal(μ,σ²) จะได้ \(E[X]=μ\) และ \(Var(X)=σ²\) โดยตรง</p>
-          <p class="muted">ค่า \(E[X]\) ใช้ประมาณ “รายได้เฉลี่ยต่อวัน” ส่วน \(Var(X)\) ใช้ประเมินความผันผวนเพื่อวางแผนกำลังการผลิต</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="card" id="case-study">
-      <h2>8) Case Study: ความเสี่ยงของรายได้ร้านกาแฟ</h2>
-      <div class="grid-two">
-        <div>
-          <p>สมมติยอดขาย (หน่วย: พันบาท) ต่อวันมีการแจกแจงแบบไม่ต่อเนื่อง: 2 (0.25), 3 (0.50), 5 (0.25)</p>
-          <p>คำนวณ \(E[X]=3.25\) และ \(Var(X)=0.8125\) ⇒ ส่วนเบี่ยงเบนมาตรฐาน ≈ 0.901</p>
-        </div>
-        <div>
-          <div class="warn">หากเพิ่มโปรโมชันทำให้โอกาสขายได้ 5 พันบาทเพิ่มเป็น 0.4 (ลดโอกาส 3 พันบาทเหลือ 0.35) → ตรวจว่าค่าเฉลี่ยเพิ่มขึ้นหรือไม่ และความผันผวนมากขึ้นแค่ไหนก่อนตัดสินใจ</div>
-          <p>ลองเปลี่ยนพารามิเตอร์แล้วคำนวณใหม่ใน <a class="inline" href="quiz-lesson06.html">Quiz บทที่ 6</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- บทสรุป -->
+  <main>
     <section class="card" id="summary">
-      <h2>สรุปหัวใจของบทนี้</h2>
+      <h2>1. ค่าสรุปย่อที่สำคัญ: ทำไมต้องสนใจ E(X) และ Var(X)?</h2>
+      <p>การแจกแจงความน่าจะเป็นเหมือนข้อมูลประชากรทั้งชุด เราจึงสรุปด้วยตัวเลขไม่กี่ตัว:</p>
       <ul>
-        <li><strong>ตัวแปรสุ่ม</strong> = สะพานจาก “เหตุการณ์” → “ตัวเลข”</li>
-        <li><strong>Discrete</strong> ใช้ <strong>PMF</strong> (ผลรวม = 1), <strong>Continuous</strong> ใช้ <strong>PDF</strong> (พื้นที่รวม = 1)</li>
-        <li><strong>E(X)</strong> คือ “ค่าเฉลี่ยระยะยาว”, <strong>Var(X)</strong> วัด “ความเสี่ยง/การกระจาย”</li>
+        <li><strong>ค่าคาดหวัง</strong> \(E(X)\) หรือ \(\mu\): เฉลี่ยถ่วงน้ำหนักตามโอกาสเกิด</li>
+        <li><strong>ความแปรปรวน</strong> \(V(X)\) หรือ \(\sigma^2\): วัดการกระจายตัวรอบ \(\mu\)</li>
+        <li><strong>ส่วนเบี่ยงเบนมาตรฐาน</strong> \(\sigma\): รากที่สองของความแปรปรวน ใช้ตีความได้ง่ายเพราะหน่วยตรงกับข้อมูล</li>
       </ul>
       <div class="note">
-        ✅ พร้อมไปต่อบทที่ 07: <strong>การแจกแจงความน่าจะเป็นแบบไม่ต่อเนื่อง</strong> (Bernoulli, Binomial, Poisson, Hypergeometric)
+        <strong>จำให้ขึ้นใจ:</strong> ถ้าเราทดลองซ้ำจำนวนมาก ผลเฉลี่ยของตัวแปรสุ่มจะโน้มเข้าใกล้ \(E(X)\) และการกระจายของผลลัพธ์จะกว้างตาม \(\sigma^2\)
       </div>
+    </section>
+
+    <section class="card" id="formulas">
+      <h2>2 &amp; 3. สูตรสำหรับตัวแปรสุ่มไม่ต่อเนื่องและต่อเนื่อง</h2>
+      <div class="grid-two" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <article class="mini-card">
+          <h3>ตัวแปรสุ่มไม่ต่อเนื่อง (Discrete)</h3>
+          <p>เมื่อ X มีค่าที่นับได้พร้อมความน่าจะเป็น \(f(x) = P(X=x)\):</p>
+          <ul>
+            <li>ค่าคาดหวัง: \(E(X) = \sum_x x f(x)\)</li>
+            <li>ยกกำลังสองก่อนรวม: \(E(X^2) = \sum_x x^2 f(x)\)</li>
+            <li>ความแปรปรวน: \(V(X) = E(X^2) - [E(X)]^2\)</li>
+          </ul>
+        </article>
+        <article class="mini-card">
+          <h3>ตัวแปรสุ่มต่อเนื่อง (Continuous)</h3>
+          <p>เมื่อ X มี PDF = \(f(x)\) ซึ่งพื้นที่ใต้กราฟรวม 1:</p>
+          <ul>
+            <li>ค่าคาดหวัง: \(E(X) = \int_{-\infty}^{\infty} x f(x)\,dx\)</li>
+            <li>ความแปรปรวน: \(V(X) = \int_{-\infty}^{\infty} (x-\mu)^2 f(x)\,dx\)</li>
+            <li>สูตรลัด: \(V(X) = E(X^2) - [E(X)]^2\)</li>
+          </ul>
+        </article>
+      </div>
+      <div class="ok">
+        <p><strong>Tip:</strong> สูตร \(V(X) = E(X^2) - [E(X)]^2\) ลดงานคำนวณมาก โดยเฉพาะสำหรับตัวแปรไม่ต่อเนื่องที่มีไม่กี่ค่า</p>
+      </div>
+    </section>
+
+    <section class="card" id="playground">
+      <h2>Lab: ปรับเกมโยนเหรียญแล้วดู E(X) และ Var(X)</h2>
+      <p>ปรับผลตอบแทนและโอกาสออกหัวของเกมโยนเหรียญเพื่อดูว่าค่าเฉลี่ยและความเสี่ยงเปลี่ยนอย่างไร</p>
+      <div class="control-row">
+        <label>โอกาสออกหัว (p)
+          <input type="range" id="coin-prob" min="0" max="1" step="0.01" value="0.50" />
+        </label>
+        <label>เงินเมื่อออกหัว (บาท)
+          <input type="number" id="coin-win" value="10" step="1" />
+        </label>
+        <label>เงินเมื่อออกก้อย (บาท)
+          <input type="number" id="coin-lose" value="-5" step="1" />
+        </label>
+      </div>
+      <div class="svg-box">
+        <svg id="coin-svg" viewBox="0 0 420 260" role="img" aria-label="กราฟความน่าจะเป็นของเกมโยนเหรียญ"></svg>
+      </div>
+      <table>
+        <thead>
+          <tr><th>ปริมาณ</th><th>ค่า</th></tr>
+        </thead>
+        <tbody id="coin-summary"></tbody>
+      </table>
+      <p class="muted">สูตรที่ใช้: \(E(X) = 10p + (-5)(1-p)\) และ \(V(X) = E(X^2) - [E(X)]^2\)</p>
+    </section>
+
+    <section class="card" id="spread">
+      <h2>Lab: เปรียบเทียบการกระจายต่ำ vs สูง</h2>
+      <p>จำลองตัวแปรสุ่มที่มีค่า \(-a, 0, a\) (โอกาส 0.25, 0.5, 0.25) เพื่อดูผลของการปรับระยะห่าง a ต่อความแปรปรวน</p>
+      <div class="control-row">
+        <label>ระยะห่าง a
+          <input type="range" id="spread-range" min="0.5" max="6" step="0.1" value="2" />
+        </label>
+      </div>
+      <div class="svg-box">
+        <svg id="spread-svg" viewBox="0 0 420 260" role="img" aria-label="กราฟการกระจายตัว"></svg>
+      </div>
+      <div class="ok" id="spread-text"></div>
+    </section>
+
+    <section class="card" id="examples">
+      <h2>5. ตัวอย่างการคำนวณ</h2>
+      <article>
+        <h3>ตัวอย่าง 1: เกมโยนเหรียญ (ออกหัว +10 บาท, ก้อย -5 บาท)</h3>
+        <ol>
+          <li>\(P(หัว) = 0.5, P(ก้อย) = 0.5\)</li>
+          <li>\(E(X) = (10)(0.5) + (-5)(0.5) = 2.5\) บาท</li>
+          <li>\(E(X^2) = 10^2(0.5) + (-5)^2(0.5) = 62.5\)</li>
+          <li>\(V(X) = 62.5 - (2.5)^2 = 56.25\), \(\sigma \approx 7.50\) บาท</li>
+        </ol>
+        <p class="note">ค่าเฉลี่ยบวก หมายถึงในระยะยาวเกมนี้ทำกำไรเฉลี่ยครั้งละ 2.5 บาท</p>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 2: โยนเหรียญ 2 ครั้ง (X = จำนวนหัว)</h3>
+        <p>การแจกแจง: \(f(0)=1/4, f(1)=2/4, f(2)=1/4\)</p>
+        <ul>
+          <li>\(E(X) = 0(1/4) + 1(2/4) + 2(1/4) = 1\)</li>
+          <li>\(E(X^2) = 0^2(1/4) + 1^2(2/4) + 2^2(1/4) = 1.5\)</li>
+          <li>\(V(X) = 1.5 - 1^2 = 0.5\)</li>
+          <li>\(\sigma = \sqrt{0.5} \approx 0.707\)</li>
+        </ul>
+        <p class="muted">ตีความ: โดยเฉลี่ยคาดว่าจะได้หัว 1 ครั้ง และผลลัพธ์ส่วนใหญ่จะอยู่ใกล้ 1 (ห่างไม่เกิน ~0.7)</p>
+      </article>
+    </section>
+
+    <section class="card" id="self-check">
+      <h2>Self Check 🔍</h2>
+      <ol>
+        <li>ทำไมสูตร \(V(X) = E(X^2) - [E(X)]^2\) จึงคำนวณง่ายกว่า \(\sum (x-\mu)^2 f(x)\)?</li>
+        <li>ถ้าตัวแปรสุ่มมีส่วนเบี่ยงเบนมาตรฐานสูง แปลว่าอะไรเกี่ยวกับการกระจายตัว?</li>
+        <li>ค่าคาดหวังสามารถอยู่นอกช่วงค่าที่เป็นไปได้ของตัวแปรสุ่มได้หรือไม่?</li>
+      </ol>
+      <details>
+        <summary>เฉลย</summary>
+        <ul>
+          <li>เพราะไม่ต้องหาผลต่าง \(x-\mu\) ทีละค่า แค่หาผลรวมของกำลังสองแล้วหักออก</li>
+          <li>ผลลัพธ์กระจายกว้าง มีความเสี่ยงหรือความผันผวนสูง</li>
+          <li>ได้ เช่น เกมโยนเหรียญตัวอย่าง ค่าเฉลี่ย 2.5 บาท อยู่ระหว่าง -5 และ 10 แต่ไม่จำเป็นต้องตรงกับค่าที่เกิดจริง</li>
+        </ul>
+      </details>
     </section>
   </main>
 
   <footer>
     <div class="wrap">
-      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 06 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
+      <p class="muted">© 2025 Prob &amp; Stats Interactive Notes — Lesson 06 Expectation &amp; Variance</p>
     </div>
   </footer>
-  <script src="assets/js/mathjax-loader.js" defer></script>
-  <script src="assets/js/router.js" defer></script>
-  <script src="assets/js/breadcrumbs.js" defer></script>
-  <script src="assets/js/theme.js" defer></script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script>
+    const coinProb = document.getElementById('coin-prob');
+    const coinWin = document.getElementById('coin-win');
+    const coinLose = document.getElementById('coin-lose');
+    const coinSvg = document.getElementById('coin-svg');
+    const coinSummary = document.getElementById('coin-summary');
+
+    const spreadRange = document.getElementById('spread-range');
+    const spreadSvg = document.getElementById('spread-svg');
+    const spreadText = document.getElementById('spread-text');
+
+    function updateCoinLab() {
+      const p = Number(coinProb.value);
+      const win = Number(coinWin.value);
+      const lose = Number(coinLose.value);
+      const q = 1 - p;
+      const expected = win * p + lose * q;
+      const expectedSq = (win ** 2) * p + (lose ** 2) * q;
+      const variance = expectedSq - expected ** 2;
+      const std = Math.sqrt(Math.max(variance, 0));
+
+      coinSummary.innerHTML = `
+        <tr><td>p (โอกาสออกหัว)</td><td>${p.toFixed(2)}</td></tr>
+        <tr><td>E(X)</td><td>${expected.toFixed(2)} บาท</td></tr>
+        <tr><td>E(X^2)</td><td>${expectedSq.toFixed(2)}</td></tr>
+        <tr><td>Var(X)</td><td>${variance.toFixed(2)}</td></tr>
+        <tr><td>σ</td><td>${std.toFixed(2)}</td></tr>
+      `;
+
+      const maxProb = Math.max(p, q, 0.01);
+      const bars = [
+        { label: `หัว (${win}฿)`, prob: p, color: 'rgba(255,180,84,0.85)' },
+        { label: `ก้อย (${lose}฿)`, prob: q, color: 'rgba(89,224,194,0.8)' }
+      ];
+
+      coinSvg.innerHTML = `
+        <rect x="10" y="10" width="400" height="220" rx="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" />
+        ${bars.map((bar, idx) => {
+          const height = (bar.prob / maxProb) * 150;
+          return `
+          <rect x="${80 + idx * 140}" y="${200 - height}" width="100" height="${height}" rx="14" fill="${bar.color}" />
+          <text x="${130 + idx * 140}" y="210" fill="#f4f6ff" font-size="15" text-anchor="middle">${bar.label}</text>
+          <text x="${130 + idx * 140}" y="${190 - height}" fill="#f4f6ff" font-size="16" font-weight="600" text-anchor="middle">${bar.prob.toFixed(2)}</text>`;
+        }).join('')}
+        <text x="210" y="40" fill="#f4f6ff" font-size="16" text-anchor="middle">การกระจายความน่าจะเป็น</text>
+      `;
+    }
+
+    function updateSpreadLab() {
+      const a = Number(spreadRange.value);
+      const outcomes = [ -a, 0, a ];
+      const probs = [0.25, 0.5, 0.25];
+      const expected = outcomes.reduce((acc, x, i) => acc + x * probs[i], 0);
+      const expectedSq = outcomes.reduce((acc, x, i) => acc + x * x * probs[i], 0);
+      const variance = expectedSq - expected ** 2;
+      const std = Math.sqrt(variance);
+      const maxAbs = Math.max(...outcomes.map(Math.abs));
+      const maxProb = Math.max(...probs);
+      const xScale = 140 / Math.max(maxAbs, 1);
+
+      spreadSvg.innerHTML = `
+        <rect x="10" y="10" width="400" height="220" rx="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" />
+        ${outcomes.map((value, idx) => {
+          const height = (probs[idx] / maxProb) * 150;
+          return `
+          <rect x="${200 + value * xScale - 30}" y="${200 - height}" width="60" height="${height}" rx="14" fill="rgba(255,180,84,${0.5 + idx * 0.2})" />
+          <text x="${200 + value * xScale}" y="210" fill="#f4f6ff" font-size="15" text-anchor="middle">${value.toFixed(2)}</text>
+          <text x="${200 + value * xScale}" y="${190 - height}" fill="#59e0c2" font-size="14" text-anchor="middle">${probs[idx].toFixed(2)}</text>`;
+        }).join('')}
+        <text x="210" y="40" fill="#f4f6ff" font-size="16" text-anchor="middle">Var(X) = ${variance.toFixed(2)}</text>
+      `;
+
+      spreadText.innerHTML = `<strong>ผลลัพธ์:</strong> a = ${a.toFixed(1)} → Var(X) = ${variance.toFixed(2)}, σ = ${std.toFixed(2)}<br>ค่าเฉลี่ยยังคง 0 แต่ถ้าเพิ่ม a ความแปรปรวนและส่วนเบี่ยงเบนมาตรฐานจะสูงขึ้น การกระจายจึงกว้างขึ้น`;
+    }
+
+    coinProb.addEventListener('input', updateCoinLab);
+    [coinWin, coinLose].forEach(input => input.addEventListener('input', updateCoinLab));
+    spreadRange.addEventListener('input', updateSpreadLab);
+
+    updateCoinLab();
+    updateSpreadLab();
+  </script>
 </body>
 </html>
