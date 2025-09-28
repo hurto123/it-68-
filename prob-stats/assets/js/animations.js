@@ -58,8 +58,8 @@ function initObserver(targets) {
   return observer;
 }
 
-function watchDynamicContent(observer) {
-  if (!observer || !('MutationObserver' in window)) {
+function watchDynamicContent(observer, onAdd = () => {}) {
+  if (!('MutationObserver' in window)) {
     return;
   }
 
@@ -72,12 +72,20 @@ function watchDynamicContent(observer) {
 
         if (node.matches('[data-ps-animate], .card, .category-card, .nav-group, table tbody tr, li')) {
           prepareElement(node);
-          observer.observe(node);
+          if (observer) {
+            observer.observe(node);
+          } else {
+            onAdd(node);
+          }
         }
 
         node.querySelectorAll?.('[data-ps-animate], .card, .category-card, .nav-group, table tbody tr, li').forEach((child) => {
           prepareElement(child);
-          observer.observe(child);
+          if (observer) {
+            observer.observe(child);
+          } else {
+            onAdd(child);
+          }
         });
       });
     });
@@ -94,6 +102,12 @@ function prepareElement(element, index = 0) {
   setDelay(element, index);
 }
 
+function markVisible(elements) {
+  elements.forEach((element) => {
+    element.classList.add('ps-animate--visible');
+  });
+}
+
 function initAnimations() {
   if (document.documentElement.classList.contains('ps-animations-initialized')) {
     return;
@@ -105,7 +119,7 @@ function initAnimations() {
     return;
   }
 
-  document.documentElement.classList.add('ps-animations-initialized', 'ps-animations-ready');
+  document.documentElement.classList.add('ps-animations-initialized');
 
   const selectors = [
     '[data-ps-animate]',
@@ -125,24 +139,38 @@ function initAnimations() {
     '.cta-group > *'
   ];
 
-  const targets = createSetFromSelectorList(selectors);
-  targets.forEach((element, index) => {
-    if (element.dataset.psAnimate === 'off') {
-      return;
-    }
-    prepareElement(element, index);
-  });
+  try {
+    const targets = createSetFromSelectorList(selectors);
+    targets.forEach((element, index) => {
+      if (element.dataset.psAnimate === 'off') {
+        return;
+      }
+      prepareElement(element, index);
+    });
 
-  const observer = initObserver(targets.filter((element) => element.dataset.psAnimate !== 'off'));
-  watchDynamicContent(observer);
+    document.documentElement.classList.add('ps-animations-ready');
 
-  motionPreference.addEventListener?.('change', (event) => {
-    if (event.matches) {
-      document.documentElement.classList.add('ps-animations-disabled');
-    } else {
-      document.documentElement.classList.remove('ps-animations-disabled');
+    const animTargets = targets.filter((element) => element.dataset.psAnimate !== 'off');
+    const observer = initObserver(animTargets);
+    if (!observer) {
+      markVisible(animTargets);
     }
-  });
+    watchDynamicContent(observer, (element) => {
+      element.classList.add('ps-animate--visible');
+    });
+
+    motionPreference.addEventListener?.('change', (event) => {
+      if (event.matches) {
+        document.documentElement.classList.add('ps-animations-disabled');
+        markVisible(animTargets);
+      } else {
+        document.documentElement.classList.remove('ps-animations-disabled');
+      }
+    });
+  } catch (error) {
+    console.error('ps animations failed, disabling effects', error);
+    document.documentElement.classList.add('ps-animations-disabled');
+  }
 }
 
 if (document.readyState === 'loading') {
