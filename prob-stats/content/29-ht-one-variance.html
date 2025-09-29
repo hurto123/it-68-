@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 29 • การทดสอบความแปรปรวนประชากรเดียว</title>
+  <meta name="description" content="ใช้การแจกแจงไคสแควร์เพื่อตรวจสอบว่าความแปรปรวนหรือส่วนเบี่ยงเบนมาตรฐานของประชากรยังเป็นไปตามมาตรฐานหรือไม่" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 29</span>
+      <h1>การทดสอบสมมติฐานความแปรปรวนประชากรเดียว (σ²)</h1>
+      <p class="lead">
+        เมื่อต้องคุมคุณภาพหรือประเมินความสม่ำเสมอของกระบวนการผลิต เราเปรียบเทียบความแปรปรวนตัวอย่างกับค่ามาตรฐานผ่านการแจกแจงไคสแควร์
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">สถิติทดสอบ</span><span class="value">χ²-test</span></div>
+        <div class="stat"><span class="label">องศาอิสระ</span><span class="value">df = n − 1</span></div>
+        <div class="stat"><span class="label">การตีความ</span><span class="value">ไม่สมมาตร</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. โครงเรื่องของคดี</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>สมมติฐาน</strong>
+          <ul>
+            <li>H<sub>0</sub>: σ² = σ₀² (เครื่องยังรักษามาตรฐานเดิม)</li>
+            <li>H<sub>1</sub>: เลือก &gt;, &lt; หรือ ≠ ตามโจทย์ — เป็นตัวกำหนดตำแหน่งพื้นที่ปฏิเสธ</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>ข้อมูลที่ต้องมี</strong>
+          <ul>
+            <li>ขนาดตัวอย่าง n (ต้อง &gt; 1)</li>
+            <li>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง s หรือความแปรปรวน s²</li>
+            <li>ค่ามาตรฐานที่ต้องการตรวจสอบ σ₀²</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรหลักและพื้นที่ปฏิเสธ</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>ค่าสถิติทดสอบ</strong>
+          <p>
+            \[
+              \chi^2_{\text{test}} = \frac{(n - 1)s^2}{\sigma_0^2}
+            \]
+          </p>
+          <p class="muted">ค่านี้ยิ่งมากยิ่งบ่งชี้ว่าความแปรปรวนสูงกว่าที่อ้าง หากน้อยมากแสดงว่ากระจายตัวต่ำกว่ามาตรฐาน</p>
+        </div>
+        <div class="highlight-box">
+          <strong>ทิศทางพื้นที่ปฏิเสธ</strong>
+          <ul>
+            <li>H<sub>1</sub>: σ² &gt; σ₀² ⇒ ใช้หางขวา (χ² &gt; χ²<sub>α, df</sub>)</li>
+            <li>H<sub>1</sub>: σ² &lt; σ₀² ⇒ ใช้หางซ้าย (χ² &lt; χ²<sub>1−α, df</sub>)</li>
+            <li>H<sub>1</sub>: σ² ≠ σ₀² ⇒ สองหาง ใช้ทั้ง χ²<sub>α/2, df</sub> และ χ²<sub>1−α/2, df</sub></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. ขั้นตอนการตัดสิน</h2>
+      <ol>
+        <li>ตรวจสอบว่าข้อมูลมาจากประชากรที่ใกล้เคียงการแจกแจงปกติ (ข้อสมมติสำคัญของ χ²-test)</li>
+        <li>คำนวณ χ²<sub>test</sub> และเปรียบเทียบกับค่าวิกฤต หรือคำนวณ p-value</li>
+        <li>สรุปผลพร้อมตีความในหน่วยงาน เช่น “ความสม่ำเสมอแย่ลง” หรือ “ยังอยู่ในเกณฑ์เดิม”</li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>4. Interactive Playground</h2>
+      <p>ลองปรับค่า n, s และ σ₀ เพื่อดูว่า χ²<sub>test</sub>, พื้นที่ปฏิเสธ และค่า p-value เปลี่ยนไปอย่างไร</p>
+      <div class="playground">
+        <form id="chi2-form">
+          <div class="grid two">
+            <label class="control-group">
+              <span>ขนาดตัวอย่าง (n)</span>
+              <input type="number" name="n" min="2" step="1" value="20" />
+            </label>
+            <label class="control-group">
+              <span>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง (s)</span>
+              <input type="number" name="sd" min="0" step="0.001" value="0.134" />
+            </label>
+          </div>
+          <div class="grid two">
+            <label class="control-group">
+              <span>ค่ามาตรฐานที่ต้องการตรวจสอบ (σ₀)</span>
+              <input type="number" name="sigma0" min="0" step="0.001" value="0.1" />
+            </label>
+            <label class="control-group">
+              <span>ทิศทางสมมติฐาน</span>
+              <select name="tail">
+                <option value="right">หางขวา (σ² &gt; σ₀²)</option>
+                <option value="left">หางซ้าย (σ² &lt; σ₀²)</option>
+                <option value="two">สองหาง (σ² ≠ σ₀²)</option>
+              </select>
+            </label>
+          </div>
+          <label class="control-group">
+            <span>ระดับนัยสำคัญ (α)</span>
+            <input type="number" name="alpha" min="0.0001" max="0.5" step="0.005" value="0.05" />
+          </label>
+          <button type="submit">คำนวณผล</button>
+        </form>
+        <div class="result-board" id="chi2-result">
+          <strong>ผลการทดสอบ</strong>
+          <p>กรอกข้อมูลด้านซ้ายเพื่อเริ่มคำนวณ</p>
+        </div>
+        <canvas id="chi2-plot" width="640" height="260" aria-hidden="true"></canvas>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. ตัวอย่าง: เครื่องบรรจุน้ำตาล</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>ข้อมูลจากหน้างาน</strong>
+          <ul>
+            <li>n = 20, s² = 0.018 กก.² ⇒ s ≈ 0.134 กก.</li>
+            <li>มาตรฐานโรงงาน: σ₀² = 0.01 กก.²</li>
+            <li>ทดสอบหางขวา (สงสัยว่าความผันผวนสูงขึ้น)</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>ผลลัพธ์</strong>
+          <ul>
+            <li>χ²<sub>test</sub> = 34.2</li>
+            <li>df = 19, χ²<sub>0.95,19</sub> ≈ 30.144</li>
+            <li>p-value ≈ 0.023 ⇒ ปฏิเสธ H<sub>0</sub></li>
+          </ul>
+          <p class="muted">สรุป: ความสม่ำเสมอของเครื่องลดลงอย่างมีนัยสำคัญ จำเป็นต้องบำรุงรักษาหรือปรับเทียบใหม่</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6. เคล็ดลับสำหรับงานจริง</h2>
+      <ul>
+        <li>ถ้าข้อมูลเบ้มากหรือตัวอย่างน้อย ลองใช้การสุ่มตัวอย่างเพิ่มเติมหรือพิจารณาวิธีไม่อิงการแจกแจง (bootstrap)</li>
+        <li>รายงานผลทั้งในรูปค่า σ และ σ² เพื่อสื่อสารกับทีมวิศวกรรมหรือฝ่ายบริหารที่คุ้นกับหน่วยต่างกัน</li>
+        <li>ติดตามพัฒนาการเป็นระยะด้วยกราฟควบคุม (control chart) เพื่อเฝ้าสังเกตความแปรปรวนอย่างต่อเนื่อง</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const { formatNumber, chiSquarePdf, drawChiSquare, attachResizeRedraw, chiSquareInv } = window.LessonTools;
+    const form = document.getElementById('chi2-form');
+    const resultBoard = document.getElementById('chi2-result');
+    const plot = document.getElementById('chi2-plot');
+
+    function chiSquareCdf(x, df) {
+      if (!(df > 0) || x <= 0) return 0;
+      const steps = Math.max(400, Math.min(2400, Math.round(x * 120)));
+      const h = x / steps;
+      let sum = chiSquarePdf(0, df) + chiSquarePdf(x, df);
+      for (let i = 1; i < steps; i++) {
+        const weight = i % 2 === 0 ? 2 : 4;
+        sum += weight * chiSquarePdf(i * h, df);
+      }
+      return (h / 3) * sum;
+    }
+
+    function updateChiSquare(event) {
+      if (event) event.preventDefault();
+      const data = new FormData(form);
+      const n = Math.max(2, Number(data.get('n')) || 2);
+      const sd = Math.max(0, Number(data.get('sd')) || 0);
+      const sigma0 = Math.max(0.0000001, Number(data.get('sigma0')) || 0);
+      const alpha = Math.min(0.5, Math.max(0.0001, Number(data.get('alpha')) || 0.05));
+      const tail = data.get('tail');
+
+      const df = n - 1;
+      const variance = sd * sd;
+      const sigma0sq = sigma0 * sigma0;
+      const chiTest = ((n - 1) * variance) / sigma0sq;
+      const cdf = chiSquareCdf(chiTest, df);
+      const rightTail = Math.max(0, 1 - cdf);
+      const leftTail = Math.max(0, cdf);
+      let pValue;
+      let decision;
+      let criticalText = '';
+      let shadeLower = null;
+      let shadeUpper = null;
+
+      if (tail === 'right') {
+        pValue = rightTail;
+        const critical = chiSquareInv(1 - alpha, df);
+        decision = pValue <= alpha ? 'ปฏิเสธ H₀ (ความแปรปรวนสูงขึ้น)' : 'ยังปฏิเสธ H₀ ไม่ได้';
+        criticalText = `χ²<sub>${formatNumber(1 - alpha, 3)}</sub> = ${formatNumber(critical, 3)}`;
+        shadeLower = Math.min(critical, chiTest);
+        shadeUpper = Math.max(critical, chiTest);
+      } else if (tail === 'left') {
+        pValue = leftTail;
+        const critical = chiSquareInv(alpha, df);
+        decision = pValue <= alpha ? 'ปฏิเสธ H₀ (ความแปรปรวนลดลง)' : 'ยังปฏิเสธ H₀ ไม่ได้';
+        criticalText = `χ²<sub>${formatNumber(alpha, 3)}</sub> = ${formatNumber(critical, 3)}`;
+        shadeLower = 0;
+        shadeUpper = Math.min(critical, chiTest);
+      } else {
+        const lowerCrit = chiSquareInv(alpha / 2, df);
+        const upperCrit = chiSquareInv(1 - alpha / 2, df);
+        pValue = Math.min(1, 2 * Math.min(leftTail, rightTail));
+        decision = pValue <= alpha ? 'ปฏิเสธ H₀ (มีการเปลี่ยนแปลง)' : 'ยังปฏิเสธ H₀ ไม่ได้';
+        criticalText = `χ²<sub>${formatNumber(alpha / 2, 3)}</sub> = ${formatNumber(lowerCrit, 3)}, χ²<sub>${formatNumber(1 - alpha / 2, 3)}</sub> = ${formatNumber(upperCrit, 3)}`;
+        if (chiTest <= lowerCrit) {
+          shadeLower = 0;
+          shadeUpper = chiTest;
+        } else if (chiTest >= upperCrit) {
+          shadeLower = upperCrit;
+          shadeUpper = Math.max(chiTest, upperCrit);
+        } else {
+          shadeLower = lowerCrit;
+          shadeUpper = upperCrit;
+        }
+      }
+
+      resultBoard.innerHTML = `
+        <strong>${decision}</strong>
+        <ul>
+          <li>χ²<sub>test</sub> = ${formatNumber(chiTest, 3)} (df = ${df})</li>
+          <li>p-value = ${formatNumber(pValue, 4)}</li>
+          <li>${criticalText}</li>
+          <li>สัดส่วนความแปรปรวน: s² / σ₀² = ${formatNumber(variance / sigma0sq, 3)}</li>
+        </ul>
+        <p class="muted">ตีความร่วมกับบริบทธุรกิจ เช่น การเปลี่ยนแปลงเครื่องจักรหรือวัตถุดิบ</p>
+      `;
+
+      drawChiSquare(plot, df, shadeLower, (shadeUpper ?? shadeLower) + 1e-6);
+    }
+
+    attachResizeRedraw(plot, () => updateChiSquare());
+    form.addEventListener('submit', updateChiSquare);
+    updateChiSquare();
+  </script>
+</body>
+</html>

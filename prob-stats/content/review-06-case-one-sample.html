@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 6 • กรณีศึกษา: กลุ่มเดียว</title>
+  <meta name="description" content="กรณีศึกษาการวิเคราะห์ข้อมูลกลุ่มเดียว โดยใช้ทั้งการสร้างช่วงความเชื่อมั่นและการทดสอบสมมติฐาน" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 6</span>
+      <h1>กรณีศึกษา #1 — การวิเคราะห์ข้อมูลกลุ่มเดียว</h1>
+      <p class="lead">สถานการณ์: ร้านกาแฟ Gemini Coffee ต้องการวิเคราะห์ค่าใช้จ่ายเฉลี่ยของลูกค้า 1 กลุ่ม</p>
+    </header>
+
+    <section class="card" id="data">
+      <h2>ข้อมูลที่เก็บมา</h2>
+      <ul>
+        <li>ขนาดตัวอย่าง n = 25</li>
+        <li>ค่าใช้จ่ายเฉลี่ย \(\bar{x} = 140\) บาท</li>
+        <li>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง s = 20 บาท</li>
+      </ul>
+    </section>
+
+    <section class="card" id="ci">
+      <h2>ภารกิจที่ 1 — สร้างช่วงความเชื่อมั่น 95%</h2>
+      <ol>
+        <li>ไม่รู้ค่า σ และ n &lt; 30 ⇒ ใช้ t-interval, df = 24, t<sub>0.025,24</sub> = 2.064</li>
+        <li>คำนวณ: \(CI = 140 \pm 2.064(20/\sqrt{25}) = 140 \pm 8.256\)</li>
+        <li>ช่วงที่ได้: (131.74, 148.26)</li>
+      </ol>
+      <p class="note">ตีความ: มีความเชื่อมั่น 95% ว่าค่าใช้จ่ายเฉลี่ยจริงอยู่ระหว่าง 131.74–148.26 บาท</p>
+    </section>
+
+    <section class="card" id="ht">
+      <h2>ภารกิจที่ 2 — ทดสอบสมมติฐาน</h2>
+      <p>ผู้จัดการเดิมอ้างว่า μ = 130 บาท ต้องการทดสอบว่าร้านใหม่สูงกว่า</p>
+      <ol>
+        <li>ตั้งสมมติฐาน: H<sub>0</sub>: μ = 130, H<sub>1</sub>: μ &gt; 130 (หางขวา), α = 0.05</li>
+        <li>ค่าสถิติทดสอบ: \(t = \frac{140-130}{20/\sqrt{25}} = 2.5\)</li>
+        <li>p-value ≈ 0.01 (&lt; 0.05) ⇒ ปฏิเสธ H<sub>0</sub></li>
+      </ol>
+      <p class="note">สรุป: มีหลักฐานว่าค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทอย่างมีนัยสำคัญ</p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์ทบทวน</h2>
+      <ul class="list-tight">
+        <li><a href="17-ci-one-mean.html">บทที่ 17 — CI สำหรับ μ กลุ่มเดียว</a></li>
+        <li><a href="25-ht-one-mean.html">บทที่ 25 — การทดสอบค่าเฉลี่ยกลุ่มเดียว</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

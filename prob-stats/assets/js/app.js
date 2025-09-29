@@ -24,10 +24,16 @@ const fileGroups = [
     examples: ['index.html', 'content/index.json', 'about.html']
   },
   {
-    name: 'บทเรียนเนื้อหา (ch01–ch16)',
-    countLabel: '16 ไฟล์',
-    description: 'บทเรียนเต็มสำหรับบทนำถึง Confidence Interval ครบทุกหัวข้อ',
-    examples: ['content/01-intro.html', 'content/08-binomial.html', 'content/16-ci-intro.html']
+    name: 'บทเรียนเนื้อหา (ch01–ch31)',
+    countLabel: '31 ไฟล์',
+    description: 'ตั้งแต่บทนำ การแจกแจง ไปจนถึง Confidence Interval และ Hypothesis Testing ครบทุกกรณี',
+    examples: ['content/01-intro.html', 'content/15-sampling-other-stats.html', 'content/30-ht-variance-ratio.html']
+  },
+  {
+    name: 'บททบทวน & กรณีศึกษา',
+    countLabel: '8 เพจ',
+    description: 'รีแคปแนวคิดสำคัญและเส้นทางใช้งานจริง พร้อมโยงไปยัง decision map',
+    examples: ['content/review-01-foundation-probability.html', 'content/review-06-case-one-sample.html', 'content/review-08-choosing-tool.html']
   },
   {
     name: 'อ้างอิง/คู่มือ',

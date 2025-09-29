@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 24 • Critical Value vs p-value</title>
+  <meta name="description" content="เปรียบเทียบสองวิธีการตัดสินคดีทางสถิติ—วิธีขอบเขตวิกฤตและวิธี p-value พร้อมห้องทดลองโต้ตอบที่ให้ผลเหมือนกัน" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 24</span>
+      <h1>Critical Value vs p-value</h1>
+      <p class="lead">
+        จากหลักฐานสู่คำตัดสินมีสองเส้นทาง: ขีดเส้นแบ่ง (Critical Value) หรือวัดความน่าประหลาดใจ (p-value) — ไม่ว่าวิธีไหน คำพิพากษาต้องเหมือนกัน
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">หลักฐาน</span><span class="value">สถิติทดสอบ</span></div>
+        <div class="stat"><span class="label">วิธีที่ 1</span><span class="value">Rejection Region</span></div>
+        <div class="stat"><span class="label">วิธีที่ 2</span><span class="value">p-value</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. หลักฐาน: ค่าสถิติทดสอบ</h2>
+      <p>
+        ค่าสถิติทดสอบ = (ค่าจากตัวอย่าง − ค่าที่ H₀ อ้าง) / ความคลาดเคลื่อนมาตรฐาน เป็นตัวเลขที่สรุปว่าผลลัพธ์ในตัวอย่าง “ไกล” จาก H₀ แค่ไหน
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>2. วิธี Critical Value</h2>
+      <p>กำหนดระดับนัยสำคัญ α ล่วงหน้า แล้วหาเส้นแบ่งจากตาราง Z/t/χ²/F หากค่าสถิติทดสอบตกในพื้นที่ปฏิเสธ &rarr; ปฏิเสธ H₀</p>
+    </section>
+
+    <section class="card">
+      <h2>3. วิธี p-value</h2>
+      <p>คำนวณความน่าจะเป็นที่จะได้ผลลัพธ์สุดโต่งเท่าที่เห็น (หรือมากกว่า) โดยสมมติว่า H₀ เป็นจริง ถ้า p-value ≤ α &rarr; ปฏิเสธ H₀</p>
+    </section>
+
+    <section class="card">
+      <h2>4. เปรียบเทียบ</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ประเด็น</th>
+              <th>Critical Value</th>
+              <th>p-value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>สิ่งที่เปรียบเทียบ</td>
+              <td>ค่าสถิติทดสอบ vs ค่าวิกฤต</td>
+              <td>p-value vs α</td>
+            </tr>
+            <tr>
+              <td>หน่วย</td>
+              <td>เหมือนสถิติทดสอบ (Z, t, ...)</td>
+              <td>ความน่าจะเป็น (0 – 1)</td>
+            </tr>
+            <tr>
+              <td>แนวคิด</td>
+              <td>หลักฐานทะลุเส้นที่ขีดไว้หรือไม่</td>
+              <td>หลักฐานน่าประหลาดใจพอหรือยัง</td>
+            </tr>
+            <tr>
+              <td>ผลลัพธ์</td>
+              <td colspan="2">เหมือนกันทุกประการ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. ตัวอย่าง: ยาแก้ปวด</h2>
+      <p>H₀: μ = 15 นาที, H₁: μ ≠ 15 นาที, α = 0.05, &bar;x = 14.1, σ = 3, n = 36</p>
+      <ul>
+        <li>Z-test = (14.1 − 15)/(3/√36) = −1.80</li>
+        <li>Critical Value: ±1.96 (สองหาง) → −1.80 ไม่ทะลุเส้น &rarr; ไม่ปฏิเสธ H₀</li>
+        <li>p-value = 0.0718 (> 0.05) → ไม่ปฏิเสธ H₀</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: สองวิธี หนึ่งคำตัดสิน</h2>
+      <div class="playground">
+        <form id="ht-methods-form">
+          <div class="control-group inline">
+            <label>
+              <span>เลือกการทดสอบ</span>
+              <select name="tail">
+                <option value="two">สองหาง</option>
+                <option value="right">หางขวา</option>
+                <option value="left">หางซ้าย</option>
+              </select>
+            </label>
+            <label>
+              <span>ระดับนัยสำคัญ α</span>
+              <input type="number" name="alpha" value="0.05" step="0.005" min="0.001" max="0.2" />
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>ค่าเฉลี่ยตัวอย่าง (&bar;x)</span>
+              <input type="number" name="mean" value="14.1" step="0.1" />
+            </label>
+            <label>
+              <span>ค่าเฉลี่ยที่ H₀ อ้าง (μ₀)</span>
+              <input type="number" name="mu0" value="15" step="0.1" />
+            </label>
+            <label>
+              <span>ส่วนเบี่ยงเบนมาตรฐาน (σ)</span>
+              <input type="number" name="sd" value="3" step="0.1" min="0.0001" />
+            </label>
+            <label>
+              <span>ขนาดตัวอย่าง (n)</span>
+              <input type="number" name="n" value="36" min="2" step="1" />
+            </label>
+          </div>
+        </form>
+        <div class="result-board">
+          <strong id="ht-methods-summary"></strong>
+          <div class="stat-grid" id="ht-methods-stats"></div>
+          <p class="note" id="ht-methods-note"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      formatPercent,
+      normInv,
+      normCdf
+    } = window.LessonTools;
+
+    const form = document.getElementById('ht-methods-form');
+    const summaryEl = document.getElementById('ht-methods-summary');
+    const statsEl = document.getElementById('ht-methods-stats');
+    const noteEl = document.getElementById('ht-methods-note');
+
+    function updateDecision() {
+      const tail = form.elements['tail'].value;
+      const alpha = Math.min(0.5, Math.max(0.0001, parseFloat(form.elements['alpha'].value)));
+      const mean = parseFloat(form.elements['mean'].value) || 0;
+      const mu0 = parseFloat(form.elements['mu0'].value) || 0;
+      const sd = Math.max(0.0001, parseFloat(form.elements['sd'].value));
+      const n = Math.max(2, parseFloat(form.elements['n'].value));
+
+      const zTest = (mean - mu0) / (sd / Math.sqrt(n));
+      let criticalText = '';
+      let reject = false;
+      let pValue = 0;
+
+      if (tail === 'two') {
+        const critical = normInv(1 - alpha / 2);
+        reject = Math.abs(zTest) > critical;
+        pValue = 2 * (1 - normCdf(Math.abs(zTest)));
+        criticalText = `±${formatNumber(critical, 3)}`;
+      } else if (tail === 'right') {
+        const critical = normInv(1 - alpha);
+        reject = zTest > critical;
+        pValue = 1 - normCdf(zTest);
+        criticalText = formatNumber(critical, 3);
+      } else {
+        const critical = normInv(alpha);
+        reject = zTest < critical;
+        pValue = normCdf(zTest);
+        criticalText = formatNumber(critical, 3);
+      }
+
+      summaryEl.textContent = reject ? 'คำตัดสิน: ปฏิเสธ H₀' : 'คำตัดสิน: ยังไม่ปฏิเสธ H₀';
+
+      statsEl.innerHTML = '';
+      const stats = [
+        { label: 'Z-test', value: formatNumber(zTest, 3) },
+        { label: 'Critical', value: criticalText },
+        { label: 'p-value', value: formatNumber(pValue, 4) },
+        { label: 'α', value: formatPercent(alpha, 2) }
+      ];
+      stats.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      noteEl.textContent = reject
+        ? 'ทั้งสองวิธีเห็นพ้องกันว่าหลักฐานเพียงพอที่จะปฏิเสธ H₀'
+        : 'ทั้งสองวิธีเห็นพ้องกันว่ายังไม่มีหลักฐานมากพอที่จะปฏิเสธ H₀';
+    }
+
+    form.addEventListener('input', updateDecision);
+    form.addEventListener('change', updateDecision);
+    updateDecision();
+  </script>
+</body>
+</html>

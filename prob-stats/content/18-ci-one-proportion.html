@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 18 • ช่วงความเชื่อมั่นสำหรับสัดส่วนประชากรเดียว</title>
+  <meta name="description" content="สร้างช่วงความเชื่อมั่นของสัดส่วนประชากรด้วย Z-distribution พร้อมตัวอย่าง Exit Poll และห้องทดลองโต้ตอบสำหรับลองคำนวณ" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 18</span>
+      <h1>การประมาณค่าสัดส่วนประชากรเดียว (p)</h1>
+      <p class="lead">
+        เปลี่ยนข้อมูลเชิงคุณภาพให้กลายเป็นตัวเลขที่สื่อความหมาย—เรียนรู้วิธีใช้สัดส่วนตัวอย่าง (&hat;p) เพื่อสร้างช่วงความเชื่อมั่นของสัดส่วนประชากรจริง (p)
+      </p>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="label">ข้อมูล</span>
+          <span class="value">แบบสำเร็จ / ไม่สำเร็จ</span>
+        </div>
+        <div class="stat">
+          <span class="label">ค่าวิกฤต</span>
+          <span class="value">Z-distribution</span>
+        </div>
+        <div class="stat">
+          <span class="label">เงื่อนไข</span>
+          <span class="value">np ≥ 10, n(1-p) ≥ 10</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. สัดส่วนคืออะไร?</h2>
+      <p>
+        ในงานวิจัยเชิงสำรวจ เรามักสนใจจำนวนคนที่ “มี” หรือ “ไม่มี” ลักษณะบางอย่าง เช่น <em>เลือก / ไม่เลือก</em> หรือ <em>ชำรุด / ไม่ชำรุด</em> สัดส่วนประชากรจริงเขียนแทนด้วย p ส่วนสัดส่วนในตัวอย่างใช้สัญลักษณ์ &hat;p = x / n
+      </p>
+      <div class="highlight-box">
+        <strong>พารามิเตอร์ vs สถิติ</strong>
+        <ul>
+          <li><strong>p</strong>: สัดส่วนที่แท้จริงของประชากร (ไม่รู้ค่า)</li>
+          <li><strong>&hat;p</strong>: สัดส่วนที่วัดได้จากตัวอย่าง (หลักฐานที่มี)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. ใช้ Z-distribution เสมอ</h2>
+      <p>
+        เมื่อขนาดตัวอย่างใหญ่พอ การแจกแจงของ &hat;p จะเข้าใกล้การแจกแจงปกติ ดังนั้นเราจึงใช้ Z-distribution เป็นค่าวิกฤต โดยสูตรทั่วไปคือ
+      </p>
+      <div class="highlight-box">
+        <strong>สูตรช่วงความเชื่อมั่น</strong>
+        <p>CI = &hat;p &plusmn; Z<sub>&alpha;/2</sub> &times; &radic;(&hat;p (1 &minus; &hat;p) / n)</p>
+        <p class="note">เลือกค่าระดับความเชื่อมั่นเพื่อหา Z<sub>&alpha/2</sub> เช่น 1.645 (90%), 1.96 (95%), 2.576 (99%)</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. เงื่อนไขที่ต้องตรวจสอบ</h2>
+      <ul>
+        <li>ตัวอย่างได้มาอย่างสุ่มและเป็นอิสระ</li>
+        <li>ขนาดตัวอย่างเพียงพอ: np ≥ 10 และ n(1 &minus; p) ≥ 10 (ใช้ &hat;p แทน p ในการตรวจสอบ)</li>
+        <li>ข้อมูลเป็นการจำแนก 2 กลุ่มอย่างชัดเจน</li>
+      </ul>
+      <p class="note">หากเงื่อนไขไม่ผ่านควรเพิ่มขนาดตัวอย่างหรือใช้วิธีประมาณค่าแบบอื่น</p>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่าง: การสำรวจ Exit Poll</h2>
+      <p>
+        ช่องโทรทัศน์สำรวจผู้มีสิทธิ์เลือกตั้ง 900 คน พบว่า 486 คนเลือกผู้สมัคร A<br />
+        &hat;p = 486/900 = 0.54, Z<sub>0.025</sub> = 1.96
+      </p>
+      <p>CI = 0.54 &plusmn; 1.96 &times; &radic;((0.54)(0.46)/900) = <strong>(0.5075, 0.5725)</strong></p>
+      <div class="callout">
+        <strong>ตีความ:</strong> เรามีความเชื่อมั่น 95% ว่าสัดส่วนจริงของผู้เลือกผู้สมัคร A อยู่ระหว่าง 50.75% ถึง 57.25% ซึ่งสูงกว่า 50% จึงคาดได้ว่าผู้สมัคร A น่าจะชนะ
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: คำนวณช่วงความเชื่อมั่นของสัดส่วน</h2>
+      <div class="playground">
+        <form id="ci-proportion-form">
+          <div class="control-group inline">
+            <label>
+              <span>จำนวนตัวอย่าง (n)</span>
+              <input type="number" name="n" min="10" value="400" step="1" />
+            </label>
+            <label>
+              <span>จำนวนที่สำเร็จ (x)</span>
+              <input type="number" name="x" min="0" value="212" step="1" />
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>ระดับความเชื่อมั่น</span>
+              <select name="confidence">
+                <option value="0.80">80%</option>
+                <option value="0.90">90%</option>
+                <option value="0.95" selected>95%</option>
+                <option value="0.99">99%</option>
+              </select>
+            </label>
+            <label>
+              <span>แสดงเป็นเปอร์เซ็นต์</span>
+              <select name="asPercent">
+                <option value="yes" selected>ใช่</option>
+                <option value="no">ไม่</option>
+              </select>
+            </label>
+          </div>
+          <p class="note">ระบบจะใช้เงื่อนไข np ≥ 10 และ n(1 - p) ≥ 10 เพื่อแจ้งเตือนความเหมาะสมโดยอัตโนมัติ</p>
+        </form>
+        <div class="result-board">
+          <strong id="ci-proportion-summary">ช่วงความเชื่อมั่น:</strong>
+          <div class="stat-grid" id="ci-proportion-stats"></div>
+          <p class="note" id="ci-proportion-note"></p>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="ci-proportion-canvas" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      formatPercent,
+      normInv,
+      drawNormal,
+      attachResizeRedraw
+    } = window.LessonTools;
+
+    const form = document.getElementById('ci-proportion-form');
+    const summaryEl = document.getElementById('ci-proportion-summary');
+    const statsEl = document.getElementById('ci-proportion-stats');
+    const noteEl = document.getElementById('ci-proportion-note');
+    const canvas = document.getElementById('ci-proportion-canvas');
+
+    function updateCi() {
+      const n = Math.max(1, parseFloat(form.elements['n'].value));
+      const x = Math.min(n, Math.max(0, parseFloat(form.elements['x'].value)));
+      const confidence = parseFloat(form.elements['confidence'].value) || 0.95;
+      const asPercent = form.elements['asPercent'].value === 'yes';
+
+      const pHat = n > 0 ? x / n : 0;
+      const alpha = 1 - confidence;
+      const z = normInv(1 - alpha / 2);
+      const se = Math.sqrt(Math.max(0, pHat * (1 - pHat) / n));
+      const margin = z * se;
+      const lower = pHat - margin;
+      const upper = pHat + margin;
+
+      const formatter = asPercent ? formatPercent : formatNumber;
+      summaryEl.textContent = `ช่วงความเชื่อมั่น: (${formatter(lower)}, ${formatter(upper)})`;
+
+      statsEl.innerHTML = '';
+      const info = [
+        { label: '&hat;p', value: formatter(pHat) },
+        { label: 'Margin of Error', value: formatter(margin) },
+        { label: 'Z-critical', value: formatNumber(z, 3) },
+        { label: 'Standard Error', value: formatNumber(se, 4) }
+      ];
+      info.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      const condition1 = pHat * n;
+      const condition2 = (1 - pHat) * n;
+      noteEl.textContent = condition1 >= 10 && condition2 >= 10
+        ? 'เงื่อนไข np ≥ 10 และ n(1 - p) ≥ 10 ผ่าน ✔'
+        : 'คำเตือน: ขนาดตัวอย่างยังน้อย ทำให้การประมาณอาจไม่แม่นยำ';
+
+      drawNormal(canvas, pHat, se, lower, upper);
+    }
+
+    form.addEventListener('input', updateCi);
+    form.addEventListener('change', updateCi);
+    updateCi();
+    attachResizeRedraw(canvas, updateCi);
+  </script>
+</body>
+</html>

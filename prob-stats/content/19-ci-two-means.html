@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 19 • ช่วงความเชื่อมั่นของผลต่างค่าเฉลี่ยสองประชากร</title>
+  <meta name="description" content="สรุปแนวคิดการเปรียบเทียบค่าเฉลี่ยสองประชากรแบบอิสระ พร้อมตัวอย่างยางรถยนต์และห้องทดลองโต้ตอบที่เลือกใช้ Z หรือ t (Welch) ได้" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 19</span>
+      <h1>การประมาณผลต่างค่าเฉลี่ยสองประชากร (μ₁ − μ₂)</h1>
+      <p class="lead">
+        สวมบทบาท “กรรมการ” เปรียบเทียบสองกลุ่มข้อมูล—ใช้ค่าเฉลี่ยตัวอย่างเพื่อประเมินว่าประชากรสองกลุ่มแตกต่างกันมากน้อยเพียงใด และตีความผลต่างผ่านศูนย์
+      </p>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="label">ลักษณะข้อมูล</span>
+          <span class="value">สองกลุ่มอิสระ</span>
+        </div>
+        <div class="stat">
+          <span class="label">โครงสร้าง</span>
+          <span class="value">(&bar;x₁ − &bar;x₂) ± ค่าวิกฤต × SE</span>
+        </div>
+        <div class="stat">
+          <span class="label">ตีความ</span>
+          <span class="value">ดูว่าช่วงคร่อมศูนย์หรือไม่</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. โฟกัสที่ “ผลต่าง”</h2>
+      <p>
+        เราไม่ได้ต้องการค่าเฉลี่ยของแต่ละกลุ่มแยกกัน แต่สนใจผลต่าง <strong>μ₁ − μ₂</strong> โดยใช้ตัวประมาณค่าแบบจุดคือ (&bar;x₁ − &bar;x₂) จากตัวอย่างที่สุ่มมาอย่างอิสระทั้งสองกลุ่ม
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตร (กรณีตัวอย่างใหญ่)</h2>
+      <div class="highlight-box">
+        <strong>สูตรช่วงความเชื่อมั่น</strong>
+        <p>
+          CI = (&bar;x₁ − &bar;x₂) &plusmn; Z<sub>&alpha;/2</sub>
+          × &radic;((s₁² / n₁) + (s₂² / n₂))
+        </p>
+        <p class="note">สำหรับตัวอย่างเล็กและไม่รู้ &sigma; ให้ใช้ t-distribution (Welch) พร้อมองศาอิสระแบบประมาณ</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. การตีความ: เลขศูนย์คือกุญแจ</h2>
+      <div class="grid three">
+        <div class="highlight-box">
+          <strong>ช่วงทั้งหมดเป็นบวก</strong>
+          <p>μ₁ − μ₂ &gt; 0<br />กลุ่ม 1 มีค่าเฉลี่ยสูงกว่ากลุ่ม 2 อย่างมีนัยสำคัญ</p>
+        </div>
+        <div class="highlight-box">
+          <strong>ช่วงทั้งหมดเป็นลบ</strong>
+          <p>μ₁ − μ₂ &lt; 0<br />กลุ่ม 1 มีค่าเฉลี่ยต่ำกว่ากลุ่ม 2 อย่างมีนัยสำคัญ</p>
+        </div>
+        <div class="highlight-box">
+          <strong>ช่วงคร่อมศูนย์</strong>
+          <p>ผลต่าง = 0 ยังเป็นไปได้<br />ยังไม่มีหลักฐานเพียงพอที่จะบอกว่าทั้งสองกลุ่มต่างกัน</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่าง: เปรียบเทียบอายุยางรถยนต์</h2>
+      <p>
+        ยี่ห้อ A: n₁ = 100, &bar;x₁ = 45,000 กม., s₁ = 5,000 กม.<br />
+        ยี่ห้อ B: n₂ = 120, &bar;x₂ = 48,000 กม., s₂ = 6,000 กม., ระดับเชื่อมั่น 99%
+      </p>
+      <p>CI = −3,000 &plusmn; 2.576 × &radic;((5,000²/100) + (6,000²/120)) = <strong>(−4,910.7, −1,089.3)</strong></p>
+      <div class="callout">
+        <strong>สรุป:</strong> ช่วงทั้งหมดเป็นลบ &rarr; ยางยี่ห้อ B มีอายุการใช้งานเฉลี่ยสูงกว่ายี่ห้อ A อย่างมีนัยสำคัญที่ระดับ 99%
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: เปรียบเทียบสองค่าเฉลี่ย</h2>
+      <div class="playground">
+        <form id="ci-two-means-form">
+          <div class="control-group inline">
+            <label>
+              <span>เลือกเครื่องมือ</span>
+              <select name="method">
+                <option value="z">Z (ตัวอย่างใหญ่ / รู้ &sigma;)</option>
+                <option value="t">t (ไม่รู้ &sigma;, ใช้ Welch)</option>
+              </select>
+            </label>
+            <label>
+              <span>ระดับความเชื่อมั่น</span>
+              <select name="confidence">
+                <option value="0.90">90%</option>
+                <option value="0.95" selected>95%</option>
+                <option value="0.99">99%</option>
+              </select>
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>&bar;x₁</span>
+              <input type="number" name="mean1" value="45000" step="10" />
+            </label>
+            <label>
+              <span>s₁</span>
+              <input type="number" name="sd1" value="5000" step="10" />
+            </label>
+            <label>
+              <span>n₁</span>
+              <input type="number" name="n1" value="100" min="2" step="1" />
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>&bar;x₂</span>
+              <input type="number" name="mean2" value="48000" step="10" />
+            </label>
+            <label>
+              <span>s₂</span>
+              <input type="number" name="sd2" value="6000" step="10" />
+            </label>
+            <label>
+              <span>n₂</span>
+              <input type="number" name="n2" value="120" min="2" step="1" />
+            </label>
+          </div>
+        </form>
+        <div class="result-board">
+          <strong id="ci-two-means-summary">ช่วงความเชื่อมั่น:</strong>
+          <div class="stat-grid" id="ci-two-means-stats"></div>
+          <p class="note" id="ci-two-means-note"></p>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="ci-two-means-canvas" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      normInv,
+      tInv,
+      drawTwoNormals,
+      attachResizeRedraw
+    } = window.LessonTools;
+
+    const form = document.getElementById('ci-two-means-form');
+    const summaryEl = document.getElementById('ci-two-means-summary');
+    const statsEl = document.getElementById('ci-two-means-stats');
+    const noteEl = document.getElementById('ci-two-means-note');
+    const canvas = document.getElementById('ci-two-means-canvas');
+
+    function updateCi() {
+      const method = form.elements['method'].value;
+      const confidence = parseFloat(form.elements['confidence'].value) || 0.95;
+      const mean1 = parseFloat(form.elements['mean1'].value) || 0;
+      const mean2 = parseFloat(form.elements['mean2'].value) || 0;
+      const sd1 = Math.max(0, parseFloat(form.elements['sd1'].value));
+      const sd2 = Math.max(0, parseFloat(form.elements['sd2'].value));
+      const n1 = Math.max(2, parseFloat(form.elements['n1'].value));
+      const n2 = Math.max(2, parseFloat(form.elements['n2'].value));
+
+      const diff = mean1 - mean2;
+      const se = Math.sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
+      const alpha = 1 - confidence;
+      const tail = 1 - alpha / 2;
+      let critical = normInv(tail);
+      let df = Infinity;
+
+      if (method === 't') {
+        const v1 = (sd1 * sd1) / n1;
+        const v2 = (sd2 * sd2) / n2;
+        const numerator = Math.pow(v1 + v2, 2);
+        const denominator = (Math.pow(v1, 2) / (n1 - 1)) + (Math.pow(v2, 2) / (n2 - 1));
+        df = numerator / denominator;
+        critical = Math.abs(tInv(tail, df));
+      }
+
+      const margin = critical * se;
+      const lower = diff - margin;
+      const upper = diff + margin;
+
+      summaryEl.textContent = `ช่วงความเชื่อมั่น: (${formatNumber(lower)}, ${formatNumber(upper)})`;
+
+      statsEl.innerHTML = '';
+      const info = [
+        { label: 'ผลต่างตัวอย่าง', value: formatNumber(diff) },
+        { label: 'Margin of Error', value: formatNumber(margin) },
+        { label: 'Standard Error', value: formatNumber(se) },
+        { label: 'Critical', value: formatNumber(critical, 3) }
+      ];
+      if (method === 't' && Number.isFinite(df)) {
+        info.push({ label: 'องศาอิสระ (Welch)', value: formatNumber(df, 0) });
+      }
+      info.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      noteEl.textContent = method === 'z'
+        ? 'สมมติให้ n ใหญ่พอที่จะใช้ Z-distribution ได้'
+        : 'ใช้ t (Welch) เพื่อรับมือความแปรปรวนไม่เท่ากันและตัวอย่างขนาดเล็ก';
+
+      drawTwoNormals(canvas, [
+        { mean: mean1, sd: sd1, color: 'rgba(120,193,255,0.9)', fill: 'rgba(120,193,255,0.18)', shade: [mean1 - sd1, mean1 + sd1] },
+        { mean: mean2, sd: sd2, color: 'rgba(91,224,181,0.9)', fill: 'rgba(91,224,181,0.18)', shade: [mean2 - sd2, mean2 + sd2] }
+      ]);
+    }
+
+    form.addEventListener('input', updateCi);
+    form.addEventListener('change', updateCi);
+    updateCi();
+    attachResizeRedraw(canvas, updateCi);
+  </script>
+</body>
+</html>

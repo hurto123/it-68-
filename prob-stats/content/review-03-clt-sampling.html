@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 3 • หัวใจสถิติ (CLT &amp; Sampling)</title>
+  <meta name="description" content="ย้ำแนวคิดการแจกแจงของค่าสถิติและทฤษฎีบทขีดจำกัดส่วนกลาง พร้อมการตีความค่าเฉลี่ยตัวอย่างและสัดส่วนตัวอย่าง" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 3</span>
+      <h1>หัวใจสถิติ (CLT &amp; Sampling)</h1>
+      <p class="lead">
+        สวัสดีครับนักศึกษา! หัวใจของสถิติอนุมานคือการเข้าใจว่าค่าสถิติจากตัวอย่างมี “การแจกแจง” ของตัวเอง และไม่ว่าประชากรจริงจะมีหน้าตาอย่างไร
+        ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) ก็ช่วยให้เราใช้โค้งปกติในการวิเคราะห์ค่าเฉลี่ยและสัดส่วนตัวอย่างได้
+      </p>
+      <canvas id="clt-chart" class="mini-chart" aria-label="การลู่เข้าสู่โค้งปกติ"></canvas>
+    </header>
+
+    <section class="card" id="sampling-distribution">
+      <h2>1. การแจกแจงของตัวอย่างสุ่ม (Sampling Distribution)</h2>
+      <p>
+        ไม่ใช่แค่ข้อมูลดิบที่มีการแจกแจง แต่ค่าสถิติต่างๆ เช่น ค่าเฉลี่ยตัวอย่าง (\(\bar{x}\)) หรือสัดส่วนตัวอย่าง (\(\hat{p}\)) ก็มีการแจกแจงด้วยเช่นกัน
+        ลองสุ่มตัวอย่างขนาด <em>n</em> ออกมาหลายๆ ครั้งแล้วคำนวณ \(\bar{x}\) ทุกครั้ง จะได้ฮิสโตแกรมของค่า \(\bar{x}\) นั่นเอง
+      </p>
+    </section>
+
+    <section class="card" id="clt">
+      <h2>2. ทฤษฎีบทขีดจำกัดส่วนกลาง (Central Limit Theorem)</h2>
+      <p>
+        CLT กล่าวว่า เมื่อขนาดตัวอย่างมากพอ (โดยทั่วไป n ≥ 30) การแจกแจงของ \(\bar{x}\) จะมีลักษณะใกล้เคียงโค้งปกติไม่ว่าประชากรเดิมจะเบ้แค่ไหน
+        นี่คือเหตุผลที่เราสามารถใช้ตาราง Z และเครื่องมือปกติในการวิเคราะห์ค่าเฉลี่ยตัวอย่างได้
+      </p>
+    </section>
+
+    <section class="card" id="parameters">
+      <h2>3. พารามิเตอร์สำคัญของการแจกแจงตัวอย่าง</h2>
+      <ul>
+        <li>ค่าเฉลี่ยของ \(\bar{x}\): \(\mu_{\bar{x}} = \mu\)</li>
+        <li>ความคลาดเคลื่อนมาตรฐาน (Standard Error): \(\sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}}\)</li>
+        <li>สัดส่วนตัวอย่าง: \(\mu_{\hat{p}} = p\) และ \(\sigma_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}}\)</li>
+      </ul>
+      <p class="note">ยิ่งตัวอย่างใหญ่ Standard Error ยิ่งเล็ก ค่าเฉลี่ยตัวอย่างจึงเกาะกลุ่มใกล้ค่าเฉลี่ยจริงมากขึ้น</p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์กลับไปอ่าน</h2>
+      <ul class="list-tight">
+        <li><a href="14-clt.html">บทที่ 14 — ทฤษฎีบทขีดจำกัดส่วนกลาง</a></li>
+        <li><a href="15-sampling-other-stats.html">บทที่ 15 — การแจกแจงของค่าสถิติอื่นๆ</a></li>
+        <li><a href="simulators/clt.html">ซิมูเลเตอร์ CLT</a> สำหรับทดลองสุ่มตัวอย่าง</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('clt-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || 680;
+      const height = canvas.clientHeight || 200;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      const means = [15, 30, 60];
+      const colors = ['rgba(255,255,255,0.25)', 'rgba(120,190,255,0.65)', 'rgba(64,110,210,0.95)'];
+      ctx.translate(40, height - 40);
+      ctx.scale(1, -1);
+      ctx.lineWidth = 2.2;
+      means.forEach((n, index) => {
+        ctx.beginPath();
+        for (let x = -3; x <= 3; x += 0.05) {
+          const y = Math.exp(-(x * x) / (2 / (n / 30))) * 40;
+          const px = (x + 3) * ((width - 80) / 6);
+          const py = y;
+          if (x === -3) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = colors[index];
+        ctx.stroke();
+      });
+    })();
+  </script>
+</body>
+</html>

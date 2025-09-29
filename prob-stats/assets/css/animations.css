@@ -35,10 +35,19 @@
   }
 }
 
-.ps-animations-ready .ps-animate {
+.ps-animations-ready .ps-animate.ps-animate--prepared {
   opacity: 0;
   transform-origin: center;
   will-change: opacity, transform, filter;
+}
+
+.ps-animations-disabled .ps-animate,
+.ps-animations-disabled .ps-animate[data-ps-variant="stagger"] > *,
+.ps-animations-disabled .ps-animate--visible {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  filter: none !important;
 }
 
 .ps-animate[data-ps-variant="slide-up"].ps-animate--visible {
@@ -87,7 +96,7 @@
   }
 }
 
-.ps-animate[data-ps-variant="stagger"] > * {
+.ps-animate.ps-animate--prepared[data-ps-variant="stagger"] > * {
   opacity: 0;
   transform: translate3d(0, var(--ps-anim-distance, 16px), 0);
 }

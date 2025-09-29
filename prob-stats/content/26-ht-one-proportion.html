@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 26 • การทดสอบสมมติฐานสัดส่วนประชากรเดียว</title>
+  <meta name="description" content="ทดลองตัดสินคำกล่าวอ้างเกี่ยวกับเปอร์เซ็นต์ของประชากรด้วย Z-test พร้อมตัวอย่างคะแนนนิยมทางการเมือง" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 26</span>
+      <h1>การทดสอบสมมติฐานสัดส่วนประชากรเดียว (p)</h1>
+      <p class="lead">
+        ใช้ข้อมูลแบบ “สำเร็จ/ไม่สำเร็จ” เพื่อตอบคำถามว่าคำกล่าวอ้างเกี่ยวกับเปอร์เซ็นต์ประชากรเป็นจริงหรือไม่ ด้วย Z-test ที่ตั้งอยู่บน &hat;p
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">สถิติ</span><span class="value">Z-test</span></div>
+        <div class="stat"><span class="label">SE</span><span class="value">√(p₀(1−p₀)/n)</span></div>
+        <div class="stat"><span class="label">เงื่อนไข</span><span class="value">np₀ ≥ 10</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. โครงเรื่อง</h2>
+      <p>H₀: p = p₀ (คำกล่าวอ้าง), H₁: p &gt; p₀, p &lt; p₀ หรือ p ≠ p₀ แล้วแต่โจทย์</p>
+      <p>Z<sub>test</sub> = (&hat;p − p₀) / √(p₀(1 − p₀)/n)</p>
+    </section>
+
+    <section class="card">
+      <h2>2. เงื่อนไขจำเป็น</h2>
+      <ul>
+        <li>ตัวอย่างสุ่มและเป็นอิสระ</li>
+        <li>np₀ ≥ 10 และ n(1 − p₀) ≥ 10 เพื่อให้การประมาณแบบปกติใช้ได้</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>3. ตัวอย่าง: คะแนนนิยม</h2>
+      <p>H₀: p ≤ 0.5, H₁: p &gt; 0.5, n = 400, x = 212 → &hat;p = 0.53</p>
+      <p>Z<sub>test</sub> = (0.53 − 0.5)/√(0.5×0.5/400) = 1.20, p-value = 0.1151 (> 0.05) → ยังไม่ปฏิเสธ H₀</p>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: ตัดสินคะแนนนิยม</h2>
+      <div class="playground">
+        <form id="ht-prop-form">
+          <div class="control-group inline">
+            <label><span>จำนวนตัวอย่าง (n)</span><input type="number" name="n" value="400" min="10" step="1" /></label>
+            <label><span>จำนวนสำเร็จ (x)</span><input type="number" name="x" value="212" min="0" step="1" /></label>
+            <label><span>สัดส่วนที่ H₀ อ้าง (p₀)</span><input type="number" name="p0" value="0.5" step="0.01" min="0" max="1" /></label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>เลือกทิศทาง</span>
+              <select name="tail">
+                <option value="two">สองหาง</option>
+                <option value="right" selected>หางขวา (p &gt; p₀)</option>
+                <option value="left">หางซ้าย (p &lt; p₀)</option>
+              </select>
+            </label>
+            <label><span>ระดับนัยสำคัญ α</span><input type="number" name="alpha" value="0.05" step="0.005" min="0.001" max="0.2" /></label>
+          </div>
+        </form>
+        <div class="result-board">
+          <strong id="ht-prop-summary"></strong>
+          <div class="stat-grid" id="ht-prop-stats"></div>
+          <p class="note" id="ht-prop-note"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      formatPercent,
+      normInv,
+      normCdf
+    } = window.LessonTools;
+
+    const form = document.getElementById('ht-prop-form');
+    const summaryEl = document.getElementById('ht-prop-summary');
+    const statsEl = document.getElementById('ht-prop-stats');
+    const noteEl = document.getElementById('ht-prop-note');
+
+    function updatePropTest() {
+      const n = Math.max(1, parseFloat(form.elements['n'].value));
+      const x = Math.min(n, Math.max(0, parseFloat(form.elements['x'].value)));
+      const p0 = Math.min(1, Math.max(0, parseFloat(form.elements['p0'].value)));
+      const tail = form.elements['tail'].value;
+      const alpha = Math.min(0.5, Math.max(0.0001, parseFloat(form.elements['alpha'].value)));
+
+      const pHat = n > 0 ? x / n : 0;
+      const se = Math.sqrt(p0 * (1 - p0) / n);
+      const zTest = (pHat - p0) / se;
+
+      let criticalText = '';
+      let reject = false;
+      let pValue = 0;
+
+      if (tail === 'two') {
+        const critical = normInv(1 - alpha / 2);
+        criticalText = `±${formatNumber(critical, 3)}`;
+        reject = Math.abs(zTest) > critical;
+        pValue = 2 * (1 - normCdf(Math.abs(zTest)));
+      } else if (tail === 'right') {
+        const critical = normInv(1 - alpha);
+        criticalText = formatNumber(critical, 3);
+        reject = zTest > critical;
+        pValue = 1 - normCdf(zTest);
+      } else {
+        const critical = normInv(alpha);
+        criticalText = formatNumber(critical, 3);
+        reject = zTest < critical;
+        pValue = normCdf(zTest);
+      }
+
+      summaryEl.textContent = reject ? 'คำตัดสิน: ปฏิเสธ H₀' : 'คำตัดสิน: ยังไม่ปฏิเสธ H₀';
+
+      statsEl.innerHTML = '';
+      const stats = [
+        { label: '&hat;p', value: formatPercent(pHat, 2) },
+        { label: 'Z-test', value: formatNumber(zTest, 3) },
+        { label: 'Critical', value: criticalText },
+        { label: 'p-value', value: formatNumber(pValue, 4) }
+      ];
+      stats.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      const cond1 = p0 * n;
+      const cond2 = (1 - p0) * n;
+      noteEl.textContent = cond1 >= 10 && cond2 >= 10
+        ? 'เงื่อนไข np₀ ≥ 10 และ n(1−p₀) ≥ 10 ผ่านแล้ว'
+        : 'คำเตือน: ขนาดตัวอย่างอาจน้อยเกินไปสำหรับการประมาณแบบปกติ';
+    }
+
+    form.addEventListener('input', updatePropTest);
+    form.addEventListener('change', updatePropTest);
+    updatePropTest();
+  </script>
+</body>
+</html>

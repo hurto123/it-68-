@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 5 • เจาะลึกการทดสอบสมมติฐาน</title>
+  <meta name="description" content="ทบทวนตรรกะของศาลสถิติ กระบวนการ 5 ขั้นตอน และการตีความผลลัพธ์ของการทดสอบสมมติฐาน" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 5</span>
+      <h1>เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา)</h1>
+      <p class="lead">
+        การทดสอบสมมติฐานเปรียบเสมือนศาลสถิติ เราสันนิษฐานว่าจำเลย (H<sub>0</sub>) บริสุทธิ์จนกว่าจะมีหลักฐานแน่นหนาพอ บทนี้ช่วยไล่ตรรกะ
+        ขั้นตอน และภาษาที่ถูกต้องในการสรุปผล
+      </p>
+    </header>
+
+    <section class="card" id="logic">
+      <h2>1. ตรรกะของศาลสถิติ</h2>
+      <ul>
+        <li>H<sub>0</sub>: จำเลย เราเริ่มต้นด้วยการเชื่อว่าเป็นจริง</li>
+        <li>H<sub>1</sub>: โจทย์/อัยการ พยายามนำหลักฐานมาหักล้าง</li>
+        <li>คำตัดสิน: ปฏิเสธ H<sub>0</sub> เฉพาะเมื่อหลักฐานไม่น่าเกิดขึ้นได้ถ้า H<sub>0</sub> จริง</li>
+      </ul>
+    </section>
+
+    <section class="card" id="steps">
+      <h2>2. กระบวนการ 5 ขั้นตอน</h2>
+      <ol>
+        <li><strong>ตั้งสมมติฐาน</strong>: ระบุ H<sub>0</sub> (มีเครื่องหมาย =, ≤ หรือ ≥) และ H<sub>1</sub> (≠, &lt;, &gt;)</li>
+        <li><strong>กำหนดระดับนัยสำคัญ</strong>: เลือก α เช่น 0.05 ซึ่งคือความเสี่ยงที่จะเกิด Type I Error</li>
+        <li><strong>รวบรวมหลักฐาน</strong>: คำนวณค่าสถิติทดสอบ (Z, t, χ², F)</li>
+        <li><strong>ชั่งน้ำหนัก</strong>: ใช้ p-value หรือวิธี Critical Value เพื่อตัดสินว่าหลักฐานสุดโต่งเพียงพอหรือไม่</li>
+        <li><strong>สรุปผล</strong>: เปรียบเทียบ p-value กับ α แล้วตัดสิน พร้อมตีความในบริบทของโจทย์</li>
+      </ol>
+    </section>
+
+    <section class="card" id="verdict">
+      <h2>3. คำพิพากษาที่ถูกต้อง</h2>
+      <p>เราไม่พูดว่า “ยอมรับ H<sub>0</sub>” แต่พูดว่า “ยังปฏิเสธ H<sub>0</sub> ไม่ได้” เพราะการไม่มีหลักฐานไม่ได้แปลว่าคำกล่าวอ้างเป็นจริง</p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์สำหรับฝึกเพิ่มเติม</h2>
+      <ul class="list-tight">
+        <li><a href="23-ht-intro.html">บทที่ 23 — บทนำสู่การทดสอบสมมติฐาน</a></li>
+        <li><a href="24-ht-critical-pvalue.html">บทที่ 24 — Critical Value vs p-value</a></li>
+        <li><a href="25-ht-one-mean.html">บทที่ 25–30 — การทดสอบค่าเฉลี่ย สัดส่วน และความแปรปรวน</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 4 • เจาะลึกการประมาณค่า</title>
+  <meta name="description" content="สรุปโครงสร้างทองคำของช่วงความเชื่อมั่น ตัวประมาณค่า ระยะเผื่อ และค่าวิกฤต พร้อมตารางเปรียบเทียบกรณีใช้งาน" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 4</span>
+      <h1>เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ)</h1>
+      <p class="lead">
+        เมื่อเราเป็น “นักสืบข้อมูล” งานสำคัญคือการตั้งช่วงความเชื่อมั่นให้ครอบตัวจริงให้ได้มากที่สุด บทนี้ย้ำโครงสร้างทองคำของทุกสูตร
+        พร้อมตัวอย่างการคิดและการตีความที่ถูกต้อง
+      </p>
+    </header>
+
+    <section class="card" id="golden-structure">
+      <h2>1. โครงสร้างทองคำ</h2>
+      <p>ทุกช่วงความเชื่อมั่น (CI) มีโครงสร้างเหมือนกัน:</p>
+      <pre class="math">CI = (\text{Point Estimate}) \pm (\text{Critical Value}) \times (\text{Standard Error})</pre>
+      <p class="note">ตัวประมาณค่าคือหลักฐานจากตัวอย่าง ระยะเผื่อความคลาดเคลื่อนคือความไม่แน่นอนที่เรายอมรับได้</p>
+    </section>
+
+    <section class="card" id="table">
+      <h2>2. ตารางเทียบส่วนประกอบ</h2>
+      <table class="mini-table" aria-describedby="table-caption">
+        <caption id="table-caption">เลือกเครื่องมือให้ตรงกับพารามิเตอร์ที่ต้องการประมาณ</caption>
+        <thead>
+          <tr><th>สิ่งที่ต้องการประมาณ</th><th>ตัวประมาณค่า</th><th>Standard Error</th><th>ค่าวิกฤต</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ค่าเฉลี่ยประชากรเดียว (μ)</td><td>\(\bar{x}\)</td><td>\(\frac{s}{\sqrt{n}}\)</td><td>Z หรือ t</td></tr>
+          <tr><td>สัดส่วนประชากรเดียว (p)</td><td>\(\hat{p}\)</td><td>\(\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\)</td><td>Z</td></tr>
+          <tr><td>ผลต่างค่าเฉลี่ย (μ<sub>1</sub>-μ<sub>2</sub>)</td><td>\(\bar{x}_1-\bar{x}_2\)</td><td>\(\sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}\)</td><td>Z</td></tr>
+          <tr><td>ผลต่างสัดส่วน (p<sub>1</sub>-p<sub>2</sub>)</td><td>\(\hat{p}_1-\hat{p}_2\)</td><td>\(\sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1}+\frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\)</td><td>Z</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="interpretation">
+      <h2>3. การตีความ</h2>
+      <ul>
+        <li>ช่วงความเชื่อมั่น 95% หมายถึง “ถ้าทำกระบวนการนี้ซ้ำ 100 ครั้ง จะมีประมาณ 95 ครั้งที่ช่วงครอบค่าจริงได้”</li>
+        <li>ผลต่างสองกลุ่ม: ถ้าช่วงคร่อมศูนย์ → ยังสรุปไม่ได้ว่าต่างกัน ถ้าช่วงไม่คร่อมศูนย์ → มีหลักฐานว่าต่าง</li>
+      </ul>
+    </section>
+
+    <section class="card" id="workflow">
+      <h2>4. ตัวอย่างการคิดแบบนักสืบ</h2>
+      <ol>
+        <li>รวบรวมหลักฐาน: หา \(\bar{x}\), s, n สำหรับแต่ละกลุ่ม</li>
+        <li>ตั้งสมมติฐานเบื้องต้น: ดูทิศทางของความแตกต่างที่คาดหวัง</li>
+        <li>คำนวณ Standard Error และเลือกค่าวิกฤตตามระดับความเชื่อมั่น</li>
+        <li>ประกอบเป็น CI และตีความว่าคร่อมศูนย์หรือไม่</li>
+      </ol>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์สำหรับทบทวนโจทย์เต็ม</h2>
+      <ul class="list-tight">
+        <li><a href="16-ci-intro.html">บทที่ 16 — บทนำสู่ช่วงความเชื่อมั่น</a></li>
+        <li><a href="17-ci-one-mean.html">บทที่ 17–20 — CI สำหรับ μ และ p (1 กลุ่มและ 2 กลุ่ม)</a></li>
+        <li><a href="21-sample-size.html">บทที่ 21 — การคำนวณขนาดตัวอย่าง</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

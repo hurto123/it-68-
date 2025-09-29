@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 20 • ช่วงความเชื่อมั่นของผลต่างสัดส่วนสองประชากร</title>
+  <meta name="description" content="เปรียบเทียบสัดส่วนสองกลุ่มด้วยช่วงความเชื่อมั่น พร้อมตัวอย่างการทดสอบยาและเครื่องมือคำนวณโต้ตอบ" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 20</span>
+      <h1>การเปรียบเทียบสัดส่วนสองประชากร (p₁ − p₂)</h1>
+      <p class="lead">
+        ใช้ข้อมูลแบบ “ใช่/ไม่ใช่” จากสองกลุ่มเพื่อประเมินความแตกต่างของสัดส่วนจริง ช่วงความเชื่อมั่นจะช่วยให้เห็นว่าความต่างนั้นมีนัยสำคัญหรือไม่
+      </p>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="label">ข้อมูล</span>
+          <span class="value">สองกลุ่มอิสระ</span>
+        </div>
+        <div class="stat">
+          <span class="label">ค่าวิกฤต</span>
+          <span class="value">Z-distribution</span>
+        </div>
+        <div class="stat">
+          <span class="label">โฟกัส</span>
+          <span class="value">p̂₁ − p̂₂</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. แนวคิดหลัก</h2>
+      <p>
+        เราสนใจผลต่าง <strong>p₁ − p₂</strong> ระหว่างสัดส่วนประชากรสองกลุ่ม โดยใช้ตัวประมาณค่าแบบจุดคือ (&hat;p₁ − &hat;p₂) จากตัวอย่างที่สุ่มมาอย่างอิสระ
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรทั่วไป</h2>
+      <div class="highlight-box">
+        <strong>ช่วงความเชื่อมั่น</strong>
+        <p>
+          CI = (&hat;p₁ − &hat;p₂) &plusmn; Z<sub>&alpha/2</sub>
+          × &radic;(&hat;p₁(1 − &hat;p₁)/n₁ + &hat;p₂(1 − &hat;p₂)/n₂)
+        </p>
+        <p class="note">ตรวจสอบเงื่อนไข np ≥ 10 และ n(1 − p) ≥ 10 สำหรับทั้งสองกลุ่ม</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. การตีความผ่านเลขศูนย์</h2>
+      <p>หลักการเหมือนการเปรียบเทียบค่าเฉลี่ย: ดูว่าช่วงคร่อมศูนย์หรือไม่</p>
+      <div class="grid three">
+        <div class="highlight-box"><strong>ช่วงบวกทั้งหมด</strong><p>p₁ > p₂ อย่างมีนัยสำคัญ</p></div>
+        <div class="highlight-box"><strong>ช่วงลบทั้งหมด</strong><p>p₁ < p₂ อย่างมีนัยสำคัญ</p></div>
+        <div class="highlight-box"><strong>คร่อมศูนย์</strong><p>ยังสรุปไม่ได้ว่าต่างกัน</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่าง: ทดสอบประสิทธิภาพยา</h2>
+      <p>
+        กลุ่มยาจริง: n₁ = 500, x₁ = 25 &rarr; &hat;p₁ = 0.05<br />
+        กลุ่มยาหลอก: n₂ = 500, x₂ = 45 &rarr; &hat;p₂ = 0.09
+      </p>
+      <p>CI = 0.04 &plusmn; 1.96 × &radic;(0.05×0.95/500 + 0.09×0.91/500) = <strong>(0.0085, 0.0715)</strong></p>
+      <div class="callout">
+        <strong>ความหมาย:</strong> ช่วงทั้งหมดเป็นบวก จึงมีหลักฐานว่ายาจริงลดโอกาสเป็นไข้หวัดได้ดีกว่ายาหลอก</div>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: เปรียบเทียบสองสัดส่วน</h2>
+      <div class="playground">
+        <form id="ci-two-prop-form">
+          <div class="control-group inline">
+            <label>
+              <span>n₁</span>
+              <input type="number" name="n1" value="500" min="10" step="1" />
+            </label>
+            <label>
+              <span>x₁ (สำเร็จ)</span>
+              <input type="number" name="x1" value="25" min="0" step="1" />
+            </label>
+            <label>
+              <span>n₂</span>
+              <input type="number" name="n2" value="500" min="10" step="1" />
+            </label>
+            <label>
+              <span>x₂ (สำเร็จ)</span>
+              <input type="number" name="x2" value="45" min="0" step="1" />
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>ระดับความเชื่อมั่น</span>
+              <select name="confidence">
+                <option value="0.90">90%</option>
+                <option value="0.95" selected>95%</option>
+                <option value="0.99">99%</option>
+              </select>
+            </label>
+            <label>
+              <span>หน่วยการแสดงผล</span>
+              <select name="display">
+                <option value="diff" selected>ผลต่าง</option>
+                <option value="ratio">อัตราส่วน (p₁/p₂)</option>
+              </select>
+            </label>
+          </div>
+        </form>
+        <div class="result-board">
+          <strong id="ci-two-prop-summary">ช่วงความเชื่อมั่น:</strong>
+          <div class="stat-grid" id="ci-two-prop-stats"></div>
+          <p class="note" id="ci-two-prop-note"></p>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="ci-two-prop-canvas" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      formatPercent,
+      normInv,
+      drawBars,
+      attachResizeRedraw
+    } = window.LessonTools;
+
+    const form = document.getElementById('ci-two-prop-form');
+    const summaryEl = document.getElementById('ci-two-prop-summary');
+    const statsEl = document.getElementById('ci-two-prop-stats');
+    const noteEl = document.getElementById('ci-two-prop-note');
+    const canvas = document.getElementById('ci-two-prop-canvas');
+
+    function updateCi() {
+      const n1 = Math.max(1, parseFloat(form.elements['n1'].value));
+      const x1 = Math.min(n1, Math.max(0, parseFloat(form.elements['x1'].value)));
+      const n2 = Math.max(1, parseFloat(form.elements['n2'].value));
+      const x2 = Math.min(n2, Math.max(0, parseFloat(form.elements['x2'].value)));
+      const confidence = parseFloat(form.elements['confidence'].value) || 0.95;
+      const display = form.elements['display'].value;
+
+      const p1 = n1 > 0 ? x1 / n1 : 0;
+      const p2 = n2 > 0 ? x2 / n2 : 0;
+      const diff = p1 - p2;
+      const se = Math.sqrt((p1 * (1 - p1)) / n1 + (p2 * (1 - p2)) / n2);
+      const z = normInv(1 - (1 - confidence) / 2);
+      const margin = z * se;
+      const lower = diff - margin;
+      const upper = diff + margin;
+
+      const summaryFormatter = diff => formatPercent(diff, 2);
+      summaryEl.textContent = `ช่วงความเชื่อมั่น: (${summaryFormatter(lower)}, ${summaryFormatter(upper)})`;
+
+      statsEl.innerHTML = '';
+      const info = [
+        { label: '&hat;p₁', value: formatPercent(p1, 2) },
+        { label: '&hat;p₂', value: formatPercent(p2, 2) },
+        { label: 'ผลต่างตัวอย่าง', value: formatPercent(diff, 2) },
+        { label: 'Margin of Error', value: formatPercent(margin, 2) }
+      ];
+      if (display === 'ratio' && p2 > 0) {
+        info.push({ label: 'อัตราส่วน p₁/p₂', value: formatNumber(p1 / p2, 3) });
+      }
+      info.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      const cond1 = Math.min(p1 * n1, (1 - p1) * n1);
+      const cond2 = Math.min(p2 * n2, (1 - p2) * n2);
+      noteEl.textContent = cond1 >= 10 && cond2 >= 10
+        ? 'เงื่อนไข np ≥ 10 สำหรับทั้งสองกลุ่มผ่าน ✔'
+        : 'คำเตือน: ตัวอย่างหนึ่งอาจมีขนาดเล็กเกินไปสำหรับการประมาณแบบปกติ';
+
+      drawBars(canvas, [
+        { label: 'กลุ่ม 1', value: p1, color: 'rgba(120,193,255,0.65)' },
+        { label: 'กลุ่ม 2', value: p2, color: 'rgba(91,224,181,0.65)' }
+      ]);
+    }
+
+    form.addEventListener('input', updateCi);
+    form.addEventListener('change', updateCi);
+    updateCi();
+    attachResizeRedraw(canvas, updateCi);
+  </script>
+</body>
+</html>

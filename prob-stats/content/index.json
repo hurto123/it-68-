@@ -18,7 +18,32 @@
     { "id": "ch13", "title": "บทที่ 13: t, χ², F", "path": "content/13-t-chi2-f.html" },
     { "id": "ch14", "title": "บทที่ 14: CLT", "path": "content/14-clt.html" },
     { "id": "ch15", "title": "บทที่ 15: Sampling Distributions", "path": "content/15-sampling-other-stats.html" },
-    { "id": "ch16", "title": "บทที่ 16: Confidence Interval", "path": "content/16-ci-intro.html" }
+    { "id": "ch16", "title": "บทที่ 16: Confidence Interval", "path": "content/16-ci-intro.html" },
+    { "id": "ch17", "title": "บทที่ 17: CI ค่าเฉลี่ยประชากรเดียว", "path": "content/17-ci-one-mean.html" },
+    { "id": "ch18", "title": "บทที่ 18: CI สัดส่วนประชากรเดียว", "path": "content/18-ci-one-proportion.html" },
+    { "id": "ch19", "title": "บทที่ 19: CI ผลต่างค่าเฉลี่ย", "path": "content/19-ci-two-means.html" },
+    { "id": "ch20", "title": "บทที่ 20: CI ผลต่างสัดส่วน", "path": "content/20-ci-two-proportions.html" },
+    { "id": "ch21", "title": "บทที่ 21: Sample Size", "path": "content/21-sample-size.html" },
+    { "id": "ch22", "title": "บทที่ 22: CI ความแปรปรวน", "path": "content/22-ci-variance.html" },
+    { "id": "ch23", "title": "บทที่ 23: บทนำทดสอบสมมติฐาน", "path": "content/23-ht-intro.html" },
+    { "id": "ch24", "title": "บทที่ 24: Critical Value vs p-value", "path": "content/24-ht-critical-pvalue.html" },
+    { "id": "ch25", "title": "บทที่ 25: ทดสอบค่าเฉลี่ยกลุ่มเดียว", "path": "content/25-ht-one-mean.html" },
+    { "id": "ch26", "title": "บทที่ 26: ทดสอบสัดส่วนกลุ่มเดียว", "path": "content/26-ht-one-proportion.html" },
+    { "id": "ch27", "title": "บทที่ 27: ทดสอบผลต่างค่าเฉลี่ย", "path": "content/27-ht-two-means.html" },
+    { "id": "ch28", "title": "บทที่ 28: ทดสอบผลต่างสัดส่วน", "path": "content/28-ht-two-proportions.html" },
+    { "id": "ch29", "title": "บทที่ 29: ทดสอบความแปรปรวนเดียว", "path": "content/29-ht-one-variance.html" },
+    { "id": "ch30", "title": "บทที่ 30: ทดสอบอัตราส่วนความแปรปรวน", "path": "content/30-ht-variance-ratio.html" },
+    { "id": "ch31", "title": "บทที่ 31: Course Summary", "path": "content/31-course-summary.html" }
+  ],
+  "reviews": [
+    { "id": "rev01", "title": "Review 01: รากฐานแห่งความน่าจะเป็น", "path": "content/review-01-foundation-probability.html" },
+    { "id": "rev02", "title": "Review 02: พิมพ์เขียวของข้อมูล", "path": "content/review-02-data-blueprints-distributions.html" },
+    { "id": "rev03", "title": "Review 03: CLT & Sampling", "path": "content/review-03-clt-sampling.html" },
+    { "id": "rev04", "title": "Review 04: เจาะลึกการประมาณค่า", "path": "content/review-04-estimation-deep-dive.html" },
+    { "id": "rev05", "title": "Review 05: เจาะลึกการทดสอบสมมติฐาน", "path": "content/review-05-hypothesis-testing-deep-dive.html" },
+    { "id": "rev06", "title": "Review 06: Case Study — กลุ่มเดียว", "path": "content/review-06-case-one-sample.html" },
+    { "id": "rev07", "title": "Review 07: Case Study — A/B Testing", "path": "content/review-07-case-ab-testing.html" },
+    { "id": "rev08", "title": "Review 08: แผนภาพช่วยตัดสินใจ", "path": "content/review-08-choosing-tool.html" }
   ],
   "resources": {
     "exercises": [

@@ -1,64 +1,75 @@
 export function renderNav(navGroups, container) {
-  if (!container) return;
-  container.innerHTML = '';
+  if (!container || !Array.isArray(navGroups)) return;
 
-  navGroups.forEach((group) => {
-    const section = document.createElement('section');
-    section.className = 'nav-group';
-    section.setAttribute('role', 'listitem');
-    section.dataset.groupId = group.id;
+  const fallbackHTML = container.innerHTML;
+  const fragment = document.createDocumentFragment();
 
-    const heading = document.createElement('h3');
-    heading.textContent = group.label;
-    section.appendChild(heading);
+  try {
+    navGroups.forEach((group) => {
+      const section = document.createElement('section');
+      section.className = 'nav-group';
+      section.setAttribute('role', 'listitem');
+      section.dataset.groupId = group.id;
 
-    if (group.summary) {
-      const summary = document.createElement('p');
-      summary.className = 'nav-summary';
-      summary.textContent = group.summary;
-      section.appendChild(summary);
-    }
+      const heading = document.createElement('h3');
+      heading.textContent = group.label;
+      section.appendChild(heading);
 
-    const list = document.createElement('ul');
-    list.className = 'nav-items';
-    list.setAttribute('role', 'list');
-
-    group.items.forEach((item) => {
-      const li = document.createElement('li');
-      li.className = 'nav-item';
-
-      const link = document.createElement('a');
-      link.href = item.href;
-      link.textContent = item.title;
-      if (item.description) {
-        link.title = item.description;
-      }
-      li.appendChild(link);
-
-      if (item.meta) {
-        const meta = document.createElement('span');
-        meta.className = 'nav-meta';
-        meta.textContent = item.meta;
-        li.appendChild(meta);
+      if (group.summary) {
+        const summary = document.createElement('p');
+        summary.className = 'nav-summary';
+        summary.textContent = group.summary;
+        section.appendChild(summary);
       }
 
-      list.appendChild(li);
+      const list = document.createElement('ul');
+      list.className = 'nav-items';
+      list.setAttribute('role', 'list');
+
+      group.items.forEach((item) => {
+        const li = document.createElement('li');
+        li.className = 'nav-item';
+
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.textContent = item.title;
+        if (item.description) {
+          link.title = item.description;
+        }
+        li.appendChild(link);
+
+        if (item.meta) {
+          const meta = document.createElement('span');
+          meta.className = 'nav-meta';
+          meta.textContent = item.meta;
+          li.appendChild(meta);
+        }
+
+        list.appendChild(li);
+      });
+
+      section.appendChild(list);
+
+      if (group.cta) {
+        const footer = document.createElement('div');
+        footer.className = 'nav-cta';
+        const link = document.createElement('a');
+        link.href = group.cta.href;
+        link.textContent = group.cta.label;
+        footer.appendChild(link);
+        section.appendChild(footer);
+      }
+
+      fragment.appendChild(section);
     });
 
-    section.appendChild(list);
-
-    if (group.cta) {
-      const footer = document.createElement('div');
-      footer.className = 'nav-cta';
-      const link = document.createElement('a');
-      link.href = group.cta.href;
-      link.textContent = group.cta.label;
-      footer.appendChild(link);
-      section.appendChild(footer);
-    }
-
-    container.appendChild(section);
-  });
+    container.innerHTML = '';
+    container.appendChild(fragment);
+    container.dataset.jsEnhanced = 'true';
+  } catch (error) {
+    console.error('renderNav failed, restoring static markup', error);
+    container.innerHTML = fallbackHTML;
+  }
 }
 
 export function renderDatasets(tableBody, datasets) {

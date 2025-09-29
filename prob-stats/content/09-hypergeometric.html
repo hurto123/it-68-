@@ -1,345 +1,357 @@
 <!DOCTYPE html>
 <html class="theme-light" lang="th">
 <head>
-  <meta name="description" content="บทที่\ 9\ –\ บทเรียนสถิติสรุปอ่านเร็ว\ พร้อมตัวอย่าง\ กราฟ\ และแบบทดสอบท้ายบท">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="บทเรียนการแจกแจงไฮเปอร์จีออเมตริกพร้อมแผนภูมิแบบไม่ใส่คืนและตัวอย่างจริง" />
+  <title>บทที่ 09 • การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric)</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="print.css" media="print">
-
-  <title>บทที่ 09 • การแจกแจงของตัวอย่างสุ่ม & CLT</title>
+  <link rel="stylesheet" href="print.css" media="print" />
   <script>
     window.MathJax = {
       tex: {
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]']]
       },
-      options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-      },
-      svg: { fontCache: 'global' }
+      svg: { fontCache: 'global' },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
     };
   </script>
   <script defer src="assets/js/reading-tools.js"></script>
   <style>
-    :root{--bg:#0b0c10;--surface:#15171c;--text:#e8e8ea;--muted:#9aa0a6;--link:#4f8cff;--border:#2a2e36}
-    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 system-ui,'Noto Sans Thai',sans-serif}
-    header,footer{background:var(--surface);border-bottom:1px solid var(--border)}
-    header .wrap, footer .wrap, main{max-width:1000px;margin:0 auto;padding:1rem}
-    h1,h2,h3{line-height:1.25;margin:.2rem 0}
-    nav a{display:inline-block;margin:.25rem .4rem .25rem 0;padding:.5rem .8rem;border:1px solid var(--border);border-radius:12px;background:#20232a;color:var(--text);text-decoration:none}
-    nav a:hover{background:#2a2e36}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:1rem 0}
-    .muted{color:var(--muted)}
-    .note{background:#10223a;border-left:4px solid #2b6cb0;padding:.9rem;border-radius:10px}
-    .warn{background:#3a1010;border-left:4px solid #b02b2b;padding:.9rem;border-radius:10px}
-    .ex{background:#20232a;border:1px dashed var(--border);padding:.8rem;border-radius:10px;white-space:pre-wrap}
-    table{width:100%;border-collapse:collapse;margin:.6rem 0}
-    th,td{border:1px solid var(--border);padding:.5rem .6rem;text-align:left;vertical-align:top}
-    th{background:#1c1e25}
-    caption{caption-side:top;text-align:left;font-weight:600;margin:.25rem 0}
-    ul,ol{margin:.4rem 0 .4rem 1.2rem}
-    strong{color:#cfe0ff}
-    .svgbox{background:#101218;border:1px solid #222630;border-radius:12px;padding:.6rem;overflow:auto}
-    .svgbox svg{max-width:100%;height:auto;display:block}
-    code.k{background:#20232a;padding:.1rem .35rem;border-radius:.35rem;border:1px solid #2a2e36}
-    .center{text-align:center}
-  </style>
-  <script type="application/json" id="lesson-meta">
-    {
-      "id": "lesson09",
-      "title": "บทที่ 9: การแจกแจงของตัวอย่างสุ่ม & CLT",
-      "version": "1.2.0",
-      "updated_at": "2025-09-26",
-      "depends_on": [
-        "summary-lesson09.html",
-        "assets/data/questions/lesson09.questions.th.json",
-        "assets/data/solutions/lesson09.solutions.th.json",
-        "assets/js/reading-tools.js",
-        "style.css"
-      ],
-      "tags": ["sampling", "clt", "standard-error", "reading-tools", "math-model"]
+    :root {
+      color-scheme: dark;
+      --bg: #030a10;
+      --surface: #0d1520;
+      --surface-alt: #162032;
+      --surface-soft: #1d283c;
+      --text: #f2f6ff;
+      --muted: #9aa9cb;
+      --accent: #58d8ff;
+      --accent-soft: rgba(88, 216, 255, 0.2);
+      --ok: #5ee3c4;
+      --border: #233047;
     }
-  </script>
-  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 15% -10%, rgba(88, 216, 255, 0.25), transparent 60%),
+                  radial-gradient(circle at 90% 5%, rgba(94, 227, 196, 0.14), transparent 65%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.7 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(13, 21, 32, 0.94), rgba(88, 216, 255, 0.22));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 18px 60px rgba(88, 216, 255, 0.14);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1.3rem 1.6rem;
+    }
+
+    h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+
+    p, ul, ol { margin: 0.45rem 0 0.7rem; }
+    ul, ol { padding-left: 1.2rem; }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 18, 34, 0.6);
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover,
+    .pill:hover { background: rgba(88, 216, 255, 0.22); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.8rem; }
+
+    .pill {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+    }
+
+    main { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
+
+    section.card {
+      background: var(--surface);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      padding: clamp(1.15rem, 1.6vw, 1.85rem);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.24);
+    }
+
+    .note {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      margin: 0.85rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 18px;
+      overflow: hidden;
+      margin: 0.9rem 0 1.1rem;
+      background: var(--surface-alt);
+    }
+
+    th, td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: left;
+    }
+
+    th { background: rgba(255, 255, 255, 0.08); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .svg-box {
+      background: var(--surface-alt);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem;
+      margin: 0.8rem 0;
+      overflow: auto;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 0.7rem 0 1rem;
+    }
+
+    .control-row label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    .control-row input[type="range"],
+    .control-row input[type="number"] {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.45rem 0.6rem;
+      color: var(--text);
+      min-width: 140px;
+    }
+
+    footer {
+      background: rgba(9, 16, 28, 0.92);
+      border-top: 1px solid var(--border);
+    }
+
+    .muted { color: var(--muted); }
+  </style>
+  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles" />
   <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <h1>บทที่ 09 • การแจกแจงของตัวอย่างสุ่ม &amp; ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) ✨</h1>
-      <p class="muted">รุ่น 1.2.0 · อัปเดต 26 ก.ย. 2025 · Sampling Distributions, SE, CLT</p>
-      <nav aria-label="นำทางบทเรียน">
-        <a href="index.html">🏠 หน้าแรก</a>
-        <a href="lesson08.html">⟵ บทก่อนหน้า</a>
-        <!-- <a href="quiz.html">แบบทดสอบท้ายบท ⟶</a> -->
+      <h1>บทที่ 09 • การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric)</h1>
+      <p class="muted">โมเดลการสุ่ม “ไม่ใส่คืน” จากประชากรจำกัด — เมื่อผลการหยิบครั้งก่อนมีผลต่อครั้งถัดไป</p>
+      <nav aria-label="บทก่อนหน้าและถัดไป">
+        <a href="07-discrete-uniform.html">🔁 ทบทวนแจกแจงไม่ต่อเนื่อง</a>
+        <a href="08-binomial.html">⟵ บทที่ 08</a>
+        <a href="10-poisson.html">บทที่ 10 ⟶</a>
       </nav>
-      <div class="chips">
-        <span class="pill">📝 <a class="inline" href="summary-lesson09.html">สรุป 1 หน้า</a></span>
-        <span class="pill">🧪 <a class="inline" href="quiz-lesson09.html">Quiz บทที่ 9</a></span>
+      <div class="pill-row">
+        <span class="pill">สุ่มแบบไม่ใส่คืน</span>
+        <span class="pill">PMF = \(\dfrac{\binom{M}{x} \binom{N-M}{n-x}}{\binom{N}{n}}\)</span>
+        <span class="pill">E(X) = n(M/N)</span>
       </div>
     </div>
   </header>
 
-  <main class="content lesson-page">
-    <section class="card" id="reading-support">
-      <h2>Reading Toolkit สำหรับ Sampling &amp; CLT</h2>
-      <p>แถบเครื่องมือช่วยปรับตัวอักษร, เปิดโหมดโฟกัส และพิมพ์ PDF พร้อมสูตร SE สำหรับ \(\bar{X}\) และ \(\hat{p}\)</p>
+  <main>
+    <section class="card" id="concept">
+      <h2>1. แนวคิดหลัก: สุ่มจากประชากรจำกัด</h2>
+      <p>เมื่อเราหยิบตัวอย่างโดยไม่ใส่คืน จำนวนของที่ “สำเร็จ” ในประชากรจะลดลงเรื่อยๆ ทำให้ความน่าจะเป็นเปลี่ยนไปทุกครั้ง นี่คือสถานการณ์ของการแจกแจงไฮเปอร์จีออเมตริก</p>
       <ul>
-        <li>MathJax แสดงสูตร \(SE_{\bar{X}} = \sigma/\sqrt{n}\) และ \(SE_{\hat{p}} = \sqrt{p(1-p)/n}\)</li>
-        <li>สารบัญพาไปยังส่วน CLT หรือการสุ่มแบบมี/ไม่มีการทดแทนได้รวดเร็ว</li>
-        <li>เชื่อมกับ <a class="inline" href="summary-lesson09.html">summary-lesson09.html</a> เพื่อดูสรุปขั้นตอน</li>
+        <li>สุ่มไพ่ 5 ใบจากสำรับ นับจำนวนไพ่โพดำ</li>
+        <li>เลือกตัวแทนนักเรียน 5 คนจาก 20 คน นับจำนวนผู้หญิง</li>
+        <li>สุ่มสินค้า 10 ชิ้นจากล็อต 100 ชิ้น นับจำนวนชำรุด</li>
       </ul>
     </section>
 
-    <!-- 9.1 พารามิเตอร์ vs ค่าสถิติ -->
-    <section class="card" id="param-stat">
-      <h2>9.1 พารามิเตอร์ (Parameter) vs ค่าสถิติ (Statistic) 👑🥄</h2>
-      <p>เราต้องการรู้ <em>ความจริงของประชากร</em> (พารามิเตอร์) แต่ในทางปฏิบัติเราเก็บได้แค่ <em>กลุ่มตัวอย่าง</em> แล้วคำนวณค่าสถิติขึ้นมาแทน</p>
-      <table>
-        <caption>เปรียบเทียบภาพรวม</caption>
-        <thead><tr><th>คุณสมบัติ</th><th>พารามิเตอร์ (ประชากร)</th><th>ค่าสถิติ (กลุ่มตัวอย่าง)</th></tr></thead>
-        <tbody>
-          <tr><td>อธิบาย</td><td>ทั้งหมด (Population)</td><td>บางส่วน (Sample)</td></tr>
-          <tr><td>ลักษณะ</td><td>ค่าจริง คงที่ แต่ไม่รู้ค่า</td><td>คำนวณได้ เปลี่ยนไปตามการสุ่ม</td></tr>
-          <tr><td>สัญลักษณ์</td><td>μ, σ², p</td><td>\u0305x (x-bar), s², \u0302p (p-hat)</td></tr>
-          <tr><td>เปรียบเปรย</td><td>รสชาติ “ทั้งหม้อซุป” 🥣</td><td>รสชาติ “หนึ่งช้อน” ที่ตักมา 🥄</td></tr>
-        </tbody>
-      </table>
-      <div class="note">
-        <strong>การแจกแจงของตัวอย่างสุ่ม (Sampling Distribution)</strong> คือ “การกระจายของ <em>ค่าสถิติ</em>” ที่เกิดจากการสุ่มตัวอย่างซ้ำ ๆ มาก ๆ (ในจินตนาการ) เช่น การกระจายของ \u0305x หรือ \u0302p
-      </div>
-    </section>
-
-    <!-- 9.2 CLT -->
-    <section class="card" id="clt">
-      <h2>9.2 ทฤษฎีบทขีดจำกัดส่วนกลาง (Central Limit Theorem: CLT) 🌐</h2>
-      <p><strong>คำประกาศิต:</strong> ไม่ว่าประชากรเดิมมีรูปทรงอย่างไร ถ้า <strong>n ใหญ่พอ</strong> (มักใช้เกณฑ์ทั่วไป n ≥ 30) การแจกแจงของค่าเฉลี่ยตัวอย่าง <strong>\u0305x</strong> จะ “ใกล้เคียงปกติ” เสมอ</p>
+    <section class="card" id="formula">
+      <h2>2 &amp; 3. สูตร PMF และค่าคาดหวัง</h2>
       <ul>
-        <li>ค่าเฉลี่ยของ \u0305x: <strong>μ_{\u0305x} = μ</strong></li>
-        <li>ส่วนเบี่ยงเบนมาตรฐานของ \u0305x (Standard Error, SE): <strong>σ_{\u0305x} = σ / √n</strong></li>
+        <li>PMF: \(P(X=x) = \dfrac{\binom{M}{x} \binom{N-M}{n-x}}{\binom{N}{n}}\)</li>
+        <li>ค่าคาดหวัง: \(E(X) = n \times (M/N)\)</li>
       </ul>
-
-      <div class="svgbox" aria-label="CLT: โค้งของค่าเฉลี่ยตัวอย่างหดแคบลงเมื่อ n โตขึ้น">
-        <!-- สามโค้งปกติศูนย์กลางเดียวกันแต่แคบลงเรื่อย ๆ -->
-        <svg viewBox="0 0 900 360" role="img" aria-labelledby="clt-title clt-desc">
-          <title id="clt-title">CLT: SE เล็กลงเมื่อ n เพิ่ม</title>
-          <desc id="clt-desc">โค้งของ \u0305x กว้าง→กลาง→แคบ สำหรับ n=5, 30, 120</desc>
-          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
-          <line x1="60" y1="300" x2="840" y2="300" stroke="#6b7280"/>
-          <line x1="450" y1="320" x2="450" y2="60" stroke="#6b7280"/>
-          <!-- n=5 (กว้าง) -->
-          <path d="M100,300 C210,260 330,170 450,160 C570,170 690,260 800,300"
-                fill="none" stroke="#88aaff" stroke-width="3" />
-          <!-- n=30 (กลาง) -->
-          <path d="M120,300 C220,280 360,140 450,130 C540,140 680,280 780,300"
-                fill="none" stroke="#4f8cff" stroke-width="3" />
-          <!-- n=120 (แคบ) -->
-          <path d="M160,300 C260,292 390,120 450,115 C510,120 640,292 740,300"
-                fill="none" stroke="#cfe0ff" stroke-width="3" />
-          <g fill="#cfe0ff" font-size="12">
-            <text x="465" y="332">μ</text>
-            <text x="140" y="95">n=5 (SE ใหญ่)</text>
-            <text x="140" y="120">n=30 (SE กลาง)</text>
-            <text x="140" y="145">n=120 (SE เล็ก)</text>
-          </g>
-        </svg>
-      </div>
-
-      <div class="warn">
-        ถ้า <strong>σ ไม่ทราบ</strong> และ <strong>n เล็ก</strong> (เช่น ≤ 30) มักใช้ <strong>t-distribution</strong> แทน Z ในงานอนุมาน — แต่หัวข้อนี้จะเน้นที่ “การแจกแจงของค่าสถิติ” และแนวคิด CLT เป็นหลัก
-      </div>
+      <p>โดยที่ N = จำนวนประชากรรวม, M = จำนวนของที่ “สำเร็จ”, n = ขนาดตัวอย่าง, x = จำนวนสำเร็จในตัวอย่าง</p>
+      <div class="note">เมื่อ N ใหญ่มากเมื่อเทียบกับ n การแจกแจงไฮเปอร์จีออเมตริกจะเข้าใกล้ทวินาม (เพราะการหยิบแต่ละครั้งแทบไม่กระทบสัดส่วน)</div>
     </section>
 
-    <!-- 9.3 Sampling Dist of xbar -->
-    <section class="card" id="mean">
-      <h2>9.3 การแจกแจงของค่าเฉลี่ยตัวอย่าง (\u0305x)</h2>
+    <section class="card" id="lab">
+      <h2>Hypergeometric Lab: ลองสุ่มโดยไม่ใส่คืน</h2>
+      <p>ปรับขนาดประชากร จำนวนของที่สำเร็จ และขนาดตัวอย่าง เพื่อดูรูปแบบ PMF และค่าคาดหวัง</p>
+      <div class="control-row">
+        <label>ขนาดประชากรทั้งหมด (N)
+          <input type="range" id="hyper-n" min="10" max="60" value="30" />
+        </label>
+        <label>จำนวนของที่สำเร็จ (M)
+          <input type="range" id="hyper-m" min="1" max="30" value="12" />
+        </label>
+        <label>ขนาดตัวอย่าง (n)
+          <input type="range" id="hyper-s" min="1" max="15" value="5" />
+        </label>
+      </div>
+      <div class="svg-box">
+        <svg id="hyper-svg" viewBox="0 0 420 260" role="img" aria-label="กราฟ PMF การแจกแจงไฮเปอร์จีออเมตริก"></svg>
+      </div>
       <table>
-        <caption>สรุปสำหรับ \u0305x</caption>
-        <thead><tr><th>สมมติฐาน/เงื่อนไข</th><th>รูปทรงการแจกแจงของ \u0305x</th><th>พารามิเตอร์</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>n ใหญ่ (≥ 30) หรือ ประชากรเดิมเป็นปกติ</td>
-            <td>ใกล้เคียงปกติ (โดย CLT)</td>
-            <td>μ_{\u0305x}=μ,  σ_{\u0305x}=σ/√n</td>
-          </tr>
-        </tbody>
+        <thead><tr><th>x (จำนวนสำเร็จ)</th><th>P(X=x)</th></tr></thead>
+        <tbody id="hyper-table"></tbody>
+        <tfoot>
+          <tr><th>E(X)</th><td id="hyper-mean"></td></tr>
+        </tfoot>
       </table>
-
-      <div class="ex">ตัวอย่าง: ประชากรมี μ=70, σ=12, สุ่มตัวอย่าง n=36  
-SE = σ/√n = 12/6 = 2  
-ต้องการ P( \u0305X ≤ 73 ) → Z = (73−70)/2 = 1.5 ⇒ พื้นที่ ~ 0.9332 (≈ 93.32%)</div>
-
-      <div class="svgbox" aria-label="โค้งของ x̄ พร้อมพื้นที่ P(x̄ ≤ 73)">
-        <svg viewBox="0 0 900 360" role="img" aria-labelledby="xbar-title xbar-desc">
-          <title id="xbar-title">พื้นที่ใต้โค้งของ \u0305x</title>
-          <desc id="xbar-desc">โค้งปกติศูนย์กลางที่ 70, เฉดซ้ายของ 73</desc>
-          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
-          <line x1="60" y1="300" x2="840" y2="300" stroke="#6b7280"/>
-          <!-- หมายตำแหน่ง μ=70 ที่กลาง -->
-          <line x1="450" y1="300" x2="450" y2="80" stroke="#6b7280"/>
-          <text x="450" y="322" fill="#9aa0a6" text-anchor="middle">70</text>
-          <!-- โค้ง -->
-          <path d="M100,300 C210,260 330,130 450,120 C570,130 690,260 800,300"
-                fill="none" stroke="#4f8cff" stroke-width="3"/>
-          <!-- ตำแหน่ง 73 (ขวาของ μ 1.5 SD เมื่อ SE=2) วาดให้ขวากลางเล็กน้อย -->
-          <line x1="525" y1="300" x2="525" y2="150" stroke="#88aaff"/>
-          <text x="525" y="322" fill="#cfe0ff" text-anchor="middle">73</text>
-          <!-- เฉดซ้ายของ 73 -->
-          <path d="M100,300 
-                   L100,300 
-                   C210,260 330,130 450,120 
-                   C520,125 520,125 525,150 
-                   L525,300 Z"
-                fill="#4f8cff" fill-opacity="0.25"/>
-          <text x="580" y="160" fill="#cfe0ff">P(\u0305X ≤ 73) ≈ 0.933</text>
-        </svg>
-      </div>
     </section>
 
-    <!-- 9.4 Sampling Dist of p-hat -->
-    <section class="card" id="phat">
-      <h2>9.4 การแจกแจงของสัดส่วนตัวอย่าง (\u0302p)</h2>
-      <p>เมื่อสุ่มตัวอย่างขนาด <strong>n</strong> จากประชากรที่มีสัดส่วนจริง <strong>p</strong> และเงื่อนไข <strong>np ≥ 5</strong> และ <strong>n(1−p) ≥ 5</strong> เป็นจริง การแจกแจงของ \u0302p จะ “ใกล้เคียงปกติ”</p>
-      <table>
-        <caption>สรุปสำหรับ \u0302p</caption>
-        <thead><tr><th>พารามิเตอร์</th><th>ค่าเฉลี่ย</th><th>ส่วนเบี่ยงเบนมาตรฐาน (SE)</th><th>เงื่อนไขนอร์มัลใกล้เคียง</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>p, n</td>
-            <td>E(\u0302p) = p</td>
-            <td>SE(\u0302p) = √[ p(1−p)/n ]</td>
-            <td>np ≥ 5 และ n(1−p) ≥ 5</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="ex">ตัวอย่าง: p = 0.4, n = 200 → SE = √[0.4×0.6/200] ≈ 0.0346  
-หา P( \u0302p ≥ 0.45 ) → Z = (0.45−0.40)/0.0346 ≈ 1.445 ⇒ พื้นที่ขวา ≈ 0.074</div>
-
-      <div class="svgbox" aria-label="โค้งของ p-hat พร้อมพื้นที่ขวาของ 0.45">
-        <svg viewBox="0 0 900 360" role="img" aria-labelledby="phat-title phat-desc">
-          <title id="phat-title">พื้นที่ใต้โค้งของ \u0302p</title>
-          <desc id="phat-desc">โค้งศูนย์กลางที่ p=0.40, เฉดขวาของ 0.45</desc>
-          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
-          <line x1="60" y1="300" x2="840" y2="300" stroke="#6b7280"/>
-          <!-- center at 0.40 -->
-          <line x1="450" y1="300" x2="450" y2="90" stroke="#6b7280"/>
-          <text x="450" y="322" fill="#9aa0a6" text-anchor="middle">0.40</text>
-          <!-- curve -->
-          <path d="M120,300 C230,260 335,120 450,110 C565,120 670,260 780,300"
-                fill="none" stroke="#4f8cff" stroke-width="3"/>
-          <!-- 0.45 at right -->
-          <line x1="520" y1="300" x2="520" y2="150" stroke="#88aaff"/>
-          <text x="520" y="322" fill="#cfe0ff" text-anchor="middle">0.45</text>
-          <!-- shade right tail -->
-          <path d="M520,150 
-                   C560,210 650,270 780,300
-                   L780,300 L520,300 Z"
-                fill="#4f8cff" fill-opacity="0.25"/>
-          <text x="610" y="170" fill="#cfe0ff">P(\u0302p ≥ 0.45) ≈ 0.074</text>
-        </svg>
-      </div>
-    </section>
-
-    <!-- 9.5 Cheat Sheet -->
-    <section class="card" id="cheatsheet">
-      <h2>9.5 ตารางสรุปสูตรสำคัญ (Cheat Sheet) 📌</h2>
-      <table>
-        <caption>สถิติหลัก & ส่วนคลาดเคลื่อนมาตรฐาน (SE)</caption>
-        <thead><tr><th>ค่าสถิติ</th><th>ค่าเฉลี่ยของการแจกแจง</th><th>SE</th><th>เงื่อนไขนอร์มัลใกล้เคียง</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>\u0305x</td>
-            <td>μ</td>
-            <td>σ/√n</td>
-            <td>n≥30 (หรือ ประชากรปกติ)</td>
-          </tr>
-          <tr>
-            <td>\u0302p</td>
-            <td>p</td>
-            <td>√[ p(1−p)/n ]</td>
-            <td>np≥5 และ n(1−p)≥5</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="svgbox" aria-label="เปรียบเทียบ SE ของ x̄ และ p̂ เมื่อ n เพิ่ม">
-        <svg viewBox="0 0 900 360" role="img" aria-labelledby="se-title se-desc">
-          <title id="se-title">SE เล็กลงเมื่อ n เพิ่ม</title>
-          <desc id="se-desc">เส้นแนวโน้ม SE(x̄)=σ/√n และ SE(p̂)=√(p(1−p)/n)</desc>
-          <rect x="0" y="0" width="900" height="360" fill="#0f1116"/>
-          <line x1="80" y1="300" x2="820" y2="300" stroke="#6b7280"/>
-          <line x1="80" y1="80"  x2="80"  y2="300" stroke="#6b7280"/>
-          <g fill="#9aa0a6" font-size="12">
-            <text x="80" y="320" text-anchor="start">n เล็ก → n ใหญ่</text>
-            <text x="60" y="100" text-anchor="end">SE สูง</text>
-            <text x="60" y="300" text-anchor="end">SE ต่ำ</text>
-          </g>
-          <!-- เส้นโค้งตกลง -->
-          <path d="M100,120 C200,160 400,220 780,280"
-                fill="none" stroke="#4f8cff" stroke-width="3"/>
-          <path d="M100,160 C220,190 420,235 780,290"
-                fill="none" stroke="#88aaff" stroke-width="3"/>
-          <g fill="#cfe0ff" font-size="12">
-            <text x="690" y="250">SE(\u0305x)</text>
-            <text x="690" y="290">SE(\u0302p)</text>
-          </g>
-        </svg>
-      </div>
-    </section>
-
-    <section class="card" id="math-model">
-      <h2>9) แบบจำลองคณิตศาสตร์: ค่าเฉลี่ยของตัวอย่าง</h2>
-      <div class="grid-two">
-        <div>
-          <p>ถ้า X ~ Normal(μ, σ²) แล้วค่าเฉลี่ยตัวอย่าง \(\bar{X}\) จากการสุ่มขนาด n จะมีการแจกแจง Normal(μ, σ²/n)</p>
-          <p>สูตรสำคัญ: \(SE_{\bar{X}} = \frac{\sigma}{\sqrt{n}}\)</p>
-        </div>
-        <div>
-          <p>ถ้าไม่รู้ σ แต่ n ใหญ่ (≥30) และสัดส่วนคงที่ ให้ใช้ s แทน σ ได้: \(SE_{\bar{X}} ≈ \frac{s}{\sqrt{n}}\)</p>
-          <p class="muted">ช่วยกำหนดขนาดตัวอย่างเพื่อให้ความคลาดเคลื่อนอยู่ในช่วงที่ยอมรับได้</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="card" id="case-study">
-      <h2>10) Case Study: สำรวจคะแนนความพึงพอใจ</h2>
-      <div class="grid-two">
-        <div>
-          <p>สมมติคะแนน ~ Normal(μ=4.2, σ=0.6). เราต้องการให้ค่าเฉลี่ยตัวอย่างมีความคลาดเคลื่อนไม่เกิน 0.1 ที่ระดับ 95%</p>
-          <p>ใช้สูตร \(n = \left(\frac{1.96σ}{E}\right)^2\) → n ≈ 138</p>
-        </div>
-        <div>
-          <div class="warn">ลองเปลี่ยนเป็นสำรวจสัดส่วน (เช่น ผ่าน/ไม่ผ่าน) แล้วใช้สูตร \(SE_{\hat{p}}\) เพื่อออกแบบ n ใหม่</div>
-          <p>ดูตัวอย่างเพิ่มเติมใน <a class="inline" href="quiz-lesson09.html">Quiz บทที่ 9</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Summary -->
-    <section class="card" id="summary">
-      <h2>สรุปบทนี้</h2>
+    <section class="card" id="compare">
+      <h2>4. ไฮเปอร์จีออเมตริก vs ทวินาม</h2>
       <ul>
-        <li><strong>Sampling Distribution</strong> คือการกระจายของ <em>ค่าสถิติ</em> ที่ได้จากการสุ่มซ้ำ ๆ</li>
-        <li><strong>CLT</strong>: เมื่อ n ใหญ่พอ การแจกแจงของ \u0305x ใกล้ปกติ, <strong>SE</strong> = σ/√n</li>
-        <li><strong>\u0302p</strong>: ใกล้ปกติเมื่อ np และ n(1−p) เพียงพอ, <strong>SE</strong> = √[p(1−p)/n]</li>
-        <li>n มากขึ้น → SE เล็กลง → การประมาณ <em>แม่นยำ</em> ขึ้น</li>
+        <li><strong>ทวินาม:</strong> สุ่มแบบใส่คืนหรือจากประชากรใหญ่ → p คงที่ทุกครั้ง</li>
+        <li><strong>ไฮเปอร์จีออเมตริก:</strong> สุ่มแบบไม่ใส่คืนจากประชากรจำกัด → โอกาสเปลี่ยนทุกครั้ง</li>
+        <li>หาก N ≥ 20n เราสามารถใช้ทวินามประมาณค่าเพื่อความง่าย</li>
       </ul>
-      <div class="note">
-        ✅ พร้อมสำหรับ “แบบทดสอบท้ายบท” แล้ว! ถ้าต้องการ ให้ฉันสร้างหน้า <strong>quiz/index.html</strong> และชุดโจทย์ฝึก (เก็บคำอธิบายละเอียด) แยกไฟล์สำหรับแต่ละบทได้เลย
-      </div>
+    </section>
+
+    <section class="card" id="example">
+      <h2>5. ตัวอย่าง: ควบคุมคุณภาพปากกา</h2>
+      <p>ปากกาทั้งหมด N = 12 ด้าม มีสีน้ำเงิน M = 5 ด้าม สุ่มหยิบ n = 3 ด้ามโดยไม่ใส่คืน</p>
+      <ol>
+        <li>\(P(X=2) = \dfrac{\binom{5}{2}\binom{7}{1}}{\binom{12}{3}} = 70/220 \approx 0.318\)</li>
+        <li>ค่าคาดหวัง: \(E(X) = 3 × (5/12) = 1.25\) ด้าม</li>
+      </ol>
+      <p class="note">โอกาสที่จะหยิบได้ปากกาสีน้ำเงิน 2 ด้ามพอดีคือประมาณ 31.8% — สูงกว่าการสุ่มแบบใส่คืนเล็กน้อย เพราะการหยิบชิ้นแรกส่งผลต่อจำนวนที่เหลือ</p>
+    </section>
+
+    <section class="card" id="self-check">
+      <h2>Self Check 🔍</h2>
+      <ol>
+        <li>สถานการณ์ใดควรใช้ไฮเปอร์จีออเมตริกแทนทวินาม?</li>
+        <li>ทำไมสูตร PMF จึงมีการคูณสองส่วนของคอมบิเนชัน?</li>
+        <li>ถ้า N ใหญ่ขึ้นมากแต่ M/N คงเดิม ค่าคาดหวังจะเปลี่ยนหรือไม่?</li>
+      </ol>
+      <details>
+        <summary>เฉลย</summary>
+        <ul>
+          <li>การสุ่มโดยไม่ใส่คืน เช่น หยิบไพ่, สุ่มสินค้าโดยไม่คืน</li>
+          <li>เพราะเราต้องเลือกทั้งจำนวนสำเร็จ x ชิ้น และจำนวนล้มเหลว n - x ชิ้น จากส่วนที่เหลือ</li>
+          <li>ไม่เปลี่ยน เพราะ \(E(X) = n(M/N)\) ขึ้นกับอัตราส่วน M/N ไม่ใช่ขนาดประชากร</li>
+        </ul>
+      </details>
     </section>
   </main>
 
   <footer>
     <div class="wrap">
-      <small class="muted">สื่อการเรียนสถิติ (ไทย) • บทที่ 09 • Meta version 1.2.0 • พร้อม Reading Toolkit</small>
+      <p class="muted">© 2025 Prob &amp; Stats Interactive Notes — Lesson 09 Hypergeometric Distribution</p>
     </div>
   </footer>
-  <script src="assets/js/mathjax-loader.js" defer></script>
-  <script src="assets/js/router.js" defer></script>
-  <script src="assets/js/breadcrumbs.js" defer></script>
-  <script src="assets/js/theme.js" defer></script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script>
+    const hyperN = document.getElementById('hyper-n');
+    const hyperM = document.getElementById('hyper-m');
+    const hyperS = document.getElementById('hyper-s');
+    const hyperSvg = document.getElementById('hyper-svg');
+    const hyperTable = document.getElementById('hyper-table');
+    const hyperMean = document.getElementById('hyper-mean');
+
+    function combination(n, r) {
+      if (r < 0 || r > n) return 0;
+      r = Math.min(r, n - r);
+      let result = 1;
+      for (let i = 1; i <= r; i += 1) {
+        result = result * (n - r + i) / i;
+      }
+      return result;
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function syncRanges() {
+      const N = Number(hyperN.value);
+      hyperM.max = N;
+      hyperS.max = Math.min(15, N);
+      hyperM.value = clamp(Number(hyperM.value), 0, N);
+      hyperS.value = clamp(Number(hyperS.value), 1, Math.min(15, N));
+    }
+
+    function updateHyperLab() {
+      syncRanges();
+      const N = Number(hyperN.value);
+      const M = Number(hyperM.value);
+      const n = Number(hyperS.value);
+      const minX = Math.max(0, n - (N - M));
+      const maxX = Math.min(n, M);
+      const pmf = [];
+      let total = 0;
+      for (let x = minX; x <= maxX; x += 1) {
+        const value = (combination(M, x) * combination(N - M, n - x)) / combination(N, n);
+        pmf.push({ x, value });
+        total += value;
+      }
+      const mean = n * (M / N);
+      hyperMean.textContent = `${mean.toFixed(3)} (ΣP = ${total.toFixed(3)})`;
+      hyperTable.innerHTML = pmf.map(({ x, value }) => `<tr><td>${x}</td><td>${value.toFixed(4)}</td></tr>`).join('');
+
+      const maxProb = Math.max(...pmf.map(d => d.value), 0.01);
+      const width = Math.max(320 / (pmf.length || 1), 14);
+
+      hyperSvg.innerHTML = `
+        <rect x="10" y="10" width="400" height="220" rx="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.08)" />
+        ${pmf.map(({ x, value }, idx) => {
+          const height = (value / maxProb) * 150;
+          return `
+          <rect x="${30 + idx * (360 / (pmf.length || 1))}" y="${200 - height}" width="${width}" height="${height}" rx="12" fill="rgba(88,216,255,0.85)" />
+          <text x="${30 + idx * (360 / (pmf.length || 1)) + width / 2}" y="210" fill="#f2f6ff" font-size="13" text-anchor="middle">${x}</text>`;
+        }).join('')}
+        <text x="210" y="40" fill="#f2f6ff" font-size="16" text-anchor="middle">PMF (N=${N}, M=${M}, n=${n})</text>
+      `;
+    }
+
+    [hyperN, hyperM, hyperS].forEach(input => input.addEventListener('input', updateHyperLab));
+    updateHyperLab();
+  </script>
 </body>
 </html>

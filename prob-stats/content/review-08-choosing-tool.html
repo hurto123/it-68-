@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 8 • แผนภาพช่วยตัดสินใจ</title>
+  <meta name="description" content="Decision map สำหรับเลือกช่วงความเชื่อมั่นหรือการทดสอบสมมติฐาน พร้อมโจทย์ตัวอย่าง" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 8</span>
+      <h1>แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)</h1>
+      <p class="lead">ตอบคำถาม 3 ข้อแล้วเดินตามแผนภาพ เพื่อเลือกเครื่องมือที่ถูกต้องทุกครั้ง</p>
+      <canvas id="decision-map" class="mini-chart" aria-label="Decision map"></canvas>
+    </header>
+
+    <section class="card" id="questions">
+      <h2>คำถามนำทาง 3 ข้อ</h2>
+      <ol>
+        <li><strong>ประเภทข้อมูล</strong>: สนใจค่าเฉลี่ย (เชิงปริมาณ) หรือสัดส่วน (เชิงคุณภาพ)?</li>
+        <li><strong>จำนวนกลุ่ม</strong>: วิเคราะห์ 1 กลุ่มหรือเปรียบเทียบ 2 กลุ่ม?</li>
+        <li><strong>เงื่อนไขพิเศษ</strong>: รู้ค่า σ หรือไม่? ขนาดตัวอย่างใหญ่พอหรือยัง?</li>
+      </ol>
+    </section>
+
+    <section class="card" id="map">
+      <h2>แผนภาพตัดสินใจ</h2>
+      <ul>
+        <li><strong>ประมาณค่า (Confidence Interval)</strong>
+          <ul>
+            <li>ค่าเฉลี่ยกลุ่มเดียว: รู้ σ หรือ n ≥ 30 → Z-Interval, ไม่รู้ σ และ n เล็ก → t-Interval</li>
+            <li>ผลต่างค่าเฉลี่ย 2 กลุ่ม: n ใหญ่ → Z-Interval for two means</li>
+            <li>สัดส่วน 1 กลุ่ม → Z-Interval; สัดส่วน 2 กลุ่ม → Z-Interval for two proportions</li>
+          </ul>
+        </li>
+        <li><strong>ทดสอบสมมติฐาน</strong>
+          <ul>
+            <li>ค่าเฉลี่ย 1 กลุ่ม: เงื่อนไขเดียวกับช่วงความเชื่อมั่น → Z-test หรือ t-test</li>
+            <li>ผลต่างค่าเฉลี่ย 2 กลุ่ม: ใช้ Z-test (กรณีตัวอย่างใหญ่) หรือ t-test</li>
+            <li>สัดส่วน 1/2 กลุ่ม → Z-test for proportion(s)</li>
+            <li>ความแปรปรวน 1 กลุ่ม → χ² test, สองกลุ่ม → F-test</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section class="card" id="examples">
+      <h2>โจทย์ตัวอย่างพร้อมวิธีทำย่อ</h2>
+      <article>
+        <h3>ตัวอย่าง 1: การประมาณค่าเฉลี่ย (Z-Interval)</h3>
+        <p>n=100, \(\bar{x}=850\), s=40, ความเชื่อมั่น 95%</p>
+        <pre class="math">CI = 850 \pm 1.96(40/\sqrt{100}) = 850 \pm 7.84 ⇒ (842.16, 857.84)</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 2: การประมาณค่าเฉลี่ย (t-Interval)</h3>
+        <p>n=16, \(\bar{x}=25\), s=4, ความเชื่อมั่น 99%, t<sub>0.005,15</sub>=2.947</p>
+        <pre class="math">CI = 25 \pm 2.947(4/\sqrt{16}) = 25 \pm 2.947 ⇒ (22.05, 27.95)</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 3: การประมาณค่าสัดส่วน</h3>
+        <p>n=250, x=190 ⇒ \(\hat{p}=0.76\), ความเชื่อมั่น 90%, Z<sub>0.05</sub>=1.645</p>
+        <pre class="math">CI = 0.76 \pm 1.645\sqrt{0.76(0.24)/250} = 0.76 \pm 0.0444 ⇒ (0.7156, 0.8044)</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 4: การทดสอบค่าเฉลี่ยสองกลุ่ม</h3>
+        <p>Z-test, \(\bar{x}_A=15000\), \(\bar{x}_B=14000\), s<sub>A</sub>=2000, s<sub>B</sub>=1800, n<sub>A</sub>=50, n<sub>B</sub>=60</p>
+        <pre class="math">Z = \frac{1000}{\sqrt{2000^2/50 + 1800^2/60}} = 2.73 ⇒ p-value = 0.0064 &lt; 0.05 → ปฏิเสธ H_0</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 5: การทดสอบสัดส่วนสองกลุ่ม (Pooled)</h3>
+        <p>n<sub>A</sub>=200, x<sub>A</sub>=160, n<sub>B</sub>=200, x<sub>B</sub>=144, α=0.01</p>
+        <pre class="math">Z = \frac{0.80-0.72}{\sqrt{0.76(0.24)(1/200+1/200)}} = 1.87 ⇒ ไม่ปฏิเสธ H_0</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 6: การทดสอบความแปรปรวน (χ²)</h3>
+        <p>n=20, s²=0.32, σ₀²=0.25, α=0.05</p>
+        <pre class="math">χ^2 = \frac{19×0.32}{0.25} = 24.32 &lt; χ^2_{0.05,19} = 30.144 ⇒ ยังปฏิเสธ H_0 ไม่ได้</pre>
+      </article>
+      <article>
+        <h3>ตัวอย่าง 7: การเปรียบเทียบความแปรปรวนสองกลุ่ม (F-test)</h3>
+        <p>s<sub>A</sub>²=80, n<sub>A</sub>=21, s<sub>B</sub>²=160, n<sub>B</sub>=25, α=0.05</p>
+        <pre class="math">F = 160/80 = 2.0 &lt; F_{0.05,24,20} = 2.08 ⇒ ยังปฏิเสธ H_0 ไม่ได้</pre>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('decision-map');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || 720;
+      const height = canvas.clientHeight || 240;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      const steps = [
+        { text: '1) ประเภทข้อมูล?', x: 110, y: 60 },
+        { text: 'Mean', x: 280, y: 40 },
+        { text: 'Proportion', x: 280, y: 120 },
+        { text: '2) จำนวนกลุ่ม?', x: 450, y: 60 },
+        { text: 'One Sample', x: 600, y: 30 },
+        { text: 'Two Samples', x: 600, y: 90 },
+        { text: '3) เงื่อนไขพิเศษ?', x: 450, y: 160 }
+      ];
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(150, 60);
+      ctx.lineTo(250, 40);
+      ctx.moveTo(150, 60);
+      ctx.lineTo(250, 120);
+      ctx.moveTo(320, 40);
+      ctx.lineTo(420, 60);
+      ctx.moveTo(320, 120);
+      ctx.lineTo(420, 160);
+      ctx.moveTo(480, 60);
+      ctx.lineTo(560, 30);
+      ctx.moveTo(480, 60);
+      ctx.lineTo(560, 90);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(64,110,210,0.9)';
+      steps.forEach((step) => {
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(step.x - 70, step.y - 20, 140, 40, 12);
+        } else {
+          const radius = 12;
+          const x = step.x - 70;
+          const y = step.y - 20;
+          const w = 140;
+          const h = 40;
+          ctx.moveTo(x + radius, y);
+          ctx.lineTo(x + w - radius, y);
+          ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+          ctx.lineTo(x + w, y + h - radius);
+          ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+          ctx.lineTo(x + radius, y + h);
+          ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+          ctx.lineTo(x, y + radius);
+          ctx.quadraticCurveTo(x, y, x + radius, y);
+        }
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px "Noto Sans Thai", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(step.text, step.x, step.y);
+        ctx.fillStyle = 'rgba(64,110,210,0.9)';
+      });
+    })();
+  </script>
+</body>
+</html>

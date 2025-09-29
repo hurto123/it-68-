@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 31 • บทสรุปและก้าวต่อไป</title>
+  <meta name="description" content="ทบทวนเส้นทางการเรียนสถิติ 31 บท และสำรวจแนวทางต่อยอด พร้อมตัวสุ่มโปรเจกต์เพื่อฝึกใช้ความรู้" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 31</span>
+      <h1>บทสรุปและก้าวต่อไป</h1>
+      <p class="lead">
+        จากการนับพื้นฐานสู่การทดสอบสมมติฐาน เราเดินทางผ่านโลกของสถิติด้วยเครื่องมือหลากหลาย ตอนนี้ถึงเวลาทบทวนภาพรวมและวางแผนขั้นต่อไปของคุณ
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">บทเรียน</span><span class="value">31 หัวข้อ</span></div>
+        <div class="stat"><span class="label">บทบาท</span><span class="value">นักสืบ → ผู้พิพากษา</span></div>
+        <div class="stat"><span class="label">ทักษะที่ได้</span><span class="value">CI, HT, CLT</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. เส้นทางการเรียนที่ผ่านมา</h2>
+      <div class="grid three">
+        <div class="highlight-box">
+          <strong>รากฐาน (บทที่ 2–5)</strong>
+          <p>หลักการนับ, ความน่าจะเป็น, ตัวแปรสุ่ม, ค่าคาดหวัง และการแจกแจงสำคัญ</p>
+        </div>
+        <div class="highlight-box">
+          <strong>สะพาน (บทที่ 6)</strong>
+          <p>ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT) ทำให้เรานำความน่าจะเป็นมาสู่อินเฟอเรนซ์</p>
+        </div>
+        <div class="highlight-box">
+          <strong>อนุมาน (บทที่ 7–8)</strong>
+          <p>ช่วงความเชื่อมั่น, การทดสอบสมมติฐานสำหรับ μ, p, σ² และการเปรียบเทียบหลายกลุ่ม</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. หัวใจสำคัญที่ควรจำ</h2>
+      <ul>
+        <li><strong>จำแนกตัวอย่างกับประชากร</strong>: ทุกการประมาณและการทดสอบคือการใช้ข้อมูลตัวอย่างเพื่ออนุมานถึงประชากร</li>
+        <li><strong>เลือกเครื่องมือให้ถูก</strong>: Z หรือ t? สัดส่วนหรือค่าเฉลี่ย? ตรวจสอบข้อสมมติและขนาดตัวอย่างก่อนทุกครั้ง</li>
+        <li><strong>ตีความอย่างมีบริบท</strong>: ค่า p-value และช่วงความเชื่อมั่นต้องเชื่อมโยงกับผลลัพธ์ทางธุรกิจ/วิทยาศาสตร์</li>
+        <li><strong>สื่อสารสองมิติ</strong>: รายงานทั้งความน่าจะเป็น (p-value) และขนาดผล (effect size)</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>3. ก้าวต่อไปที่แนะนำ</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>เชิงทฤษฎี</strong>
+          <ul>
+            <li>การวิเคราะห์การถดถอย (Regression)</li>
+            <li>การวิเคราะห์ความแปรปรวน (ANOVA) และการออกแบบการทดลอง</li>
+            <li>สถิติไม่อิงพารามิเตอร์ เช่น Wilcoxon, Kruskal–Wallis</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>เชิงปฏิบัติ</strong>
+          <ul>
+            <li>ใช้ Python/R เพื่อประมวลผลข้อมูลจริง (pandas, scipy, tidyverse)</li>
+            <li>สร้างแดชบอร์ดเพื่อสื่อสารผลสถิติ</li>
+            <li>ศึกษาการเรียนรู้ของเครื่อง (Machine Learning) โดยอาศัยพื้นฐานสถิติที่มี</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ฝึกต่อเนื่องด้วยโปรเจกต์</h2>
+      <p>ใช้ตัวสุ่มด้านล่างเพื่อหาโปรเจกต์ฝึกฝน แล้วลองวางแผนขั้นตอนการวิเคราะห์ (ตั้งคำถาม, เก็บข้อมูล, วิเคราะห์, สรุป)</p>
+      <div class="playground">
+        <div class="result-board" id="project-result">
+          <strong>ไอเดียโปรเจกต์</strong>
+          <p>กดปุ่มเพื่อสุ่มโจทย์ใหม่</p>
+        </div>
+        <button id="project-button" type="button">สุ่มโปรเจกต์</button>
+      </div>
+      <ul>
+        <li>กำหนดสมมติฐานหรือเมตริกที่ต้องการวัด เช่น ความพึงพอใจ, เวลารอคิว, ผลตอบแทน</li>
+        <li>เลือกเครื่องมือจากบทเรียน เช่น ช่วงความเชื่อมั่น, t-test, หรือการทดสอบสัดส่วน</li>
+        <li>สื่อสารผลลัพธ์ผ่านรายงานหรือการพรีเซนต์ พร้อมข้อเสนอแนะเชิงปฏิบัติ</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>5. คำส่งท้าย</h2>
+      <p>
+        วิชาสถิติไม่ได้จบลงแค่สูตร หากแต่เป็นทักษะในการตั้งคำถามและตัดสินใจในโลกที่เต็มไปด้วยความไม่แน่นอน
+        ขอให้นำ “แว่นตาแห่งสถิติ” นี้ไปใช้ส่องดูข้อมูลรอบตัว ฝึกใช้บ่อยๆ และกลับมาทบทวนบทเรียนเมื่อจำเป็น
+      </p>
+      <p class="muted">ขอให้ทุกคนโชคดีกับการเดินทางในโลกของข้อมูล และหวังว่าจะได้พบกันใหม่ในคอร์สถัดไป!</p>
+    </section>
+  </main>
+
+  <script>
+    const ideas = [
+      'วิเคราะห์อัตราการยกเลิกตะกร้าสินค้าในร้านค้าออนไลน์ ก่อนและหลังปรับ UX',
+      'สำรวจความพึงพอใจของผู้โดยสารต่อระบบขนส่งสาธารณะ และสร้างช่วงความเชื่อมั่นสำหรับคะแนนเฉลี่ย',
+      'เปรียบเทียบเวลารอคิวของธนาคารสองสาขา ด้วยการทดสอบสมมติฐานผลต่างค่าเฉลี่ย',
+      'ทำ A/B testing เนื้อหาอีเมลโปรโมชัน แล้ววัดอัตราการเปิดอ่าน',
+      'เก็บข้อมูลการนอนหลับ 2 สัปดาห์ เปรียบเทียบวันทำงานกับวันหยุดด้วย paired t-test',
+      'ใช้ข้อมูลคุณภาพสินค้าเพื่อตรวจสอบว่าความแปรปรวนยังอยู่ในมาตรฐานโรงงานหรือไม่',
+      'สร้างแบบสำรวจความคิดเห็นเพื่อคาดการณ์ผลเลือกตั้งในระดับท้องถิ่น',
+      'ทดลองปรับสูตรเครื่องดื่มใหม่และทดสอบว่าความพึงพอใจสูงขึ้นหรือไม่'
+    ];
+
+    const projectResult = document.getElementById('project-result');
+    const projectButton = document.getElementById('project-button');
+
+    function randomIdea() {
+      const idea = ideas[Math.floor(Math.random() * ideas.length)];
+      projectResult.innerHTML = `
+        <strong>ไอเดียโปรเจกต์</strong>
+        <p>${idea}</p>
+      `;
+    }
+
+    projectButton.addEventListener('click', randomIdea);
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 1 • รากฐานแห่งความน่าจะเป็น</title>
+  <meta name="description" content="ทบทวนหลักการนับ นิยามความน่าจะเป็น ตัวแปรสุ่ม รวมถึงค่าคาดหวังและความแปรปรวน พร้อมกราฟสรุปความสัมพันธ์ของแนวคิดทั้งสี่" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 1</span>
+      <h1>รากฐานแห่งความน่าจะเป็น (Foundation Review)</h1>
+      <p class="lead">
+        สวัสดีครับนักศึกษา! ในบททบทวนแรกนี้ เราจะย้อนกลับไปยังฐานรากสำคัญที่สุดของวิชาสถิติ ได้แก่ “ศิลปะแห่งการนับ”
+        “นิยามความน่าจะเป็น” “ตัวแปรสุ่ม” และ “ค่าคาดหวัง–ความแปรปรวน” หากฐานเหล่านี้แข็งแรง การต่อยอดไปยังบทแจกแจง
+        การประมาณค่า และการทดสอบสมมติฐานก็จะมั่นคงตามไปด้วย
+      </p>
+      <canvas id="foundation-chart" class="mini-chart" aria-label="แผนภาพสรุป 4 ฐานรากหลัก"></canvas>
+      <p class="note">กราฟด้านบนแสดงสัดส่วนเวลาที่ควรใช้ทบทวนแต่ละหัวข้อ หากพบว่าส่วนไหนยังไม่มั่นใจให้เพิ่มเวลาฝึกแบบฝึกหัดในหัวข้อนั้น</p>
+    </header>
+
+    <section class="card" id="counting">
+      <h2>1. ศิลปะแห่งการนับ (The Art of Counting)</h2>
+      <p>ก่อนจะคำนวณความน่าจะเป็น เราต้องตอบคำถามให้ได้ก่อนว่า “มีวิธีเกิดเหตุการณ์ทั้งหมดกี่วิธี?”</p>
+      <ul>
+        <li><strong>กฎการคูณ</strong>: ใช้เมื่อการทำงานแบ่งออกเป็นหลายขั้นตอนที่ต้องทำต่อเนื่องกัน เช่น เสื้อ 3 ตัว × กางเกง 4 ตัว = 12 แบบ</li>
+        <li><strong>Permutation (P<sub>n,r</sub>)</strong>: เลือกของ <em>r</em> ชิ้นจาก <em>n</em> ชิ้นโดยสนใจลำดับ เช่น การมอบเหรียญทอง–เงิน–ทองแดง</li>
+        <li><strong>Combination (C<sub>n,r</sub>)</strong>: เลือกของ <em>r</em> ชิ้นจาก <em>n</em> ชิ้นโดยไม่สนใจลำดับ เช่น การเลือกคณะกรรมการหรือไพ่ในมือ</li>
+      </ul>
+    </section>
+
+    <section class="card" id="probability">
+      <h2>2. นิยามและความน่าจะเป็นพื้นฐาน</h2>
+      <p>นิยามความน่าจะเป็นคืออัตราส่วนระหว่างจำนวนผลลัพธ์ที่สนใจกับจำนวนผลลัพธ์ทั้งหมด (0 ≤ P(E) ≤ 1):</p>
+      <pre class="math">P(E) = \frac{n(E)}{n(S)}</pre>
+      <ul>
+        <li><strong>เหตุการณ์ (Event)</strong>: ผลลัพธ์ที่เราสนใจจากการทดลองสุ่ม</li>
+        <li><strong>ยูเนียน</strong> (A ∪ B) และ <strong>อินเตอร์เซกชัน</strong> (A ∩ B) ใช้กฎ P(A∪B)=P(A)+P(B)−P(A∩B)</li>
+        <li><strong>Mutually Exclusive</strong>: ถ้า A และ B เกิดพร้อมกันไม่ได้ → P(A∩B)=0</li>
+        <li><strong>Conditional Probability</strong>: P(A|B)=P(A∩B)/P(B) คือโอกาสที่ A จะเกิดเมื่อรู้ว่า B เกิดแล้ว</li>
+      </ul>
+    </section>
+
+    <section class="card" id="random-variables">
+      <h2>3. ตัวแปรสุ่ม (Random Variables)</h2>
+      <p>
+        ตัวแปรสุ่มคือฟังก์ชันที่แปลงผลการทดลองสุ่มให้เป็นตัวเลข เราแบ่งได้เป็นตัวแปรสุ่มแบบไม่ต่อเนื่อง (จำนวนครั้งที่ออกหัว)
+        และแบบต่อเนื่อง (น้ำหนัก ส่วนสูง เวลา) เพื่อใช้สร้าง PMF/PDF ในขั้นถัดไป
+      </p>
+    </section>
+
+    <section class="card" id="moments">
+      <h2>4. ค่าคาดหวังและความแปรปรวน</h2>
+      <p>ค่าคาดหวัง E(X) ทำหน้าที่เป็นจุดศูนย์ถ่วงของการแจกแจง ส่วนความแปรปรวน V(X) วัดการกระจายตัวรอบค่าเฉลี่ย:</p>
+      <pre class="math">E(X) = \sum_x x f(x) \quad\text{และ}\quad V(X) = E(X^2) - [E(X)]^2</pre>
+      <p>ส่วนเบี่ยงเบนมาตรฐาน σ = √V(X) ให้หน่วยเดียวกับข้อมูล ช่วยตีความได้ง่ายขึ้น</p>
+    </section>
+
+    <section class="card" id="drills">
+      <h2>5. แบบฝึกหัดทบทวนทันที</h2>
+      <ol>
+        <li>สร้างรหัสผ่าน 4 หลักจากตัวเลข 0–9 โดยห้ามซ้ำได้กี่แบบ? → 10P4 = 5,040 วิธี</li>
+        <li>เลือกคณะกรรมการ 3 คนจากนักศึกษาป.ตรี 6 คน ป.โท 4 คน โดยต้องมีป.โทอย่างน้อย 1 → 140 วิธี</li>
+        <li>โยนลูกเต๋า 2 ลูก โอกาสที่ผลรวม ≥ 10 เท่าใด? → (3+2+1)/36 = 1/6</li>
+      </ol>
+      <p class="note">หากทำโจทย์ข้างต้นได้คล่อง ถือว่าพร้อมต่อยอดสู่บทแจกแจงในบทถัดไปแล้วครับ</p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์กลับไปอ่านรายละเอียด</h2>
+      <ul class="list-tight">
+        <li><a href="02-descriptive.html">บทที่ 2 — หลักการนับ (กฎบวก/คูณ, nPr, nCr)</a></li>
+        <li><a href="03-probability-basics.html">บทที่ 3 — นิยามความน่าจะเป็น &amp; แซมเปิลสเปซ</a></li>
+        <li><a href="04-conditional.html">บทที่ 4 — ความน่าจะเป็นแบบมีเงื่อนไข</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('foundation-chart');
+      if (!canvas) return;
+      const data = [40, 25, 15, 20];
+      const labels = ['การนับ', 'ความน่าจะเป็น', 'ตัวแปรสุ่ม', 'E(X)/Var(X)'];
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || 640;
+      const height = canvas.clientHeight || 200;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      const padding = 32;
+      const chartWidth = width - padding * 2;
+      const chartHeight = height - padding * 2;
+      const barWidth = chartWidth / data.length - 16;
+      const max = Math.max(...data);
+      ctx.font = '14px "Noto Sans Thai", sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.75)';
+      ctx.textAlign = 'center';
+      data.forEach((value, index) => {
+        const x = padding + index * (barWidth + 16);
+        const barHeight = (value / max) * chartHeight;
+        const y = padding + chartHeight - barHeight;
+        const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+        gradient.addColorStop(0, 'rgba(120, 190, 255, 0.85)');
+        gradient.addColorStop(1, 'rgba(64, 110, 210, 0.9)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, y, barWidth, barHeight);
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.fillText(labels[index], x + barWidth / 2, height - 8);
+        ctx.fillText(value + '%', x + barWidth / 2, y - 6);
+      });
+    })();
+  </script>
+</body>
+</html>

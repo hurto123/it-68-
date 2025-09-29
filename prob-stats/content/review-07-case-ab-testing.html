@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 7 • กรณีศึกษา A/B Testing</title>
+  <meta name="description" content="กรณีศึกษาการเปรียบเทียบสัดส่วนสองกลุ่มสำหรับ A/B Testing ครบทั้งช่วงความเชื่อมั่นและการทดสอบสมมติฐาน" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 7</span>
+      <h1>กรณีศึกษา #2 — การเปรียบเทียบสองกลุ่ม (A/B Testing)</h1>
+      <p class="lead">ทดสอบว่าปุ่ม “ซื้อเลย” สีใดมีอัตราการคลิกสูงกว่า</p>
+    </header>
+
+    <section class="card" id="data">
+      <h2>ข้อมูลที่เก็บมา</h2>
+      <ul>
+        <li>กลุ่ม A: n<sub>A</sub> = 1,500, x<sub>A</sub> = 120 ⇒ \(\hat{p}_A = 0.08\)</li>
+        <li>กลุ่ม B: n<sub>B</sub> = 1,500, x<sub>B</sub> = 150 ⇒ \(\hat{p}_B = 0.10\)</li>
+        <li>ผลต่างตัวอย่าง: 0.02</li>
+      </ul>
+    </section>
+
+    <section class="card" id="ci">
+      <h2>ภารกิจที่ 1 — สร้างช่วงความเชื่อมั่น 95%</h2>
+      <p>ใช้สูตร Z-interval สำหรับผลต่างสัดส่วน:</p>
+      <pre class="math">CI = 0.02 \pm 1.96 \sqrt{\frac{0.10(0.90)}{1500} + \frac{0.08(0.92)}{1500}} = 0.02 \pm 0.0204</pre>
+      <p class="note">ช่วงที่ได้ (-0.0004, 0.0404) คร่อมศูนย์ ⇒ ยังสรุปไม่ได้ว่าปุ่มสีส้มดีกว่า</p>
+    </section>
+
+    <section class="card" id="ht">
+      <h2>ภารกิจที่ 2 — ทดสอบสมมติฐาน</h2>
+      <ol>
+        <li>H<sub>0</sub>: p<sub>A</sub> = p<sub>B</sub>, H<sub>1</sub>: p<sub>A</sub> ≠ p<sub>B</sub>, α = 0.05</li>
+        <li>สัดส่วนร่วม \(\hat{p}_c = 0.09\)</li>
+        <li>ค่าสถิติทดสอบ: \(Z = \frac{0.02}{\sqrt{0.09(0.91)(1/1500+1/1500)}} = 1.92\)</li>
+        <li>p-value ≈ 0.0548 (&gt; 0.05) ⇒ ยังปฏิเสธ H<sub>0</sub> ไม่ได้</li>
+      </ol>
+      <p class="note">ผลต่างที่เห็นอาจเป็นเรื่องบังเอิญ ควรเก็บข้อมูลเพิ่มหรือปรับดีไซน์ใหม่</p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์ทบทวน</h2>
+      <ul class="list-tight">
+        <li><a href="20-ci-two-proportions.html">บทที่ 20 — CI สำหรับผลต่างสัดส่วน</a></li>
+        <li><a href="28-ht-two-proportions.html">บทที่ 28 — การทดสอบผลต่างสัดส่วน</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

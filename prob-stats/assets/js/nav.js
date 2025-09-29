@@ -23,6 +23,28 @@ export const navGroups = [
     ]
   },
   {
+    id: 'advanced-lessons',
+    label: 'บทเรียน ch17–ch31',
+    summary: 'ช่วง Confidence Interval เชิงลึกจนถึงการทดสอบสมมติฐานครบทุกกรณี',
+    items: [
+      { title: 'บทที่ 17: CI ค่าเฉลี่ยประชากรเดียว', href: 'content/17-ci-one-mean.html', meta: 'ch17' },
+      { title: 'บทที่ 18: CI สัดส่วนประชากรเดียว', href: 'content/18-ci-one-proportion.html', meta: 'ch18' },
+      { title: 'บทที่ 19: CI ผลต่างค่าเฉลี่ย', href: 'content/19-ci-two-means.html', meta: 'ch19' },
+      { title: 'บทที่ 20: CI ผลต่างสัดส่วน', href: 'content/20-ci-two-proportions.html', meta: 'ch20' },
+      { title: 'บทที่ 21: Sample Size Planner', href: 'content/21-sample-size.html', meta: 'ch21' },
+      { title: 'บทที่ 22: CI ความแปรปรวน', href: 'content/22-ci-variance.html', meta: 'ch22' },
+      { title: 'บทที่ 23: บทนำทดสอบสมมติฐาน', href: 'content/23-ht-intro.html', meta: 'ch23' },
+      { title: 'บทที่ 24: Critical Value vs p-value', href: 'content/24-ht-critical-pvalue.html', meta: 'ch24' },
+      { title: 'บทที่ 25: ทดสอบค่าเฉลี่ยกลุ่มเดียว', href: 'content/25-ht-one-mean.html', meta: 'ch25' },
+      { title: 'บทที่ 26: ทดสอบสัดส่วนกลุ่มเดียว', href: 'content/26-ht-one-proportion.html', meta: 'ch26' },
+      { title: 'บทที่ 27: ทดสอบผลต่างค่าเฉลี่ย', href: 'content/27-ht-two-means.html', meta: 'ch27' },
+      { title: 'บทที่ 28: ทดสอบผลต่างสัดส่วน', href: 'content/28-ht-two-proportions.html', meta: 'ch28' },
+      { title: 'บทที่ 29: ทดสอบความแปรปรวนเดียว', href: 'content/29-ht-one-variance.html', meta: 'ch29' },
+      { title: 'บทที่ 30: ทดสอบอัตราส่วนความแปรปรวน', href: 'content/30-ht-variance-ratio.html', meta: 'ch30' },
+      { title: 'บทที่ 31: Course Summary & Next Steps', href: 'content/31-course-summary.html', meta: 'ch31' }
+    ]
+  },
+  {
     id: 'practice-tools',
     label: 'แบบฝึกหัด & เครื่องมือ',
     summary: 'แบบฝึกหัด+เฉลย 32 ไฟล์ ซิมูเลเตอร์ 8 รายการ และเครื่องคิดเลข 10 รายการ',
@@ -32,6 +54,21 @@ export const navGroups = [
       { title: 'ห้องซิมูเลเตอร์', href: 'simulators/lln.html', meta: '8 รายการ' },
       { title: 'เครื่องคิด & ตารางสถิติ', href: 'tools/z.html', meta: '10 ไฟล์' },
       { title: 'ชีตสรุปสูตร & การทดสอบ', href: 'content/cheatsheets/formulas-1page.html', meta: '3 หน้า' }
+    ]
+  },
+  {
+    id: 'review-sprints',
+    label: 'บททบทวน & กรณีศึกษา',
+    summary: '8 หน้าคู่มือย่อ ไล่ตั้งแต่รากฐานไปจนถึงการเลือกเครื่องมือในสถานการณ์จริง',
+    items: [
+      { title: 'Review 01: รากฐานแห่งความน่าจะเป็น', href: 'content/review-01-foundation-probability.html' },
+      { title: 'Review 02: พิมพ์เขียวของข้อมูล', href: 'content/review-02-data-blueprints-distributions.html' },
+      { title: 'Review 03: CLT & Sampling', href: 'content/review-03-clt-sampling.html' },
+      { title: 'Review 04: เจาะลึกการประมาณค่า', href: 'content/review-04-estimation-deep-dive.html' },
+      { title: 'Review 05: เจาะลึกการทดสอบสมมติฐาน', href: 'content/review-05-hypothesis-testing-deep-dive.html' },
+      { title: 'Review 06: Case Study — กลุ่มเดียว', href: 'content/review-06-case-one-sample.html' },
+      { title: 'Review 07: Case Study — A/B Testing', href: 'content/review-07-case-ab-testing.html' },
+      { title: 'Review 08: แผนภาพช่วยตัดสินใจ', href: 'content/review-08-choosing-tool.html' }
     ]
   },
   {

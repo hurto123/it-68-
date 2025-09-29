@@ -1,59 +1,490 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="theme-light" lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>บทที่ 13 — t, χ² และ F Distribution</title>
-  <link rel="stylesheet" href="../assets/css/theme-light.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
-  <link rel="stylesheet" href="../assets/css/print.css" media="print">
-  <link rel="stylesheet" href="../assets/css/animations.css" data-ps-animation="styles">
-  <script defer src="../assets/js/animations.js" data-ps-animation="script"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="บทที่ 13 แนะนำการแจกแจง t, chi-square และ F พร้อมภาพรวมการใช้งาน ฟังก์ชันโต้ตอบเปรียบเทียบรูปทรง และสรุปสถานการณ์ที่เหมาะสม" />
+  <title>บทที่ 13 • ภาพรวมการแจกแจง t, χ², F</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="print.css" media="print" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea']
+      }
+    };
+  </script>
+  <script defer src="assets/js/reading-tools.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05040a;
+      --surface: rgba(13, 16, 30, 0.92);
+      --surface-alt: rgba(18, 22, 40, 0.85);
+      --surface-soft: rgba(22, 28, 48, 0.72);
+      --text: #f4f6ff;
+      --muted: #98a2c4;
+      --accent: #ffb86c;
+      --accent-soft: rgba(255, 184, 108, 0.18);
+      --accent-2: #7cd7ff;
+      --border: rgba(255, 184, 108, 0.18);
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 12% -6%, rgba(255, 184, 108, 0.2), transparent 55%),
+                  radial-gradient(circle at 92% 5%, rgba(124, 215, 255, 0.22), transparent 65%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.75 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(18, 20, 40, 0.94), rgba(255, 184, 108, 0.25));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 18px 48px rgba(7, 10, 24, 0.55);
+    }
+
+    header .wrap,
+    main,
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1.4rem 1.6rem;
+    }
+
+    h1,
+    h2,
+    h3 { line-height: 1.25; margin: 0.25rem 0 0.6rem; }
+    h1 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+    h2 { font-size: clamp(1.34rem, 3vw, 1.88rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.4rem); }
+
+    p,
+    ul,
+    ol { margin: 0.45rem 0 0.75rem; }
+
+    .hero {
+      background: var(--surface);
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      padding: clamp(1.35rem, 2.4vw, 2.1rem);
+      display: grid;
+      gap: 0.9rem;
+      box-shadow: 0 20px 52px rgba(8, 10, 22, 0.5);
+    }
+
+    .hero p { margin: 0; color: var(--muted); }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(24, 26, 50, 0.82);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.88rem;
+    }
+
+    main.wrap,
+    main,
+    .wrap main { display: grid; gap: 1.25rem; }
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: clamp(1.1rem, 2vw, 1.75rem);
+      box-shadow: 0 18px 44px rgba(7, 10, 20, 0.45);
+    }
+
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 900px) {
+      .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    .callout {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.9rem 1rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.45rem 0.35rem;
+      text-align: left;
+    }
+
+    th { color: var(--muted); font-weight: 600; }
+
+    .lab {
+      background: var(--surface-alt);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1.1rem 1.25rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .toggle-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .toggle-row button {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(24, 26, 50, 0.9);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.45rem 1.1rem;
+      font: inherit;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .toggle-row button[aria-pressed="true"] {
+      background: var(--accent);
+      color: #120b05;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .lab label {
+      display: grid;
+      gap: 0.3rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .lab input[type="range"] {
+      width: 100%;
+    }
+
+    .lab input {
+      background: rgba(8, 10, 24, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 0.55rem 0.75rem;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .svg-box {
+      background: var(--surface-soft);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.75rem;
+    }
+
+    svg { width: 100%; height: auto; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: rgba(8, 10, 20, 0.9);
+    }
+
+    footer p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="wrap hero">
+      <span class="eyebrow">บทที่ 13</span>
+      <h1>ภาพรวมการแจกแจง t, χ² และ F</h1>
+      <p>รู้จักตัวละครสมทบที่สำคัญของสถิติอนุมาน: t สำหรับค่าเฉลี่ย, χ² สำหรับความแปรปรวน, และ F สำหรับการเปรียบเทียบสองกลุ่ม</p>
+      <div class="pill-row">
+        <span class="pill">Unknown σ</span>
+        <span class="pill">Variance Tests</span>
+        <span class="pill">ANOVA Foundations</span>
+      </div>
+    </div>
+  </header>
+
   <main class="wrap">
-    <article class="card">
-      <h1>บทที่ 13 — t / χ² / F Distributions</h1>
-      <p>สามการแจกแจงสำคัญที่ใช้ในงานอนุมาน: t สำหรับค่าเฉลี่ย, χ² สำหรับความแปรปรวน/ความพอดี, และ F สำหรับการเปรียบเทียบความแปรปรวนหลายกลุ่ม</p>
-    </article>
+    <section class="card">
+      <h2>1. ทำไมต้องมีการแจกแจงใหม่?</h2>
+      <p>โมเดลปกติแบบ Z ใช้ได้ดีเมื่อรู้ส่วนเบี่ยงเบนมาตรฐานของประชากร แต่ในชีวิตจริงเราแทบไม่รู้ค่า \(\sigma\) เลย จึงต้องมีการแจกแจงอื่นมาช่วยจัดการกับความไม่แน่นอนที่เพิ่มขึ้น</p>
+      <ul>
+        <li><strong>t-Distribution</strong> รองรับการประมาณค่าเฉลี่ยเมื่อไม่รู้ \(\sigma\) และตัวอย่างไม่ใหญ่มาก</li>
+        <li><strong>Chi-Square (χ²)</strong> ใช้ทดสอบและสร้างช่วงความเชื่อมั่นของความแปรปรวน</li>
+        <li><strong>F-Distribution</strong> เปรียบเทียบความแปรปรวนสองกลุ่ม และเป็นหัวใจของ ANOVA</li>
+      </ul>
+    </section>
 
-    <section class="card-grid">
-      <article class="card">
-        <h2>t Distribution</h2>
-        <ul class="list-tight">
-          <li>ใช้เมื่อ σ ของประชากรไม่ทราบและ n เล็ก</li>
-          <li>พารามิเตอร์: df = n-1</li>
-          <li>หางหนากว่า Normal → ให้ความไม่แน่นอนเพิ่ม</li>
+    <section class="card grid three">
+      <article class="callout">
+        <h3>t-Distribution</h3>
+        <ul>
+          <li>รูปร่างเหมือนโค้งปกติแต่ “หางหนา” กว่า</li>
+          <li>ควบคุมด้วยองศาอิสระ \(df = n - 1\)</li>
+          <li>df เพิ่ม → โค้งเข้าใกล้ปกติมาตรฐาน</li>
         </ul>
       </article>
-
-      <article class="card">
-        <h2>Chi-square (χ²)</h2>
-        <ul class="list-tight">
-          <li>ใช้ตรวจสอบความพอดีของโมเดล หรือการเป็นอิสระของตัวแปร</li>
-          <li>พารามิเตอร์: df = (แถว-1)×(คอลัมน์-1)</li>
-          <li>ค่าติดลบเป็นไปไม่ได้ → พื้นที่อยู่ด้านขวา</li>
+      <article class="callout">
+        <h3>χ²-Distribution</h3>
+        <ul>
+          <li>มีค่าเป็นบวกเท่านั้นและเบ้ไปทางขวา</li>
+          <li>ใช้กับสถิติ \(\frac{(n-1)s^2}{\sigma^2}\)</li>
+          <li>df = n - 1</li>
         </ul>
       </article>
-
-      <article class="card">
-        <h2>F Distribution</h2>
-        <ul class="list-tight">
-          <li>ใช้เปรียบเทียบความแปรปรวนสองกลุ่มขึ้นไป (ANOVA)</li>
-          <li>พารามิเตอร์: df<sub>1</sub> (ตัวเศษ), df<sub>2</sub> (ตัวส่วน)</li>
-          <li>หาก F ใหญ่กว่าค่า critical → มีหลักฐานว่ามีความแตกต่าง</li>
+      <article class="callout">
+        <h3>F-Distribution</h3>
+        <ul>
+          <li>อิงอัตราส่วนของความแปรปรวนสองกลุ่ม</li>
+          <li>ต้องกำหนด df สำหรับเศษ (\(v_1\)) และส่วน (\(v_2\))</li>
+          <li>ใช้ใน ANOVA และการทดสอบเทียบ \(\sigma_1^2\) กับ \(\sigma_2^2\)</li>
         </ul>
       </article>
+    </section>
+
+    <section class="card" id="shape-lab">
+      <h2>Lab: เปรียบเทียบรูปทรง</h2>
+      <p>เลือกการแจกแจงที่สนใจแล้วปรับค่า df เพื่อดูว่าเส้นโค้งเปลี่ยนอย่างไร</p>
+      <div class="lab">
+        <div class="toggle-row">
+          <button type="button" data-dist="t" aria-pressed="true">t</button>
+          <button type="button" data-dist="chi">χ²</button>
+          <button type="button" data-dist="f">F</button>
+        </div>
+        <div id="df-single" class="grid two">
+          <label>องศาอิสระ (df)
+            <input id="df-slider" type="range" min="1" max="40" value="5" />
+          </label>
+          <div class="callout" id="df-text"></div>
+        </div>
+        <div id="df-double" class="grid two" hidden>
+          <label>df เศษ (\(v_1\))
+            <input id="df1-slider" type="range" min="1" max="40" value="5" />
+          </label>
+          <label>df ส่วน (\(v_2\))
+            <input id="df2-slider" type="range" min="1" max="40" value="10" />
+          </label>
+        </div>
+        <div class="svg-box">
+          <svg id="dist-svg" viewBox="0 0 460 260" role="img" aria-label="เส้นโค้งของการแจกแจง t, chi-square หรือ F"></svg>
+        </div>
+        <div class="callout" id="lab-summary"></div>
+      </div>
+      <p class="muted">การคำนวณใช้ฟังก์ชัน \(\Gamma\) เพื่อได้ PDF ที่แม่นยำ</p>
     </section>
 
     <section class="card">
-      <h2>ตัวอย่างสั้น ๆ</h2>
-      <ol class="list-tight">
-        <li><strong>t-test:</strong> ค่าเฉลี่ยความดันหลังออกกำลังกาย (n=12) เปรียบเทียบกับ 120 mmHg → ใช้ t(df=11)</li>
-        <li><strong>χ² test:</strong> ตารางเพศ × การเลือกสาขา → df = (2-1)(4-1) = 3</li>
-        <li><strong>ANOVA:</strong> เปรียบเทียบคะแนน 3 คณะ → ใช้ F(df<sub>1</sub>=2, df<sub>2</sub>=n-3)</li>
+      <h2>4. ตารางสรุปสถานการณ์ใช้งาน</h2>
+      <table>
+        <thead>
+          <tr><th>ต้องการวิเคราะห์</th><th>ข้อมูลที่รู้</th><th>ใช้การแจกแจง</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ค่าเฉลี่ยประชากรเดียว</td><td>ไม่รู้ \(\sigma\), n เล็ก</td><td>t</td></tr>
+          <tr><td>ความแปรปรวนประชากรเดียว</td><td>ข้อมูลสุ่มจากประชากรปกติ</td><td>χ²</td></tr>
+          <tr><td>เทียบความแปรปรวนสองกลุ่ม</td><td>กลุ่มเป็นอิสระ</td><td>F</td></tr>
+          <tr><td>ANOVA เปรียบเทียบหลายค่าเฉลี่ย</td><td>สมมติฐานความแปรปรวนเท่ากัน</td><td>F</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Self Check 🔍</h2>
+      <ol>
+        <li>ทำไม t-Distribution จึงมีหางหนากว่าโค้งปกติ?</li>
+        <li>ค่า df ของ χ² มาจากไหน และมีผลต่อรูปทรงอย่างไร?</li>
+        <li>ถ้าเราอยากรู้ว่าความผันผวนของสองสายการผลิตต่างกันหรือไม่ ควรใช้การแจกแจงใด?</li>
       </ol>
+      <details>
+        <summary>เฉลย</summary>
+        <ul>
+          <li>เพราะต้องชดเชยความไม่แน่นอนจากการประมาณ \(\sigma\) ด้วย \(s\)</li>
+          <li>df = n - 1; เมื่อ df เพิ่ม รูปทรงจะค่อย ๆ สมมาตรมากขึ้น</li>
+          <li>ใช้ F-Distribution เพื่อทดสอบอัตราส่วนความแปรปรวน</li>
+        </ul>
+      </details>
     </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2025 Prob &amp; Stats Interactive Notes — Lesson 13 t / χ² / F Distributions</p>
+    </div>
+  </footer>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script>
+    const distButtons = Array.from(document.querySelectorAll('[data-dist]'));
+    const dfSlider = document.getElementById('df-slider');
+    const dfText = document.getElementById('df-text');
+    const dfSingle = document.getElementById('df-single');
+    const dfDouble = document.getElementById('df-double');
+    const df1Slider = document.getElementById('df1-slider');
+    const df2Slider = document.getElementById('df2-slider');
+    const distSvg = document.getElementById('dist-svg');
+    const labSummary = document.getElementById('lab-summary');
+
+    let currentDist = 't';
+
+    const lanczosCoefficients = [
+      0.99999999999980993,
+      676.5203681218851,
+      -1259.1392167224028,
+      771.32342877765313,
+      -176.61502916214059,
+      12.507343278686905,
+      -0.13857109526572012,
+      9.9843695780195716e-6,
+      1.5056327351493116e-7
+    ];
+
+    function logGamma(z) {
+      if (z < 0.5) {
+        return Math.log(Math.PI) - Math.log(Math.sin(Math.PI * z)) - logGamma(1 - z);
+      }
+      z -= 1;
+      let x = lanczosCoefficients[0];
+      const g = 7;
+      for (let i = 1; i < lanczosCoefficients.length; i++) {
+        x += lanczosCoefficients[i] / (z + i);
+      }
+      const t = z + g + 0.5;
+      return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+    }
+
+    function gamma(z) {
+      return Math.exp(logGamma(z));
+    }
+
+    function tPdf(x, df) {
+      const coeff = Math.exp(logGamma((df + 1) / 2) - logGamma(df / 2)) / Math.sqrt(df * Math.PI);
+      return coeff * Math.pow(1 + (x * x) / df, -(df + 1) / 2);
+    }
+
+    function chiPdf(x, df) {
+      if (x < 0) return 0;
+      const coeff = Math.pow(0.5, df / 2) / gamma(df / 2);
+      return coeff * Math.pow(x, df / 2 - 1) * Math.exp(-x / 2);
+    }
+
+    function fPdf(x, df1, df2) {
+      if (x <= 0) return 0;
+      const a = df1 / 2;
+      const b = df2 / 2;
+      const beta = Math.exp(logGamma(a) + logGamma(b) - logGamma(a + b));
+      const numerator = Math.pow(df1 / df2, a) * Math.pow(x, a - 1);
+      const denominator = beta * Math.pow(1 + (df1 / df2) * x, a + b);
+      return numerator / denominator;
+    }
+
+    function drawDistribution() {
+      let points = [];
+      let maxY = 0;
+      let label = '';
+      let extra = '';
+      let range = [0, 1];
+
+      if (currentDist === 't') {
+        const df = Number(dfSlider.value);
+        range = [-5, 5];
+        for (let i = 0; i <= 260; i++) {
+          const x = range[0] + (i / 260) * (range[1] - range[0]);
+          const y = tPdf(x, df);
+          if (y > maxY) maxY = y;
+          points.push({ x, y });
+        }
+        label = `t(df = ${df})`;
+        extra = `หางหนากว่าโค้งปกติเล็กน้อยเพื่อชดเชยการประมาณ σ ด้วย s`;
+        dfText.innerHTML = `<strong>df = ${df}</strong><br>df สูงขึ้น → รูปโค้งเข้าใกล้ปกติ`;
+      } else if (currentDist === 'chi') {
+        const df = Number(dfSlider.value);
+        range = [0, Math.max(6, df * 2.5)];
+        for (let i = 0; i <= 260; i++) {
+          const x = range[0] + (i / 260) * (range[1] - range[0]);
+          const y = chiPdf(x, df);
+          if (y > maxY) maxY = y;
+          points.push({ x, y });
+        }
+        label = `χ²(df = ${df})`;
+        extra = `df ต่ำ → เบ้ขวาจัด; df สูง → รูปทรงแบนและสมมาตรมากขึ้น`;
+        dfText.innerHTML = `<strong>df = ${df}</strong><br>ใช้กับสถิติ (n-1)s² / σ²`;
+      } else {
+        const df1 = Number(df1Slider.value);
+        const df2 = Number(df2Slider.value);
+        range = [0, Math.min(10, (df2 / df1) * 6)];
+        for (let i = 0; i <= 260; i++) {
+          const x = range[0] + (i / 260) * (range[1] - range[0]);
+          const y = fPdf(x, df1, df2);
+          if (y > maxY) maxY = y;
+          points.push({ x, y });
+        }
+        label = `F(v₁ = ${df1}, v₂ = ${df2})`;
+        extra = `ใช้เปรียบเทียบ σ₁² และ σ₂² หรือเป็นพื้นฐานของ ANOVA`;
+      }
+
+      const path = points
+        .map((pt, idx) => {
+          const sx = 20 + (pt.x - range[0]) / (range[1] - range[0]) * 420;
+          const sy = 210 - (pt.y / maxY) * 170;
+          return `${idx === 0 ? 'M' : 'L'}${sx.toFixed(2)} ${sy.toFixed(2)}`;
+        })
+        .join(' ');
+
+      distSvg.innerHTML = `
+        <rect x="0" y="0" width="460" height="260" rx="22" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.05)" />
+        <path d="${path}" fill="none" stroke="${currentDist === 't' ? '#ffb86c' : currentDist === 'chi' ? '#7cd7ff' : '#ffd166'}" stroke-width="2" />
+        <line x1="20" x2="440" y1="210" y2="210" stroke="rgba(255,255,255,0.08)" />
+        <text x="230" y="240" text-anchor="middle" font-size="14" fill="#c4cbe1">${label}</text>
+      `;
+
+      labSummary.innerHTML = `
+        <p><strong>${label}</strong></p>
+        <p>${extra}</p>
+      `;
+    }
+
+    function setDistribution(dist) {
+      currentDist = dist;
+      distButtons.forEach(btn => btn.setAttribute('aria-pressed', btn.dataset.dist === dist ? 'true' : 'false'));
+      if (dist === 'f') {
+        dfSingle.hidden = true;
+        dfDouble.hidden = false;
+      } else {
+        dfSingle.hidden = false;
+        dfDouble.hidden = true;
+        if (dist === 't' && Number(dfSlider.value) < 1) {
+          dfSlider.value = 1;
+        }
+      }
+      drawDistribution();
+    }
+
+    distButtons.forEach(btn => btn.addEventListener('click', () => setDistribution(btn.dataset.dist)));
+    [dfSlider, df1Slider, df2Slider].forEach(el => el.addEventListener('input', drawDistribution));
+
+    drawDistribution();
+  </script>
 </body>
 </html>

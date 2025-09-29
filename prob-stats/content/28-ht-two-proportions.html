@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 28 • การทดสอบผลต่างสัดส่วนสองประชากร</title>
+  <meta name="description" content="เปรียบเทียบสัดส่วนสองกลุ่มด้วย z-test, ใช้สัดส่วนร่วม และอ่านผลจากค่า p-value หรือขอบเขตวิกฤตได้อย่างมั่นใจ" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 28</span>
+      <h1>การทดสอบสมมติฐานผลต่างระหว่างสัดส่วน (p<sub>1</sub> − p<sub>2</sub>)</h1>
+      <p class="lead">
+        ใช้ข้อมูลจากสองกลุ่มตัวอย่างเพื่อตัดสินว่าเปอร์เซ็นต์ของประชากรแตกต่างกันจริงหรือไม่ — เหมาะกับงาน A/B testing, 
+        การเปรียบเทียบอัตราการตอบสนองของยา หรือการประเมินประสิทธิภาพแคมเปญการตลาด
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">สถิติทดสอบ</span><span class="value">Z-test</span></div>
+        <div class="stat"><span class="label">สัดส่วนร่วม</span><span class="value">\(\hat p_c\)</span></div>
+        <div class="stat"><span class="label">ข้อตกลง</span><span class="value">np ≥ 10</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. กำหนดสมมติฐานและข้อมูล</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>สมมติฐานหลัก</strong>
+          <ul>
+            <li>H<sub>0</sub>: p<sub>1</sub> = p<sub>2</sub> (หรือ p<sub>1</sub> − p<sub>2</sub> = 0)</li>
+            <li>H<sub>1</sub> เลือกทิศทางให้ตรงกับคำถาม: ≠, &gt;, หรือ &lt;</li>
+            <li>ตั้งต้นเชื่อ H<sub>0</sub> และมองหาหลักฐานเพื่อปฏิเสธ</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>ข้อมูลที่ต้องเตรียม</strong>
+          <ul>
+            <li>ขนาดตัวอย่างแต่ละกลุ่ม: n<sub>1</sub>, n<sub>2</sub></li>
+            <li>จำนวน “สำเร็จ”: x<sub>1</sub>, x<sub>2</sub> (เลือกนิยามให้ชัด)</li>
+            <li>ตรวจเงื่อนไข np ≥ 10 และ n(1 − p) ≥ 10 เพื่อใช้การประมาณปกติ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรสำคัญและการใช้สัดส่วนร่วม</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>คำนวณสัดส่วนตัวอย่าง</strong>
+          <ul>
+            <li>\(\hat p_1 = x_1 / n_1\)</li>
+            <li>\(\hat p_2 = x_2 / n_2\)</li>
+          </ul>
+          <p>
+            ภายใต้ H<sub>0</sub> เราเชื่อว่าทั้งสองกลุ่มมีสัดส่วนเดียวกัน จึงผสานข้อมูลเพื่อหาค่า
+            \(\hat p_c = (x_1 + x_2)/(n_1 + n_2)\)
+          </p>
+        </div>
+        <div class="highlight-box">
+          <strong>ค่าสถิติทดสอบ</strong>
+          <p>
+            \[
+              Z_{\text{test}} = \frac{(\hat p_1 - \hat p_2) - 0}{\sqrt{\hat p_c (1-\hat p_c)\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}
+            \]
+          </p>
+          <p class="muted">
+            หากสัดส่วนร่วมมีค่า 0 หรือ 1 จะทำให้ส่วนเบี่ยงเบนมาตรฐานเป็นศูนย์ — กรณีนี้ควรเก็บข้อมูลเพิ่มหรือใช้วิธีอื่น
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. แนวทางตัดสินคดี</h2>
+      <ul>
+        <li>เลือกทิศทางของ H<sub>1</sub> ให้ตรงกับคำถาม (หางซ้าย, หางขวา หรือสองหาง)</li>
+        <li>ตั้งระดับนัยสำคัญ α เพื่อกำหนดเส้นแบ่งวิกฤตหรือเกณฑ์เปรียบเทียบกับ p-value</li>
+        <li>พื้นที่ปฏิเสธในสเกล Z จะอยู่ที่หาง/หางทั้งสองของการแจกแจงปกติมาตรฐาน</li>
+        <li>แปลผล: ถ้า p-value ≤ α (หรือ Z อยู่ในพื้นที่ปฏิเสธ) ⇒ ปฏิเสธ H<sub>0</sub></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>4. Interactive Playground</h2>
+      <p>
+        ปรับจำนวนตัวอย่างและทิศทางการทดสอบเพื่อดูค่า Z-test, p-value และข้อความสรุปอย่างอัตโนมัติ
+      </p>
+      <div class="playground">
+        <form id="two-prop-form">
+          <div class="grid two">
+            <div class="control-group">
+              <label>
+                จำนวนสำเร็จกลุ่มที่ 1 (x₁)
+                <input type="number" name="x1" min="0" step="1" value="120" />
+              </label>
+              <label>
+                ขนาดตัวอย่างกลุ่มที่ 1 (n₁)
+                <input type="number" name="n1" min="1" step="1" value="1000" />
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                จำนวนสำเร็จกลุ่มที่ 2 (x₂)
+                <input type="number" name="x2" min="0" step="1" value="90" />
+              </label>
+              <label>
+                ขนาดตัวอย่างกลุ่มที่ 2 (n₂)
+                <input type="number" name="n2" min="1" step="1" value="1000" />
+              </label>
+            </div>
+          </div>
+          <div class="grid two">
+            <label class="control-group">
+              <span>ทิศทางสมมติฐาน H₁</span>
+              <select name="tail">
+                <option value="right">p₁ &gt; p₂ (หางขวา)</option>
+                <option value="left">p₁ &lt; p₂ (หางซ้าย)</option>
+                <option value="two">p₁ ≠ p₂ (สองหาง)</option>
+              </select>
+            </label>
+            <label class="control-group">
+              <span>ระดับนัยสำคัญ (α)</span>
+              <input type="number" name="alpha" min="0.0001" max="0.5" step="0.005" value="0.05" />
+            </label>
+          </div>
+          <button type="submit">คำนวณผลการทดสอบ</button>
+        </form>
+        <div class="result-board" id="two-prop-result">
+          <strong>ผลลัพธ์จะแสดงที่นี่</strong>
+          <p>กรุณากรอกข้อมูลแล้วกดคำนวณ</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. ตัวอย่าง: A/B Testing โฆษณา</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>ข้อมูลทดลอง</strong>
+          <ul>
+            <li>โฆษณาใหม่ (A): n₁ = 1,000, x₁ = 120 ⇒ \(\hat p_1 = 0.12\)</li>
+            <li>โฆษณาเก่า (B): n₂ = 1,000, x₂ = 90 ⇒ \(\hat p_2 = 0.09\)</li>
+            <li>สัดส่วนร่วม: \(\hat p_c = 0.105\)</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>การคำนวณ</strong>
+          <ul>
+            <li>Z<sub>test</sub> ≈ 2.19</li>
+            <li>p-value (หางขวา) ≈ 0.014</li>
+            <li>α = 0.05 ⇒ พื้นที่ปฏิเสธอยู่ที่ Z &gt; 1.645</li>
+          </ul>
+          <p class="muted">เพราะ Z-test &gt; 1.645 และ p-value &lt; 0.05 ⇒ ปฏิเสธ H<sub>0</sub>. โฆษณาใหม่คลิกมากกว่าเก่าอย่างมีนัยสำคัญ</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6. ข้อควรระวังและเคล็ดลับ</h2>
+      <ul>
+        <li>ถ้าข้อมูลมีขนาดเล็กและไม่ผ่านเงื่อนไข np ≥ 10 ให้พิจารณาใช้การทดสอบแบบ exact (เช่น Fisher’s exact test)</li>
+        <li>อธิบายผลลัพธ์เป็นช่วงเปอร์เซ็นต์และบริบท เช่น “คอนเวอร์ชันเพิ่มขึ้นประมาณ 3 จุดเปอร์เซ็นต์”</li>
+        <li>ระบุทั้งค่า p-value และขนาดผล (difference) เพื่อสื่อความหมายให้ทีมที่ไม่ใช่นักสถิติ</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const { formatNumber, formatPercent, normCdf } = window.LessonTools;
+    const form = document.getElementById('two-prop-form');
+    const resultBoard = document.getElementById('two-prop-result');
+
+    function formatTail(tail) {
+      if (tail === 'right') return 'หางขวา (p₁ &gt; p₂)';
+      if (tail === 'left') return 'หางซ้าย (p₁ &lt; p₂)';
+      return 'สองหาง (p₁ ≠ p₂)';
+    }
+
+    function computeTwoPropTest(event) {
+      event.preventDefault();
+      const data = new FormData(form);
+      const n1 = Math.max(1, Number(data.get('n1')) || 0);
+      const n2 = Math.max(1, Number(data.get('n2')) || 0);
+      const x1 = Math.min(n1, Math.max(0, Number(data.get('x1')) || 0));
+      const x2 = Math.min(n2, Math.max(0, Number(data.get('x2')) || 0));
+      const tail = data.get('tail');
+      const alpha = Math.min(0.5, Math.max(0.0001, Number(data.get('alpha')) || 0.05));
+
+      const p1 = x1 / n1;
+      const p2 = x2 / n2;
+      const pooled = (x1 + x2) / (n1 + n2);
+      const se = Math.sqrt(Math.max(0, pooled * (1 - pooled) * (1 / n1 + 1 / n2)));
+
+      if (!(se > 0)) {
+        resultBoard.innerHTML = `
+          <strong>ไม่สามารถคำนวณ Z-test ได้</strong>
+          <p>สัดส่วนร่วมเท่ากับ 0 หรือ 1 ทำให้ส่วนเบี่ยงเบนมาตรฐานเป็นศูนย์ ลองเพิ่มขนาดตัวอย่างหรือใช้วิธี exact test</p>
+        `;
+        return;
+      }
+
+      const z = (p1 - p2) / se;
+      let pValue;
+      if (tail === 'right') {
+        pValue = 1 - normCdf(z);
+      } else if (tail === 'left') {
+        pValue = normCdf(z);
+      } else {
+        const tailArea = 1 - normCdf(Math.abs(z));
+        pValue = Math.min(1, 2 * tailArea);
+      }
+
+      const decision = pValue <= alpha ? 'ปฏิเสธ H₀' : 'ยังปฏิเสธ H₀ ไม่ได้';
+      const diff = p1 - p2;
+
+      resultBoard.innerHTML = `
+        <strong>${decision}</strong>
+        <p>${formatTail(tail)} ที่ระดับนัยสำคัญ α = ${formatNumber(alpha, 3)}</p>
+        <ul>
+          <li>Z<sub>test</sub> = ${formatNumber(z, 3)}</li>
+          <li>p-value = ${formatNumber(pValue, 4)}</li>
+          <li>ผลต่างสัดส่วนตัวอย่าง = ${formatPercent(diff, 2)}</li>
+          <li>สัดส่วนร่วม \(\hat p_c\) = ${formatPercent(pooled, 2)}</li>
+        </ul>
+        <p class="muted">ขนาดผล (effect size) สำคัญพอหรือไม่? ประเมินร่วมกับบริบทธุรกิจเสมอ</p>
+      `;
+    }
+
+    form.addEventListener('submit', computeTwoPropTest);
+    computeTwoPropTest(new Event('submit'));
+  </script>
+</body>
+</html>

@@ -46,6 +46,7 @@ function initObserver(targets) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('ps-animate--visible');
+        entry.target.classList.remove('ps-animate--prepared');
         observer.unobserve(entry.target);
       }
     });
@@ -58,8 +59,8 @@ function initObserver(targets) {
   return observer;
 }
 
-function watchDynamicContent(observer) {
-  if (!observer || !('MutationObserver' in window)) {
+function watchDynamicContent(observer, onAdd = () => {}) {
+  if (!('MutationObserver' in window)) {
     return;
   }
 
@@ -72,12 +73,20 @@ function watchDynamicContent(observer) {
 
         if (node.matches('[data-ps-animate], .card, .category-card, .nav-group, table tbody tr, li')) {
           prepareElement(node);
+        if (observer) {
           observer.observe(node);
+        } else {
+          onAdd(node);
+        }
         }
 
         node.querySelectorAll?.('[data-ps-animate], .card, .category-card, .nav-group, table tbody tr, li').forEach((child) => {
           prepareElement(child);
-          observer.observe(child);
+          if (observer) {
+            observer.observe(child);
+          } else {
+            onAdd(child);
+          }
         });
       });
     });
@@ -90,8 +99,16 @@ function prepareElement(element, index = 0) {
   if (!element.classList.contains('ps-animate')) {
     element.classList.add('ps-animate');
   }
+  element.classList.add('ps-animate--prepared');
   assignVariant(element);
   setDelay(element, index);
+}
+
+function markVisible(elements) {
+  elements.forEach((element) => {
+    element.classList.add('ps-animate--visible');
+    element.classList.remove('ps-animate--prepared');
+  });
 }
 
 function initAnimations() {
@@ -104,8 +121,6 @@ function initAnimations() {
     document.documentElement.classList.add('ps-animations-disabled');
     return;
   }
-
-  document.documentElement.classList.add('ps-animations-initialized', 'ps-animations-ready');
 
   const selectors = [
     '[data-ps-animate]',
@@ -125,24 +140,51 @@ function initAnimations() {
     '.cta-group > *'
   ];
 
-  const targets = createSetFromSelectorList(selectors);
-  targets.forEach((element, index) => {
-    if (element.dataset.psAnimate === 'off') {
-      return;
-    }
-    prepareElement(element, index);
-  });
+  try {
+    const targets = createSetFromSelectorList(selectors);
+    targets.forEach((element, index) => {
+      if (element.dataset.psAnimate === 'off') {
+        return;
+      }
+      prepareElement(element, index);
+    });
 
-  const observer = initObserver(targets.filter((element) => element.dataset.psAnimate !== 'off'));
-  watchDynamicContent(observer);
-
-  motionPreference.addEventListener?.('change', (event) => {
-    if (event.matches) {
-      document.documentElement.classList.add('ps-animations-disabled');
-    } else {
-      document.documentElement.classList.remove('ps-animations-disabled');
+    const animTargets = targets.filter((element) => element.dataset.psAnimate !== 'off');
+    const observer = initObserver(animTargets);
+    if (!observer) {
+      markVisible(animTargets);
     }
-  });
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    animTargets.forEach((element) => {
+      if (element.classList.contains('ps-animate--visible')) {
+        return;
+      }
+      const rect = element.getBoundingClientRect();
+      if (rect.bottom >= -32 && rect.top <= viewportHeight * 0.95) {
+        element.classList.add('ps-animate--visible');
+        element.classList.remove('ps-animate--prepared');
+      }
+    });
+    document.documentElement.classList.add('ps-animations-initialized');
+    document.documentElement.classList.add('ps-animations-ready');
+    watchDynamicContent(observer, (element) => {
+      element.classList.add('ps-animate--visible');
+      element.classList.remove('ps-animate--prepared');
+    });
+
+    motionPreference.addEventListener?.('change', (event) => {
+      if (event.matches) {
+        document.documentElement.classList.add('ps-animations-disabled');
+        markVisible(animTargets);
+      } else {
+        document.documentElement.classList.remove('ps-animations-disabled');
+      }
+    });
+  } catch (error) {
+    console.error('ps animations failed, disabling effects', error);
+    document.documentElement.classList.add('ps-animations-disabled');
+    markVisible(document.querySelectorAll('.ps-animate'));
+  }
 }
 
 if (document.readyState === 'loading') {

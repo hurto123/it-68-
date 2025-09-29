@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 17 • ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยประชากรเดียว</title>
+  <meta name="description" content="สรุปแนวคิดการสร้างช่วงความเชื่อมั่นของค่าเฉลี่ยประชากรเดียว พร้อมตัวอย่างและห้องทดลองโต้ตอบที่เลือกใช้ Z หรือ t ได้" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 17</span>
+      <h1>การประมาณค่าเฉลี่ยประชากรเดียว (μ)</h1>
+      <p class="lead">
+        นำ “โครงสร้างทองคำ” ของช่วงความเชื่อมั่นมาประยุกต์ใช้กับสถานการณ์ที่พบบ่อยที่สุด—การประเมินค่าเฉลี่ยของประชากรกลุ่มเดียว พร้อมทำความเข้าใจว่าเมื่อไรต้องใช้ Z และเมื่อไรควรใช้ t
+      </p>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="label">คำถามนำทาง</span>
+          <span class="value">รู้ &sigma; หรือไม่?</span>
+        </div>
+        <div class="stat">
+          <span class="label">ค่าวิกฤต</span>
+          <span class="value">Z <span class="note">หรือ</span> t</span>
+        </div>
+        <div class="stat">
+          <span class="label">โฟกัส</span>
+          <span class="value">ระยะเผื่อความคลาดเคลื่อน</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="card" id="overview">
+      <h2>1. การเลือกเครื่องมือที่เหมาะสม</h2>
+      <p>
+        ทุกครั้งที่สร้างช่วงความเชื่อมั่นสำหรับค่าเฉลี่ย &mu; ให้เริ่มจากคำถามสำคัญที่สุด: <strong>เราทราบค่าส่วนเบี่ยงเบนมาตรฐานของประชากร (&sigma;) หรือไม่?</strong>
+        คำตอบจะนำเราไปสู่การเลือกค่าวิกฤตที่ถูกต้องระหว่าง Z-distribution กับ t-distribution
+      </p>
+      <div class="highlight-box">
+        <strong>Checklist ก่อนเลือกสูตร</strong>
+        <ul>
+          <li>ทราบ &sigma; ของประชากรจริงหรือไม่</li>
+          <li>ขนาดตัวอย่างเพียงพอหรือยัง (โดยทั่วไป n ≥ 30)</li>
+          <li>ข้อมูลได้มาจากการสุ่มอย่างอิสระ</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" id="case-z">
+      <h2>2. สถานการณ์ที่ 1 — ทราบ &sigma; (หรือ n ใหญ่)</h2>
+      <p>
+        เมื่อทราบ &sigma; (หรือไม่ทราบแต่มี n ใหญ่จนสามารถใช้กฎ CLT ได้) ให้ใช้ Z-distribution เป็นค่าวิกฤต โดยสูตรของช่วงความเชื่อมั่นคือ
+      </p>
+      <div class="highlight-box">
+        <strong>สูตร</strong>
+        <p>CI = &bar;x &plusmn; Z<sub>&alpha;/2</sub> &times; (&sigma; / &radic;n)</p>
+        <p class="note">หากไม่ทราบ &sigma; แต่ n ≥ 30 สามารถใช้ s (ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง) แทนได้</p>
+      </div>
+    </section>
+
+    <section class="card" id="case-t">
+      <h2>3. สถานการณ์ที่ 2 — ไม่ทราบ &sigma; และตัวอย่างเล็ก</h2>
+      <p>
+        ถ้าไม่รู้ &sigma; และมีขนาดตัวอย่างเล็ก (n &lt; 30) ต้องใช้ t-distribution เพื่อชดเชยความไม่แน่นอนที่เพิ่มขึ้น โดยมีองศาอิสระ df = n &minus; 1
+      </p>
+      <div class="highlight-box">
+        <strong>สูตร</strong>
+        <p>CI = &bar;x &plusmn; t<sub>&alpha;/2, df</sub> &times; (s / &radic;n)</p>
+        <p class="note">โค้ง t มีหางหนากว่า Z ทำให้ช่วงความเชื่อมั่นกว้างขึ้นเล็กน้อยสำหรับตัวอย่างขนาดเล็ก</p>
+      </div>
+    </section>
+
+    <section class="card" id="compare">
+      <h2>4. เข้าใจความต่างระหว่าง Z และ t</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <strong>Z-distribution</strong>
+          <ul>
+            <li>ใช้เมื่อข้อมูลน่าเชื่อถือ (ทราบ &sigma; หรือ n ใหญ่)</li>
+            <li>เป็นโค้งมาตรฐานเพียงแบบเดียว</li>
+            <li>ให้ช่วงที่แคบกว่าเพราะความไม่แน่นอนต่ำ</li>
+          </ul>
+        </div>
+        <div class="highlight-box">
+          <strong>t-distribution</strong>
+          <ul>
+            <li>ใช้เมื่อไม่ทราบ &sigma; และ n เล็ก</li>
+            <li>มีหลายโค้ง ขึ้นอยู่กับ df = n &minus; 1</li>
+            <li>หางหนากว่า เพื่อเผื่อความไม่แน่นอน</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">เมื่อ n เพิ่มขึ้นมาก ๆ โค้ง t จะค่อย ๆ ลู่เข้าใกล้โค้ง Z</p>
+    </section>
+
+    <section class="card" id="example">
+      <h2>5. ตัวอย่างฝึกคิด</h2>
+      <div class="grid two">
+        <div class="highlight-box">
+          <h3>โรงงานผลิตสินค้า (ใช้ Z)</h3>
+          <p>n = 49, &bar;x = 105 กรัม, s = 14 กรัม, ระดับเชื่อมั่น 95%</p>
+          <p>CI = 105 &plusmn; 1.96 &times; (14 / &radic;49) = <strong>(101.08, 108.92)</strong></p>
+        </div>
+        <div class="highlight-box">
+          <h3>ระดับคอเลสเตอรอล (ใช้ t)</h3>
+          <p>n = 16, &bar;x = 220, s = 20, df = 15, ระดับเชื่อมั่น 95%</p>
+          <p>CI = 220 &plusmn; 2.131 &times; (20 / &radic;16) = <strong>(209.35, 230.66)</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="lab">
+      <h2>ห้องทดลอง: สร้างช่วงความเชื่อมั่นด้วยตัวเอง</h2>
+      <div class="playground">
+        <form id="ci-mean-form">
+          <div class="control-group inline">
+            <label>
+              <span>เลือกเครื่องมือ</span>
+              <select name="method">
+                <option value="z">รู้ &sigma; หรือ n ≥ 30 (ใช้ Z)</option>
+                <option value="t">ไม่รู้ &sigma; และ n &lt; 30 (ใช้ t)</option>
+              </select>
+            </label>
+            <label>
+              <span>ระดับความเชื่อมั่น</span>
+              <select name="confidence">
+                <option value="0.80">80%</option>
+                <option value="0.90">90%</option>
+                <option value="0.95" selected>95%</option>
+                <option value="0.99">99%</option>
+              </select>
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>ขนาดตัวอย่าง (n)</span>
+              <input type="number" name="n" min="2" value="25" step="1" />
+            </label>
+            <label>
+              <span>ค่าเฉลี่ยตัวอย่าง (&bar;x)</span>
+              <input type="number" name="mean" value="120" step="0.1" />
+            </label>
+          </div>
+          <div class="control-group inline">
+            <label>
+              <span>ส่วนเบี่ยงเบนมาตรฐานประชากร (&sigma;)</span>
+              <input type="number" name="sigma" value="18" step="0.1" />
+            </label>
+            <label>
+              <span>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง (s)</span>
+              <input type="number" name="sampleSd" value="20" step="0.1" />
+            </label>
+          </div>
+          <p class="note">ถ้าเลือกใช้ Z แต่ไม่ทราบ &sigma; ให้เว้นว่างหรือใส่ 0 ระบบจะใช้ s แทนโดยอัตโนมัติ</p>
+        </form>
+        <div class="result-board">
+          <strong id="ci-mean-summary">ช่วงความเชื่อมั่น:</strong>
+          <div class="stat-grid" id="ci-mean-stats"></div>
+          <p class="note" id="ci-mean-note"></p>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="ci-mean-canvas" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      normInv,
+      tInv,
+      drawNormal,
+      attachResizeRedraw
+    } = window.LessonTools;
+
+    const form = document.getElementById('ci-mean-form');
+    const summaryEl = document.getElementById('ci-mean-summary');
+    const statsEl = document.getElementById('ci-mean-stats');
+    const noteEl = document.getElementById('ci-mean-note');
+    const canvas = document.getElementById('ci-mean-canvas');
+
+    function computeCi() {
+      const method = form.elements['method'].value;
+      const confidence = parseFloat(form.elements['confidence'].value) || 0.95;
+      const n = Math.max(2, parseFloat(form.elements['n'].value));
+      const mean = parseFloat(form.elements['mean'].value) || 0;
+      const sigmaInput = parseFloat(form.elements['sigma'].value);
+      const sampleSd = parseFloat(form.elements['sampleSd'].value);
+
+      const useSigma = method === 'z' && sigmaInput > 0 ? sigmaInput : sampleSd;
+      const alpha = 1 - confidence;
+      const tail = 1 - alpha / 2;
+      let critical = normInv(tail);
+      let df = n - 1;
+
+      if (method === 't') {
+        critical = Math.abs(tInv(tail, df));
+      }
+
+      const margin = critical * (useSigma / Math.sqrt(n));
+      const lower = mean - margin;
+      const upper = mean + margin;
+
+      summaryEl.textContent = `ช่วงความเชื่อมั่น: (${formatNumber(lower)}, ${formatNumber(upper)})`;
+
+      statsEl.innerHTML = '';
+      const info = [
+        { label: 'Critical', value: formatNumber(critical, 3) },
+        { label: 'Margin of Error', value: formatNumber(margin) },
+        { label: 'ส่วนเบี่ยงเบนที่ใช้', value: formatNumber(useSigma) },
+        { label: 'n', value: formatNumber(n, 0) }
+      ];
+      if (method === 't') {
+        info.push({ label: 'องศาอิสระ', value: formatNumber(df, 0) });
+      }
+      info.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      noteEl.textContent = method === 'z'
+        ? 'ใช้ Z-distribution เพราะทราบ &sigma; (หรือ n ใหญ่พอ)' :
+        'ใช้ t-distribution เพื่อเผื่อความไม่แน่นอนของ s เมื่อ n เล็ก';
+
+      drawNormal(canvas, mean, useSigma, lower, upper);
+    }
+
+    form.addEventListener('input', computeCi);
+    form.addEventListener('change', computeCi);
+    computeCi();
+    attachResizeRedraw(canvas, computeCi);
+  </script>
+</body>
+</html>

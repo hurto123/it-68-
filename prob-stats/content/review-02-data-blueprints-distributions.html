@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บททบทวนที่ 2 • พิมพ์เขียวของข้อมูล</title>
+  <meta name="description" content="สรุปการแจกแจงความน่าจะเป็นที่ใช้บ่อย ทั้งแบบไม่ต่อเนื่องและแบบต่อเนื่อง พร้อมตัวช่วยเลือกใช้ให้ตรงสถานการณ์" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บททบทวนที่ 2</span>
+      <h1>พิมพ์เขียวของข้อมูล (The Blueprints of Data)</h1>
+      <p class="lead">
+        สวัสดีครับนักศึกษา! เมื่อเรามีเครื่องมือพื้นฐานแล้ว ขั้นต่อไปคือการรู้จัก “พิมพ์เขียว” ของข้อมูล หรือการแจกแจงความน่าจะเป็น
+        ที่เกิดขึ้นบ่อยในธรรมชาติ การเข้าใจแต่ละแบบจะช่วยให้เราเลือกโมเดลและตั้งโจทย์ได้ถูกต้อง
+      </p>
+      <canvas id="distribution-map" class="mini-chart" aria-label="ไทม์ไลน์การเลือกแจกแจง"></canvas>
+    </header>
+
+    <section class="card" id="discrete">
+      <h2>1. การแจกแจงแบบไม่ต่อเนื่อง (Discrete Distributions)</h2>
+      <ul>
+        <li><strong>ทวินาม (Binomial)</strong>: ใช้เมื่อลองซ้ำกัน <em>n</em> ครั้ง แต่ละครั้งอิสระและมีผลแค่สำเร็จ/ล้มเหลว เช่น โยนเหรียญ 10 ครั้งแล้วนับหัว</li>
+        <li><strong>ปัวซง (Poisson)</strong>: ใช้นับจำนวนเหตุการณ์ที่เกิดขึ้นในช่วงเวลา/พื้นที่ที่กำหนด โดยทราบอัตราเฉลี่ย λ เช่น จำนวนสายโทรเข้าต่อชั่วโมง</li>
+      </ul>
+    </section>
+
+    <section class="card" id="continuous">
+      <h2>2. การแจกแจงแบบต่อเนื่อง (Continuous Distributions)</h2>
+      <p>ราชาแห่งการแจกแจงคือ <strong>การแจกแจงปกติ (Normal)</strong> มีรูปเป็นโค้งระฆังคว่ำและพบในข้อมูลจำนวนมาก เช่น ส่วนสูง น้ำหนัก คะแนนสอบ</p>
+      <ul>
+        <li>ค่าเฉลี่ย μ กำหนดตำแหน่งของโค้ง</li>
+        <li>ส่วนเบี่ยงเบนมาตรฐาน σ กำหนดความกว้าง (σ มาก → โค้งเตี้ยและกว้าง)</li>
+        <li>กฎ 68–95–99.7: ข้อมูล ~68% อยู่ในช่วง μ±1σ, ~95% อยู่ใน μ±2σ, ~99.7% อยู่ใน μ±3σ</li>
+      </ul>
+    </section>
+
+    <section class="card" id="toolkit">
+      <h2>3. เครื่องมือสนับสนุน</h2>
+      <ul>
+        <li><strong>Standard Normal &amp; Z-Score</strong>: แปลงโค้งปกติใดๆ ให้เป็นมาตรฐาน (μ=0, σ=1) เพื่อใช้ตาราง Z</li>
+        <li><strong>t-Distribution</strong>: ใช้แทน Z เมื่อไม่รู้ σ และมีตัวอย่างน้อย (n &lt; 30) หางหนากว่าเพื่อชดเชยความไม่แน่นอน</li>
+        <li><strong>Chi-Square (χ<sup>2</sup>)</strong>: โค้งเบ้ขวา ใช้ในการประมาณ/ทดสอบความแปรปรวนหรือความเป็นอิสระ</li>
+        <li><strong>F-Distribution</strong>: โค้งเบ้ขวาที่ต้องระบุองศาอิสระสองฝั่ง ใช้เปรียบเทียบความแปรปรวนระหว่างสองประชากรและ ANOVA</li>
+      </ul>
+    </section>
+
+    <section class="card" id="links">
+      <h2>ลิงก์สำหรับทบทวนเชิงลึก</h2>
+      <ul class="list-tight">
+        <li><a href="08-binomial.html">บทที่ 8 — การแจกแจงทวินาม</a></li>
+        <li><a href="10-poisson.html">บทที่ 10 — การแจกแจงปัวซง</a></li>
+        <li><a href="11-continuous-normal.html">บทที่ 11 — การแจกแจงปกติ</a></li>
+        <li><a href="12-standard-normal-z.html">บทที่ 12 — มาตรฐาน Z-score</a></li>
+        <li><a href="13-t-chi2-f.html">บทที่ 13 — t, χ² และ F distributions</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('distribution-map');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || 680;
+      const height = canvas.clientHeight || 200;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      const nodes = [
+        { label: 'เริ่มจำแนกข้อมูล', x: 60, color: '#7EC8FF' },
+        { label: 'ไม่ต่อเนื่อง', x: 220, color: '#42A5F5' },
+        { label: 'ทวินาม', x: 360, color: '#3F51B5' },
+        { label: 'ปัวซง', x: 500, color: '#1E88E5' },
+        { label: 'ต่อเนื่อง', x: 220, y: 140, color: '#80CBC4' },
+        { label: 'ปกติ', x: 360, y: 140, color: '#26A69A' },
+        { label: 'เครื่องมือ (Z/t/χ²/F)', x: 540, y: 140, color: '#00897B' }
+      ];
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.beginPath();
+      ctx.moveTo(60, 60);
+      ctx.lineTo(220, 60);
+      ctx.lineTo(360, 60);
+      ctx.lineTo(500, 60);
+      ctx.moveTo(220, 140);
+      ctx.lineTo(360, 140);
+      ctx.lineTo(540, 140);
+      ctx.stroke();
+      ctx.font = '14px "Noto Sans Thai", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      nodes.forEach((node) => {
+        const x = node.x;
+        const y = node.y || 60;
+        ctx.fillStyle = node.color;
+        ctx.beginPath();
+        ctx.arc(x, y, 28, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillText(node.label, x, y);
+      });
+    })();
+  </script>
+</body>
+</html>

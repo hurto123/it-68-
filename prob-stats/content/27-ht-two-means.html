@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บทที่ 27 • การทดสอบผลต่างค่าเฉลี่ยสองประชากร</title>
+  <meta name="description" content="เลือกใช้ Welch, pooled หรือ paired t-test เพื่อตัดสินว่าค่าเฉลี่ยสองกลุ่มแตกต่างกันหรือไม่ พร้อมเครื่องมือคำนวณผล" />
+  <link rel="stylesheet" href="assets/lesson-theme.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="badge">บทเรียนที่ 27</span>
+      <h1>การทดสอบผลต่างค่าเฉลี่ยสองประชากร</h1>
+      <p class="lead">
+        เปรียบเทียบค่าเฉลี่ยของสองกลุ่มอย่างมั่นใจ เลือกวิธีให้เหมาะ: Welch (ความแปรปรวนต่าง), pooled (ความแปรปรวนเท่ากัน), หรือ paired (ข้อมูลเป็นคู่)
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><span class="label">Welch</span><span class="value">df แบบประมาณ</span></div>
+        <div class="stat"><span class="label">Pooled</span><span class="value">ใช้ s<sub>pooled</sub></span></div>
+        <div class="stat"><span class="label">Paired</span><span class="value">ทดสอบค่าเฉลี่ยของความต่าง</span></div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>1. เลือกสถานการณ์</h2>
+      <div class="grid three">
+        <div class="highlight-box"><strong>Welch</strong><p>ตัวอย่างอิสระ, ส่วนเบี่ยงเบนไม่เท่ากัน</p></div>
+        <div class="highlight-box"><strong>Pooled</strong><p>ตัวอย่างอิสระ, เชื่อว่าส่วนเบี่ยงเบนเท่ากัน</p></div>
+        <div class="highlight-box"><strong>Paired</strong><p>ข้อมูลเป็นคู่ (ก่อน-หลัง หรือคู่เหมือน)</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรสรุป</h2>
+      <ul>
+        <li><strong>Welch</strong>: t = (&bar;x₁ − &bar;x₂ − Δ₀)/√(s₁²/n₁ + s₂²/n₂), df ตามสูตร Welch</li>
+        <li><strong>Pooled</strong>: ใช้ s<sub>pooled</sub> = √(((n₁−1)s₁² + (n₂−1)s₂²)/(n₁ + n₂ − 2)), df = n₁ + n₂ − 2</li>
+        <li><strong>Paired</strong>: t = (d̄ − Δ₀)/(s<sub>d</sub>/√n), df = n − 1</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>ห้องทดลอง: คำนวณผลการทดสอบ</h2>
+      <div class="playground">
+        <form id="ht-two-means-form">
+          <div class="control-group inline">
+            <label><span>เลือกวิธี</span>
+              <select name="method">
+                <option value="welch" selected>Welch (ความแปรปรวนต่าง)</option>
+                <option value="pooled">Pooled (ความแปรปรวนเท่ากัน)</option>
+                <option value="paired">Paired (ข้อมูลเป็นคู่)</option>
+              </select>
+            </label>
+            <label><span>เลือกทิศทาง</span>
+              <select name="tail">
+                <option value="two">สองหาง</option>
+                <option value="right">หางขวา</option>
+                <option value="left">หางซ้าย</option>
+              </select>
+            </label>
+            <label><span>ระดับนัยสำคัญ α</span>
+              <input type="number" name="alpha" value="0.05" min="0.001" max="0.2" step="0.005" />
+            </label>
+            <label><span>Δ₀ (ผลต่างที่ H₀ อ้าง)</span>
+              <input type="number" name="delta" value="0" step="0.1" />
+            </label>
+          </div>
+          <div class="control-group inline" id="independent-inputs">
+            <label><span>&bar;x₁</span><input type="number" name="mean1" value="85" step="0.1" /></label>
+            <label><span>s₁</span><input type="number" name="sd1" value="8" step="0.1" min="0.0001" /></label>
+            <label><span>n₁</span><input type="number" name="n1" value="50" min="2" step="1" /></label>
+            <label><span>&bar;x₂</span><input type="number" name="mean2" value="81" step="0.1" /></label>
+            <label><span>s₂</span><input type="number" name="sd2" value="10" step="0.1" min="0.0001" /></label>
+            <label><span>n₂</span><input type="number" name="n2" value="60" min="2" step="1" /></label>
+          </div>
+          <div class="control-group inline" id="paired-inputs" style="display:none;">
+            <label><span>d̄ (ค่าเฉลี่ยของความต่าง)</span><input type="number" name="meanDiff" value="4" step="0.1" /></label>
+            <label><span>s<sub>d</sub></span><input type="number" name="sdDiff" value="6" step="0.1" min="0.0001" /></label>
+            <label><span>n (จำนวนคู่)</span><input type="number" name="nDiff" value="30" min="2" step="1" /></label>
+          </div>
+        </form>
+        <div class="result-board">
+          <strong id="ht-two-means-summary"></strong>
+          <div class="stat-grid" id="ht-two-means-stats"></div>
+          <p class="note" id="ht-two-means-note"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/lesson-tools.js"></script>
+  <script>
+    const {
+      formatNumber,
+      formatPercent,
+      normCdf,
+      tInv
+    } = window.LessonTools;
+
+    const form = document.getElementById('ht-two-means-form');
+    const independentInputs = document.getElementById('independent-inputs');
+    const pairedInputs = document.getElementById('paired-inputs');
+    const summaryEl = document.getElementById('ht-two-means-summary');
+    const statsEl = document.getElementById('ht-two-means-stats');
+    const noteEl = document.getElementById('ht-two-means-note');
+
+    function updateVisibility() {
+      const method = form.elements['method'].value;
+      if (method === 'paired') {
+        independentInputs.style.display = 'none';
+        pairedInputs.style.display = 'grid';
+      } else {
+        independentInputs.style.display = 'grid';
+        pairedInputs.style.display = 'none';
+      }
+    }
+
+    function computeTwoMeanTest() {
+      updateVisibility();
+      const method = form.elements['method'].value;
+      const tail = form.elements['tail'].value;
+      const alpha = Math.min(0.5, Math.max(0.0001, parseFloat(form.elements['alpha'].value)));
+      const delta0 = parseFloat(form.elements['delta'].value) || 0;
+
+      let testStat = 0;
+      let se = 0;
+      let df = 0;
+
+      if (method === 'paired') {
+        const meanDiff = parseFloat(form.elements['meanDiff'].value) || 0;
+        const sdDiff = Math.max(0.0001, parseFloat(form.elements['sdDiff'].value));
+        const nDiff = Math.max(2, parseFloat(form.elements['nDiff'].value));
+        se = sdDiff / Math.sqrt(nDiff);
+        testStat = (meanDiff - delta0) / se;
+        df = nDiff - 1;
+      } else {
+        const mean1 = parseFloat(form.elements['mean1'].value) || 0;
+        const mean2 = parseFloat(form.elements['mean2'].value) || 0;
+        const sd1 = Math.max(0.0001, parseFloat(form.elements['sd1'].value));
+        const sd2 = Math.max(0.0001, parseFloat(form.elements['sd2'].value));
+        const n1 = Math.max(2, parseFloat(form.elements['n1'].value));
+        const n2 = Math.max(2, parseFloat(form.elements['n2'].value));
+        const diff = mean1 - mean2 - delta0;
+        if (method === 'pooled') {
+          const sp = Math.sqrt(((n1 - 1) * sd1 * sd1 + (n2 - 1) * sd2 * sd2) / (n1 + n2 - 2));
+          se = sp * Math.sqrt(1 / n1 + 1 / n2);
+          testStat = diff / se;
+          df = n1 + n2 - 2;
+        } else { // Welch
+          se = Math.sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
+          testStat = diff / se;
+          const v1 = (sd1 * sd1) / n1;
+          const v2 = (sd2 * sd2) / n2;
+          df = Math.pow(v1 + v2, 2) / ((Math.pow(v1, 2) / (n1 - 1)) + (Math.pow(v2, 2) / (n2 - 1)));
+        }
+      }
+
+      const tailProb = tail === 'two' ? 1 - alpha / 2 : (tail === 'right' ? 1 - alpha : alpha);
+      const critical = tInv(tailProb, df);
+      let reject = false;
+      let pValue;
+
+      if (tail === 'two') {
+        reject = Math.abs(testStat) > Math.abs(critical);
+        pValue = 2 * (1 - normCdf(Math.abs(testStat)));
+      } else if (tail === 'right') {
+        reject = testStat > critical;
+        pValue = 1 - normCdf(testStat);
+      } else {
+        reject = testStat < -Math.abs(critical);
+        pValue = normCdf(testStat);
+      }
+
+      summaryEl.textContent = reject ? 'คำตัดสิน: ปฏิเสธ H₀' : 'คำตัดสิน: ยังไม่ปฏิเสธ H₀';
+
+      statsEl.innerHTML = '';
+      const stats = [
+        { label: 'สถิติทดสอบ t', value: formatNumber(testStat, 3) },
+        { label: 'Critical', value: tail === 'two' ? `±${formatNumber(Math.abs(critical), 3)}` : formatNumber(critical, 3) },
+        { label: 'SE', value: formatNumber(se, 3) },
+        { label: 'p-value (ประมาณ)', value: formatNumber(pValue, 4) }
+      ];
+      stats.push({ label: 'df', value: formatNumber(df, 1) });
+      stats.forEach(stat => {
+        const div = document.createElement('div');
+        div.className = 'stat';
+        div.innerHTML = `<span class="label">${stat.label}</span><span class="value">${stat.value}</span>`;
+        statsEl.appendChild(div);
+      });
+
+      noteEl.textContent = 'p-value คำนวณแบบประมาณด้วยการแจกแจงปกติ หากต้องการความแม่นยำสูงควรใช้ซอฟต์แวร์สถิติ';
+    }
+
+    form.addEventListener('input', computeTwoMeanTest);
+    form.addEventListener('change', computeTwoMeanTest);
+    computeTwoMeanTest();
+  </script>
+</body>
+</html>
