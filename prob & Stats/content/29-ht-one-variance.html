@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 29: การทดสอบความแปรปรวนประชากรเดียว</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #8e24aa;
+      --accent-light: #ce93d8;
+      --accent-dark: #6a1b9a;
+      --card-bg: rgba(243, 229, 245, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 15% 18%, rgba(206,147,216,0.28), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(142,36,170,0.2), transparent 60%),
+                  linear-gradient(180deg, rgba(237,231,246,0.92), rgba(243,229,245,0.9));
+    }
+    main.container { max-width: 1100px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(106,27,154,0.24); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.42), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(106,27,154,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+    .badge { background: rgba(142,36,170,0.2); color: var(--accent-dark); padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
+    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(142,36,170,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(106,27,154,0.2); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(142,36,170,0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(206,147,216,0.6); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(243,229,245,0.6); }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">Chi-square Test</span>
+      <h1>บทที่ 29: การทดสอบความแปรปรวนประชากรเดียว (σ²)</h1>
+      <p>ใช้สถิติไคสแควร์เพื่อตรวจสอบว่าความแปรปรวนของประชากรเท่ากับค่าที่คาดไว้หรือไม่ เหมาะกับข้อมูลที่ใกล้เคียงปกติ.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. สมมติฐาน</h2>
+      <p>\(H_0: \sigma^2 = \sigma_0^2\)</p>
+      <p>สถิติทดสอบ: \( \chi^2 = \frac{(n-1)s^2}{\sigma_0^2} \) ซึ่งมี df = n-1</p>
+    </section>
+
+    <section class="card">
+      <h2>2. เครื่องมือคำนวณ</h2>
+      <div class="calculator">
+        <label>ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง (s)
+          <input type="number" id="sd" value="6.2" step="0.01" min="0" />
+        </label>
+        <label>ส่วนเบี่ยงเบนมาตรฐานตาม H₀ (σ₀)
+          <input type="number" id="sd0" value="5" step="0.01" min="0" />
+        </label>
+        <label>ขนาดตัวอย่าง (n)
+          <input type="number" id="n" value="18" min="2" />
+        </label>
+        <label>ระดับนัยสำคัญ (α)
+          <input type="range" id="alpha" min="1" max="15" value="5" />
+        </label>
+        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <label>รูปแบบ H₁
+          <select id="tail">
+            <option value="two">≠</option>
+            <option value="right">> (σ² มากกว่า)</option>
+            <option value="left">< (σ² น้อยกว่า)</option>
+          </select>
+        </label>
+        <button id="calc">คำนวณผล</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="chi-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>3. ตัวอย่าง</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>สถานการณ์</th>
+            <th>ข้อมูล</th>
+            <th>ผล</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ความเสถียรเครื่องจักร</td>
+            <td>χ²=24.6, df=15, p=0.109 (two-tailed)</td>
+            <td>ยังไม่ปฏิเสธ H₀</td>
+          </tr>
+          <tr>
+            <td>ความผันผวนของกระบวนการ</td>
+            <td>χ²=36.2, df=18, p=0.013 (right-tailed)</td>
+            <td>ปฏิเสธ H₀ → ความแปรปรวนสูงกว่ามาตรฐาน</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. Checklist</h2>
+      <ul>
+        <li>✅ ข้อมูลมาจากประชากรปกติ</li>
+        <li>✅ ไม่มี outlier รุนแรง</li>
+        <li>✅ ระบุรูปแบบ tail และ df อย่างชัดเจน</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const sdInput = document.getElementById('sd');
+    const sd0Input = document.getElementById('sd0');
+    const nInput = document.getElementById('n');
+    const alphaInput = document.getElementById('alpha');
+    const alphaText = document.getElementById('alpha-text');
+    const tailSelect = document.getElementById('tail');
+    const calcBtn = document.getElementById('calc');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('chi-chart');
+    let chart;
+
+    function critical(alpha, tail, df) {
+      if (tail === 'two') {
+        return {
+          lower: jStat.chisquare.inv(alpha / 2, df),
+          upper: jStat.chisquare.inv(1 - alpha / 2, df)
+        };
+      }
+      if (tail === 'right') {
+        return { lower: jStat.chisquare.inv(alpha, df), upper: jStat.chisquare.inv(1 - alpha, df) };
+      }
+      return { lower: jStat.chisquare.inv(alpha, df), upper: jStat.chisquare.inv(1 - alpha, df) };
+    }
+
+    function pValue(stat, tail, df) {
+      if (tail === 'two') {
+        const upperTail = 1 - jStat.chisquare.cdf(stat, df);
+        const lowerTail = jStat.chisquare.cdf(stat, df);
+        return stat > df ? 2 * upperTail : 2 * lowerTail;
+      }
+      if (tail === 'right') {
+        return 1 - jStat.chisquare.cdf(stat, df);
+      }
+      return jStat.chisquare.cdf(stat, df);
+    }
+
+    function updateChart(stat, critBounds, tail, df) {
+      const maxX = Math.max(critBounds.upper * 1.1, stat * 1.1, df + 4 * Math.sqrt(2 * df));
+      const points = 240;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      const statLine = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = (maxX * i) / points;
+        const density = jStat.chisquare.pdf(x, df);
+        labels.push(x.toFixed(2));
+        base.push(density);
+        let inCritical = false;
+        if (tail === 'two') {
+          inCritical = x <= critBounds.lower || x >= critBounds.upper;
+        } else if (tail === 'right') {
+          inCritical = x >= critBounds.upper;
+        } else {
+          inCritical = x <= critBounds.lower;
+        }
+        highlight.push(inCritical ? density : null);
+        statLine.push(Math.abs(x - stat) < maxX / points ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: `χ²(df=${df})`,
+              data: base,
+              borderColor: 'rgba(106,27,154,0.45)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'พื้นที่วิกฤติ',
+              data: highlight,
+              borderColor: 'rgba(171,71,188,0.95)',
+              backgroundColor: 'rgba(171,71,188,0.35)',
+              borderWidth: 0,
+              pointRadius: 0,
+              fill: true
+            },
+            {
+              label: 'สถิติทดสอบ',
+              data: statLine,
+              borderColor: 'rgba(255,112,67,0.9)',
+              backgroundColor: 'rgba(255,183,77,0.6)',
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#6a1b9a' } } },
+          scales: {
+            x: { title: { display: true, text: 'χ²', color: '#6a1b9a' }, ticks: { color: '#6a1b9a' } },
+            y: { title: { display: true, text: 'ความหนาแน่น', color: '#6a1b9a' }, ticks: { color: '#6a1b9a' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const s = Math.max(parseFloat(sdInput.value), 1e-6);
+      const s0 = Math.max(parseFloat(sd0Input.value), 1e-6);
+      const n = Math.max(parseInt(nInput.value, 10), 2);
+      nInput.value = n;
+      const df = n - 1;
+      const alpha = parseInt(alphaInput.value, 10) / 100;
+      alphaText.textContent = alpha.toFixed(2);
+      const tail = tailSelect.value;
+      const stat = (df * s * s) / (s0 * s0);
+      const critBounds = critical(alpha, tail, df);
+      const p = pValue(stat, tail, df);
+      let reject;
+      if (tail === 'two') {
+        reject = stat <= critBounds.lower || stat >= critBounds.upper;
+      } else if (tail === 'right') {
+        reject = stat >= critBounds.upper;
+      } else {
+        reject = stat <= critBounds.lower;
+      }
+
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลการทดสอบ</strong>
+        <span>χ² = ${stat.toFixed(3)} | df = ${df}</span>
+        <span>Critical bounds: [${critBounds.lower.toFixed(3)}, ${critBounds.upper.toFixed(3)}]</span>
+        <span>p-value ≈ ${p.toFixed(4)}</span>
+        <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
+      `;
+
+      updateChart(stat, critBounds, tail, df);
+    }
+
+    [sdInput, sd0Input, nInput, tailSelect].forEach(el => el.addEventListener('input', calculate));
+    alphaInput.addEventListener('input', calculate);
+    calcBtn.addEventListener('click', calculate);
+
+    calculate();
+  </script>
+</body>
+</html>

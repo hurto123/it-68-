@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 27: การทดสอบผลต่างค่าเฉลี่ยสองประชากร</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #3949ab;
+      --accent-light: #7986cb;
+      --accent-dark: #283593;
+      --card-bg: rgba(232, 234, 246, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 15% 18%, rgba(121,134,203,0.26), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(57,73,171,0.2), transparent 60%),
+                  linear-gradient(180deg, rgba(227,242,253,0.92), rgba(232,234,246,0.9));
+    }
+    main.container { max-width: 1150px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(40,53,147,0.24); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.4), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 760px; line-height: 1.7; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(40,53,147,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+    .badge { background: rgba(57,73,171,0.16); color: #1a237e; padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    .grid { display: grid; gap: 1.2rem; }
+    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(197,202,233,0.85); border: 1px solid rgba(57,73,171,0.18); display: grid; gap: 0.6rem; }
+    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    .highlight { border-left: 6px solid var(--accent); padding: 1rem 1.25rem; background: rgba(121,134,203,0.12); border-radius: 18px; line-height: 1.7; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
+    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(57,73,171,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(40,53,147,0.22); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(57,73,171,0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(197,202,233,0.6); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(226,231,255,0.6); }
+    .flex { display: grid; gap: 1rem; }
+    @media (min-width: 900px) { .flex { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">Two-sample Mean Test</span>
+      <h1>บทที่ 27: การทดสอบผลต่างค่าเฉลี่ยสองประชากร</h1>
+      <p>เลือกใช้ t-test แบบ Welch, pooled หรือ paired เพื่อตรวจสอบว่าค่าเฉลี่ยของสองกลุ่มต่างกันหรือไม่ พร้อมเครื่องมือที่ปรับได้ตามสถานการณ์.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. เลือกการตั้งค่าที่ถูกต้อง</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>สองกลุ่มอิสระ</strong>
+          <p>ใช้ Welch เมื่อไม่สมมติ σ² เท่ากัน และ pooled เมื่อเชื่อว่า σ₁² ≈ σ₂²</p>
+        </article>
+        <article class="definition">
+          <strong>ข้อมูลจับคู่</strong>
+          <p>คำนวณความต่างต่อคู่ (d) แล้วใช้ t-test แบบหนึ่งตัวอย่างกับ \(\bar{d}\)</p>
+        </article>
+      </div>
+      <div class="highlight">ปรับ tail (>, <, ≠) ตาม H₁ ที่ต้องการทดสอบ</div>
+    </section>
+
+    <section class="card">
+      <h2>2. เครื่องมือคำนวณ</h2>
+      <div class="calculator">
+        <label>ประเภทข้อมูล
+          <select id="mode">
+            <option value="welch">สองกลุ่มอิสระ (Welch)</option>
+            <option value="pooled">สองกลุ่มอิสระ (Pooled)</option>
+            <option value="paired">ข้อมูลจับคู่</option>
+          </select>
+        </label>
+        <div id="independent-fields" class="flex">
+          <div>
+            <label>\(\bar{x}_1\)
+              <input type="number" id="mean1" value="75.2" step="0.01" />
+            </label>
+            <label>s₁
+              <input type="number" id="sd1" value="9.1" step="0.01" min="0" />
+            </label>
+            <label>n₁
+              <input type="number" id="n1" value="30" min="2" />
+            </label>
+          </div>
+          <div>
+            <label>\(\bar{x}_2\)
+              <input type="number" id="mean2" value="69.4" step="0.01" />
+            </label>
+            <label>s₂
+              <input type="number" id="sd2" value="10.2" step="0.01" min="0" />
+            </label>
+            <label>n₂
+              <input type="number" id="n2" value="28" min="2" />
+            </label>
+          </div>
+        </div>
+        <div id="paired-fields" style="display:none">
+          <label>ค่าเฉลี่ยความต่าง (\(\bar{d}\))
+            <input type="number" id="mean-d" value="4.1" step="0.01" />
+          </label>
+          <label>ส่วนเบี่ยงเบนมาตรฐานของความต่าง (s_d)
+            <input type="number" id="sd-d" value="6.5" step="0.01" min="0" />
+          </label>
+          <label>จำนวนคู่ (n)
+            <input type="number" id="n-d" value="20" min="2" />
+          </label>
+        </div>
+        <label>ระดับนัยสำคัญ (α)
+          <input type="range" id="alpha" min="1" max="15" value="5" />
+        </label>
+        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <label>รูปแบบ H₁
+          <select id="tail">
+            <option value="two">≠</option>
+            <option value="right">></option>
+            <option value="left"><</option>
+          </select>
+        </label>
+        <button id="calc">คำนวณผล</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="diff-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>3. ตัวอย่างการตีความ</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>สถานการณ์</th>
+            <th>ข้อมูล</th>
+            <th>ผลลัพธ์</th>
+            <th>ข้อสรุป</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ประสิทธิภาพสองสูตรยา (Welch)</td>
+            <td>t=2.43, df≈41.6, p=0.019</td>
+            <td>ปฏิเสธ H₀</td>
+            <td>สูตร A ให้ผลดีกว่า B อย่างมีนัยสำคัญ</td>
+          </tr>
+          <tr>
+            <td>คะแนนก่อน-หลังอบรม (paired)</td>
+            <td>t=3.12, df=18, p=0.006</td>
+            <td>ปฏิเสธ H₀</td>
+            <td>คะแนนหลังอบรมสูงขึ้นชัดเจน</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. Checklist</h2>
+      <ul>
+        <li>✅ ระบุชนิดข้อมูล (อิสระ/จับคู่)</li>
+        <li>✅ ตรวจสอบเงื่อนไขความเป็นปกติและความแปรปรวน</li>
+        <li>✅ รายงาน t-stat, df, p-value และผลต่างเฉลี่ย</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const modeSelect = document.getElementById('mode');
+    const independentFields = document.getElementById('independent-fields');
+    const pairedFields = document.getElementById('paired-fields');
+    const mean1Input = document.getElementById('mean1');
+    const mean2Input = document.getElementById('mean2');
+    const sd1Input = document.getElementById('sd1');
+    const sd2Input = document.getElementById('sd2');
+    const n1Input = document.getElementById('n1');
+    const n2Input = document.getElementById('n2');
+    const meanDInput = document.getElementById('mean-d');
+    const sdDInput = document.getElementById('sd-d');
+    const nDInput = document.getElementById('n-d');
+    const alphaInput = document.getElementById('alpha');
+    const alphaText = document.getElementById('alpha-text');
+    const tailSelect = document.getElementById('tail');
+    const calcBtn = document.getElementById('calc');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('diff-chart');
+    let chart;
+
+    function toggleMode() {
+      if (modeSelect.value === 'paired') {
+        pairedFields.style.display = 'grid';
+        independentFields.style.display = 'none';
+      } else {
+        pairedFields.style.display = 'none';
+        independentFields.style.display = 'grid';
+      }
+    }
+
+    function welchDf(s1, s2, n1, n2) {
+      const t1 = (s1 * s1) / n1;
+      const t2 = (s2 * s2) / n2;
+      const num = Math.pow(t1 + t2, 2);
+      const den = (Math.pow(t1, 2) / (n1 - 1)) + (Math.pow(t2, 2) / (n2 - 1));
+      return num / den;
+    }
+
+    function pValue(stat, tail, df) {
+      if (tail === 'two') return 2 * (1 - jStat.studentt.cdf(Math.abs(stat), df));
+      if (tail === 'right') return 1 - jStat.studentt.cdf(stat, df);
+      return jStat.studentt.cdf(stat, df);
+    }
+
+    function critical(alpha, tail, df) {
+      return tail === 'two'
+        ? jStat.studentt.inv(1 - alpha / 2, df)
+        : jStat.studentt.inv(1 - alpha, df);
+    }
+
+    function updateChart(stat, crit, tail, df) {
+      const minX = -4;
+      const maxX = 4;
+      const points = 240;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      const statLine = [];
+      let lower;
+      let upper;
+      if (tail === 'two') {
+        lower = -crit;
+        upper = crit;
+      } else if (tail === 'right') {
+        lower = crit;
+        upper = maxX;
+      } else {
+        lower = minX;
+        upper = -crit;
+      }
+      for (let i = 0; i <= points; i += 1) {
+        const x = minX + ((maxX - minX) * i) / points;
+        const density = jStat.studentt.pdf(x, df);
+        labels.push(x.toFixed(2));
+        base.push(density);
+        const inCritical = tail === 'two' ? (x <= -crit || x >= crit) : (x >= lower && x <= upper);
+        highlight.push(inCritical ? density : null);
+        statLine.push(Math.abs(x - stat) < 0.02 ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: `t(df≈${df.toFixed(1)})`,
+              data: base,
+              borderColor: 'rgba(57,73,171,0.45)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'พื้นที่วิกฤติ',
+              data: highlight,
+              borderColor: 'rgba(121,134,203,0.95)',
+              backgroundColor: 'rgba(121,134,203,0.35)',
+              borderWidth: 0,
+              pointRadius: 0,
+              fill: true
+            },
+            {
+              label: 'สถิติทดสอบ',
+              data: statLine,
+              borderColor: 'rgba(255,143,0,0.9)',
+              backgroundColor: 'rgba(255,213,79,0.65)',
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#1a237e' } } },
+          scales: {
+            x: { title: { display: true, text: 't-statistic', color: '#1a237e' }, ticks: { color: '#1a237e' } },
+            y: { title: { display: true, text: 'ความหนาแน่น', color: '#1a237e' }, ticks: { color: '#1a237e' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const alpha = parseInt(alphaInput.value, 10) / 100;
+      alphaText.textContent = alpha.toFixed(2);
+      const tail = tailSelect.value;
+      let stat;
+      let df;
+      let se;
+      let diff;
+
+      if (modeSelect.value === 'paired') {
+        const meanD = parseFloat(meanDInput.value);
+        const sdD = Math.max(parseFloat(sdDInput.value), 1e-6);
+        const n = Math.max(parseInt(nDInput.value, 10), 2);
+        nDInput.value = n;
+        diff = meanD;
+        se = sdD / Math.sqrt(n);
+        stat = diff / se;
+        df = n - 1;
+      } else {
+        const mean1 = parseFloat(mean1Input.value);
+        const mean2 = parseFloat(mean2Input.value);
+        const sd1 = Math.max(parseFloat(sd1Input.value), 1e-6);
+        const sd2 = Math.max(parseFloat(sd2Input.value), 1e-6);
+        const n1 = Math.max(parseInt(n1Input.value, 10), 2);
+        const n2 = Math.max(parseInt(n2Input.value, 10), 2);
+        n1Input.value = n1;
+        n2Input.value = n2;
+        diff = mean1 - mean2;
+        if (modeSelect.value === 'pooled') {
+          const sp2 = (((n1 - 1) * sd1 * sd1) + ((n2 - 1) * sd2 * sd2)) / (n1 + n2 - 2);
+          const sp = Math.sqrt(sp2);
+          se = sp * Math.sqrt(1 / n1 + 1 / n2);
+          stat = diff / se;
+          df = n1 + n2 - 2;
+        } else {
+          se = Math.sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
+          stat = diff / se;
+          df = welchDf(sd1, sd2, n1, n2);
+        }
+      }
+
+      const crit = critical(alpha, tail, df);
+      const p = pValue(stat, tail, df);
+      const reject = tail === 'two' ? Math.abs(stat) > crit : (tail === 'right' ? stat > crit : stat < -crit);
+
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลการทดสอบ</strong>
+        <span>t = ${stat.toFixed(3)} | df ≈ ${df.toFixed(2)} | SE = ${se.toFixed(3)}</span>
+        <span>Critical = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)} | p-value = ${p.toFixed(4)}</span>
+        <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
+      `;
+
+      updateChart(stat, crit, tail, df);
+    }
+
+    modeSelect.addEventListener('change', () => {
+      toggleMode();
+      calculate();
+    });
+    [mean1Input, mean2Input, sd1Input, sd2Input, n1Input, n2Input, meanDInput, sdDInput, nDInput, tailSelect].forEach(el => {
+      el.addEventListener('input', calculate);
+    });
+    alphaInput.addEventListener('input', calculate);
+    calcBtn.addEventListener('click', calculate);
+
+    toggleMode();
+    calculate();
+  </script>
+</body>
+</html>

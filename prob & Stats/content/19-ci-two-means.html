@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 19: ช่วงความเชื่อมั่นผลต่างค่าเฉลี่ย</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #283593;
+      --accent-light: #5c6bc0;
+      --accent-dark: #1a237e;
+      --card-bg: rgba(237, 241, 255, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 18% 20%, rgba(92,107,192,0.25), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(40,53,147,0.2), transparent 60%),
+                  linear-gradient(180deg, rgba(232,234,246,0.92), rgba(227,242,253,0.9));
+    }
+    main.container { max-width: 1150px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.3rem; }
+    header.hero {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      padding: clamp(2.6rem, 6vw, 4rem);
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 58px rgba(40,53,147,0.22);
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.42), transparent 55%),
+                  radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%);
+    }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card {
+      background: var(--card-bg);
+      border-radius: 26px;
+      padding: clamp(1.8rem, 4vw, 2.6rem);
+      box-shadow: 0 20px 36px rgba(26,35,126,0.14);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.1rem;
+    }
+    section.card h2 {
+      color: var(--accent);
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0;
+    }
+    .badge { background: rgba(63,81,181,0.12); color: var(--accent-dark); padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600; }
+    .grid { display: grid; gap: 1.2rem; }
+    @media (min-width: 980px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(227,234,253,0.85); border: 1px solid rgba(40,53,147,0.18); display: grid; gap: 0.6rem; }
+    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    .highlight { border-left: 6px solid var(--accent); padding: 1rem 1.25rem; background: rgba(40,53,147,0.1); border-radius: 18px; line-height: 1.7; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
+    .calculator input, .calculator select {
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(63,81,181,0.28);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.95);
+    }
+    .calculator button {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: #fff;
+      border: 0;
+      border-radius: 14px;
+      padding: 0.85rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(26,35,126,0.22); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 1.2rem 1.4rem; border: 1px solid rgba(63,81,181,0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(92,107,192,0.12); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(227,234,253,0.6); }
+    .flex { display: grid; gap: 1rem; }
+    @media (min-width: 880px) { .flex { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .inline { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">สองประชากรเปรียบเทียบ</span>
+      <h1>บทที่ 19: ช่วงความเชื่อมั่นของผลต่างค่าเฉลี่ยสองประชากร (μ₁ − μ₂)</h1>
+      <p>เปรียบเทียบค่าเฉลี่ยระหว่างสองกลุ่ม เช่น ผลทดสอบก่อนและหลังอบรม หรือระหว่างกลุ่มทดลองกับกลุ่มควบคุม พร้อมตัวช่วยเลือกสูตร (Welch, Pooled, Paired) และการตีความผลลัพธ์.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. รูปแบบของการเปรียบเทียบ</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>สองกลุ่มอิสระ (Independent Samples)</strong>
+          <ul>
+            <li>แต่ละข้อมูลอยู่ในกลุ่มเดียวเท่านั้น</li>
+            <li>ตัวอย่างเป็นอิสระระหว่างกัน</li>
+            <li>ใช้ Welch เมื่อส่วนเบี่ยงเบนมาตรฐานต่างกัน</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>ข้อมูลจับคู่ (Paired)</strong>
+          <ul>
+            <li>วัดคน/หน่วยเดียวกันสองครั้ง หรือจับคู่เป็นคู่</li>
+            <li>คำนวณความแตกต่างต่อคู่ แล้วสร้างช่วงของค่าเฉลี่ยความต่าง</li>
+            <li>ลดความแปรปรวนจากความแตกต่างระหว่างบุคคล</li>
+          </ul>
+        </article>
+      </div>
+      <div class="highlight">
+        <strong>สมมติฐานพื้นฐาน</strong> ทั้งสองกรณีต้องการการสุ่ม, ความเป็นอิสระของตัวอย่าง, และรูปแบบข้อมูลใกล้เคียงปกติ หรือขนาดตัวอย่างใหญ่พอ.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรสำคัญ</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>Welch (ไม่สมมติความแปรปรวนเท่ากัน)</strong>
+          <p>\[ \bar{x}_1 - \bar{x}_2 \pm t_{\alpha/2, \nu} \sqrt{ \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} } \]</p>
+          <p>\(\nu\) (องศาอิสระ) คำนวณด้วยสูตร Welch-Satterthwaite.</p>
+        </article>
+        <article class="definition">
+          <strong>Pooled (สันนิษฐานความแปรปรวนเท่ากัน)</strong>
+          <p>\(s_p^2 = \dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}\)</p>
+          <p>Se = \(s_p \sqrt{\dfrac{1}{n_1} + \dfrac{1}{n_2}}\)</p>
+          <p>ใช้ df = \(n_1 + n_2 - 2\)</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <strong>Paired</strong> คำนวณจากความต่างต่อคู่: \(\bar{d} \pm t_{\alpha/2, n-1} \dfrac{s_d}{\sqrt{n}}\)
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. เครื่องคำนวณช่วงความเชื่อมั่นผลต่างค่าเฉลี่ย</h2>
+      <p>เลือกประเภทข้อมูล กรอกสถิติตัวอย่าง แล้วให้ระบบช่วยคำนวณพร้อมกราฟประกอบ.</p>
+      <div class="calculator">
+        <label>ประเภทการเปรียบเทียบ
+          <select id="mode">
+            <option value="independent">สองกลุ่มอิสระ</option>
+            <option value="paired">ข้อมูลจับคู่</option>
+          </select>
+        </label>
+        <div id="independent-fields" class="flex">
+          <div>
+            <label>ค่าเฉลี่ยกลุ่ม 1 (\(\bar{x}_1\))
+              <input type="number" id="mean1" value="72.4" step="0.01" />
+            </label>
+            <label>ส่วนเบี่ยงเบนมาตรฐานกลุ่ม 1 (s₁)
+              <input type="number" id="sd1" value="8.1" step="0.01" min="0" />
+            </label>
+            <label>ขนาดตัวอย่างกลุ่ม 1 (n₁)
+              <input type="number" id="n1" value="28" min="2" />
+            </label>
+          </div>
+          <div>
+            <label>ค่าเฉลี่ยกลุ่ม 2 (\(\bar{x}_2\))
+              <input type="number" id="mean2" value="68.2" step="0.01" />
+            </label>
+            <label>ส่วนเบี่ยงเบนมาตรฐานกลุ่ม 2 (s₂)
+              <input type="number" id="sd2" value="9.4" step="0.01" min="0" />
+            </label>
+            <label>ขนาดตัวอย่างกลุ่ม 2 (n₂)
+              <input type="number" id="n2" value="32" min="2" />
+            </label>
+          </div>
+        </div>
+        <label class="inline" id="pooled-wrapper">
+          <input type="checkbox" id="pooled" />
+          ใช้ความแปรปรวนร่วม (สันนิษฐาน σ₁² ≈ σ₂²)
+        </label>
+        <div id="paired-fields" style="display:none">
+          <label>ค่าเฉลี่ยความแตกต่าง (\(\bar{d}\))
+            <input type="number" id="mean-d" value="4.6" step="0.01" />
+          </label>
+          <label>ส่วนเบี่ยงเบนมาตรฐานของความแตกต่าง (s_d)
+            <input type="number" id="sd-d" value="6.2" step="0.01" min="0" />
+          </label>
+          <label>จำนวนคู่ (n)
+            <input type="number" id="n-d" value="20" min="2" />
+          </label>
+        </div>
+        <label>ระดับความเชื่อมั่น (%)
+          <input type="range" id="conf" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่นปัจจุบัน: <span id="conf-text">95%</span></div>
+        <button id="calc">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="diff-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่างการตีความ</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>สถานการณ์</th>
+            <th>รายละเอียด</th>
+            <th>ช่วง 95%</th>
+            <th>ข้อสรุป</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>คะแนนสอบก่อน-หลัง</td>
+            <td>n=20 (paired), \(\bar{d}=6.1\), s_d=7.3</td>
+            <td>[2.5, 9.7]</td>
+            <td>เฉลี่ยแล้วคะแนนเพิ่มขึ้นอย่างมีนัยสำคัญในช่วง 2.5–9.7 คะแนน</td>
+          </tr>
+          <tr>
+            <td>อัตราการผลิตระหว่างสาย A และ B</td>
+            <td>Welch: \(\bar{x}_1 - \bar{x}_2 = 4.2\), SE=1.8</td>
+            <td>[0.5, 7.9]</td>
+            <td>สาย A น่าจะผลิตได้มากกว่า 0.5–7.9 หน่วย/ชั่วโมง</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>5. Checklist สั้นๆ</h2>
+      <ul>
+        <li>✅ ระบุประเภทตัวอย่างถูกต้อง (อิสระ vs จับคู่)</li>
+        <li>✅ ตรวจสอบความเป็นอิสระและรูปแบบการสุ่ม</li>
+        <li>✅ เงื่อนไขปกติ/ขนาดตัวอย่างเพียงพอ</li>
+        <li>✅ บอกสูตรที่ใช้ (Welch / Pooled / Paired)</li>
+        <li>✅ ตีความผลต่างในบริบท (เช่น “กลุ่ม 1 สูงกว่าโดยเฉลี่ย ...”)</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const modeSelect = document.getElementById('mode');
+    const independentFields = document.getElementById('independent-fields');
+    const pairedFields = document.getElementById('paired-fields');
+    const pooledWrapper = document.getElementById('pooled-wrapper');
+    const mean1Input = document.getElementById('mean1');
+    const mean2Input = document.getElementById('mean2');
+    const sd1Input = document.getElementById('sd1');
+    const sd2Input = document.getElementById('sd2');
+    const n1Input = document.getElementById('n1');
+    const n2Input = document.getElementById('n2');
+    const pooledInput = document.getElementById('pooled');
+    const meanDInput = document.getElementById('mean-d');
+    const sdDInput = document.getElementById('sd-d');
+    const nDInput = document.getElementById('n-d');
+    const confInput = document.getElementById('conf');
+    const confText = document.getElementById('conf-text');
+    const calcBtn = document.getElementById('calc');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('diff-chart');
+    let chart;
+
+    function toggleMode() {
+      const mode = modeSelect.value;
+      if (mode === 'paired') {
+        pairedFields.style.display = 'grid';
+        independentFields.style.display = 'none';
+        pooledWrapper.style.display = 'none';
+      } else {
+        pairedFields.style.display = 'none';
+        independentFields.style.display = 'grid';
+        pooledWrapper.style.display = 'flex';
+      }
+    }
+
+    function welchDf(s1, s2, n1, n2) {
+      const t1 = (s1 * s1) / n1;
+      const t2 = (s2 * s2) / n2;
+      const num = Math.pow(t1 + t2, 2);
+      const den = (Math.pow(t1, 2) / (n1 - 1)) + (Math.pow(t2, 2) / (n2 - 1));
+      return num / den;
+    }
+
+    function updateChart(mean, se, lower, upper, label) {
+      const points = 200;
+      const range = 6 * se;
+      const start = mean - range / 2;
+      const end = mean + range / 2;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = start + ((end - start) * i) / points;
+        const std = (x - mean) / (se || 1e-6);
+        const density = jStat.normal.pdf(std, 0, 1) / (se || 1e-6);
+        labels.push(x.toFixed(3));
+        base.push(density);
+        highlight.push(x >= lower && x <= upper ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: label,
+              data: base,
+              borderColor: 'rgba(40,53,147,0.45)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: highlight,
+              borderColor: 'rgba(92,107,192,0.95)',
+              backgroundColor: 'rgba(92,107,192,0.35)',
+              borderWidth: 2.4,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#1a237e' } } },
+          scales: {
+            x: { title: { display: true, text: 'ผลต่างค่าเฉลี่ย (μ₁ − μ₂)', color: '#1a237e' }, ticks: { color: '#1a237e' } },
+            y: { title: { display: true, text: 'ความหนาแน่นโดยประมาณ', color: '#1a237e' }, ticks: { color: '#1a237e' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const confidence = parseInt(confInput.value, 10) / 100;
+      confText.textContent = `${(confidence * 100).toFixed(0)}%`;
+      const alpha = 1 - confidence;
+      let diffMean;
+      let se;
+      let df;
+      let methodLabel;
+
+      if (modeSelect.value === 'paired') {
+        const meanD = parseFloat(meanDInput.value);
+        const sdD = Math.max(parseFloat(sdDInput.value), 0.00001);
+        const n = Math.max(parseInt(nDInput.value, 10), 2);
+        nDInput.value = n;
+        diffMean = meanD;
+        se = sdD / Math.sqrt(n);
+        df = n - 1;
+        methodLabel = 'Paired t';
+      } else {
+        const mean1 = parseFloat(mean1Input.value);
+        const mean2 = parseFloat(mean2Input.value);
+        const sd1 = Math.max(parseFloat(sd1Input.value), 0.00001);
+        const sd2 = Math.max(parseFloat(sd2Input.value), 0.00001);
+        const n1 = Math.max(parseInt(n1Input.value, 10), 2);
+        const n2 = Math.max(parseInt(n2Input.value, 10), 2);
+        n1Input.value = n1;
+        n2Input.value = n2;
+        diffMean = mean1 - mean2;
+        if (pooledInput.checked) {
+          const sp2 = (((n1 - 1) * sd1 * sd1) + ((n2 - 1) * sd2 * sd2)) / (n1 + n2 - 2);
+          const sp = Math.sqrt(sp2);
+          se = sp * Math.sqrt(1 / n1 + 1 / n2);
+          df = n1 + n2 - 2;
+          methodLabel = 'Pooled t';
+        } else {
+          se = Math.sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
+          df = welchDf(sd1, sd2, n1, n2);
+          methodLabel = 'Welch t';
+        }
+      }
+
+      const tCrit = jStat.studentt.inv(1 - alpha / 2, df);
+      const margin = tCrit * se;
+      const lower = diffMean - margin;
+      const upper = diffMean + margin;
+
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลลัพธ์</strong>
+        <span>ผลต่างค่าเฉลี่ย = ${diffMean.toFixed(3)}</span>
+        <span>SE = ${se.toFixed(3)} | df ≈ ${df.toFixed(2)} | t_{\alpha/2} = ${tCrit.toFixed(3)}</span>
+        <span>ช่วงความเชื่อมั่น (${methodLabel}) = [${lower.toFixed(3)}, ${upper.toFixed(3)}]</span>
+        <span class="note">ตีความ: เรามั่นใจ ${(confidence * 100).toFixed(1)}% ว่าผลต่างค่าเฉลี่ยจริงอยู่ในช่วงนี้</span>
+      `;
+
+      updateChart(diffMean, se, lower, upper, methodLabel);
+    }
+
+    modeSelect.addEventListener('change', () => {
+      toggleMode();
+      calculate();
+    });
+    confInput.addEventListener('input', () => { confText.textContent = `${confInput.value}%`; });
+    [mean1Input, mean2Input, sd1Input, sd2Input, n1Input, n2Input, pooledInput, meanDInput, sdDInput, nDInput].forEach(el => {
+      if (!el) return;
+      el.addEventListener('input', calculate);
+    });
+    confInput.addEventListener('change', calculate);
+    calcBtn.addEventListener('click', calculate);
+
+    toggleMode();
+    calculate();
+  </script>
+</body>
+</html>
