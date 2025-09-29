@@ -116,6 +116,15 @@ function initAnimations() {
     return;
   }
 
+  const ensureVisible = (elements) => {
+    elements.forEach((element) => {
+      if (element.classList.contains('ps-animate--prepared')) {
+        element.classList.add('ps-animate--visible');
+        element.classList.remove('ps-animate--prepared');
+      }
+    });
+  };
+
   const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (motionPreference.matches) {
     document.documentElement.classList.add('ps-animations-disabled');
@@ -171,6 +180,10 @@ function initAnimations() {
       element.classList.add('ps-animate--visible');
       element.classList.remove('ps-animate--prepared');
     });
+
+    const revealStalled = () => ensureVisible(animTargets);
+    window.addEventListener('load', revealStalled, { once: true });
+    window.setTimeout(revealStalled, 1200);
 
     motionPreference.addEventListener?.('change', (event) => {
       if (event.matches) {
