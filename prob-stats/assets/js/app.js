@@ -117,7 +117,10 @@ const fileGroups = [
 
 async function initApp() {
   renderNav(navGroups, document.getElementById('nav-groups'));
-  renderDatasets(document.getElementById('dataset-table'), datasets);
+  const datasetTable = document.getElementById('dataset-table');
+  if (datasetTable) {
+    renderDatasets(datasetTable, datasets);
+  }
   renderFileGroups(document.getElementById('category-grid'), fileGroups);
   initTooltips();
 

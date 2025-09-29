@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html class="theme-light" lang="th">
+<html class="theme-dark" lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="บทนำการทดสอบสมมติฐาน สรุปขั้นตอน H0/Ha ระดับนัยสำคัญ และข้อผิดพลาดชนิดที่ 1/2" />
-  <title>บทที่ 23 • บทนำทดสอบสมมติฐาน</title>
+  <meta name="description" content="บทนำสู่การทดสอบสมมติฐาน พร้อมภาพรวม Type I/II error และเครื่องมือโต้ตอบเพื่อฝึกตั้งสมมติฐาน" />
+  <title>บทที่ 23 • บทนำสู่การทดสอบสมมติฐาน</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="print.css" media="print" />
   <script>
     window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']] },
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]']]
+      },
       svg: { fontCache: 'global' },
       options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
     };
@@ -19,184 +22,446 @@
     :root {
       color-scheme: dark;
       --bg: #06060d;
-      --surface: #101223;
-      --surface-alt: #161933;
-      --surface-soft: #1c2240;
-      --text: #f2f4ff;
-      --muted: #9aa0c6;
-      --accent: #8cf0ff;
-      --accent-soft: rgba(140, 240, 255, 0.22);
-      --border: #232a48;
-      --danger: #ff7c9c;
+      --surface: #10101f;
+      --surface-alt: #161630;
+      --surface-soft: #1f1f3f;
+      --surface-muted: #15152a;
+      --border: #242447;
+      --text: #f6f7ff;
+      --muted: #a5a7d0;
+      --accent: #66f2ff;
+      --accent-soft: rgba(102, 242, 255, 0.24);
+      --warn: #ffb347;
+      --ok: #6df1c8;
     }
 
-    body { margin: 0; background: radial-gradient(circle at 12% -15%, rgba(140,240,255,0.22), transparent 58%), radial-gradient(circle at 85% 0%, rgba(255,124,156,0.18), transparent 60%), var(--bg); color: var(--text); font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif; }
-    header { background: linear-gradient(135deg, rgba(16, 18, 35, 0.95), rgba(140,240,255,0.24)); border-bottom: 1px solid var(--border); box-shadow: 0 22px 55px rgba(140,240,255,0.16); }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 15% -10%, rgba(102, 242, 255, 0.26), transparent 60%),
+                  radial-gradient(circle at 90% 10%, rgba(255, 179, 71, 0.18), transparent 65%),
+                  var(--bg);
+      color: var(--text);
+      font: 16px/1.65 'Sarabun', 'Noto Sans Thai', system-ui, sans-serif;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(16, 16, 31, 0.94), rgba(102, 242, 255, 0.24));
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 24px 55px rgba(102, 242, 255, 0.18);
+    }
+
     header .wrap,
     main,
-    footer .wrap { max-width: 1080px; margin: 0 auto; padding: 1.2rem 1.35rem 1.8rem; }
+    footer .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.3rem 1.4rem 1.95rem;
+    }
 
     h1, h2, h3 { line-height: 1.25; margin: 0.25rem 0 0.55rem; }
     h1 { font-size: clamp(1.9rem, 4vw, 2.45rem); }
-    h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); }
-    h3 { font-size: clamp(1.12rem, 2.6vw, 1.35rem); }
+    h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
+    h3 { font-size: clamp(1.12rem, 2.6vw, 1.42rem); }
 
-    p, ul, ol { margin: 0.45rem 0 0.7rem; }
-    a { color: var(--accent); }
+    p, ul, ol { margin: 0.45rem 0 0.75rem; }
+    ul, ol { padding-left: 1.25rem; }
 
-    main.wrap { display: grid; gap: 1.2rem; padding-bottom: 4rem; }
-    section.card, article.card { background: var(--surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); padding: clamp(1.1rem, 1.6vw, 1.85rem); box-shadow: 0 18px 44px rgba(0,0,0,0.35); }
+    main.wrap { display: grid; gap: 1.4rem; padding-bottom: 4rem; }
+
+    section.card, article.card {
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: clamp(1.1rem, 1.6vw, 1.9rem);
+      box-shadow: 0 22px 52px rgba(6, 8, 18, 0.45);
+    }
+
     .hero { background: var(--surface-alt); display: grid; gap: 0.9rem; }
     .hero p { margin: 0; color: var(--muted); }
-    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.75rem; color: var(--muted); }
+
+    .eyebrow {
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
 
     .pill-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
-    .pill { display: inline-flex; gap: 0.35rem; padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); background: rgba(18, 22, 40, 0.7); font-size: 0.88rem; color: var(--text); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(20, 20, 40, 0.78);
+      font-size: 0.9rem;
+    }
 
-    .flow { display: grid; gap: 0.8rem; }
-    .flow-step { border-left: 3px solid var(--accent); padding-left: 0.9rem; }
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
 
-    .calc { display: grid; gap: 0.9rem; background: var(--surface-alt); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); padding: 1rem 1.1rem; }
-    .calc label { display: grid; gap: 0.35rem; font-weight: 600; }
-    .calc select { background: rgba(12, 15, 30, 0.55); border: 1px solid var(--border); border-radius: 12px; color: var(--text); padding: 0.55rem 0.75rem; font: inherit; }
-    .calc button { justify-self: start; border: none; border-radius: 12px; background: var(--accent); color: #052530; font-weight: 700; padding: 0.6rem 1.2rem; cursor: pointer; }
+    .matrix .cell {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.8rem;
+      background: rgba(22, 22, 46, 0.8);
+      min-height: 100px;
+      display: grid;
+      gap: 0.4rem;
+    }
 
-    .result-box { background: var(--surface-soft); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 0.9rem 1rem; }
+    .matrix .header { font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+    .viz {
+      background: var(--surface-alt);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 1rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    canvas { width: 100%; height: auto; border-radius: 12px; background: rgba(12, 12, 26, 0.4); }
+
+    .controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .controls label { display: grid; gap: 0.35rem; font-weight: 600; }
+
+    .note-box {
+      background: var(--surface-muted);
+      border: 1px dashed rgba(102, 242, 255, 0.32);
+      border-radius: 16px;
+      padding: 0.9rem 1.1rem;
+      color: var(--muted);
+    }
+
+    .scenario {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .scenario textarea {
+      width: 100%;
+      min-height: 120px;
+      background: rgba(12, 12, 26, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 0.6rem 0.75rem;
+      font: inherit;
+    }
+
+    .scenario button {
+      justify-self: start;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #04282f;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+    }
+
+    .result-box {
+      background: var(--surface-soft);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 0.9rem 1rem;
+    }
+
     .result-box strong { font-size: 1.05rem; }
-    .muted { color: var(--muted); font-size: 0.92rem; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <p class="eyebrow">บทที่ 23</p>
-      <h1>บทนำสู่การทดสอบสมมติฐาน</h1>
-      <p>เข้าใจแนวคิด $H_0$, $H_a$, ระดับนัยสำคัญ และความผิดพลาดประเภทต่างๆ ก่อนเริ่มลงมือคำนวณ</p>
+      <h1>👨‍🏫 บทนำสู่การทดสอบสมมติฐาน</h1>
+      <p>สวัสดีครับนักศึกษา! ยินดีต้อนรับสู่บทที่ 8 และเป็น Part สุดท้ายของการเดินทางของเราครับ ในบทที่ 7 เราได้สวมบทบาทเป็น "นักสืบ" ที่พยายาม "ประมาณค่า" ที่เราไม่รู้</p>
+      <p>ในบทนี้ เราจะได้รับการเลื่อนตำแหน่งครับ! เราจะสวมบทบาทเป็น "ผู้พิพากษา" 👨‍⚖️ ในศาลสถิติ ภารกิจของเราคือการตัดสิน "คำกล่าวอ้าง" หรือ "คดี" เกี่ยวกับประชากร โดยใช้หลักฐานเชิงประจักษ์จากกลุ่มตัวอย่างที่เรามีอยู่ในมือ</p>
       <div class="pill-row">
-        <span class="pill">Formulate → Compute → Decide</span>
-        <span class="pill">ระวังข้อผิดพลาดชนิดที่ 1 และ 2</span>
+        <span class="pill">Hypothesis Testing Workflow</span>
+        <span class="pill">Type I &amp; Type II Error</span>
       </div>
     </div>
   </header>
 
   <main class="wrap">
     <section class="card hero">
-      <h2>นิยามสำคัญ</h2>
+      <h2>1. อธิบายเนื้อหาของการเรียน: กระบวนการตัดสินใจทางสถิติ</h2>
+      <p>แนวคิดหลัก: การทดสอบสมมติฐาน (Hypothesis Testing) คือกระบวนการที่เป็นขั้นเป็นตอน เพื่อใช้ข้อมูลจากกลุ่มตัวอย่างในการตัดสินใจว่าควรจะ "ปฏิเสธ" (Reject) หรือ "ไม่สามารถปฏิเสธ" (Fail to Reject) สมมติฐาน (คำกล่าวอ้าง) เกี่ยวกับประชากร</p>
+      <p>ตัวอย่างสถานการณ์:</p>
       <ul>
-        <li><strong>$H_0$ (สมมติฐานศูนย์):</strong> ข้อความที่เราต้องการทดสอบ เช่น $\mu = 50$</li>
-        <li><strong>$H_a$ (สมมติฐานทางเลือก):</strong> สิ่งที่เราจะสรุปหากหลักฐานเพียงพอ เช่น $\mu \neq 50$</li>
-        <li><strong>ระดับนัยสำคัญ ($\alpha$):</strong> ความเสี่ยงที่จะปฏิเสธ $H_0$ ทั้งที่จริงแล้ว $H_0$ เป็นจริง (Type I error)</li>
-        <li><strong>พลังการทดสอบ:</strong> โอกาสที่จะปฏิเสธ $H_0$ ได้ถูกต้องเมื่อ $H_a$ เป็นจริง (1 - Type II error)</li>
+        <li>บริษัทผลิตยาอ้างว่า "ยาของเราออกฤทธิ์โดยเฉลี่ยภายใน 15 นาที" -> เราจะทดสอบว่าคำกล่าวอ้างนี้จริงหรือไม่</li>
+        <li>นักการเมืองอ้างว่า "คะแนนนิยมของฉันตอนนี้สูงกว่า 50%" -> เราจะทดสอบว่าคำกล่าวอ้างนี้จริงหรือไม่</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2>โครงร่างขั้นตอน</h2>
-      <div class="flow">
-        <div class="flow-step">
-          <h3>1. นิยามสมมติฐาน</h3>
-          <p>กำหนด $H_0$ และ $H_a$ ให้ชัดเจน รวมทั้งตั้งระดับนัยสำคัญ $\alpha$</p>
-        </div>
-        <div class="flow-step">
-          <h3>2. เลือกสถิติทดสอบ</h3>
-          <p>เช่น $z$, $t$, $\chi^2$, หรือ $F$ ตามลักษณะข้อมูล</p>
-        </div>
-        <div class="flow-step">
-          <h3>3. คำนวณค่า test statistic และ p-value</h3>
-          <p>เปรียบเทียบกับ critical value หรือดู p-value เทียบกับ $\alpha$</p>
-        </div>
-        <div class="flow-step">
-          <h3>4. ตัดสินใจและสรุปผล</h3>
-          <p>หากหลักฐานเพียงพอให้ปฏิเสธ $H_0$ และสื่อสารผลในบริบท</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>จำแนกทิศทางการทดสอบ (Interactive)</h2>
-      <form class="calc" id="testDirectionForm">
-        <label>ข้อกล่าวอ้างที่ต้องการพิสูจน์
-          <select name="claim">
-            <option value="greater">ตัวอย่างมากกว่าค่าอ้างอิง</option>
-            <option value="less">ตัวอย่างน้อยกว่าค่าอ้างอิง</option>
-            <option value="notEqual" selected>ตัวอย่างแตกต่าง</option>
-          </select>
-        </label>
-        <label>พารามิเตอร์ที่สนใจ
-          <select name="param">
-            <option value="mean">ค่าเฉลี่ย (µ)</option>
-            <option value="proportion">สัดส่วน (p)</option>
-            <option value="variance">ความแปรปรวน (σ²)</option>
-          </select>
-        </label>
-        <label>ระดับนัยสำคัญ
-          <select name="alpha">
-            <option value="0.10">10%</option>
-            <option value="0.05" selected>5%</option>
-            <option value="0.01">1%</option>
-          </select>
-        </label>
-        <button type="submit">สร้างคำอธิบาย</button>
-      </form>
-      <div class="result-box" id="testDirectionResult">
-        <strong>ผลลัพธ์จะปรากฏที่นี่</strong>
-        <p class="muted">ระบบจะช่วยแปลงข้อกล่าวอ้างเป็น $H_0$/$H_a$ พร้อมเตือนเรื่องข้อผิดพลาดที่เกี่ยวข้อง</p>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>ข้อผิดพลาดที่ควรจำ</h2>
+      <h2>2. คู่ความในศาล: สมมติฐานหลัก (H₀) และ สมมติฐานแย้ง (H₁)</h2>
+      <p>ในทุกคดีความ จะต้องมีคู่กรณี 2 ฝ่ายเสมอ ในศาลสถิติก็เช่นกันครับ:</p>
       <ul>
-        <li><strong>Type I error:</strong> ปฏิเสธ $H_0$ ทั้งที่จริง $H_0$ เป็นจริง โอกาสเท่ากับ $\alpha$</li>
-        <li><strong>Type II error:</strong> ไม่ปฏิเสธ $H_0$ ทั้งที่จริง $H_a$ เป็นจริง</li>
-        <li>ลด Type II error ได้ด้วยการเพิ่มขนาดตัวอย่างหรือเลือกการทดสอบที่มีพลังสูงขึ้น</li>
+        <li><strong>สมมติฐานหลัก (Null Hypothesis: H₀)</strong>
+          <ul>
+            <li>เปรียบเสมือน "จำเลย" ในคดี ซึ่งตามหลักการแล้ว เราจะ สันนิษฐานไว้ก่อนว่าจำเลยเป็นผู้บริสุทธิ์ (Innocent until proven guilty)</li>
+            <li>มันคือคำกล่าวอ้างดั้งเดิม, สภาพปกติ, หรือสิ่งที่คนเชื่อกันอยู่แล้ว (Status Quo)</li>
+            <li>มักจะมีเครื่องหมาย =, ≤, หรือ ≥ อยู่เสมอ (แสดงถึงการไม่มีการเปลี่ยนแปลง)</li>
+            <li>ตัวอย่าง: H₀: μ = 15 นาที (ยาออกฤทธิ์เฉลี่ย 15 นาที ตามที่อ้าง)</li>
+          </ul>
+        </li>
+        <li><strong>สมมติฐานแย้ง (Alternative Hypothesis: H₁ หรือ Hₐ)</strong>
+          <ul>
+            <li>เปรียบเสมือน "โจทย์" หรือ "อัยการ" ที่พยายามหาหลักฐานมาหักล้างความบริสุทธิ์ของจำเลย</li>
+            <li>มันคือสิ่งที่นักวิจัยอยากจะพิสูจน์, เป็นคำกล่าวอ้างใหม่ที่น่าสนใจ</li>
+            <li>มักจะมีเครื่องหมาย ≠, &lt;, หรือ &gt; อยู่เสมอ</li>
+            <li>ตัวอย่าง: H₁: μ ≠ 15 นาที (ยาออกฤทธิ์เฉลี่ย ไม่ใช่ 15 นาที)</li>
+          </ul>
+        </li>
       </ul>
+      <p>หลักการสำคัญ: เราจะตั้งธงเชื่อ H₀ ไว้ก่อนเสมอ และจะทำการ "ปฏิเสธ" H₀ ก็ต่อเมื่อเรามีหลักฐาน (จากข้อมูลตัวอย่าง) ที่หนักแน่นและชัดเจนจริงๆ เท่านั้น</p>
+    </section>
+
+    <section class="card">
+      <h2>3. คำตัดสินที่อาจผิดพลาด: Type I &amp; Type II Error</h2>
+      <p>การตัดสินคดีความย่อมมีโอกาสผิดพลาดได้ ในศาลสถิติก็เช่นกัน:</p>
+      <div class="matrix">
+        <div class="cell header">ความจริง</div>
+        <div class="cell header">คำตัดสินของเรา</div>
+        <div class="cell header">ผลลัพธ์</div>
+        <div class="cell">
+          <strong>H₀ จริง</strong>
+        </div>
+        <div class="cell">
+          <strong>ปฏิเสธ H₀</strong>
+        </div>
+        <div class="cell" id="typeIBox">
+          <strong>Type I Error (α)</strong>
+          <p>คือการ "ปฏิเสธ" H₀ ทั้งๆ ที่ H₀ เป็นเรื่องจริง</p>
+          <p>เปรียบเทียบ: ตัดสินว่า "จำเลยผิด" ทั้งๆ ที่ "จำเลยเป็นผู้บริสุทธิ์" 😱</p>
+        </div>
+        <div class="cell">
+          <strong>H₀ จริง</strong>
+        </div>
+        <div class="cell">
+          <strong>ไม่ปฏิเสธ H₀</strong>
+        </div>
+        <div class="cell">
+          <strong>ถูกต้อง</strong>
+        </div>
+        <div class="cell">
+          <strong>H₀ เท็จ</strong>
+        </div>
+        <div class="cell">
+          <strong>ไม่ปฏิเสธ H₀</strong>
+        </div>
+        <div class="cell" id="typeIibox">
+          <strong>Type II Error (β)</strong>
+          <p>คือการ "ไม่ปฏิเสธ" H₀ ทั้งๆ ที่ H₀ เป็นเรื่องเท็จ</p>
+          <p>เปรียบเทียบ: "ปล่อยตัวจำเลย" ทั้งๆ ที่ "จำเลยทำผิดจริง" 🤦‍♂️</p>
+        </div>
+      </div>
+      <p>ความน่าจะเป็นที่จะเกิดความผิดพลาดชนิดที่ 1 คือ ระดับนัยสำคัญ (Significance Level, α) ส่วนความผิดพลาดชนิดที่ 2 มีสัญลักษณ์เป็น β</p>
+    </section>
+
+    <section class="card grid-two">
+      <article>
+        <h2>4. ประเภทของคดี: การทดสอบแบบสองหางและหางเดียว</h2>
+        <p>ลักษณะของ "สมมติฐานแย้ง" (H₁) จะเป็นตัวกำหนดว่าคดีของเราเป็นการทดสอบแบบไหน:</p>
+        <ul>
+          <li>การทดสอบแบบสองหาง (Two-tailed test): เมื่อเราสนใจแค่ว่ามัน "แตกต่าง" หรือ "ไม่เท่ากับ" → H₁: μ ≠ 15</li>
+          <li>การทดสอบแบบหางเดียว (One-tailed test):
+            <ul>
+              <li>แบบขวา (Right-tailed): H₁: μ &gt; 15</li>
+              <li>แบบซ้าย (Left-tailed): H₁: μ &lt; 15</li>
+            </ul>
+          </li>
+        </ul>
+        <p>พื้นที่ปฏิเสธจะอยู่ที่ปลายหางที่เกี่ยวข้องของโค้ง</p>
+      </article>
+      <article>
+        <div class="viz">
+          <h3>สำรวจพื้นที่ปฏิเสธ</h3>
+          <p class="muted">เลือกประเภทการทดสอบเพื่อดูตำแหน่งพื้นที่ปฏิเสธ (rejection region) ในการแจกแจงปกติ</p>
+          <canvas id="htChart" width="640" height="320" aria-label="กราฟพื้นที่ปฏิเสธ"></canvas>
+          <div class="controls">
+            <label for="testType">ประเภทการทดสอบ
+              <select id="testType">
+                <option value="two">สองหาง</option>
+                <option value="right">หางขวา</option>
+                <option value="left">หางซ้าย</option>
+              </select>
+            </label>
+            <label for="alphaSelect">ระดับนัยสำคัญ (α)
+              <select id="alphaSelect">
+                <option value="0.10">0.10</option>
+                <option value="0.05" selected>0.05</option>
+                <option value="0.01">0.01</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>5. สรุปขั้นตอนเบื้องต้น</h2>
+      <div class="note-box">
+        <p>บทเรียนนี้เป็นการวางรากฐานที่สำคัญของการทดสอบสมมติฐาน เราได้เรียนรู้:</p>
+        <ul>
+          <li>วิธีการตั้ง "สำนวนคดี" (H₀ และ H₁)</li>
+          <li>ความเสี่ยงของการตัดสินใจผิดพลาด (Type I &amp; II Error)</li>
+          <li>ประเภทของคดี (หางเดียว/สองหาง)</li>
+        </ul>
+        <p>ในบทเรียนถัดไป เราจะมาดู "กระบวนการพิจารณาคดี" กันครับ ว่าเราจะใช้ "หลักฐาน" (ค่าสถิติทดสอบ) มานำสู่ "คำตัดสิน" ได้อย่างไร ซึ่งมี 2 วิธีหลักๆ คือการใช้ Critical Value และ p-value ครับ</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>ฝึกตั้งสมมติฐาน</h2>
+      <p>ลองเขียนสถานการณ์ที่คุณอยากทดสอบ แล้วระบบจะช่วยโครงสร้าง H₀ และ H₁ แบบอัตโนมัติ</p>
+      <div class="scenario">
+        <textarea id="scenarioInput" placeholder="เช่น ร้านกาแฟอ้างว่าระยะเวลารอคิวน้อยกว่า 5 นาที"></textarea>
+        <button id="generateHypothesis">สร้าง H₀ / H₁</button>
+      </div>
+      <div class="result-box" id="scenarioResult">
+        <strong>ผลลัพธ์:</strong>
+        <p>กรอกสถานการณ์เพื่อดูข้อเสนอสำหรับสมมติฐาน</p>
+      </div>
     </section>
   </main>
 
   <script>
-    const testDirectionForm = document.getElementById('testDirectionForm');
-    const testDirectionResult = document.getElementById('testDirectionResult');
+    const htCanvas = document.getElementById('htChart');
+    const htCtx = htCanvas.getContext('2d');
+    const testType = document.getElementById('testType');
+    const alphaSelect = document.getElementById('alphaSelect');
 
-    const paramSymbol = {
-      mean: '\\mu',
-      proportion: 'p',
-      variance: '\\sigma^2'
-    };
+    function normalDensity(x) {
+      return Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+    }
 
-    testDirectionForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const form = new FormData(testDirectionForm);
-      const claim = form.get('claim');
-      const param = form.get('param');
-      const alpha = Number(form.get('alpha'));
-      const symbol = paramSymbol[param];
+    function erfinv(x) {
+      const a = 0.147;
+      const ln = Math.log(1 - x * x);
+      const first = 2 / (Math.PI * a) + ln / 2;
+      const second = ln / a;
+      return Math.sign(x) * Math.sqrt(Math.sqrt(first * first - second) - first);
+    }
 
-      let h0, ha, directionText;
-      if (claim === 'greater') {
-        h0 = `${symbol} \leq ${symbol}_0`;
-        ha = `${symbol} > ${symbol}_0`;
-        directionText = 'ทดสอบด้านขวา (Right-tailed)';
-      } else if (claim === 'less') {
-        h0 = `${symbol} \geq ${symbol}_0`;
-        ha = `${symbol} < ${symbol}_0`;
-        directionText = 'ทดสอบด้านซ้าย (Left-tailed)';
-      } else {
-        h0 = `${symbol} = ${symbol}_0`;
-        ha = `${symbol} \neq ${symbol}_0`;
-        directionText = 'ทดสอบสองด้าน (Two-tailed)';
+    function invNorm(p) {
+      return Math.sqrt(2) * erfinv(2 * p - 1);
+    }
+
+    function criticalValue(alpha, type) {
+      if (type === 'two') {
+        const z = invNorm(1 - alpha / 2);
+        return { left: -z, right: z };
+      }
+      const z = invNorm(1 - alpha);
+      return { left: type === 'left' ? -z : null, right: type === 'right' ? z : null };
+    }
+
+    function drawHT() {
+      const width = htCanvas.width;
+      const height = htCanvas.height;
+      htCtx.clearRect(0, 0, width, height);
+      const minX = -4;
+      const maxX = 4;
+      const step = (maxX - minX) / width;
+      let maxY = 0;
+      for (let i = 0; i <= width; i++) {
+        const x = minX + i * step;
+        maxY = Math.max(maxY, normalDensity(x));
+      }
+      htCtx.beginPath();
+      for (let i = 0; i <= width; i++) {
+        const x = minX + i * step;
+        const y = normalDensity(x);
+        const scaledY = height - (y / maxY) * (height * 0.85);
+        if (i === 0) htCtx.moveTo(i, scaledY);
+        else htCtx.lineTo(i, scaledY);
+      }
+      htCtx.strokeStyle = 'rgba(102, 242, 255, 0.9)';
+      htCtx.lineWidth = 2;
+      htCtx.stroke();
+
+      const alpha = Number(alphaSelect.value);
+      const type = testType.value;
+      const crit = criticalValue(alpha, type);
+
+      function fillRegion(start, end, color) {
+        if (start >= end) return;
+        const startIndex = Math.max(0, Math.floor(((start - minX) / (maxX - minX)) * width));
+        const endIndex = Math.min(width, Math.ceil(((end - minX) / (maxX - minX)) * width));
+        htCtx.beginPath();
+        htCtx.moveTo((start - minX) / (maxX - minX) * width, height);
+        for (let i = startIndex; i <= endIndex; i++) {
+          const x = minX + i * step;
+          const y = normalDensity(x);
+          const scaledY = height - (y / maxY) * (height * 0.85);
+          htCtx.lineTo(i, scaledY);
+        }
+        htCtx.lineTo((end - minX) / (maxX - minX) * width, height);
+        htCtx.closePath();
+        htCtx.fillStyle = color;
+        htCtx.fill();
       }
 
-      const type1 = (alpha * 100).toFixed(1);
+      if (type === 'two') {
+        const z = crit.right;
+        const leftStart = minX;
+        const leftEnd = -z;
+        const rightStart = z;
+        const rightEnd = maxX;
+        fillRegion(leftStart, leftEnd, 'rgba(255, 179, 71, 0.25)');
+        fillRegion(rightStart, rightEnd, 'rgba(255, 179, 71, 0.25)');
+      } else if (type === 'right' && crit.right !== null) {
+        fillRegion(crit.right, maxX, 'rgba(255, 179, 71, 0.25)');
+      } else if (type === 'left' && crit.left !== null) {
+        fillRegion(minX, crit.left, 'rgba(255, 179, 71, 0.25)');
+      }
+    }
 
-      testDirectionResult.innerHTML = `
-        <strong>${directionText}</strong>
-        <p>$H_0: ${h0}$</p>
-        <p>$H_a: ${ha}$</p>
-        <p class="muted">Type I error = ${type1}% — ระวังการปฏิเสธ $H_0$ ผิดพลาดเมื่อข้อมูลผันผวน</p>
+    [testType, alphaSelect].forEach((el) => el.addEventListener('change', drawHT));
+    drawHT();
+
+    const generateHypothesis = document.getElementById('generateHypothesis');
+    const scenarioInput = document.getElementById('scenarioInput');
+    const scenarioResult = document.getElementById('scenarioResult');
+
+    generateHypothesis.addEventListener('click', () => {
+      const text = scenarioInput.value.trim();
+      if (!text) {
+        scenarioResult.innerHTML = '<p>กรุณาใส่สถานการณ์ก่อน</p>';
+        return;
+      }
+
+      const keywords = [
+        { pattern: /มากกว่|สูงกว่|เพิ่มขึ้น/i, left: '≥', right: '>' },
+        { pattern: /น้อยกว่|ลดลง|ต่ำกว่/i, left: '≤', right: '<' },
+        { pattern: /เท่ากัน|ไม่ต่าง/i, left: '=', right: '≠' }
+      ];
+
+      let symbol = keywords.find((k) => k.pattern.test(text)) || keywords[2];
+      const parameter = /เปอร์เซ็น|สัดส่วน/i.test(text) ? 'p' : 'μ';
+      const baselineMatch = text.match(/\d+(\.\d+)?/);
+      const baseline = baselineMatch ? baselineMatch[0] : 'ค่าที่ประกาศ';
+
+      scenarioResult.innerHTML = `
+        <strong>ข้อเสนอสมมติฐาน:</strong>
+        <p>H₀: ${parameter} ${symbol.left} ${baseline}</p>
+        <p>H₁: ${parameter} ${symbol.right} ${baseline}</p>
+        <p class="muted">ตรวจสอบให้ตรงกับโจทย์จริง แล้วจึงเลือกสถิติทดสอบที่เหมาะสม</p>
       `;
       if (window.MathJax?.typeset) {
-        MathJax.typeset([testDirectionResult]);
+        MathJax.typeset([scenarioResult]);
       }
     });
   </script>
