@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 30: การทดสอบอัตราส่วนความแปรปรวน (F-test)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #0069c0;
+      --accent-light: #64b5f6;
+      --accent-dark: #01579b;
+      --card-bg: rgba(227, 242, 253, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 15% 18%, rgba(100,181,246,0.28), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(0,105,192,0.2), transparent 60%),
+                  linear-gradient(180deg, rgba(225,245,254,0.92), rgba(232,245,255,0.9));
+    }
+    main.container { max-width: 1100px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(1,87,155,0.24); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.4), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(1,87,155,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+    .badge { background: rgba(0,105,192,0.16); color: var(--accent-dark); padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
+    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(1,105,205,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(1,87,155,0.22); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(1,87,155,0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(187,222,251,0.6); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(225,245,254,0.6); }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">F-test</span>
+      <h1>บทที่ 30: การทดสอบอัตราส่วนความแปรปรวน (F-test)</h1>
+      <p>ใช้สำหรับเปรียบเทียบความแปรปรวนของสองประชากร โดยสมมติฐานพื้นฐานคือข้อมูลทั้งสองกลุ่มมาจากประชากรปกติ.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. สมมติฐาน</h2>
+      <p>\(H_0: \sigma_1^2 = \sigma_2^2\)</p>
+      <p>สถิติทดสอบ: \( F = \frac{s_1^2}{s_2^2} \) (โดยกำหนดให้ s₁² ≥ s₂² หรือระบุอัตราส่วนที่คาดไว้)</p>
+    </section>
+
+    <section class="card">
+      <h2>2. เครื่องมือคำนวณ</h2>
+      <div class="calculator">
+        <div class="grid two">
+          <div>
+            <label>s₁
+              <input type="number" id="sd1" value="9.2" step="0.01" min="0" />
+            </label>
+            <label>n₁
+              <input type="number" id="n1" value="25" min="2" />
+            </label>
+          </div>
+          <div>
+            <label>s₂
+              <input type="number" id="sd2" value="7.5" step="0.01" min="0" />
+            </label>
+            <label>n₂
+              <input type="number" id="n2" value="22" min="2" />
+            </label>
+          </div>
+        </div>
+        <label>อัตราส่วนที่คาด (\(\sigma_1^2/\sigma_2^2\))
+          <input type="number" id="ratio" value="1" step="0.01" min="0.0001" />
+        </label>
+        <label>ระดับนัยสำคัญ (α)
+          <input type="range" id="alpha" min="1" max="15" value="5" />
+        </label>
+        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <label>รูปแบบ H₁
+          <select id="tail">
+            <option value="two">≠</option>
+            <option value="right">> (σ₁²/σ₂² มากกว่า ratio)</option>
+            <option value="left">< (σ₁²/σ₂² น้อยกว่า ratio)</option>
+          </select>
+        </label>
+        <button id="calc">คำนวณผล</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="f-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>3. Checklist</h2>
+      <ul>
+        <li>✅ ทั้งสองกลุ่มมาจากประชากรปกติ</li>
+        <li>✅ กำหนดว่า σ₁² เป็นของกลุ่มใด (ควรเลือกกลุ่มที่มี s² มากกว่า)</li>
+        <li>✅ รายงาน F, df₁, df₂, p-value</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const sd1Input = document.getElementById('sd1');
+    const n1Input = document.getElementById('n1');
+    const sd2Input = document.getElementById('sd2');
+    const n2Input = document.getElementById('n2');
+    const ratioInput = document.getElementById('ratio');
+    const alphaInput = document.getElementById('alpha');
+    const alphaText = document.getElementById('alpha-text');
+    const tailSelect = document.getElementById('tail');
+    const calcBtn = document.getElementById('calc');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('f-chart');
+    let chart;
+
+    function critical(alpha, tail, df1, df2) {
+      if (tail === 'two') {
+        return {
+          lower: jStat.centralF.inv(alpha / 2, df1, df2),
+          upper: jStat.centralF.inv(1 - alpha / 2, df1, df2)
+        };
+      }
+      if (tail === 'right') {
+        return {
+          lower: jStat.centralF.inv(alpha, df1, df2),
+          upper: jStat.centralF.inv(1 - alpha, df1, df2)
+        };
+      }
+      return {
+        lower: jStat.centralF.inv(alpha, df1, df2),
+        upper: jStat.centralF.inv(1 - alpha, df1, df2)
+      };
+    }
+
+    function pValue(stat, tail, df1, df2) {
+      if (tail === 'two') {
+        const upperTail = 1 - jStat.centralF.cdf(stat, df1, df2);
+        const lowerTail = jStat.centralF.cdf(stat, df1, df2);
+        return stat > 1 ? 2 * upperTail : 2 * lowerTail;
+      }
+      if (tail === 'right') {
+        return 1 - jStat.centralF.cdf(stat, df1, df2);
+      }
+      return jStat.centralF.cdf(stat, df1, df2);
+    }
+
+    function updateChart(stat, critBounds, tail, df1, df2) {
+      const maxX = Math.max(critBounds.upper * 1.3, stat * 1.2, 5);
+      const points = 240;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      const statLine = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = (maxX * i) / points;
+        const density = jStat.centralF.pdf(x, df1, df2);
+        labels.push(x.toFixed(2));
+        base.push(density);
+        let inCritical = false;
+        if (tail === 'two') {
+          inCritical = x <= critBounds.lower || x >= critBounds.upper;
+        } else if (tail === 'right') {
+          inCritical = x >= critBounds.upper;
+        } else {
+          inCritical = x <= critBounds.lower;
+        }
+        highlight.push(inCritical ? density : null);
+        statLine.push(Math.abs(x - stat) < maxX / points ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: `F(df₁=${df1}, df₂=${df2})`,
+              data: base,
+              borderColor: 'rgba(1,87,155,0.45)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'พื้นที่วิกฤติ',
+              data: highlight,
+              borderColor: 'rgba(79,195,247,0.95)',
+              backgroundColor: 'rgba(129,212,250,0.35)',
+              borderWidth: 0,
+              pointRadius: 0,
+              fill: true
+            },
+            {
+              label: 'สถิติทดสอบ',
+              data: statLine,
+              borderColor: 'rgba(255,143,0,0.9)',
+              backgroundColor: 'rgba(255,183,77,0.6)',
+              borderWidth: 2,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#01579b' } } },
+          scales: {
+            x: { title: { display: true, text: 'ค่า F', color: '#01579b' }, ticks: { color: '#01579b' } },
+            y: { title: { display: true, text: 'ความหนาแน่น', color: '#01579b' }, ticks: { color: '#01579b' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const s1 = Math.max(parseFloat(sd1Input.value), 1e-6);
+      const s2 = Math.max(parseFloat(sd2Input.value), 1e-6);
+      const n1 = Math.max(parseInt(n1Input.value, 10), 2);
+      const n2 = Math.max(parseInt(n2Input.value, 10), 2);
+      const ratio = Math.max(parseFloat(ratioInput.value), 1e-6);
+      n1Input.value = n1; n2Input.value = n2; ratioInput.value = ratio;
+      const df1 = n1 - 1;
+      const df2 = n2 - 1;
+      const alpha = parseInt(alphaInput.value, 10) / 100;
+      alphaText.textContent = alpha.toFixed(2);
+      const tail = tailSelect.value;
+      const stat = (s1 * s1) / (s2 * s2 * ratio);
+      const critBounds = critical(alpha, tail, df1, df2);
+      const p = pValue(stat, tail, df1, df2);
+      let reject;
+      if (tail === 'two') {
+        reject = stat <= critBounds.lower || stat >= critBounds.upper;
+      } else if (tail === 'right') {
+        reject = stat >= critBounds.upper;
+      } else {
+        reject = stat <= critBounds.lower;
+      }
+
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลการทดสอบ</strong>
+        <span>F = ${stat.toFixed(3)} | df₁ = ${df1}, df₂ = ${df2}</span>
+        <span>Critical bounds: [${critBounds.lower.toFixed(3)}, ${critBounds.upper.toFixed(3)}]</span>
+        <span>p-value ≈ ${p.toFixed(4)}</span>
+        <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
+      `;
+
+      updateChart(stat, critBounds, tail, df1, df2);
+    }
+
+    [sd1Input, sd2Input, n1Input, n2Input, ratioInput, tailSelect].forEach(el => el.addEventListener('input', calculate));
+    alphaInput.addEventListener('input', calculate);
+    calcBtn.addEventListener('click', calculate);
+
+    calculate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 20: ช่วงความเชื่อมั่นผลต่างสัดส่วน</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #c62828;
+      --accent-light: #ef5350;
+      --accent-dark: #b71c1c;
+      --card-bg: rgba(255, 235, 238, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 15% 20%, rgba(239,83,80,0.28), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(198,40,40,0.18), transparent 60%),
+                  linear-gradient(180deg, rgba(255,235,238,0.92), rgba(255,245,245,0.9));
+    }
+    main.container { max-width: 1120px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(198,40,40,0.22); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 18%, rgba(255,255,255,0.45), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(183,28,28,0.12); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    section.card h2 { color: var(--accent); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
+    .badge { background: rgba(183,28,28,0.12); color: var(--accent-dark); padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    .grid { display: grid; gap: 1.2rem; }
+    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(255,205,210,0.85); border: 1px solid rgba(198,40,40,0.18); display: grid; gap: 0.6rem; }
+    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    .highlight { border-left: 6px solid var(--accent); padding: 1rem 1.25rem; background: rgba(229,57,53,0.12); border-radius: 18px; line-height: 1.7; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
+    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(198,40,40,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(198,40,40,0.2); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 1.2rem 1.4rem; border: 1px solid rgba(229,57,53,0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(229,57,53,0.12); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(255,205,210,0.6); }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">Difference in Proportions</span>
+      <h1>บทที่ 20: ช่วงความเชื่อมั่นของผลต่างสัดส่วนสองประชากร (p₁ − p₂)</h1>
+      <p>เปรียบเทียบอัตราหรือสัดส่วนระหว่างสองกลุ่ม เช่น ความพึงพอใจของลูกค้าในสองสาขา หรือเปอร์เซ็นต์ผู้ตอบรับการรักษาในสองวิธีการ.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. แนวคิดและเงื่อนไข</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>ผลต่างสัดส่วน</strong>
+          <p>\(p_1 - p_2\) บอกส่วนต่างของสัดส่วนประชากรสองกลุ่ม เราประมาณด้วย \(\hat{p}_1 - \hat{p}_2\) โดย \(\hat{p}_i = x_i / n_i\).</p>
+          <ul>
+            <li>ข้อมูลทุกรายการเป็น binary (สำเร็จ/ล้มเหลว)</li>
+            <li>ตัวอย่างของแต่ละกลุ่มเป็นอิสระกัน</li>
+            <li>เงื่อนไขขนาดตัวอย่าง: \(n_i \hat{p}_i ≥ 10\) และ \(n_i(1-\hat{p}_i) ≥ 10\)</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>สูตรมาตรฐาน</strong>
+          <p>\[
+            (\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2} \sqrt{ \dfrac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \dfrac{\hat{p}_2(1-\hat{p}_2)}{n_2} }
+          \]</p>
+          <p>ใช้ z-critical เนื่องจากผลต่างของสัดส่วนมีการแจกแจงใกล้ปกติเมื่อขนาดตัวอย่างเพียงพอ.</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <strong>หมายเหตุ</strong> ช่วงที่ได้อาจเกินขอบเขต [-1, 1] ในบางกรณี หากต้องการช่วงที่คุมค่าสมดุลยิ่งขึ้นให้ใช้ Newcombe หรือ Wilson-based approaches.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. เครื่องคำนวณช่วงความเชื่อมั่นผลต่างสัดส่วน</h2>
+      <p>กรอกจำนวนสำเร็จและขนาดตัวอย่างของทั้งสองกลุ่มเพื่อสร้างช่วง พร้อมดูกราฟประกอบการตีความ.</p>
+      <div class="calculator">
+        <div class="grid two">
+          <div>
+            <label>จำนวนสำเร็จในกลุ่ม 1 (x₁)
+              <input type="number" id="x1" value="120" min="0" />
+            </label>
+            <label>ขนาดตัวอย่างกลุ่ม 1 (n₁)
+              <input type="number" id="n1" value="300" min="1" />
+            </label>
+          </div>
+          <div>
+            <label>จำนวนสำเร็จในกลุ่ม 2 (x₂)
+              <input type="number" id="x2" value="95" min="0" />
+            </label>
+            <label>ขนาดตัวอย่างกลุ่ม 2 (n₂)
+              <input type="number" id="n2" value="260" min="1" />
+            </label>
+          </div>
+        </div>
+        <label>ระดับความเชื่อมั่น (%)
+          <input type="range" id="conf" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่นปัจจุบัน: <span id="conf-text">95%</span></div>
+        <button id="calc">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="diff-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>3. การตีความผลลัพธ์</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>สถานการณ์</th>
+            <th>ข้อมูล</th>
+            <th>ช่วง 95%</th>
+            <th>ข้อสรุป</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ยอดผู้ตอบรับโปรโมชั่น A vs B</td>
+            <td>\(\hat{p}_1=0.40, \hat{p}_2=0.32\)</td>
+            <td>[0.02, 0.14]</td>
+            <td>กลุ่ม A น่าจะมีอัตราตอบรับมากกว่า 2–14 จุดเปอร์เซ็นต์</td>
+          </tr>
+          <tr>
+            <td>อัตราการหายของยาใหม่เทียบมาตรฐาน</td>
+            <td>\(\hat{p}_1=0.78, \hat{p}_2=0.71\)</td>
+            <td>[-0.01, 0.15]</td>
+            <td>ช่วงครอบคลุม 0 → ยังไม่สามารถสรุปว่ายาใหม่ดีกว่าอย่างมีนัยสำคัญ</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. Checklist ก่อนรายงาน</h2>
+      <ul>
+        <li>✅ ตัวอย่างของแต่ละกลุ่มสุ่มและเป็นอิสระ</li>
+        <li>✅ เงื่อนไข \(n_i\hat{p}_i\) และ \(n_i(1-\hat{p}_i)\) ผ่าน</li>
+        <li>✅ ระบุวิธีการและระดับความเชื่อมั่น</li>
+        <li>✅ ตีความในรูป “ความแตกต่างของอัตรา/เปอร์เซ็นต์”</li>
+        <li>✅ ชี้ว่าช่วงครอบคลุม 0 หรือไม่ (เกี่ยวข้องกับการทดสอบสมมติฐาน)</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const x1Input = document.getElementById('x1');
+    const n1Input = document.getElementById('n1');
+    const x2Input = document.getElementById('x2');
+    const n2Input = document.getElementById('n2');
+    const confInput = document.getElementById('conf');
+    const confText = document.getElementById('conf-text');
+    const calcBtn = document.getElementById('calc');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('diff-chart');
+    let chart;
+
+    function updateChart(mean, se, lower, upper) {
+      const points = 200;
+      const range = 6 * se;
+      const start = mean - range / 2;
+      const end = mean + range / 2;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = start + ((end - start) * i) / points;
+        const std = (x - mean) / (se || 1e-6);
+        const density = jStat.normal.pdf(std, 0, 1) / (se || 1e-6);
+        labels.push(x.toFixed(3));
+        base.push(density);
+        highlight.push(x >= lower && x <= upper ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Sampling distribution approx',
+              data: base,
+              borderColor: 'rgba(198,40,40,0.45)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: highlight,
+              borderColor: 'rgba(239,83,80,0.95)',
+              backgroundColor: 'rgba(239,83,80,0.35)',
+              borderWidth: 2.4,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#b71c1c' } } },
+          scales: {
+            x: { title: { display: true, text: 'ผลต่างสัดส่วน (p₁ − p₂)', color: '#b71c1c' }, ticks: { color: '#b71c1c' } },
+            y: { title: { display: true, text: 'ความหนาแน่นโดยประมาณ', color: '#b71c1c' }, ticks: { color: '#b71c1c' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const x1 = Math.max(parseInt(x1Input.value, 10), 0);
+      const n1 = Math.max(parseInt(n1Input.value, 10), 1);
+      const x2 = Math.max(parseInt(x2Input.value, 10), 0);
+      const n2 = Math.max(parseInt(n2Input.value, 10), 1);
+      const confidence = parseInt(confInput.value, 10) / 100;
+      const alpha = 1 - confidence;
+      const z = jStat.normal.inv(1 - alpha / 2, 0, 1);
+      const p1 = x1 / n1;
+      const p2 = x2 / n2;
+      const diff = p1 - p2;
+      const se = Math.sqrt((p1 * (1 - p1)) / n1 + (p2 * (1 - p2)) / n2);
+      const margin = z * se;
+      const lower = diff - margin;
+      const upper = diff + margin;
+
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลลัพธ์</strong>
+        <span>\u005Chat{p}_1 = ${(p1 * 100).toFixed(2)}% (${x1}/${n1}) | \u005Chat{p}_2 = ${(p2 * 100).toFixed(2)}% (${x2}/${n2})</span>
+        <span>ผลต่างตัวอย่าง = ${(diff * 100).toFixed(2)} จุดเปอร์เซ็นต์</span>
+        <span>ระดับความเชื่อมั่น ${(confidence * 100).toFixed(1)}% | z_{\alpha/2} = ${z.toFixed(3)}</span>
+        <span>ช่วงความเชื่อมั่น = [${(lower * 100).toFixed(2)}, ${(upper * 100).toFixed(2)}] จุดเปอร์เซ็นต์</span>
+        <span class="note">ตีความ: เรามั่นใจ ${(confidence * 100).toFixed(1)}% ว่าผลต่างสัดส่วนจริงอยู่ในช่วงนี้</span>
+      `;
+
+      updateChart(diff, se, lower, upper);
+    }
+
+    confInput.addEventListener('input', () => { confText.textContent = `${confInput.value}%`; });
+    [x1Input, n1Input, x2Input, n2Input].forEach(el => el.addEventListener('input', calculate));
+    confInput.addEventListener('change', calculate);
+    calcBtn.addEventListener('click', calculate);
+
+    calculate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 17: ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยเดียว</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #00695c;
+      --accent-light: #4db6ac;
+      --accent-dark: #004d40;
+      --card-bg: rgba(236, 253, 245, 0.92);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 12% 18%, rgba(77, 182, 172, 0.28), transparent 65%),
+                  radial-gradient(circle at 82% 12%, rgba(0, 105, 92, 0.18), transparent 60%),
+                  linear-gradient(180deg, rgba(232, 245, 233, 0.9), rgba(224, 242, 241, 0.94));
+      min-height: 100vh;
+    }
+    main.container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.5rem);
+      display: grid;
+      gap: 2.2rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      padding: clamp(2.6rem, 6vw, 4rem);
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 54px rgba(0, 105, 92, 0.26);
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 78% 20%, rgba(255,255,255,0.45), transparent 55%),
+                  radial-gradient(circle at 15% 75%, rgba(255,255,255,0.28), transparent 70%);
+    }
+    header.hero h1 {
+      font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem);
+      margin-bottom: 0.75rem;
+    }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card {
+      background: var(--card-bg);
+      border-radius: 26px;
+      padding: clamp(1.8rem, 4vw, 2.6rem);
+      box-shadow: 0 20px 36px rgba(0, 96, 86, 0.12);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.1rem;
+    }
+    section.card h2 {
+      color: var(--accent);
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0;
+    }
+    .badge {
+      background: rgba(0, 77, 64, 0.12);
+      color: var(--accent);
+      padding: 0.18rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .grid { display: grid; gap: 1.2rem; }
+    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition {
+      padding: 1.35rem 1.6rem;
+      border-radius: 20px;
+      background: rgba(224, 242, 241, 0.85);
+      border: 1px solid rgba(0, 121, 107, 0.2);
+      display: grid;
+      gap: 0.6rem;
+    }
+    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    .highlight {
+      border-left: 6px solid var(--accent);
+      padding: 1rem 1.25rem;
+      background: rgba(0, 105, 92, 0.1);
+      border-radius: 18px;
+      line-height: 1.7;
+    }
+    .note { color: var(--accent-dark); font-size: 0.95rem; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); }
+    .calculator input, .calculator select {
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 105, 92, 0.28);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.92);
+    }
+    .calculator button {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: #fff;
+      border: 0;
+      border-radius: 14px;
+      padding: 0.85rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0, 105, 92, 0.22); }
+    .result-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid rgba(0, 105, 92, 0.2);
+      display: grid;
+      gap: 0.6rem;
+    }
+    canvas { background: rgba(255,255,255,0.85); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(0, 77, 64, 0.12); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(224, 242, 241, 0.6); }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">ช่วงความเชื่อมั่น (Confidence Interval)</span>
+      <h1>บทที่ 17: ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยประชากรเดียว (μ)</h1>
+      <p>เจาะลึกวิธีประมาณค่าเฉลี่ยของประชากรจากข้อมูลตัวอย่าง พร้อมทำความเข้าใจการเลือกสถิติอ้างอิง (z หรือ t) การตีความ และการสื่อสารผลลัพธ์ให้เข้าใจง่ายผ่านเครื่องมือเชิงโต้ตอบ.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. ภาพรวมและเงื่อนไขการใช้งาน</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>เหตุผลที่ใช้ช่วงความเชื่อมั่น</strong>
+          <p>เราไม่มีทางรู้ค่าเฉลี่ยจริงของประชากร (μ) ได้โดยตรง จึงใช้ตัวอย่างมาประมาณและสร้าง <em>ช่วง</em> ที่น่าจะครอบคลุมค่าแท้จริงด้วยระดับความเชื่อมั่นที่กำหนด เช่น 95%.</p>
+          <ul>
+            <li>ใช้เมื่อมีข้อมูลเชิงปริมาณ (scale/interval)</li>
+            <li>สุ่มตัวอย่างอย่างเป็นอิสระ</li>
+            <li>ขนาดตัวอย่างค่อนข้างใหญ่ หรือข้อมูลใกล้เคียงปกติ</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>เลือกใช้สถิติอ้างอิงแบบใด?</strong>
+          <p>ตัวเลือกหลักขึ้นกับการรู้หรือไม่รู้ส่วนเบี่ยงเบนมาตรฐานของประชากร (σ) และขนาดตัวอย่าง:</p>
+          <ul>
+            <li><strong>ทราบ σ</strong> → ใช้การแจกแจงปกติมาตรฐาน (z)</li>
+            <li><strong>ไม่ทราบ σ</strong> → ใช้ส่วนเบี่ยงเบนมาตรฐานตัวอย่าง (s) และอ้างอิง t ที่ df = n − 1</li>
+            <li>เมื่อ n ≥ 30 การแจกแจง t ใกล้เคียง z มาก</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรและขั้นตอนคำนวณ</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>สูตรทั่วไป</strong>
+          <p>ช่วงความเชื่อมั่นสำหรับค่าเฉลี่ยมีรูปแบบ <code>สถิติประมาณ ± ค่าขอบเขตผิดพลาด</code></p>
+          <ul>
+            <li><span class="badge">ทราบ σ</span> \(\bar{x} \pm z_{\alpha/2} \dfrac{\sigma}{\sqrt{n}}\)</li>
+            <li><span class="badge">ไม่ทราบ σ</span> \(\bar{x} \pm t_{\alpha/2,\, n-1} \dfrac{s}{\sqrt{n}}\)</li>
+            <li>\(\alpha = 1 - \text{ระดับความเชื่อมั่น}\)</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>ขั้นตอนแนะนำ</strong>
+          <ol>
+            <li>ตรวจสอบสมมติฐาน: สุ่มเป็นอิสระ, รูปแบบประชากร, ขนาดตัวอย่าง</li>
+            <li>เลือกสูตร: รู้/ไม่รู้ σ</li>
+            <li>คำนวณค่าเฉลี่ยตัวอย่าง, ส่วนเบี่ยงเบนมาตรฐาน, ขนาดตัวอย่าง</li>
+            <li>หา critical value ตามระดับความเชื่อมั่น</li>
+            <li>คำนวณช่วงและตีความ</li>
+          </ol>
+        </article>
+      </div>
+      <div class="highlight">
+        <strong>การตีความ</strong> ระดับความเชื่อมั่น 95% หมายถึง หากทำการสุ่มตัวอย่างซ้ำอย่างไม่สิ้นสุด 95% ของช่วงที่สร้างจะครอบคลุม μ จริง ไม่ใช่ “โอกาส 95% สำหรับช่วงเดียว”.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. เครื่องมือสร้างช่วงความเชื่อมั่น</h2>
+      <p>กรอกข้อมูลจากตัวอย่างของคุณ ระบบจะคำนวณช่วงความเชื่อมั่นและแสดงรูปทรงการแจกแจงพร้อมไฮไลต์ช่วงที่ได้ทันที.</p>
+      <div class="calculator">
+        <label>เลือกกรณี
+          <select id="ci-type">
+            <option value="known">ทราบ σ ของประชากร (ใช้ z)</option>
+            <option value="unknown">ไม่ทราบ σ (ใช้ t)</option>
+          </select>
+        </label>
+        <label>ค่าเฉลี่ยตัวอย่าง (\(\bar{x}\))
+          <input type="number" id="sample-mean" value="82.5" step="0.01" />
+        </label>
+        <label>ส่วนเบี่ยงเบนมาตรฐาน <span id="spread-label">ประชากร (σ)</span>
+          <input type="number" id="spread" value="12" step="0.01" min="0" />
+        </label>
+        <label>ขนาดตัวอย่าง (n)
+          <input type="number" id="sample-size" value="35" min="2" />
+        </label>
+        <label>ระดับความเชื่อมั่น (%)
+          <input type="range" id="confidence" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่น: <span id="conf-display">95%</span></div>
+        <button id="calc-btn">คำนวณช่วงความเชื่อมั่น</button>
+      </div>
+      <div class="result-card" id="result-card" style="display:none"></div>
+      <canvas id="ci-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่างการตีความ</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>สถานการณ์</th>
+            <th>ข้อมูลตัวอย่าง</th>
+            <th>ช่วงความเชื่อมั่น 95%</th>
+            <th>การสื่อสารผลลัพธ์</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>เวลาเฉลี่ยตอบอีเมลลูกค้า</td>
+            <td>\(\bar{x}=12.4\) นาที, σ=3.1, n=40</td>
+            <td>[11.4, 13.4]</td>
+            <td>เรามั่นใจ 95% ว่าเวลาเฉลี่ยตอบอีเมลของทีมอยู่ระหว่าง 11.4 ถึง 13.4 นาที</td>
+          </tr>
+          <tr>
+            <td>คะแนนสอบวิชาสถิติ</td>
+            <td>\(\bar{x}=68.2\), s=8.7, n=24</td>
+            <td>[64.5, 71.9] (ใช้ t)</td>
+            <td>แม้ไม่รู้ σ แต่ตัวอย่างบ่งชี้ว่า μ อยู่ในช่วง 64.5–71.9 ด้วยความเชื่อมั่น 95%</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">ปรับความเชื่อมั่นให้สูงขึ้น → ช่วงกว้างขึ้น (เพิ่มความระมัดระวัง) แต่ทำให้การตัดสินใจยากขึ้นเล็กน้อย</p>
+    </section>
+
+    <section class="card">
+      <h2>5. Checklist ก่อนสรุปผล</h2>
+      <ul>
+        <li>✅ ตัวอย่างสุ่มเป็นอิสระจากกันหรือไม่?</li>
+        <li>✅ ข้อมูลไม่เบี่ยงเบนจากปกติอย่างรุนแรง (หรือ n ใหญ่พอ)?</li>
+        <li>✅ ระบุได้หรือยังว่าทราบหรือไม่ทราบ σ?</li>
+        <li>✅ ระบุระดับความเชื่อมั่นก่อนคำนวณ?</li>
+        <li>✅ การตีความพูดถึง <em>ค่าเฉลี่ยของประชากร</em> ไม่ใช่ค่าของแต่ละคน?</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const ciType = document.getElementById('ci-type');
+    const meanInput = document.getElementById('sample-mean');
+    const spreadInput = document.getElementById('spread');
+    const sizeInput = document.getElementById('sample-size');
+    const confInput = document.getElementById('confidence');
+    const confDisplay = document.getElementById('conf-display');
+    const calcBtn = document.getElementById('calc-btn');
+    const resultCard = document.getElementById('result-card');
+    const spreadLabel = document.getElementById('spread-label');
+    const ctx = document.getElementById('ci-chart');
+    let chart;
+
+    function updateLabel() {
+      spreadLabel.textContent = ciType.value === 'known' ? 'ประชากร (σ)' : 'ตัวอย่าง (s)';
+    }
+
+    function compute() {
+      const mean = parseFloat(meanInput.value);
+      const spread = Math.max(parseFloat(spreadInput.value), 0.00001);
+      const n = Math.max(parseInt(sizeInput.value, 10), 2);
+      sizeInput.value = n;
+      const confidence = parseInt(confInput.value, 10) / 100;
+      confDisplay.textContent = `${(confidence * 100).toFixed(0)}%`;
+
+      const alpha = 1 - confidence;
+      let critical = 0;
+      let se = spread / Math.sqrt(n);
+      let distType = 'z';
+      let df = n - 1;
+
+      if (ciType.value === 'known') {
+        critical = jStat.normal.inv(1 - alpha / 2, 0, 1);
+        distType = 'z';
+      } else {
+        critical = jStat.studentt.inv(1 - alpha / 2, df);
+        distType = 't';
+      }
+
+      const margin = critical * se;
+      const lower = mean - margin;
+      const upper = mean + margin;
+
+      resultCard.style.display = 'grid';
+      resultCard.innerHTML = `
+        <strong>สรุปผล</strong>
+        <span>ระดับความเชื่อมั่น: ${(confidence * 100).toFixed(1)}% | Critical value: ${critical.toFixed(3)} (${distType.toUpperCase()})</span>
+        <span>ค่าเฉลี่ยตัวอย่าง = ${mean.toFixed(3)}, SE = ${se.toFixed(3)}</span>
+        <span>ช่วงความเชื่อมั่น = [${lower.toFixed(3)}, ${upper.toFixed(3)}]</span>
+        <span class="note">ตีความ: เรามั่นใจ ${(confidence * 100).toFixed(1)}% ว่าค่าเฉลี่ยประชากรอยู่ในช่วงนี้</span>
+      `;
+
+      const points = 200;
+      const range = 4 * se;
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = mean - range + (2 * range * i) / points;
+        const standardized = (x - mean) / se;
+        const density = distType === 'z'
+          ? jStat.normal.pdf(standardized, 0, 1) / se
+          : jStat.studentt.pdf(standardized, df) / se;
+        labels.push(x.toFixed(3));
+        base.push(density);
+        highlight.push(x >= lower && x <= upper ? density : null);
+      }
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'การแจกแจงตัวอย่าง',
+              data: base,
+              borderColor: 'rgba(0,77,64,0.45)',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.22,
+              fill: false
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: highlight,
+              borderColor: 'rgba(0,150,136,0.9)',
+              backgroundColor: 'rgba(77,182,172,0.35)',
+              borderWidth: 2.5,
+              pointRadius: 0,
+              tension: 0.22,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#004d40' } },
+            tooltip: {
+              callbacks: {
+                title: items => `ค่าเฉลี่ย = ${items[0].label}`,
+                label: ctx => `ความหนาแน่น ~ ${Number(ctx.raw).toFixed(4)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#004d40' },
+              title: { display: true, text: 'ค่าเฉลี่ยที่เป็นไปได้', color: '#004d40' }
+            },
+            y: {
+              ticks: { color: '#004d40' },
+              title: { display: true, text: 'ความหนาแน่น', color: '#004d40' }
+            }
+          }
+        }
+      });
+    }
+
+    confInput.addEventListener('input', () => { confDisplay.textContent = `${confInput.value}%`; });
+    ciType.addEventListener('change', () => {
+      updateLabel();
+      compute();
+    });
+    meanInput.addEventListener('input', compute);
+    spreadInput.addEventListener('input', compute);
+    sizeInput.addEventListener('input', compute);
+    confInput.addEventListener('change', compute);
+    calcBtn.addEventListener('click', compute);
+
+    updateLabel();
+    compute();
+  </script>
+</body>
+</html>

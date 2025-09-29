@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 18: ช่วงความเชื่อมั่นสำหรับสัดส่วนเดียว</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body.page {
+      --accent: #ad1457;
+      --accent-light: #f06292;
+      --accent-dark: #880e4f;
+      --card-bg: rgba(255, 240, 245, 0.94);
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(240, 98, 146, 0.28), transparent 60%),
+                  radial-gradient(circle at 85% 18%, rgba(173, 20, 87, 0.2), transparent 60%),
+                  linear-gradient(180deg, rgba(252, 228, 236, 0.92), rgba(248, 187, 208, 0.88));
+      min-height: 100vh;
+    }
+    main.container { max-width: 1100px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
+    header.hero {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #fff;
+      padding: clamp(2.6rem, 6vw, 4rem);
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 54px rgba(173, 20, 87, 0.26);
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.4), transparent 55%),
+                  radial-gradient(circle at 20% 75%, rgba(255,255,255,0.26), transparent 70%);
+    }
+    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
+    section.card {
+      background: var(--card-bg);
+      border-radius: 26px;
+      padding: clamp(1.8rem, 4vw, 2.6rem);
+      box-shadow: 0 20px 36px rgba(173, 20, 87, 0.12);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.1rem;
+    }
+    section.card h2 {
+      color: var(--accent);
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0;
+    }
+    .badge { background: rgba(136, 14, 79, 0.12); color: var(--accent-dark); padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.88rem; font-weight: 600; }
+    .grid { display: grid; gap: 1.2rem; }
+    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(255, 228, 236, 0.85); border: 1px solid rgba(173, 20, 87, 0.18); display: grid; gap: 0.6rem; }
+    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    .highlight { border-left: 6px solid var(--accent); padding: 1rem 1.25rem; background: rgba(173, 20, 87, 0.1); border-radius: 18px; line-height: 1.7; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); }
+    .calculator input, .calculator select {
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(173, 20, 87, 0.28);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.95);
+    }
+    .calculator button {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+      color: #fff;
+      border: 0;
+      border-radius: 14px;
+      padding: 0.85rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(173, 20, 87, 0.2); }
+    .result-card { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 1.2rem 1.4rem; border: 1px solid rgba(173, 20, 87, 0.18); display: grid; gap: 0.6rem; }
+    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.75rem; text-align: left; }
+    th { background: rgba(240, 98, 146, 0.12); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(255, 228, 236, 0.6); }
+  </style>
+</head>
+<body class="page">
+  <main class="container">
+    <header class="hero">
+      <span class="badge">Confidence Interval for Proportion</span>
+      <h1>บทที่ 18: ช่วงความเชื่อมั่นสำหรับสัดส่วนประชากรเดียว (p)</h1>
+      <p>ใช้ตัวอย่างเพื่อประมาณสัดส่วนของประชากร เช่น อัตราการสนับสนุนสินค้า หรือเปอร์เซ็นต์ของผู้ป่วยที่หายขาด พร้อมเครื่องมือที่ช่วยคำนวณและตีความผลได้อย่างมั่นใจ.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. แนวคิดหลักและเงื่อนไข</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>ค่าสัดส่วนประชากร (p)</strong>
+          <p>คือสัดส่วนที่แท้จริงของประชากรที่มีคุณสมบัติที่เราสนใจ (เช่น ผู้ใช้ที่ชอบฟีเจอร์ใหม่). เราประมาณค่าด้วยสัดส่วนตัวอย่าง \(\hat{p} = x/n\).</p>
+          <ul>
+            <li>ข้อมูลเป็นลักษณะสำเร็จ/ล้มเหลว (binary)</li>
+            <li>สุ่มตัวอย่างอย่างเป็นอิสระ</li>
+            <li>ขนาดตัวอย่างควรเพียงพอ: \(n\hat{p} \ge 10\) และ \(n(1-\hat{p}) \ge 10\)</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>สูตรพื้นฐาน</strong>
+          <p>ช่วงความเชื่อมั่นแบบ Wald ที่ใช้บ่อยมีรูปแบบ</p>
+          <p>\[ \hat{p} \pm z_{\alpha/2} \sqrt{ \dfrac{\hat{p}(1-\hat{p})}{n} } \]</p>
+          <p class="note">เมื่อขนาดตัวอย่างไม่มาก แนะนำใช้ Wilson หรือ Agresti-Coull เพื่อให้ช่วงสมดุลยิ่งขึ้น</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. เปรียบเทียบสูตรยอดนิยม</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>Wald (มาตรฐาน)</strong>
+          <ul>
+            <li>คำนวณง่าย</li>
+            <li>แม่นยำดีเมื่อ n ใหญ่</li>
+            <li>อาจให้ขอบเขตเกิน [0,1]</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>Wilson (Score Interval)</strong>
+          <ul>
+            <li>ปรับช่วงด้วย z ทั้งในตัวเศษและส่วน</li>
+            <li>ให้ช่วงสมมาตรมากขึ้นและอยู่ใน [0,1]</li>
+            <li>เป็นตัวเลือกเริ่มต้นที่ดีเมื่อ n กลางๆ</li>
+          </ul>
+        </article>
+      </div>
+      <div class="highlight">
+        <strong>ทิป</strong> Wilson interval คำนวณเป็น \(\frac{\hat{p}+\frac{z^2}{2n} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n}+\frac{z^2}{4n^2}}}{1+\frac{z^2}{n}}\)
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. เครื่องคำนวณช่วงความเชื่อมั่นสำหรับสัดส่วนเดียว</h2>
+      <p>ป้อนจำนวนความสำเร็จในตัวอย่างและเลือกสูตรที่ต้องการ ชาร์ตด้านล่างจะแสดงการแจกแจงประมาณแบบปกติพร้อมช่วงที่ได้.</p>
+      <div class="calculator">
+        <label>จำนวนความสำเร็จ (x)
+          <input type="number" id="success" value="145" min="0" />
+        </label>
+        <label>ขนาดตัวอย่าง (n)
+          <input type="number" id="total" value="400" min="1" />
+        </label>
+        <label>ระดับความเชื่อมั่น (%)
+          <input type="range" id="conf" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่นปัจจุบัน: <span id="conf-text">95%</span></div>
+        <label>เลือกสูตร
+          <select id="method">
+            <option value="wald">Wald (มาตรฐาน)</option>
+            <option value="wilson">Wilson Score</option>
+          </select>
+        </label>
+        <button id="run">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="summary" style="display:none"></div>
+      <canvas id="prop-chart" height="220"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่างเชิงสถานการณ์</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>กรณีศึกษา</th>
+            <th>ข้อมูลตัวอย่าง</th>
+            <th>ช่วง 95%</th>
+            <th>สรุปผล</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>อัตราลูกค้าที่กลับมาซื้อซ้ำ</td>
+            <td>x=62 จาก n=150</td>
+            <td>[0.344, 0.503] (Wilson)</td>
+            <td>มั่นใจ 95% ว่าระหว่าง 34.4%–50.3% ของลูกค้าทั้งหมดกลับมาซื้อซ้ำ</td>
+          </tr>
+          <tr>
+            <td>อัตราผู้ป่วยตอบสนองต่อการรักษา</td>
+            <td>x=178 จาก n=220</td>
+            <td>[0.755, 0.851]</td>
+            <td>บ่งชี้ว่ามากกว่า 75% ของผู้ป่วยน่าจะตอบสนองต่อการรักษานี้</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">เมื่อตัวอย่างน้อยหรือ \(\hat{p}\) ใกล้ 0/1 ให้พิจารณา Wilson หรือ Clopper-Pearson เพื่อความแม่นยำ</p>
+    </section>
+
+    <section class="card">
+      <h2>5. Checklist</h2>
+      <ul>
+        <li>✅ ข้อมูลเป็นการสุ่มและเป็นอิสระ</li>
+        <li>✅ ตรวจสอบเงื่อนไข \(n\hat{p}\) และ \(n(1-\hat{p})\)</li>
+        <li>✅ ระบุสูตรที่ใช้ในรายงาน</li>
+        <li>✅ ช่วงที่ได้ไม่ออกนอกขอบเขต [0,1]</li>
+        <li>✅ ตีความด้วยภาษาง่าย เช่น “ร้อยละของทั้งประชากร”</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const successInput = document.getElementById('success');
+    const totalInput = document.getElementById('total');
+    const confInput = document.getElementById('conf');
+    const confText = document.getElementById('conf-text');
+    const methodSelect = document.getElementById('method');
+    const runBtn = document.getElementById('run');
+    const summary = document.getElementById('summary');
+    const ctx = document.getElementById('prop-chart');
+    let chart;
+
+    function computeInterval(x, n, confidence, method) {
+      const phat = x / n;
+      const alpha = 1 - confidence;
+      const z = jStat.normal.inv(1 - alpha / 2, 0, 1);
+      let lower;
+      let upper;
+      if (method === 'wilson') {
+        const denom = 1 + (z * z) / n;
+        const center = (phat + (z * z) / (2 * n)) / denom;
+        const margin = (z * Math.sqrt((phat * (1 - phat)) / n + (z * z) / (4 * n * n))) / denom;
+        lower = center - margin;
+        upper = center + margin;
+      } else {
+        const se = Math.sqrt((phat * (1 - phat)) / n);
+        const margin = z * se;
+        lower = phat - margin;
+        upper = phat + margin;
+      }
+      return {
+        phat,
+        lower: Math.max(0, lower),
+        upper: Math.min(1, upper),
+        z
+      };
+    }
+
+    function updateChart(mean, se, lower, upper) {
+      const points = 200;
+      const range = Math.max(0.15, 6 * se);
+      const start = Math.max(0, mean - range / 2);
+      const end = Math.min(1, mean + range / 2);
+      const labels = [];
+      const base = [];
+      const highlight = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = start + ((end - start) * i) / points;
+        const std = (x - mean) / (se || 1e-6);
+        const density = jStat.normal.pdf(std, 0, 1) / (se || 1e-6);
+        labels.push(x.toFixed(3));
+        base.push(density);
+        highlight.push(x >= lower && x <= upper ? density : null);
+      }
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Approximate sampling distribution',
+              data: base,
+              borderColor: 'rgba(173,20,87,0.4)',
+              borderWidth: 2,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: false
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: highlight,
+              borderColor: 'rgba(244,143,177,0.95)',
+              backgroundColor: 'rgba(244,143,177,0.35)',
+              borderWidth: 2.4,
+              tension: 0.22,
+              pointRadius: 0,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          plugins: { legend: { labels: { color: '#880e4f' } } },
+          scales: {
+            x: { title: { display: true, text: 'สัดส่วนที่เป็นไปได้', color: '#880e4f' }, ticks: { color: '#880e4f' } },
+            y: { title: { display: true, text: 'ความหนาแน่น (โดยประมาณ)', color: '#880e4f' }, ticks: { color: '#880e4f' } }
+          }
+        }
+      });
+    }
+
+    function calculate() {
+      const x = Math.max(parseInt(successInput.value, 10), 0);
+      const n = Math.max(parseInt(totalInput.value, 10), 1);
+      const confidence = parseInt(confInput.value, 10) / 100;
+      const method = methodSelect.value;
+      successInput.value = x;
+      totalInput.value = n;
+      const { phat, lower, upper, z } = computeInterval(x, n, confidence, method);
+      const se = Math.sqrt((phat * (1 - phat)) / n);
+      summary.style.display = 'grid';
+      summary.innerHTML = `
+        <strong>ผลลัพธ์</strong>
+        <span>\u005Chat{p} = ${(phat * 100).toFixed(2)}% จากข้อมูล (${x}/${n})</span>
+        <span>ระดับความเชื่อมั่น ${(confidence * 100).toFixed(1)}% | z_{\alpha/2} = ${z.toFixed(3)}</span>
+        <span>ช่วงความเชื่อมั่น (${method === 'wilson' ? 'Wilson' : 'Wald'}) = [${(lower * 100).toFixed(2)}%, ${(upper * 100).toFixed(2)}%]</span>
+        <span class="note">ตีความ: เรามั่นใจ ${(confidence * 100).toFixed(1)}% ว่าสัดส่วนประชากรจริงอยู่ในช่วงนี้</span>
+      `;
+      updateChart(phat, se, lower, upper);
+    }
+
+    confInput.addEventListener('input', () => {
+      confText.textContent = `${confInput.value}%`;
+    });
+    successInput.addEventListener('input', calculate);
+    totalInput.addEventListener('input', calculate);
+    methodSelect.addEventListener('change', calculate);
+    confInput.addEventListener('change', calculate);
+    runBtn.addEventListener('click', calculate);
+
+    calculate();
+  </script>
+</body>
+</html>

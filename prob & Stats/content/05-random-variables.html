@@ -4,11 +4,374 @@
   <meta charset="utf-8" />
   <title>บทที่ 5: ตัวแปรสุ่ม</title>
   <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    body.page {
+      min-height: 100vh;
+      background: linear-gradient(180deg, rgba(236,253,245,0.92), rgba(232,245,233,0.92));
+    }
+    header.hero {
+      background: linear-gradient(130deg, #43a047, #66bb6a);
+      color: #fff;
+      padding: clamp(2.5rem, 5vw, 3.5rem);
+      border-radius: 28px;
+      margin-bottom: 2.2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 44px rgba(67,160,71,0.28);
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 85% 15%, rgba(255,255,255,0.3), transparent 60%),
+                  radial-gradient(circle at 15% 30%, rgba(255,255,255,0.22), transparent 70%);
+    }
+    header.hero h1 {
+      font-size: clamp(2.4rem, 3vw + 1.4rem, 3.6rem);
+    }
+    section.card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 24px;
+      padding: clamp(1.5rem, 4vw, 2.7rem);
+      margin-bottom: 2rem;
+      box-shadow: 0 18px 34px rgba(46, 125, 50, 0.18);
+      backdrop-filter: blur(5px);
+    }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.9rem;
+      color: #1b5e20;
+    }
+    h2 .badge {
+      border-radius: 999px;
+      padding: 0.15rem 0.85rem;
+      background: rgba(200,230,201,0.8);
+      color: #1b5e20;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 880px) {
+      .grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    article.definition {
+      border-radius: 18px;
+      padding: 1.4rem;
+      background: linear-gradient(160deg, rgba(200,230,201,0.6), rgba(232,245,233,0.72));
+      border: 1px solid rgba(46,125,50,0.18);
+      display: grid;
+      gap: 0.65rem;
+    }
+    article.definition strong {
+      font-size: 1.12rem;
+      color: #2e7d32;
+    }
+    .highlight {
+      padding: 1.2rem 1.5rem;
+      border-left: 6px solid #43a047;
+      background: rgba(76,175,80,0.12);
+      border-radius: 16px;
+    }
+    .note {
+      color: #2e7d32;
+      font-size: 0.95rem;
+    }
+    .code-box {
+      background: #0b2b19;
+      color: #c8e6c9;
+      padding: 1.1rem 1.3rem;
+      border-radius: 14px;
+      font-family: "Fira Code", "Consolas", monospace;
+      font-size: 0.95rem;
+      overflow-x: auto;
+    }
+    .calculator {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .calculator label {
+      font-weight: 600;
+      color: #1b5e20;
+    }
+    .calculator input,
+    .calculator textarea,
+    .calculator select {
+      border-radius: 12px;
+      border: 1px solid rgba(46, 125, 50, 0.35);
+      padding: 0.65rem 0.9rem;
+      font-size: 1rem;
+    }
+    .calculator button {
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #388e3c, #66bb6a);
+      color: #f1f8e9;
+      padding: 0.75rem 1.6rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calculator button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(56,142,60,0.3);
+    }
+    .result-card {
+      border-radius: 14px;
+      background: rgba(0,150,136,0.12);
+      color: #004d40;
+      padding: 1rem 1.2rem;
+      font-weight: 600;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(56,142,60,0.16);
+    }
+    table.styled {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.styled th,
+    table.styled td {
+      padding: 0.9rem 1.15rem;
+      text-align: left;
+    }
+    table.styled thead {
+      background: rgba(165,214,167,0.4);
+      color: #1b5e20;
+    }
+    table.styled tbody tr:nth-child(even) {
+      background: rgba(200,230,201,0.45);
+    }
+    details.toggle {
+      background: rgba(200,230,201,0.38);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(165,214,167,0.4);
+    }
+    details.toggle summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="page">
   <main class="container">
-    <h1>บทที่ 5: ตัวแปรสุ่ม</h1>
-    <p>ส่วนนี้เตรียมไว้สำหรับเนื้อหาฉบับเต็มของบทเรียน 5. เพิ่มตัวอย่างและกรณีศึกษาได้ตามต้องการ.</p>
+    <header class="hero">
+      <h1>บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)</h1>
+      <p>เปลี่ยนผลลัพธ์ของการทดลองสุ่มให้กลายเป็นตัวเลขที่ใช้วิเคราะห์ต่อได้ รู้จักประเภทของตัวแปรสุ่ม การแจกแจงความน่าจะเป็น และตัวอย่างที่จับต้องได้จากการโยนเหรียญ</p>
+    </header>
+
+    <section class="card" id="what-is-rv">
+      <h2><span class="badge">Step 1</span> ตัวแปรสุ่มคืออะไร?</h2>
+      <p>ตัวแปรสุ่มคือฟังก์ชันที่พาผลลัพธ์ของการทดลองสุ่ม (ซึ่งอาจไม่เป็นตัวเลข) ไปสู่ตัวเลขที่เราสนใจ เช่น นับจำนวนครั้งที่เหรียญออกหัวจากการโยนสองครั้ง</p>
+      <div class="highlight">
+        <h3>ตัวอย่าง: โยนเหรียญ 2 ครั้ง</h3>
+        <ul>
+          <li>S = {HH, HT, TH, TT}</li>
+          <li>กำหนด X = จำนวนหัว ⇒ X สามารถเป็น 0, 1, 2</li>
+          <li>HH → X=2, HT หรือ TH → X=1, TT → X=0</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" id="types">
+      <h2><span class="badge">Step 2</span> ประเภทของตัวแปรสุ่ม</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>ตัวแปรสุ่มแบบไม่ต่อเนื่อง (Discrete)</strong>
+          <p>มีค่าที่เป็นจำนวนที่นับได้ เช่น 0, 1, 2,... เหมาะกับเหตุการณ์ที่นับจำนวนครั้งหรือจำนวนชิ้น</p>
+          <div class="highlight">
+            <ul>
+              <li>X = จำนวนแต้ม 6 จากการทอดลูกเต๋า 10 ครั้ง</li>
+              <li>Y = จำนวนลูกค้าที่เข้าร้านใน 1 ชั่วโมง</li>
+              <li>Z = จำนวนสินค้าที่ชำรุดจาก 100 ชิ้น</li>
+            </ul>
+          </div>
+        </article>
+        <article class="definition">
+          <strong>ตัวแปรสุ่มแบบต่อเนื่อง (Continuous)</strong>
+          <p>มีค่าได้ทุกจำนวนในช่วงที่สนใจ เช่น มีทศนิยมไม่จำกัด เหมาะกับค่าที่เกิดจากการวัด</p>
+          <div class="highlight">
+            <ul>
+              <li>X = น้ำหนักของนักศึกษา</li>
+              <li>Y = อุณหภูมิห้อง</li>
+              <li>Z = เวลาวิ่งมาราธอน</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card" id="distribution">
+      <h2><span class="badge">Step 3</span> การแจกแจงความน่าจะเป็น</h2>
+      <p>เมื่อกำหนดตัวแปรสุ่ม เราต้องการทราบโอกาสของแต่ละค่าที่เป็นไปได้ ซึ่งแสดงผ่าน PMF หรือ PDF</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>Discrete: Probability Mass Function (PMF)</strong>
+          <div class="code-box">f(x) = P(X = x)</div>
+          <p class="note">คุณสมบัติ: f(x) ≥ 0 และผลรวมของ f(x) ทุกค่าต้องเท่ากับ 1</p>
+        </article>
+        <article class="definition">
+          <strong>Continuous: Probability Density Function (PDF)</strong>
+          <div class="code-box">P(a &lt; X &lt; b) = ∫<sub>a</sub><sup>b</sup> f(x) dx</div>
+          <p class="note">ความน่าจะเป็นที่จุดเดียวมีค่าเป็น 0 สนใจเฉพาะความน่าจะเป็นในช่วง</p>
+        </article>
+      </div>
+      <div class="card" style="background: rgba(232,245,233,0.6); margin-top: 1.4rem;">
+        <h3>ตารางการแจกแจง (โยนเหรียญ 2 ครั้ง)</h3>
+        <div class="table-wrapper">
+          <table class="styled" id="pmf-table">
+            <thead>
+              <tr>
+                <th>x (จำนวนหัว)</th>
+                <th>f(x) = P(X = x)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>0</td><td>1/4</td></tr>
+              <tr><td>1</td><td>2/4</td></tr>
+              <tr><td>2</td><td>1/4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <canvas id="pmfChart" height="220" style="margin-top: 1.2rem;"></canvas>
+      </div>
+    </section>
+
+    <section class="card" id="interactive">
+      <h2><span class="badge">Step 4</span> สำรวจ PMF ด้วยตัวเอง</h2>
+      <p>กรอกความน่าจะเป็นของตัวแปรสุ่มไม่ต่อเนื่อง (คั่นด้วยเครื่องหมายจุลภาค) ระบบจะช่วยตรวจสอบว่า PMF ถูกต้องหรือไม่</p>
+      <div class="calculator">
+        <label>ค่าที่เป็นไปได้ของ X (เช่น 0,1,2)
+          <input type="text" id="values-input" value="0,1,2" />
+        </label>
+        <label>ค่าความน่าจะเป็น f(x) (เช่น 0.25,0.5,0.25)
+          <input type="text" id="pmf-input" value="0.25,0.5,0.25" />
+        </label>
+        <button type="button" id="pmf-btn">ตรวจสอบ PMF</button>
+        <div class="result-card" id="pmf-result">ผลรวม f(x) = 1.00 ✔️</div>
+      </div>
+    </section>
+
+    <section class="card" id="examples">
+      <h2><span class="badge">Step 5</span> ตัวอย่างเพิ่มเติม</h2>
+      <div class="table-wrapper">
+        <table class="styled">
+          <thead>
+            <tr>
+              <th>ค่าของ X</th>
+              <th>f(x)</th>
+              <th>คำอธิบาย</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>1/4</td>
+              <td>เกิดจาก TT (ไม่มีหัวเลย)</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>2/4</td>
+              <td>เกิดจาก HT หรือ TH</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>1/4</td>
+              <td>เกิดจาก HH (ออกหัวทั้งสองครั้ง)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="toggle" open>
+        <summary>บทสรุป</summary>
+        <p>ตัวแปรสุ่มช่วยให้เราอธิบายผลลัพธ์ด้วยตัวเลข การเลือกใช้เครื่องมือ PMF หรือ PDF ขึ้นอยู่กับประเภทของตัวแปร และการตรวจสอบคุณสมบัติให้ครบถ้วนช่วยสร้างความมั่นใจในการวิเคราะห์ข้อมูล</p>
+      </details>
+    </section>
   </main>
+
+  <script>
+    const pmfChartCtx = document.getElementById('pmfChart');
+    const pmfChart = new Chart(pmfChartCtx, {
+      type: 'bar',
+      data: {
+        labels: ['0', '1', '2'],
+        datasets: [
+          {
+            label: 'f(x) = P(X = x)',
+            data: [0.25, 0.5, 0.25],
+            backgroundColor: ['#388e3c', '#66bb6a', '#81c784'],
+            borderRadius: 12
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `P(X = ${ctx.label}) = ${ctx.parsed.y.toFixed(2)}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1,
+            ticks: {
+              stepSize: 0.1
+            },
+            title: {
+              display: true,
+              text: 'Probability'
+            }
+          }
+        }
+      }
+    });
+
+    const pmfButton = document.getElementById('pmf-btn');
+    const valuesInput = document.getElementById('values-input');
+    const pmfInput = document.getElementById('pmf-input');
+    const pmfResult = document.getElementById('pmf-result');
+
+    function checkPMF() {
+      const values = valuesInput.value.split(',').map(v => v.trim()).filter(Boolean);
+      const probs = pmfInput.value.split(',').map(v => Number(v.trim()));
+      if (values.length !== probs.length || !values.length) {
+        pmfResult.textContent = 'จำนวนค่าของ X ต้องเท่ากับจำนวนค่าของ f(x)';
+        return;
+      }
+      if (probs.some(p => p < 0 || !Number.isFinite(p))) {
+        pmfResult.textContent = 'ค่าความน่าจะเป็นต้องเป็นจำนวนที่ไม่ติดลบ';
+        return;
+      }
+      const total = probs.reduce((sum, p) => sum + p, 0);
+      const isValid = Math.abs(total - 1) < 1e-6;
+      pmfResult.textContent = `ผลรวม f(x) = ${total.toFixed(4)} ${isValid ? '✔️' : '❌ (ควรเท่ากับ 1)'}`;
+
+      pmfChart.data.labels = values;
+      pmfChart.data.datasets[0].data = probs;
+      pmfChart.update();
+    }
+
+    pmfButton.addEventListener('click', checkPMF);
+    checkPMF();
+  </script>
 </body>
 </html>
