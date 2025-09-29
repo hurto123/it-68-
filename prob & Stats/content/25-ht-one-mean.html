@@ -13,71 +13,119 @@
       --card-bg: rgba(255, 243, 224, 0.94);
       font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
       min-height: 100vh;
-      background: radial-gradient(circle at 15% 18%, rgba(255,138,101,0.28), transparent 60%),
-                  radial-gradient(circle at 80% 18%, rgba(216,67,21,0.18), transparent 60%),
-                  linear-gradient(180deg, rgba(255,236,179,0.92), rgba(255,248,225,0.92));
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,138,101,0.25), transparent 60%),
+        radial-gradient(circle at 82% 18%, rgba(216,67,21,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,236,179,0.94), rgba(255,248,225,0.92));
     }
-    main.container { max-width: 1120px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
-    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(191,54,12,0.25); }
-    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.45), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
-    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
-    header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
-    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(191,54,12,0.12); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    main.container { max-width: 1120px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.6rem); display: grid; gap: 2.3rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.8rem, 6vw, 4.4rem); border-radius: 34px; position: relative; overflow: hidden; box-shadow: 0 36px 58px rgba(191,54,12,0.24); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background:
+      radial-gradient(circle at 78% 16%, rgba(255,255,255,0.45), transparent 55%),
+      radial-gradient(circle at 18% 78%, rgba(255,255,255,0.24), transparent 70%);
+    }
+    header.hero h1 { font-size: clamp(2.45rem, 3vw + 1.6rem, 3.7rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 740px; line-height: 1.7; }
+    .badge { background: rgba(255,255,255,0.22); color: #fff3e0; padding: 0.25rem 0.9rem; border-radius: 999px; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.02em; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.9rem, 4vw, 2.7rem); box-shadow: 0 22px 38px rgba(191,54,12,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.15rem; }
     section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
-    .badge { background: rgba(255,138,101,0.3); color: var(--accent-dark); padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    section.card h3 { color: var(--accent-dark); font-size: 1.35rem; margin: 0; }
     .grid { display: grid; gap: 1.2rem; }
-    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(255,224,178,0.85); border: 1px solid rgba(216,67,21,0.18); display: grid; gap: 0.6rem; }
-    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
-    .highlight { border-left: 6px solid var(--accent-dark); padding: 1rem 1.25rem; background: rgba(251,140,0,0.12); border-radius: 18px; line-height: 1.7; }
-    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
-    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
-    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(216,67,21,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
-    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(191,54,12,0.2); }
-    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(216,67,21,0.18); display: grid; gap: 0.6rem; }
-    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    @media (min-width: 980px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.55rem; border-radius: 20px; background: rgba(255,224,178,0.86); border: 1px solid rgba(216,67,21,0.22); display: grid; gap: 0.6rem; line-height: 1.7; }
+    article.definition strong { color: var(--accent-dark); }
+    .highlight { border-left: 6px solid var(--accent-dark); padding: 1rem 1.25rem; background: rgba(251,140,0,0.14); border-radius: 18px; line-height: 1.7; }
+    ul { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.6rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.35rem; }
+    .calculator input, .calculator select { padding: 0.72rem 1rem; border-radius: 14px; border: 1px solid rgba(216,67,21,0.28); font-size: 1rem; background: rgba(255,255,255,0.96); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.3rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(191,54,12,0.22); }
+    .result-card { background: rgba(255,255,255,0.96); border-radius: 18px; padding: 1.3rem 1.45rem; border: 1px solid rgba(216,67,21,0.2); display: grid; gap: 0.55rem; line-height: 1.6; }
+    canvas { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 1.05rem; }
     table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 0.6rem 0.75rem; text-align: left; }
-    th { background: rgba(255,204,128,0.6); color: var(--accent-dark); }
-    tr:nth-child(even) { background: rgba(255,236,179,0.6); }
+    th, td { padding: 0.65rem 0.8rem; text-align: left; line-height: 1.6; }
+    th { background: rgba(255,204,128,0.65); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(255,236,179,0.65); }
   </style>
 </head>
 <body class="page">
   <main class="container">
     <header class="hero">
       <span class="badge">One-sample Mean Test</span>
-      <h1>บทที่ 25: การทดสอบค่าเฉลี่ยประชากรเดียว (μ)</h1>
-      <p>ใช้ข้อมูลตัวอย่างเพื่อตัดสินใจว่าสมมติฐานเกี่ยวกับค่าเฉลี่ยประชากรควรถูกปฏิเสธหรือไม่ โดยเลือกใช้ z-test หรือ t-test ตามความเหมาะสม.</p>
+      <h1>บทที่ 25: การทดสอบสมมติฐานค่าเฉลี่ยประชากรเดียว (μ)</h1>
+      <p>เมื่อมีคำกล่าวอ้างเกี่ยวกับค่าเฉลี่ยของประชากรหนึ่งกลุ่ม เราจะใช้ข้อมูลตัวอย่างเพื่อพิสูจน์หรือล้มล้าง โดยเลือกใช้ z-test หรือ t-test ตามความรู้เกี่ยวกับส่วนเบี่ยงเบนมาตรฐาน.</p>
     </header>
 
     <section class="card">
-      <h2>1. เงื่อนไขเบื้องต้น</h2>
+      <h2>1. โครงเรื่อง 5 ขั้นตอน</h2>
+      <div class="highlight">
+        <ol style="margin:0; padding-left:1.25rem; display:grid; gap:0.4rem;">
+          <li>ตั้งสมมติฐาน: \(H_0: \mu = \mu_0\); \(H_1\) เป็น &gt;, &lt; หรือ ≠ ตามคดี</li>
+          <li>กำหนดระดับนัยสำคัญ (α) ก่อนเห็นข้อมูล</li>
+          <li>เลือกสถิติทดสอบให้เหมาะกับข้อมูล (z-test หรือ t-test)</li>
+          <li>คำนวณค่าสถิติและตีความด้วย critical value หรือ p-value</li>
+          <li>สรุปคำตัดสินและตีความในบริบทของปัญหา</li>
+        </ol>
+      </div>
       <div class="grid two">
         <article class="definition">
-          <strong>ทราบ σ หรือไม่?</strong>
-          <p>ถ้าทราบ σ และ n ใหญ่ → ใช้ z-test; หากไม่ทราบและ n เล็ก → ใช้ t-test (df = n-1)</p>
+          <strong>เลือกใช้ z-test เมื่อ</strong>
+          <ul>
+            <li>รู้ค่า σ ของประชากร</li>
+            <li>หรือไม่รู้ σ แต่มี n ใหญ่ (≥ 30) จนใช้ s แทนได้</li>
+          </ul>
         </article>
         <article class="definition">
-          <strong>สมมติฐาน</strong>
-          <p>\(H_0: \mu = \mu_0\)</p>
-          <p>\(H_1\) สามารถเป็น >, < หรือ ≠ ตามปัญหา</p>
+          <strong>เลือกใช้ t-test เมื่อ</strong>
+          <ul>
+            <li>ไม่รู้ค่า σ</li>
+            <li>ขนาดตัวอย่างเล็ก (n &lt; 30)</li>
+            <li>ใช้ df = n − 1 ในการเปิดตาราง t</li>
+          </ul>
         </article>
-      </div>
-      <div class="highlight">
-        <strong>ขั้นตอน</strong> (1) กำหนด H₀/H₁ (2) เลือก α (3) คำนวณสถิติทดสอบ (4) หา p-value หรือเปรียบเทียบกับ critical (5) ตัดสินใจ
       </div>
     </section>
 
     <section class="card">
       <h2>2. สูตรสถิติทดสอบ</h2>
-      <p>z-test: \( z = \dfrac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \)</p>
-      <p>t-test: \( t = \dfrac{\bar{x} - \mu_0}{s / \sqrt{n}} \)</p>
+      <p>ทั้งสองสูตรมีโครงสร้างเดียวกัน: วัดระยะห่างระหว่างค่าเฉลี่ยตัวอย่างกับค่าที่ H₀ อ้างในหน่วยของความคลาดเคลื่อนมาตรฐาน</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>z-test</strong>
+          <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \]</p>
+          <p>ใช้การแจกแจงมาตรฐานปกติ</p>
+        </article>
+        <article class="definition">
+          <strong>t-test</strong>
+          <p>\[ t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]</p>
+          <p>ใช้การแจกแจง t ที่ df = n - 1</p>
+        </article>
+      </div>
+      <p class="highlight">เมื่อไม่รู้ σ, ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง (s) ถูกใช้แทน และค่าวิกฤต t จะกว้างกว่าเล็กน้อยเพื่อชดเชยความไม่แน่นอน</p>
     </section>
 
     <section class="card">
-      <h2>3. เครื่องมือทดสอบค่าเฉลี่ย</h2>
-      <p>กรอกข้อมูลและเลือกรูปแบบสมมติฐาน ระบบจะคำนวณสถิติทดสอบ p-value และแสดงพื้นที่ปฏิเสธบนกราฟ.</p>
+      <h2>3. ทำความเข้าใจการตัดสินใจ</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>ตรรกะ</strong>
+          <p>ค่าที่คำนวณได้มากหรือน้อยผิดปกติแสดงว่าค่าเฉลี่ยตัวอย่างไกลจาก \(\mu_0\) มากจนไม่น่าใช่เรื่องบังเอิญ → ปฏิเสธ H₀</p>
+        </article>
+        <article class="definition">
+          <strong>ข้อควรระวัง</strong>
+          <ul>
+            <li>ตรวจสอบการสุ่มและความเป็นอิสระของตัวอย่าง</li>
+            <li>สำหรับ t-test ตรวจดูความเป็นปกติ (หรือไม่มี outlier รุนแรง)</li>
+            <li>รายงานผลพร้อมช่วงความเชื่อมั่นหรือขนาดเอฟเฟกต์เสมอ</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. เครื่องคิดเลขทดสอบค่าเฉลี่ย</h2>
+      <p>กรอกข้อมูลตัวอย่าง เลือกประเภทสมมติฐาน ระบบจะคำนวณสถิติทดสอบ p-value และแสดงพื้นที่ปฏิเสธบนกราฟ.</p>
       <div class="calculator">
         <label>เลือกประเภทการทดสอบ
           <select id="test-type">
@@ -86,26 +134,26 @@
           </select>
         </label>
         <label>ค่าเฉลี่ยตัวอย่าง (\(\bar{x}\))
-          <input type="number" id="sample-mean" value="74.8" step="0.01" />
+          <input type="number" id="sample-mean" value="495" step="0.01" />
         </label>
         <label>ค่าเฉลี่ยตาม H₀ (\(\mu_0\))
-          <input type="number" id="hyp-mean" value="72" step="0.01" />
+          <input type="number" id="hyp-mean" value="500" step="0.01" />
         </label>
         <label id="spread-label">ส่วนเบี่ยงเบนมาตรฐาน <span id="spread-text">(σ หรือ s)</span>
-          <input type="number" id="spread" value="9.5" step="0.01" min="0" />
+          <input type="number" id="spread" value="8" step="0.01" min="0" />
         </label>
         <label>ขนาดตัวอย่าง (n)
-          <input type="number" id="sample-size" value="25" min="2" />
+          <input type="number" id="sample-size" value="16" min="2" />
         </label>
         <label>ระดับนัยสำคัญ (α)
           <input type="range" id="alpha" min="1" max="15" value="5" />
         </label>
-        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <div>α = <span id="alpha-text">0.05</span></div>
         <label>รูปแบบสมมติฐานทางเลือก (H₁)
           <select id="tail">
             <option value="two">≠ (สองด้าน)</option>
-            <option value="right">> (ด้านขวา)</option>
-            <option value="left">< (ด้านซ้าย)</option>
+            <option value="right">&gt; (ด้านขวา)</option>
+            <option value="left">&lt; (ด้านซ้าย)</option>
           </select>
         </label>
         <button id="calc">คำนวณผลการทดสอบ</button>
@@ -115,41 +163,24 @@
     </section>
 
     <section class="card">
-      <h2>4. ตัวอย่างการตีความ</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>สถานการณ์</th>
-            <th>ข้อมูล</th>
-            <th>ผล</th>
-            <th>ข้อสรุป</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>เวลาจัดส่งเฉลี่ย (z-test)</td>
-            <td>\(\bar{x}=46\), σ=5, n=40, H₀: μ=48</td>
-            <td>z=-2.53, p=0.011</td>
-            <td>ปฏิเสธ H₀ → ระยะเวลาจัดส่งลดลงอย่างมีนัยสำคัญ</td>
-          </tr>
-          <tr>
-            <td>คะแนนหลังอบรม (t-test)</td>
-            <td>\(\bar{x}=78\), s=10, n=15, H₀: μ=75</td>
-            <td>t=1.16, p=0.266</td>
-            <td>ยังไม่ปฏิเสธ H₀ → หลักฐานไม่พอว่าคะแนนเพิ่มขึ้น</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <h2>5. Checklist</h2>
-      <ul>
-        <li>✅ ตรวจสอบการสุ่มและความเป็นปกติ (โดยเฉพาะเมื่อใช้ t-test)</li>
-        <li>✅ เลือกระดับ α ก่อนเห็นข้อมูล</li>
-        <li>✅ รายงานทั้งสถิติทดสอบ p-value และขนาดเอฟเฟกต์</li>
-        <li>✅ ตีความผลในบริบท เช่น ผลกระทบต่อธุรกิจ</li>
-      </ul>
+      <h2>5. ตัวอย่าง: น้ำหนักขนมปัง</h2>
+      <p>คดี: \(H_0: \mu = 500\) กรัม vs \(H_1: \mu &lt; 500\) กรัม, α = 0.05. สุ่ม 16 ก้อน ได้ \(\bar{x} = 495\), s = 8.</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>คำนวณสถิติ</strong>
+          <p>t-test (ไม่ทราบ σ, n เล็ก)</p>
+          <p>\[ t = \frac{495 - 500}{8 / \sqrt{16}} = -2.50 \]</p>
+          <p>df = 15</p>
+        </article>
+        <article class="definition">
+          <strong>เปรียบเทียบ</strong>
+          <ul>
+            <li>Critical value: t₀.₀₅,15 = -1.753 → -2.50 ต่ำกว่า → ปฏิเสธ H₀</li>
+            <li>p-value ≈ 0.012 &lt; 0.05 → ปฏิเสธ H₀</li>
+          </ul>
+          <p><strong>สรุป:</strong> น้ำหนักเฉลี่ยของขนมปังต่ำกว่าที่บริษัทอ้างอย่างมีนัยสำคัญ</p>
+        </article>
+      </div>
     </section>
   </main>
 
@@ -199,13 +230,13 @@
       return jStat.studentt.cdf(stat, df);
     }
 
-    function updateChart(stat, crit, tail, type, se, df) {
+    function updateChart(stat, crit, tail, type, df) {
       const minX = -4;
       const maxX = 4;
       const points = 240;
       const labels = [];
       const base = [];
-      const highlight = [];
+      const criticalShade = [];
       const statLine = [];
       let lowerBound;
       let upperBound;
@@ -225,8 +256,10 @@
         const density = type === 'z' ? jStat.normal.pdf(x, 0, 1) : jStat.studentt.pdf(x, df);
         labels.push(x.toFixed(2));
         base.push(density);
-        const inCritical = tail === 'two' ? (x <= -crit || x >= crit) : (x >= lowerBound && x <= upperBound);
-        highlight.push(inCritical ? density : null);
+        const inCritical = tail === 'two'
+          ? (x <= -crit || x >= crit)
+          : (x >= lowerBound && x <= upperBound);
+        criticalShade.push(inCritical ? density : null);
         statLine.push(Math.abs(x - stat) < 0.02 ? density : null);
       }
 
@@ -237,88 +270,92 @@
           labels,
           datasets: [
             {
-              label: type === 'z' ? 'มาตรฐานปกติ' : `t(df=${sizeInput.value - 1})`,
+              label: type === 'z' ? 'การแจกแจงมาตรฐาน' : `t (df=${df})`,
               data: base,
-              borderColor: 'rgba(191,54,12,0.4)',
-              borderWidth: 2,
-              tension: 0.22,
-              pointRadius: 0,
-              fill: false
+              borderColor: 'rgba(191,54,12,0.85)',
+              backgroundColor: 'rgba(191,54,12,0.12)',
+              fill: true,
+              tension: 0.25,
+              borderWidth: 1.8,
             },
             {
-              label: 'พื้นที่วิกฤติ',
-              data: highlight,
-              borderColor: 'rgba(255,112,67,0.9)',
-              backgroundColor: 'rgba(255,112,67,0.35)',
-              borderWidth: 0,
+              label: 'พื้นที่ปฏิเสธ',
+              data: criticalShade,
+              borderColor: 'rgba(198,40,40,0.85)',
+              backgroundColor: 'rgba(198,40,40,0.3)',
+              fill: true,
               pointRadius: 0,
-              fill: true
+              tension: 0.25,
             },
             {
-              label: 'สถิติทดสอบ',
+              label: 'ตำแหน่งสถิติ',
               data: statLine,
-              borderColor: 'rgba(255,193,7,0.9)',
-              backgroundColor: 'rgba(255,213,79,0.7)',
-              borderWidth: 2,
+              borderColor: '#ffb74d',
               pointRadius: 0,
-              fill: true
-            }
-          ]
+              borderWidth: 3,
+            },
+          ],
         },
         options: {
-          plugins: { legend: { labels: { color: '#bf360c' } } },
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, labels: { font: { family: 'IBM Plex Sans Thai' } } },
+            tooltip: { enabled: false },
+          },
           scales: {
-            x: { title: { display: true, text: `${type === 'z' ? 'z' : 't'}-statistic`, color: '#bf360c' }, ticks: { color: '#bf360c' } },
-            y: { title: { display: true, text: 'ความหนาแน่น', color: '#bf360c' }, ticks: { color: '#bf360c' } }
-          }
-        }
+            x: { ticks: { maxTicksLimit: 9 }, title: { display: true, text: type === 'z' ? 'ค่า z' : 'ค่า t', font: { family: 'IBM Plex Sans Thai' } } },
+            y: { display: false },
+          },
+        },
       });
     }
 
     function calculate() {
       const type = testType.value;
       const mean = parseFloat(meanInput.value);
-      const mu0 = parseFloat(hypInput.value);
-      const spread = Math.max(parseFloat(spreadInput.value), 1e-6);
-      let n = Math.max(parseInt(sizeInput.value, 10), 2);
-      sizeInput.value = n;
+      const hyp = parseFloat(hypInput.value);
+      const spread = parseFloat(spreadInput.value);
+      const n = parseInt(sizeInput.value, 10);
       const alpha = parseInt(alphaInput.value, 10) / 100;
-      alphaText.textContent = alpha.toFixed(2);
       const tail = tailSelect.value;
-      const se = spread / Math.sqrt(n);
-      let stat;
-      if (type === 'z') {
-        stat = (mean - mu0) / se;
-      } else {
-        stat = (mean - mu0) / se;
+      if (!Number.isFinite(mean) || !Number.isFinite(hyp) || !Number.isFinite(spread) || spread <= 0 || !Number.isFinite(n) || n < 2) {
+        summary.style.display = 'grid';
+        summary.innerHTML = '<span style="color:#c62828">กรุณากรอกข้อมูลให้ถูกต้อง</span>';
+        return;
       }
-      const df = n - 1;
-      const crit = criticalValue(alpha, tail, df, type);
+
+      const se = spread / Math.sqrt(n);
+      const stat = (mean - hyp) / se;
+      const df = type === 't' ? n - 1 : Infinity;
+      const crit = Math.abs(criticalValue(alpha, tail, df, type));
       const p = pValue(stat, tail, df, type);
-      const reject = tail === 'two' ? Math.abs(stat) > crit : (tail === 'right' ? stat > crit : stat < (type === 'z' ? -crit : -crit));
+      const reject = tail === 'left'
+        ? stat < -crit
+        : (tail === 'right' ? stat > crit : Math.abs(stat) > crit);
 
       summary.style.display = 'grid';
       summary.innerHTML = `
-        <strong>ผลการทดสอบ</strong>
-        <span>${type.toUpperCase()}-stat = ${stat.toFixed(3)} | SE = ${se.toFixed(3)}</span>
-        <span>Critical value = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)} | p-value = ${p.toFixed(4)}</span>
+        <strong>ผลการคำนวณ</strong>
+        <span>สถิติทดสอบ = ${stat.toFixed(3)}</span>
+        <span>critical value = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)}</span>
+        <span>p-value = ${p.toFixed(4)}</span>
         <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
-        <span class="note">ตรวจสอบว่าข้อสรุปอยู่ในบริบทที่เหมาะสม และรายงานช่วงความเชื่อมั่นประกอบเมื่อเป็นไปได้</span>
       `;
 
-      updateChart(stat, crit, tail, type, se, df);
+      updateChart(stat, crit, tail, type, df);
     }
 
-    testType.addEventListener('change', () => {
+    function init() {
       updateLabel();
+      alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2);
       calculate();
-    });
-    [meanInput, hypInput, spreadInput, sizeInput, tailSelect].forEach(el => el.addEventListener('input', calculate));
-    alphaInput.addEventListener('input', calculate);
-    calcBtn.addEventListener('click', calculate);
+    }
 
-    updateLabel();
-    calculate();
+    testType.addEventListener('change', () => { updateLabel(); calculate(); });
+    alphaInput.addEventListener('input', () => { alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2); });
+    calcBtn.addEventListener('click', calculate);
+    init();
   </script>
 </body>
 </html>

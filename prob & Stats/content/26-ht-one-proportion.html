@@ -13,89 +13,111 @@
       --card-bg: rgba(239, 235, 233, 0.94);
       font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
       min-height: 100vh;
-      background: radial-gradient(circle at 15% 18%, rgba(161,136,127,0.28), transparent 60%),
-                  radial-gradient(circle at 80% 18%, rgba(93,64,55,0.2), transparent 60%),
-                  linear-gradient(180deg, rgba(250,245,240,0.92), rgba(236,239,241,0.9));
+      background:
+        radial-gradient(circle at 18% 18%, rgba(161,136,127,0.26), transparent 60%),
+        radial-gradient(circle at 82% 18%, rgba(93,64,55,0.2), transparent 60%),
+        linear-gradient(180deg, rgba(250,245,240,0.94), rgba(236,239,241,0.92));
     }
-    main.container { max-width: 1100px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
-    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(78,52,46,0.24); }
-    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.45), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
-    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
+    main.container { max-width: 1120px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.6rem); display: grid; gap: 2.3rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.8rem, 6vw, 4.4rem); border-radius: 34px; position: relative; overflow: hidden; box-shadow: 0 36px 58px rgba(78,52,46,0.22); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background:
+      radial-gradient(circle at 80% 18%, rgba(255,255,255,0.42), transparent 55%),
+      radial-gradient(circle at 20% 78%, rgba(255,255,255,0.24), transparent 70%);
+    }
+    header.hero h1 { font-size: clamp(2.45rem, 3vw + 1.6rem, 3.7rem); margin-bottom: 0.75rem; }
     header.hero p { font-size: 1.12rem; max-width: 720px; line-height: 1.7; }
-    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(78,52,46,0.12); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    .badge { background: rgba(255,255,255,0.22); color: #fce4ec; padding: 0.25rem 0.9rem; border-radius: 999px; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.02em; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.9rem, 4vw, 2.7rem); box-shadow: 0 22px 38px rgba(78,52,46,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.15rem; }
     section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
-    .badge { background: rgba(93,64,55,0.2); color: var(--accent-dark); padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    section.card h3 { color: var(--accent-dark); font-size: 1.32rem; margin: 0; }
     .grid { display: grid; gap: 1.2rem; }
-    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(215,204,200,0.85); border: 1px solid rgba(93,64,55,0.18); display: grid; gap: 0.6rem; }
-    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
+    @media (min-width: 980px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.55rem; border-radius: 20px; background: rgba(215,204,200,0.86); border: 1px solid rgba(93,64,55,0.2); display: grid; gap: 0.6rem; line-height: 1.7; }
+    article.definition strong { color: var(--accent-dark); }
     .highlight { border-left: 6px solid var(--accent-dark); padding: 1rem 1.25rem; background: rgba(141,110,99,0.15); border-radius: 18px; line-height: 1.7; }
-    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
-    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
-    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(93,64,55,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
-    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(78,52,46,0.2); }
-    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(141,110,99,0.2); display: grid; gap: 0.6rem; }
-    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    ul { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.6rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.35rem; }
+    .calculator input, .calculator select { padding: 0.72rem 1rem; border-radius: 14px; border: 1px solid rgba(93,64,55,0.28); font-size: 1rem; background: rgba(255,255,255,0.96); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.3rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(78,52,46,0.22); }
+    .result-card { background: rgba(255,255,255,0.96); border-radius: 18px; padding: 1.3rem 1.45rem; border: 1px solid rgba(141,110,99,0.2); display: grid; gap: 0.55rem; line-height: 1.6; }
+    canvas { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 1.05rem; }
     table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 0.6rem 0.75rem; text-align: left; }
-    th { background: rgba(215,204,200,0.6); color: var(--accent-dark); }
-    tr:nth-child(even) { background: rgba(239,235,233,0.6); }
+    th, td { padding: 0.65rem 0.8rem; text-align: left; line-height: 1.6; }
+    th { background: rgba(215,204,200,0.65); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(239,235,233,0.65); }
   </style>
 </head>
 <body class="page">
   <main class="container">
     <header class="hero">
       <span class="badge">One-sample Proportion Test</span>
-      <h1>บทที่ 26: การทดสอบสัดส่วนประชากรเดียว (p)</h1>
-      <p>ตรวจสอบว่าสัดส่วนประชากรแตกต่างจากค่าที่คาดไว้หรือไม่ โดยอาศัยการแจกแจงปกติประมาณของสัดส่วนเมื่อขนาดตัวอย่างเพียงพอ.</p>
+      <h1>บทที่ 26: การทดสอบสมมติฐานสัดส่วนประชากรเดียว (p)</h1>
+      <p>ใช้สัดส่วนจากกลุ่มตัวอย่าง (\(\hat{p}\)) เพื่อพิสูจน์หรือโต้แย้งคำกล่าวอ้างเกี่ยวกับสัดส่วนของประชากรทั้งหมด โดยพึ่งการแจกแจงปกติเมื่อขนาดตัวอย่างเพียงพอ.</p>
     </header>
 
     <section class="card">
-      <h2>1. เงื่อนไข</h2>
+      <h2>1. กรอบคิดและสมมติฐาน</h2>
       <div class="grid two">
         <article class="definition">
-          <strong>สมมติฐาน</strong>
-          <p>\(H_0: p = p_0\)</p>
-          <p>\(H_1\) เป็น >, < หรือ ≠</p>
+          <strong>สมมติฐานพื้นฐาน</strong>
+          <ul>
+            <li>\(H_0: p = p_0\) (จำเลยอ้างว่าจริง)</li>
+            <li>\(H_1: p &gt; p_0\), \(p &lt; p_0\) หรือ \(p \neq p_0\)</li>
+          </ul>
         </article>
         <article class="definition">
-          <strong>เงื่อนไขการประมาณ</strong>
+          <strong>เงื่อนไขการใช้ z-test</strong>
           <ul>
-            <li>ตัวอย่างสุ่มเป็นอิสระ</li>
-            <li>\(n p_0 ≥ 10\) และ \(n(1-p_0) ≥ 10\)</li>
+            <li>สุ่มตัวอย่างอิสระ</li>
+            <li>\(n p_0 \ge 10\) และ \(n(1-p_0) \ge 10\) เพื่อให้ใช้การประมาณปกติได้</li>
           </ul>
+        </article>
+      </div>
+      <p class="highlight">เรายึดหลัก “เชื่อ H₀ ไว้ก่อน” ดังนั้นทุกการคำนวณความแปรปรวนจะใช้ค่า \(p_0\) ของสมมติฐานหลัก</p>
+    </section>
+
+    <section class="card">
+      <h2>2. สูตรสถิติทดสอบและตรรกะ</h2>
+      <p>\[ z = \frac{\hat{p} - p_0}{\sqrt{ \dfrac{p_0 (1 - p_0)}{n} }} \]</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>องค์ประกอบ</strong>
+          <ul>
+            <li>\(\hat{p} = x/n\) สัดส่วนจากตัวอย่าง</li>
+            <li>ตัวส่วนคือ Standard Error ภายใต้ H₀</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>การตีความ</strong>
+          <p>ค่า z ที่มีค่าสูง (บวกหรือลบ) แสดงว่าสัดส่วนตัวอย่างไกลจาก \(p_0\) มากจนไม่น่าจะเกิดจากความบังเอิญตาม H₀</p>
         </article>
       </div>
     </section>
 
     <section class="card">
-      <h2>2. สถิติทดสอบ</h2>
-      <p>\[ z = \frac{\hat{p} - p_0}{\sqrt{ \frac{p_0(1-p_0)}{n} }} \]</p>
-      <p class="highlight">หมายเหตุ: ใช้ p₀ ในการคำนวณส่วนเบี่ยงเบนมาตรฐาน ไม่ใช่ \(\hat{p}\)</p>
-    </section>
-
-    <section class="card">
-      <h2>3. เครื่องมือคำนวณ</h2>
+      <h2>3. เครื่องมือคำนวณสัดส่วน</h2>
+      <p>กรอกจำนวนความสำเร็จ ขนาดตัวอย่าง และค่า \(p_0\) เพื่อคำนวณสถิติทดสอบ p-value และแสดงพื้นที่ปฏิเสธ.</p>
       <div class="calculator">
         <label>จำนวนความสำเร็จ (x)
-          <input type="number" id="success" value="120" min="0" />
+          <input type="number" id="success" value="212" min="0" />
         </label>
         <label>ขนาดตัวอย่าง (n)
-          <input type="number" id="total" value="320" min="1" />
+          <input type="number" id="total" value="400" min="1" />
         </label>
         <label>สัดส่วนตาม H₀ (p₀)
-          <input type="number" id="p0" value="0.35" step="0.01" min="0" max="1" />
+          <input type="number" id="p0" value="0.5" step="0.01" min="0" max="1" />
         </label>
         <label>ระดับนัยสำคัญ (α)
           <input type="range" id="alpha" min="1" max="15" value="5" />
         </label>
-        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <div>α = <span id="alpha-text">0.05</span></div>
         <label>รูปแบบ H₁
           <select id="tail">
+            <option value="right">&gt; (ด้านขวา)</option>
+            <option value="left">&lt; (ด้านซ้าย)</option>
             <option value="two">≠ (สองด้าน)</option>
-            <option value="right">> (ด้านขวา)</option>
-            <option value="left">< (ด้านซ้าย)</option>
           </select>
         </label>
         <button id="calc">คำนวณผล</button>
@@ -105,40 +127,22 @@
     </section>
 
     <section class="card">
-      <h2>4. ตัวอย่างการตีความ</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>สถานการณ์</th>
-            <th>ข้อมูล</th>
-            <th>ผลการทดสอบ</th>
-            <th>สรุป</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ตรวจสอบอัตราลูกค้าที่แนะนำเพื่อน</td>
-            <td>x=185, n=400, p₀=0.4</td>
-            <td>z=2.19, p=0.028</td>
-            <td>ปฏิเสธ H₀ → อัตราจริงสูงกว่า 40%</td>
-          </tr>
-          <tr>
-            <td>ตรวจสอบอัตราของเสียไม่เกิน 5%</td>
-            <td>x=18, n=500, p₀=0.05</td>
-            <td>z=-1.58, p=0.114</td>
-            <td>ยังไม่ปฏิเสธ H₀ → หลักฐานไม่พอว่าของเสียเกิน 5%</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <h2>5. Checklist</h2>
-      <ul>
-        <li>✅ ตรวจสอบเงื่อนไข np₀ และ n(1-p₀)</li>
-        <li>✅ ระบุรูปแบบ H₁ ชัดเจน</li>
-        <li>✅ รายงานทั้ง z, p-value และขนาดเอฟเฟกต์ (เช่น ความต่าง \(\hat{p} - p_0\))</li>
-      </ul>
+      <h2>4. ตัวอย่าง: ทดสอบคะแนนนิยม</h2>
+      <p>คดี: นักการเมืองอ้างว่ามีคะแนนนิยม &gt; 50% (\(H_1: p &gt; 0.50\)). สุ่ม 400 คนพบ 212 คนสนับสนุน → \(\hat{p} = 0.53\).</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>คำนวณสถิติ</strong>
+          <p>\[ z = \frac{0.53 - 0.50}{\sqrt{0.50(1-0.50)/400}} = 1.20 \]</p>
+        </article>
+        <article class="definition">
+          <strong>ตัดสินคดี</strong>
+          <ul>
+            <li>Critical value (หางขวา, α = 0.05): z₀.₀₅ = 1.645 → 1.20 ไม่ถึง → ยังไม่ปฏิเสธ H₀</li>
+            <li>p-value = 0.1151 &gt; 0.05 → ยังไม่ปฏิเสธ H₀</li>
+          </ul>
+          <p><strong>สรุป:</strong> หลักฐานยังไม่พอที่จะยืนยันว่าคะแนนนิยมเกิน 50%</p>
+        </article>
+      </div>
     </section>
   </main>
 
@@ -157,9 +161,10 @@
     let chart;
 
     function criticalValue(alpha, tail) {
-      return tail === 'two'
-        ? jStat.normal.inv(1 - alpha / 2, 0, 1)
-        : jStat.normal.inv(1 - alpha, 0, 1);
+      if (tail === 'two') {
+        return jStat.normal.inv(1 - alpha / 2, 0, 1);
+      }
+      return jStat.normal.inv(1 - alpha, 0, 1);
     }
 
     function pValue(stat, tail) {
@@ -174,7 +179,7 @@
       const points = 240;
       const labels = [];
       const base = [];
-      const highlight = [];
+      const criticalShade = [];
       const statLine = [];
       let lowerBound;
       let upperBound;
@@ -194,8 +199,10 @@
         const density = jStat.normal.pdf(x, 0, 1);
         labels.push(x.toFixed(2));
         base.push(density);
-        const inCritical = tail === 'two' ? (x <= -crit || x >= crit) : (x >= lowerBound && x <= upperBound);
-        highlight.push(inCritical ? density : null);
+        const inCritical = tail === 'two'
+          ? (x <= -crit || x >= crit)
+          : (x >= lowerBound && x <= upperBound);
+        criticalShade.push(inCritical ? density : null);
         statLine.push(Math.abs(x - stat) < 0.02 ? density : null);
       }
 
@@ -206,66 +213,75 @@
           labels,
           datasets: [
             {
-              label: 'มาตรฐานปกติ',
+              label: 'การแจกแจงมาตรฐาน',
               data: base,
-              borderColor: 'rgba(93,64,55,0.4)',
-              borderWidth: 2,
-              tension: 0.22,
-              pointRadius: 0,
-              fill: false
+              borderColor: 'rgba(93,64,55,0.85)',
+              backgroundColor: 'rgba(93,64,55,0.12)',
+              fill: true,
+              tension: 0.25,
+              borderWidth: 1.8,
             },
             {
-              label: 'พื้นที่วิกฤติ',
-              data: highlight,
-              borderColor: 'rgba(141,110,99,0.9)',
-              backgroundColor: 'rgba(141,110,99,0.35)',
-              borderWidth: 0,
+              label: 'พื้นที่ปฏิเสธ',
+              data: criticalShade,
+              borderColor: 'rgba(198,40,40,0.85)',
+              backgroundColor: 'rgba(198,40,40,0.28)',
+              fill: true,
               pointRadius: 0,
-              fill: true
+              tension: 0.25,
             },
             {
-              label: 'สถิติทดสอบ',
+              label: 'ตำแหน่งสถิติ',
               data: statLine,
-              borderColor: 'rgba(255,112,67,0.9)',
-              backgroundColor: 'rgba(255,183,77,0.6)',
-              borderWidth: 2,
+              borderColor: '#ffb74d',
               pointRadius: 0,
-              fill: true
-            }
-          ]
+              borderWidth: 3,
+            },
+          ],
         },
         options: {
-          plugins: { legend: { labels: { color: '#4e342e' } } },
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, labels: { font: { family: 'IBM Plex Sans Thai' } } },
+            tooltip: { enabled: false },
+          },
           scales: {
-            x: { title: { display: true, text: 'z-statistic', color: '#4e342e' }, ticks: { color: '#4e342e' } },
-            y: { title: { display: true, text: 'ความหนาแน่น', color: '#4e342e' }, ticks: { color: '#4e342e' } }
-          }
-        }
+            x: { ticks: { maxTicksLimit: 9 }, title: { display: true, text: 'ค่า z', font: { family: 'IBM Plex Sans Thai' } } },
+            y: { display: false },
+          },
+        },
       });
     }
 
     function calculate() {
-      const x = Math.max(parseInt(successInput.value, 10), 0);
-      const n = Math.max(parseInt(totalInput.value, 10), 1);
-      successInput.value = x;
-      totalInput.value = n;
-      const p0 = Math.min(Math.max(parseFloat(p0Input.value), 0), 1);
-      p0Input.value = p0;
+      const x = parseInt(successInput.value, 10);
+      const n = parseInt(totalInput.value, 10);
+      const p0 = parseFloat(p0Input.value);
       const alpha = parseInt(alphaInput.value, 10) / 100;
-      alphaText.textContent = alpha.toFixed(2);
       const tail = tailSelect.value;
+
+      if (!Number.isFinite(x) || !Number.isFinite(n) || n <= 0 || x < 0 || x > n || !Number.isFinite(p0) || p0 <= 0 || p0 >= 1) {
+        summary.style.display = 'grid';
+        summary.innerHTML = '<span style="color:#c62828">กรุณากรอกข้อมูลให้ถูกต้อง</span>';
+        return;
+      }
+
       const phat = x / n;
-      const se = Math.sqrt((p0 * (1 - p0)) / n);
+      const se = Math.sqrt(p0 * (1 - p0) / n);
       const stat = (phat - p0) / se;
-      const crit = criticalValue(alpha, tail);
+      const crit = Math.abs(criticalValue(alpha, tail));
       const p = pValue(stat, tail);
-      const reject = tail === 'two' ? Math.abs(stat) > crit : (tail === 'right' ? stat > crit : stat < -crit);
+      const reject = tail === 'left'
+        ? stat < -crit
+        : (tail === 'right' ? stat > crit : Math.abs(stat) > crit);
 
       summary.style.display = 'grid';
       summary.innerHTML = `
-        <strong>ผลการทดสอบ</strong>
-        <span>\u005Chat{p} = ${(phat * 100).toFixed(2)}% (${x}/${n}), p₀ = ${(p0 * 100).toFixed(1)}%</span>
-        <span>z = ${stat.toFixed(3)} | Critical = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)}</span>
+        <strong>ผลการคำนวณ</strong>
+        <span>\u005Chat{p} = ${phat.toFixed(4)}</span>
+        <span>z = ${stat.toFixed(3)}</span>
+        <span>critical value = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)}</span>
         <span>p-value = ${p.toFixed(4)}</span>
         <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
       `;
@@ -273,11 +289,16 @@
       updateChart(stat, crit, tail);
     }
 
-    [successInput, totalInput, p0Input, tailSelect].forEach(el => el.addEventListener('input', calculate));
-    alphaInput.addEventListener('input', calculate);
-    calcBtn.addEventListener('click', calculate);
+    function init() {
+      alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2);
+      calculate();
+    }
 
-    calculate();
+    alphaInput.addEventListener('input', () => {
+      alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2);
+    });
+    calcBtn.addEventListener('click', calculate);
+    init();
   </script>
 </body>
 </html>

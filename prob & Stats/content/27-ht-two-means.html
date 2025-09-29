@@ -7,121 +7,144 @@
   <style>
     :root { color-scheme: light dark; }
     body.page {
-      --accent: #3949ab;
-      --accent-light: #7986cb;
-      --accent-dark: #283593;
-      --card-bg: rgba(232, 234, 246, 0.94);
+      --accent: #1565c0;
+      --accent-light: #64b5f6;
+      --accent-dark: #0d47a1;
+      --card-bg: rgba(227, 242, 253, 0.94);
       font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
       min-height: 100vh;
-      background: radial-gradient(circle at 15% 18%, rgba(121,134,203,0.26), transparent 60%),
-                  radial-gradient(circle at 80% 18%, rgba(57,73,171,0.2), transparent 60%),
-                  linear-gradient(180deg, rgba(227,242,253,0.92), rgba(232,234,246,0.9));
+      background:
+        radial-gradient(circle at 18% 18%, rgba(100,181,246,0.26), transparent 60%),
+        radial-gradient(circle at 82% 18%, rgba(21,101,192,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(227,242,253,0.94), rgba(232,244,253,0.9));
     }
-    main.container { max-width: 1150px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem); display: grid; gap: 2.2rem; }
-    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.6rem, 6vw, 4rem); border-radius: 32px; position: relative; overflow: hidden; box-shadow: 0 32px 54px rgba(40,53,147,0.24); }
-    header.hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.4), transparent 55%), radial-gradient(circle at 20% 75%, rgba(255,255,255,0.24), transparent 70%); }
-    header.hero h1 { font-size: clamp(2.4rem, 3vw + 1.5rem, 3.6rem); margin-bottom: 0.75rem; }
-    header.hero p { font-size: 1.12rem; max-width: 760px; line-height: 1.7; }
-    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.8rem, 4vw, 2.6rem); box-shadow: 0 20px 36px rgba(40,53,147,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.1rem; }
+    main.container { max-width: 1120px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.6rem); display: grid; gap: 2.3rem; }
+    header.hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #fff; padding: clamp(2.8rem, 6vw, 4.4rem); border-radius: 34px; position: relative; overflow: hidden; box-shadow: 0 36px 58px rgba(13,71,161,0.22); }
+    header.hero::after { content: ""; position: absolute; inset: 0; background:
+      radial-gradient(circle at 82% 18%, rgba(255,255,255,0.42), transparent 55%),
+      radial-gradient(circle at 18% 78%, rgba(255,255,255,0.24), transparent 70%);
+    }
+    header.hero h1 { font-size: clamp(2.45rem, 3vw + 1.6rem, 3.7rem); margin-bottom: 0.75rem; }
+    header.hero p { font-size: 1.12rem; max-width: 730px; line-height: 1.7; }
+    .badge { background: rgba(255,255,255,0.22); color: #e3f2fd; padding: 0.25rem 0.9rem; border-radius: 999px; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.02em; }
+    section.card { background: var(--card-bg); border-radius: 26px; padding: clamp(1.9rem, 4vw, 2.7rem); box-shadow: 0 22px 38px rgba(13,71,161,0.14); backdrop-filter: blur(6px); display: grid; gap: 1.15rem; }
     section.card h2 { color: var(--accent-dark); font-size: 1.9rem; display: flex; align-items: center; gap: 0.75rem; margin: 0; }
-    .badge { background: rgba(57,73,171,0.16); color: #1a237e; padding: 0.2rem 0.85rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+    section.card h3 { color: var(--accent-dark); font-size: 1.32rem; margin: 0; }
     .grid { display: grid; gap: 1.2rem; }
-    @media (min-width: 960px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    article.definition { padding: 1.35rem 1.6rem; border-radius: 20px; background: rgba(197,202,233,0.85); border: 1px solid rgba(57,73,171,0.18); display: grid; gap: 0.6rem; }
-    article.definition strong { color: var(--accent-dark); font-size: 1.05rem; }
-    .highlight { border-left: 6px solid var(--accent); padding: 1rem 1.25rem; background: rgba(121,134,203,0.12); border-radius: 18px; line-height: 1.7; }
-    .calculator { display: grid; gap: 1rem; margin-top: 0.8rem; }
-    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.4rem; }
-    .calculator input, .calculator select { padding: 0.75rem 1rem; border-radius: 14px; border: 1px solid rgba(57,73,171,0.28); font-size: 1rem; background: rgba(255,255,255,0.95); }
-    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.2rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(40,53,147,0.22); }
-    .result-card { background: rgba(255,255,255,0.95); border-radius: 18px; padding: 1.2rem 1.4rem; border: 1px solid rgba(57,73,171,0.18); display: grid; gap: 0.6rem; }
-    canvas { background: rgba(255,255,255,0.88); border-radius: 18px; padding: 1rem; }
+    @media (min-width: 980px) { .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    article.definition { padding: 1.35rem 1.55rem; border-radius: 20px; background: rgba(187,222,251,0.86); border: 1px solid rgba(21,101,192,0.2); display: grid; gap: 0.6rem; line-height: 1.7; }
+    article.definition strong { color: var(--accent-dark); }
+    .highlight { border-left: 6px solid var(--accent-dark); padding: 1rem 1.25rem; background: rgba(21,101,192,0.15); border-radius: 18px; line-height: 1.7; }
+    ul { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; }
+    .calculator { display: grid; gap: 1rem; margin-top: 0.6rem; }
+    .calculator label { font-weight: 600; color: var(--accent-dark); display: grid; gap: 0.35rem; }
+    .calculator input, .calculator select { padding: 0.72rem 1rem; border-radius: 14px; border: 1px solid rgba(21,101,192,0.28); font-size: 1rem; background: rgba(255,255,255,0.96); }
+    .calculator button { background: linear-gradient(135deg, var(--accent-dark), var(--accent)); color: #fff; border: 0; border-radius: 14px; padding: 0.85rem 1.3rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .calculator button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(13,71,161,0.22); }
+    .result-card { background: rgba(255,255,255,0.96); border-radius: 18px; padding: 1.3rem 1.45rem; border: 1px solid rgba(21,101,192,0.2); display: grid; gap: 0.55rem; line-height: 1.6; }
+    canvas { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 1.05rem; }
     table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 0.6rem 0.75rem; text-align: left; }
-    th { background: rgba(197,202,233,0.6); color: var(--accent-dark); }
-    tr:nth-child(even) { background: rgba(226,231,255,0.6); }
-    .flex { display: grid; gap: 1rem; }
-    @media (min-width: 900px) { .flex { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    th, td { padding: 0.65rem 0.8rem; text-align: left; line-height: 1.6; }
+    th { background: rgba(187,222,251,0.65); color: var(--accent-dark); }
+    tr:nth-child(even) { background: rgba(227,242,253,0.65); }
   </style>
 </head>
 <body class="page">
   <main class="container">
     <header class="hero">
       <span class="badge">Two-sample Mean Test</span>
-      <h1>บทที่ 27: การทดสอบผลต่างค่าเฉลี่ยสองประชากร</h1>
-      <p>เลือกใช้ t-test แบบ Welch, pooled หรือ paired เพื่อตรวจสอบว่าค่าเฉลี่ยของสองกลุ่มต่างกันหรือไม่ พร้อมเครื่องมือที่ปรับได้ตามสถานการณ์.</p>
+      <h1>บทที่ 27: การทดสอบสมมติฐานผลต่างระหว่างค่าเฉลี่ย (μ₁ − μ₂)</h1>
+      <p>เมื่อมีสองประชากรอิสระและเราต้องการรู้ว่าค่าเฉลี่ยของพวกเขาต่างกันหรือไม่ เราใช้ผลต่างของค่าเฉลี่ยตัวอย่างเป็นหลักฐานเพื่อทดสอบคำกล่าวอ้าง.</p>
     </header>
 
     <section class="card">
-      <h2>1. เลือกการตั้งค่าที่ถูกต้อง</h2>
+      <h2>1. ตั้งคดีและสมมติฐาน</h2>
       <div class="grid two">
         <article class="definition">
-          <strong>สองกลุ่มอิสระ</strong>
-          <p>ใช้ Welch เมื่อไม่สมมติ σ² เท่ากัน และ pooled เมื่อเชื่อว่า σ₁² ≈ σ₂²</p>
+          <strong>สิ่งที่สนใจ</strong>
+          <p>ผลต่าง \(μ_1 - μ_2\) คือหัวใจของคดี ไม่ได้สนใจค่าเฉลี่ยรายตัว</p>
         </article>
         <article class="definition">
-          <strong>ข้อมูลจับคู่</strong>
-          <p>คำนวณความต่างต่อคู่ (d) แล้วใช้ t-test แบบหนึ่งตัวอย่างกับ \(\bar{d}\)</p>
+          <strong>สมมติฐานยอดนิยม</strong>
+          <ul>
+            <li>\(H_0: μ_1 = μ_2\) หรือ \(μ_1 - μ_2 = 0\) (ไม่มีความต่าง)</li>
+            <li>\(H_1\): >, &lt; หรือ ≠ 0 ตามคำถามวิจัย</li>
+          </ul>
         </article>
       </div>
-      <div class="highlight">ปรับ tail (>, <, ≠) ตาม H₁ ที่ต้องการทดสอบ</div>
+      <p class="highlight">บทนี้พิจารณากรณีตัวอย่างอิสระและขนาดใหญ่พอ (\(n_1, n_2 ≥ 30\)) เพื่อใช้ Z-test</p>
     </section>
 
     <section class="card">
-      <h2>2. เครื่องมือคำนวณ</h2>
+      <h2>2. สูตรสถิติทดสอบ</h2>
+      <p>\[ Z = \frac{(\bar{x}_1 - \bar{x}_2) - (μ_1 - μ_2)_0}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}} \]</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>ตัวประกอบ</strong>
+          <ul>
+            <li>\(\bar{x}_1 - \bar{x}_2\): ผลต่างที่เห็นในตัวอย่าง</li>
+            <li>\((μ_1 - μ_2)_0\): ผลต่างตาม H₀ (มักเป็น 0)</li>
+          </ul>
+        </article>
+        <article class="definition">
+          <strong>Standard Error</strong>
+          <p>รวมความผันผวนจากทั้งสองกลุ่มโดย <em>บวก</em> ความแปรปรวนที่ปรับด้วยขนาดตัวอย่าง</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. เข้าใจผลลัพธ์</h2>
+      <div class="grid two">
+        <article class="definition">
+          <strong>การตีความค่า Z</strong>
+          <p>ค่า Z ที่สูง (ค่าบวกหรือค่าลบมาก) บอกว่าผลต่างที่สังเกตห่างจาก 0 มากจนไม่น่าจะเกิดจากการสุ่ม</p>
+        </article>
+        <article class="definition">
+          <strong>เช็กลิสต์</strong>
+          <ul>
+            <li>ตัวอย่างจากสองกลุ่มเป็นอิสระ</li>
+            <li>n ใหญ่พอให้ใช้ Z ได้ หรือทราบ σ ของประชากร</li>
+            <li>ระบุทิศทางของ H₁ ให้ชัดเจน (สองหางหรือหางเดียว)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. เครื่องมือคำนวณผลต่างค่าเฉลี่ย</h2>
+      <p>ปรับค่าพารามิเตอร์ของทั้งสองกลุ่มเพื่อดูสถิติทดสอบ พื้นที่ปฏิเสธ และการตัดสินใจ.</p>
       <div class="calculator">
-        <label>ประเภทข้อมูล
-          <select id="mode">
-            <option value="welch">สองกลุ่มอิสระ (Welch)</option>
-            <option value="pooled">สองกลุ่มอิสระ (Pooled)</option>
-            <option value="paired">ข้อมูลจับคู่</option>
-          </select>
+        <label>ค่าเฉลี่ยกลุ่ม 1 (\(\bar{x}_1\))
+          <input type="number" id="mean1" value="85" step="0.01" />
         </label>
-        <div id="independent-fields" class="flex">
-          <div>
-            <label>\(\bar{x}_1\)
-              <input type="number" id="mean1" value="75.2" step="0.01" />
-            </label>
-            <label>s₁
-              <input type="number" id="sd1" value="9.1" step="0.01" min="0" />
-            </label>
-            <label>n₁
-              <input type="number" id="n1" value="30" min="2" />
-            </label>
-          </div>
-          <div>
-            <label>\(\bar{x}_2\)
-              <input type="number" id="mean2" value="69.4" step="0.01" />
-            </label>
-            <label>s₂
-              <input type="number" id="sd2" value="10.2" step="0.01" min="0" />
-            </label>
-            <label>n₂
-              <input type="number" id="n2" value="28" min="2" />
-            </label>
-          </div>
-        </div>
-        <div id="paired-fields" style="display:none">
-          <label>ค่าเฉลี่ยความต่าง (\(\bar{d}\))
-            <input type="number" id="mean-d" value="4.1" step="0.01" />
-          </label>
-          <label>ส่วนเบี่ยงเบนมาตรฐานของความต่าง (s_d)
-            <input type="number" id="sd-d" value="6.5" step="0.01" min="0" />
-          </label>
-          <label>จำนวนคู่ (n)
-            <input type="number" id="n-d" value="20" min="2" />
-          </label>
-        </div>
+        <label>ส่วนเบี่ยงเบนมาตรฐานกลุ่ม 1 (s₁)
+          <input type="number" id="sd1" value="8" step="0.01" min="0" />
+        </label>
+        <label>ขนาดตัวอย่างกลุ่ม 1 (n₁)
+          <input type="number" id="n1" value="50" min="2" />
+        </label>
+        <label>ค่าเฉลี่ยกลุ่ม 2 (\(\bar{x}_2\))
+          <input type="number" id="mean2" value="81" step="0.01" />
+        </label>
+        <label>ส่วนเบี่ยงเบนมาตรฐานกลุ่ม 2 (s₂)
+          <input type="number" id="sd2" value="10" step="0.01" min="0" />
+        </label>
+        <label>ขนาดตัวอย่างกลุ่ม 2 (n₂)
+          <input type="number" id="n2" value="60" min="2" />
+        </label>
+        <label>ผลต่างตาม H₀ (\((μ_1 - μ_2)_0\))
+          <input type="number" id="diff0" value="0" step="0.01" />
+        </label>
         <label>ระดับนัยสำคัญ (α)
-          <input type="range" id="alpha" min="1" max="15" value="5" />
+          <input type="range" id="alpha" min="1" max="15" value="1" />
         </label>
-        <div class="note">α = <span id="alpha-text">0.05</span></div>
+        <div>α = <span id="alpha-text">0.01</span></div>
         <label>รูปแบบ H₁
           <select id="tail">
-            <option value="two">≠</option>
-            <option value="right">></option>
-            <option value="left"><</option>
+            <option value="right">&gt; (μ₁ &gt; μ₂)</option>
+            <option value="left">&lt; (μ₁ &lt; μ₂)</option>
+            <option value="two">≠ (สองด้าน)</option>
           </select>
         </label>
         <button id="calc">คำนวณผล</button>
@@ -131,58 +154,35 @@
     </section>
 
     <section class="card">
-      <h2>3. ตัวอย่างการตีความ</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>สถานการณ์</th>
-            <th>ข้อมูล</th>
-            <th>ผลลัพธ์</th>
-            <th>ข้อสรุป</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ประสิทธิภาพสองสูตรยา (Welch)</td>
-            <td>t=2.43, df≈41.6, p=0.019</td>
-            <td>ปฏิเสธ H₀</td>
-            <td>สูตร A ให้ผลดีกว่า B อย่างมีนัยสำคัญ</td>
-          </tr>
-          <tr>
-            <td>คะแนนก่อน-หลังอบรม (paired)</td>
-            <td>t=3.12, df=18, p=0.006</td>
-            <td>ปฏิเสธ H₀</td>
-            <td>คะแนนหลังอบรมสูงขึ้นชัดเจน</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <h2>4. Checklist</h2>
-      <ul>
-        <li>✅ ระบุชนิดข้อมูล (อิสระ/จับคู่)</li>
-        <li>✅ ตรวจสอบเงื่อนไขความเป็นปกติและความแปรปรวน</li>
-        <li>✅ รายงาน t-stat, df, p-value และผลต่างเฉลี่ย</li>
-      </ul>
+      <h2>5. ตัวอย่าง: เปรียบเทียบวิธีการสอน</h2>
+      <p>ข้อมูล: กลุ่มใหม่ \(\bar{x}_1 = 85, s_1 = 8, n_1 = 50\); กลุ่มเก่า \(\bar{x}_2 = 81, s_2 = 10, n_2 = 60\); α = 0.01; \(H_1: μ_1 &gt; μ_2\).</p>
+      <div class="grid two">
+        <article class="definition">
+          <strong>คำนวณสถิติ</strong>
+          <p>\[ Z = \frac{(85 - 81) - 0}{\sqrt{8^2/50 + 10^2/60}} = 2.33 \]</p>
+        </article>
+        <article class="definition">
+          <strong>ตัดสินคดี</strong>
+          <ul>
+            <li>Critical value (หางขวา, α = 0.01): z₀.₀₁ = 2.33 → อยู่ที่เส้นพอดี → ปฏิเสธ H₀</li>
+            <li>p-value ≈ 0.0099 &lt; 0.01 → ปฏิเสธ H₀</li>
+          </ul>
+          <p><strong>สรุป:</strong> มีหลักฐานว่าคะแนนเฉลี่ยจากวิธีสอนใหม่สูงกว่าวิธีเดิม</p>
+        </article>
+      </div>
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
   <script>
-    const modeSelect = document.getElementById('mode');
-    const independentFields = document.getElementById('independent-fields');
-    const pairedFields = document.getElementById('paired-fields');
     const mean1Input = document.getElementById('mean1');
-    const mean2Input = document.getElementById('mean2');
     const sd1Input = document.getElementById('sd1');
-    const sd2Input = document.getElementById('sd2');
     const n1Input = document.getElementById('n1');
+    const mean2Input = document.getElementById('mean2');
+    const sd2Input = document.getElementById('sd2');
     const n2Input = document.getElementById('n2');
-    const meanDInput = document.getElementById('mean-d');
-    const sdDInput = document.getElementById('sd-d');
-    const nDInput = document.getElementById('n-d');
+    const diff0Input = document.getElementById('diff0');
     const alphaInput = document.getElementById('alpha');
     const alphaText = document.getElementById('alpha-text');
     const tailSelect = document.getElementById('tail');
@@ -191,65 +191,52 @@
     const ctx = document.getElementById('diff-chart');
     let chart;
 
-    function toggleMode() {
-      if (modeSelect.value === 'paired') {
-        pairedFields.style.display = 'grid';
-        independentFields.style.display = 'none';
-      } else {
-        pairedFields.style.display = 'none';
-        independentFields.style.display = 'grid';
+    function criticalValue(alpha, tail) {
+      if (tail === 'two') {
+        return jStat.normal.inv(1 - alpha / 2, 0, 1);
       }
+      return jStat.normal.inv(1 - alpha, 0, 1);
     }
 
-    function welchDf(s1, s2, n1, n2) {
-      const t1 = (s1 * s1) / n1;
-      const t2 = (s2 * s2) / n2;
-      const num = Math.pow(t1 + t2, 2);
-      const den = (Math.pow(t1, 2) / (n1 - 1)) + (Math.pow(t2, 2) / (n2 - 1));
-      return num / den;
+    function pValue(stat, tail) {
+      if (tail === 'two') return 2 * (1 - jStat.normal.cdf(Math.abs(stat), 0, 1));
+      if (tail === 'right') return 1 - jStat.normal.cdf(stat, 0, 1);
+      return jStat.normal.cdf(stat, 0, 1);
     }
 
-    function pValue(stat, tail, df) {
-      if (tail === 'two') return 2 * (1 - jStat.studentt.cdf(Math.abs(stat), df));
-      if (tail === 'right') return 1 - jStat.studentt.cdf(stat, df);
-      return jStat.studentt.cdf(stat, df);
-    }
-
-    function critical(alpha, tail, df) {
-      return tail === 'two'
-        ? jStat.studentt.inv(1 - alpha / 2, df)
-        : jStat.studentt.inv(1 - alpha, df);
-    }
-
-    function updateChart(stat, crit, tail, df) {
+    function updateChart(stat, crit, tail) {
       const minX = -4;
       const maxX = 4;
       const points = 240;
       const labels = [];
       const base = [];
-      const highlight = [];
+      const criticalShade = [];
       const statLine = [];
-      let lower;
-      let upper;
+      let lowerBound;
+      let upperBound;
       if (tail === 'two') {
-        lower = -crit;
-        upper = crit;
+        lowerBound = -crit;
+        upperBound = crit;
       } else if (tail === 'right') {
-        lower = crit;
-        upper = maxX;
+        lowerBound = crit;
+        upperBound = maxX;
       } else {
-        lower = minX;
-        upper = -crit;
+        lowerBound = minX;
+        upperBound = -crit;
       }
+
       for (let i = 0; i <= points; i += 1) {
         const x = minX + ((maxX - minX) * i) / points;
-        const density = jStat.studentt.pdf(x, df);
+        const density = jStat.normal.pdf(x, 0, 1);
         labels.push(x.toFixed(2));
         base.push(density);
-        const inCritical = tail === 'two' ? (x <= -crit || x >= crit) : (x >= lower && x <= upper);
-        highlight.push(inCritical ? density : null);
+        const inCritical = tail === 'two'
+          ? (x <= -crit || x >= crit)
+          : (x >= lowerBound && x <= upperBound);
+        criticalShade.push(inCritical ? density : null);
         statLine.push(Math.abs(x - stat) < 0.02 ? density : null);
       }
+
       if (chart) chart.destroy();
       chart = new Chart(ctx, {
         type: 'line',
@@ -257,112 +244,96 @@
           labels,
           datasets: [
             {
-              label: `t(df≈${df.toFixed(1)})`,
+              label: 'การแจกแจงมาตรฐาน',
               data: base,
-              borderColor: 'rgba(57,73,171,0.45)',
-              borderWidth: 2,
-              tension: 0.22,
-              pointRadius: 0,
-              fill: false
+              borderColor: 'rgba(21,101,192,0.85)',
+              backgroundColor: 'rgba(21,101,192,0.12)',
+              fill: true,
+              tension: 0.25,
+              borderWidth: 1.8,
             },
             {
-              label: 'พื้นที่วิกฤติ',
-              data: highlight,
-              borderColor: 'rgba(121,134,203,0.95)',
-              backgroundColor: 'rgba(121,134,203,0.35)',
-              borderWidth: 0,
+              label: 'พื้นที่ปฏิเสธ',
+              data: criticalShade,
+              borderColor: 'rgba(198,40,40,0.85)',
+              backgroundColor: 'rgba(198,40,40,0.28)',
+              fill: true,
               pointRadius: 0,
-              fill: true
+              tension: 0.25,
             },
             {
-              label: 'สถิติทดสอบ',
+              label: 'ตำแหน่งสถิติ',
               data: statLine,
-              borderColor: 'rgba(255,143,0,0.9)',
-              backgroundColor: 'rgba(255,213,79,0.65)',
-              borderWidth: 2,
+              borderColor: '#ffb74d',
               pointRadius: 0,
-              fill: true
-            }
-          ]
+              borderWidth: 3,
+            },
+          ],
         },
         options: {
-          plugins: { legend: { labels: { color: '#1a237e' } } },
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, labels: { font: { family: 'IBM Plex Sans Thai' } } },
+            tooltip: { enabled: false },
+          },
           scales: {
-            x: { title: { display: true, text: 't-statistic', color: '#1a237e' }, ticks: { color: '#1a237e' } },
-            y: { title: { display: true, text: 'ความหนาแน่น', color: '#1a237e' }, ticks: { color: '#1a237e' } }
-          }
-        }
+            x: { ticks: { maxTicksLimit: 9 }, title: { display: true, text: 'ค่า z', font: { family: 'IBM Plex Sans Thai' } } },
+            y: { display: false },
+          },
+        },
       });
     }
 
     function calculate() {
+      const mean1 = parseFloat(mean1Input.value);
+      const sd1 = parseFloat(sd1Input.value);
+      const n1 = parseInt(n1Input.value, 10);
+      const mean2 = parseFloat(mean2Input.value);
+      const sd2 = parseFloat(sd2Input.value);
+      const n2 = parseInt(n2Input.value, 10);
+      const diff0 = parseFloat(diff0Input.value);
       const alpha = parseInt(alphaInput.value, 10) / 100;
-      alphaText.textContent = alpha.toFixed(2);
       const tail = tailSelect.value;
-      let stat;
-      let df;
-      let se;
-      let diff;
 
-      if (modeSelect.value === 'paired') {
-        const meanD = parseFloat(meanDInput.value);
-        const sdD = Math.max(parseFloat(sdDInput.value), 1e-6);
-        const n = Math.max(parseInt(nDInput.value, 10), 2);
-        nDInput.value = n;
-        diff = meanD;
-        se = sdD / Math.sqrt(n);
-        stat = diff / se;
-        df = n - 1;
-      } else {
-        const mean1 = parseFloat(mean1Input.value);
-        const mean2 = parseFloat(mean2Input.value);
-        const sd1 = Math.max(parseFloat(sd1Input.value), 1e-6);
-        const sd2 = Math.max(parseFloat(sd2Input.value), 1e-6);
-        const n1 = Math.max(parseInt(n1Input.value, 10), 2);
-        const n2 = Math.max(parseInt(n2Input.value, 10), 2);
-        n1Input.value = n1;
-        n2Input.value = n2;
-        diff = mean1 - mean2;
-        if (modeSelect.value === 'pooled') {
-          const sp2 = (((n1 - 1) * sd1 * sd1) + ((n2 - 1) * sd2 * sd2)) / (n1 + n2 - 2);
-          const sp = Math.sqrt(sp2);
-          se = sp * Math.sqrt(1 / n1 + 1 / n2);
-          stat = diff / se;
-          df = n1 + n2 - 2;
-        } else {
-          se = Math.sqrt((sd1 * sd1) / n1 + (sd2 * sd2) / n2);
-          stat = diff / se;
-          df = welchDf(sd1, sd2, n1, n2);
-        }
+      if (![mean1, sd1, mean2, sd2, diff0].every(Number.isFinite) || sd1 <= 0 || sd2 <= 0 || !Number.isFinite(n1) || n1 < 2 || !Number.isFinite(n2) || n2 < 2) {
+        summary.style.display = 'grid';
+        summary.innerHTML = '<span style="color:#c62828">กรุณากรอกข้อมูลให้ถูกต้อง</span>';
+        return;
       }
 
-      const crit = critical(alpha, tail, df);
-      const p = pValue(stat, tail, df);
-      const reject = tail === 'two' ? Math.abs(stat) > crit : (tail === 'right' ? stat > crit : stat < -crit);
+      const se = Math.sqrt((sd1 ** 2) / n1 + (sd2 ** 2) / n2);
+      const stat = ((mean1 - mean2) - diff0) / se;
+      const crit = Math.abs(criticalValue(alpha, tail));
+      const p = pValue(stat, tail);
+      const reject = tail === 'left'
+        ? stat < -crit
+        : (tail === 'right' ? stat > crit : Math.abs(stat) > crit);
 
       summary.style.display = 'grid';
       summary.innerHTML = `
-        <strong>ผลการทดสอบ</strong>
-        <span>t = ${stat.toFixed(3)} | df ≈ ${df.toFixed(2)} | SE = ${se.toFixed(3)}</span>
-        <span>Critical = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)} | p-value = ${p.toFixed(4)}</span>
+        <strong>ผลการคำนวณ</strong>
+        <span>ผลต่างที่สังเกต = ${(mean1 - mean2).toFixed(3)}</span>
+        <span>Standard Error = ${se.toFixed(3)}</span>
+        <span>z = ${stat.toFixed(3)}</span>
+        <span>critical value = ${tail === 'two' ? '±' : ''}${crit.toFixed(3)}</span>
+        <span>p-value = ${p.toFixed(4)}</span>
         <span>การตัดสินใจ: ${reject ? '<strong style="color:#c62828">ปฏิเสธ H₀</strong>' : '<strong style="color:#2e7d32">ยังไม่ปฏิเสธ H₀</strong>'}</span>
       `;
 
-      updateChart(stat, crit, tail, df);
+      updateChart(stat, crit, tail);
     }
 
-    modeSelect.addEventListener('change', () => {
-      toggleMode();
+    function init() {
+      alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2);
       calculate();
-    });
-    [mean1Input, mean2Input, sd1Input, sd2Input, n1Input, n2Input, meanDInput, sdDInput, nDInput, tailSelect].forEach(el => {
-      el.addEventListener('input', calculate);
-    });
-    alphaInput.addEventListener('input', calculate);
-    calcBtn.addEventListener('click', calculate);
+    }
 
-    toggleMode();
-    calculate();
+    alphaInput.addEventListener('input', () => {
+      alphaText.textContent = (parseInt(alphaInput.value, 10) / 100).toFixed(2);
+    });
+    calcBtn.addEventListener('click', calculate);
+    init();
   </script>
 </body>
 </html>
