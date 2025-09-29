@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 23: บทนำสู่การทดสอบสมมติฐาน</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 16% 18%, rgba(0, 188, 212, 0.22), transparent 65%),
+                  radial-gradient(circle at 82% 24%, rgba(0, 150, 136, 0.22), transparent 60%),
+                  linear-gradient(180deg, #ecfffe 0%, #ffffff 45%, #e8fdfb 100%);
+      min-height: 100vh;
+      color: #014447;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.6rem) clamp(1.4rem, 3vw, 3rem) 4rem;
+      display: grid;
+      gap: 2.4rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #00838f, #00695c);
+      color: #fff;
+      padding: clamp(2.6rem, 4vw, 3.8rem);
+      border-radius: 34px;
+      box-shadow: 0 32px 64px rgba(0, 105, 92, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 24%, rgba(255,255,255,0.32), transparent 55%),
+                  radial-gradient(circle at 82% 70%, rgba(255,255,255,0.24), transparent 60%);
+    }
+    header.hero h1 { font-size: clamp(2.3rem, 3.2vw, 3.45rem); margin: 0 0 0.9rem; }
+    header.hero p { font-size: 1.05rem; line-height: 1.8; max-width: 780px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    section.card {
+      background: rgba(255,255,255,0.93);
+      border-radius: 28px;
+      padding: clamp(1.9rem, 4vw, 2.6rem);
+      box-shadow: 0 26px 55px rgba(0, 121, 107, 0.16);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.25rem;
+    }
+    section.card h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      color: #00695c;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    article.panel {
+      background: rgba(0, 150, 136, 0.08);
+      border: 1px solid rgba(0, 105, 92, 0.18);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .grid-two { display: grid; gap: 1.4rem; }
+    @media (min-width: 960px) { .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .highlight {
+      border-left: 5px solid #00897b;
+      padding: 1rem 1.4rem;
+      background: rgba(0, 137, 123, 0.1);
+      border-radius: 18px;
+    }
+    ul, p, li { line-height: 1.75; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .chip {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(0, 105, 92, 0.12);
+      color: #00695c;
+      font-weight: 600;
+    }
+    .calculator { display: grid; gap: 1rem; }
+    label span { font-weight: 600; color: #015b55; }
+    input[type="range"] { width: 100%; }
+    .result-card {
+      background: rgba(234, 255, 252, 0.96);
+      border: 1px solid rgba(0, 105, 92, 0.2);
+      border-radius: 20px;
+      padding: 1.1rem 1.4rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .note { font-size: 0.95rem; color: #03615a; }
+    canvas { background: rgba(230, 255, 251, 0.92); border-radius: 20px; padding: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">👨‍🏫 บทเรียนที่ 23 · Hypothesis Testing</div>
+      <h1>บทนำสู่การทดสอบสมมติฐาน</h1>
+      <p>สวัสดีครับนักศึกษา! หลังจากที่เราเป็น “นักสืบ” สร้างการประมาณค่าแล้ว ตอนนี้ได้เวลาสวมบท “ผู้พิพากษา” ในศาลสถิติ เพื่อตัดสินคำกล่าวอ้างเกี่ยวกับประชากรโดยใช้หลักฐานจากตัวอย่าง.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. กระบวนการตัดสินใจทางสถิติ</h2>
+      <p>การทดสอบสมมติฐาน (Hypothesis Testing) คือกระบวนการที่ใช้ข้อมูลตัวอย่างมาตัดสินว่าเราควร <strong>ปฏิเสธ</strong> หรือ <strong>ไม่สามารถปฏิเสธ</strong> คำกล่าวอ้างเกี่ยวกับประชากร.</p>
+      <div class="chips">
+        <span class="chip">ยาบริษัทหนึ่งอ้างว่าออกฤทธิ์เฉลี่ย 15 นาที</span>
+        <span class="chip">นักการเมืองประกาศว่าคะแนนนิยมเกิน 50%</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. คู่ความ: H₀ และ H₁</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <h3>สมมติฐานหลัก (H₀)</h3>
+          <p>เปรียบเสมือนจำเลย เราจะสันนิษฐานว่า “เป็นจริง” ไปก่อน เช่น \(H_0: μ = 15\) หรือ \(H_0: p ≤ 0.5\) มักมีเครื่องหมาย =, ≤, ≥ แทนสภาพเดิมหรือ status quo.</p>
+        </article>
+        <article class="panel">
+          <h3>สมมติฐานแย้ง (H₁ หรือ Hₐ)</h3>
+          <p>เปรียบเสมือนโจทก์ คือสิ่งที่นักวิจัยต้องการพิสูจน์ เช่น \(H_1: μ ≠ 15\), \(H_1: μ > 15\) หรือ \(H_1: p > 0.5\).</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <p>เราจะ “ปฏิเสธ” H₀ เฉพาะเมื่อมีหลักฐานหนักแน่นจากข้อมูล มิฉะนั้นให้ “ไม่ปฏิเสธ” ซึ่งไม่ใช่การบอกว่า H₀ ถูกต้อง แต่คือยังไม่มีหลักฐานเพียงพอ.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. ความผิดพลาดที่อาจเกิดขึ้น</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <h3>Type I Error (α)</h3>
+          <p>ปฏิเสธ H₀ ทั้งที่ H₀ จริง (ตัดสินว่าจำเลยผิด ทั้งที่บริสุทธิ์) ความน่าจะเป็นที่จะเกิดคือระดับนัยสำคัญ (α) ที่เรากำหนด.</p>
+        </article>
+        <article class="panel">
+          <h3>Type II Error (β)</h3>
+          <p>ไม่ปฏิเสธ H₀ ทั้งที่ H₀ เท็จ (ปล่อยจำเลยทั้งที่ผิดจริง) ความน่าจะเป็นที่จะเกิดคือ β ส่วน 1 − β เรียกว่า Power.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ประเภทของคดี: หางเดียว vs สองหาง</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <h3>Two-tailed</h3>
+          <p>สนใจความแตกต่าง “ไม่เท่ากัน” เช่น \(H_1: μ ≠ 15\) พื้นที่ปฏิเสธอยู่ปลายทั้งสองข้างของการแจกแจง.</p>
+        </article>
+        <article class="panel">
+          <h3>One-tailed</h3>
+          <p>สนใจว่ามากกว่า (Right-tailed) หรือ น้อยกว่า (Left-tailed) เช่น \(H_1: μ > 15\) หรือ \(H_1: μ < 15\) พื้นที่ปฏิเสธอยู่แค่ด้านเดียว.</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <p>การเลือก H₁ ถูกต้องตั้งแต่แรกสำคัญมาก เพราะมันกำหนดค่าวิกฤตและวิธีตีความผลการทดสอบ.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. เครื่องมือมองภาพ Type I &amp; Type II Error</h2>
+      <p>ปรับระดับนัยสำคัญ (α) และพลังสถิติ (1−β) เพื่อเห็นสัดส่วนของความผิดพลาดทั้งสองแบบในภาพเดียว.</p>
+      <div class="calculator">
+        <label><span>ระดับนัยสำคัญ (α)</span>
+          <input type="range" id="alpha" min="1" max="15" value="5" />
+        </label>
+        <label><span>พลังสถิติ (1−β)</span>
+          <input type="range" id="power" min="50" max="95" value="80" />
+        </label>
+        <div class="note">α = <strong id="alphaValue">0.05</strong> | β = <strong id="betaValue">0.20</strong></div>
+      </div>
+      <div class="result-card" id="result">
+        <strong>คำอธิบาย</strong>
+        <span>Type I Error = α ⇒ ปฏิเสธ H₀ ผิด</span>
+        <span>Type II Error = β ⇒ ไม่ปฏิเสธ H₀ ผิด</span>
+        <span>Power = 1 − β ⇒ ความสามารถในการตรวจจับว่ามีการเปลี่ยนแปลงจริง</span>
+      </div>
+      <canvas id="errorChart" height="240"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>6. สรุปขั้นตอนเบื้องต้น</h2>
+      <ol>
+        <li>ตั้ง H₀ และ H₁ อย่างชัดเจน</li>
+        <li>กำหนดระดับนัยสำคัญ (α) และตรวจสอบว่าจะใช้วิธี Critical Value หรือ p-value</li>
+        <li>เลือกสถิติทดสอบตามประเภทข้อมูล (Z, t, χ², F ฯลฯ)</li>
+        <li>คำนวณค่าสถิติจากตัวอย่าง</li>
+        <li>ตัดสินใจปฏิเสธหรือไม่ปฏิเสธ H₀ พร้อมตีความในบริบทของโจทย์</li>
+      </ol>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const alphaEl = document.getElementById('alpha');
+    const powerEl = document.getElementById('power');
+    const alphaValueEl = document.getElementById('alphaValue');
+    const betaValueEl = document.getElementById('betaValue');
+    const ctx = document.getElementById('errorChart').getContext('2d');
+    let chart;
+
+    function updateChart() {
+      const alpha = Number(alphaEl.value) / 100;
+      const power = Number(powerEl.value) / 100;
+      const beta = Math.max(1 - power, 0);
+      alphaValueEl.textContent = alpha.toFixed(2);
+      betaValueEl.textContent = beta.toFixed(2);
+
+      const labels = ['Type I (α)', 'Type II (β)', 'Power (1−β)'];
+      const data = [alpha, beta, power];
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            data,
+            backgroundColor: [
+              'rgba(0,150,136,0.75)',
+              'rgba(0,188,212,0.6)',
+              'rgba(0,105,92,0.8)'
+            ],
+            borderRadius: 12
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.label}: ${(ctx.parsed.y * 100).toFixed(1)}%`
+              }
+            }
+          },
+          scales: {
+            x: { ticks: { color: '#015b55' } },
+            y: {
+              ticks: {
+                color: '#015b55',
+                callback: (value) => `${(value * 100).toFixed(0)}%`
+              },
+              min: 0,
+              max: 1,
+              title: { display: true, text: 'สัดส่วน', color: '#015b55' }
+            }
+          }
+        }
+      });
+    }
+
+    alphaEl.addEventListener('input', updateChart);
+    powerEl.addEventListener('input', updateChart);
+    updateChart();
+  </script>
+</body>
+</html>

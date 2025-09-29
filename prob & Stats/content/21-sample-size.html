@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 21: การคำนวณขนาดตัวอย่าง (Sample Size)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 16% 15%, rgba(3, 155, 229, 0.24), transparent 65%),
+                  radial-gradient(circle at 82% 24%, rgba(30, 136, 229, 0.22), transparent 60%),
+                  linear-gradient(180deg, #eef6ff 0%, #ffffff 45%, #e6f2ff 100%);
+      min-height: 100vh;
+      color: #06335b;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.6rem) clamp(1.4rem, 3vw, 3rem) 4rem;
+      display: grid;
+      gap: 2.4rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #0288d1, #01579b);
+      color: #fff;
+      padding: clamp(2.6rem, 4vw, 3.8rem);
+      border-radius: 34px;
+      box-shadow: 0 32px 64px rgba(1, 87, 155, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 24%, rgba(255,255,255,0.32), transparent 55%),
+                  radial-gradient(circle at 82% 70%, rgba(255,255,255,0.24), transparent 60%);
+    }
+    header.hero h1 { font-size: clamp(2.3rem, 3.2vw, 3.45rem); margin: 0 0 0.9rem; }
+    header.hero p { font-size: 1.05rem; line-height: 1.8; max-width: 780px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    section.card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 28px;
+      padding: clamp(1.9rem, 4vw, 2.6rem);
+      box-shadow: 0 26px 55px rgba(1, 87, 155, 0.16);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.25rem;
+    }
+    section.card h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      color: #01579b;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    article.panel {
+      background: rgba(2, 136, 209, 0.08);
+      border: 1px solid rgba(1, 87, 155, 0.18);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .highlight {
+      border-left: 5px solid #0277bd;
+      padding: 1rem 1.4rem;
+      background: rgba(2, 119, 189, 0.1);
+      border-radius: 18px;
+    }
+    ul, p, li { line-height: 1.75; }
+    .grid-two { display: grid; gap: 1.4rem; }
+    @media (min-width: 960px) { .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .calculator { display: grid; gap: 1rem; }
+    label span { font-weight: 600; color: #0a4474; }
+    input[type="number"], input[type="range"], select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(1, 87, 155, 0.2);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.96);
+    }
+    button {
+      background: linear-gradient(135deg, #0288d1, #1565c0);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(2, 136, 209, 0.25); }
+    .result-card {
+      background: rgba(234, 246, 255, 0.96);
+      border: 1px solid rgba(1, 87, 155, 0.18);
+      border-radius: 20px;
+      padding: 1.1rem 1.4rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .note { font-size: 0.95rem; color: #0b4370; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">👨‍🏫 บทเรียนที่ 21 · Planning Sample Size</div>
+      <h1>การคำนวณขนาดตัวอย่างที่เหมาะสม</h1>
+      <p>สวัสดีครับนักศึกษา! ก่อนเริ่มเก็บข้อมูลจริง เราต้องตอบคำถามสำคัญว่า “ต้องสุ่มกี่คนถึงจะพอ?” การสุ่มน้อยเกินไปทำให้ผลไม่น่าเชื่อถือ ส่วนการสุ่มมากเกินไปก็สิ้นเปลือง ในบทนี้เราจะใช้สูตรที่พลิกมาจากระยะเผื่อความคลาดเคลื่อนเพื่อวางแผนขนาดตัวอย่างล่วงหน้า.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. อธิบายเนื้อหา: การวางแผนก่อนเก็บข้อมูล</h2>
+      <p>เป้าหมายคือหาค่า n ที่เล็กที่สุดแต่ยังตอบโจทย์ระดับความเชื่อมั่นและความแม่นยำที่ต้องการ ปัจจัยหลักคือ ระยะเผื่อความคลาดเคลื่อน (E), ระดับความเชื่อมั่น (กำหนด \(Z_{\alpha/2}\)) และการประมาณการความกระจายตัวของประชากร (σ หรือ p).</p>
+    </section>
+
+    <section class="card">
+      <h2>2. &amp; 3. สูตรที่ใช้</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <h3>สำหรับค่าเฉลี่ย (μ)</h3>
+          <p class="math">\[ n = \left( \frac{Z_{\alpha/2} \cdot \sigma}{E} \right)^2 \]</p>
+          <ul>
+            <li>ต้องประมาณค่า σ ล่วงหน้า (จากงานเก่าหรือ pilot study)</li>
+            <li>ยิ่ง E เล็ก หรือระดับความเชื่อมั่นสูง ⇒ n ใหญ่ขึ้น</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>สำหรับสัดส่วน (p)</h3>
+          <p class="math">\[ n = p(1-p) \left( \frac{Z_{\alpha/2}}{E} \right)^2 \]</p>
+          <ul>
+            <li>ถ้าไม่รู้ p เลย ⇒ ใช้ p = 0.5 เพื่อได้ n สูงสุด (ปลอดภัยที่สุด)</li>
+            <li>ผลลัพธ์ต้องปัดขึ้นเสมอ เพราะไม่มี “ครึ่งคน” ในตัวอย่าง</li>
+          </ul>
+        </article>
+      </div>
+      <div class="highlight">
+        <p>ความสัมพันธ์สำคัญ: อยากให้คลาดเคลื่อนน้อยลง ⇒ ต้องใช้ตัวอย่างมากขึ้น | อยากได้ความเชื่อมั่นสูงขึ้น ⇒ ค่า Z สูง ⇒ n เพิ่ม | ข้อมูลกระจายตัวมาก (σ หรือ p(1-p) สูง) ⇒ n เพิ่ม.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ตัวอย่างการคำนวณ</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <h3>ตัวอย่างที่ 1: ค่าเฉลี่ย</h3>
+          <p>ต้องการประมาณรายได้เฉลี่ยบัณฑิตใหม่ 95% CI และ E ≤ 500 บาท โดยรู้ว่า σ ≈ 4,000 บาท</p>
+          <ul>
+            <li>Z = 1.96</li>
+            <li>\(n = (1.96 · 4000 / 500)^2 = 245.86\)</li>
+            <li>ปัดขึ้น ⇒ n = 246 คน</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>ตัวอย่างที่ 2: สัดส่วน</h3>
+          <p>ต้องการโพลรู้จักแบรนด์ใหม่ 99% CI และ E ≤ 0.04 โดยไม่มีข้อมูล p มาก่อน</p>
+          <ul>
+            <li>Z = 2.576, p = 0.5</li>
+            <li>\(n = 0.5(1-0.5) (2.576/0.04)^2 = 1036.84\)</li>
+            <li>ปัดขึ้น ⇒ n = 1,037 คน</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. เครื่องมือคำนวณขนาดตัวอย่าง</h2>
+      <p>เลือกประเภทพารามิเตอร์ ปรับระดับความเชื่อมั่น ระยะเผื่อ และการประมาณค่าความกระจาย เพื่อดู n ที่ต้องใช้ทันที.</p>
+      <div class="calculator">
+        <label><span>ประเภทพารามิเตอร์</span>
+          <select id="type">
+            <option value="mean">ค่าเฉลี่ย (μ)</option>
+            <option value="proportion">สัดส่วน (p)</option>
+          </select>
+        </label>
+        <label><span>ระดับความเชื่อมั่น (%)</span>
+          <input type="range" id="confidence" min="80" max="99" value="95" />
+        </label>
+        <label><span>ระยะเผื่อความคลาดเคลื่อน (E)</span>
+          <input type="number" id="margin" value="500" step="0.001" min="0.0001" />
+        </label>
+        <label id="sigmaLabel"><span>ประมาณค่า σ</span>
+          <input type="number" id="sigma" value="4000" step="0.001" min="0" />
+        </label>
+        <label id="pLabel" style="display:none"><span>ประมาณค่า p</span>
+          <input type="number" id="p" value="0.5" step="0.01" min="0" max="1" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่น: <strong id="confValue">95%</strong> | Z = <strong id="zValue">1.960</strong></div>
+        <button id="calcBtn">คำนวณ n</button>
+      </div>
+      <div class="result-card" id="result" style="display:none"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const typeEl = document.getElementById('type');
+    const confEl = document.getElementById('confidence');
+    const marginEl = document.getElementById('margin');
+    const sigmaEl = document.getElementById('sigma');
+    const sigmaLabel = document.getElementById('sigmaLabel');
+    const pEl = document.getElementById('p');
+    const pLabel = document.getElementById('pLabel');
+    const confValueEl = document.getElementById('confValue');
+    const zValueEl = document.getElementById('zValue');
+    const resultEl = document.getElementById('result');
+    const calcBtn = document.getElementById('calcBtn');
+
+    function updateVisibility() {
+      if (typeEl.value === 'mean') {
+        sigmaLabel.style.display = '';
+        pLabel.style.display = 'none';
+      } else {
+        sigmaLabel.style.display = 'none';
+        pLabel.style.display = '';
+      }
+    }
+
+    function computeN() {
+      const confidence = Number(confEl.value) / 100;
+      const alpha = 1 - confidence;
+      const z = jStat.normal.inv(1 - alpha / 2, 0, 1);
+      confValueEl.textContent = `${(confidence * 100).toFixed(0)}%`;
+      zValueEl.textContent = z.toFixed(3);
+
+      const margin = Math.max(Number(marginEl.value), 0.0001);
+      let n;
+      if (typeEl.value === 'mean') {
+        const sigma = Math.max(Number(sigmaEl.value), 0);
+        n = ((z * sigma) / margin) ** 2;
+      } else {
+        const p = Math.min(Math.max(Number(pEl.value), 0), 1);
+        pEl.value = p;
+        n = p * (1 - p) * ((z / margin) ** 2);
+      }
+
+      const nCeil = Math.ceil(n);
+      resultEl.style.display = 'grid';
+      resultEl.innerHTML = `
+        <strong>ต้องใช้ขนาดตัวอย่างอย่างน้อย ${nCeil.toLocaleString('th-TH')} หน่วย</strong>
+        <span>ค่าที่คำนวณได้ (ไม่ปัด) = ${n.toFixed(3)}</span>
+        <span class="note">ปัดขึ้นเสมอเพื่อให้เงื่อนไขระยะเผื่อความคลาดเคลื่อนเป็นจริง</span>
+      `;
+    }
+
+    typeEl.addEventListener('change', () => { updateVisibility(); computeN(); });
+    [confEl, marginEl, sigmaEl, pEl].forEach(el => el.addEventListener('input', computeN));
+    calcBtn.addEventListener('click', computeN);
+
+    updateVisibility();
+    computeN();
+  </script>
+</body>
+</html>

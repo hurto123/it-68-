@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 19: การเปรียบเทียบค่าเฉลี่ยสองประชากร (μ₁ − μ₂)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 18%, rgba(156, 39, 176, 0.25), transparent 65%),
+                  radial-gradient(circle at 82% 24%, rgba(103, 58, 183, 0.22), transparent 60%),
+                  linear-gradient(180deg, #fbf2ff 0%, #ffffff 40%, #f3ecff 100%);
+      min-height: 100vh;
+      color: #2b1240;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.6rem) clamp(1.4rem, 3vw, 3rem) 4rem;
+      display: grid;
+      gap: 2.4rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #7b1fa2, #512da8);
+      color: #fff;
+      padding: clamp(2.6rem, 4vw, 3.8rem);
+      border-radius: 34px;
+      box-shadow: 0 32px 64px rgba(81, 45, 168, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 28%, rgba(255,255,255,0.32), transparent 55%),
+                  radial-gradient(circle at 82% 68%, rgba(255,255,255,0.25), transparent 60%);
+    }
+    header.hero h1 { font-size: clamp(2.3rem, 3.1vw, 3.45rem); margin: 0 0 0.9rem; }
+    header.hero p { font-size: 1.05rem; line-height: 1.8; max-width: 780px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    section.card {
+      background: rgba(255,255,255,0.93);
+      border-radius: 28px;
+      padding: clamp(1.9rem, 4vw, 2.6rem);
+      box-shadow: 0 26px 55px rgba(81, 45, 168, 0.14);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.25rem;
+    }
+    section.card h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      color: #5e35b1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    article.panel {
+      background: rgba(94, 53, 177, 0.08);
+      border: 1px solid rgba(81, 45, 168, 0.16);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .grid-two { display: grid; gap: 1.4rem; }
+    @media (min-width: 960px) { .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .highlight {
+      border-left: 5px solid #5e35b1;
+      padding: 1rem 1.4rem;
+      background: rgba(94, 53, 177, 0.1);
+      border-radius: 18px;
+    }
+    .note { font-size: 0.95rem; color: #45245f; }
+    ul, p, li { line-height: 1.75; }
+    .calculator { display: grid; gap: 1rem; }
+    label span { font-weight: 600; color: #4a2b70; }
+    input[type="number"], input[type="range"], select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(94, 53, 177, 0.24);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.96);
+    }
+    button {
+      background: linear-gradient(135deg, #7b1fa2, #3949ab);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(123, 31, 162, 0.25); }
+    .result-card {
+      background: rgba(246, 240, 255, 0.96);
+      border: 1px solid rgba(94, 53, 177, 0.2);
+      border-radius: 20px;
+      padding: 1.1rem 1.4rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    canvas { background: rgba(245, 236, 255, 0.92); border-radius: 20px; padding: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">👨‍🏫 บทเรียนที่ 19 · Comparing Means</div>
+      <h1>การเปรียบเทียบค่าเฉลี่ยสองประชากร (μ₁ − μ₂)</h1>
+      <p>สวัสดีครับนักศึกษา! คราวนี้เราจะยกระดับจากการประมาณค่าเฉลี่ยกลุ่มเดียว มาสวมบท "กรรมการ" เปรียบเทียบสองกลุ่ม เช่น ยา A กับ ยา B หรือ รายได้พนักงานชายกับหญิง เราสนใจผลต่าง \(μ_1 - μ_2\) มากกว่าการดูค่าของแต่ละกลุ่มแยกกัน.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. อธิบายเนื้อหา: การประมาณค่าผลต่าง</h2>
+      <p>เรามีตัวอย่างอิสระสองกลุ่ม (Independent Samples) ตัวประมาณค่าแบบจุดคือ \(\bar{x}_1 - \bar{x}_2\) ซึ่งเป็นผลต่างของค่าเฉลี่ยตัวอย่าง การสร้างช่วงความเชื่อมั่นช่วยตอบคำถามว่า “ผลต่างเฉลี่ยจริงของประชากรอยู่ประมาณเท่าไร?”.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. &amp; 3. ความหมายและสูตรสำหรับตัวอย่างขนาดใหญ่</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <p>เมื่อทั้งสองกลุ่มมีขนาดตัวอย่างค่อนข้างใหญ่ (โดยทั่วไป n₁, n₂ ≥ 30) หรือรู้ส่วนเบี่ยงเบนมาตรฐานประชากร การแจกแจงของตัวประมาณผลต่างจะใกล้ปกติและใช้ Z-distribution เป็นค่าวิกฤต.</p>
+          <ul>
+            <li>ตัวประมาณค่าแบบจุด: \(\bar{x}_1 - \bar{x}_2\)</li>
+            <li>Standard Error: \(\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}\)</li>
+            <li>ค่าวิกฤต: \(Z_{\alpha/2}\)</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>สูตร</h3>
+          <p class="math">\[ CI = (\bar{x}_1 - \bar{x}_2) \pm Z_{\alpha/2} \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}} \]</p>
+          <p>สูตรนี้รวมความผันผวนจากทั้งสองกลุ่มโดยการบวกความแปรปรวนเข้าด้วยกัน.</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <p>กรณีที่ตัวอย่างเล็กและไม่รู้ σ เราจะต้องใช้สูตร t ที่ซับซ้อนขึ้น (เช่น Welch’s t) ซึ่งมักให้ซอฟต์แวร์ช่วยคำนวณ.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. การตีความโดยดู “เลขศูนย์”</h2>
+      <ul>
+        <li><strong>ช่วงไม่คร่อมศูนย์และเป็นบวกทั้งหมด:</strong> \(μ_1 > μ_2\) อย่างมีนัยสำคัญ</li>
+        <li><strong>ช่วงไม่คร่อมศูนย์และเป็นลบทั้งหมด:</strong> \(μ_1 < μ_2\) อย่างมีนัยสำคัญ</li>
+        <li><strong>ช่วงคร่อมศูนย์:</strong> ผลต่างอาจเป็นศูนย์ ⇒ ยังสรุปไม่ได้ว่าทั้งสองกลุ่มต่างกัน</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>5. ยกตัวอย่าง: เปรียบเทียบยางรถยนต์</h2>
+      <article class="panel">
+        <p>ข้อมูล:</p>
+        <ul>
+          <li>ยี่ห้อ A: n₁ = 100, \(\bar{x}_1 = 45,000\) กม., s₁ = 5,000</li>
+          <li>ยี่ห้อ B: n₂ = 120, \(\bar{x}_2 = 48,000\) กม., s₂ = 6,000</li>
+          <li>ระดับความเชื่อมั่น 99% ⇒ \(Z_{0.005} = 2.576\)</li>
+        </ul>
+        <div class="steps">
+          <p>ตัวประมาณค่าแบบจุด: 45,000 − 48,000 = −3,000</p>
+          <p>SE = \(\sqrt{5000^2/100 + 6000^2/120} = 741.62\)</p>
+          <p>ระยะเผื่อ = 2.576 × 741.62 = 1,910.7</p>
+          <p>CI = −3,000 ± 1,910.7 ⇒ (−4,910.7, −1,089.3)</p>
+        </div>
+        <p class="note">ช่วงไม่คร่อมศูนย์และเป็นลบทั้งหมด ⇒ ยางยี่ห้อ B มีอายุเฉลี่ยมากกว่าอย่างมีนัยสำคัญ.</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>6. เครื่องมือโต้ตอบ</h2>
+      <p>ทดลองเปลี่ยนข้อมูลของสองกลุ่ม เพื่อดูผลต่างค่าเฉลี่ยและช่วงความเชื่อมั่นแบบเรียลไทม์.</p>
+      <div class="calculator">
+        <label><span>ค่าเฉลี่ยตัวอย่างกลุ่มที่ 1 (\(\bar{x}_1\))</span>
+          <input type="number" id="mean1" value="45000" step="1" />
+        </label>
+        <label><span>ส่วนเบี่ยงเบนมาตรฐานกลุ่มที่ 1 (s₁)</span>
+          <input type="number" id="sd1" value="5000" step="1" min="0" />
+        </label>
+        <label><span>ขนาดตัวอย่างกลุ่มที่ 1 (n₁)</span>
+          <input type="number" id="n1" value="100" min="2" />
+        </label>
+        <label><span>ค่าเฉลี่ยตัวอย่างกลุ่มที่ 2 (\(\bar{x}_2\))</span>
+          <input type="number" id="mean2" value="48000" step="1" />
+        </label>
+        <label><span>ส่วนเบี่ยงเบนมาตรฐานกลุ่มที่ 2 (s₂)</span>
+          <input type="number" id="sd2" value="6000" step="1" min="0" />
+        </label>
+        <label><span>ขนาดตัวอย่างกลุ่มที่ 2 (n₂)</span>
+          <input type="number" id="n2" value="120" min="2" />
+        </label>
+        <label><span>ระดับความเชื่อมั่น (%)</span>
+          <input type="range" id="confidence" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่น: <strong id="confValue">95%</strong></div>
+        <button id="calcBtn">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="result" style="display:none"></div>
+      <canvas id="ciChart" height="260"></canvas>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const mean1El = document.getElementById('mean1');
+    const sd1El = document.getElementById('sd1');
+    const n1El = document.getElementById('n1');
+    const mean2El = document.getElementById('mean2');
+    const sd2El = document.getElementById('sd2');
+    const n2El = document.getElementById('n2');
+    const confEl = document.getElementById('confidence');
+    const confValueEl = document.getElementById('confValue');
+    const resultEl = document.getElementById('result');
+    const calcBtn = document.getElementById('calcBtn');
+    const ctx = document.getElementById('ciChart').getContext('2d');
+    let chart;
+
+    function calcCI() {
+      const mean1 = Number(mean1El.value);
+      const sd1 = Math.max(Number(sd1El.value), 0);
+      const n1 = Math.max(Number.parseInt(n1El.value, 10), 2);
+      const mean2 = Number(mean2El.value);
+      const sd2 = Math.max(Number(sd2El.value), 0);
+      const n2 = Math.max(Number.parseInt(n2El.value, 10), 2);
+      n1El.value = n1;
+      n2El.value = n2;
+
+      const confidence = Number(confEl.value) / 100;
+      confValueEl.textContent = `${(confidence * 100).toFixed(0)}%`;
+      const alpha = 1 - confidence;
+      const critical = jStat.normal.inv(1 - alpha / 2, 0, 1);
+      const diff = mean1 - mean2;
+      const se = Math.sqrt((sd1 ** 2) / n1 + (sd2 ** 2) / n2);
+      const margin = critical * se;
+      const lower = diff - margin;
+      const upper = diff + margin;
+
+      resultEl.style.display = 'grid';
+      resultEl.innerHTML = `
+        <strong>ผลต่างค่าเฉลี่ย = ${diff.toFixed(2)}</strong>
+        <span>SE = ${se.toFixed(3)} · Z = ${critical.toFixed(3)}</span>
+        <span>ช่วงความเชื่อมั่น ${(confidence * 100).toFixed(1)}% = [${lower.toFixed(2)}, ${upper.toFixed(2)}]</span>
+        <span class="note">เลขศูนย์อยู่ในช่วงหรือไม่? นั่นคือกุญแจสู่การตีความ.</span>
+      `;
+
+      const points = 160;
+      const xs = [];
+      const base = [];
+      const fill = [];
+      const range = Math.max(4 * se, Math.abs(margin) * 1.3 + se);
+      for (let i = 0; i <= points; i += 1) {
+        const x = diff - range + (2 * range * i) / points;
+        xs.push(x.toFixed(2));
+        const standardized = se === 0 ? 0 : (x - diff) / se;
+        const density = se === 0 ? 0 : jStat.normal.pdf(standardized, 0, 1) / se;
+        base.push(density);
+        fill.push(x >= lower && x <= upper ? density : null);
+      }
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xs,
+          datasets: [
+            {
+              label: 'การแจกแจงของผลต่าง',
+              data: base,
+              borderColor: 'rgba(94,53,177,0.45)',
+              backgroundColor: 'rgba(94,53,177,0.08)',
+              borderWidth: 2.6,
+              pointRadius: 0,
+              tension: 0.25
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: fill,
+              borderColor: 'rgba(123,31,162,0.9)',
+              backgroundColor: 'rgba(123,31,162,0.28)',
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0.25,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#4a2b70' } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `ความหนาแน่น ≈ ${Number(ctx.raw).toFixed(4)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#4a2b70', maxRotation: 0 },
+              title: { display: true, text: 'ผลต่างที่เป็นไปได้ (μ₁ − μ₂)', color: '#4a2b70' }
+            },
+            y: {
+              ticks: { color: '#4a2b70' },
+              title: { display: true, text: 'ความหนาแน่น', color: '#4a2b70' }
+            }
+          }
+        }
+      });
+    }
+
+    [mean1El, sd1El, n1El, mean2El, sd2El, n2El].forEach(el => el.addEventListener('input', calcCI));
+    confEl.addEventListener('input', calcCI);
+    calcBtn.addEventListener('click', calcCI);
+    calcCI();
+  </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 18: การประมาณค่าสัดส่วนประชากรเดียว (p)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(0, 150, 136, 0.22), transparent 65%),
+                  radial-gradient(circle at 80% 18%, rgba(0, 121, 107, 0.18), transparent 60%),
+                  linear-gradient(180deg, #f0fffb 0%, #ffffff 40%, #e8fffa 100%);
+      min-height: 100vh;
+      color: #05312d;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.4rem, 3vw, 3rem) 4rem;
+      display: grid;
+      gap: 2.4rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #00695c, #009688);
+      color: #fff;
+      padding: clamp(2.6rem, 4vw, 3.8rem);
+      border-radius: 34px;
+      box-shadow: 0 32px 64px rgba(0, 105, 92, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 24%, rgba(255,255,255,0.34), transparent 55%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.28), transparent 60%);
+    }
+    header.hero h1 { font-size: clamp(2.3rem, 3.2vw, 3.4rem); margin: 0 0 0.9rem; }
+    header.hero p { font-size: 1.05rem; line-height: 1.8; max-width: 760px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    section.card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 28px;
+      padding: clamp(1.9rem, 4vw, 2.6rem);
+      box-shadow: 0 26px 50px rgba(0, 105, 92, 0.14);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.25rem;
+    }
+    section.card h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      color: #00564c;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    article.panel {
+      background: rgba(0, 150, 136, 0.08);
+      border: 1px solid rgba(0, 121, 107, 0.18);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .grid-two { display: grid; gap: 1.4rem; }
+    @media (min-width: 960px) { .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .highlight {
+      border-left: 5px solid #00897b;
+      padding: 1rem 1.4rem;
+      background: rgba(0, 137, 123, 0.08);
+      border-radius: 18px;
+    }
+    ul, p, li { line-height: 1.75; }
+    .calculator { display: grid; gap: 1rem; }
+    label span { font-weight: 600; color: #005c52; }
+    input[type="number"], input[type="range"], select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 121, 107, 0.25);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.96);
+    }
+    button {
+      background: linear-gradient(135deg, #00695c, #00acc1);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0, 150, 136, 0.25); }
+    .result-card {
+      background: rgba(243, 255, 252, 0.96);
+      border: 1px solid rgba(0, 121, 107, 0.2);
+      border-radius: 20px;
+      padding: 1.1rem 1.4rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .note { font-size: 0.95rem; color: #0a524b; }
+    canvas { background: rgba(237, 255, 251, 0.92); border-radius: 20px; padding: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">👨‍🏫 บทเรียนที่ 18 · Proportion CI</div>
+      <h1>การประมาณค่าสัดส่วนประชากรเดียว (p)</h1>
+      <p>สวัสดีครับนักศึกษา! นอกจากค่าเฉลี่ยแล้ว อีกหนึ่งพารามิเตอร์ที่ถูกถามบ่อยคือ “สัดส่วน (Proportion)” หรือเปอร์เซ็นต์ของประชากรที่มีลักษณะเฉพาะ เช่น โหวตให้ผู้สมัคร, สินค้าชำรุด, หรือความพึงพอใจของลูกค้า ในบทนี้เราจะเรียนรู้การสร้างช่วงความเชื่อมั่นเพื่อประมาณค่าสัดส่วนของประชากรจากตัวอย่าง.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. อธิบายเนื้อหา: การประมาณค่าข้อมูลเชิงคุณภาพ</h2>
+      <p>ข้อมูลที่เราสนใจในบทนี้เป็นข้อมูลแบบ “มี/ไม่มี” ลักษณะบางอย่าง เช่น เลือก/ไม่เลือก ชำรุด/ไม่ชำรุด เราต้องการประมาณพารามิเตอร์ \(p\) ซึ่งคือสัดส่วนของประชากรทั้งหมดที่มีลักษณะนั้น และเรามีตัวประมาณค่าแบบจุดจากตัวอย่างคือ \(\hat{p} = x/n\) โดยที่ x คือจำนวนตัวอย่างที่ “สำเร็จ” และ n คือขนาดตัวอย่าง.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <p>เมื่อขนาดตัวอย่างใหญ่พอ (เงื่อนไข \(np \ge 10\) และ \(n(1-p) \ge 10\)) การแจกแจงของ \(\hat{p}\) จะเข้าใกล้การแจกแจงปกติ เราจึงใช้ Z-distribution เป็นค่าวิกฤตในการสร้างช่วงความเชื่อมั่น.</p>
+          <ul>
+            <li>ตัวประมาณค่าแบบจุด: \(\hat{p}\)</li>
+            <li>Standard Error: \(\sqrt{\hat{p}(1-\hat{p})/n}\)</li>
+            <li>ค่าวิกฤต: \(Z_{\alpha/2}\) จากตาราง Z</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>สูตรช่วงความเชื่อมั่น</h3>
+          <p class="math">\[ CI = \hat{p} \pm Z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \]</p>
+          <p>โครงสร้างเหมือนการประมาณค่าเฉลี่ย: “ตัวประมาณค่า ± ระยะเผื่อความคลาดเคลื่อน”</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. การเข้าใจในเนื้อหา</h2>
+      <div class="highlight">
+        <p>ระยะเผื่อความคลาดเคลื่อนจะขึ้นกับ \(\hat{p}\), ขนาดตัวอย่าง และระดับความเชื่อมั่น หาก n ใหญ่หรือระดับความเชื่อมั่นต่ำลง ช่วงจะเล็กลง ในทางกลับกัน หากต้องการความเชื่อมั่นสูงขึ้น ช่วงจะกว้างขึ้น.</p>
+        <p>อย่าลืมตรวจสอบเงื่อนไข \(np\) และ \(n(1-p)\) เพื่อให้การใช้ Z-distribution สมเหตุสมผล.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. ยกตัวอย่าง: การสำรวจความคิดเห็น (Exit Poll)</h2>
+      <article class="panel">
+        <p>สถานีโทรทัศน์สำรวจผู้มีสิทธิ์เลือกตั้ง 900 คน พบว่า 486 คนเลือกนาย A → \(\hat{p} = 486/900 = 0.54\)</p>
+        <div class="steps">
+          <p>ระดับความเชื่อมั่น 95% ⇒ \(Z_{0.025} = 1.96\)</p>
+          <p>SE = \(\sqrt{0.54(1-0.54)/900} = 0.0166\)</p>
+          <p>ระยะเผื่อ = 1.96 × 0.0166 = 0.0325</p>
+          <p>CI = 0.54 ± 0.0325 ⇒ (0.5075, 0.5725)</p>
+        </div>
+        <p class="note">แปลความ: มีความเชื่อมั่น 95% ว่าสัดส่วนผู้เลือกนาย A อยู่ระหว่าง 50.75% ถึง 57.25%</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>6. ทดลองคำนวณด้วยตนเอง</h2>
+      <p>ปรับค่าจำนวนความสำเร็จและขนาดตัวอย่าง เพื่อดูการเปลี่ยนแปลงของช่วงความเชื่อมั่นแบบเรียลไทม์.</p>
+      <div class="calculator">
+        <label><span>จำนวนความสำเร็จ (x)</span>
+          <input type="number" id="success" value="486" min="0" />
+        </label>
+        <label><span>ขนาดตัวอย่าง (n)</span>
+          <input type="number" id="sample" value="900" min="1" />
+        </label>
+        <label><span>ระดับความเชื่อมั่น (%)</span>
+          <input type="range" id="confidence" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่นปัจจุบัน: <strong id="confValue">95%</strong></div>
+        <button id="calcBtn">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="result" style="display:none"></div>
+      <canvas id="ciChart" height="250"></canvas>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const successEl = document.getElementById('success');
+    const sampleEl = document.getElementById('sample');
+    const confEl = document.getElementById('confidence');
+    const confValueEl = document.getElementById('confValue');
+    const resultEl = document.getElementById('result');
+    const calcBtn = document.getElementById('calcBtn');
+    const ctx = document.getElementById('ciChart').getContext('2d');
+    let chart;
+
+    function updateCI() {
+      const x = Math.max(Number(successEl.value), 0);
+      const n = Math.max(Number(sampleEl.value), 1);
+      const confidence = Number(confEl.value) / 100;
+      confValueEl.textContent = `${(confidence * 100).toFixed(0)}%`;
+      successEl.max = n;
+      const pHat = Math.min(x / n, 1);
+      const alpha = 1 - confidence;
+      const critical = jStat.normal.inv(1 - alpha / 2, 0, 1);
+      const se = Math.sqrt(Math.max(pHat * (1 - pHat) / n, 0));
+      const margin = critical * se;
+      const lower = Math.max(pHat - margin, 0);
+      const upper = Math.min(pHat + margin, 1);
+
+      resultEl.style.display = 'grid';
+      resultEl.innerHTML = `
+        <strong>ช่วงความเชื่อมั่น ${(confidence * 100).toFixed(1)}%</strong>
+        <span>\u005Chat{p} = ${(pHat * 100).toFixed(2)}% · SE = ${(se * 100).toFixed(2)}%</span>
+        <span>ค่าวิกฤต Z = ${critical.toFixed(3)}</span>
+        <span>ช่วง = [${(lower * 100).toFixed(2)}%, ${(upper * 100).toFixed(2)}%]</span>
+        <span class="note">ตีความ: เรามั่นใจ ${(confidence * 100).toFixed(1)}% ว่าสัดส่วนประชากรอยู่ในช่วงนี้</span>
+      `;
+
+      const points = 160;
+      const xs = [];
+      const base = [];
+      const fill = [];
+      const range = Math.max(4 * se, margin * 1.3 + se);
+      for (let i = 0; i <= points; i += 1) {
+        const p = Math.max(Math.min(pHat - range + (2 * range * i) / points, 1), 0);
+        xs.push((p * 100).toFixed(2));
+        const standardized = (p - pHat) / se;
+        const density = se === 0 ? 0 : jStat.normal.pdf(standardized, 0, 1) / se;
+        base.push(density);
+        fill.push(p >= lower && p <= upper ? density : null);
+      }
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xs,
+          datasets: [
+            {
+              label: 'การแจกแจงของ \u005Chat{p}',
+              data: base,
+              borderColor: 'rgba(0,150,136,0.45)',
+              backgroundColor: 'rgba(0,150,136,0.08)',
+              borderWidth: 2.6,
+              pointRadius: 0,
+              tension: 0.25
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: fill,
+              borderColor: 'rgba(0,172,193,0.9)',
+              backgroundColor: 'rgba(0,172,193,0.28)',
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0.25,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#00564c' } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `ความหนาแน่น ≈ ${Number(ctx.raw).toFixed(4)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#00564c', maxRotation: 0 },
+              title: { display: true, text: 'สัดส่วนที่เป็นไปได้ (%)', color: '#00564c' }
+            },
+            y: {
+              ticks: { color: '#00564c' },
+              title: { display: true, text: 'ความหนาแน่น', color: '#00564c' }
+            }
+          }
+        }
+      });
+    }
+
+    [successEl, sampleEl].forEach(el => el.addEventListener('input', updateCI));
+    confEl.addEventListener('input', updateCI);
+    calcBtn.addEventListener('click', updateCI);
+    updateCI();
+  </script>
+</body>
+</html>

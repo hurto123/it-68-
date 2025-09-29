@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <title>บทที่ 22: การประมาณค่าความแปรปรวน (σ²)</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans Thai", "Prompt", "Sarabun", system-ui, sans-serif;
+      background: radial-gradient(circle at 16% 18%, rgba(244, 67, 54, 0.22), transparent 65%),
+                  radial-gradient(circle at 84% 24%, rgba(233, 30, 99, 0.22), transparent 60%),
+                  linear-gradient(180deg, #fff1f1 0%, #ffffff 45%, #ffe9ef 100%);
+      min-height: 100vh;
+      color: #4a0d1f;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 3.6rem) clamp(1.4rem, 3vw, 3rem) 4rem;
+      display: grid;
+      gap: 2.4rem;
+    }
+    header.hero {
+      background: linear-gradient(135deg, #d32f2f, #c2185b);
+      color: #fff;
+      padding: clamp(2.6rem, 4vw, 3.8rem);
+      border-radius: 34px;
+      box-shadow: 0 32px 64px rgba(194, 24, 91, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 16% 24%, rgba(255,255,255,0.32), transparent 55%),
+                  radial-gradient(circle at 82% 70%, rgba(255,255,255,0.24), transparent 60%);
+    }
+    header.hero h1 { font-size: clamp(2.3rem, 3.2vw, 3.4rem); margin: 0 0 0.9rem; }
+    header.hero p { font-size: 1.05rem; line-height: 1.8; max-width: 780px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    section.card {
+      background: rgba(255,255,255,0.92);
+      border-radius: 28px;
+      padding: clamp(1.9rem, 4vw, 2.6rem);
+      box-shadow: 0 26px 55px rgba(194, 24, 91, 0.15);
+      backdrop-filter: blur(6px);
+      display: grid;
+      gap: 1.25rem;
+    }
+    section.card h2 {
+      margin: 0;
+      font-size: 1.9rem;
+      color: #c2185b;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    article.panel {
+      background: rgba(244, 67, 54, 0.08);
+      border: 1px solid rgba(194, 24, 91, 0.2);
+      border-radius: 22px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+    .highlight {
+      border-left: 5px solid #d81b60;
+      padding: 1rem 1.4rem;
+      background: rgba(216, 27, 96, 0.1);
+      border-radius: 18px;
+    }
+    ul, p, li { line-height: 1.75; }
+    .grid-two { display: grid; gap: 1.4rem; }
+    @media (min-width: 960px) { .grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .calculator { display: grid; gap: 1rem; }
+    label span { font-weight: 600; color: #701730; }
+    input[type="number"], input[type="range"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(194, 24, 91, 0.22);
+      font-size: 1rem;
+      background: rgba(255,255,255,0.96);
+    }
+    button {
+      background: linear-gradient(135deg, #d32f2f, #ad1457);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 0.9rem 1.3rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(211, 47, 47, 0.25); }
+    .result-card {
+      background: rgba(255, 235, 238, 0.96);
+      border: 1px solid rgba(194, 24, 91, 0.2);
+      border-radius: 20px;
+      padding: 1.1rem 1.4rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+    canvas { background: rgba(255, 228, 233, 0.92); border-radius: 20px; padding: 1rem; }
+    .note { font-size: 0.95rem; color: #7b1a33; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="badge">👨‍🏫 บทเรียนที่ 22 · Variance Interval</div>
+      <h1>การประมาณค่าความแปรปรวน (σ²)</h1>
+      <p>สวัสดีครับนักศึกษา! เราไม่ได้สนใจแค่ค่ากลาง แต่ยังต้องรู้ว่า “ข้อมูลกระจายตัวมากน้อยแค่ไหน” ด้วย บทนี้เราจะใช้การแจกแจงไคสแควร์ (χ²) เพื่อสร้างช่วงความเชื่อมั่นของความแปรปรวนหรือส่วนเบี่ยงเบนมาตรฐานของประชากร.</p>
+    </header>
+
+    <section class="card">
+      <h2>1. อธิบายเนื้อหา: การวัดความสม่ำเสมอ</h2>
+      <p>ความแปรปรวน (σ²) หรือส่วนเบี่ยงเบนมาตรฐาน (σ) บอกถึงระดับความสม่ำเสมอของกระบวนการ เช่น เครื่องจักรผลิตชิ้นงานได้คงเส้นคงวาหรือไม่, การลงทุนมีความเสี่ยงสูงแค่ไหน, หรือคะแนนสอบกระจายตัวมากน้อยเพียงใด.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. &amp; 3. สูตรช่วงความเชื่อมั่นสำหรับ σ²</h2>
+      <div class="grid-two">
+        <article class="panel">
+          <p>ตัวประมาณค่าแบบจุดของ σ² คือ s² (ความแปรปรวนตัวอย่าง) และเราต้องใช้ค่าวิกฤตจากการแจกแจงไคสแควร์สองตัวที่ไม่สมมาตร.</p>
+          <p class="math">\[ \frac{(n-1)s^2}{\chi^2_{\alpha/2,\, n-1}} < \sigma^2 < \frac{(n-1)s^2}{\chi^2_{1-\alpha/2,\, n-1}} \]</p>
+          <ul>
+            <li>χ² ด้านขวา (ขอบเขตบนของกราฟ) จะให้ขอบเขตล่างของช่วง</li>
+            <li>χ² ด้านซ้าย (ขอบเขตล่างของกราฟ) จะให้ขอบเขตบนของช่วง</li>
+            <li>องศาอิสระ df = n − 1</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>สำหรับส่วนเบี่ยงเบนมาตรฐาน</h3>
+          <p>นำสูตรข้างต้นมาถอดรากที่สองทั้งสองข้าง</p>
+          <p class="math">\[ \sqrt{\frac{(n-1)s^2}{\chi^2_{\alpha/2,\, n-1}}} < \sigma < \sqrt{\frac{(n-1)s^2}{\chi^2_{1-\alpha/2,\, n-1}}} \]</p>
+        </article>
+      </div>
+      <div class="highlight">
+        <p>ช่วงความเชื่อมั่นจะไม่สมมาตร เพราะโค้ง χ² เบ้ไปทางขวา ดังนั้น s² จะไม่อยู่ตรงกลางของช่วงเหมือนที่เราคุ้นเคยกับ Z หรือ t.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. ยกตัวอย่าง: การควบคุมคุณภาพกระป๋อง</h2>
+      <article class="panel">
+        <p>สุ่มกระป๋อง 20 ใบ ได้ s² = 0.015 ออนซ์² ต้องการช่วงความเชื่อมั่น 95%.</p>
+        <ul>
+          <li>df = 19, \(χ^2_{0.025,19} = 32.852\)</li>
+          <li>\(χ^2_{0.975,19} = 8.907\)</li>
+          <li>ช่วง σ² = (0.0087, 0.0320)</li>
+          <li>ช่วง σ = (0.093, 0.179)</li>
+        </ul>
+        <p class="note">ตีความ: ความแปรปรวนของเครื่องบรรจุอยู่ในช่วงดังกล่าว หากต้องการความสม่ำเสมอมากขึ้น อาจต้องปรับเครื่อง.</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>5. เครื่องมือโต้ตอบ</h2>
+      <p>ปรับค่า s², n และระดับความเชื่อมั่น เพื่อดูช่วงของ σ² และ σ พร้อมกราฟไฮไลต์บริเวณภายใต้โค้ง χ².</p>
+      <div class="calculator">
+        <label><span>ขนาดตัวอย่าง (n)</span>
+          <input type="number" id="sample" value="20" min="3" />
+        </label>
+        <label><span>ความแปรปรวนตัวอย่าง (s²)</span>
+          <input type="number" id="variance" value="0.015" step="0.0001" min="0.000001" />
+        </label>
+        <label><span>ระดับความเชื่อมั่น (%)</span>
+          <input type="range" id="confidence" min="80" max="99" value="95" />
+        </label>
+        <div class="note">ระดับความเชื่อมั่น: <strong id="confValue">95%</strong></div>
+        <button id="calcBtn">คำนวณช่วง</button>
+      </div>
+      <div class="result-card" id="result" style="display:none"></div>
+      <canvas id="chiChart" height="260"></canvas>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jstat@1.9.5/dist/jstat.min.js"></script>
+  <script>
+    const sampleEl = document.getElementById('sample');
+    const varianceEl = document.getElementById('variance');
+    const confEl = document.getElementById('confidence');
+    const confValueEl = document.getElementById('confValue');
+    const resultEl = document.getElementById('result');
+    const calcBtn = document.getElementById('calcBtn');
+    const ctx = document.getElementById('chiChart').getContext('2d');
+    let chart;
+
+    function compute() {
+      const n = Math.max(Number.parseInt(sampleEl.value, 10), 3);
+      sampleEl.value = n;
+      const s2 = Math.max(Number(varianceEl.value), 1e-6);
+      const confidence = Number(confEl.value) / 100;
+      confValueEl.textContent = `${(confidence * 100).toFixed(0)}%`;
+      const alpha = 1 - confidence;
+      const df = n - 1;
+      const chiUpper = jStat.chisquare.inv(1 - alpha / 2, df); // right tail
+      const chiLower = jStat.chisquare.inv(alpha / 2, df); // left tail
+
+      const lowerVar = (df * s2) / chiUpper;
+      const upperVar = (df * s2) / chiLower;
+      const lowerSd = Math.sqrt(lowerVar);
+      const upperSd = Math.sqrt(upperVar);
+
+      resultEl.style.display = 'grid';
+      resultEl.innerHTML = `
+        <strong>ช่วงความเชื่อมั่น ${(confidence * 100).toFixed(1)}%</strong>
+        <span>χ² ขวา = ${chiUpper.toFixed(3)}, χ² ซ้าย = ${chiLower.toFixed(3)} (df = ${df})</span>
+        <span>σ² ∈ [${lowerVar.toFixed(4)}, ${upperVar.toFixed(4)}]</span>
+        <span>σ ∈ [${lowerSd.toFixed(3)}, ${upperSd.toFixed(3)}]</span>
+        <span class="note">ช่วงไม่สมมาตรเพราะการแจกแจงไคสแควร์มีหางด้านขวายาวกว่า</span>
+      `;
+
+      const maxVar = upperVar * 1.15;
+      const points = 200;
+      const xs = [];
+      const base = [];
+      const fill = [];
+      for (let i = 0; i <= points; i += 1) {
+        const x = (maxVar * i) / points;
+        xs.push(x.toFixed(4));
+        const scaled = (df * x) / s2;
+        const density = jStat.chisquare.pdf(scaled, df) * (df / s2);
+        base.push(density);
+        fill.push(x >= lowerVar && x <= upperVar ? density : null);
+      }
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xs,
+          datasets: [
+            {
+              label: 'การแจกแจงของ σ²',
+              data: base,
+              borderColor: 'rgba(194,24,91,0.45)',
+              backgroundColor: 'rgba(194,24,91,0.08)',
+              borderWidth: 2.6,
+              pointRadius: 0,
+              tension: 0.25
+            },
+            {
+              label: 'ช่วงความเชื่อมั่น',
+              data: fill,
+              borderColor: 'rgba(211,47,47,0.9)',
+              backgroundColor: 'rgba(211,47,47,0.25)',
+              borderWidth: 3,
+              pointRadius: 0,
+              tension: 0.25,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#7b1a33' } },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `ความหนาแน่น ≈ ${Number(ctx.raw).toFixed(4)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#7b1a33', maxRotation: 0 },
+              title: { display: true, text: 'ค่าความแปรปรวนที่เป็นไปได้', color: '#7b1a33' }
+            },
+            y: {
+              ticks: { color: '#7b1a33' },
+              title: { display: true, text: 'ความหนาแน่น', color: '#7b1a33' }
+            }
+          }
+        }
+      });
+    }
+
+    [sampleEl, varianceEl].forEach(el => el.addEventListener('input', compute));
+    confEl.addEventListener('input', compute);
+    calcBtn.addEventListener('click', compute);
+    compute();
+  </script>
+</body>
+</html>
