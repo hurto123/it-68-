@@ -11,42 +11,75 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .grid-two { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    fieldset { border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 0.75rem; padding: 0.75rem 1rem; }
+    fieldset legend { font-weight: 600; }
+    output[data-error] { color: #b91c1c; }
+    .result-block { background: rgba(14, 165, 233, 0.12); border-radius: 0.75rem; padding: 0.75rem 1rem; margin-top: 0.75rem; }
+    .result-block p { margin: 0.25rem 0; }
+    .tagline code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
 </head>
 <body data-page="tool">
   <header class="site-header">
     <div>
       <p class="eyebrow">Calculator</p>
       <h1>Z distribution</h1>
+      <p class="tagline">เครื่องคิดสำหรับพื้นที่และค่า z ของการแจกแจงปกติมาตรฐาน พร้อมคำแนะนำการตีความผลลัพธ์</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="reset" class="ghost">ค่าเริ่มต้น</button>
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>คำนวณพื้นที่</h2>
-      <label>ค่า z
-        <input id="z-value" type="number" step="0.01" value="1.96">
-      </label>
-      <button class="primary" id="calc-cdf">หาพื้นที่ (P(Z ≤ z))</button>
-      <p id="cdf-result"></p>
+      <h2>หาพื้นที่จากค่า z</h2>
+      <div class="grid-two">
+        <label>ค่า z
+          <input id="z-value" type="number" step="0.01" value="1.96" aria-describedby="z-help">
+        </label>
+        <label data-mode="between" hidden>ค่า z ขวา
+          <input id="z-upper" type="number" step="0.01" value="2.58">
+        </label>
+      </div>
+      <fieldset>
+        <legend>เลือกช่วงที่สนใจ</legend>
+        <label><input type="radio" name="tail" value="left" checked> พื้นที่ซ้ายของ z (P(Z ≤ z))</label>
+        <label><input type="radio" name="tail" value="right"> พื้นที่ขวาของ z (P(Z ≥ z))</label>
+        <label><input type="radio" name="tail" value="middle"> ระหว่าง −z ถึง z (symmetry)</label>
+        <label><input type="radio" name="tail" value="between"> ระหว่างค่า z สองค่า</label>
+      </fieldset>
+      <p id="z-help" class="tagline">รองรับค่า z ในช่วง −8 ถึง 8 หากเกินช่วงจะใช้ค่าใกล้สุด</p>
+      <button class="primary" id="calc-cdf">คำนวณพื้นที่</button>
+      <output id="cdf-result" class="result-block" role="status"></output>
     </article>
+
     <article class="card">
       <h2>หาค่า z จากพื้นที่</h2>
-      <label>พื้นที่ (0-1)
+      <fieldset>
+        <legend>รูปแบบพื้นที่</legend>
+        <label><input type="radio" name="inv-tail" value="left" checked> พื้นที่ซ้าย (ค่า percentile)</label>
+        <label><input type="radio" name="inv-tail" value="right"> พื้นที่ขวา</label>
+        <label><input type="radio" name="inv-tail" value="two"> สองด้าน (α/2 ต่อด้าน)</label>
+      </fieldset>
+      <label>พื้นที่ (0 &lt; p &lt; 1)
         <input id="p-value" type="number" step="0.0001" value="0.975">
       </label>
-      <button class="primary" id="calc-inv">หาค่า z</button>
-      <p id="inv-result"></p>
+      <button class="primary" id="calc-inv">แปลงเป็นค่า z</button>
+      <output id="inv-result" class="result-block" role="status"></output>
     </article>
+
     <article class="card">
-      <h2>ลิงก์ที่เกี่ยวข้อง</h2>
+      <h2>ไกด์การตีความ</h2>
       <ul>
-        <li><a href="../content/12-standard-normal-z.html">บท 12 Z-score</a></li>
-        <li><a href="../content/16-ci-intro.html">บท 16 CI</a></li>
-        <li><a href="../tables/z-table.html">ตาราง Z</a></li>
+        <li><strong>พื้นที่ซ้าย</strong> เหมาะกับการหาค่า percentile เช่น 97.5% → z ≈ 1.96</li>
+        <li><strong>พื้นที่ขวา</strong> ใช้ดู tail probability สำหรับการทดสอบสมมติฐาน</li>
+        <li><strong>ช่วงระหว่าง</strong> ช่วยประเมินโอกาสที่ตัวแปรอยู่ในช่วงค่าเบี่ยงเบนมาตรฐาน</li>
       </ul>
+      <p>ลิงก์ที่เกี่ยวข้อง: <a href="../content/12-standard-normal-z.html">บท 12 Z-score</a>, <a href="../tables/z-table.html">ตาราง Z</a></p>
     </article>
   </main>
   <footer class="site-footer">
@@ -54,25 +87,134 @@
   </footer>
   <script type="module">
     import { normCdf, normInv } from './distributions.js';
+
     const zInput = document.getElementById('z-value');
+    const zUpper = document.getElementById('z-upper');
     const pInput = document.getElementById('p-value');
     const cdfResult = document.getElementById('cdf-result');
     const invResult = document.getElementById('inv-result');
+    const resetButton = document.getElementById('reset');
+
+    const tailRadios = Array.from(document.querySelectorAll('input[name="tail"]'));
+    const invTailRadios = Array.from(document.querySelectorAll('input[name="inv-tail"]'));
+
+    function clampZ(z) {
+      if (!Number.isFinite(z)) return NaN;
+      return Math.min(8, Math.max(-8, z));
+    }
+
+    function formatProbability(prob) {
+      if (!Number.isFinite(prob)) return '—';
+      if (prob < 1e-6) return prob.toExponential(3);
+      return prob.toFixed(prob < 0.01 ? 6 : 4);
+    }
+
+    function explainArea(mode, primary, secondary, prob) {
+      const lines = [];
+      switch (mode) {
+        case 'left':
+          lines.push(`พื้นที่ด้านซ้ายของ z = ${primary.toFixed(2)} คือ <strong>${formatProbability(prob)}</strong>`);
+          lines.push('ตีความ: มีโอกาสที่ค่ามาตรฐานจะไม่เกินจุดนี้เท่ากับพื้นที่ที่คำนวณได้');
+          break;
+        case 'right':
+          lines.push(`พื้นที่ด้านขวาของ z = ${primary.toFixed(2)} คือ <strong>${formatProbability(prob)}</strong>`);
+          lines.push('ตีความ: ใช้เป็น p-value ด้านขวาสำหรับการทดสอบสมมติฐานแบบ one-tailed');
+          break;
+        case 'middle':
+          lines.push(`พื้นที่ระหว่าง −${primary.toFixed(2)} และ ${primary.toFixed(2)} คือ <strong>${formatProbability(prob)}</strong>`);
+          lines.push('ตีความ: เทียบได้กับช่วงความเชื่อมั่นสองด้านที่ศูนย์กลางอยู่ที่ 0');
+          break;
+        case 'between':
+          lines.push(`พื้นที่ระหว่าง ${primary.toFixed(2)} ถึง ${secondary.toFixed(2)} คือ <strong>${formatProbability(prob)}</strong>`);
+          lines.push('ตีความ: โอกาสที่ตัวแปรมาตรฐานจะตกอยู่ในช่วงค่าที่สนใจ');
+          break;
+        default:
+          lines.push('ไม่สามารถคำนวณได้');
+      }
+      return `<p>${lines.join('</p><p>')}</p>`;
+    }
+
+    function showError(target, message) {
+      target.innerHTML = `<p data-error>${message}</p>`;
+    }
+
+    function toggleUpperVisibility() {
+      const needsUpper = document.querySelector('input[name="tail"]:checked')?.value === 'between';
+      document.querySelector('[data-mode="between"]').toggleAttribute('hidden', !needsUpper);
+    }
+
+    tailRadios.forEach(radio => radio.addEventListener('change', toggleUpperVisibility));
+    toggleUpperVisibility();
 
     document.getElementById('calc-cdf')?.addEventListener('click', () => {
-      const z = Number(zInput.value);
-      const p = normCdf(z);
-      cdfResult.textContent = `P(Z ≤ ${z.toFixed(2)}) ≈ ${p.toFixed(4)}`;
+      const mode = document.querySelector('input[name="tail"]:checked')?.value ?? 'left';
+      const primaryRaw = Number(zInput.value);
+      if (!Number.isFinite(primaryRaw)) {
+        showError(cdfResult, 'กรุณากรอกค่า z ที่เป็นตัวเลข');
+        return;
+      }
+      const primary = clampZ(primaryRaw);
+      let prob;
+      if (mode === 'between') {
+        const upperRaw = Number(zUpper.value);
+        if (!Number.isFinite(upperRaw)) {
+          showError(cdfResult, 'กรุณากรอกค่า z ด้านขวา');
+          return;
+        }
+        const upper = clampZ(upperRaw);
+        const lower = Math.min(primary, upper);
+        const upperVal = Math.max(primary, upper);
+        prob = Math.max(0, normCdf(upperVal) - normCdf(lower));
+        cdfResult.innerHTML = explainArea(mode, lower, upperVal, prob);
+        return;
+      }
+      if (mode === 'middle') {
+        const tail = Math.abs(primary);
+        prob = Math.max(0, normCdf(tail) - normCdf(-tail));
+        cdfResult.innerHTML = explainArea(mode, clampZ(tail), null, prob);
+        return;
+      }
+      if (mode === 'left') {
+        prob = normCdf(primary);
+      } else {
+        prob = 1 - normCdf(primary);
+      }
+      cdfResult.innerHTML = explainArea(mode, primary, null, prob);
     });
 
     document.getElementById('calc-inv')?.addEventListener('click', () => {
-      try {
-        const p = Number(pInput.value);
-        const z = normInv(p);
-        invResult.textContent = `z ≈ ${z.toFixed(4)}`;
-      } catch (error) {
-        invResult.textContent = error.message;
+      const mode = document.querySelector('input[name="inv-tail"]:checked')?.value ?? 'left';
+      const p = Number(pInput.value);
+      if (!Number.isFinite(p) || p <= 0 || p >= 1) {
+        showError(invResult, 'ค่า p ต้องอยู่ระหว่าง 0 และ 1');
+        return;
       }
+      try {
+        if (mode === 'left') {
+          const z = normInv(p);
+          invResult.innerHTML = `<p>z ที่ให้พื้นที่ซ้าย ${formatProbability(p)} คือ <strong>${z.toFixed(4)}</strong></p>`;
+        } else if (mode === 'right') {
+          const z = normInv(1 - p);
+          invResult.innerHTML = `<p>z ที่ให้พื้นที่ขวา ${formatProbability(p)} คือ <strong>${z.toFixed(4)}</strong></p>`;
+        } else {
+          const tail = (1 - p) / 2;
+          const z = normInv(1 - tail);
+          invResult.innerHTML = `<p>ค่า critical สองด้าน: z<sub>α/2</sub> = <strong>${z.toFixed(4)}</strong></p>`;
+        }
+      } catch (error) {
+        showError(invResult, error.message);
+      }
+    });
+
+    resetButton?.addEventListener('click', () => {
+      zInput.value = '1.96';
+      zUpper.value = '2.58';
+      pInput.value = '0.975';
+      document.querySelector('input[name="tail"][value="left"]').checked = true;
+      document.querySelector('input[name="inv-tail"][value="left"]').checked = true;
+      toggleUpperVisibility();
+      cdfResult.innerHTML = '';
+      invResult.innerHTML = '';
     });
   </script>
 </body>
