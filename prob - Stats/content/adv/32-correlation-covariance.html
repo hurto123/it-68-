@@ -54,8 +54,17 @@
       <ul>
         <li><strong>Outlier</strong> จุดเดียวสามารถดึงค่า r ให้สูง/ต่ำผิดธรรมชาติ → ตรวจ residual หรือ IQR</li>
         <li><strong>Nonlinearity</strong>: ความสัมพันธ์โค้ง (เช่น quadratic) ทำให้ r ใกล้ 0 ทั้งที่มี pattern</li>
-        <li><strong>Spurious correlation</strong>: ความสัมพันธ์หลอกจากตัวแปรแฝง เช่น เวลา/ฤดูกาล</li>
-        <li>ตัวอย่าง: วิเคราะห์ยอดขายกับค่าใช้จ่ายโฆษณารายสัปดาห์ → ดู scatter ก่อนคำนวณ</li>
+        <li>ใช้ <em>rolling plot</em> หรือ heatmap เพื่อตรวจค่า r ที่ผันผวนตามเวลา</li>
+        <li>ตัวอย่าง: วิเคราะห์ยอดขายกับค่าใช้จ่ายโฆษณารายสัปดาห์ → ดู scatter และ seasonality ก่อนคำนวณ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>กับดักสาเหตุ/ผลย้อน</h2>
+      <ul>
+        <li><strong>Reverse causality</strong>: ตัวแปรตอบสนองจริง ๆ อาจเป็นสาเหตุ เช่น ยอดขายสูงทำให้เพิ่มงบโฆษณา</li>
+        <li><strong>Third variable problem</strong>: ตัวแปรแฝง (เช่น เทศกาล, ช่องทางขาย) ทำให้ r สูงขึ้นหลอก ๆ</li>
+        <li>แบ่งข้อมูลตามช่วงเวลา/กลุ่ม (stratify) เพื่อดูว่าค่า r ยังเสถียรหรือไม่</li>
+        <li>ใช้ <a href="../../sim/correlation-explorer.html">Correlation Explorer</a> ทดลองเพิ่ม noise/outlier และอธิบาย spurious correlation</li>
       </ul>
     </article>
     <article class="card">

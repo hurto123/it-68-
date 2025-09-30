@@ -17,16 +17,17 @@
     </div>
     <nav class="header-actions">
       <a class="ghost" href="adv-bootstrap-answer.html">เฉลย</a>
-      <a class="ghost" href="../tools/power-sample-size.html">Power Planner</a>
+      <a class="ghost" href="../tools/bootstrap-lab.html">Bootstrap Lab</a>
     </nav>
   </header>
   <main class="card-grid">
     <article class="card">
       <p>ใช้ข้อมูล <code>data/bootstrap_sample.csv</code>:</p>
       <ol>
-        <li>สุ่ม bootstrap 2,000 ครั้ง เพื่อประมาณค่าเฉลี่ย</li>
-        <li>หา CI แบบ percentile และ basic (95%)</li>
-        <li>เปรียบเทียบกับ CI แบบ t-classic จากตัวอย่างเดียวกัน</li>
+        <li>สุ่ม bootstrap 2,000 ครั้ง (statistic = mean) เพื่อประมาณค่าเฉลี่ย</li>
+        <li>บันทึก bias, SE จากการแจกแจง bootstrap และสร้าง CI แบบ percentile และ basic (95%)</li>
+        <li>เปรียบเทียบกับ CI แบบ t-classic จากตัวอย่างเดียวกัน พร้อมอธิบายเหตุผลที่อาจทำให้ช่วงต่างกัน</li>
+        <li>ทดลองปรับเป็นสถิติ median ใน Bootstrap Lab แล้วอธิบายว่าช่วงความเชื่อมั่นเปลี่ยนอย่างไร</li>
       </ol>
     </article>
   </main>

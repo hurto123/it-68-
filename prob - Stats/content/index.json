@@ -33,14 +33,14 @@
     {"number": "31", "title": "บทสรุป & ก้าวต่อไป", "href": "content/31-summary-next.html", "summary": "สรุปหลักสูตรและเส้นทางเรียนต่อ", "tags": ["summary"]}
   ],
   "review": [
-    {"title": "รีวิวพื้นฐานความน่าจะเป็น", "href": "content/review/review-01-foundation.html", "summary": "โครงสร้างความคิดและหลักการนับ", "tags": ["review", "probability"]},
-    {"title": "แผนผังการแจกแจง", "href": "content/review/review-02-distributions-blueprint.html", "summary": "เลือกใช้ PMF/PDF อย่างรวดเร็ว", "tags": ["review", "distribution"]},
-    {"title": "CLT & Sampling", "href": "content/review/review-03-clt-sampling.html", "summary": "ย่อ CLT และสถิติสำคัญ", "tags": ["review", "clt"]},
-    {"title": "Estimation Cheat Sheet", "href": "content/review/review-04-estimation.html", "summary": "โครงสร้าง CI และสูตรสำเร็จ", "tags": ["review", "ci"]},
-    {"title": "Hypothesis Workflow", "href": "content/review/review-05-hypothesis.html", "summary": "ขั้นตอนการทดสอบสมมติฐาน", "tags": ["review", "test"]},
-    {"title": "เคสหนึ่งกลุ่ม", "href": "content/review/review-06-case-one-sample.html", "summary": "กรอบคิดตั้งคำถามจนสรุปผล", "tags": ["review", "case"]},
-    {"title": "เคส A/B", "href": "content/review/review-07-case-ab-test.html", "summary": "การวิเคราะห์ μ/p พร้อม Power", "tags": ["review", "ab-test"]},
-    {"title": "เลือกเครื่องมือให้ถูก", "href": "content/review/review-08-choosing-tool.html", "summary": "Decision map แบบย่อ", "tags": ["review", "decision"]}
+    {"title": "รีวิวพื้นฐานความน่าจะเป็น", "href": "content/review-01-foundation-probability.html", "summary": "ทบทวนการนับ เหตุการณ์ และค่าคาดหวังแบบเต็มรูปแบบ", "tags": ["review", "probability"]},
+    {"title": "แผนผังการแจกแจง", "href": "content/review-02-data-blueprints-distributions.html", "summary": "สำรวจ PMF/PDF และแผนภาพแจกแจงแบบโต้ตอบ", "tags": ["review", "distribution"]},
+    {"title": "CLT & Sampling", "href": "content/review-03-clt-sampling.html", "summary": "เข้าใจ CLT และจำลองฮิสโตแกรมค่าเฉลี่ยตัวอย่าง", "tags": ["review", "clt"]},
+    {"title": "Estimation Deep Dive", "href": "content/review-04-estimation-deep-dive.html", "summary": "โครงสร้างทองคำของ CI พร้อมเครื่องคิดเลขสด", "tags": ["review", "ci"]},
+    {"title": "Hypothesis Judge", "href": "content/review-05-hypothesis-testing-deep-dive.html", "summary": "ตรรกะศาลสถิติและกราฟพื้นที่วิกฤตแบบอินเทอร์แอกทีฟ", "tags": ["review", "test"]},
+    {"title": "เคสหนึ่งกลุ่ม", "href": "content/review-06-case-one-sample.html", "summary": "เล่นบทนักสืบและผู้พิพากษาด้วย t-test สด", "tags": ["review", "case"]},
+    {"title": "เคส A/B", "href": "content/review-07-case-ab-testing.html", "summary": "สรุป CI และ Z-test สำหรับการทดลอง A/B", "tags": ["review", "ab-test"]},
+    {"title": "เลือกเครื่องมือให้ถูก", "href": "content/review-08-choosing-tool.html", "summary": "Decision Map พร้อมโจทย์ตัวอย่างครบถ้วน", "tags": ["review", "decision"]}
   ],
   "advanced": [
     {"title": "Correlation & Covariance", "href": "content/adv/32-correlation-covariance.html", "summary": "r, cov, กับกับดักการตีความ", "tags": ["advanced", "correlation"]},
@@ -56,6 +56,7 @@
     {"title": "Regression Playground", "href": "tools/regression-playground.html", "summary": "อัปโหลดข้อมูล ทดสอบ SLR/MLR และ residual", "tags": ["tool", "regression"]},
     {"title": "ANOVA Calculator", "href": "tools/anova.html", "summary": "กรอกข้อมูลหลายกลุ่มและคำนวณ F", "tags": ["tool", "anova"]},
     {"title": "Chi-square Tests", "href": "tools/chi2-tests.html", "summary": "คำนวณ χ² สำหรับ GoF และ Independence", "tags": ["tool", "chi-square"]},
+    {"title": "Bootstrap Lab", "href": "tools/bootstrap-lab.html", "summary": "รัน bootstrap CI (mean/median) พร้อม histogram", "tags": ["tool", "bootstrap"]},
     {"title": "Correlation Explorer", "href": "sim/correlation-explorer.html", "summary": "ซิมูเลเตอร์ปรับสัญญาณ-สัญญาณรบกวน", "tags": ["sim", "correlation"]},
     {"title": "Power & Sample Size", "href": "tools/power-sample-size.html", "summary": "วางแผนการทดลองและคำนวณ power", "tags": ["tool", "power"]},
     {"title": "Z / t / χ² / F Calculators", "href": "tools/z.html", "summary": "เข้าถึงชุดคำนวณตระกูล distribution", "tags": ["tool", "distribution"]},
