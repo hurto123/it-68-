@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>12. Z-score & ตาราง Z</title>
+  <title>12. Z-score & ตารางปกติมาตรฐาน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 12</p>
-      <h1>Z-score & ตาราง Z</h1>
+      <h1>Z-score & ตารางปกติมาตรฐาน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="11-continuous-normal.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ฝึกการแปลงตัวแปรปกติทั่วไปให้เป็นมาตรฐานเพื่อใช้ตาราง Z</p>
       <ul>
-        <li>สูตร Z = (x-μ)/σ</li>
-        <li>การอ่านตารางพื้นที่</li>
-        <li>การแปลงกลับสู่ค่าดิบ</li>
+        <li>ความหมายของ Z-score วัดระยะจากค่าเฉลี่ยเป็นหน่วย σ</li>
+        <li>การใช้ตารางมาตรฐานเพื่อหาพื้นที่ทั้งด้านซ้ายและสองด้าน</li>
+        <li>เทคนิคการหาพื้นที่ส่วนต่าง ๆ และการตีความผล</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรมาตรฐานใช้ทุกครั้งที่ต้องการตารางปกติ</p>
+      <ul>
+        <li>Z = (X − μ) / σ</li>
+        <li>P(a ≤ X ≤ b) = Φ(z_b) − Φ(z_a)</li>
+        <li>การกลับค่า: X = μ + zσ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>คำนวณโอกาสได้คะแนนสูงกว่าค่าเฉลี่ยสองส่วนเบี่ยงเบน หรือหาค่าตัดสินใจจากเปอร์เซ็นไทล์</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="16-ci-intro.html">CI intro</a></li>
-        <li><a href="review/review-04-estimation.html">ทบทวน estimation</a></li>
-        <li><a href="../tools/z.html">เครื่องมือ z</a></li>
+        <li><a href="11-continuous-normal.html">การแจกแจงปกติ</a></li>
+        <li><a href="13-t-chi2-f.html">บทถัดไป: t/χ²/F</a></li>
+        <li><a href="../tables/z-table.html">ตาราง Z</a></li>
       </ul>
     </article>
   </main>

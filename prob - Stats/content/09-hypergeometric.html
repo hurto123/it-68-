@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>09. Hypergeometric Distribution</title>
+  <title>09. การแจกแจงไฮเปอร์จีโอเมตริก</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 09</p>
-      <h1>Hypergeometric Distribution</h1>
+      <h1>การแจกแจงไฮเปอร์จีโอเมตริก</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="08-binomial.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ใช้เมื่อตัวอย่างถูกดึงโดยไม่คืนกลับจากประชากรจำกัด</p>
       <ul>
-        <li>สุ่มแบบไม่คืนตัวอย่าง</li>
-        <li>สูตร PMF และตัวอย่าง</li>
-        <li>เปรียบเทียบกับ binomial และการประมาณ</li>
+        <li>โครงสร้างประชากรที่แบ่งเป็นความสำเร็จ/ล้มเหลว</li>
+        <li>สูตร PMF และการเปรียบเทียบกับทวินาม</li>
+        <li>การประมาณด้วยทวินามเมื่อประชากรใหญ่พอ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตร PMF มีการนับแบบ combination หลายชั้น</p>
+      <ul>
+        <li>PMF: P(X = k) = [C(K,k) C(N−K, n−k)] / C(N, n)</li>
+        <li>ค่าคาดหมาย: μ = n (K/N)</li>
+        <li>ความแปรปรวน: σ^2 = n (K/N)(1−K/N) ((N−n)/(N−1))</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>การสุ่มตรวจสินค้าโดยไม่คืนตัวหรือการจับไพ่จากสำรับเพื่อดูจำนวนไพ่หัวใจ</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="review/review-02-distributions-blueprint.html">ตารางการแจกแจง</a></li>
-        <li><a href="decision-map.html">Decision map</a></li>
-        <li><a href="../tools/power-sample-size.html">เครื่องมือ power</a></li>
+        <li><a href="08-binomial.html">การแจกแจงทวินาม</a></li>
+        <li><a href="10-poisson.html">การแจกแจง Poisson</a></li>
+        <li><a href="../data/qc_defects.csv">ข้อมูลการตรวจคุณภาพ</a></li>
       </ul>
     </article>
   </main>

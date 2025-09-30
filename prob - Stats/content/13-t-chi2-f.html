@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>13. t, χ², F และบทบาท</title>
+  <title>13. ภาพรวม t, χ², และ F</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 13</p>
-      <h1>t, χ², F และบทบาท</h1>
+      <h1>ภาพรวม t, χ², และ F</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="12-standard-normal-z.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ตั้งเวทีให้รู้จักการแจกแจงตัวอย่างที่ใช้ในสถิติอนุมาน</p>
       <ul>
-        <li>ที่มาและเงื่อนไข</li>
-        <li>องศาอิสระ (df) และการเลือกใช้</li>
-        <li>ภาพรวมการใช้งานใน inference</li>
+        <li>ที่มาของการแจกแจง t เมื่อตัวแปรปกติแต่ σ ไม่ทราบ</li>
+        <li>การแจกแจง χ² สำหรับผลรวมกำลังสองและการประเมินความแปรปรวน</li>
+        <li>การแจกแจง F สำหรับอัตราส่วนความแปรปรวนและ ANOVA</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>จดจำพารามิเตอร์หลักของแต่ละการแจกแจง</p>
+      <ul>
+        <li>t(df): Z / √(S^2/df) เมื่อตัวอย่างเล็กและ σ ไม่ทราบ</li>
+        <li>χ²(df): Σ (Z_i)^2 สำหรับตัวอย่างอิสระ</li>
+        <li>F(d1, d2): (S_1^2/d_1) / (S_2^2/d_2)</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ใช้ t-test สำหรับค่าเฉลี่ยเล็ก, ใช้ χ² ทดสอบความพอดี, ใช้ F เปรียบเทียบความแปรปรวน</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tables/t-table.html">ตาราง t</a></li>
-        <li><a href="23-hypothesis-intro.html">บท test</a></li>
-        <li><a href="../tools/power-sample-size.html">Power tool</a></li>
+        <li><a href="12-standard-normal-z.html">Z-score</a></li>
+        <li><a href="14-clt.html">บทถัดไป: Central Limit Theorem</a></li>
+        <li><a href="../tables/t-table.html">ตารางแจกแจง</a></li>
       </ul>
     </article>
   </main>

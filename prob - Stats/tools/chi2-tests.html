@@ -32,14 +32,49 @@
       <label>Expected (ทศนิยมได้)
         <input id="gof-expected" placeholder="22.5, 22.5, 30">
       </label>
-      <button class="primary" id="gof-calc">คำนวณ</button>
+      <div class="tool-actions">
+        <label>ตัวอย่าง
+          <select id="gof-example">
+            <option value="uniform">Uniform Expected</option>
+            <option value="survey">Survey Preferences</option>
+            <option value="custom">ใช้ค่าของฉัน</option>
+          </select>
+        </label>
+        <button class="primary" id="gof-calc">คำนวณ</button>
+        <button class="secondary" id="gof-reset">รีเซ็ต</button>
+      </div>
       <div id="gof-output"></div>
     </article>
     <article class="card">
       <h2>Independence (ตารางไขว้)</h2>
       <textarea id="ind-table" rows="6" placeholder="10, 20\n15, 25"></textarea>
-      <button class="primary" id="ind-calc">คำนวณ</button>
+      <div class="tool-actions">
+        <label>ตัวอย่าง
+          <select id="ind-example">
+            <option value="marketing">Campaign × Result</option>
+            <option value="custom">ใช้ตารางของฉัน</option>
+          </select>
+        </label>
+        <button class="primary" id="ind-calc">คำนวณ</button>
+        <button class="secondary" id="ind-reset">รีเซ็ต</button>
+      </div>
       <div id="ind-output"></div>
+    </article>
+    <article class="card">
+      <h2>ผลลัพธ์</h2>
+      <div id="chi-summary">
+        <p>เลือกกรณีแล้วกดคำนวณเพื่อดูขั้นตอน</p>
+      </div>
+      <footer class="card-footer">
+        <button class="ghost" id="export-csv">Export Result CSV</button>
+        <button class="ghost" id="export-png">Export Contribution PNG</button>
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </footer>
+    </article>
+    <article class="card">
+      <h2>Contribution Map</h2>
+      <canvas id="chi-canvas" width="480" height="320" aria-label="Chi-square contribution chart"></canvas>
+      <p class="tagline" id="chi-caption">คำนวณเพื่อดูส่วนที่มีผลต่อ χ²</p>
     </article>
     <article class="card">
       <h2>เชื่อมโยงบทเรียน</h2>
@@ -53,47 +88,301 @@
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
   </footer>
-  <script>
+  <script type="module">
+    import { chiSquareCdf } from './distributions.js';
+
+    const textEncoder = new TextEncoder();
+    const textDecoder = new TextDecoder();
+
+    function encodeState(text) {
+      return btoa(String.fromCharCode(...textEncoder.encode(text)));
+    }
+
+    function decodeState(base64) {
+      return textDecoder.decode(Uint8Array.from(atob(base64), c => c.charCodeAt(0)));
+    }
+
+    const gofObservedInput = document.getElementById('gof-observed');
+    const gofExpectedInput = document.getElementById('gof-expected');
+    const gofOutput = document.getElementById('gof-output');
+    const gofExample = document.getElementById('gof-example');
+    const indTableInput = document.getElementById('ind-table');
+    const indOutput = document.getElementById('ind-output');
+    const indExample = document.getElementById('ind-example');
+    const summary = document.getElementById('chi-summary');
+    const canvas = document.getElementById('chi-canvas');
+    const ctx = canvas.getContext('2d');
+    const caption = document.getElementById('chi-caption');
+    const exportCsvBtn = document.getElementById('export-csv');
+    const exportPngBtn = document.getElementById('export-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    const gofExamples = {
+      uniform: { observed: '18, 22, 20, 24, 16', expected: '20, 20, 20, 20, 20' },
+      survey: { observed: '120, 95, 85', expected: '100, 100, 100' }
+    };
+
+    const indExamples = {
+      marketing: '30, 20\n25, 35'
+    };
+
+    let lastMode = null;
+    let exportRows = [];
+
     function parseSeries(text) {
-      return text.split(/[,\s]+/).map(Number).filter(v => !Number.isNaN(v));
-    }
-    function chiSquare(observed, expected) {
-      if (observed.length !== expected.length) throw new Error('จำนวนค่าต้องเท่ากัน');
-      const stat = observed.reduce((acc, obs, idx) => acc + ((obs - expected[idx]) ** 2) / expected[idx], 0);
-      return { stat, df: observed.length - 1 };
+      return text.split(/[,\s]+/).map(Number).filter(v => Number.isFinite(v));
     }
 
-    document.getElementById('gof-calc')?.addEventListener('click', () => {
-      try {
-        const observed = parseSeries(document.getElementById('gof-observed').value);
-        const expected = parseSeries(document.getElementById('gof-expected').value);
-        const result = chiSquare(observed, expected);
-        document.getElementById('gof-output').innerHTML = `<p>χ² = ${result.stat.toFixed(3)}, df = ${result.df}</p>`;
-      } catch (error) {
-        document.getElementById('gof-output').textContent = error.message;
+    function buildPermalink() {
+      const params = new URLSearchParams();
+      if (gofObservedInput.value && gofExpectedInput.value) {
+        const payload = JSON.stringify({ observed: gofObservedInput.value.trim(), expected: gofExpectedInput.value.trim() });
+        params.set('gof', encodeState(payload));
       }
-    });
+      if (indTableInput.value.trim()) {
+        params.set('ind', encodeState(indTableInput.value.trim()));
+      }
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+      return url;
+    }
 
-    document.getElementById('ind-calc')?.addEventListener('click', () => {
+    function renderGofChart(contributions) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const padding = 40;
+      const maxValue = Math.max(...contributions.map(c => c.value));
+      const barWidth = (canvas.width - padding * 2) / contributions.length - 10;
+      ctx.font = '12px sans-serif';
+      ctx.textBaseline = 'top';
+      ctx.strokeStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(padding, canvas.height - padding);
+      ctx.lineTo(canvas.width - padding, canvas.height - padding);
+      ctx.stroke();
+      contributions.forEach((item, index) => {
+        const x = padding + index * (barWidth + 10) + 5;
+        const height = ((item.value) / (maxValue || 1)) * (canvas.height - padding * 2);
+        const y = canvas.height - padding - height;
+        ctx.fillStyle = 'rgba(34,197,94,0.8)';
+        ctx.fillRect(x, y, barWidth, height);
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(item.label, x, canvas.height - padding + 14);
+        ctx.fillText(item.value.toFixed(2), x, y - 6);
+      });
+      caption.textContent = 'แท่งสูงแสดงหมวดที่มีส่วนต่อ χ² มากที่สุด';
+    }
+
+    function renderIndChart(matrix, expected) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rows = matrix.length;
+      const cols = matrix[0].length;
+      const cellWidth = canvas.width / cols;
+      const cellHeight = canvas.height / rows;
+      ctx.font = '12px sans-serif';
+      ctx.textBaseline = 'top';
+      let maxContribution = 0;
+      const contributions = [];
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+          const expectedValue = expected[i][j];
+          const contribution = ((matrix[i][j] - expectedValue) ** 2) / expectedValue;
+          contributions.push({ i, j, contribution });
+          if (contribution > maxContribution) maxContribution = contribution;
+        }
+      }
+      contributions.forEach(({ i, j, contribution }) => {
+        const intensity = maxContribution ? contribution / maxContribution : 0;
+        const colorValue = Math.floor(255 - intensity * 155);
+        ctx.fillStyle = `rgba(59,130,246,${0.3 + intensity * 0.7})`;
+        ctx.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+        ctx.strokeStyle = '#0f172a';
+        ctx.strokeRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(contribution.toFixed(2), j * cellWidth + 4, i * cellHeight + 18);
+      });
+      caption.textContent = 'สี่เหลี่ยมเข้ม = เซลล์ที่มีส่วนต่อ χ² สูง';
+    }
+
+    function runGof() {
       try {
-        const rows = document.getElementById('ind-table').value.trim().split(/\n+/);
+        const observed = parseSeries(gofObservedInput.value);
+        const expected = parseSeries(gofExpectedInput.value);
+        if (observed.length !== expected.length || observed.length < 2) throw new Error('Observed/Expected ต้องมีจำนวนเท่ากันและ ≥ 2');
+        const contributions = observed.map((obs, index) => {
+          const exp = expected[index];
+          return { label: `หมวด ${index + 1}`, value: ((obs - exp) ** 2) / exp, obs, exp };
+        });
+        const stat = contributions.reduce((acc, item) => acc + item.value, 0);
+        const df = observed.length - 1;
+        const pValue = 1 - chiSquareCdf(stat, df);
+        gofOutput.innerHTML = `<p>χ² = ${stat.toFixed(3)}, df = ${df}, p = ${pValue.toFixed(4)}</p>`;
+        summary.innerHTML = `
+          <section>
+            <h3>ขั้นตอน Goodness-of-fit</h3>
+            <ol>
+              <li>ตั้ง H₀: distribution = expected, H₁: distribution แตกต่าง</li>
+              <li>คำนวณ χ² = Σ (O − E)² / E = ${stat.toFixed(3)}</li>
+              <li>df = k − 1 = ${df}, p = ${pValue.toFixed(4)} → ${pValue < 0.05 ? 'มีหลักฐานว่า distribution เปลี่ยน' : 'ยังไม่พบหลักฐานเพียงพอ'}</li>
+            </ol>
+            <ul>${contributions.map(item => `<li>${item.label}: O=${item.obs}, E=${item.exp}, ส่วนต่อ χ² = ${item.value.toFixed(3)}</li>`).join('')}</ul>
+          </section>
+        `;
+        renderGofChart(contributions);
+        exportRows = [['Category', 'Observed', 'Expected', 'Contribution'], ...contributions.map(item => [item.label, item.obs, item.exp, item.value.toFixed(4)])];
+        lastMode = 'gof';
+        exportCsvBtn.disabled = false;
+        exportPngBtn.disabled = false;
+        buildPermalink();
+      } catch (error) {
+        gofOutput.textContent = error.message;
+      }
+    }
+
+    function runIndependence() {
+      try {
+        const rows = indTableInput.value.trim().split(/\n+/).filter(Boolean);
+        if (rows.length < 2) throw new Error('ต้องมีอย่างน้อย 2 แถว');
         const matrix = rows.map(row => parseSeries(row));
+        const cols = matrix[0].length;
+        if (matrix.some(row => row.length !== cols)) throw new Error('แต่ละแถวต้องมีจำนวนคอลัมน์เท่ากัน');
         const rowTotals = matrix.map(row => row.reduce((a, b) => a + b, 0));
         const colTotals = matrix[0].map((_, col) => matrix.reduce((acc, row) => acc + row[col], 0));
         const grand = rowTotals.reduce((a, b) => a + b, 0);
+        if (!grand) throw new Error('ค่ารวมต้องมากกว่า 0');
+        const expected = matrix.map((row, i) => row.map((_, j) => (rowTotals[i] * colTotals[j]) / grand));
         let chi2 = 0;
+        const contributions = [];
         matrix.forEach((row, i) => {
           row.forEach((value, j) => {
-            const expected = (rowTotals[i] * colTotals[j]) / grand;
-            chi2 += ((value - expected) ** 2) / expected;
+            const exp = expected[i][j];
+            const contrib = ((value - exp) ** 2) / exp;
+            contributions.push({ cell: `${i + 1},${j + 1}`, obs: value, exp, value: contrib });
+            chi2 += contrib;
           });
         });
         const df = (matrix.length - 1) * (matrix[0].length - 1);
-        document.getElementById('ind-output').innerHTML = `<p>χ² = ${chi2.toFixed(3)}, df = ${df}</p>`;
+        const pValue = 1 - chiSquareCdf(chi2, df);
+        indOutput.innerHTML = `<p>χ² = ${chi2.toFixed(3)}, df = ${df}, p = ${pValue.toFixed(4)}</p>`;
+        summary.innerHTML = `
+          <section>
+            <h3>ขั้นตอน Independence</h3>
+            <ol>
+              <li>ตั้ง H₀: แถวและคอลัมน์อิสระกัน</li>
+              <li>คำนวณ expected = (row total × column total) / grand</li>
+              <li>χ² = ${chi2.toFixed(3)}, df = ${df}, p = ${pValue.toFixed(4)} → ${pValue < 0.05 ? 'มีหลักฐานว่าเกี่ยวข้อง' : 'ยังไม่พบความเกี่ยวข้อง'}</li>
+            </ol>
+            <p>Grand total = ${grand}. ข้างล่างคือ expected per cell:</p>
+            <table>
+              <tbody>
+                ${expected.map(row => `<tr>${row.map(value => `<td>${value.toFixed(2)}</td>`).join('')}</tr>`).join('')}
+              </tbody>
+            </table>
+          </section>
+        `;
+        renderIndChart(matrix, expected);
+        exportRows = [['Cell (row,col)', 'Observed', 'Expected', 'Contribution'], ...contributions.map(item => [item.cell, item.obs, item.exp.toFixed(4), item.value.toFixed(4)])];
+        lastMode = 'ind';
+        exportCsvBtn.disabled = false;
+        exportPngBtn.disabled = false;
+        buildPermalink();
       } catch (error) {
-        document.getElementById('ind-output').textContent = 'รูปแบบข้อมูลไม่ถูกต้อง';
+        indOutput.textContent = error.message;
+      }
+    }
+
+    document.getElementById('gof-calc')?.addEventListener('click', runGof);
+    document.getElementById('ind-calc')?.addEventListener('click', runIndependence);
+
+    document.getElementById('gof-reset')?.addEventListener('click', () => {
+      gofExample.value = 'uniform';
+      gofObservedInput.value = gofExamples.uniform.observed;
+      gofExpectedInput.value = gofExamples.uniform.expected;
+      gofOutput.innerHTML = '<p>เลือกตัวอย่าง uniform แล้ว</p>';
+      caption.textContent = 'คำนวณเพื่อดูส่วนที่มีผลต่อ χ²';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      buildPermalink();
+    });
+
+    document.getElementById('ind-reset')?.addEventListener('click', () => {
+      indExample.value = 'marketing';
+      indTableInput.value = indExamples.marketing;
+      indOutput.innerHTML = '<p>เลือกตัวอย่าง 2×2 แล้ว</p>';
+      caption.textContent = 'คำนวณเพื่อดูส่วนที่มีผลต่อ χ²';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      buildPermalink();
+    });
+
+    gofExample?.addEventListener('change', () => {
+      const value = gofExample.value;
+      if (value === 'custom') return;
+      gofObservedInput.value = gofExamples[value].observed;
+      gofExpectedInput.value = gofExamples[value].expected;
+      buildPermalink();
+    });
+
+    indExample?.addEventListener('change', () => {
+      const value = indExample.value;
+      if (value === 'custom') return;
+      indTableInput.value = indExamples[value];
+      buildPermalink();
+    });
+
+    exportCsvBtn?.addEventListener('click', () => {
+      if (!exportRows.length) return;
+      const csv = exportRows.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `chi-square-${lastMode || 'result'}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    exportPngBtn?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `chi-square-${lastMode || 'chart'}.png`;
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = buildPermalink();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
       }
     });
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const gofParam = params.get('gof');
+      const indParam = params.get('ind');
+      if (gofParam) {
+        const decoded = JSON.parse(decodeState(gofParam));
+        gofObservedInput.value = decoded.observed;
+        gofExpectedInput.value = decoded.expected;
+        gofExample.value = 'custom';
+      } else {
+        gofObservedInput.value = gofExamples.uniform.observed;
+        gofExpectedInput.value = gofExamples.uniform.expected;
+        gofExample.value = 'uniform';
+      }
+      if (indParam) {
+        indTableInput.value = decodeState(indParam);
+        indExample.value = 'custom';
+      } else {
+        indTableInput.value = indExamples.marketing;
+        indExample.value = 'marketing';
+      }
+    }
+
+    restoreFromQuery();
   </script>
 </body>
 </html>

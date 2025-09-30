@@ -25,10 +25,23 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>อัปโหลดข้อมูล</h2>
-      <p>ลากไฟล์ CSV มาวาง หรือเลือกไฟล์ด้านล่าง (ต้องมี header)</p>
-      <input type="file" id="file-input" accept=".csv">
+      <h2>อัปโหลดหรือเลือกตัวอย่าง</h2>
+      <p>ลากไฟล์ CSV มาวาง หรือใช้ชุดตัวอย่างเพื่อทดลองขั้นตอนตั้งแต่ Descriptive ถึง Residuals</p>
+      <div class="tool-actions">
+        <input type="file" id="file-input" accept=".csv">
+        <label>ชุดตัวอย่าง
+          <select id="example-select">
+            <option value="marketing">Marketing Campaign</option>
+            <option value="manufacturing">Manufacturing Yield</option>
+            <option value="custom">ใช้ไฟล์ของฉัน</option>
+          </select>
+        </label>
+        <button class="secondary" id="reset-tool">Reset ตัวอย่าง</button>
+      </div>
       <div id="dataset-preview" aria-live="polite"></div>
+      <footer class="card-footer">
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </footer>
     </article>
     <article class="card">
       <h2>การตั้งค่าโมเดล</h2>
@@ -39,16 +52,31 @@
         <select id="select-x" multiple size="6"></select>
       </label>
       <button class="primary" id="fit-model">Fit Model</button>
-      <button class="secondary" id="reset-tool">Reset</button>
-      <p class="tagline">ทดลองโหมด MLR ได้โดยเลือกหลายคอลัมน์</p>
+      <p class="tagline">เลือก 1 คอลัมน์เพื่อฟิต SLR หรือหลายคอลัมน์เพื่อฟิต MLR</p>
+      <details>
+        <summary>ขั้นตอนการอ่านผลลัพธ์</summary>
+        <ol>
+          <li>ดูสถิติสรุปเพื่อเช็กช่วงข้อมูลและตัวแปรที่ขาดหาย</li>
+          <li>อ่านตารางสัมประสิทธิ์ → ค่า β, SE, t, p</li>
+          <li>ตรวจ R² และ RMSE ประเมินความแม่นยำ</li>
+          <li>ใช้กราฟ Residual เพื่อตรวจ outlier/รูปแบบ</li>
+        </ol>
+      </details>
     </article>
     <article class="card">
-      <h2>ผลลัพธ์เบื้องต้น</h2>
+      <h2>ผลลัพธ์และสถิติ</h2>
       <div id="model-summary">
         <p>ยังไม่มีการคำนวณ แสดงค่าเฉลี่ยและส่วนเบี่ยงเบนของแต่ละตัวแปรเมื่อโหลดข้อมูล</p>
       </div>
-      <button class="ghost" id="download-csv">Export CSV</button>
-      <button class="ghost" id="download-png">Export PNG</button>
+      <footer class="card-footer">
+        <button class="ghost" id="download-csv">Export Residuals CSV</button>
+        <button class="ghost" id="download-png">Export Residual Plot PNG</button>
+      </footer>
+    </article>
+    <article class="card">
+      <h2>Residual Plot</h2>
+      <canvas id="residual-canvas" width="480" height="320" aria-label="Residual plot"></canvas>
+      <p id="residual-hint" class="tagline">ฟิตโมเดลเพื่อดู residual vs fitted</p>
     </article>
     <article class="card">
       <h2>เชื่อมโยงการเรียน</h2>
@@ -62,29 +90,61 @@
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
   </footer>
-  <script>
+  <script type="module">
+    import { studentTCdf } from './distributions.js';
+
+    const textEncoder = new TextEncoder();
+    const textDecoder = new TextDecoder();
+
+    function encodeState(text) {
+      return btoa(String.fromCharCode(...textEncoder.encode(text)));
+    }
+
+    function decodeState(base64) {
+      return textDecoder.decode(Uint8Array.from(atob(base64), c => c.charCodeAt(0)));
+    }
+
     const fileInput = document.getElementById('file-input');
+    const exampleSelect = document.getElementById('example-select');
     const selectX = document.getElementById('select-x');
     const selectY = document.getElementById('select-y');
     const preview = document.getElementById('dataset-preview');
     const summary = document.getElementById('model-summary');
+    const canvas = document.getElementById('residual-canvas');
+    const ctx = canvas.getContext('2d');
+    const residualHint = document.getElementById('residual-hint');
+    const downloadCsvBtn = document.getElementById('download-csv');
+    const downloadPngBtn = document.getElementById('download-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    if (downloadCsvBtn) downloadCsvBtn.disabled = true;
+    if (downloadPngBtn) downloadPngBtn.disabled = true;
+
+    const examples = {
+      marketing: `Spend,TV,Radio,Sales\n23,18,10,112\n30,22,11,128\n18,15,7,98\n36,30,18,152\n28,18,9,121\n42,35,20,171\n40,33,22,168\n22,14,9,105\n35,28,14,149\n27,21,12,123`,
+      manufacturing: `Batch,Temp,Hours,Defects\n101,195,6,5\n102,200,5,4\n103,205,5,3\n104,210,4,4\n105,190,7,8\n106,198,6,6\n107,202,5,5\n108,208,4,3\n109,212,4,2\n110,206,5,3`
+    };
+
     let dataset = [];
+    let datasetHeaders = [];
+    let datasetSource = 'marketing';
+    let fittedRows = [];
 
     function parseCsv(text) {
-      const [headerLine, ...rows] = text.trim().split(/\r?\n/);
-      const headers = headerLine.split(',');
-      const data = rows.map(row => {
-        const values = row.split(',');
-        return headers.reduce((obj, key, idx) => {
-          obj[key] = Number(values[idx]);
-          return obj;
+      const lines = text.trim().split(/\r?\n/).filter(Boolean);
+      const headers = lines[0].split(',').map(h => h.trim());
+      const rows = lines.slice(1).map(line => {
+        const cols = line.split(',');
+        return headers.reduce((acc, header, index) => {
+          acc[header] = Number(cols[index]);
+          return acc;
         }, {});
       });
-      return { headers, data };
+      return { headers, rows };
     }
 
     function describeColumn(key) {
-      const values = dataset.map(row => Number(row[key])).filter(v => !Number.isNaN(v));
+      const values = dataset.map(row => Number(row[key])).filter(v => Number.isFinite(v));
       if (!values.length) return `${key}: ไม่สามารถคำนวณได้`;
       const mean = values.reduce((a, b) => a + b, 0) / values.length;
       const variance = values.reduce((a, b) => a + (b - mean) ** 2, 0) / (values.length - 1);
@@ -92,15 +152,32 @@
       return `${key}: mean=${mean.toFixed(3)}, sd=${sd.toFixed(3)}`;
     }
 
-    fileInput?.addEventListener('change', async (event) => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-      const text = await file.text();
-      const { headers, data } = parseCsv(text);
-      dataset = data;
+    function renderPreview() {
+      if (!dataset.length) {
+        preview.innerHTML = '<p>ยังไม่มีข้อมูล</p>';
+        return;
+      }
+      const rows = dataset.slice(0, 5);
+      const table = document.createElement('table');
+      table.className = 'data-preview';
+      const thead = document.createElement('thead');
+      thead.innerHTML = `<tr>${datasetHeaders.map(h => `<th>${h}</th>`).join('')}</tr>`;
+      const tbody = document.createElement('tbody');
+      rows.forEach(row => {
+        tbody.innerHTML += `<tr>${datasetHeaders.map(h => `<td>${Number(row[h]).toFixed(3)}</td>`).join('')}</tr>`;
+      });
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      preview.innerHTML = `<p>ข้อมูล ${dataset.length} แถว, แสดง 5 แถวแรก</p>`;
+      preview.appendChild(table);
+      const desc = datasetHeaders.map(describeColumn).map(text => `<p>${text}</p>`).join('');
+      summary.innerHTML = `<section><h3>สถิติสรุป</h3>${desc}</section><p class="tagline">เลือก X/Y แล้วกด Fit Model</p>`;
+    }
+
+    function populateSelectors(headers) {
       selectX.innerHTML = '';
       selectY.innerHTML = '';
-      headers.forEach((header) => {
+      headers.forEach(header => {
         const optionX = document.createElement('option');
         optionX.value = header;
         optionX.textContent = header;
@@ -108,16 +185,246 @@
         const optionY = optionX.cloneNode(true);
         selectY.appendChild(optionY);
       });
-      preview.textContent = `โหลดคอลัมน์ ${headers.join(', ')} (${data.length} แถว)`;
-      summary.innerHTML = headers.map(describeColumn).map(text => `<p>${text}</p>`).join('');
-    });
+    }
+
+    function transpose(matrix) {
+      return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+    }
+
+    function multiply(A, B) {
+      return A.map(row => B[0].map((_, colIndex) => row.reduce((sum, value, rowIndex) => sum + value * B[rowIndex][colIndex], 0)));
+    }
+
+    function invert(matrix) {
+      const n = matrix.length;
+      const augmented = matrix.map((row, i) => [...row, ...Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))]);
+      for (let i = 0; i < n; i++) {
+        let pivot = augmented[i][i];
+        if (Math.abs(pivot) < 1e-12) {
+          const swapRow = augmented.findIndex((row, rIndex) => rIndex > i && Math.abs(row[i]) > 1e-12);
+          if (swapRow === -1) throw new Error('เมทริกซ์ไม่ผกผัน อาจมี multicollinearity');
+          [augmented[i], augmented[swapRow]] = [augmented[swapRow], augmented[i]];
+          pivot = augmented[i][i];
+        }
+        for (let j = 0; j < augmented[i].length; j++) {
+          augmented[i][j] /= pivot;
+        }
+        for (let r = 0; r < n; r++) {
+          if (r === i) continue;
+          const factor = augmented[r][i];
+          for (let c = 0; c < augmented[r].length; c++) {
+            augmented[r][c] -= factor * augmented[i][c];
+          }
+        }
+      }
+      return augmented.map(row => row.slice(n));
+    }
+
+    function computeModel(yKey, xKeys) {
+      const rows = dataset.filter(row => {
+        const yValue = Number(row[yKey]);
+        if (!Number.isFinite(yValue)) return false;
+        return xKeys.every(key => Number.isFinite(Number(row[key])));
+      });
+      if (rows.length < 3) throw new Error('ข้อมูลไม่พอสำหรับการฟิตโมเดล');
+
+      const y = rows.map(row => [Number(row[yKey])]);
+      const X = rows.map(row => [1, ...xKeys.map(key => Number(row[key]))]);
+      const Xt = transpose(X);
+      const XtX = multiply(Xt, X);
+      const XtY = multiply(Xt, y);
+      const XtXInv = invert(XtX);
+      const beta = multiply(XtXInv, XtY).map(row => row[0]);
+      const predictions = X.map((row, idx) => ({
+        fitted: row.reduce((sum, value, colIndex) => sum + value * beta[colIndex], 0),
+        actual: y[idx][0]
+      }));
+      const residuals = predictions.map(item => item.actual - item.fitted);
+      const n = rows.length;
+      const p = xKeys.length + 1;
+      const sse = residuals.reduce((acc, value) => acc + value ** 2, 0);
+      const meanY = y.reduce((acc, value) => acc + value[0], 0) / n;
+      const sst = y.reduce((acc, value) => acc + (value[0] - meanY) ** 2, 0);
+      const ssr = sst - sse;
+      const r2 = ssr / sst;
+      const adjR2 = 1 - (1 - r2) * ((n - 1) / (n - p));
+      const rmse = Math.sqrt(sse / (n - p));
+      const covMatrix = XtXInv.map(row => row.map(value => value * (sse / (n - p))));
+      const rowsForCsv = rows.map((row, index) => ({
+        index: index + 1,
+        actual: predictions[index].actual,
+        fitted: predictions[index].fitted,
+        residual: residuals[index]
+      }));
+      const coeffs = beta.map((value, index) => {
+        const se = Math.sqrt(covMatrix[index][index]);
+        const t = se === 0 ? 0 : value / se;
+        const pValue = 2 * (1 - studentTCdf(Math.abs(t), n - p));
+        return {
+          label: index === 0 ? 'Intercept' : xKeys[index - 1],
+          estimate: value,
+          se,
+          t,
+          pValue
+        };
+      });
+      return {
+        coeffs,
+        residuals,
+        predictions,
+        r2,
+        adjR2,
+        rmse,
+        sse,
+        sst,
+        n,
+        p,
+        rows,
+        rowsForCsv
+      };
+    }
+
+    function renderResidualPlot(result) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const padding = 40;
+      const fittedValues = result.predictions.map(p => p.fitted);
+      const residuals = result.residuals;
+      const minFitted = Math.min(...fittedValues);
+      const maxFitted = Math.max(...fittedValues);
+      const minResidual = Math.min(...residuals);
+      const maxResidual = Math.max(...residuals);
+
+      ctx.strokeStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.moveTo(padding, canvas.height - padding);
+      ctx.lineTo(canvas.width - padding, canvas.height - padding);
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(padding, canvas.height - padding);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#475569';
+      const zeroY = canvas.height - padding - ((0 - minResidual) / ((maxResidual - minResidual) || 1)) * (canvas.height - padding * 2);
+      ctx.beginPath();
+      ctx.moveTo(padding, zeroY);
+      ctx.lineTo(canvas.width - padding, zeroY);
+      ctx.stroke();
+
+      ctx.fillStyle = 'rgba(14,165,233,0.8)';
+      residuals.forEach((residual, index) => {
+        const x = padding + ((fittedValues[index] - minFitted) / ((maxFitted - minFitted) || 1)) * (canvas.width - padding * 2);
+        const y = canvas.height - padding - ((residual - minResidual) / ((maxResidual - minResidual) || 1)) * (canvas.height - padding * 2);
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      residualHint.textContent = `แกน X: fitted (${minFitted.toFixed(2)} - ${maxFitted.toFixed(2)}) | แกน Y: residual (${minResidual.toFixed(2)} - ${maxResidual.toFixed(2)})`;
+    }
+
+    function renderModel(result, yKey, xKeys) {
+      const coeffRows = result.coeffs.map(coeff => `
+        <tr>
+          <td>${coeff.label}</td>
+          <td>${coeff.estimate.toFixed(4)}</td>
+          <td>${coeff.se.toFixed(4)}</td>
+          <td>${coeff.t.toFixed(3)}</td>
+          <td>${coeff.pValue.toFixed(4)}</td>
+        </tr>
+      `).join('');
+      summary.innerHTML = `
+        <section>
+          <h3>โมเดล ${yKey} ~ ${xKeys.join(' + ') || '—'}</h3>
+          <p>n = ${result.n}, พารามิเตอร์ = ${result.p}, RMSE = ${result.rmse.toFixed(3)}</p>
+          <p>R² = ${(result.r2 * 100).toFixed(2)}%, Adjusted R² = ${(result.adjR2 * 100).toFixed(2)}%</p>
+        </section>
+        <section>
+          <h3>ตารางสัมประสิทธิ์</h3>
+          <table>
+            <thead>
+              <tr><th>พารามิเตอร์</th><th>ค่าสัมประสิทธิ์</th><th>SE</th><th>t</th><th>p-value</th></tr>
+            </thead>
+            <tbody>${coeffRows}</tbody>
+          </table>
+        </section>
+        <section>
+          <h3>ก้าวถัดไป</h3>
+          <ul>
+            <li>ค่า p-value &lt; 0.05 → พิจารณาว่า predictor มีนัยสำคัญ</li>
+            <li>ดู residual plot เพื่อเช็ก homoscedasticity และ outlier</li>
+            <li>ลองตัดตัวแปรที่มี multicollinearity ถ้าการผกผันล้มเหลว</li>
+          </ul>
+        </section>
+      `;
+    }
+
+    function buildPermalink(state) {
+      const params = new URLSearchParams();
+      if (state.example && state.example !== 'custom') {
+        params.set('example', state.example);
+      } else if (state.raw) {
+        params.set('data', encodeState(state.raw));
+      }
+      if (state.y) params.set('y', state.y);
+      if (state.x?.length) params.set('x', state.x.join(','));
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+      return url;
+    }
+
+    function updatePermalink() {
+      const xKeys = Array.from(selectX.selectedOptions).map(opt => opt.value);
+      const state = {
+        example: datasetSource,
+        y: selectY.value,
+        x: xKeys
+      };
+      if (datasetSource === 'custom') {
+        const csv = [datasetHeaders.join(','), ...dataset.map(row => datasetHeaders.map(h => row[h]).join(','))].join('\n');
+        state.raw = csv;
+      }
+      return buildPermalink(state);
+    }
+
+    function attachDownload(result) {
+      fittedRows = result.rowsForCsv;
+      downloadCsvBtn.disabled = false;
+      downloadPngBtn.disabled = false;
+    }
+
+    function resetCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      residualHint.textContent = 'ฟิตโมเดลเพื่อดู residual vs fitted';
+    }
+
+    function loadCsvText(text, source = 'custom') {
+      const { headers, rows } = parseCsv(text);
+      dataset = rows;
+      datasetHeaders = headers;
+      datasetSource = source;
+      populateSelectors(headers);
+      renderPreview();
+      updatePermalink();
+    }
+
+    async function handleFileUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      exampleSelect.value = 'custom';
+      loadCsvText(text, 'custom');
+    }
+
+    fileInput?.addEventListener('change', handleFileUpload);
 
     document.getElementById('reset-tool')?.addEventListener('click', () => {
-      dataset = [];
-      selectX.innerHTML = '';
-      selectY.innerHTML = '';
-      preview.textContent = '';
-      summary.innerHTML = '<p>รีเซ็ตแล้ว เลือกไฟล์ใหม่เพื่อเริ่มต้น</p>';
+      exampleSelect.value = 'marketing';
+      loadCsvText(examples.marketing, 'marketing');
+      selectY.value = 'Sales';
+      Array.from(selectX.options).forEach(option => {
+        option.selected = option.value === 'Spend' || option.value === 'TV';
+      });
+      resetCanvas();
+      summary.innerHTML += '<p class="tagline">รีเซ็ตเป็นตัวอย่าง marketing แล้ว</p>';
     });
 
     document.getElementById('fit-model')?.addEventListener('click', () => {
@@ -127,8 +434,99 @@
       }
       const yKey = selectY.value;
       const xKeys = Array.from(selectX.selectedOptions).map(opt => opt.value);
-      summary.innerHTML = `<p>เตรียมฟิตโมเดลสำหรับ ${yKey} บน ${xKeys.join(', ') || '—'}</p><p>เวอร์ชันเต็มจะใช้ web worker คำนวณเมทริกซ์</p>`;
+      if (!yKey || !xKeys.length) {
+        summary.innerHTML = '<p>เลือก Y และอย่างน้อย 1 ตัวแปร X</p>';
+        return;
+      }
+      try {
+        const result = computeModel(yKey, xKeys);
+        renderModel(result, yKey, xKeys);
+        renderResidualPlot(result);
+        attachDownload(result);
+        updatePermalink();
+      } catch (error) {
+        summary.innerHTML = `<p>${error.message}</p>`;
+        resetCanvas();
+      }
     });
+
+    downloadCsvBtn?.addEventListener('click', () => {
+      if (!fittedRows.length) return;
+      const header = 'index,actual,fitted,residual';
+      const rows = fittedRows.map(row => `${row.index},${row.actual},${row.fitted},${row.residual}`);
+      const blob = new Blob([header + '\n' + rows.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'regression-residuals.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    downloadPngBtn?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'residual-plot.png';
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = updatePermalink();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
+      }
+    });
+
+    exampleSelect?.addEventListener('change', () => {
+      const value = exampleSelect.value;
+      if (value === 'custom') return;
+      if (examples[value]) {
+        loadCsvText(examples[value], value);
+        if (value === 'marketing') {
+          selectY.value = 'Sales';
+          Array.from(selectX.options).forEach(option => {
+            option.selected = option.value === 'Spend' || option.value === 'TV';
+          });
+        } else if (value === 'manufacturing') {
+          selectY.value = 'Defects';
+          Array.from(selectX.options).forEach(option => {
+            option.selected = option.value === 'Temp' || option.value === 'Hours';
+          });
+        }
+        resetCanvas();
+      }
+    });
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const example = params.get('example');
+      const dataParam = params.get('data');
+      const y = params.get('y');
+      const x = params.get('x');
+      if (dataParam) {
+        const text = decodeState(dataParam);
+        exampleSelect.value = 'custom';
+        loadCsvText(text, 'custom');
+      } else if (example && examples[example]) {
+        exampleSelect.value = example;
+        loadCsvText(examples[example], example);
+      } else {
+        loadCsvText(examples.marketing, 'marketing');
+      }
+      if (y) selectY.value = y;
+      if (x) {
+        const tokens = x.split(',');
+        Array.from(selectX.options).forEach(option => {
+          option.selected = tokens.includes(option.value);
+        });
+      }
+    }
+
+    restoreFromQuery();
   </script>
 </body>
 </html>

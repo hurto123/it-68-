@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>18. CI สัดส่วนกลุ่มเดียว</title>
+  <title>18. ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 18</p>
-      <h1>CI สัดส่วนกลุ่มเดียว</h1>
+      <h1>ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="17-ci-mean-onepop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ใช้เมื่อสนใจสัดส่วนความสำเร็จหรืออัตราในประชากร</p>
       <ul>
-        <li>สูตรค่า critical และ SE</li>
-        <li>กรณี n ใหญ่พอ</li>
-        <li>ตัวอย่างสำรวจความคิดเห็น</li>
+        <li>ประมาณค่า point estimate ด้วย p̂ = x/n</li>
+        <li>เงื่อนไข n p̂ และ n(1−p̂) ≥ 10 เพื่อใช้ประมาณปกติ</li>
+        <li>ตีความช่วงความเชื่อมั่นในงานสำรวจความคิดเห็นหรือคุณภาพ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรมาตรฐานสำหรับช่วงสัดส่วน</p>
+      <ul>
+        <li>CI: p̂ ± z_{α/2} √(p̂(1−p̂)/n)</li>
+        <li>Margin of Error (E) = z_{α/2} √(p̂(1−p̂)/n)</li>
+        <li>เลือกค่าประมาณ p สำหรับการวางแผน (เช่น 0.5)</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>สำรวจสัดส่วนลูกค้าที่พึงพอใจบริการเพื่อรายงานผู้บริหาร</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="16-ci-intro.html">บท CI intro</a></li>
-        <li><a href="../tools/power-sample-size.html">Power tool</a></li>
-        <li><a href="../data/ab_test.csv">ข้อมูล A/B</a></li>
+        <li><a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ย</a></li>
+        <li><a href="19-ci-means-twopop.html">CI สองค่าเฉลี่ย</a></li>
+        <li><a href="../tools/z.html">เครื่องมือ Z</a></li>
       </ul>
     </article>
   </main>
