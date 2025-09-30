@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>บททบทวนที่ 7: กรณีศึกษา #2 - A/B Testing</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .scenario {
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--accent-strong);
+      border-radius: var(--radius-md);
+      padding: var(--size-4);
+    }
+    .lab {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .lab label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-2);
+      font-weight: 600;
+    }
+    .lab input,
+    .lab button {
+      padding: var(--size-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-muted);
+      font: inherit;
+    }
+    .lab button {
+      cursor: pointer;
+      background: var(--accent-muted);
+      color: var(--accent-strong);
+      border: none;
+      font-weight: 600;
+    }
+    .lab canvas {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .results {
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--size-3);
+      display: grid;
+      gap: var(--size-2);
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body data-page="review">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">👨‍🏫 บททบทวนที่ 7</p>
+      <h1>กรณีศึกษา #2 - การเปรียบเทียบสองกลุ่ม (A/B Testing)</h1>
+      <p class="subtitle">ฝึกทักษะการอ่านผลต่างสัดส่วนและการทดสอบสมมติฐานสองกลุ่ม</p>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="lesson">
+    <article class="card flow">
+      <div class="scenario">
+        <h2>สถานการณ์สมมติ</h2>
+        <p>คุณเป็นนักการตลาดของเว็บไซต์ E-commerce ทีมออกแบบได้สร้างปุ่ม "ซื้อเลย" 2 แบบ คือ แบบ A (สีเขียว) และ แบบ B (สีส้ม) ต้องการทดสอบว่าปุ่มสีไหนทำให้คนคลิกมากกว่ากัน</p>
+        <ul>
+          <li>กลุ่ม A: n<sub>A</sub> = 1,500, คลิก x<sub>A</sub> = 120 → \(\hat{p}_A = 0.08\)</li>
+          <li>กลุ่ม B: n<sub>B</sub> = 1,500, คลิก x<sub>B</sub> = 150 → \(\hat{p}_B = 0.10\)</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card flow">
+      <h2>ภารกิจที่ 1: เป็นนักสืบ (ช่วงความเชื่อมั่นของผลต่าง)</h2>
+      <ol>
+        <li>คำนวณสัดส่วนตัวอย่าง: \(\hat{p}_A = 0.08\), \(\hat{p}_B = 0.10\)</li>
+        <li>ตัวประมาณค่าแบบจุด: \(\hat{p}_B - \hat{p}_A = 0.02\)</li>
+        <li>ใช้ Z-Interval สำหรับสัดส่วนสองกลุ่ม</li>
+        <li>ช่วงความเชื่อมั่น 95%: 0.02 ± 0.0204 → (-0.0004, 0.0404)</li>
+      </ol>
+      <p><em>ตีความ:</em> ช่วงคร่อมศูนย์ → ยังฟันธงไม่ได้ว่าปุ่มใดดีกว่าอย่างชัดเจน</p>
+    </article>
+
+    <article class="card flow">
+      <h2>ภารกิจที่ 2: เป็นผู้พิพากษา (ทดสอบความแตกต่าง)</h2>
+      <ol>
+        <li>สมมติฐาน: H<sub>0</sub>: p<sub>A</sub> = p<sub>B</sub>, H<sub>1</sub>: p<sub>A</sub> ≠ p<sub>B</sub></li>
+        <li>ระดับนัยสำคัญ α = 0.05</li>
+        <li>ค่าสถิติ: Z<sub>test</sub> = 1.92</li>
+        <li>p-value (สองหาง) = 0.0548</li>
+        <li>สรุป: p-value > α → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</li>
+      </ol>
+      <p><em>ตีความ:</em> ผลต่างที่เห็นอาจเป็นเรื่องบังเอิญ ยังไม่มีหลักฐานแน่นพอว่าปุ่มสีส้มดีกว่า</p>
+    </article>
+
+    <article class="card flow">
+      <h2>A/B Testing Lab</h2>
+      <p>ใส่ข้อมูลของคุณเพื่อดูช่วงความเชื่อมั่นและการทดสอบแบบสด พร้อมกราฟเปรียบเทียบ (สร้างด้วยโค้ดในหน้านี้)</p>
+      <div class="lab">
+        <div class="control flow">
+          <label for="a-n">n<sub>A</sub>
+            <input type="number" id="a-n" value="1500" min="1">
+          </label>
+          <label for="a-x">x<sub>A</sub>
+            <input type="number" id="a-x" value="120" min="0">
+          </label>
+          <label for="b-n">n<sub>B</sub>
+            <input type="number" id="b-n" value="1500" min="1">
+          </label>
+          <label for="b-x">x<sub>B</sub>
+            <input type="number" id="b-x" value="150" min="0">
+          </label>
+          <label for="alpha">α
+            <input type="number" id="alpha" value="0.05" min="0.001" max="0.2" step="0.001">
+          </label>
+          <div class="results" aria-live="polite">
+            <p><strong>\(\hat{p}_A\):</strong> <span id="p-a">0.00</span></p>
+            <p><strong>\(\hat{p}_B\):</strong> <span id="p-b">0.00</span></p>
+            <p><strong>CI 95%:</strong> <span id="ci">[0, 0]</span></p>
+            <p><strong>Z<sub>test</sub>:</strong> <span id="z-test">0.00</span></p>
+            <p><strong>p-value (สองหาง):</strong> <span id="p-value">0.000</span></p>
+            <p><strong>คำตัดสิน:</strong> <span id="verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
+          </div>
+        </div>
+        <canvas id="ab-chart" role="img" aria-label="การแจกแจงของผลต่างสัดส่วนและพื้นที่วิกฤต"></canvas>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+  <script>
+    const abCanvas = document.getElementById('ab-chart');
+    const abCtx = abCanvas.getContext('2d');
+    const aNInput = document.getElementById('a-n');
+    const aXInput = document.getElementById('a-x');
+    const bNInput = document.getElementById('b-n');
+    const bXInput = document.getElementById('b-x');
+    const alphaInput = document.getElementById('alpha');
+    const pALabel = document.getElementById('p-a');
+    const pBLabel = document.getElementById('p-b');
+    const ciLabel = document.getElementById('ci');
+    const zLabel = document.getElementById('z-test');
+    const pValueLabel = document.getElementById('p-value');
+    const verdictLabel = document.getElementById('verdict');
+
+    function resizeAbCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const width = abCanvas.clientWidth;
+      const height = abCanvas.clientHeight;
+      abCanvas.width = width * ratio;
+      abCanvas.height = height * ratio;
+      abCtx.setTransform(1, 0, 0, 1, 0, 0);
+      abCtx.scale(ratio, ratio);
+    }
+
+    function updateAB() {
+      const nA = Math.max(1, Number(aNInput.value));
+      const xA = Math.min(nA, Math.max(0, Number(aXInput.value)));
+      const nB = Math.max(1, Number(bNInput.value));
+      const xB = Math.min(nB, Math.max(0, Number(bXInput.value)));
+      const alpha = Number(alphaInput.value);
+
+      const pA = xA / nA;
+      const pB = xB / nB;
+      const diff = pB - pA;
+      const se = Math.sqrt((pB * (1 - pB)) / nB + (pA * (1 - pA)) / nA);
+      const zCritical = inverseNormalCDF(1 - 0.05 / 2);
+      const margin = zCritical * se;
+      const ciLower = diff - margin;
+      const ciUpper = diff + margin;
+
+      const pooled = (xA + xB) / (nA + nB);
+      const zTest = (diff) / Math.sqrt(pooled * (1 - pooled) * (1 / nA + 1 / nB));
+      const pValue = 2 * (1 - cumulativeNormal(Math.abs(zTest)));
+      const reject = pValue <= alpha;
+
+      pALabel.textContent = pA.toFixed(4);
+      pBLabel.textContent = pB.toFixed(4);
+      ciLabel.textContent = `[${ciLower.toFixed(4)}, ${ciUpper.toFixed(4)}]`;
+      zLabel.textContent = zTest.toFixed(3);
+      pValueLabel.textContent = pValue.toFixed(4);
+      verdictLabel.textContent = reject ? 'ปฏิเสธ H₀' : 'ยังปฏิเสธ H₀ ไม่ได้';
+      verdictLabel.style.color = reject ? 'var(--critical-strong, #c1121f)' : 'var(--text-strong, #111)';
+
+      drawDistribution(diff, se, alpha, zTest);
+    }
+
+    function drawDistribution(diff, se, alpha, zTest) {
+      const width = abCanvas.clientWidth;
+      const height = abCanvas.clientHeight;
+      const ratio = window.devicePixelRatio || 1;
+      abCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      abCtx.clearRect(0, 0, abCanvas.width, abCanvas.height);
+
+      const padding = 36;
+      const start = -0.15;
+      const end = 0.15;
+      const steps = 200;
+      const xScale = (width - padding * 2) / (end - start);
+      const yScale = (height - padding * 2) / 12;
+
+      abCtx.strokeStyle = 'var(--border-muted, #c7d0ff)';
+      abCtx.beginPath();
+      abCtx.moveTo(padding, height - padding);
+      abCtx.lineTo(width - padding / 2, height - padding);
+      abCtx.stroke();
+
+      abCtx.beginPath();
+      for (let i = 0; i <= steps; i += 1) {
+        const x = start + (i / steps) * (end - start);
+        const z = (x - diff) / se;
+        const y = normalPdf(z);
+        const canvasX = padding + (x - start) * xScale;
+        const canvasY = height - padding - y * yScale;
+        if (i === 0) {
+          abCtx.moveTo(canvasX, canvasY);
+        } else {
+          abCtx.lineTo(canvasX, canvasY);
+        }
+      }
+      abCtx.strokeStyle = 'var(--accent-strong, #4a63e7)';
+      abCtx.lineWidth = 2;
+      abCtx.stroke();
+
+      const crit = inverseNormalCDF(1 - alpha / 2);
+      const lowerCrit = diff - crit * se;
+      const upperCrit = diff + crit * se;
+      const lowerX = padding + (lowerCrit - start) * xScale;
+      const upperX = padding + (upperCrit - start) * xScale;
+      abCtx.fillStyle = 'var(--critical-strong, #c1121f)';
+      abCtx.fillRect(lowerX - 2, height - padding - 140, 4, 120);
+      abCtx.fillRect(upperX - 2, height - padding - 140, 4, 120);
+      abCtx.fillText(`critical = ±${(crit * se).toFixed(3)}`, padding + 12, padding + 16);
+
+      const statX = padding + (0 - start) * xScale;
+      abCtx.fillStyle = 'var(--text-strong, #111)';
+      abCtx.fillRect(statX - 2, height - padding - 160, 4, 160);
+      abCtx.fillText('ผลต่าง = 0 (H₀)', statX - 40, padding + 32);
+
+      const diffX = padding + (diff - start) * xScale;
+      abCtx.fillStyle = 'var(--accent-strong, #4a63e7)';
+      abCtx.fillRect(diffX - 2, height - padding - 160, 4, 160);
+      abCtx.fillText(`diff = ${diff.toFixed(3)}`, diffX - 30, padding + 48);
+    }
+
+    function cumulativeNormal(x) {
+      return 0.5 * (1 + erf(x / Math.sqrt(2)));
+    }
+
+    function normalPdf(x) {
+      return (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * x * x);
+    }
+
+    function erf(x) {
+      const sign = x >= 0 ? 1 : -1;
+      const a1 = 0.254829592;
+      const a2 = -0.284496736;
+      const a3 = 1.421413741;
+      const a4 = -1.453152027;
+      const a5 = 1.061405429;
+      const p = 0.3275911;
+      const absX = Math.abs(x);
+      const t = 1 / (1 + p * absX);
+      const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+      return sign * y;
+    }
+
+    function inverseNormalCDF(p) {
+      return Math.sqrt(2) * invErf(2 * p - 1);
+    }
+
+    function invErf(x) {
+      const a = 0.147;
+      const ln = Math.log(1 - x * x);
+      const term1 = 2 / (Math.PI * a) + ln / 2;
+      const term2 = ln / a;
+      return Math.sign(x) * Math.sqrt(Math.sqrt(term1 * term1 - term2) - term1);
+    }
+
+    [aNInput, aXInput, bNInput, bXInput, alphaInput].forEach((el) => el.addEventListener('input', updateAB));
+
+    resizeAbCanvas();
+    window.addEventListener('resize', () => {
+      resizeAbCanvas();
+      updateAB();
+    });
+
+    updateAB();
+  </script>
+</body>
+</html>

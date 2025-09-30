@@ -22,9 +22,10 @@
   <main class="card-grid">
     <article class="card">
       <ul>
-        <li>ค่าเฉลี่ยตัวอย่าง ≈ 12.5</li>
-        <li>Bootstrap percentile 95% CI ≈ [12.1, 12.9], basic CI คล้ายกัน</li>
-        <li>CI แบบ t-classic (n=10) ≈ [11.9, 13.1] → ให้ช่วงกว้างกว่าเล็กน้อย</li>
+        <li>ค่าเฉลี่ยตัวอย่าง = 12.5, ค่า median ≈ 12.55</li>
+        <li>Bootstrap mean (B = 2,000) ให้ percentile 95% CI ≈ [12.25, 12.75], basic CI ใกล้เคียงและ bias น้อย</li>
+        <li>SE จาก bootstrap ≈ 0.127, ส่วน CI แบบ t-classic ≈ [12.19, 12.81] กว้างกว่านิดหน่อยเพราะ n เล็ก</li>
+        <li>หากใช้ median สถิติจะมีช่วงกว้างขึ้น ([12.15, 12.80]) สะท้อนความไวต่อการกระจายไม่สมมาตร</li>
       </ul>
     </article>
   </main>
