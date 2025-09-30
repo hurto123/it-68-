@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>30. ทดสอบอัตราส่วนความแปรปรวน</title>
+  <title>30. การทดสอบอัตราส่วนความแปรปรวน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 30</p>
-      <h1>ทดสอบอัตราส่วนความแปรปรวน</h1>
+      <h1>การทดสอบอัตราส่วนความแปรปรวน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="29-test-variance-onepop.html">บทก่อนหน้า</button>
@@ -26,18 +26,32 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>เปรียบเทียบความแปรปรวนของสองกระบวนการผ่านการแจกแจง F</p>
       <ul>
-        <li>F-test และสมมติฐาน</li>
-        <li>เชื่อมโยง ANOVA</li>
-        <li>Power และการใช้จริง</li>
+        <li>สถานการณ์ที่ใช้ F-test เช่น ตรวจสอบความเท่ากันของ σ^2</li>
+        <li>การจัดลำดับตัวอย่างให้ค่า F ≥ 1</li>
+        <li>ความเชื่อมโยงกับ ANOVA ในการเปรียบเทียบหลายกลุ่ม</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรของ F-test</p>
+      <ul>
+        <li>F = (s_1^2/σ_1^2) / (s_2^2/σ_2^2) ≈ (s_1^2/s_2^2)</li>
+        <li>df1 = n_1 − 1, df2 = n_2 − 1</li>
+        <li>ปฏิเสธ H0 เมื่อ F_{obs} > F_{α, df1, df2}</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ประเมินความเสถียรสองสายการผลิตหรือการวัดสองเครื่องมือ</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power F-test</a></li>
-        <li><a href="adv/35-oneway-anova.html">บท ANOVA</a></li>
+        <li><a href="29-test-variance-onepop.html">การทดสอบความแปรปรวนกลุ่มเดียว</a></li>
+        <li><a href="31-summary-next.html">บทสรุปและก้าวต่อไป</a></li>
         <li><a href="../tools/anova.html">เครื่องมือ ANOVA</a></li>
       </ul>
     </article>

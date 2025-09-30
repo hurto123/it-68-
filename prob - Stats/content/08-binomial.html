@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>08. Binomial Distribution</title>
+  <title>08. การแจกแจงทวินาม</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 08</p>
-      <h1>Binomial Distribution</h1>
+      <h1>การแจกแจงทวินาม</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="07-discrete-uniform.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>แบบจำลองจำนวนความสำเร็จจากการทดลองซ้ำแบบ Bernoulli</p>
       <ul>
-        <li>คุณสมบัติทดลอง Bernoulli</li>
-        <li>การคำนวณความน่าจะเป็น</li>
-        <li>ค่าเฉลี่ย ความแปรปรวน และการประมาณ</li>
+        <li>เงื่อนไขของการแจกแจงทวินาม (n, p)</li>
+        <li>รูปแบบ PMF และการใช้ตาราง/เทคโนโลยี</li>
+        <li>ค่าคาดหมายและความแปรปรวนของการแจกแจง</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรหลักสำหรับคำนวณความน่าจะเป็นและสถิติ</p>
+      <ul>
+        <li>PMF: P(X = k) = C(n,k)p^k(1−p)^{n−k}</li>
+        <li>ค่าคาดหมาย: μ = np</li>
+        <li>ความแปรปรวน: σ^2 = np(1−p)</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>โอกาสจำนวนสินค้าชำรุดจากการสุ่มตรวจ หรือโอกาสเดาคำถามถูกในข้อสอบแบบหลายตัวเลือก</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power tool</a></li>
-        <li><a href="10-poisson.html">บท poisson</a></li>
-        <li><a href="review/review-03-clt-sampling.html">ทบทวน CLT</a></li>
+        <li><a href="07-discrete-uniform.html">การแจกแจงสม่ำเสมอ</a></li>
+        <li><a href="09-hypergeometric.html">การสุ่มแบบไม่คืนตัว</a></li>
+        <li><a href="../data/qc_defects.csv">ไฟล์ข้อมูลคุณภาพ</a></li>
       </ul>
     </article>
   </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>23. บทนำ Hypothesis Testing</title>
+  <title>23. บทนำการทดสอบสมมติฐาน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 23</p>
-      <h1>บทนำ Hypothesis Testing</h1>
+      <h1>บทนำการทดสอบสมมติฐาน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="22-ci-variance.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ทำความเข้าใจโครงสร้างการตั้งสมมติฐานและการตัดสินใจ</p>
       <ul>
-        <li>นิยาม H0/H1</li>
-        <li>Type I/II error</li>
-        <li>ขั้นตอนการทดสอบ</li>
+        <li>ตั้งสมมติฐานศูนย์ (H0) และสมมติฐานทางเลือก (H1)</li>
+        <li>ความหมายของข้อผิดพลาดประเภทที่ I และ II</li>
+        <li>บทบาทของระดับนัยสำคัญ α และพลังการทดสอบ β</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>แนวคิดหลักสำหรับขั้นตอนการทดสอบ</p>
+      <ul>
+        <li>สถิติทดสอบ = (ค่าประเมิน − ค่าคาดภายใต้ H0) / SE</li>
+        <li>ความสัมพันธ์: Power = 1 − β</li>
+        <li>การกำหนดกฎตัดสินใจเทียบกับ critical value</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ตรวจสอบว่ายอดขายเฉลี่ยยังเท่าเป้าหมายเดิมหรือเปลี่ยนไปด้วยการทดสอบสมมติฐาน</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="24-critical-vs-pvalue.html">บท critical vs p-value</a></li>
-        <li><a href="../tools/power-sample-size.html">Power tool</a></li>
-        <li><a href="review/review-05-hypothesis.html">ทบทวน hypothesis</a></li>
+        <li><a href="22-ci-variance.html">CI ความแปรปรวน</a></li>
+        <li><a href="24-critical-vs-pvalue.html">วิธีตัดสินใจด้วย critical/p-value</a></li>
+        <li><a href="../tools/power-sample-size.html">เครื่องมือ power</a></li>
       </ul>
     </article>
   </main>

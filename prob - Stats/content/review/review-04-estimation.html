@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Estimation Cheat Sheet</title>
+  <title>รีวิวการประมาณค่า (Estimation)</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">สรุปเร็ว</p>
-      <h1>Estimation Cheat Sheet</h1>
+      <h1>รีวิวการประมาณค่าอย่างมั่นใจ</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
@@ -25,19 +25,39 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ภาพรวม</h2>
+      <h2>สูตรทองคำ</h2>
+      <p><strong>CI = จุดประมาณ ± (ค่าคงที่วิกฤต) × (Standard Error)</strong></p>
       <ul>
-        <li>โครงสร้าง CI = point ± critical × SE</li>
-        <li>เลือก distribution ตามข้อมูล</li>
-        <li>สรุปสูตร mean, proportion, variance</li>
+        <li>ระบุชนิดของค่าที่ต้องการ: μ, p, μ₁−μ₂, p₁−p₂, σ²</li>
+        <li>เลือกตระกูลแจกแจงเพื่อหา critical value: Z, t, χ², หรือ F</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรสำเร็จรูปยอดนิยม</h2>
+      <ul>
+        <li><strong>ค่าเฉลี่ยกลุ่มเดียว</strong>: ใช้ Z เมื่อรู้ σ หรือ n ใหญ่, ใช้ t เมื่อไม่รู้ σ และ n เล็ก</li>
+        <li><strong>สัดส่วนกลุ่มเดียว</strong>: <em>p̂ ± z<sub>α/2</sub> √(p̂(1-p̂)/n)</em></li>
+        <li><strong>ผลต่างค่าเฉลี่ยสองกลุ่ม</strong>: <em>(x̄₁−x̄₂) ± z/t × √(s₁²/n₁ + s₂²/n₂)</em></li>
+        <li><strong>ความแปรปรวน</strong>: <em>((n−1)s²)/χ²</em> บน-ล่าง สลับใช้ χ²<sub>α/2</sub>, χ²<sub>1−α/2</sub></li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ขั้นดำเนินการ</h2>
+      <ol>
+        <li>ตรวจสมมติฐาน: ความเป็นอิสระ, เงื่อนไขขนาดตัวอย่าง, ความปกติ</li>
+        <li>เลือกสูตร SE และ critical value ให้ตรงกับข้อมูลที่มี</li>
+        <li>คำนวณช่วงเชื่อมั่นและตีความ: “เรามั่นใจ X% ว่าค่าจริงอยู่ในช่วง …”</li>
+        <li>เช็กความยาวช่วง: ถ้ากว้างเกินไป &rarr; ต้องเพิ่ม n หรือใช้ข้อมูลเสริม</li>
+      </ol>
     </article>
     <article class="card">
       <h2>ปุ่มลัด</h2>
       <ul>
-        <li><a href="../16-ci-intro.html">บท CI 16-22</a></li>
-        <li><a href="../../tools/power-sample-size.html">เปิด Power planner</a></li>
-        <li><a href="../decision-map.html">ดาวน์โหลด decision map</a></li>
+        <li><a href="../16-ci-intro.html">บท 16: CI โครงสร้างทองคำ</a></li>
+        <li><a href="../17-ci-mean-onepop.html">บท 17: ค่าเฉลี่ยกลุ่มเดียว</a></li>
+        <li><a href="../18-ci-proportion-onepop.html">บท 18: สัดส่วนกลุ่มเดียว</a></li>
+        <li><a href="../20-ci-proportions-twopop.html">บท 20: สองสัดส่วน</a></li>
+        <li><a href="../22-ci-variance.html">บท 22: ความแปรปรวน</a></li>
       </ul>
     </article>
   </main>

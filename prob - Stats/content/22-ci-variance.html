@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>22. CI ความแปรปรวน/SD</title>
+  <title>22. ช่วงความเชื่อมั่นของความแปรปรวน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 22</p>
-      <h1>CI ความแปรปรวน/SD</h1>
+      <h1>ช่วงความเชื่อมั่นของความแปรปรวน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="21-sample-size.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>เมื่อสนใจการประมาณความแปรปรวนหรือส่วนเบี่ยงเบนมาตรฐาน</p>
       <ul>
-        <li>ใช้ χ² distribution</li>
-        <li>ช่วงไม่สมมาตร</li>
-        <li>ตัวอย่างประยุกต์</li>
+        <li>ใช้การแจกแจง χ² สำหรับตัวอย่างจากประชากรปกติ</li>
+        <li>ช่วงไม่สมมาตรและตีความอย่างระมัดระวัง</li>
+        <li>แปลงช่วงของความแปรปรวนเป็นช่วงของส่วนเบี่ยงเบนมาตรฐาน</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรช่วงจำเป็นสำหรับการประเมินความเสถียรของกระบวนการ</p>
+      <ul>
+        <li>CI_{σ^2}: ((n−1)s^2/χ²_{α/2, n−1}, (n−1)s^2/χ²_{1−α/2, n−1})</li>
+        <li>แปลงเป็น SD: (√L, √U)</li>
+        <li>ตรวจสอบสมมติฐานความเป็นปกติ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ประเมินความสม่ำเสมอของเครื่องจักรโดยคำนวณช่วงของส่วนเบี่ยงเบนมาตรฐาน</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
+        <li><a href="21-sample-size.html">การวางแผนขนาดตัวอย่าง</a></li>
+        <li><a href="23-hypothesis-intro.html">บทนำการทดสอบสมมติฐาน</a></li>
         <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
-        <li><a href="29-test-variance-onepop.html">บท test variance</a></li>
-        <li><a href="../tools/f.html">เครื่องมือ F</a></li>
       </ul>
     </article>
   </main>

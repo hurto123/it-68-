@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>19. CI ผลต่างค่าเฉลี่ยสองกลุ่ม</title>
+  <title>19. ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 19</p>
-      <h1>CI ผลต่างค่าเฉลี่ยสองกลุ่ม</h1>
+      <h1>ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="18-ci-proportion-onepop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>เปรียบเทียบค่าเฉลี่ยของสองกลุ่มอย่างเป็นระบบ</p>
       <ul>
-        <li>กรณี σ รู้/ไม่รู้</li>
-        <li>Welch vs pooled</li>
-        <li>ตัวอย่างเปรียบเทียบการทดลอง</li>
+        <li>กรณีตัวอย่างใหญ่ ใช้ Z ด้วย σ หรือสัดส่วนที่ทราบ</li>
+        <li>กรณีไม่ทราบ σ ใช้ t และพิจารณา pooled vs Welch</li>
+        <li>ตรวจสอบเงื่อนไขความเป็นอิสระและการแจกแจง</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรช่วงความเชื่อมั่นที่ใช้บ่อย</p>
+      <ul>
+        <li>CI_Z: (ar X_1 − ar X_2) ± z_{α/2} √(σ_1^2/n_1 + σ_2^2/n_2)</li>
+        <li>CI_pooled: (ar X_1 − ar X_2) ± t_{α/2, df} √(s_p^2 (1/n_1 + 1/n_2))</li>
+        <li>Welch: df ประมาณด้วยสูตร Welch-Satterthwaite</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>เปรียบเทียบเวลารอคอยเฉลี่ยของสองสาขาหรือผลคะแนนของสองรูปแบบการสอน</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power Welch</a></li>
-        <li><a href="27-test-means-twopop.html">บท test mean</a></li>
-        <li><a href="../data/anova_plants.csv">ข้อมูล plants</a></li>
+        <li><a href="18-ci-proportion-onepop.html">CI สัดส่วนกลุ่มเดียว</a></li>
+        <li><a href="20-ci-proportions-twopop.html">CI สองสัดส่วน</a></li>
+        <li><a href="method-notes.html">บันทึกเรื่อง Welch</a></li>
       </ul>
     </article>
   </main>
