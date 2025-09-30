@@ -2,6 +2,13 @@ const cache = new Map();
 self.cache = cache;
 let requestCounter = 0;
 
+function requireFiniteNumber(value, label) {
+  if (!Number.isFinite(value)) {
+    throw new Error(`${label} ต้องเป็นตัวเลข`);
+  }
+  return value;
+}
+
 function memoKey(fn, params) {
   return `${fn}:${JSON.stringify(params, Object.keys(params).sort())}`;
 }
@@ -252,9 +259,7 @@ function computeCritical(alpha, df, tail = 'two-sided') {
   if (!(alpha > 0 && alpha < 1)) {
     throw new Error('alpha ต้องอยู่ในช่วง (0,1)');
   }
-  if (!Number.isFinite(df)) {
-    throw new Error('df ต้องเป็นตัวเลข');
-  }
+  requireFiniteNumber(df, 'df');
   if (df <= 0) {
     throw new Error('df ต้องมากกว่า 0');
   }
@@ -272,7 +277,8 @@ function computeCritical(alpha, df, tail = 'two-sided') {
 }
 
 function computePower(params) {
-  const { alpha = 0.05, df, delta = 0 } = params;
+  const { alpha = 0.05, delta = 0 } = params;
+  const df = requireFiniteNumber(params.df ?? params.nu, 'df');
   const mode = normalizeTail(params.test || params.tail || params.tails);
   const critical = computeCritical(alpha, df, mode);
   let leftTail = 0;
@@ -311,13 +317,14 @@ self.addEventListener('message', (event) => {
       'nct-power': 'power',
       'nct-cdf': 'cdf',
       'nct-crit': 'crit',
+      'student-t-crit': 'crit',
       'student-t-inv': 'central-inv',
       'student-t-cdf': 'central-cdf'
     }[alias] || alias;
     switch (operation) {
       case 'cdf':
         {
-          const df = params.nu ?? params.df;
+          const df = requireFiniteNumber(params.nu ?? params.df, 'df');
           const delta = Number.isFinite(params.delta) ? params.delta : 0;
           payload = withCache(operation, { x: params.x, df, delta }, () => ({
             cdf: noncentralTCdf(params.x, df, delta)
@@ -326,7 +333,7 @@ self.addEventListener('message', (event) => {
         break;
       case 'crit':
         {
-          const df = params.nu ?? params.df;
+          const df = requireFiniteNumber(params.nu ?? params.df, 'df');
           const tailParam = params.tail ?? params.tails ?? params.test;
           const normalizedTail = normalizeTail(tailParam);
           payload = withCache(operation, {
@@ -341,7 +348,7 @@ self.addEventListener('message', (event) => {
         break;
       case 'power':
         {
-          const df = params.nu ?? params.df;
+          const df = requireFiniteNumber(params.nu ?? params.df, 'df');
           const tailParam = params.test || params.tail || params.tails;
           const normalizedTail = normalizeTail(tailParam);
           payload = withCache(operation, {
@@ -359,7 +366,7 @@ self.addEventListener('message', (event) => {
         break;
       case 'central-cdf':
         {
-          const df = params.nu ?? params.df;
+          const df = requireFiniteNumber(params.nu ?? params.df, 'df');
           payload = withCache(operation, { x: params.x, df }, () => ({
             cdf: studentTCdf(params.x, df)
           }));
@@ -367,7 +374,7 @@ self.addEventListener('message', (event) => {
         break;
       case 'central-inv':
         {
-          const df = params.nu ?? params.df;
+          const df = requireFiniteNumber(params.nu ?? params.df, 'df');
           payload = withCache(operation, { p: params.p, df }, () => ({
             value: studentTInv(params.p, df)
           }));
