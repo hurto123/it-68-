@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>17. CI ค่าเฉลี่ยกลุ่มเดียว</title>
+  <title>17. ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 17</p>
-      <h1>CI ค่าเฉลี่ยกลุ่มเดียว</h1>
+      <h1>ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="16-ci-intro.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ประยุกต์โครงสร้างทองคำกับค่าเฉลี่ยของประชากรเดียว</p>
       <ul>
-        <li>เลือกใช้ Z หรือ t</li>
-        <li>กรณีรู้ σ หรือไม่รู้ σ</li>
-        <li>ตัวอย่างพร้อมการตีความ</li>
+        <li>เลือกใช้ Z หรือ t ตามว่ารู้ σ หรือไม่ และขนาดตัวอย่าง</li>
+        <li>การคำนวณ SE ด้วย σ/√n หรือ s/√n</li>
+        <li>การตีความช่วงค่าเฉลี่ยในบริบทปัญหา</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>เขียนสูตรทั้งกรณีรู้ σ และไม่รู้</p>
+      <ul>
+        <li>CI_Z: ar X ± z_{α/2} (σ/√n)</li>
+        <li>CI_t: ar X ± t_{α/2, df} (s/√n)</li>
+        <li>df = n−1 สำหรับ t</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ประมาณค่าเฉลี่ยเวลาให้บริการลูกค้าในร้านด้วยตัวอย่าง 40 คนหรือ 15 คนแล้วเลือก critical ให้เหมาะสม</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="16-ci-intro.html">บทก่อนหน้า</a></li>
-        <li><a href="../tools/power-sample-size.html">Power paired</a></li>
-        <li><a href="../data/clt_heights.csv">ข้อมูล heights</a></li>
+        <li><a href="16-ci-intro.html">บทนำ CI</a></li>
+        <li><a href="18-ci-proportion-onepop.html">CI สัดส่วนกลุ่มเดียว</a></li>
+        <li><a href="../tables/t-table.html">ตาราง t</a></li>
       </ul>
     </article>
   </main>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>11. ตัวแปรต่อเนื่อง & Normal</title>
+  <title>11. ตัวแปรต่อเนื่อง & การแจกแจงปกติ</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 11</p>
-      <h1>ตัวแปรต่อเนื่อง & Normal</h1>
+      <h1>ตัวแปรต่อเนื่อง & การแจกแจงปกติ</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="10-poisson.html">บทก่อนหน้า</button>
@@ -26,18 +26,32 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>แนะนำการแจกแจงต่อเนื่องยอดนิยมที่ปรากฏในธรรมชาติและงานวิเคราะห์</p>
       <ul>
-        <li>ลักษณะ curve และ parameter μ, σ</li>
-        <li>พื้นที่ใต้โค้งและการ standardize</li>
-        <li>การใช้ข้อมูลจริง</li>
+        <li>คุณสมบัติของตัวแปรต่อเนื่องและ PDF</li>
+        <li>ลักษณะโค้งระฆังของการแจกแจงปกติ (μ, σ)</li>
+        <li>การหาพื้นที่ภายใต้โค้งเพื่อคำนวณความน่าจะเป็น</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรของความหนาแน่นปกติและการมาตรฐาน</p>
+      <ul>
+        <li>PDF: f(x) = (1/(σ√{2π})) exp(−(x−μ)^2/(2σ^2))</li>
+        <li>กฎ 68-95-99.7 สำหรับช่วงรอบค่าเฉลี่ย</li>
+        <li>การมาตรฐาน: Z = (X−μ)/σ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>แจกแจงคะแนนสอบใหญ่หรือการวัดความยาวชิ้นส่วนจากกระบวนการผลิต</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="12-standard-normal-z.html">บท Z-score</a></li>
-        <li><a href="../tools/normal-cdf.html">เครื่องคิดเลข Normal CDF</a></li>
+        <li><a href="10-poisson.html">การแจกแจงปัวซอง</a></li>
+        <li><a href="12-standard-normal-z.html">Z-score</a></li>
         <li><a href="../tables/z-table.html">ตาราง Z</a></li>
       </ul>
     </article>

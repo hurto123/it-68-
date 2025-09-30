@@ -3,81 +3,181 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Z Table</title>
+  <title>Interactive Z Table</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
   <link rel="stylesheet" href="../styles/typography-access.css">
   <script defer src="../app.js"></script>
+  <style>
+    main { display: grid; gap: 1.5rem; }
+    .controls { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .table-wrapper { max-height: 480px; overflow: auto; border-radius: 1rem; border: 1px solid rgba(148,163,184,0.35); }
+    table { border-collapse: collapse; width: 100%; min-width: 520px; }
+    th, td { padding: 0.45rem 0.6rem; border: 1px solid rgba(148,163,184,0.25); text-align: center; font-variant-numeric: tabular-nums; }
+    thead th { position: sticky; top: 0; background: var(--surface, #fff); }
+    tbody th { position: sticky; left: 0; background: var(--surface, #fff); }
+    [data-highlight="true"] { background: rgba(14,165,233,0.25); font-weight: 600; }
+    .tagline code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
 </head>
 <body data-page="table">
   <header class="site-header">
     <div>
       <p class="eyebrow">Table</p>
-      <h1>ตาราง Z (พื้นที่ด้านซ้าย)</h1>
+      <h1>ตาราง Z (พื้นที่ซ้ายของมาตรฐานปกติ)</h1>
+      <p class="tagline">ค้นหาค่า z หรือพื้นที่ได้แบบทันที พร้อมปรับโหมดซ้าย/ขวา/สองด้าน</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#resources">กลับ</a>
     </nav>
   </header>
-  <main class="card-grid">
-    <article class="card">
-      <label>ค้นหาค่า
-        <input id="z-search" placeholder="เช่น 1.96">
+  <main class="card">
+    <section class="controls">
+      <label>ค้นหาตามค่า z
+        <input id="search-z" type="number" step="0.01" value="1.96">
       </label>
-      <p id="z-highlight" class="tagline"></p>
-      <div class="table-wrapper">
-        <table id="z-table"></table>
+      <label>ค้นหาตามพื้นที่
+        <input id="search-area" type="number" step="0.0001" value="0.975">
+      </label>
+      <label>โหมดพื้นที่
+        <select id="area-mode">
+          <option value="left">ซ้ายของ z</option>
+          <option value="right">ขวาของ z</option>
+          <option value="two">สองด้าน (±z)</option>
+        </select>
+      </label>
+      <div>
+        <button class="ghost" id="copy-cell">คัดลอกค่า</button>
+        <button class="ghost" id="reset">รีเซ็ต</button>
       </div>
-    </article>
+    </section>
+    <p id="summary" class="tagline"></p>
+    <div class="table-wrapper">
+      <table id="z-table"></table>
+    </div>
   </main>
   <script type="module">
-    import { normCdf } from '../tools/distributions.js';
+    import { normCdf, normInv } from '../tools/distributions.js';
+
     const table = document.getElementById('z-table');
-    const search = document.getElementById('z-search');
-    const highlight = document.getElementById('z-highlight');
+    const searchZ = document.getElementById('search-z');
+    const searchArea = document.getElementById('search-area');
+    const areaMode = document.getElementById('area-mode');
+    const summary = document.getElementById('summary');
+    const copyBtn = document.getElementById('copy-cell');
+
+    const rows = [];
 
     function buildTable() {
+      const thead = document.createElement('thead');
       const headerRow = document.createElement('tr');
       headerRow.innerHTML = '<th>z</th>' + Array.from({ length: 10 }, (_, i) => `<th>${(i / 100).toFixed(2)}</th>`).join('');
-      table.appendChild(headerRow);
-      for (let row = 0; row <= 3; row += 0.1) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<th>${row.toFixed(1)}</th>`;
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      for (let base = -3.4; base <= 3.4; base += 0.1) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<th>${base.toFixed(1)}</th>`;
         for (let col = 0; col <= 9; col++) {
-          const z = Number((row + col / 100).toFixed(2));
-          const td = document.createElement('td');
-          td.dataset.z = z.toFixed(2);
-          td.textContent = normCdf(z).toFixed(4);
-          tr.appendChild(td);
+          const z = Number((base + col / 100).toFixed(2));
+          const cell = document.createElement('td');
+          cell.dataset.z = z.toFixed(2);
+          cell.dataset.area = normCdf(z).toFixed(5);
+          cell.textContent = cell.dataset.area;
+          row.appendChild(cell);
         }
-        table.appendChild(tr);
+        tbody.appendChild(row);
       }
+      table.appendChild(tbody);
     }
 
-    search.addEventListener('input', () => {
-      const value = Number(search.value);
-      document.querySelectorAll('[data-highlight]')?.forEach(el => el.removeAttribute('data-highlight'));
-      if (Number.isNaN(value)) {
-        highlight.textContent = '';
+    function clearHighlight() {
+      table.querySelectorAll('[data-highlight="true"]').forEach(el => el.removeAttribute('data-highlight'));
+    }
+
+    function highlightByZ(z) {
+      const cell = table.querySelector(`[data-z="${z.toFixed(2)}"]`);
+      if (cell) {
+        clearHighlight();
+        cell.setAttribute('data-highlight', 'true');
+        const area = Number(cell.dataset.area);
+        updateSummary(z, area);
+        return cell;
+      }
+      summary.textContent = 'นอกช่วงตาราง (-3.4 ถึง 3.4)';
+      return null;
+    }
+
+    function updateSummary(z, area) {
+      const mode = areaMode.value;
+      let text = '';
+      if (mode === 'left') {
+        text = `P(Z ≤ ${z.toFixed(2)}) ≈ ${area.toFixed(4)}`;
+      } else if (mode === 'right') {
+        text = `P(Z ≥ ${z.toFixed(2)}) ≈ ${(1 - area).toFixed(4)}`;
+      } else {
+        const tail = 1 - area;
+        text = `P(|Z| ≥ ${Math.abs(z).toFixed(2)}) ≈ ${(tail * 2).toFixed(4)}`;
+      }
+      summary.innerHTML = `<code>${text}</code>`;
+    }
+
+    function handleSearchZ() {
+      const z = Number(searchZ.value);
+      if (!Number.isFinite(z)) {
+        summary.textContent = 'กรุณากรอกค่า z';
+        clearHighlight();
         return;
       }
-      const target = table.querySelector(`[data-z="${value.toFixed(2)}"]`);
-      if (target) {
-        target.setAttribute('data-highlight', 'true');
-        highlight.textContent = `P(Z ≤ ${value.toFixed(2)}) ≈ ${target.textContent}`;
-      } else {
-        highlight.textContent = 'นอกช่วง 0–3';
+      highlightByZ(Math.min(3.4, Math.max(-3.4, z)));
+    }
+
+    function handleSearchArea() {
+      const p = Number(searchArea.value);
+      if (!Number.isFinite(p) || p <= 0 || p >= 1) {
+        summary.textContent = 'พื้นที่ต้องอยู่ในช่วง (0,1)';
+        return;
       }
+      let z;
+      if (areaMode.value === 'left') {
+        z = normInv(p);
+      } else if (areaMode.value === 'right') {
+        z = normInv(1 - p);
+      } else {
+        const tail = (1 - p) / 2;
+        z = normInv(1 - tail);
+      }
+      searchZ.value = z.toFixed(2);
+      highlightByZ(Math.min(3.4, Math.max(-3.4, z)));
+    }
+
+    areaMode.addEventListener('change', () => {
+      const current = table.querySelector('[data-highlight="true"]');
+      if (current) updateSummary(Number(current.dataset.z), Number(current.dataset.area));
+    });
+
+    searchZ.addEventListener('input', handleSearchZ);
+    searchArea.addEventListener('change', handleSearchArea);
+
+    copyBtn.addEventListener('click', () => {
+      const cell = table.querySelector('[data-highlight="true"]');
+      if (!cell) return;
+      navigator.clipboard?.writeText(cell.dataset.area ?? '');
+      copyBtn.textContent = 'คัดลอกแล้ว!';
+      setTimeout(() => { copyBtn.textContent = 'คัดลอกค่า'; }, 2000);
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      searchZ.value = '1.96';
+      searchArea.value = '0.975';
+      areaMode.value = 'left';
+      clearHighlight();
+      handleSearchZ();
     });
 
     buildTable();
+    handleSearchZ();
   </script>
-  <style>
-    .table-wrapper { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 0.4rem; border: 1px solid rgba(148, 163, 184, 0.4); text-align: center; }
-    [data-highlight="true"] { background: rgba(14, 165, 233, 0.2); font-weight: 600; }
-  </style>
 </body>
 </html>

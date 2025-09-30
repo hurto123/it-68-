@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>29. ทดสอบความแปรปรวนกลุ่มเดียว</title>
+  <title>29. การทดสอบความแปรปรวนกลุ่มเดียว</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 29</p>
-      <h1>ทดสอบความแปรปรวนกลุ่มเดียว</h1>
+      <h1>การทดสอบความแปรปรวนกลุ่มเดียว</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="28-test-proportions-twopop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ประเมินว่าความแปรปรวนของประชากรแตกต่างจากค่าที่ตั้งไว้หรือไม่</p>
       <ul>
-        <li>สถิติทดสอบ χ²</li>
-        <li>การตีความช่วงความเชื่อมั่น</li>
-        <li>ข้อจำกัดเมื่อน้อยกว่าเงื่อนไข</li>
+        <li>ใช้การแจกแจง χ² เมื่อตัวอย่างมาจากประชากรปกติ</li>
+        <li>ตั้งสมมติฐานเกี่ยวกับ σ^2</li>
+        <li>ตีความผลทดสอบและผลต่อการควบคุมคุณภาพ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรสถิติทดสอบ</p>
+      <ul>
+        <li>χ² = (n−1)s^2/σ_0^2</li>
+        <li>df = n−1</li>
+        <li>เปรียบเทียบกับค่าจากตาราง χ²</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ตรวจสอบว่าความแปรปรวนของความยาวชิ้นส่วนยังอยู่ในระดับที่ควบคุมได้</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
+        <li><a href="28-test-proportions-twopop.html">การทดสอบสัดส่วนสองกลุ่ม</a></li>
+        <li><a href="30-test-variance-ratio.html">F-test</a></li>
         <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
-        <li><a href="22-ci-variance.html">บท CI variance</a></li>
-        <li><a href="../tools/chi2.html">เครื่องมือ F</a></li>
       </ul>
     </article>
   </main>

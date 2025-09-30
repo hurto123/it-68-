@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>กำหนดจำนวนตัวอย่างให้เพียงพอสำหรับเป้าหมายความแม่นยำ</p>
       <ul>
-        <li>องค์ประกอบ E, α, σ หรือ p</li>
-        <li>ตัวอย่างค่าเฉลี่ยและสัดส่วน</li>
-        <li>ใช้เครื่องมือช่วยวางแผน</li>
+        <li>ความสัมพันธ์ระหว่าง Margin of Error, ระดับความเชื่อมั่น และ n</li>
+        <li>การใช้ค่าประมาณ σ หรือ p ในการวางแผน</li>
+        <li>Trade-off ต้นทุนและความแม่นยำ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรประมาณขนาดตัวอย่างสำหรับค่าเฉลี่ยและสัดส่วน</p>
+      <ul>
+        <li>สำหรับค่าเฉลี่ย: n = (z_{α/2} σ / E)^2</li>
+        <li>สำหรับสัดส่วน: n = p(1−p) (z_{α/2}/E)^2</li>
+        <li>ถ้าไม่รู้ p ใช้ 0.5 เพื่อให้ได้ n สูงสุด</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>กำหนดจำนวนลูกค้าที่ต้องสำรวจเพื่อให้ Margin of Error ไม่เกิน 3% ที่ระดับ 95%</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power planner</a></li>
-        <li><a href="decision-map.html">Decision map</a></li>
-        <li><a href="review/review-04-estimation.html">ทบทวน estimation</a></li>
+        <li><a href="20-ci-proportions-twopop.html">CI สองสัดส่วน</a></li>
+        <li><a href="22-ci-variance.html">CI ความแปรปรวน</a></li>
+        <li><a href="../tools/power-sample-size.html">เครื่องมือวางแผน n</a></li>
       </ul>
     </article>
   </main>

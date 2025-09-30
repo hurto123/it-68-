@@ -11,12 +11,30 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .grid-two { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .grid-three { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+    fieldset { border: 1px solid rgba(148,163,184,0.4); border-radius: 0.75rem; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+    fieldset legend { font-weight: 600; }
+    [data-panel] { display: none; gap: 1rem; }
+    [data-panel].active { display: grid; }
+    output[data-error] { color: #b91c1c; font-weight: 600; }
+    .result-block { background: rgba(14,165,233,0.12); border-radius: 0.75rem; padding: 1rem; margin-top: 1rem; }
+    .result-grid { display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+    .result-grid div { background: rgba(255,255,255,0.6); border-radius: 0.75rem; padding: 0.75rem; border: 1px solid rgba(148,163,184,0.25); }
+    table { border-collapse: collapse; width: 100%; margin-top: 0.75rem; }
+    th, td { border: 1px solid rgba(148,163,184,0.35); padding: 0.45rem 0.55rem; text-align: center; }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    canvas { width: 100%; max-width: 640px; height: 280px; }
+    .tagline code { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
 </head>
 <body data-page="tool">
   <header class="site-header">
     <div>
       <p class="eyebrow">Planner</p>
       <h1>Power &amp; Sample Size</h1>
+      <p class="tagline">โหมดเดียวครบทั้ง two-sample t (Welch/pooled), paired, two-proportion, non-inferiority/TOST และการสำรวจความไวของพลังการทดสอบ</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
@@ -25,140 +43,1117 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>Two-sample t-test (Welch approx)</h2>
-      <div class="grid">
-        <label>Δ (ต่างค่าเฉลี่ย)
-          <input id="mean-delta" type="number" step="0.01" value="5">
-        </label>
-        <label>σ₁
-          <input id="sd1" type="number" step="0.01" value="10">
-        </label>
-        <label>σ₂
-          <input id="sd2" type="number" step="0.01" value="10">
-        </label>
-        <label>α
-          <input id="alpha" type="number" step="0.0001" value="0.05">
-        </label>
-        <label>Power เป้าหมาย
-          <input id="power" type="number" step="0.01" value="0.8">
-        </label>
+      <h2>ตั้งค่าการคำนวณ</h2>
+      <label>เลือกโหมด
+        <select id="mode-select">
+          <option value="welch">Two-sample t-test (Welch / pooled)</option>
+          <option value="paired">Paired t-test</option>
+          <option value="prop">Two-proportion z-test</option>
+          <option value="mde">MDE &amp; CI-width planner</option>
+          <option value="noninfer">Non-inferiority</option>
+          <option value="equivalence">Equivalence (TOST)</option>
+          <option value="sensitivity">Sensitivity: power vs σ / CV</option>
+          <option value="curve">Welch power curve (n₁:n₂)</option>
+        </select>
+      </label>
+
+      <div id="mode-panels">
+        <div data-panel="welch" class="active">
+          <div class="grid-two">
+            <label>Δ (ต่างค่าเฉลี่ย)
+              <input id="welch-delta" type="number" step="0.01" value="5">
+            </label>
+            <label>σ₁
+              <input id="welch-sd1" type="number" step="0.01" value="10">
+            </label>
+            <label id="welch-sd2-wrap">σ₂
+              <input id="welch-sd2" type="number" step="0.01" value="12">
+            </label>
+            <label>อัตราส่วน n₂ : n₁
+              <input id="welch-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>α
+              <input id="welch-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="welch-power" type="number" step="0.01" value="0.8">
+            </label>
+          </div>
+          <fieldset>
+            <legend>ตัวเลือก</legend>
+            <label><input type="checkbox" id="welch-pooled"> สมมติความแปรปรวนเท่ากัน (pooled)</label>
+            <label><input type="checkbox" id="welch-one-sided"> ทดสอบด้านเดียว (H₁: Δ &gt; 0 หรือ Δ &lt; 0)</label>
+            <label><input type="checkbox" id="welch-use-n"> กำหนด n เองเพื่อหาพลังการทดสอบ</label>
+          </fieldset>
+          <div class="grid-two" data-extra="welch-n" hidden>
+            <label>n₁
+              <input id="welch-n1" type="number" min="2" step="1" value="25">
+            </label>
+            <label>n₂ (คำนวณอัตโนมัติ)
+              <input id="welch-n2" type="number" min="2" step="1" value="25" disabled>
+            </label>
+          </div>
+          <p class="tagline">โหมดนี้ใช้ noncentral-t ผ่าน worker พร้อม memoization เพื่อความรวดเร็ว</p>
+        </div>
+
+        <div data-panel="paired">
+          <fieldset>
+            <legend>รูปแบบข้อมูลคู่</legend>
+            <label><input type="radio" name="paired-mode" value="rho" checked> ใช้ σ₁, σ₂ และค่าสหสัมพันธ์ (ρ)</label>
+            <label><input type="radio" name="paired-mode" value="sd"> กรอก SD ของผลต่างโดยตรง</label>
+          </fieldset>
+          <div class="grid-two" data-paired="rho">
+            <label>Δ (ค่าเฉลี่ยผลต่าง)
+              <input id="paired-delta" type="number" step="0.01" value="3">
+            </label>
+            <label>σ₁
+              <input id="paired-sd1" type="number" step="0.01" value="8">
+            </label>
+            <label>σ₂
+              <input id="paired-sd2" type="number" step="0.01" value="7">
+            </label>
+            <label>ρ (ค่าสหสัมพันธ์)
+              <input id="paired-rho" type="number" step="0.05" value="0.5">
+            </label>
+          </div>
+          <div class="grid-two" data-paired="sd" hidden>
+            <label>Δ (ค่าเฉลี่ยผลต่าง)
+              <input id="paired-delta-direct" type="number" step="0.01" value="3">
+            </label>
+            <label>SD ของผลต่าง
+              <input id="paired-sd-diff" type="number" step="0.01" value="5">
+            </label>
+          </div>
+          <div class="grid-two">
+            <label>α
+              <input id="paired-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="paired-power" type="number" step="0.01" value="0.8">
+            </label>
+          </div>
+          <label><input type="checkbox" id="paired-use-n"> กำหนดจำนวนคู่ (n) เพื่อหาพลังการทดสอบ</label>
+          <div class="grid-two" data-extra="paired-n" hidden>
+            <label>จำนวนคู่ n
+              <input id="paired-n" type="number" min="2" step="1" value="30">
+            </label>
+          </div>
+        </div>
+
+        <div data-panel="prop">
+          <div class="grid-three">
+            <label>p₁ (baseline)
+              <input id="prop-p1" type="number" step="0.001" value="0.2">
+            </label>
+            <label>p₂ (target)
+              <input id="prop-p2" type="number" step="0.001" value="0.25">
+            </label>
+            <label>อัตราส่วน n₂:n₁
+              <input id="prop-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>α
+              <input id="prop-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="prop-power" type="number" step="0.01" value="0.8">
+            </label>
+          </div>
+          <fieldset>
+            <legend>ตัวเลือก</legend>
+            <label><input type="checkbox" id="prop-one-sided"> ทดสอบด้านเดียว</label>
+            <label><input type="checkbox" id="prop-continuity"> ใช้ continuity correction</label>
+            <label><input type="checkbox" id="prop-use-n"> กำหนด n เองเพื่อหาพลัง</label>
+          </fieldset>
+          <div class="grid-two" data-extra="prop-n" hidden>
+            <label>n₁
+              <input id="prop-n1" type="number" min="5" step="1" value="200">
+            </label>
+            <label>n₂ (คำนวณจากอัตราส่วน)
+              <input id="prop-n2" type="number" min="5" step="1" value="200" disabled>
+            </label>
+          </div>
+        </div>
+
+        <div data-panel="mde">
+          <fieldset>
+            <legend>สิ่งที่ต้องการหา</legend>
+            <label><input type="radio" name="mde-mode" value="mde" checked> MDE สำหรับ two-sample (Welch)</label>
+            <label><input type="radio" name="mde-mode" value="ci"> ความกว้าง CI ของผลต่างค่าเฉลี่ย</label>
+          </fieldset>
+          <div class="grid-two">
+            <label>n₁
+              <input id="mde-n1" type="number" min="2" step="1" value="100">
+            </label>
+            <label>อัตราส่วน n₂:n₁
+              <input id="mde-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>σ₁
+              <input id="mde-sd1" type="number" step="0.01" value="12">
+            </label>
+            <label>σ₂
+              <input id="mde-sd2" type="number" step="0.01" value="15">
+            </label>
+            <label>α
+              <input id="mde-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="mde-power" type="number" step="0.01" value="0.8">
+            </label>
+          </div>
+        </div>
+
+        <div data-panel="noninfer">
+          <div class="grid-two">
+            <label>Δ จริงที่คาดหวัง (ใหม่ − เก่า)
+              <input id="ni-effect" type="number" step="0.01" value="1">
+            </label>
+            <label>ขอบเขตไม่ด้อยกว่า (M)
+              <input id="ni-margin" type="number" step="0.01" value="-2">
+            </label>
+            <label>σ₁
+              <input id="ni-sd1" type="number" step="0.01" value="10">
+            </label>
+            <label>σ₂
+              <input id="ni-sd2" type="number" step="0.01" value="10">
+            </label>
+            <label>อัตราส่วน n₂:n₁
+              <input id="ni-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>α
+              <input id="ni-alpha" type="number" step="0.0001" value="0.025">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="ni-power" type="number" step="0.01" value="0.9">
+            </label>
+          </div>
+          <label><input type="checkbox" id="ni-use-n"> กำหนด n เองเพื่อคำนวณ power</label>
+          <div class="grid-two" data-extra="ni-n" hidden>
+            <label>n₁
+              <input id="ni-n1" type="number" min="10" step="1" value="80">
+            </label>
+            <label>n₂ (ตามอัตราส่วน)
+              <input id="ni-n2" type="number" min="10" step="1" value="80" disabled>
+            </label>
+          </div>
+        </div>
+
+        <div data-panel="equivalence">
+          <div class="grid-two">
+            <label>Δ จริงที่คาดหวัง
+              <input id="eq-effect" type="number" step="0.01" value="0">
+            </label>
+            <label>ขอบเขต ±M
+              <input id="eq-margin" type="number" step="0.01" value="2">
+            </label>
+            <label>σ₁
+              <input id="eq-sd1" type="number" step="0.01" value="10">
+            </label>
+            <label>σ₂
+              <input id="eq-sd2" type="number" step="0.01" value="10">
+            </label>
+            <label>อัตราส่วน n₂:n₁
+              <input id="eq-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>α ต่อด้าน
+              <input id="eq-alpha" type="number" step="0.0001" value="0.025">
+            </label>
+            <label>Power เป้าหมาย
+              <input id="eq-power" type="number" step="0.01" value="0.8">
+            </label>
+          </div>
+          <label><input type="checkbox" id="eq-use-n"> กำหนด n เองเพื่อประเมิน power</label>
+          <div class="grid-two" data-extra="eq-n" hidden>
+            <label>n₁
+              <input id="eq-n1" type="number" min="10" step="1" value="100">
+            </label>
+            <label>n₂ (ตามอัตราส่วน)
+              <input id="eq-n2" type="number" min="10" step="1" value="100" disabled>
+            </label>
+          </div>
+        </div>
+
+        <div data-panel="sensitivity">
+          <div class="grid-two">
+            <label>Δ (เป้าหมาย)
+              <input id="sens-delta" type="number" step="0.01" value="3">
+            </label>
+            <label>σ₁ เริ่มต้น
+              <input id="sens-sd1" type="number" step="0.01" value="8">
+            </label>
+            <label>σ₂ เริ่มต้น
+              <input id="sens-sd2" type="number" step="0.01" value="8">
+            </label>
+            <label>n₁
+              <input id="sens-n1" type="number" min="10" step="1" value="60">
+            </label>
+            <label>อัตราส่วน n₂:n₁
+              <input id="sens-ratio" type="number" step="0.05" value="1">
+            </label>
+            <label>α
+              <input id="sens-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+          </div>
+          <div class="grid-two">
+            <label>ช่วง σ หรือ CV (ต่ำสุด)
+              <input id="sens-min" type="number" step="0.1" value="4">
+            </label>
+            <label>ช่วง σ หรือ CV (สูงสุด)
+              <input id="sens-max" type="number" step="0.1" value="12">
+            </label>
+            <label>จำนวนจุด
+              <input id="sens-steps" type="number" min="3" max="20" step="1" value="6">
+            </label>
+          </div>
+          <label><input type="checkbox" id="sens-use-cv"> ป้อนค่าเป็น CV (%) โดยใช้ค่าเฉลี่ย = 1 หน่วย</label>
+        </div>
+
+        <div data-panel="curve">
+          <div class="grid-two">
+            <label>Δ (ต่างค่าเฉลี่ย)
+              <input id="curve-delta" type="number" step="0.01" value="4">
+            </label>
+            <label>σ₁
+              <input id="curve-sd1" type="number" step="0.01" value="10">
+            </label>
+            <label>σ₂
+              <input id="curve-sd2" type="number" step="0.01" value="14">
+            </label>
+            <label>n₁ (ฐาน)
+              <input id="curve-n1" type="number" min="10" step="1" value="50">
+            </label>
+            <label>α
+              <input id="curve-alpha" type="number" step="0.0001" value="0.05">
+            </label>
+          </div>
+          <label>สไลด์อัตราส่วน n₂:n₁ (0.5 – 3)
+            <input id="curve-ratio" type="range" min="0.5" max="3" step="0.05" value="1.0">
+          </label>
+          <p class="tagline">เครื่องมือจะคำนวณ power สำหรับอัตราส่วนหลายค่า เพื่อดูผลของ n ที่ไม่เท่ากัน</p>
+        </div>
       </div>
-      <button class="primary" id="calc-ttest">คำนวณขนาดตัวอย่าง (ต่อกลุ่ม)</button>
-      <p id="ttest-result" class="tagline"></p>
+      <button class="primary" id="run-calculation">รันการคำนวณ</button>
+      <output id="input-error" data-error></output>
     </article>
+
     <article class="card">
-      <h2>Two-proportion z-test</h2>
-      <div class="grid">
-        <label>p₁ (baseline)
-          <input id="p1" type="number" step="0.001" value="0.2">
-        </label>
-        <label>p₂ (target)
-          <input id="p2" type="number" step="0.001" value="0.25">
-        </label>
-        <label>α
-          <input id="prop-alpha" type="number" step="0.0001" value="0.05">
-        </label>
-        <label>Power
-          <input id="prop-power" type="number" step="0.01" value="0.8">
-        </label>
+      <h2>ผลลัพธ์ &amp; การตีความ</h2>
+      <div id="result-summary" class="result-block"></div>
+      <div id="step-details" class="result-grid"></div>
+      <div id="table-container"></div>
+      <canvas id="chart" hidden></canvas>
+      <div class="actions">
+        <button id="export-csv" class="ghost">Export CSV</button>
+        <button id="export-png" class="ghost">Export PNG</button>
+        <button id="copy-link" class="ghost">Permalink</button>
       </div>
-      <button class="primary" id="calc-prop">คำนวณขนาดตัวอย่าง</button>
-      <p id="prop-result" class="tagline"></p>
     </article>
+
     <article class="card">
-      <h2>MDE จากขนาดตัวอย่าง</h2>
-      <div class="grid">
-        <label>n ต่อกลุ่ม
-          <input id="mde-n" type="number" step="1" value="100">
-        </label>
-        <label>σ (หรือ pooled σ)
-          <input id="mde-sd" type="number" step="0.01" value="12">
-        </label>
-        <label>α
-          <input id="mde-alpha" type="number" step="0.0001" value="0.05">
-        </label>
-        <label>Power
-          <input id="mde-power" type="number" step="0.01" value="0.8">
-        </label>
-      </div>
-      <button class="primary" id="calc-mde">คำนวณ MDE</button>
-      <p id="mde-result" class="tagline"></p>
-    </article>
-    <article class="card">
-      <h2>คู่มือใช้งาน</h2>
+      <h2>คู่มือใช้งานฉบับย่อ</h2>
       <ul>
-        <li>Two-sample t-test ใช้สูตร Welch โดยประมาณ → ปรับ σ₁, σ₂ เพื่อดูผลต่อ n</li>
-        <li>Two-proportion z-test รองรับ baseline ≠ target และใช้ pooled variance</li>
-        <li>MDE แสดงผลต่างขั้นต่ำที่ตรวจจับได้ (two-sided)</li>
-        <li>สำหรับโหมดอื่น (paired, non-inferiority, power curve) ดู roadmap ในบท 27–39</li>
+        <li><strong>Welch / pooled</strong> ใช้สำหรับผลต่างค่าเฉลี่ยของสองกลุ่ม รองรับการกำหนด n หรือให้ระบบหา n เป้าหมาย</li>
+        <li><strong>Paired</strong> สามารถป้อน ρ เพื่อลดความแปรปรวน หรือใช้ SD ของผลต่างโดยตรง</li>
+        <li><strong>Two-proportion</strong> มีตัวเลือก continuity correction สำหรับการนับที่ไม่ใหญ่พอ</li>
+        <li><strong>MDE/CI</strong> ใช้ค้นหาผลต่างขั้นต่ำที่ตรวจจับได้ หรือความกว้างของช่วงความเชื่อมั่น</li>
+        <li><strong>Non-inferiority/TOST</strong> เหมาะกับการเทียบผลิตภัณฑ์/กระบวนการใหม่กับมาตรฐาน</li>
+        <li><strong>Sensitivity &amp; Curve</strong> สร้างข้อมูลสำหรับพล็อตหรือรายงาน และสามารถส่งออก CSV/PNG ได้ทันที</li>
       </ul>
-      <p>ศึกษาเพิ่ม: <a href="../content/21-sample-size.html">บท 21</a>, <a href="../content/27-test-means-twopop.html">บท 27</a>, <a href="../content/review/review-07-case-ab-test.html">รีวิว A/B</a></p>
+      <p>ศึกษาต่อ: <a href="../content/21-sample-size.html">บท 21</a>, <a href="../content/27-test-means-twopop.html">บท 27</a>, <a href="../content/adv/37-bootstrap.html">Bootstrap สำหรับตรวจสอบ</a></p>
     </article>
   </main>
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
   </footer>
   <script type="module">
-    import { normInv } from './distributions.js';
+    const worker = new Worker('../workers/nct.worker.js');
+    let seq = 0;
+    const pending = new Map();
 
-    function requiredNMean(delta, sd1, sd2, alpha, power) {
-      const zAlpha = normInv(1 - alpha / 2);
-      const zPower = normInv(power);
-      const pooled = Math.sqrt(sd1 * sd1 + sd2 * sd2);
-      return Math.ceil(((zAlpha + zPower) * pooled / delta) ** 2);
-    }
-
-    function requiredNProp(p1, p2, alpha, power) {
-      const zAlpha = normInv(1 - alpha / 2);
-      const zPower = normInv(power);
-      const diff = Math.abs(p2 - p1);
-      const pooled = p1 * (1 - p1) + p2 * (1 - p2);
-      return Math.ceil(2 * ((zAlpha * Math.sqrt(pooled / 2) + zPower * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2) - pooled / 2)) / diff) ** 2);
-    }
-
-    function mdeFromN(n, sd, alpha, power) {
-      const zAlpha = normInv(1 - alpha / 2);
-      const zPower = normInv(power);
-      return (zAlpha + zPower) * sd * Math.sqrt(2 / n);
-    }
-
-    document.getElementById('calc-ttest')?.addEventListener('click', () => {
-      try {
-        const delta = Number(document.getElementById('mean-delta').value);
-        const sd1 = Number(document.getElementById('sd1').value);
-        const sd2 = Number(document.getElementById('sd2').value);
-        const alpha = Number(document.getElementById('alpha').value);
-        const power = Number(document.getElementById('power').value);
-        const n = requiredNMean(Math.abs(delta), sd1, sd2, alpha, power);
-        document.getElementById('ttest-result').textContent = `n ต่อกลุ่ม ≈ ${n} (รวม ${n * 2})`;
-      } catch (error) {
-        document.getElementById('ttest-result').textContent = error.message;
+    worker.onmessage = (event) => {
+      const { id, error, ...data } = event.data;
+      if (!pending.has(id)) return;
+      const { resolve, reject } = pending.get(id);
+      pending.delete(id);
+      if (error) {
+        reject(new Error(error));
+      } else {
+        resolve(data);
       }
+    };
+
+    function callWorker(fn, params) {
+      return new Promise((resolve, reject) => {
+        const id = ++seq;
+        pending.set(id, { resolve, reject });
+        worker.postMessage({ fn, params, id });
+      });
+    }
+
+    function clampProbability(value, name) {
+      if (!Number.isFinite(value) || value <= 0 || value >= 1) {
+        throw new Error(`${name} ต้องอยู่ระหว่าง 0 และ 1`);
+      }
+      return value;
+    }
+
+    function parseNumber(id, options = {}) {
+      const el = document.getElementById(id);
+      const value = Number(el.value);
+      if (!Number.isFinite(value)) {
+        throw new Error(`ช่อง ${id} ต้องเป็นตัวเลข`);
+      }
+      if (options.min !== undefined && value < options.min) {
+        throw new Error(`ช่อง ${id} ต้องไม่น้อยกว่า ${options.min}`);
+      }
+      return value;
+    }
+
+    function formatNumber(value, decimals = 3) {
+      if (!Number.isFinite(value)) return '—';
+      return value.toFixed(decimals);
+    }
+
+    function formatPercent(value) {
+      return `${(value * 100).toFixed(1)}%`;
+    }
+
+    function erf(x) {
+      const sign = x < 0 ? -1 : 1;
+      const a1 = 0.254829592;
+      const a2 = -0.284496736;
+      const a3 = 1.421413741;
+      const a4 = -1.453152027;
+      const a5 = 1.061405429;
+      const p = 0.3275911;
+      const absX = Math.abs(x);
+      const t = 1 / (1 + p * absX);
+      const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+      return sign * y;
+    }
+
+    function cumulativeNormal(x) {
+      if (!Number.isFinite(x)) return x > 0 ? 1 : 0;
+      return 0.5 * (1 + erf(x / Math.SQRT2));
+    }
+
+    function inverseNormal(p) {
+      if (p <= 0 || p >= 1 || !Number.isFinite(p)) throw new Error('p ต้องอยู่ในช่วง (0,1)');
+      const a = [2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637];
+      const b = [-8.4735109309, 23.08336743743, -21.06224101826, 3.13082909833];
+      const c = [0.3374754822726147, 0.9761690190917186, 0.1607979714918209, 0.0276438810333863,
+        0.0038405729373609, 0.0003951896511919, 0.0000321767881768, 0.0000002888167364, 0.0000003960315187];
+      if (p < 0.5) {
+        const y = Math.sqrt(-2 * Math.log(p));
+        const num = ((a[3] * y + a[2]) * y + a[1]) * y + a[0];
+        const den = (((b[3] * y + b[2]) * y + b[1]) * y + b[0]) * y + 1;
+        return num / den;
+      }
+      if (p > 0.5) {
+        return -inverseNormal(1 - p);
+      }
+      let y = p - 0.5;
+      let r = 0;
+      for (let i = 0; i < c.length; i++) {
+        r += c[i] * Math.pow(y, i);
+      }
+      return y * (1 + r);
+    }
+
+    async function welchPowerCalc({ delta, sd1, sd2, alpha, ratio, tails, n1, pooled }) {
+      const n2 = Math.max(2, Math.round(n1 * ratio));
+      if (n2 < 2) throw new Error('n₂ ต้องมากกว่า 1');
+      const s1 = sd1 * sd1;
+      const s2 = sd2 * sd2;
+      let df;
+      let se;
+      if (pooled) {
+        const pooledVar = ((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2);
+        se = Math.sqrt(pooledVar * (1 / n1 + 1 / n2));
+        df = n1 + n2 - 2;
+      } else {
+        const term1 = s1 / n1;
+        const term2 = s2 / n2;
+        se = Math.sqrt(term1 + term2);
+        const numerator = (term1 + term2) * (term1 + term2);
+        const denominator = (term1 * term1) / (n1 - 1) + (term2 * term2) / (n2 - 1);
+        df = Math.floor(numerator / denominator);
+      }
+      if (df < 2) throw new Error('df น้อยเกินไป ลองเพิ่ม n');
+      const deltaEff = delta / se;
+      const power = await callWorker('nct-power', { df, delta: deltaEff, alpha, tails });
+      return { ...power, n1, n2, se, effect: delta };
+    }
+
+    async function solveWelchSampleSize(params) {
+      let low = 2;
+      let high = 20000;
+      let best = null;
+      while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const result = await welchPowerCalc({ ...params, n1: mid });
+        if (!best || (result.power >= params.target && mid < best.n1)) {
+          best = { ...result, n1: mid };
+        }
+        if (result.power >= params.target) {
+          high = mid - 1;
+        } else {
+          low = mid + 1;
+        }
+        if (mid > 15000) break;
+      }
+      if (!best) throw new Error('ไม่สามารถหา n ที่เหมาะสมได้');
+      const final = await welchPowerCalc({ ...params, n1: best.n1 });
+      return { ...final, mode: 'solve-n' };
+    }
+
+    async function pairedPowerCalc({ delta, sdDiff, alpha, n, tails }) {
+      const df = n - 1;
+      if (df < 1) throw new Error('จำนวนคู่ต้องมากกว่า 1');
+      const se = sdDiff / Math.sqrt(n);
+      const deltaEff = delta / se;
+      const power = await callWorker('nct-power', { df, delta: deltaEff, alpha, tails });
+      return { ...power, n, se, effect: delta };
+    }
+
+    async function solvePairedSampleSize(params) {
+      let low = 2;
+      let high = 20000;
+      let best = null;
+      while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const result = await pairedPowerCalc({ ...params, n: mid });
+        if (!best || (result.power >= params.target && mid < best.n)) {
+          best = { ...result, n: mid };
+        }
+        if (result.power >= params.target) {
+          high = mid - 1;
+        } else {
+          low = mid + 1;
+        }
+        if (mid > 15000) break;
+      }
+      if (!best) throw new Error('ไม่สามารถหา n ที่เหมาะสมได้');
+      return pairedPowerCalc({ ...params, n: best.n });
+    }
+
+    function proportionPowerCalc({ p1, p2, alpha, ratio, n1, tails, continuity }) {
+      const n2 = Math.max(5, Math.round(n1 * ratio));
+      if (n2 < 5) throw new Error('n₂ ต้องไม่น้อยกว่า 5');
+      const diff = p2 - p1;
+      const se = Math.sqrt((p1 * (1 - p1)) / n1 + (p2 * (1 - p2)) / n2);
+      if (se === 0) throw new Error('ส่วนเบี่ยงเบนมาตรฐานเป็นศูนย์ ตรวจสอบค่า p');
+      let adjustedDiff = diff;
+      if (continuity) {
+        adjustedDiff = Math.sign(diff || 1) * Math.max(0, Math.abs(diff) - 0.5 * (1 / n1 + 1 / n2));
+      }
+      const meanZ = adjustedDiff / se;
+      const tailsMode = tails === 'one' ? 'greater' : 'two';
+      const zCrit = tailsMode === 'two' ? inverseNormal(1 - alpha / 2) : inverseNormal(1 - alpha);
+      let rightTail;
+      let leftTail;
+      if (tailsMode === 'two') {
+        rightTail = 1 - cumulativeNormal(zCrit - meanZ);
+        leftTail = cumulativeNormal(-zCrit - meanZ);
+      } else {
+        rightTail = 1 - cumulativeNormal(zCrit - meanZ);
+        leftTail = 0;
+      }
+      const power = Math.min(1, Math.max(0, rightTail + leftTail));
+      return { power, rightTail, leftTail, n1, n2, se, meanZ, zCrit };
+    }
+
+    function solveProportionSampleSize(params) {
+      let low = 5;
+      let high = 100000;
+      let best = null;
+      return new Promise((resolve, reject) => {
+        function iterate() {
+          if (low > high) {
+            if (!best) {
+              reject(new Error('ไม่สามารถหา n ที่เหมาะสมได้'));
+            } else {
+              resolve(proportionPowerCalc({ ...params, n1: best.n1 }));
+            }
+            return;
+          }
+          const mid = Math.floor((low + high) / 2);
+          let result;
+          try {
+            result = proportionPowerCalc({ ...params, n1: mid });
+          } catch (error) {
+            reject(error);
+            return;
+          }
+          if (!best || (result.power >= params.target && mid < best.n1)) {
+            best = { n1: mid, power: result.power };
+          }
+          if (result.power >= params.target) {
+            high = mid - 1;
+          } else {
+            low = mid + 1;
+          }
+          if (mid > 90000) {
+            resolve(proportionPowerCalc({ ...params, n1: best.n1 }));
+            return;
+          }
+          setTimeout(iterate, 0);
+        }
+        iterate();
+      });
+    }
+
+    async function mdeCalc(params) {
+      const { n1, ratio, sd1, sd2, alpha, target } = params;
+      const evaluate = async (delta) => {
+        const res = await welchPowerCalc({ delta, sd1, sd2, alpha, ratio, tails: params.tails, n1, pooled: false });
+        return res.power;
+      };
+      let low = 0.0001;
+      let high = Math.max(0.5, Math.abs(sd1) * 10 + Math.abs(sd2) * 10);
+      let best = high;
+      for (let i = 0; i < 35; i++) {
+        const mid = (low + high) / 2;
+        const pow = await evaluate(mid);
+        if (pow >= target) {
+          best = mid;
+          high = mid * 0.9;
+        } else {
+          low = mid * 1.1;
+        }
+      }
+      const final = await welchPowerCalc({ delta: best, sd1, sd2, alpha, ratio, tails: params.tails, n1, pooled: false });
+      return { ...final, mde: best };
+    }
+
+    async function ciWidthCalc({ n1, ratio, sd1, sd2, alpha }) {
+      const n2 = Math.max(2, Math.round(n1 * ratio));
+      const term1 = (sd1 * sd1) / n1;
+      const term2 = (sd2 * sd2) / n2;
+      const se = Math.sqrt(term1 + term2);
+      const numerator = (term1 + term2) * (term1 + term2);
+      const denominator = (term1 * term1) / (n1 - 1) + (term2 * term2) / (n2 - 1);
+      const df = Math.floor(numerator / denominator);
+      if (df < 2) throw new Error('df ต่ำเกินไป');
+      const { value: tcrit } = await callWorker('student-t-inv', { p: 1 - alpha / 2, df });
+      const halfWidth = tcrit * se;
+      return { halfWidth, width: halfWidth * 2, se, df, tcrit, n1, n2 };
+    }
+
+    async function nonInferCalc(params) {
+      const { effect, margin, sd1, sd2, ratio, alpha, target } = params;
+      const tails = 'greater';
+      const trueDelta = effect - margin;
+      const compute = async (n1) => {
+        return welchPowerCalc({ delta: trueDelta, sd1, sd2, alpha, ratio, tails, n1, pooled: false });
+      };
+      if (params.useN) {
+        return compute(params.n1);
+      }
+      return solveWelchSampleSize({ delta: trueDelta, sd1, sd2, alpha, ratio, tails, target, pooled: false });
+    }
+
+    async function equivalenceCalc(params) {
+      const { effect, margin, sd1, sd2, ratio, alpha, target } = params;
+      const n2From = (n1) => Math.max(2, Math.round(n1 * ratio));
+      const seFromN = (n1) => {
+        const n2 = n2From(n1);
+        const term1 = (sd1 * sd1) / n1;
+        const term2 = (sd2 * sd2) / n2;
+        const se = Math.sqrt(term1 + term2);
+        const numerator = (term1 + term2) * (term1 + term2);
+        const denominator = (term1 * term1) / (n1 - 1) + (term2 * term2) / (n2 - 1);
+        const df = Math.floor(numerator / denominator);
+        return { se, df, n2 };
+      };
+      const singlePower = async (n1) => {
+        const { se, df, n2 } = seFromN(n1);
+        if (df < 2) throw new Error('df ต่ำเกินไป');
+        const { value: tcrit } = await callWorker('student-t-inv', { p: 1 - alpha, df });
+        if (margin <= tcrit * se) {
+          return { power: 0, se, df, n1, n2, tcrit };
+        }
+        const lower = (tcrit * se - margin - effect) / se;
+        const upper = (margin - tcrit * se - effect) / se;
+        const prob = cumulativeNormal(upper) - cumulativeNormal(lower);
+        return { power: prob, se, df, n1, n2, tcrit };
+      };
+      if (params.useN) {
+        return singlePower(params.n1);
+      }
+      let low = 5;
+      let high = 50000;
+      let best = null;
+      while (low <= high) {
+        const mid = Math.floor((low + high) / 2);
+        const result = await singlePower(mid);
+        if (!best || (result.power >= target && mid < best.n1)) {
+          best = { ...result, n1: mid };
+        }
+        if (result.power >= target) {
+          high = mid - 1;
+        } else {
+          low = mid + 1;
+        }
+        if (mid > 45000) break;
+      }
+      if (!best) throw new Error('ไม่สามารถหา n ได้');
+      return singlePower(best.n1);
+    }
+
+    async function sensitivityCalc(params) {
+      const { delta, sd1, sd2, n1, ratio, alpha, min, max, steps, useCV } = params;
+      const values = [];
+      for (let i = 0; i < steps; i++) {
+        const weight = steps === 1 ? 0 : i / (steps - 1);
+        const level = min + (max - min) * weight;
+        const baseRatio = sd1 === 0 ? 1 : (sd2 || 0) / (sd1 || 1);
+        const sigma1 = useCV ? (level / 100) * (sd1 || 1) : level;
+        const sigma2 = sigma1 * (Number.isFinite(baseRatio) && baseRatio > 0 ? baseRatio : 1);
+        const res = await welchPowerCalc({ delta, sd1: sigma1, sd2: sigma2, alpha, ratio, tails: 'two-sided', n1, pooled: false });
+        values.push({ level, power: res.power, df: res.df, crit: res.crit, se: res.se });
+      }
+      const n2 = Math.max(2, Math.round(n1 * ratio));
+      return { values, n1, n2 };
+    }
+
+    async function curveCalc(params) {
+      const { delta, sd1, sd2, n1, alpha } = params;
+      const ratios = [];
+      for (let r = 0.5; r <= 3.0001; r += 0.25) {
+        const result = await welchPowerCalc({ delta, sd1, sd2, alpha, ratio: r, tails: 'two-sided', n1, pooled: false });
+        ratios.push({ ratio: Number(r.toFixed(2)), power: result.power, df: result.df });
+      }
+      return ratios;
+    }
+
+    function updatePanelVisibility() {
+      const mode = document.getElementById('mode-select').value;
+      document.querySelectorAll('[data-panel]').forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.panel === mode);
+      });
+    }
+
+    document.getElementById('mode-select').addEventListener('change', updatePanelVisibility);
+
+    document.getElementById('welch-use-n').addEventListener('change', (event) => {
+      document.querySelector('[data-extra="welch-n"]').toggleAttribute('hidden', !event.target.checked);
     });
 
-    document.getElementById('calc-prop')?.addEventListener('click', () => {
-      try {
-        const p1 = Number(document.getElementById('p1').value);
-        const p2 = Number(document.getElementById('p2').value);
-        const alpha = Number(document.getElementById('prop-alpha').value);
-        const power = Number(document.getElementById('prop-power').value);
-        const n = requiredNProp(p1, p2, alpha, power);
-        document.getElementById('prop-result').textContent = `n ต่อกลุ่ม ≈ ${n}`;
-      } catch (error) {
-        document.getElementById('prop-result').textContent = error.message;
-      }
+    document.getElementById('paired-use-n').addEventListener('change', (event) => {
+      document.querySelector('[data-extra="paired-n"]').toggleAttribute('hidden', !event.target.checked);
     });
 
-    document.getElementById('calc-mde')?.addEventListener('click', () => {
+    document.getElementById('prop-use-n').addEventListener('change', (event) => {
+      document.querySelector('[data-extra="prop-n"]').toggleAttribute('hidden', !event.target.checked);
+    });
+
+    document.getElementById('ni-use-n').addEventListener('change', (event) => {
+      document.querySelector('[data-extra="ni-n"]').toggleAttribute('hidden', !event.target.checked);
+    });
+
+    document.getElementById('eq-use-n').addEventListener('change', (event) => {
+      document.querySelector('[data-extra="eq-n"]').toggleAttribute('hidden', !event.target.checked);
+    });
+
+    document.querySelectorAll('input[name="paired-mode"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const value = document.querySelector('input[name="paired-mode"]:checked').value;
+        document.querySelectorAll('[data-paired]').forEach(el => {
+          el.toggleAttribute('hidden', el.dataset.paired !== value);
+        });
+      });
+    });
+
+    document.getElementById('welch-ratio').addEventListener('input', (event) => {
+      const ratio = Number(event.target.value);
+      const n1 = Number(document.getElementById('welch-n1').value);
+      document.getElementById('welch-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('welch-n1').addEventListener('input', () => {
+      const ratio = Number(document.getElementById('welch-ratio').value);
+      const n1 = Number(document.getElementById('welch-n1').value);
+      document.getElementById('welch-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('prop-ratio').addEventListener('input', (event) => {
+      const ratio = Number(event.target.value);
+      const n1 = Number(document.getElementById('prop-n1').value);
+      document.getElementById('prop-n2').value = Math.max(5, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('prop-n1').addEventListener('input', () => {
+      const ratio = Number(document.getElementById('prop-ratio').value);
+      const n1 = Number(document.getElementById('prop-n1').value);
+      document.getElementById('prop-n2').value = Math.max(5, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('ni-ratio').addEventListener('input', (event) => {
+      const ratio = Number(event.target.value);
+      const n1 = Number(document.getElementById('ni-n1').value);
+      document.getElementById('ni-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('ni-n1').addEventListener('input', () => {
+      const ratio = Number(document.getElementById('ni-ratio').value);
+      const n1 = Number(document.getElementById('ni-n1').value);
+      document.getElementById('ni-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('eq-ratio').addEventListener('input', (event) => {
+      const ratio = Number(event.target.value);
+      const n1 = Number(document.getElementById('eq-n1').value);
+      document.getElementById('eq-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    document.getElementById('eq-n1').addEventListener('input', () => {
+      const ratio = Number(document.getElementById('eq-ratio').value);
+      const n1 = Number(document.getElementById('eq-n1').value);
+      document.getElementById('eq-n2').value = Math.max(2, Math.round(n1 * ratio));
+    });
+
+    const resultSummary = document.getElementById('result-summary');
+    const stepDetails = document.getElementById('step-details');
+    const tableContainer = document.getElementById('table-container');
+    const chartCanvas = document.getElementById('chart');
+    const inputError = document.getElementById('input-error');
+    const exportCsvBtn = document.getElementById('export-csv');
+    const exportPngBtn = document.getElementById('export-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    let currentDataset = null;
+    let currentChart = null;
+
+    function clearOutputs() {
+      inputError.textContent = '';
+      resultSummary.innerHTML = '';
+      stepDetails.innerHTML = '';
+      tableContainer.innerHTML = '';
+      chartCanvas.hidden = true;
+      const ctx = chartCanvas.getContext('2d');
+      ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      currentDataset = null;
+      currentChart = null;
+    }
+
+    function renderSteps(items) {
+      stepDetails.innerHTML = '';
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `<p class="eyebrow">${item.label}</p><p>${item.value}</p><p class="tagline">${item.tip}</p>`;
+        stepDetails.appendChild(div);
+      });
+    }
+
+    function renderTable(headers, rows) {
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      tableContainer.appendChild(table);
+      currentDataset = { headers, rows };
+    }
+
+    function drawLineChart(data) {
+      const ctx = chartCanvas.getContext('2d');
+      chartCanvas.width = 640;
+      chartCanvas.height = 280;
+      ctx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      const padding = 40;
+      const width = chartCanvas.width - padding * 2;
+      const height = chartCanvas.height - padding * 2;
+      const xs = data.map(d => d.x);
+      const ys = data.map(d => d.y);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const minY = Math.min(...ys, 0);
+      const maxY = Math.max(...ys, 1);
+      const xScale = width / (maxX - minX);
+      const yScale = height / (maxY - minY);
+      ctx.strokeStyle = '#0ea5e9';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      data.forEach((point, index) => {
+        const x = padding + (point.x - minX) * xScale;
+        const y = chartCanvas.height - padding - (point.y - minY) * yScale;
+        if (index === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      });
+      ctx.stroke();
+      ctx.fillStyle = '#475569';
+      ctx.font = '12px sans-serif';
+      ctx.fillText(`${minX.toFixed(2)}`, padding, chartCanvas.height - padding + 16);
+      ctx.fillText(`${maxX.toFixed(2)}`, chartCanvas.width - padding - 30, chartCanvas.height - padding + 16);
+      ctx.fillText('Power', 8, padding);
+      ctx.fillText('Ratio', chartCanvas.width - padding - 20, chartCanvas.height - padding + 30);
+      chartCanvas.hidden = false;
+      currentChart = true;
+    }
+
+    function exportCSV() {
+      if (!currentDataset) return;
+      const { headers, rows } = currentDataset;
+      const csv = [headers.join(',')].concat(rows.map(r => r.join(','))).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'power-tool-export.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPNG() {
+      if (!currentChart) return;
+      const url = chartCanvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'power-curve.png';
+      a.click();
+    }
+
+    function buildPermalink() {
+      const params = new URLSearchParams();
+      const mode = document.getElementById('mode-select').value;
+      params.set('mode', mode);
+      document.querySelectorAll(`[data-panel="${mode}"] input, [data-panel="${mode}"] select`).forEach(input => {
+        if (input.type === 'checkbox') {
+          if (input.checked) params.set(input.id, '1');
+        } else if (input.type === 'radio') {
+          if (input.checked) params.set(input.name, input.value);
+        } else {
+          params.set(input.id, input.value);
+        }
+      });
+      const url = `${location.origin}${location.pathname}?${params.toString()}`;
+      navigator.clipboard?.writeText(url);
+      copyLinkBtn.textContent = 'คัดลอกแล้ว!';
+      setTimeout(() => { copyLinkBtn.textContent = 'Permalink'; }, 2000);
+    }
+
+    exportCsvBtn.addEventListener('click', exportCSV);
+    exportPngBtn.addEventListener('click', exportPNG);
+    copyLinkBtn.addEventListener('click', buildPermalink);
+
+    function populateFromURL() {
+      const params = new URLSearchParams(location.search);
+      if (!params.has('mode')) return;
+      const mode = params.get('mode');
+      const select = document.getElementById('mode-select');
+      if ([...select.options].some(opt => opt.value === mode)) {
+        select.value = mode;
+        updatePanelVisibility();
+        document.querySelectorAll(`[data-panel="${mode}"] input, [data-panel="${mode}"] select`).forEach(input => {
+          const key = input.type === 'radio' ? input.name : input.id;
+          if (!key) return;
+          if (params.has(key)) {
+            if (input.type === 'checkbox') {
+              input.checked = params.get(key) === '1';
+            } else if (input.type === 'radio') {
+              input.checked = input.value === params.get(key);
+            } else {
+              input.value = params.get(key);
+            }
+          }
+        });
+        document.querySelectorAll(`[data-panel="${mode}"] input[type="checkbox"], [data-panel="${mode}"] input[type="radio"]`).forEach(input => {
+          input.dispatchEvent(new Event('change'));
+        });
+      }
+    }
+
+    populateFromURL();
+
+    document.getElementById('run-calculation').addEventListener('click', async () => {
+      clearOutputs();
       try {
-        const n = Number(document.getElementById('mde-n').value);
-        const sd = Number(document.getElementById('mde-sd').value);
-        const alpha = Number(document.getElementById('mde-alpha').value);
-        const power = Number(document.getElementById('mde-power').value);
-        const mde = mdeFromN(n, sd, alpha, power);
-        document.getElementById('mde-result').textContent = `MDE ≈ ${mde.toFixed(3)} หน่วย`;
+        const mode = document.getElementById('mode-select').value;
+        if (mode === 'welch') {
+          const delta = parseNumber('welch-delta');
+          const sd1 = parseNumber('welch-sd1', { min: 0 });
+          const sd2 = parseNumber('welch-sd2', { min: 0 });
+          const ratio = parseNumber('welch-ratio', { min: 0.1 });
+          const alpha = clampProbability(Number(document.getElementById('welch-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('welch-power').value), 'power');
+          const tails = document.getElementById('welch-one-sided').checked ? 'greater' : 'two-sided';
+          const pooled = document.getElementById('welch-pooled').checked;
+          let result;
+          if (document.getElementById('welch-use-n').checked) {
+            const n1 = parseNumber('welch-n1', { min: 2 });
+            result = await welchPowerCalc({ delta, sd1, sd2, alpha, ratio, tails, n1, pooled });
+          } else {
+            result = await solveWelchSampleSize({ delta, sd1, sd2, alpha, ratio, tails, target, pooled });
+          }
+          const summary = `Power = ${formatPercent(result.power)} (n₁ = ${result.n1}, n₂ = ${result.n2})`;
+          resultSummary.innerHTML = `<p>${summary}</p>`;
+          renderSteps([
+            { label: 'tcrit', value: result.crit.toFixed(4), tip: tails === 'two-sided' ? 'ใช้ α/2 ต่อด้าน' : 'One-tailed critical value' },
+            { label: 'df', value: result.df.toFixed(1), tip: pooled ? 'df = n₁ + n₂ − 2' : 'Welch-Satterthwaite approximation' },
+            { label: 'ncp', value: result.delta.toFixed(4), tip: `Δ/SE โดย SE = ${formatNumber(result.se)}` },
+            { label: 'power-left', value: formatPercent(result.leftTail), tip: 'พื้นที่ด้านซ้าย (สำหรับสองด้าน)' },
+            { label: 'power-right', value: formatPercent(result.rightTail), tip: 'พื้นที่ด้านขวา' }
+          ]);
+        } else if (mode === 'paired') {
+          const alpha = clampProbability(Number(document.getElementById('paired-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('paired-power').value), 'power');
+          const tailMode = 'two-sided';
+          let result;
+          if (document.getElementById('paired-use-n').checked) {
+            const n = parseNumber('paired-n', { min: 2 });
+            const sdDiff = document.querySelector('input[name="paired-mode"]:checked').value === 'rho'
+              ? Math.sqrt(Math.pow(parseNumber('paired-sd1', { min: 0 }), 2) + Math.pow(parseNumber('paired-sd2', { min: 0 }), 2) - 2 * parseNumber('paired-rho') * parseNumber('paired-sd1', { min: 0 }) * parseNumber('paired-sd2', { min: 0 }))
+              : parseNumber('paired-sd-diff', { min: 0 });
+            const delta = document.querySelector('input[name="paired-mode"]:checked').value === 'rho'
+              ? parseNumber('paired-delta')
+              : parseNumber('paired-delta-direct');
+            result = await pairedPowerCalc({ delta, sdDiff, alpha, n, tails: tailMode });
+          } else {
+            const modeValue = document.querySelector('input[name="paired-mode"]:checked').value;
+            const delta = modeValue === 'rho' ? parseNumber('paired-delta') : parseNumber('paired-delta-direct');
+            const sdDiff = modeValue === 'rho'
+              ? Math.sqrt(Math.pow(parseNumber('paired-sd1', { min: 0 }), 2) + Math.pow(parseNumber('paired-sd2', { min: 0 }), 2) - 2 * parseNumber('paired-rho') * parseNumber('paired-sd1', { min: 0 }) * parseNumber('paired-sd2', { min: 0 }))
+              : parseNumber('paired-sd-diff', { min: 0 });
+            result = await solvePairedSampleSize({ delta, sdDiff, alpha, tails: tailMode, target });
+          }
+          resultSummary.innerHTML = `<p>Power = ${formatPercent(result.power)} (n = ${result.n})</p>`;
+          renderSteps([
+            { label: 'tcrit', value: result.crit.toFixed(4), tip: 'two-sided test' },
+            { label: 'df', value: (result.df).toFixed(1), tip: 'df = n − 1' },
+            { label: 'SE', value: formatNumber(result.se), tip: 'SD ของผลต่าง / √n' }
+          ]);
+        } else if (mode === 'prop') {
+          const p1 = clampProbability(Number(document.getElementById('prop-p1').value), 'p₁');
+          const p2 = clampProbability(Number(document.getElementById('prop-p2').value), 'p₂');
+          const ratio = parseNumber('prop-ratio', { min: 0.1 });
+          const alpha = clampProbability(Number(document.getElementById('prop-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('prop-power').value), 'power');
+          const tails = document.getElementById('prop-one-sided').checked ? 'one' : 'two';
+          const continuity = document.getElementById('prop-continuity').checked;
+          let result;
+          if (document.getElementById('prop-use-n').checked) {
+            const n1 = parseNumber('prop-n1', { min: 5 });
+            result = proportionPowerCalc({ p1, p2, alpha, ratio, n1, tails, continuity });
+          } else {
+            result = await solveProportionSampleSize({ p1, p2, alpha, ratio, target, tails, continuity });
+          }
+          resultSummary.innerHTML = `<p>Power = ${formatPercent(result.power)} (n₁ = ${result.n1}, n₂ = ${result.n2})</p>`;
+          renderSteps([
+            { label: 'zcrit', value: result.zCrit.toFixed(4), tip: tails === 'two' ? 'ใช้ α/2 ต่อด้าน' : 'one-sided critical value' },
+            { label: 'SE', value: formatNumber(result.se), tip: '√[p₁(1−p₁)/n₁ + p₂(1−p₂)/n₂]' },
+            { label: 'mean Z', value: formatNumber(result.meanZ), tip: 'ผลต่าง / SE' }
+          ]);
+        } else if (mode === 'mde') {
+          const n1 = parseNumber('mde-n1', { min: 2 });
+          const ratio = parseNumber('mde-ratio', { min: 0.1 });
+          const sd1 = parseNumber('mde-sd1', { min: 0 });
+          const sd2 = parseNumber('mde-sd2', { min: 0 });
+          const alpha = clampProbability(Number(document.getElementById('mde-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('mde-power').value), 'power');
+          const modeValue = document.querySelector('input[name="mde-mode"]:checked').value;
+          if (modeValue === 'mde') {
+            const result = await mdeCalc({ n1, ratio, sd1, sd2, alpha, target, tails: 'two-sided' });
+            resultSummary.innerHTML = `<p>MDE ≈ ${formatNumber(result.mde)} หน่วย (power ${formatPercent(result.power)})</p>`;
+            renderSteps([
+              { label: 'ncp', value: result.delta.toFixed(4), tip: 'noncentrality parameter' },
+              { label: 'SE', value: formatNumber(result.se), tip: 'Welch standard error' },
+              { label: 'tcrit', value: result.crit.toFixed(4), tip: 'ใช้สำหรับ CI ±MDE' }
+            ]);
+          } else {
+            const result = await ciWidthCalc({ n1, ratio, sd1, sd2, alpha });
+            resultSummary.innerHTML = `<p>ความกว้าง CI (สองด้าน) ≈ ${formatNumber(result.width)} (±${formatNumber(result.halfWidth)})</p>`;
+            renderSteps([
+              { label: 'tcrit', value: result.tcrit.toFixed(4), tip: 'ใช้ df ของ Welch' },
+              { label: 'SE', value: formatNumber(result.se), tip: 'standard error ของผลต่าง' }
+            ]);
+          }
+        } else if (mode === 'noninfer') {
+          const effect = parseNumber('ni-effect');
+          const margin = parseNumber('ni-margin');
+          const sd1 = parseNumber('ni-sd1', { min: 0 });
+          const sd2 = parseNumber('ni-sd2', { min: 0 });
+          const ratio = parseNumber('ni-ratio', { min: 0.1 });
+          const alpha = clampProbability(Number(document.getElementById('ni-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('ni-power').value), 'power');
+          const useN = document.getElementById('ni-use-n').checked;
+          const params = { effect, margin, sd1, sd2, ratio, alpha, target, useN };
+          if (useN) {
+            params.n1 = parseNumber('ni-n1', { min: 5 });
+          }
+          const result = await nonInferCalc(params);
+          resultSummary.innerHTML = `<p>Power = ${formatPercent(result.power)} (n₁ = ${result.n1}, n₂ = ${result.n2})</p>`;
+          renderSteps([
+            { label: 'tcrit', value: result.crit.toFixed(4), tip: 'one-sided ที่ α' },
+            { label: 'ncp', value: result.delta.toFixed(4), tip: 'Δ จริง - margin / SE' }
+          ]);
+        } else if (mode === 'equivalence') {
+          const effect = parseNumber('eq-effect');
+          const margin = parseNumber('eq-margin', { min: 0.0001 });
+          const sd1 = parseNumber('eq-sd1', { min: 0 });
+          const sd2 = parseNumber('eq-sd2', { min: 0 });
+          const ratio = parseNumber('eq-ratio', { min: 0.1 });
+          const alpha = clampProbability(Number(document.getElementById('eq-alpha').value), 'alpha');
+          const target = clampProbability(Number(document.getElementById('eq-power').value), 'power');
+          const useN = document.getElementById('eq-use-n').checked;
+          const params = { effect, margin, sd1, sd2, ratio, alpha, target, useN };
+          if (useN) {
+            params.n1 = parseNumber('eq-n1', { min: 5 });
+          }
+          const result = await equivalenceCalc(params);
+          resultSummary.innerHTML = `<p>Power ≈ ${formatPercent(result.power)} (n₁ = ${result.n1}, n₂ = ${result.n2})</p>`;
+          renderSteps([
+            { label: 'tcrit', value: result.tcrit.toFixed(4), tip: 'ใช้ต่อด้าน (TOST)' },
+            { label: 'SE', value: formatNumber(result.se), tip: 'Welch standard error' }
+          ]);
+        } else if (mode === 'sensitivity') {
+          const delta = parseNumber('sens-delta');
+          const sd1 = parseNumber('sens-sd1', { min: 0 });
+          const sd2 = parseNumber('sens-sd2', { min: 0 });
+          const n1 = parseNumber('sens-n1', { min: 5 });
+          const ratio = parseNumber('sens-ratio', { min: 0.1 });
+          const alpha = clampProbability(Number(document.getElementById('sens-alpha').value), 'alpha');
+          const min = parseNumber('sens-min', { min: 0 });
+          const max = parseNumber('sens-max', { min: min });
+          const steps = parseNumber('sens-steps', { min: 3 });
+          const useCV = document.getElementById('sens-use-cv').checked;
+          const result = await sensitivityCalc({ delta, sd1, sd2, n1, ratio, alpha, min, max, steps, useCV });
+          resultSummary.innerHTML = `<p>สำรวจ power เมื่อ σ/ระดับ = ${min} … ${max}</p>`;
+          const rows = result.values.map(item => [formatNumber(item.level), formatPercent(item.power), formatNumber(item.se), item.df.toFixed(1)]);
+          renderTable(['σ หรือ CV', 'Power', 'SE', 'df'], rows);
+          drawLineChart(result.values.map((item, index) => ({ x: min + ((max - min) / (result.values.length - 1 || 1)) * index, y: item.power })));
+        } else if (mode === 'curve') {
+          const delta = parseNumber('curve-delta');
+          const sd1 = parseNumber('curve-sd1', { min: 0 });
+          const sd2 = parseNumber('curve-sd2', { min: 0 });
+          const n1 = parseNumber('curve-n1', { min: 5 });
+          const alpha = clampProbability(Number(document.getElementById('curve-alpha').value), 'alpha');
+          const ratios = await curveCalc({ delta, sd1, sd2, n1, alpha });
+          resultSummary.innerHTML = `<p>Power vs ratio (n₂/n₁) เมื่อ n₁ = ${n1}</p>`;
+          const rows = ratios.map(item => [item.ratio.toFixed(2), formatPercent(item.power), item.df.toFixed(1)]);
+          renderTable(['อัตราส่วน', 'Power', 'df'], rows);
+          drawLineChart(ratios.map(item => ({ x: item.ratio, y: item.power })));
+        }
       } catch (error) {
-        document.getElementById('mde-result').textContent = error.message;
+        inputError.textContent = error.message;
       }
     });
   </script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>10. Poisson Distribution</title>
+  <title>10. การแจกแจงปัวซอง</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 10</p>
-      <h1>Poisson Distribution</h1>
+      <h1>การแจกแจงปัวซอง</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="09-hypergeometric.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>จำลองจำนวนเหตุการณ์ที่เกิดแบบสุ่มและเป็นอิสระในช่วงเวลา/พื้นที่</p>
       <ul>
-        <li>อัตราเหตุการณ์ λ</li>
-        <li>คุณสมบัติ mean = variance</li>
-        <li>Poisson approximation ของ binomial</li>
+        <li>คุณสมบัติอัตราเหตุการณ์ λ ที่คงที่</li>
+        <li>ความสัมพันธ์ mean = variance</li>
+        <li>การประมาณทวินามเมื่อ n ใหญ่ p เล็ก</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรคำนวณมีรูปแบบง่ายและจำได้ทันที</p>
+      <ul>
+        <li>PMF: P(X = k) = e^{−λ} λ^k / k!</li>
+        <li>ค่าคาดหมายและความแปรปรวน: μ = σ^2 = λ</li>
+        <li>การบวกตัวแปรปัวซองอิสระ: λ_{รวม} = λ_1 + λ_2</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>จำนวนสายเรียกเข้าศูนย์บริการต่อชั่วโมง หรือจำนวนอุบัติเหตุที่ทางแยก</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
+        <li><a href="09-hypergeometric.html">การสุ่มแบบไม่คืนตัว</a></li>
+        <li><a href="11-continuous-normal.html">บทว่าด้วยปกติ</a></li>
         <li><a href="review/review-02-distributions-blueprint.html">ตาราง Poisson</a></li>
-        <li><a href="14-clt.html">บท CLT</a></li>
-        <li><a href="../data/qc_defects.csv">ข้อมูล defects</a></li>
       </ul>
     </article>
   </main>

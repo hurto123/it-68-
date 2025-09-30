@@ -11,47 +11,73 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .grid-two { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    fieldset { border: 1px solid rgba(148,163,184,0.4); border-radius: 0.75rem; padding: 0.75rem 1rem; margin-top: 0.75rem; }
+    fieldset legend { font-weight: 600; }
+    .result-block { background: rgba(250, 204, 21, 0.18); border-radius: 0.75rem; padding: 1rem; margin-top: 0.75rem; }
+    .result-block p { margin: 0.25rem 0; }
+    output[data-error] { color: #b91c1c; }
+  </style>
 </head>
 <body data-page="tool">
   <header class="site-header">
     <div>
       <p class="eyebrow">Calculator</p>
       <h1>Chi-square distribution</h1>
+      <p class="tagline">คำนวณพื้นที่และ quantile สำหรับ χ² พร้อมการตีความเพื่อใช้กับการทดสอบ GoF/Independence</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="reset" class="ghost">ค่าเริ่มต้น</button>
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>พื้นที่ด้านซ้าย</h2>
-      <label>ค่า χ²
-        <input id="chi2-value" type="number" step="0.001" value="5.991">
-      </label>
-      <label>df
-        <input id="chi2-df" type="number" min="1" step="1" value="2">
-      </label>
-      <button class="primary" id="chi2-calc">คำนวณ</button>
-      <p id="chi2-cdf"></p>
+      <h2>พื้นที่ของ χ²</h2>
+      <div class="grid-two">
+        <label>ค่า χ²
+          <input id="chi-value" type="number" step="0.01" value="10.5">
+        </label>
+        <label>df
+          <input id="chi-df" type="number" min="1" step="1" value="6">
+        </label>
+      </div>
+      <fieldset>
+        <legend>เลือกช่วง</legend>
+        <label><input type="radio" name="chi-tail" value="left" checked> พื้นที่ซ้าย (P(X ≤ x))</label>
+        <label><input type="radio" name="chi-tail" value="right"> พื้นที่ขวา (P(X ≥ x))</label>
+      </fieldset>
+      <button class="primary" id="chi-calc">คำนวณพื้นที่</button>
+      <output id="chi-result" class="result-block"></output>
     </article>
+
     <article class="card">
       <h2>หา critical value</h2>
-      <label>พื้นที่ (0-1)
-        <input id="chi2-prob" type="number" step="0.0001" value="0.95">
-      </label>
-      <label>df
-        <input id="chi2-df-crit" type="number" min="1" step="1" value="2">
-      </label>
-      <button class="primary" id="chi2-inv">หาค่า χ²</button>
-      <p id="chi2-inv-result"></p>
+      <div class="grid-two">
+        <label>df
+          <input id="chi-df-crit" type="number" min="1" step="1" value="6">
+        </label>
+        <label>พื้นที่ (เช่น 0.95 หรือ 0.05)
+          <input id="chi-prob" type="number" step="0.0001" value="0.95">
+        </label>
+      </div>
+      <fieldset>
+        <legend>ทิศทาง</legend>
+        <label><input type="radio" name="chi-inv-tail" value="left" checked> พื้นที่ซ้าย</label>
+        <label><input type="radio" name="chi-inv-tail" value="right"> พื้นที่ขวา</label>
+      </fieldset>
+      <button class="primary" id="chi-inv">หาค่า critical</button>
+      <output id="chi-inv-result" class="result-block"></output>
     </article>
+
     <article class="card">
-      <h2>ลิงก์</h2>
+      <h2>ใช้งานร่วมกับ</h2>
       <ul>
-        <li><a href="../content/22-ci-variance.html">CI ความแปรปรวน</a></li>
-        <li><a href="../content/29-test-variance-onepop.html">ทดสอบความแปรปรวน</a></li>
-        <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
+        <li>Goodness-of-fit: ใช้พื้นที่ขวาเป็น p-value</li>
+        <li>Independence (ตารางไขว้): df = (r−1)(c−1)</li>
+        <li>ลิงก์: <a href="../content/adv/36-chi2-gof-independence.html">บท 36</a>, <a href="../tables/chi2-table.html">ตาราง χ²</a></li>
       </ul>
     </article>
   </main>
@@ -60,33 +86,68 @@
   </footer>
   <script type="module">
     import { chiSquareCdf, chiSquareInv } from './distributions.js';
-    const valueInput = document.getElementById('chi2-value');
-    const dfInput = document.getElementById('chi2-df');
-    const cdfOutput = document.getElementById('chi2-cdf');
-    const probInput = document.getElementById('chi2-prob');
-    const dfCritInput = document.getElementById('chi2-df-crit');
-    const invOutput = document.getElementById('chi2-inv-result');
 
-    document.getElementById('chi2-calc')?.addEventListener('click', () => {
-      const x = Number(valueInput.value);
-      const df = Number(dfInput.value);
-      if (df < 1) {
-        cdfOutput.textContent = 'df ต้องมากกว่า 0';
-        return;
+    const valueInput = document.getElementById('chi-value');
+    const dfInput = document.getElementById('chi-df');
+    const resultOutput = document.getElementById('chi-result');
+    const dfCritInput = document.getElementById('chi-df-crit');
+    const probInput = document.getElementById('chi-prob');
+    const invOutput = document.getElementById('chi-inv-result');
+
+    function validateDf(value) {
+      if (!Number.isFinite(value) || value < 1) throw new Error('df ต้อง ≥ 1');
+      return value;
+    }
+
+    function showError(target, message) {
+      target.innerHTML = `<p data-error>${message}</p>`;
+    }
+
+    document.getElementById('chi-calc')?.addEventListener('click', () => {
+      try {
+        const x = Number(valueInput.value);
+        if (!Number.isFinite(x) || x < 0) throw new Error('ค่า χ² ต้องไม่ติดลบ');
+        const df = validateDf(Number(dfInput.value));
+        const tail = document.querySelector('input[name="chi-tail"]:checked')?.value ?? 'left';
+        const left = chiSquareCdf(x, df);
+        const right = 1 - left;
+        if (tail === 'left') {
+          resultOutput.innerHTML = `<p>P(X ≤ ${x.toFixed(2)}) = ${left.toFixed(4)}</p><p class="tagline">ใช้กับการดู cumulative probability</p>`;
+        } else {
+          resultOutput.innerHTML = `<p>P(X ≥ ${x.toFixed(2)}) = ${right.toFixed(4)}</p><p class="tagline">ตีความเป็น p-value สำหรับ H₀</p>`;
+        }
+      } catch (error) {
+        showError(resultOutput, error.message);
       }
-      const p = chiSquareCdf(x, df);
-      cdfOutput.textContent = `P(X ≤ ${x.toFixed(3)}) ≈ ${p.toFixed(4)}`;
     });
 
-    document.getElementById('chi2-inv')?.addEventListener('click', () => {
+    document.getElementById('chi-inv')?.addEventListener('click', () => {
       try {
+        const df = validateDf(Number(dfCritInput.value));
         const p = Number(probInput.value);
-        const df = Number(dfCritInput.value);
-        const x = chiSquareInv(p, df);
-        invOutput.textContent = `χ² ≈ ${x.toFixed(4)}`;
+        if (!Number.isFinite(p) || p <= 0 || p >= 1) throw new Error('พื้นที่ต้องอยู่ในช่วง (0,1)');
+        const tail = document.querySelector('input[name="chi-inv-tail"]:checked')?.value ?? 'left';
+        if (tail === 'left') {
+          const value = chiSquareInv(p, df);
+          invOutput.innerHTML = `<p>χ²<sub>${df}</sub>(พื้นที่ซ้าย ${p}) = ${value.toFixed(4)}</p>`;
+        } else {
+          const value = chiSquareInv(1 - p, df);
+          invOutput.innerHTML = `<p>χ²<sub>${df}</sub>(พื้นที่ขวา ${p}) = ${value.toFixed(4)}</p>`;
+        }
       } catch (error) {
-        invOutput.textContent = error.message;
+        showError(invOutput, error.message);
       }
+    });
+
+    document.getElementById('reset')?.addEventListener('click', () => {
+      valueInput.value = '10.5';
+      dfInput.value = '6';
+      dfCritInput.value = '6';
+      probInput.value = '0.95';
+      document.querySelector('input[name="chi-tail"][value="left"]').checked = true;
+      document.querySelector('input[name="chi-inv-tail"][value="left"]').checked = true;
+      resultOutput.innerHTML = '';
+      invOutput.innerHTML = '';
     });
   </script>
 </body>

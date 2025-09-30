@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>20. CI ผลต่างสัดส่วนสองกลุ่ม</title>
+  <title>20. ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 20</p>
-      <h1>CI ผลต่างสัดส่วนสองกลุ่ม</h1>
+      <h1>ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="19-ci-means-twopop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>วิเคราะห์ความแตกต่างของสัดส่วนระหว่างสองกลุ่ม</p>
       <ul>
-        <li>สูตร Z และข้อควรระวัง</li>
-        <li>การเลือก continuity correction</li>
-        <li>ตีความช่วงที่คร่อมศูนย์</li>
+        <li>การสุ่มตัวอย่างอิสระสองกลุ่ม</li>
+        <li>การคำนวณ SE ด้วย p̂ รวมแต่ละกลุ่ม</li>
+        <li>การตีความช่วงในงานวิจัยทางการแพทย์หรือการตลาด</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรช่วงสำหรับสองสัดส่วน</p>
+      <ul>
+        <li>CI: (p̂_1 − p̂_2) ± z_{α/2} √(p̂_1(1−p̂_1)/n_1 + p̂_2(1−p̂_2)/n_2)</li>
+        <li>เงื่อนไข: n_i p̂_i และ n_i(1−p̂_i) ≥ 10</li>
+        <li>การเลือกค่าประมาณพรีวิศวกรรมเพื่อวางแผนการเก็บข้อมูล</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>เปรียบเทียบอัตราการตอบรับแคมเปญระหว่างกลุ่มทดลองและควบคุม</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power two-prop</a></li>
-        <li><a href="28-test-proportions-twopop.html">บท test proportion</a></li>
-        <li><a href="review/review-07-case-ab-test.html">ทบทวน A/B</a></li>
+        <li><a href="19-ci-means-twopop.html">CI ส่วนต่างค่าเฉลี่ย</a></li>
+        <li><a href="21-sample-size.html">การวางแผนขนาดตัวอย่าง</a></li>
+        <li><a href="../tools/z.html">เครื่องมือ Z</a></li>
       </ul>
     </article>
   </main>

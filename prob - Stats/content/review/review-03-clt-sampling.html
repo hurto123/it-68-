@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CLT & Sampling Distributions</title>
+  <title>รีวิว CLT & Sampling Distributions</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">สรุปเร็ว</p>
-      <h1>CLT & Sampling Distributions</h1>
+      <h1>รีวิว CLT & Sampling Distributions</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
@@ -25,19 +25,38 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ภาพรวม</h2>
+      <h2>คอนเซ็ปต์หลัก</h2>
       <ul>
-        <li>สูตร μx̄ = μ และ σx̄ = σ/√n</li>
-        <li>เงื่อนไขขนาดตัวอย่างและความเบ้</li>
-        <li>สาธิตด้วยข้อมูลจริงและ worker CLT</li>
+        <li><strong>Central Limit Theorem (CLT)</strong>: ค่าเฉลี่ยตัวอย่างขนาด n ใหญ่พอ &rarr; ใกล้ Normal</li>
+        <li>ไม่ว่าประชากรเดิมเป็นรูปอะไร ค่าเฉลี่ยตัวอย่างมี mean = μ, SD = σ/√n</li>
+        <li>เป็นฐานของการสร้าง <em>standard error</em> และการอนุมานทุกแบบ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรสำคัญ</h2>
+      <ul>
+        <li><strong>ค่าเฉลี่ย</strong>: <em>μ<sub>x̄</sub> = μ</em>, <em>σ<sub>x̄</sub> = σ/√n</em></li>
+        <li><strong>สัดส่วน</strong>: <em>μ<sub>p̂</sub> = p</em>, <em>σ<sub>p̂</sub> = √(p(1-p)/n)</em></li>
+        <li><strong>ผลต่างค่าเฉลี่ย</strong>: <em>μ<sub>x̄₁−x̄₂</sub> = μ₁−μ₂</em>, <em>σ = √(σ₁²/n₁ + σ₂²/n₂)</em></li>
+        <li><strong>ผลต่างสัดส่วน</strong>: <em>σ = √(p₁(1-p₁)/n₁ + p₂(1-p₂)/n₂)</em></li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>เช็กลิสต์ใช้ CLT</h2>
+      <ul>
+        <li>n ≥ 30 หรือรูปแจกแจงไม่เบ้มาก (ถ้าเบ้ ใช้ n ใหญ่ขึ้น)</li>
+        <li>ตัวอย่างสุ่มอิสระ, ถ้ามาจากประชากรจำกัดต้องมีเงื่อนไข <em>n ≤ 10%N</em></li>
+        <li>สำหรับ p̂ ต้องมี <em>np ≥ 10</em> และ <em>n(1-p) ≥ 10</em></li>
+        <li>ใช้ Z-score: <em>z = (สถิติ − ค่าคาดหวัง)/SE</em> เพื่อเทียบกับตารางมาตรฐาน</li>
       </ul>
     </article>
     <article class="card">
       <h2>ปุ่มลัด</h2>
       <ul>
-        <li><a href="../14-clt.html">กลับไปบท 14-15</a></li>
-        <li><a href="../../data/clt_heights.csv">ดาวน์โหลดข้อมูล heights</a></li>
-        <li><a href="../../workers/clt.worker.js">ทดลอง CLT worker</a></li>
+        <li><a href="../14-clt.html">บท 14: CLT</a></li>
+        <li><a href="../15-sampling-other-stats.html">บท 15: Sampling distributions อื่นๆ</a></li>
+        <li><a href="../17-ci-mean-onepop.html">ต่อยอดไป Confidence Interval</a></li>
+        <li><a href="../23-hypothesis-intro.html">ปูพื้นฐาน Hypothesis test</a></li>
       </ul>
     </article>
   </main>
