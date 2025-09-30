@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>08. การแจกแจงทวินาม</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 08</p>
+      <h1>การแจกแจงทวินาม</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="07-discrete-uniform.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="09-hypergeometric.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ระบุเงื่อนไขการใช้การแจกแจงทวินาม (ทดลอง n ครั้ง, สองผลลัพธ์, p คงที่)</li>
+        <li>คำนวณความน่าจะเป็น binomial, ค่าเฉลี่ย μ = np และความแปรปรวน σ² = np(1−p)</li>
+        <li>เชื่อมโยง binomial กับปัญหาเชิงธุรกิจ เช่น การควบคุมคุณภาพ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>เงื่อนไขและรูปแบบฟังก์ชัน binomial</li>
+        <li>สูตรคำนวณ P(X = k) = C(n,k)pᵏ(1−p)ⁿ⁻ᵏ</li>
+        <li>ค่าสถิติสรุป: mean, variance, standard deviation</li>
+        <li>การประมาณค่าแบบ normal เมื่อ n ใหญ่</li>
+        <li>ความแตกต่างระหว่าง binomial และ hypergeometric</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ตัวอย่างสายผลิตที่มี defect rate 2%</li>
+        <li>แบบฝึกใช้เครื่องคิด <a href="../tools/binomial.html">(เพิ่มในภายหลัง)</a> หรือใช้สเปรดชีต</li>
+        <li>คำถามวิเคราะห์: เมื่อใดการทดลองไม่เป็นอิสระ → ไม่ควรใช้ binomial</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กราฟแท่งแสดงความน่าจะเป็นสำหรับค่าต่าง ๆ ของ k</li>
+        <li>สไลด์แสดงการเปลี่ยนรูปความโค้งเมื่อ p = 0.5 กับ p = 0.2</li>
+        <li>กล่องสูตร mean/variance พร้อมตัวอย่างคำนวณจริง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไปบท <a href="review/review-02-distributions-blueprint.html">Distribution blueprint</a></li>
+        <li>แนะนำให้ทดลองข้อมูลใน <a href="../tools/power-sample-size.html">Power &amp; Sample size</a> (โหมดสองสัดส่วน)</li>
+        <li>ปุ่มสลับไป <a href="10-poisson.html">Poisson</a> เพื่อเปรียบเทียบกรณี λ ≈ np</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

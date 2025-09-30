@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Z Table</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <script defer src="../app.js"></script>
+</head>
+<body data-page="table">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Table</p>
+      <h1>ตาราง Z (พื้นที่ด้านซ้าย)</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#resources">กลับ</a>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <label>ค้นหาค่า
+        <input id="z-search" placeholder="เช่น 1.96">
+      </label>
+      <p id="z-highlight" class="tagline"></p>
+      <div class="table-wrapper">
+        <table id="z-table"></table>
+      </div>
+    </article>
+  </main>
+  <script type="module">
+    import { normCdf } from '../tools/distributions.js';
+    const table = document.getElementById('z-table');
+    const search = document.getElementById('z-search');
+    const highlight = document.getElementById('z-highlight');
+
+    function buildTable() {
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = '<th>z</th>' + Array.from({ length: 10 }, (_, i) => `<th>${(i / 100).toFixed(2)}</th>`).join('');
+      table.appendChild(headerRow);
+      for (let row = 0; row <= 3; row += 0.1) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<th>${row.toFixed(1)}</th>`;
+        for (let col = 0; col <= 9; col++) {
+          const z = Number((row + col / 100).toFixed(2));
+          const td = document.createElement('td');
+          td.dataset.z = z.toFixed(2);
+          td.textContent = normCdf(z).toFixed(4);
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      }
+    }
+
+    search.addEventListener('input', () => {
+      const value = Number(search.value);
+      document.querySelectorAll('[data-highlight]')?.forEach(el => el.removeAttribute('data-highlight'));
+      if (Number.isNaN(value)) {
+        highlight.textContent = '';
+        return;
+      }
+      const target = table.querySelector(`[data-z="${value.toFixed(2)}"]`);
+      if (target) {
+        target.setAttribute('data-highlight', 'true');
+        highlight.textContent = `P(Z ≤ ${value.toFixed(2)}) ≈ ${target.textContent}`;
+      } else {
+        highlight.textContent = 'นอกช่วง 0–3';
+      }
+    });
+
+    buildTable();
+  </script>
+  <style>
+    .table-wrapper { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.4rem; border: 1px solid rgba(148, 163, 184, 0.4); text-align: center; }
+    [data-highlight="true"] { background: rgba(14, 165, 233, 0.2); font-weight: 600; }
+  </style>
+</body>
+</html>

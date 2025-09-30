@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>28. การทดสอบสัดส่วนสองกลุ่มอิสระ</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 28</p>
+      <h1>การทดสอบสัดส่วนสองกลุ่มอิสระ</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="27-test-means-twopop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="29-test-variance-onepop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณ z-test สำหรับผลต่างสัดส่วนด้วย pooled proportion</li>
+        <li>ประเมินเงื่อนไข np ≥ 10 สำหรับทั้งสองกลุ่ม</li>
+        <li>ตีความผลลัพธ์และแปลงเป็น insight ทางธุรกิจ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตร test statistic พร้อมการหาค่า p̂<sub>pooled</sub></li>
+        <li>ตัวอย่าง A/B test สำหรับ conversion rate</li>
+        <li>การใช้ continuity correction</li>
+        <li>การสื่อสารผลและการจัดทำสไลด์</li>
+        <li>เชื่อมโยงกับการวางแผนพลัง</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกจาก <code>ab_test.csv</code></li>
+        <li>กิจกรรมเปรียบเทียบผลกับ CI</li>
+        <li>การบ้าน: จัดทำรายงานการทดลองเต็มรูปแบบ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร z = (p̂₁ − p̂₂)/√(p̂<sub>p</sub>(1−p̂<sub>p</sub>)(1/n₁ + 1/n₂))</li>
+        <li>กราฟแสดง rejection region</li>
+        <li>ตารางเปรียบเทียบกับ Fisher's exact test</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/power-sample-size.html">Power tool</a> (Two-proportion)</li>
+        <li>เชื่อมกับบท <a href="20-ci-proportions-twopop.html">CI สองสัดส่วน</a> และ <a href="38-bayes-intro.html">Bayes intro</a></li>
+        <li>ชวนทบทวน <a href="review/review-07-case-ab-test.html">A/B case</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

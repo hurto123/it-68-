@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>27. การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 27</p>
+      <h1>การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="26-test-proportion-onepop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="28-test-proportions-twopop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>เลือกใช้ t-test แบบ pooled หรือ Welch ตามเงื่อนไขความแปรปรวน</li>
+        <li>คำนวณ test statistic และ p-value สำหรับการเปรียบเทียบสองกลุ่ม</li>
+        <li>เชื่อมโยงผลทดสอบกับการวิเคราะห์พลังและ MDE</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>ตรวจเงื่อนไข: ความเป็นอิสระ, การแจกแจง, ความแปรปรวน</li>
+        <li>สูตร pooled t-test และ Welch t-test</li>
+        <li>ตัวอย่าง A/B test พร้อมการตีความ</li>
+        <li>การรายงาน effect size และความหมายเชิงธุรกิจ</li>
+        <li>แนะนำแนวคิด power curve</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกจาก <code>ab_test.csv</code> และ <code>regression_cars.csv</code></li>
+        <li>กิจกรรมวิเคราะห์ Welch vs Pooled</li>
+        <li>งานกลุ่ม: สร้างแผนการทดสอบพร้อมกำหนด MDE</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร test statistic และ df สำหรับ Welch</li>
+        <li>กราฟแสดงการทับซ้อนของการแจกแจงเมื่อ H₀/H₁</li>
+        <li>ตารางเปรียบเทียบข้อดีข้อเสียของแต่ละวิธี</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/power-sample-size.html">Power/MDE tool</a> โหมด Welch</li>
+        <li>เชื่อมกับบท <a href="19-ci-means-twopop.html">CI ผลต่างค่าเฉลี่ย</a> และ <a href="35-oneway-anova.html">ANOVA</a></li>
+        <li>ชวนทบทวน <a href="review/review-07-case-ab-test.html">A/B case</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi-square Table</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <script defer src="../app.js"></script>
+</head>
+<body data-page="table">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Table</p>
+      <h1>ตาราง χ²</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#resources">กลับ</a>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <label>ระดับนัยสำคัญด้านขวา (α)
+        <input id="chi2-alpha" type="number" step="0.0001" value="0.05">
+      </label>
+      <div class="table-wrapper">
+        <table id="chi2-table"></table>
+      </div>
+    </article>
+  </main>
+  <script type="module">
+    import { chiSquareInv } from '../tools/distributions.js';
+    const table = document.getElementById('chi2-table');
+    const alphaInput = document.getElementById('chi2-alpha');
+
+    function build(alpha) {
+      table.innerHTML = '<tr><th>df</th><th>χ² critical</th></tr>';
+      for (let df = 1; df <= 30; df++) {
+        const value = chiSquareInv(1 - alpha, df).toFixed(3);
+        const row = document.createElement('tr');
+        row.innerHTML = `<th>${df}</th><td>${value}</td>`;
+        table.appendChild(row);
+      }
+    }
+
+    alphaInput.addEventListener('input', () => {
+      const alpha = Number(alphaInput.value);
+      if (alpha <= 0 || alpha >= 1) return;
+      build(alpha);
+    });
+
+    build(Number(alphaInput.value));
+  </script>
+  <style>
+    .table-wrapper { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.4rem; border: 1px solid rgba(148, 163, 184, 0.4); text-align: center; }
+  </style>
+</body>
+</html>

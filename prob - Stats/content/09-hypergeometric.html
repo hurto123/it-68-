@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>09. การแจกแจงไฮเพอร์จีโอเมตริก</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 09</p>
+      <h1>การแจกแจงไฮเพอร์จีโอเมตริก</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="08-binomial.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="10-poisson.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>จำแนกสถานการณ์ที่ต้องใช้การแจกแจงไฮเพอร์จีโอเมตริก (สุ่มโดยไม่คืน)</li>
+        <li>คำนวณความน่าจะเป็นด้วยสูตรไฮเพอร์จีโอเมตริก</li>
+        <li>เปรียบเทียบผลต่างจากการใช้ binomial และตีความผลลัพธ์</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>เงื่อนไขการใช้: finite population, sampling without replacement</li>
+        <li>สูตร P(X = k) = (C(K,k)·C(N−K, n−k)) / C(N,n)</li>
+        <li>ค่าเฉลี่ย μ = n·(K/N) และความแปรปรวน</li>
+        <li>ตัวอย่างงานคุณภาพและการคัดเลือกคณะทำงาน</li>
+        <li>เมื่อใดสามารถประมาณด้วย binomial ได้</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ตัวอย่างสุ่มตรวจ 5 ชิ้นจากล็อต 100 ชิ้น</li>
+        <li>แบบฝึกใช้ข้อมูล <code>qc_defects.csv</code> เพื่อเปรียบเทียบ binomial vs hypergeometric</li>
+        <li>โจทย์วิเคราะห์ความไวต่อขนาดประชากร</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>แผนภาพแสดงการลดลงของความน่าจะเป็นเมื่อดึงโดยไม่คืน</li>
+        <li>ตารางเปรียบเทียบค่าคาดหมายและความแปรปรวนกับ binomial</li>
+        <li>กราฟชี้ให้เห็นผลของ finite population correction</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>แนะนำให้ทดลองใน <a href="../tools/anova.html">ANOVA tool</a> เพื่อดูบริบทการสุ่มกลุ่ม</li>
+        <li>ลิงก์ไปบท <a href="review/review-06-case-one-sample.html">Review: One-sample case</a></li>
+        <li>ปุ่มสลับเปรียบเทียบกับ <a href="08-binomial.html">Binomial</a> และ <a href="10-poisson.html">Poisson</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

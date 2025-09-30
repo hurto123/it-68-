@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15. การแจกแจงของสถิติอื่น ๆ</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 15</p>
+      <h1>การแจกแจงของสถิติอื่น ๆ</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="14-clt.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="16-ci-intro.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ทำความเข้าใจการแจกแจงของสถิติ p̂, x̄₁−x̄₂, p̂₁−p̂₂, s² และ F</li>
+        <li>คำนวณค่า standard error สำหรับสถิติแต่ละชนิด</li>
+        <li>ระบุเงื่อนไขการใช้งาน (ขนาดตัวอย่างใหญ่พอ, ความเป็นอิสระ)</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สรุป standard error ของสัดส่วนตัวอย่างเดียวและสองกลุ่ม</li>
+        <li>การแจกแจงของผลต่างค่าเฉลี่ยสองกลุ่ม (Z และ t)</li>
+        <li>สถิติ s² และอัตราส่วนความแปรปรวน → χ² และ F</li>
+        <li>ตารางเงื่อนไขความพอประมาณ (n·p ≥ 10 ฯลฯ)</li>
+        <li>แนวทางเลือกใช้เมื่อข้อมูลไม่เป็นอิสระ (paired)</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกใช้ข้อมูล <code>ab_test.csv</code> เพื่อประมาณสัดส่วนสองกลุ่ม</li>
+        <li>ตัวอย่างการเปรียบเทียบค่าเฉลี่ยสองโรงงานด้วย Welch</li>
+        <li>โจทย์ทบทวนตรวจสอบเงื่อนไขของแต่ละสถิติ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>ตาราง standard error สำหรับ p̂, x̄, difference of means/proportions</li>
+        <li>แผนภาพ decision tree เลือก Z หรือ t</li>
+        <li>ภาพเทียบ variance ratio → F-distribution</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>แนะนำใช้ <a href="../tools/power-sample-size.html">Power &amp; Sample Size</a> เพื่อสำรวจผลของ SE</li>
+        <li>เชื่อมต่อบท <a href="17-ci-mean-onepop.html">ช่วงความเชื่อมั่น</a> และ <a href="27-test-means-twopop.html">ทดสอบสองค่าเฉลี่ย</a></li>
+        <li>ปุ่มไปหน้าตัดสินใจ <a href="decision-map.html">Decision map</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13. การแจกแจง t, χ², และ F</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 13</p>
+      <h1>การแจกแจง t, χ², และ F</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="12-standard-normal-z.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="14-clt.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>อธิบายที่มาของการแจกแจง t, χ², F และบทบาทในงานอนุมาน</li>
+        <li>ระบุพารามิเตอร์ระดับเสรี (degrees of freedom) ได้ถูกต้อง</li>
+        <li>เลือกใช้ตาราง/เครื่องมือคำนวณเพื่อหาค่าขอบเขตวิกฤติ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สรุปลักษณะของ t-distribution และความสัมพันธ์กับ normal</li>
+        <li>ที่มาของ χ² จากผลรวมกำลังสองของ normal</li>
+        <li>การสร้าง F = (χ²₁/df₁) / (χ²₂/df₂)</li>
+        <li>ตัวอย่างการใช้ตาราง t, χ², F</li>
+        <li>กรณีการใช้เครื่องคิดและ worker ในเว็บของเรา</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ฝึกเลือก df ที่ถูกต้องในตัวอย่าง one-sample t</li>
+        <li>แบบฝึกหา critical value χ² สำหรับช่วงความเชื่อมั่นของความแปรปรวน</li>
+        <li>ตัวอย่างการใช้ F-table ใน ANOVA เบื้องต้น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กราฟเปรียบเทียบ t กับ normal หลายค่า df</li>
+        <li>ตารางสรุปความสัมพันธ์ระหว่างการทดสอบและการแจกแจง</li>
+        <li>ภาพแสดงพื้นที่หางของ χ² และ F</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไปเครื่องมือ <a href="../tools/t.html">T</a>, <a href="../tools/chi2.html">χ²</a>, และ <a href="../tools/f.html">F calculator</a></li>
+        <li>เชื่อมกับบท <a href="25-test-mean-onepop.html">ทดสอบค่าเฉลี่ย</a>, <a href="29-test-variance-onepop.html">ทดสอบความแปรปรวน</a>, <a href="35-oneway-anova.html">ANOVA</a></li>
+        <li>ชวนอ่านหน้าทบทวน <a href="review/review-05-hypothesis.html">Hypothesis flow</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

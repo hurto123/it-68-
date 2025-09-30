@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Method Notes</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Method Notes</p>
+      <h1>ข้อกำกับการใช้สูตร</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>Guardrails ที่ควรรู้</h2>
+      <ul>
+        <li>ตรวจสอบสมมติฐาน Normality ก่อนใช้ Z/t test (ดูบท 14, 17, 25)</li>
+        <li>ขนาดตัวอย่างเล็กมาก (n&lt;30) ควรเลือก t distribution เสมอเมื่อไม่รู้ σ</li>
+        <li>ค่า p ที่ใกล้เกณฑ์ควรสื่อสารพร้อม effect size และช่วงความเชื่อมั่น</li>
+        <li>สำหรับ Chi-square ควรแน่ใจว่า expected count ≥ 5 อย่างน้อย 80% ของเซลล์</li>
+        <li>Power analysis ควรใช้ variance สมมติฐานที่ conservative เพื่อลดความเสี่ยง</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>แหล่งอ้างอิงต่อยอด</h2>
+      <ol>
+        <li>บท 32–39 สำหรับการวิเคราะห์ขั้นสูง</li>
+        <li><a href="../tools/power-sample-size.html">Power & Sample Size Tool</a> สำหรับตรวจสอบสมมติฐานก่อนเก็บข้อมูล</li>
+        <li>แบบฝึกหัดขั้นสูงในโฟลเดอร์ <a href="../exercises/adv-corr.html">exercises</a></li>
+      </ol>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+</body>
+</html>

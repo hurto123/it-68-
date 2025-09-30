@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11. ตัวแปรต่อเนื่องและการแจกแจงปกติ</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 11</p>
+      <h1>ตัวแปรต่อเนื่องและการแจกแจงปกติ</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="10-poisson.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="12-standard-normal-z.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ทำความเข้าใจคุณสมบัติของตัวแปรต่อเนื่องและกราฟ PDF</li>
+        <li>อธิบายลักษณะการแจกแจงปกติ (μ, σ) และสมบัติโค้งระฆัง</li>
+        <li>ตีความพื้นที่ใต้กราฟเป็นความน่าจะเป็น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>นิยามตัวแปรต่อเนื่องและความหมายของ PDF</li>
+        <li>คุณสมบัติการแจกแจงปกติ: ความสมมาตร, 68-95-99.7 rule</li>
+        <li>การแปลงหน่วยสู่มาตรฐานเบื้องต้น</li>
+        <li>ตัวอย่างข้อมูลความสูง (<code>clt_heights.csv</code>)</li>
+        <li>ข้อควรระวัง: สเกลต่างกัน → รูปโค้งเปลี่ยน</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>กราฟ interactive ปรับ μ และ σ ดูผล</li>
+        <li>แบบฝึกคำนวณพื้นที่ช่วง μ±σ ผ่านเครื่องคิด</li>
+        <li>คำถามสะท้อน: เมื่อใดที่ข้อมูลไม่ปกติ → ต้องใช้การแจกแจงอื่น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สมการ PDF ของ normal distribution</li>
+        <li>กราฟ 68-95-99.7 พร้อมคำอธิบาย</li>
+        <li>แผนภาพเปรียบเทียบ normal แคบ vs กว้าง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไปเครื่องมือ <a href="../tools/normal-cdf.html">Normal CDF</a> และ <a href="../tables/z-table.html">ตาราง Z</a></li>
+        <li>เชื่อมกับบท <a href="12-standard-normal-z.html">Standard normal</a> และ <a href="14-clt.html">CLT</a></li>
+        <li>ปุ่มไปหน้าทบทวน <a href="review/review-03-clt-sampling.html">CLT &amp; Sampling</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

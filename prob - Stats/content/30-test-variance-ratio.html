@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>30. การทดสอบอัตราส่วนความแปรปรวน (F-test)</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 30</p>
+      <h1>การทดสอบอัตราส่วนความแปรปรวน (F-test)</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="29-test-variance-onepop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="31-summary-next.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณสถิติ F = s₁²/s₂² และเปรียบเทียบกับค่าขอบเขต</li>
+        <li>ระบุค่า df₁, df₂ และใช้ตาราง F หรือเครื่องมือ</li>
+        <li>ตีความผลเพื่อตัดสินความเท่ากันของความแปรปรวน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>นิยาม F-test และเงื่อนไข (normality, ความเป็นอิสระ)</li>
+        <li>การจัดเรียงกลุ่มให้ค่า F ≥ 1</li>
+        <li>ตัวอย่างตรวจความเสถียรสองกระบวนการ</li>
+        <li>การเชื่อมโยงกับ ANOVA</li>
+        <li>ข้อควรระวังเรื่องความไวต่อ outlier</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกใช้ข้อมูล <code>anova_plants.csv</code> เปรียบเทียบกลุ่ม</li>
+        <li>กิจกรรมจับคู่ df กับค่าตาราง F</li>
+        <li>Discussion: เมื่อใดควรใช้การทดสอบแบบไม่พาราเมตริกแทน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กราฟ F-distribution พร้อมพื้นที่หาง</li>
+        <li>ตัวอย่างการคำนวณทีละขั้น</li>
+        <li>ตารางเชื่อมโยงไปบท 35 ANOVA</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/f.html">F calculator</a></li>
+        <li>เชื่อมกับบท <a href="35-oneway-anova.html">ANOVA</a> และ <a href="36-chi2-gof-independence.html">Chi-square tools</a></li>
+        <li>ปุ่มไป <a href="review/review-07-case-ab-test.html">A/B case</a> เพื่อดูผลต่อการทดลอง</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

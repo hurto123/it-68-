@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>18. ช่วงความเชื่อมั่นของสัดส่วน (กลุ่มเดียว)</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 18</p>
+      <h1>ช่วงความเชื่อมั่นของสัดส่วน (กลุ่มเดียว)</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="17-ci-mean-onepop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="19-ci-means-twopop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณ CI ของสัดส่วนโดยใช้ p̂ ± z*√(p̂(1−p̂)/n)</li>
+        <li>ตรวจสอบเงื่อนไข n·p̂ ≥ 10 และ n·(1−p̂) ≥ 10</li>
+        <li>รายงานผลการสำรวจในรูปแบบที่ผู้บริหารเข้าใจได้ง่าย</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตรและองค์ประกอบของ CI สัดส่วน</li>
+        <li>ตัวอย่างการสำรวจความพึงพอใจลูกค้า</li>
+        <li>การตีความช่วงและการสื่อสารความไม่แน่นอน</li>
+        <li>การใช้ continuity correction (กล่าวถึง)</li>
+        <li>คำแนะนำเมื่อเงื่อนไขไม่ผ่าน → ใช้ exact methods</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกจากข้อมูล <code>ab_test.csv</code> สำหรับสัดส่วนผู้แปลง</li>
+        <li>ควิซตรวจสอบการคำนวณเงื่อนไขก่อนใช้สูตร</li>
+        <li>การบ้าน: สร้างรายงานสรุป CI สำหรับผู้บริหาร</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร CI พร้อมไฮไลต์ส่วนของ standard error</li>
+        <li>กราฟแสดงความกว้างของ CI เมื่อ n เพิ่ม</li>
+        <li>ตารางเปรียบเทียบกับ Wilson interval (อธิบายเพิ่มเติม)</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไป <a href="../tools/power-sample-size.html">Power tool (two-proportion mode)</a></li>
+        <li>เชื่อมกับบท <a href="26-test-proportion-onepop.html">การทดสอบสัดส่วน</a></li>
+        <li>ชวนทบทวน <a href="review/review-06-case-one-sample.html">One-sample case</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

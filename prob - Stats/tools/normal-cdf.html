@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Normal CDF</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Calculator</p>
+      <h1>Normal CDF</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>หาพื้นที่</h2>
+      <label>ค่า x
+        <input id="normal-x" type="number" step="0.01" value="100">
+      </label>
+      <label>ค่าเฉลี่ย μ
+        <input id="normal-mean" type="number" step="0.01" value="90">
+      </label>
+      <label>ส่วนเบี่ยงเบนมาตรฐาน σ
+        <input id="normal-sd" type="number" step="0.01" value="15">
+      </label>
+      <button class="primary" id="normal-calc">คำนวณ</button>
+      <p id="normal-result"></p>
+    </article>
+    <article class="card">
+      <h2>โยงเนื้อหา</h2>
+      <ul>
+        <li><a href="../content/11-continuous-normal.html">บท 11 Normal</a></li>
+        <li><a href="../content/12-standard-normal-z.html">บท 12 Z-score</a></li>
+        <li><a href="../content/16-ci-intro.html">บท 16 CI</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    import { normCdf } from './distributions.js';
+    const xInput = document.getElementById('normal-x');
+    const meanInput = document.getElementById('normal-mean');
+    const sdInput = document.getElementById('normal-sd');
+    const result = document.getElementById('normal-result');
+
+    document.getElementById('normal-calc')?.addEventListener('click', () => {
+      const x = Number(xInput.value);
+      const mean = Number(meanInput.value);
+      const sd = Number(sdInput.value);
+      if (sd <= 0) {
+        result.textContent = 'σ ต้องมากกว่า 0';
+        return;
+      }
+      const p = normCdf(x, mean, sd);
+      result.textContent = `P(X ≤ ${x.toFixed(2)}) ≈ ${p.toFixed(4)}`;
+    });
+  </script>
+</body>
+</html>

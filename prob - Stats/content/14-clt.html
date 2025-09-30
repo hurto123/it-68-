@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14. การแจกแจงตัวอย่างและทฤษฎีบทขีดจำกัดกลาง</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 14</p>
+      <h1>การแจกแจงตัวอย่างและทฤษฎีบทขีดจำกัดกลาง</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="13-t-chi2-f.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="15-sampling-other-stats.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>อธิบายความแตกต่างระหว่างการแจกแจงประชากรและการแจกแจงของสถิติ</li>
+        <li>เข้าใจเงื่อนไขและผลลัพธ์ของทฤษฎีบทขีดจำกัดกลาง (CLT)</li>
+        <li>คำนวณค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐานของค่าเฉลี่ยตัวอย่าง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>นิยาม sampling distribution และ standard error</li>
+        <li>CLT: μ<sub>\bar{x}</sub> = μ, σ<sub>\bar{x}</sub> = σ/√n</li>
+        <li>การใช้งานกับการประมาณความน่าจะเป็น</li>
+        <li>ซิมูเลชันแสดงการลู่เข้า (ใช้ worker)</li>
+        <li>ข้อจำกัด: n เล็ก, ประชากรเบ้จัด</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ซิมูเลชันจากข้อมูล <code>clt_heights.csv</code> ผ่าน <code>clt.worker.js</code></li>
+        <li>แบบฝึกหาความน่าจะเป็นของค่าเฉลี่ยจาก n=36</li>
+        <li>คำถามเชื่อมโยงกับการออกแบบการทดลอง: ต้องการ n เท่าไรเพื่อให้ SE เล็ก</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>ภาพเปรียบเทียบ histogram ของประชากร vs sampling distribution</li>
+        <li>สูตร standard error พร้อมตัวอย่างแทนค่า</li>
+        <li>ไทม์ไลน์แสดงการลด SE เมื่อ n เพิ่ม</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ปุ่มเปิดซิมูเลเตอร์ <a href="../tools/clt-demo.html">(เพิ่มในภายหลัง)</a> หรือใช้ worker visualization</li>
+        <li>เชื่อมต่อไปบท <a href="16-ci-intro.html">ช่วงความเชื่อมั่น</a> และ <a href="23-hypothesis-intro.html">การทดสอบสมมติฐาน</a></li>
+        <li>ลิงก์หน้าทบทวน <a href="review/review-03-clt-sampling.html">CLT &amp; Sampling</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>29. การทดสอบความแปรปรวนกลุ่มเดียว</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 29</p>
+      <h1>การทดสอบความแปรปรวนกลุ่มเดียว</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="28-test-proportions-twopop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="30-test-variance-ratio.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ใช้การแจกแจง χ² เพื่อทดสอบความแปรปรวนเทียบกับค่ามาตรฐาน</li>
+        <li>คำนวณ test statistic χ² = (n−1)s²/σ₀² และเปรียบเทียบกับขอบเขต</li>
+        <li>ตีความผลทดสอบในบริบทควบคุมคุณภาพ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>เงื่อนไขการใช้ (normality, n ≥ 10)</li>
+        <li>สูตร test statistic และพื้นที่หาง</li>
+        <li>ตัวอย่างการตรวจความสม่ำเสมอของกระบวนการ</li>
+        <li>การสื่อสารผลลัพธ์ที่ไม่สมมาตร</li>
+        <li>เชื่อมกับการออกแบบเกณฑ์ SPC</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกใช้ข้อมูล <code>qc_defects.csv</code></li>
+        <li>กิจกรรมฝึกอ่านตาราง χ²</li>
+        <li>แบบฝึกเปรียบเทียบกับ CI ความแปรปรวน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กราฟ χ² พร้อมพื้นที่หางซ้าย/ขวา</li>
+        <li>ตัวอย่างการคำนวณทีละขั้น</li>
+        <li>กล่องเตือน: n−1 ในตัวเศษ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/chi2.html">Chi-square calculator</a></li>
+        <li>เชื่อมกับบท <a href="22-ci-variance.html">CI ความแปรปรวน</a> และ <a href="30-test-variance-ratio.html">F test</a></li>
+        <li>ชวนอ่าน <a href="review/review-05-hypothesis.html">Hypothesis review</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

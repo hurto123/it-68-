@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Regression Playground</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Tool</p>
+      <h1>Regression Playground</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>อัปโหลดข้อมูล</h2>
+      <p>ลากไฟล์ CSV มาวาง หรือเลือกไฟล์ด้านล่าง (ต้องมี header)</p>
+      <input type="file" id="file-input" accept=".csv">
+      <div id="dataset-preview" aria-live="polite"></div>
+    </article>
+    <article class="card">
+      <h2>การตั้งค่าโมเดล</h2>
+      <label>เลือกตัวแปรตาม (Y)
+        <select id="select-y"></select>
+      </label>
+      <label>เลือกตัวแปรอิสระ (X)
+        <select id="select-x" multiple size="6"></select>
+      </label>
+      <button class="primary" id="fit-model">Fit Model</button>
+      <button class="secondary" id="reset-tool">Reset</button>
+      <p class="tagline">ทดลองโหมด MLR ได้โดยเลือกหลายคอลัมน์</p>
+    </article>
+    <article class="card">
+      <h2>ผลลัพธ์เบื้องต้น</h2>
+      <div id="model-summary">
+        <p>ยังไม่มีการคำนวณ แสดงค่าเฉลี่ยและส่วนเบี่ยงเบนของแต่ละตัวแปรเมื่อโหลดข้อมูล</p>
+      </div>
+      <button class="ghost" id="download-csv">Export CSV</button>
+      <button class="ghost" id="download-png">Export PNG</button>
+    </article>
+    <article class="card">
+      <h2>เชื่อมโยงการเรียน</h2>
+      <ul>
+        <li><a href="../content/33-simple-linear-regression.html">บท 33 Simple Linear Regression</a></li>
+        <li><a href="../content/34-multiple-regression.html">บท 34 Multiple Regression</a></li>
+        <li><a href="../content/adv/32-correlation-covariance.html">หัวข้อ Correlation</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const selectX = document.getElementById('select-x');
+    const selectY = document.getElementById('select-y');
+    const preview = document.getElementById('dataset-preview');
+    const summary = document.getElementById('model-summary');
+    let dataset = [];
+
+    function parseCsv(text) {
+      const [headerLine, ...rows] = text.trim().split(/\r?\n/);
+      const headers = headerLine.split(',');
+      const data = rows.map(row => {
+        const values = row.split(',');
+        return headers.reduce((obj, key, idx) => {
+          obj[key] = Number(values[idx]);
+          return obj;
+        }, {});
+      });
+      return { headers, data };
+    }
+
+    function describeColumn(key) {
+      const values = dataset.map(row => Number(row[key])).filter(v => !Number.isNaN(v));
+      if (!values.length) return `${key}: ไม่สามารถคำนวณได้`;
+      const mean = values.reduce((a, b) => a + b, 0) / values.length;
+      const variance = values.reduce((a, b) => a + (b - mean) ** 2, 0) / (values.length - 1);
+      const sd = Math.sqrt(Math.max(variance, 0));
+      return `${key}: mean=${mean.toFixed(3)}, sd=${sd.toFixed(3)}`;
+    }
+
+    fileInput?.addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      const { headers, data } = parseCsv(text);
+      dataset = data;
+      selectX.innerHTML = '';
+      selectY.innerHTML = '';
+      headers.forEach((header) => {
+        const optionX = document.createElement('option');
+        optionX.value = header;
+        optionX.textContent = header;
+        selectX.appendChild(optionX);
+        const optionY = optionX.cloneNode(true);
+        selectY.appendChild(optionY);
+      });
+      preview.textContent = `โหลดคอลัมน์ ${headers.join(', ')} (${data.length} แถว)`;
+      summary.innerHTML = headers.map(describeColumn).map(text => `<p>${text}</p>`).join('');
+    });
+
+    document.getElementById('reset-tool')?.addEventListener('click', () => {
+      dataset = [];
+      selectX.innerHTML = '';
+      selectY.innerHTML = '';
+      preview.textContent = '';
+      summary.innerHTML = '<p>รีเซ็ตแล้ว เลือกไฟล์ใหม่เพื่อเริ่มต้น</p>';
+    });
+
+    document.getElementById('fit-model')?.addEventListener('click', () => {
+      if (!dataset.length) {
+        summary.innerHTML = '<p>กรุณาอัปโหลดข้อมูลก่อน</p>';
+        return;
+      }
+      const yKey = selectY.value;
+      const xKeys = Array.from(selectX.selectedOptions).map(opt => opt.value);
+      summary.innerHTML = `<p>เตรียมฟิตโมเดลสำหรับ ${yKey} บน ${xKeys.join(', ') || '—'}</p><p>เวอร์ชันเต็มจะใช้ web worker คำนวณเมทริกซ์</p>`;
+    });
+  </script>
+</body>
+</html>

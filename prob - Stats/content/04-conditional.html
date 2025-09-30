@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>04. ความน่าจะเป็นมีเงื่อนไขและความเป็นอิสระ</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 04</p>
+      <h1>ความน่าจะเป็นมีเงื่อนไขและความเป็นอิสระ</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="03-probability-basics.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="05-random-variables.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณความน่าจะเป็นแบบมีเงื่อนไขและใช้กฎการคูณได้</li>
+        <li>แยกความแตกต่างระหว่างเหตุการณ์อิสระกับ mutually exclusive</li>
+        <li>ประยุกต์ทฤษฎีบทเบย์กับสถานการณ์ที่พบจริง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>นิยาม P(A|B) และการตีความแบบ tree diagram</li>
+        <li>กฎการคูณ P(A∩B) = P(A)P(B|A)</li>
+        <li>ทฤษฎีบทเบย์และตัวอย่างทดสอบทางการแพทย์</li>
+        <li>ตารางสับเปลี่ยน (contingency table) และการประเมินความเป็นอิสระ</li>
+        <li>ข้อควรระวังการสับสนระหว่าง P(A|B) กับ P(B|A)</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกวาด tree diagram สำหรับปัญหา defect / pass</li>
+        <li>ฝึกเติมตารางสับเปลี่ยนจากข้อมูล <code>chi2_counts.csv</code></li>
+        <li>โจทย์สะท้อนคิด: เมื่อใดควรใช้การสุ่มแบบมีเงื่อนไข</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>Tree diagram พร้อมสีแยกเส้นทาง</li>
+        <li>ตารางเบย์โชว์ prior → likelihood → posterior</li>
+        <li>สูตรตรวจสอบความเป็นอิสระ: P(A∩B) ?= P(A)P(B)</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ปุ่มไป <a href="../tools/chi2-tests.html">Chi-square tool</a> เพื่อประเมินความเป็นอิสระ</li>
+        <li>ลิงก์บท <a href="review/review-02-distributions-blueprint.html">Review distributions</a></li>
+        <li>เชื่อมต่อไป <a href="38-bayes-intro.html">บท Bayes</a> สำหรับการต่อยอด</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

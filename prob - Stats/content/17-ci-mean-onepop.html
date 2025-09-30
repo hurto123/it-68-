@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>17. ช่วงความเชื่อมั่นของค่าเฉลี่ย (กลุ่มเดียว)</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 17</p>
+      <h1>ช่วงความเชื่อมั่นของค่าเฉลี่ย (กลุ่มเดียว)</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="16-ci-intro.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="18-ci-proportion-onepop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>เลือกใช้ Z หรือ t ในการสร้าง CI ค่าเฉลี่ยกลุ่มเดียวได้ถูกต้อง</li>
+        <li>คำนวณ CI ด้วยสูตรและตรวจสอบกับเครื่องมือออนไลน์</li>
+        <li>ตีความผลลัพธ์ในบริบทของปัญหาและรายงานอย่างชัดเจน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สรุปสูตร CI ค่าเฉลี่ยเมื่อ σ รู้/ไม่รู้</li>
+        <li>ตัวอย่างการใช้ t-distribution เมื่อ n เล็ก</li>
+        <li>ขั้นตอนทำงาน: ตรวจเงื่อนไข → เลือก critical value → คำนวณ</li>
+        <li>การสื่อสารผลลัพธ์และข้อจำกัด (สมมติฐาน normal)</li>
+        <li>คำแนะนำเมื่อข้อมูลมี outlier</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ตัวอย่างคุณภาพผลิต: ตรวจค่าเฉลี่ยความยาวชิ้นส่วน</li>
+        <li>แบบฝึกคำนวณ CI ด้วยข้อมูล <code>qc_defects.csv</code> (ใช้ค่าเฉลี่ยต่อชิ้น)</li>
+        <li>งานนำเสนอสั้น: เขียนสรุป CI สำหรับผู้บริหาร</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร CI: x̄ ± z* σ/√n และ x̄ ± t* s/√n</li>
+        <li>แผนภาพไฮไลต์ค่า critical value จากตาราง t</li>
+        <li>ตัวอย่างคำนวณครบขั้นตอนในกล่อง “Worked example”</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไป <a href="../tools/t.html">T calculator</a> และ <a href="../tools/normal-cdf.html">Normal CDF</a></li>
+        <li>เชื่อมต่อบท <a href="25-test-mean-onepop.html">ทดสอบค่าเฉลี่ยกลุ่มเดียว</a></li>
+        <li>ชวนวางแผนด้วย <a href="../tools/power-sample-size.html">Power &amp; Sample size (CI width)</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

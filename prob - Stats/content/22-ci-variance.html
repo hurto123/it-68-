@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>22. ช่วงความเชื่อมั่นของความแปรปรวนและส่วนเบี่ยงเบนมาตรฐาน</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 22</p>
+      <h1>ช่วงความเชื่อมั่นของความแปรปรวนและส่วนเบี่ยงเบนมาตรฐาน</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="21-sample-size.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="23-hypothesis-intro.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>สร้างช่วงความเชื่อมั่นของความแปรปรวนและ SD ด้วยการแจกแจง χ²</li>
+        <li>ตีความช่วงที่ไม่สมมาตรและผลกระทบต่อการตัดสินใจ</li>
+        <li>เชื่อมโยงกับงานควบคุมคุณภาพและการวาง buffer</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตร CI ของความแปรปรวน: ((n−1)s²)/χ²<sub>α/2</sub> ถึง ((n−1)s²)/χ²<sub>1−α/2</sub></li>
+        <li>การแปลงเป็น CI ของ SD (√ช่วง)</li>
+        <li>ตัวอย่างข้อมูลกระบวนการผลิต</li>
+        <li>ข้อควรระวัง: การแจกแจง χ² ไม่สมมาตร → การนำเสนอ</li>
+        <li>แนะนำการใช้ F-distribution สำหรับเปรียบเทียบสองความแปรปรวน</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกคำนวณช่วง SD ของข้อมูล <code>qc_defects.csv</code></li>
+        <li>กิจกรรมตีความช่วงที่กว้างด้านบนมากกว่า</li>
+        <li>โจทย์ต่อเนื่อง: เชื่อมกับการออกแบบเกณฑ์ SPC</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กราฟ χ² highlight พื้นที่หาง</li>
+        <li>ตัวอย่างการแปลง CI ของ variance → SD</li>
+        <li>กล่อง “Pitfall” เรื่องการใช้ n แทน n−1</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไป <a href="../tools/chi2.html">Chi-square calculator</a></li>
+        <li>เชื่อมบท <a href="29-test-variance-onepop.html">ทดสอบความแปรปรวน</a> และ <a href="30-test-variance-ratio.html">F test</a></li>
+        <li>ชวนทบทวน <a href="review/review-05-hypothesis.html">Hypothesis flow</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

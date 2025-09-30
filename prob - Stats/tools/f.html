@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>F Calculator</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Calculator</p>
+      <h1>F distribution</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>พื้นที่ด้านขวา</h2>
+      <label>ค่า F
+        <input id="f-value" type="number" step="0.001" value="3.0">
+      </label>
+      <label>df1
+        <input id="f-df1" type="number" min="1" step="1" value="3">
+      </label>
+      <label>df2
+        <input id="f-df2" type="number" min="1" step="1" value="20">
+      </label>
+      <button class="primary" id="f-calc">คำนวณ</button>
+      <p id="f-cdf"></p>
+    </article>
+    <article class="card">
+      <h2>หา critical value</h2>
+      <label>พื้นที่ทางขวา (α)
+        <input id="f-alpha" type="number" step="0.0001" value="0.05">
+      </label>
+      <label>df1
+        <input id="f-df1-crit" type="number" min="1" step="1" value="3">
+      </label>
+      <label>df2
+        <input id="f-df2-crit" type="number" min="1" step="1" value="20">
+      </label>
+      <button class="primary" id="f-inv">หาค่า F</button>
+      <p id="f-inv-result"></p>
+    </article>
+    <article class="card">
+      <h2>ลิงก์</h2>
+      <ul>
+        <li><a href="../content/adv/35-oneway-anova.html">One-way ANOVA</a></li>
+        <li><a href="../content/30-test-variance-ratio.html">F-test</a></li>
+        <li><a href="../tables/f-table.html">ตาราง F</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    import { fCdf, fInv } from './distributions.js';
+    const fValueInput = document.getElementById('f-value');
+    const df1Input = document.getElementById('f-df1');
+    const df2Input = document.getElementById('f-df2');
+    const cdfOutput = document.getElementById('f-cdf');
+    const alphaInput = document.getElementById('f-alpha');
+    const df1CritInput = document.getElementById('f-df1-crit');
+    const df2CritInput = document.getElementById('f-df2-crit');
+    const invOutput = document.getElementById('f-inv-result');
+
+    document.getElementById('f-calc')?.addEventListener('click', () => {
+      const x = Number(fValueInput.value);
+      const df1 = Number(df1Input.value);
+      const df2 = Number(df2Input.value);
+      if (df1 < 1 || df2 < 1) {
+        cdfOutput.textContent = 'df ต้องมากกว่า 0';
+        return;
+      }
+      const p = 1 - fCdf(x, df1, df2);
+      cdfOutput.textContent = `พื้นที่ด้านขวา ≈ ${p.toFixed(4)}`;
+    });
+
+    document.getElementById('f-inv')?.addEventListener('click', () => {
+      try {
+        const alpha = Number(alphaInput.value);
+        const df1 = Number(df1CritInput.value);
+        const df2 = Number(df2CritInput.value);
+        const critical = fInv(1 - alpha, df1, df2);
+        invOutput.textContent = `F₍crit₎ ≈ ${critical.toFixed(4)}`;
+      } catch (error) {
+        invOutput.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

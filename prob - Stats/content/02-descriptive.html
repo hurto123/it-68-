@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02. หลักการนับและการสรุปเชิงพรรณนา</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 02</p>
+      <h1>หลักการนับและการสรุปเชิงพรรณนา</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="01-intro.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="03-probability-basics.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ใช้หลักการนับ (หลักบวกลบ, จัดหมู่, จัดเรียง) เพื่อวิเคราะห์จำนวนเหตุการณ์</li>
+        <li>สรุปข้อมูลด้วยตารางแจกแจง ความถี่สะสม และสถิติสรุปเบื้องต้น</li>
+        <li>อ่านและตีความแผนภาพสรุปข้อมูลได้ถูกต้อง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>หลักบวกและหลักคูณสำหรับการนับเหตุการณ์</li>
+        <li>แฟกทอเรียล การจัดหมู่ (Combination) และการจัดเรียง (Permutation)</li>
+        <li>การสร้างตารางแจกแจงความถี่และสถิติพรรณนา (ค่าเฉลี่ย มัธยฐาน ฯลฯ)</li>
+        <li>แผนภาพฮิสโตแกรม เส้นโค้งสะสม และสรุปเชิงภาพ</li>
+        <li>ข้อควรระวังเรื่องการปัดเศษและการเลือกชั้นข้อมูล</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ตัวอย่างการนับรหัสผ่าน 3 ตัวอักษรผสมตัวเลข</li>
+        <li>ฝึกสร้างตารางแจกแจงจากข้อมูล <code>qc_defects.csv</code></li>
+        <li>โจทย์เลือกคณะ/วิชา: ฝึกใช้คอมบิเนชันและเพอร์มิวเตชัน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตรแฟกทอเรียล <code>n!</code>, Combination <code>\binom{n}{r}</code>, Permutation <code>^{n}P_{r}</code></li>
+        <li>ตัวอย่างแผนภาพต้น-ใบ และฮิสโตแกรมพร้อมคำอธิบาย</li>
+        <li>กล่องข้อความเตือน: “เมื่อข้อมูลมี outlier ให้รายงานค่ามัธยฐาน”</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไปบท <a href="05-random-variables.html">ตัวแปรสุ่ม</a> เพื่อเตรียมเชื่อมกับการแจกแจง</li>
+        <li>เชื่อมกับ <a href="../tools/z.html">เครื่องคิด Z</a> สำหรับการหาค่าเปอร์เซ็นไทล์ในบทถัดไป</li>
+        <li>แนะนำหน้าทบทวน <a href="review/review-01-foundation.html">Foundations</a> เพื่อทบทวนสัญลักษณ์การนับ</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12. ค่า Z-score และตารางมาตรฐาน</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 12</p>
+      <h1>ค่า Z-score และตารางมาตรฐาน</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="11-continuous-normal.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="13-t-chi2-f.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>แปลงข้อมูลสู่ค่า Z-score และตีความความหมาย</li>
+        <li>ใช้ตาราง Z และเครื่องคิดในการหาพื้นที่ใต้โค้ง</li>
+        <li>แก้ปัญหาความน่าจะเป็นแบบช่วงและแบบเกณฑ์ตัดสิน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตร Z = (X − μ) / σ และการตีความ</li>
+        <li>วิธีอ่านตาราง Z แบบพื้นที่ซ้าย/ขวา</li>
+        <li>ตัวอย่างหาเปอร์เซ็นไทล์และกำหนดเกณฑ์คุณภาพ</li>
+        <li>การกลับสูตรเพื่อหาค่า X จากพื้นที่</li>
+        <li>เคล็ดลับเมื่อใช้เครื่องคิด Normal CDF</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>โจทย์หา cutoff คะแนนสอบเพื่อรับทุน</li>
+        <li>แบบฝึกหาความน่าจะเป็นสองด้านและด้านเดียว</li>
+        <li>ฝึกอ่านตาราง Z ผ่านควิซ interactive</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>ตาราง Z highlight ส่วนที่ใช้บ่อย</li>
+        <li>แผนภาพ shaded area สำหรับกรณีต่าง ๆ (left/right/two-tail)</li>
+        <li>ตัวอย่าง inverse CDF (หาค่า X จากเปอร์เซ็นไทล์)</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไป <a href="../tools/normal-cdf.html">Normal CDF</a> และ <a href="../tools/z.html">Z calculator</a></li>
+        <li>ปุ่มไป <a href="../tables/z-table.html">Interactive Z-table</a></li>
+        <li>เชื่อมกับบท <a href="16-ci-intro.html">ช่วงความเชื่อมั่น</a> และ <a href="25-test-mean-onepop.html">การทดสอบค่าเฉลี่ย</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

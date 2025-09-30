@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>06. ค่าคาดหมาย ความแปรปรวน และส่วนเบี่ยงเบนมาตรฐาน</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 06</p>
+      <h1>ค่าคาดหมาย ความแปรปรวน และส่วนเบี่ยงเบนมาตรฐาน</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="05-random-variables.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="07-discrete-uniform.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณค่าคาดหมาย ความแปรปรวน และส่วนเบี่ยงเบนมาตรฐานของตัวแปรสุ่มได้</li>
+        <li>ใช้สูตรลัด Var(X) = E[X²] − (E[X])² เพื่อลดเวลาคำนวณ</li>
+        <li>ตีความความหมายทางธุรกิจของค่ากระจายและการจัดการความเสี่ยง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>นิยาม E[X], Var(X), SD(X) และคุณสมบัติ</li>
+        <li>ขั้นตอนการคำนวณสำหรับ PMF และ PDF</li>
+        <li>สูตรลัด variance และการประยุกต์กับการแจกแจงจริง</li>
+        <li>ความหมายเชิงธุรกิจ: ความแปรปรวนสูง → ความเสี่ยงสูง</li>
+        <li>สรุปข้อผิดพลาดที่พบบ่อย</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>ตารางคำนวณ E[X] และ Var(X) จากข้อมูล <code>lln.csv</code></li>
+        <li>แบบฝึกใช้สูตรลัดกับการแจกแจงไม่ต่อเนื่อง 3 ค่า</li>
+        <li>Discussion: ใช้ SD ในการวาง buffer สินค้าคงคลัง</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>กล่องสูตร: E[X] = Σx·p(x), Var(X) = Σ(x−μ)²p(x)</li>
+        <li>ตัวอย่างการแปลงข้อมูลเพื่อหาค่า z-score เบื้องต้น</li>
+        <li>กราฟแสดงผลกระทบของการเพิ่มความแปรปรวนต่อการกระจาย</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไปเครื่องมือ <a href="../tools/z.html">Z calculator</a> และ <a href="../tools/t.html">T calculator</a></li>
+        <li>เชื่อมกับบท <a href="14-clt.html">CLT</a> และ <a href="21-sample-size.html">การวางแผนตัวอย่าง</a></li>
+        <li>ปุ่มแนะนำหน้า <a href="review/review-03-clt-sampling.html">Review CLT &amp; Sampling</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

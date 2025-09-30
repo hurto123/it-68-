@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>16. โครงสร้างช่วงความเชื่อมั่น</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 16</p>
+      <h1>โครงสร้างช่วงความเชื่อมั่น</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="15-sampling-other-stats.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="17-ci-mean-onepop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>เข้าใจโครงสร้างของ CI = ค่าประมาณ ± ค่าคงที่วิกฤติ × SE</li>
+        <li>ตีความความหมายของระดับความเชื่อมั่นและความไม่แน่นอน</li>
+        <li>วางแผนเพื่อปรับปรุงความกว้างของช่วงโดยการเพิ่ม n หรือปรับระดับเชื่อมั่น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สัญชาตญาณของ CI ผ่านแอนิเมชันสุ่มตัวอย่างหลายครั้ง</li>
+        <li>สูตรโครงสร้างทองคำและการเลือก critical value</li>
+        <li>ผลของขนาดตัวอย่างและส่วนเบี่ยงเบนมาตรฐานต่อความกว้าง</li>
+        <li>การรายงานผล CI อย่างมีความหมาย</li>
+        <li>ข้อควรระวังการตีความผิด (CI ไม่ใช่ความน่าจะเป็นของพารามิเตอร์)</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แสดงชุดตัวอย่าง 30 ชุดพร้อม CI ที่ครอบคลุมและไม่ครอบคลุม</li>
+        <li>แบบฝึกคำนวณ CI ด้วยมือและตรวจสอบด้วยเครื่องมือ</li>
+        <li>Discussion: ควรเลือก CL = 90%, 95%, หรือ 99% ในบริบทใด</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร CI ทั่วไป พร้อมตาราง mapping critical value (Z, t)</li>
+        <li>แผนภาพแสดงผลของการเพิ่ม n ต่อความกว้างช่วง</li>
+        <li>ข้อความเตือนเรื่องความเข้าใจผิดของ CI</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ลิงก์ไป <a href="../tools/power-sample-size.html">เครื่องมือ Power/MDE</a> เพื่อวางแผน CI width</li>
+        <li>เชื่อมต่อบทเฉพาะ <a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ย</a>, <a href="18-ci-proportion-onepop.html">CI สัดส่วน</a></li>
+        <li>ชวนทบทวน <a href="review/review-04-estimation.html">Estimation quick review</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

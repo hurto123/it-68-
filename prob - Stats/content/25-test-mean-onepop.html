@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>25. การทดสอบค่าเฉลี่ยกลุ่มเดียว</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 25</p>
+      <h1>การทดสอบค่าเฉลี่ยกลุ่มเดียว</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="24-critical-vs-pvalue.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="26-test-proportion-onepop.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>ระบุสถานการณ์ที่เหมาะกับ Z-test หรือ t-test สำหรับค่าเฉลี่ยกลุ่มเดียว</li>
+        <li>คำนวณ test statistic และ p-value สำหรับการทดสอบด้านเดียวและสองด้าน</li>
+        <li>แปลผลลัพธ์และรายงานข้อสรุปพร้อมความเชื่อมั่น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>ตรวจเงื่อนไข: ความรู้ σ, ขนาดตัวอย่าง, สมมติฐาน normal</li>
+        <li>สูตร test statistic Z และ t</li>
+        <li>ตัวอย่างการทดสอบค่าเฉลี่ยความยาว/คะแนน</li>
+        <li>การสื่อสารผลลัพธ์และข้อควรระวัง</li>
+        <li>บทนำสู่ effect size (Cohen's d)</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกจากข้อมูล <code>qc_defects.csv</code> ตรวจค่ามาตรฐาน</li>
+        <li>กิจกรรมวิเคราะห์ effect size และสรุปสำหรับผู้บริหาร</li>
+        <li>แบบฝึกฝนใช้เครื่องมือ <a href="../tools/t.html">T calculator</a></li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>สูตร Z = (x̄ − μ₀)/(σ/√n) และ t = (x̄ − μ₀)/(s/√n)</li>
+        <li>กราฟแสดงพื้นที่ p-value สำหรับ one-/two-tailed</li>
+        <li>กล่องสรุปค่า effect size</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/t.html">T calculator</a> และ <a href="../tools/power-sample-size.html">Power planner</a></li>
+        <li>เชื่อมกับบท <a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ย</a> และ <a href="27-test-means-twopop.html">ทดสอบสองค่าเฉลี่ย</a></li>
+        <li>ลิงก์หน้าทบทวน <a href="review/review-06-case-one-sample.html">One-sample case</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

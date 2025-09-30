@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>21. การวางแผนขนาดตัวอย่าง</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 21</p>
+      <h1>การวางแผนขนาดตัวอย่าง</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="20-ci-proportions-twopop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="22-ci-variance.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณขนาดตัวอย่างสำหรับค่าเฉลี่ยและสัดส่วนให้ได้ความกว้างช่วงที่ต้องการ</li>
+        <li>เชื่อมโยงความสัมพันธ์ระหว่าง n, σ หรือ p, ระดับเชื่อมั่น และความคลาด</li>
+        <li>นำเสนอแผน n ต่อผู้มีส่วนเกี่ยวข้องพร้อมสมมติฐานประกอบ</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตร n สำหรับค่าเฉลี่ย (รู้/ไม่รู้ σ)</li>
+        <li>สูตร n สำหรับสัดส่วน และการประมาณ p เริ่มต้น</li>
+        <li>ผลของ finite population correction</li>
+        <li>การใช้เครื่องมือ Power/MDE เพื่อ iterate</li>
+        <li>Checklist การสื่อสารแผนตัวอย่าง</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกกำหนด n สำหรับการสำรวจความพึงพอใจระดับจังหวัด</li>
+        <li>กรณีศึกษา A/B test: เลือก n ให้จับ MDE ที่ต้องการ</li>
+        <li>การบ้าน: สร้างเอกสารสรุปแผนตัวอย่างพร้อมสมมติฐาน</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>ตารางสูตร n สำหรับค่าเฉลี่ยและสัดส่วน</li>
+        <li>กราฟแสดงความสัมพันธ์ระหว่าง n และ margin of error</li>
+        <li>ไดอะแกรมการตัดสินใจเลือกระดับความเชื่อมั่น</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/power-sample-size.html">Power &amp; Sample size</a> ครบทุกโหมด</li>
+        <li>เชื่อมกับบท <a href="23-hypothesis-intro.html">Hypothesis testing</a> และ <a href="25-test-mean-onepop.html">การทดสอบ</a></li>
+        <li>ปุ่มไป <a href="review/review-08-choosing-tool.html">Decision map ย่อ</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

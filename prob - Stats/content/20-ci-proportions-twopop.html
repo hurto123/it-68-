@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>20. ช่วงความเชื่อมั่นของผลต่างสัดส่วนสองกลุ่ม</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="lesson">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">บทที่ 20</p>
+      <h1>ช่วงความเชื่อมั่นของผลต่างสัดส่วนสองกลุ่ม</h1>
+    </div>
+    <nav class="header-actions">
+      <button class="ghost" data-prev="19-ci-means-twopop.html">บทก่อนหน้า</button>
+      <button class="ghost" data-next="21-sample-size.html">บทถัดไป</button>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <section class="card">
+      <h2>วัตถุประสงค์การเรียนรู้</h2>
+      <ul>
+        <li>คำนวณ CI สำหรับ p̂₁ − p̂₂ ด้วยสูตรมาตรฐาน</li>
+        <li>ประเมินเงื่อนไขการใช้ (n·p̂ ≥ 10) สำหรับทั้งสองกลุ่ม</li>
+        <li>ตีความช่วงผลต่างเพื่อสนับสนุนการตัดสินใจ เช่น A/B test</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>โครงหน้าบทเรียน</h2>
+      <ol>
+        <li>สูตร CI: (p̂₁ − p̂₂) ± z* √(p̂₁(1−p̂₁)/n₁ + p̂₂(1−p̂₂)/n₂)</li>
+        <li>ตัวอย่างการตลาด: เปรียบเทียบ conversion rate สองหน้า</li>
+        <li>การสร้างกราฟสรุปช่วงและความแตกต่างอย่างมีนัยสำคัญ</li>
+        <li>การพิจารณา continuity correction (กล่าวถึง)</li>
+        <li>การใช้ bootstrap เมื่อเงื่อนไขไม่ผ่าน</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>ตัวอย่าง &amp; แบบฝึก</h2>
+      <ul>
+        <li>แบบฝึกคำนวณจาก <code>ab_test.csv</code> พร้อมเปรียบเทียบกับผลจากเครื่องมือ</li>
+        <li>กิจกรรม “เหตุผลประกอบ” ให้ผู้เรียนเขียนสรุปการตัดสินใจ</li>
+        <li>อภิปรายปัญหาเมื่อขนาดตัวอย่างไม่สมดุล</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>สูตร/ภาพที่ต้องมี</h2>
+      <ul>
+        <li>ตารางสรุปกรณีขนาดตัวอย่างเท่ากัน/ไม่เท่ากัน</li>
+        <li>กราฟ error bar เปรียบเทียบสองกลุ่ม</li>
+        <li>ภาพเชื่อมโยงกับการทดสอบสองสัดส่วน (บท 28)</li>
+      </ul>
+    </section>
+    <section class="card">
+      <h2>วิดเจ็ต &amp; การเชื่อมโยง</h2>
+      <ul>
+        <li>ใช้ <a href="../tools/power-sample-size.html">Power tool</a> ในโหมด two-proportion</li>
+        <li>เชื่อมกับบท <a href="28-test-proportions-twopop.html">การทดสอบสองสัดส่วน</a></li>
+        <li>ชวนศึกษาต่อที่ <a href="review/review-07-case-ab-test.html">A/B case review</a></li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>
