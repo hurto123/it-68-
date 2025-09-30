@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power &amp; Sample Size Planner</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Planner</p>
+      <h1>Power &amp; Sample Size</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>Two-sample t-test (Welch approx)</h2>
+      <div class="grid">
+        <label>Δ (ต่างค่าเฉลี่ย)
+          <input id="mean-delta" type="number" step="0.01" value="5">
+        </label>
+        <label>σ₁
+          <input id="sd1" type="number" step="0.01" value="10">
+        </label>
+        <label>σ₂
+          <input id="sd2" type="number" step="0.01" value="10">
+        </label>
+        <label>α
+          <input id="alpha" type="number" step="0.0001" value="0.05">
+        </label>
+        <label>Power เป้าหมาย
+          <input id="power" type="number" step="0.01" value="0.8">
+        </label>
+      </div>
+      <button class="primary" id="calc-ttest">คำนวณขนาดตัวอย่าง (ต่อกลุ่ม)</button>
+      <p id="ttest-result" class="tagline"></p>
+    </article>
+    <article class="card">
+      <h2>Two-proportion z-test</h2>
+      <div class="grid">
+        <label>p₁ (baseline)
+          <input id="p1" type="number" step="0.001" value="0.2">
+        </label>
+        <label>p₂ (target)
+          <input id="p2" type="number" step="0.001" value="0.25">
+        </label>
+        <label>α
+          <input id="prop-alpha" type="number" step="0.0001" value="0.05">
+        </label>
+        <label>Power
+          <input id="prop-power" type="number" step="0.01" value="0.8">
+        </label>
+      </div>
+      <button class="primary" id="calc-prop">คำนวณขนาดตัวอย่าง</button>
+      <p id="prop-result" class="tagline"></p>
+    </article>
+    <article class="card">
+      <h2>MDE จากขนาดตัวอย่าง</h2>
+      <div class="grid">
+        <label>n ต่อกลุ่ม
+          <input id="mde-n" type="number" step="1" value="100">
+        </label>
+        <label>σ (หรือ pooled σ)
+          <input id="mde-sd" type="number" step="0.01" value="12">
+        </label>
+        <label>α
+          <input id="mde-alpha" type="number" step="0.0001" value="0.05">
+        </label>
+        <label>Power
+          <input id="mde-power" type="number" step="0.01" value="0.8">
+        </label>
+      </div>
+      <button class="primary" id="calc-mde">คำนวณ MDE</button>
+      <p id="mde-result" class="tagline"></p>
+    </article>
+    <article class="card">
+      <h2>คู่มือใช้งาน</h2>
+      <ul>
+        <li>Two-sample t-test ใช้สูตร Welch โดยประมาณ → ปรับ σ₁, σ₂ เพื่อดูผลต่อ n</li>
+        <li>Two-proportion z-test รองรับ baseline ≠ target และใช้ pooled variance</li>
+        <li>MDE แสดงผลต่างขั้นต่ำที่ตรวจจับได้ (two-sided)</li>
+        <li>สำหรับโหมดอื่น (paired, non-inferiority, power curve) ดู roadmap ในบท 27–39</li>
+      </ul>
+      <p>ศึกษาเพิ่ม: <a href="../content/21-sample-size.html">บท 21</a>, <a href="../content/27-test-means-twopop.html">บท 27</a>, <a href="../content/review/review-07-case-ab-test.html">รีวิว A/B</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    import { normInv } from './distributions.js';
+
+    function requiredNMean(delta, sd1, sd2, alpha, power) {
+      const zAlpha = normInv(1 - alpha / 2);
+      const zPower = normInv(power);
+      const pooled = Math.sqrt(sd1 * sd1 + sd2 * sd2);
+      return Math.ceil(((zAlpha + zPower) * pooled / delta) ** 2);
+    }
+
+    function requiredNProp(p1, p2, alpha, power) {
+      const zAlpha = normInv(1 - alpha / 2);
+      const zPower = normInv(power);
+      const diff = Math.abs(p2 - p1);
+      const pooled = p1 * (1 - p1) + p2 * (1 - p2);
+      return Math.ceil(2 * ((zAlpha * Math.sqrt(pooled / 2) + zPower * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2) - pooled / 2)) / diff) ** 2);
+    }
+
+    function mdeFromN(n, sd, alpha, power) {
+      const zAlpha = normInv(1 - alpha / 2);
+      const zPower = normInv(power);
+      return (zAlpha + zPower) * sd * Math.sqrt(2 / n);
+    }
+
+    document.getElementById('calc-ttest')?.addEventListener('click', () => {
+      try {
+        const delta = Number(document.getElementById('mean-delta').value);
+        const sd1 = Number(document.getElementById('sd1').value);
+        const sd2 = Number(document.getElementById('sd2').value);
+        const alpha = Number(document.getElementById('alpha').value);
+        const power = Number(document.getElementById('power').value);
+        const n = requiredNMean(Math.abs(delta), sd1, sd2, alpha, power);
+        document.getElementById('ttest-result').textContent = `n ต่อกลุ่ม ≈ ${n} (รวม ${n * 2})`;
+      } catch (error) {
+        document.getElementById('ttest-result').textContent = error.message;
+      }
+    });
+
+    document.getElementById('calc-prop')?.addEventListener('click', () => {
+      try {
+        const p1 = Number(document.getElementById('p1').value);
+        const p2 = Number(document.getElementById('p2').value);
+        const alpha = Number(document.getElementById('prop-alpha').value);
+        const power = Number(document.getElementById('prop-power').value);
+        const n = requiredNProp(p1, p2, alpha, power);
+        document.getElementById('prop-result').textContent = `n ต่อกลุ่ม ≈ ${n}`;
+      } catch (error) {
+        document.getElementById('prop-result').textContent = error.message;
+      }
+    });
+
+    document.getElementById('calc-mde')?.addEventListener('click', () => {
+      try {
+        const n = Number(document.getElementById('mde-n').value);
+        const sd = Number(document.getElementById('mde-sd').value);
+        const alpha = Number(document.getElementById('mde-alpha').value);
+        const power = Number(document.getElementById('mde-power').value);
+        const mde = mdeFromN(n, sd, alpha, power);
+        document.getElementById('mde-result').textContent = `MDE ≈ ${mde.toFixed(3)} หน่วย`;
+      } catch (error) {
+        document.getElementById('mde-result').textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

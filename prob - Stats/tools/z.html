@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Z Calculator</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Calculator</p>
+      <h1>Z distribution</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>คำนวณพื้นที่</h2>
+      <label>ค่า z
+        <input id="z-value" type="number" step="0.01" value="1.96">
+      </label>
+      <button class="primary" id="calc-cdf">หาพื้นที่ (P(Z ≤ z))</button>
+      <p id="cdf-result"></p>
+    </article>
+    <article class="card">
+      <h2>หาค่า z จากพื้นที่</h2>
+      <label>พื้นที่ (0-1)
+        <input id="p-value" type="number" step="0.0001" value="0.975">
+      </label>
+      <button class="primary" id="calc-inv">หาค่า z</button>
+      <p id="inv-result"></p>
+    </article>
+    <article class="card">
+      <h2>ลิงก์ที่เกี่ยวข้อง</h2>
+      <ul>
+        <li><a href="../content/12-standard-normal-z.html">บท 12 Z-score</a></li>
+        <li><a href="../content/16-ci-intro.html">บท 16 CI</a></li>
+        <li><a href="../tables/z-table.html">ตาราง Z</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    import { normCdf, normInv } from './distributions.js';
+    const zInput = document.getElementById('z-value');
+    const pInput = document.getElementById('p-value');
+    const cdfResult = document.getElementById('cdf-result');
+    const invResult = document.getElementById('inv-result');
+
+    document.getElementById('calc-cdf')?.addEventListener('click', () => {
+      const z = Number(zInput.value);
+      const p = normCdf(z);
+      cdfResult.textContent = `P(Z ≤ ${z.toFixed(2)}) ≈ ${p.toFixed(4)}`;
+    });
+
+    document.getElementById('calc-inv')?.addEventListener('click', () => {
+      try {
+        const p = Number(pInput.value);
+        const z = normInv(p);
+        invResult.textContent = `z ≈ ${z.toFixed(4)}`;
+      } catch (error) {
+        invResult.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

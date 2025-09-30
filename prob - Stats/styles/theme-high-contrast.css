@@ -1,0 +1,21 @@
+:root {
+  --color-background: #000;
+  --color-surface: #111;
+  --color-surface-strong: #222;
+  --color-text: #fff;
+  --color-text-muted: #e2e8f0;
+  --color-accent: #ffd60a;
+  --color-accent-strong: #ffc300;
+}
+
+body {
+  background: #000;
+}
+
+.card {
+  border: 2px solid #fff;
+}
+
+.primary {
+  color: #111;
+}

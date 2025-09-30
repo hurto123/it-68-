@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi-square Tests</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Tool</p>
+      <h1>Chi-square GoF &amp; Independence</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>Goodness-of-fit</h2>
+      <label>Observed (คั่นด้วยจุลภาค)
+        <input id="gof-observed" placeholder="20, 25, 30">
+      </label>
+      <label>Expected (ทศนิยมได้)
+        <input id="gof-expected" placeholder="22.5, 22.5, 30">
+      </label>
+      <button class="primary" id="gof-calc">คำนวณ</button>
+      <div id="gof-output"></div>
+    </article>
+    <article class="card">
+      <h2>Independence (ตารางไขว้)</h2>
+      <textarea id="ind-table" rows="6" placeholder="10, 20\n15, 25"></textarea>
+      <button class="primary" id="ind-calc">คำนวณ</button>
+      <div id="ind-output"></div>
+    </article>
+    <article class="card">
+      <h2>เชื่อมโยงบทเรียน</h2>
+      <ul>
+        <li><a href="../content/adv/36-chi2-gof-independence.html">บทเชิงลึก</a></li>
+        <li><a href="../content/23-hypothesis-intro.html">บทนำการทดสอบสมมติฐาน</a></li>
+        <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script>
+    function parseSeries(text) {
+      return text.split(/[,\s]+/).map(Number).filter(v => !Number.isNaN(v));
+    }
+    function chiSquare(observed, expected) {
+      if (observed.length !== expected.length) throw new Error('จำนวนค่าต้องเท่ากัน');
+      const stat = observed.reduce((acc, obs, idx) => acc + ((obs - expected[idx]) ** 2) / expected[idx], 0);
+      return { stat, df: observed.length - 1 };
+    }
+
+    document.getElementById('gof-calc')?.addEventListener('click', () => {
+      try {
+        const observed = parseSeries(document.getElementById('gof-observed').value);
+        const expected = parseSeries(document.getElementById('gof-expected').value);
+        const result = chiSquare(observed, expected);
+        document.getElementById('gof-output').innerHTML = `<p>χ² = ${result.stat.toFixed(3)}, df = ${result.df}</p>`;
+      } catch (error) {
+        document.getElementById('gof-output').textContent = error.message;
+      }
+    });
+
+    document.getElementById('ind-calc')?.addEventListener('click', () => {
+      try {
+        const rows = document.getElementById('ind-table').value.trim().split(/\n+/);
+        const matrix = rows.map(row => parseSeries(row));
+        const rowTotals = matrix.map(row => row.reduce((a, b) => a + b, 0));
+        const colTotals = matrix[0].map((_, col) => matrix.reduce((acc, row) => acc + row[col], 0));
+        const grand = rowTotals.reduce((a, b) => a + b, 0);
+        let chi2 = 0;
+        matrix.forEach((row, i) => {
+          row.forEach((value, j) => {
+            const expected = (rowTotals[i] * colTotals[j]) / grand;
+            chi2 += ((value - expected) ** 2) / expected;
+          });
+        });
+        const df = (matrix.length - 1) * (matrix[0].length - 1);
+        document.getElementById('ind-output').innerHTML = `<p>χ² = ${chi2.toFixed(3)}, df = ${df}</p>`;
+      } catch (error) {
+        document.getElementById('ind-output').textContent = 'รูปแบบข้อมูลไม่ถูกต้อง';
+      }
+    });
+  </script>
+</body>
+</html>

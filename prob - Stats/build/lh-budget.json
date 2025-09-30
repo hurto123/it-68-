@@ -1,0 +1,9 @@
+{
+  "resourceSizes": [
+    { "resourceType": "script", "budget": 350 },
+    { "resourceType": "stylesheet", "budget": 200 }
+  ],
+  "resourceCounts": [
+    { "resourceType": "third-party", "budget": 0 }
+  ]
+}

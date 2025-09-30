@@ -1,0 +1,9 @@
+{
+  "mu": {"symbol": "μ", "meaning": "ค่าเฉลี่ยประชากร", "link": "content/16-ci-intro.html"},
+  "sigma": {"symbol": "σ", "meaning": "ส่วนเบี่ยงเบนมาตรฐานประชากร", "link": "content/22-ci-variance.html"},
+  "xbar": {"symbol": "x̄", "meaning": "ค่าเฉลี่ยตัวอย่าง", "link": "content/14-clt.html"},
+  "p": {"symbol": "p", "meaning": "สัดส่วนประชากร", "link": "content/18-ci-proportion-onepop.html"},
+  "phat": {"symbol": "p̂", "meaning": "สัดส่วนตัวอย่าง", "link": "content/20-ci-proportions-twopop.html"},
+  "alpha": {"symbol": "α", "meaning": "ระดับนัยสำคัญ", "link": "content/23-hypothesis-intro.html"},
+  "beta": {"symbol": "β", "meaning": "ความน่าจะเป็นความผิดพลาดประเภท II", "link": "tools/power-sample-size.html"}
+}
