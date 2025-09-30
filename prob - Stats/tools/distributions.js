@@ -127,10 +127,33 @@ function regularizedIncompleteBeta(x, a, b) {
   return 1 - regularizedIncompleteBeta(1 - x, b, a);
 }
 
+function simpsonIntegral(fn, a, b, steps = 2048) {
+  if (b <= a) return 0;
+  let n = Math.max(2, steps);
+  if (n % 2 === 1) n += 1;
+  const h = (b - a) / n;
+  let sum = fn(a) + fn(b);
+  for (let i = 1; i < n; i++) {
+    const x = a + i * h;
+    sum += fn(x) * (i % 2 === 0 ? 2 : 4);
+  }
+  return (h / 3) * sum;
+}
+
 export function studentTCdf(t, df) {
-  const x = df / (df + t * t);
-  const ib = regularizedIncompleteBeta(x, df / 2, 0.5);
-  return t >= 0 ? 1 - 0.5 * ib : 0.5 * ib;
+  if (!Number.isFinite(t)) {
+    if (Number.isNaN(t)) return NaN;
+    return t > 0 ? 1 : 0;
+  }
+  const nu = df;
+  const coefficient = Math.exp(logGamma((nu + 1) / 2) - logGamma(nu / 2)) / Math.sqrt(nu * Math.PI);
+  const pdf = (x) => coefficient * Math.pow(1 + (x * x) / nu, -(nu + 1) / 2);
+  const upper = Math.abs(t);
+  if (upper === 0) return 0.5;
+  const steps = Math.min(8192, Math.max(200, Math.ceil(upper * 400)));
+  const integral = simpsonIntegral(pdf, 0, upper, steps);
+  const half = Math.min(1, 0.5 + integral);
+  return t >= 0 ? half : 1 - half;
 }
 
 export function studentTInv(p, df) {
@@ -163,8 +186,16 @@ export function chiSquareInv(p, k) {
 }
 
 export function fCdf(x, d1, d2) {
-  const y = (d1 * x) / (d1 * x + d2);
-  return regularizedIncompleteBeta(y, d1 / 2, d2 / 2);
+  if (x <= 0) return 0;
+  const pdf = (value) => {
+    if (value <= 0) return 0;
+    const numerator = Math.pow(d1 * value, d1) * Math.pow(d2, d2);
+    const denominator = Math.pow(d1 * value + d2, d1 + d2);
+    return Math.sqrt(numerator / denominator) / (value * beta(d1 / 2, d2 / 2));
+  };
+  const steps = Math.min(8192, Math.max(400, Math.ceil(x * 200)));
+  const integral = simpsonIntegral(pdf, 0, x, steps);
+  return Math.min(1, Math.max(0, integral));
 }
 
 export function fInv(p, d1, d2) {
