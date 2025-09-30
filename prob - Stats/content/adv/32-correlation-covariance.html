@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Correlation & Covariance</title>
+  <title>32. สหสัมพันธ์ & โควาเรียนซ์</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -15,8 +15,8 @@
 <body data-page="advanced">
   <header class="site-header">
     <div>
-      <p class="eyebrow">หัวข้อขั้นสูง</p>
-      <h1>Correlation & Covariance</h1>
+      <p class="eyebrow">หัวข้อขั้นสูง 32</p>
+      <h1>สหสัมพันธ์ (Correlation) &amp; โควาเรียนซ์ (Covariance)</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
@@ -25,19 +25,46 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ใจความสำคัญ</h2>
+      <h2>ภาพรวมและนิยาม</h2>
       <ul>
-        <li>นิยาม r และ cov พร้อมตัวอย่างภาพ</li>
-        <li>ข้อควรระวังเรื่อง outlier และ nonlinearity</li>
-        <li>การใช้ข้อมูลจริง (cars, signal)</li>
+        <li>โควาเรียนซ์ <strong>cov(X,Y)</strong> วัดทิศทางการเปลี่ยนแปลงร่วมของตัวแปรสองตัว</li>
+        <li>สหสัมพันธ์เชิงเส้นของเพียร์สัน <strong>r</strong> ปรับขนาดโควาเรียนซ์ให้อยู่ระหว่าง −1 ถึง 1</li>
+        <li>ใช้ scatter plot เป็นตัวช่วยมองลักษณะความสัมพันธ์ก่อนตีความตัวเลข</li>
       </ul>
     </article>
     <article class="card">
-      <h2>เครื่องมือที่เกี่ยวข้อง</h2>
+      <h2>สูตรสำคัญ</h2>
       <ul>
-        <li><a href="../../sim/correlation-explorer.html">เปิดซิม correlation</a></li>
-        <li><a href="../../tools/regression-playground.html">Regression playground</a></li>
-        <li><a href="../../data/corr_signal.csv">ดาวน์โหลดข้อมูล signal</a></li>
+        <li><code>cov(X,Y) = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})</code></li>
+        <li><code>r = \frac{cov(X,Y)}{s_X s_Y}</code> โดย <code>s_X</code>, <code>s_Y</code> คือส่วนเบี่ยงเบนมาตรฐานของ X,Y</li>
+        <li>สำหรับตัวอย่างสองตัวแปร เราสามารถคำนวณด้วยตารางสรุปรวม (sum of cross product)</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>การตีความระดับค่า r</h2>
+      <ul>
+        <li>|r| &lt; 0.1: ความสัมพันธ์เชิงเส้นแทบไม่มีนัยสำคัญ</li>
+        <li>0.1 ≤ |r| &lt; 0.3: อ่อน ๆ ต้องดูบริบทและขนาดตัวอย่างประกอบ</li>
+        <li>0.3 ≤ |r| &lt; 0.5: ปานกลาง สามารถใช้เป็นสัญญาณเริ่มสร้างแบบจำลอง</li>
+        <li>|r| ≥ 0.5: แข็งแรง แต่ยังต้องตรวจสอบรูปแบบไม่เชิงเส้นหรือ outlier</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ข้อควรระวัง &amp; กรณีตัวอย่าง</h2>
+      <ul>
+        <li><strong>Outlier</strong> จุดเดียวสามารถดึงค่า r ให้สูง/ต่ำผิดธรรมชาติ → ตรวจ residual หรือ IQR</li>
+        <li><strong>Nonlinearity</strong>: ความสัมพันธ์โค้ง (เช่น quadratic) ทำให้ r ใกล้ 0 ทั้งที่มี pattern</li>
+        <li><strong>Spurious correlation</strong>: ความสัมพันธ์หลอกจากตัวแปรแฝง เช่น เวลา/ฤดูกาล</li>
+        <li>ตัวอย่าง: วิเคราะห์ยอดขายกับค่าใช้จ่ายโฆษณารายสัปดาห์ → ดู scatter ก่อนคำนวณ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>การใช้งานจริงและต่อยอด</h2>
+      <ul>
+        <li>สร้าง heatmap ของค่าสหสัมพันธ์สำหรับเลือกตัวแปรใน multiple regression</li>
+        <li>ใช้ Spearman rho หรือ Kendall tau เมื่อตัวแปรมีอันดับหรือไม่แจกแจงปกติ</li>
+        <li>ตรวจสอบความสัมพันธ์ของตัวแปรนำเข้าสำหรับการทำ feature selection หรือ PCA</li>
+        <li><a href="../../sim/correlation-explorer.html">ทดลองบนซิม Correlation Explorer</a></li>
       </ul>
     </article>
   </main>
