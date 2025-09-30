@@ -38,12 +38,27 @@
       <label>Outlier
         <input type="checkbox" id="outlier"> เพิ่มจุดสุดโต่ง
       </label>
-      <button class="secondary" id="reset">Reset ตัวอย่าง</button>
+      <details>
+        <summary>วิธีอ่านผล</summary>
+        <ol>
+          <li>ดูค่า r (tagline) ว่าเพิ่ม/ลดเมื่อปรับ slope และ noise</li>
+          <li>เปิด outlier เพื่อเห็นว่าจุดเดียวสามารถดึง r ได้มากแค่ไหน</li>
+          <li>จำนวนจุดสูงขึ้น → r เสถียรมากขึ้น</li>
+        </ol>
+      </details>
+      <div class="tool-actions">
+        <button class="secondary" id="reset">Reset ตัวอย่าง</button>
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </div>
     </article>
     <article class="card">
       <h2>แผนภาพกระจาย</h2>
-      <canvas id="plot" width="400" height="320" aria-label="แผนภาพกระจาย"></canvas>
+      <canvas id="plot" width="480" height="340" aria-label="แผนภาพกระจาย"></canvas>
       <p id="summary" class="tagline"></p>
+      <footer class="card-footer">
+        <button class="ghost" id="download-csv">Export Points CSV</button>
+        <button class="ghost" id="download-png">Export Plot PNG</button>
+      </footer>
     </article>
     <article class="card">
       <h2>โยงเนื้อหา</h2>
@@ -65,6 +80,11 @@
     const canvas = document.getElementById('plot');
     const ctx = canvas.getContext('2d');
     const summary = document.getElementById('summary');
+    const downloadCsv = document.getElementById('download-csv');
+    const downloadPng = document.getElementById('download-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    let currentPoints = [];
 
     function generateData() {
       const slope = Number(slopeEl.value);
@@ -99,8 +119,21 @@
       return { r: Number.isFinite(r) ? r : 0, meanX, meanY };
     }
 
+    function buildPermalink() {
+      const params = new URLSearchParams();
+      params.set('slope', slopeEl.value);
+      params.set('noise', noiseEl.value);
+      params.set('n', countEl.value);
+      if (outlierEl.checked) params.set('outlier', '1');
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}?${query}`;
+      history.replaceState(null, '', `${window.location.pathname}?${query}`);
+      return url;
+    }
+
     function render() {
       const data = generateData();
+      currentPoints = data;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = 'rgba(14,165,233,0.8)';
       const padding = 30;
@@ -119,6 +152,7 @@
       });
       const { r } = computeCorrelation(data);
       summary.textContent = `r ≈ ${r.toFixed(3)} (slope=${slopeEl.value}, noise=${noiseEl.value})`;
+      buildPermalink();
     }
 
     [slopeEl, noiseEl, countEl, outlierEl].forEach(control => control.addEventListener('input', render));
@@ -130,6 +164,46 @@
       render();
     });
 
+    downloadCsv?.addEventListener('click', () => {
+      if (!currentPoints.length) return;
+      const header = 'x,y';
+      const rows = currentPoints.map(point => `${point.x.toFixed(4)},${point.y.toFixed(4)}`);
+      const blob = new Blob([header + '\n' + rows.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correlation-points.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    downloadPng?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'correlation-plot.png';
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = buildPermalink();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
+      }
+    });
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('slope')) slopeEl.value = params.get('slope');
+      if (params.has('noise')) noiseEl.value = params.get('noise');
+      if (params.has('n')) countEl.value = params.get('n');
+      outlierEl.checked = params.get('outlier') === '1';
+    }
+
+    restoreFromQuery();
     render();
   </script>
 </body>

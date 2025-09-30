@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Decision Map ย่อ</title>
+  <title>รีวิวเลือกเครื่องมือวิเคราะห์</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">สรุปเร็ว</p>
-      <h1>Decision Map ย่อ</h1>
+      <h1>รีวิว Decision Map ฉบับย่อ</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
@@ -25,19 +25,38 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ภาพรวม</h2>
+      <h2>เริ่มจาก 3 คำถาม</h2>
+      <ol>
+        <li><strong>ประเภทข้อมูล?</strong> ตัวเลขต่อเนื่อง, นับได้, หรือจัดลำดับ</li>
+        <li><strong>จำนวนกลุ่ม/ตัวแปร?</strong> 1 กลุ่ม, 2 กลุ่ม, หรือหลายกลุ่ม</li>
+        <li><strong>เป้าหมาย?</strong> อธิบาย/ทำนาย, เปรียบเทียบค่าเฉลี่ย, ตรวจสัดส่วน, หรือทดสอบความสัมพันธ์</li>
+      </ol>
+    </article>
+    <article class="card">
+      <h2>สรุปเลือกวิธีเร็ว</h2>
       <ul>
-        <li>แผนผังเลือกใช้ CI/Test ตามเป้าหมาย</li>
-        <li>คำถามชี้เป้าว่าควรวัดอะไร</li>
-        <li>ลิงก์ไป calculator และบทที่เกี่ยว</li>
+        <li><strong>1 กลุ่ม</strong>: Mean → t/Z test & CI, Proportion → Z, Variance → χ²</li>
+        <li><strong>2 กลุ่มอิสระ</strong>: Mean → t-test (Pooled/Welch), Proportion → Z, Variance → F</li>
+        <li><strong>กลุ่มพึ่งพา</strong>: ใช้ paired t-test หรือ McNemar (ถ้าข้อมูล 0/1)</li>
+        <li><strong>มากกว่า 2 กลุ่ม</strong>: ANOVA, χ² test of independence, Regression</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ทิปส์การเลือกเครื่องมือ</h2>
+      <ul>
+        <li>เช็กสมมติฐานทุกครั้ง: ปกติ, ความเท่ากันของความแปรปรวน, ความเป็นอิสระ</li>
+        <li>ถ้าเงื่อนไขไม่ผ่าน ให้พิจารณา non-parametric หรือ bootstrap</li>
+        <li>สำหรับข้อมูลเชิงเวลา ให้คำนึงถึงการพึ่งพา (auto-correlation)</li>
+        <li>ใช้ visualization (boxplot, heatmap) เพื่อประกอบการตัดสินใจ</li>
       </ul>
     </article>
     <article class="card">
       <h2>ปุ่มลัด</h2>
       <ul>
         <li><a href="../decision-map.html">Decision map แบบเต็ม</a></li>
-        <li><a href="../../index.html">เปิด command palette</a></li>
-        <li><a href="../../index.html#tools">ดูเครื่องมือทั้งหมด</a></li>
+        <li><a href="../31-summary-next.html">Roadmap ต่อไป (Regression/ANOVA/Chi²)</a></li>
+        <li><a href="../16-ci-intro.html">เริ่มจาก CI ถ้าต้องการช่วงประมาณค่า</a></li>
+        <li><a href="../23-hypothesis-intro.html">เริ่มจาก Hypothesis test ถ้าต้องการตัดสินใจ</a></li>
       </ul>
     </article>
   </main>

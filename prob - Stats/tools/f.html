@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>F Calculator</title>
+  <title>F distribution Calculator</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -11,53 +11,74 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .grid-two { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    fieldset { border: 1px solid rgba(148,163,184,0.4); border-radius: 0.75rem; padding: 0.75rem 1rem; margin-top: 0.75rem; }
+    fieldset legend { font-weight: 600; }
+    .result-block { background: rgba(99,102,241,0.15); border-radius: 0.75rem; padding: 1rem; margin-top: 0.75rem; }
+    .result-block p { margin: 0.25rem 0; }
+    output[data-error] { color: #b91c1c; }
+  </style>
 </head>
 <body data-page="tool">
   <header class="site-header">
     <div>
       <p class="eyebrow">Calculator</p>
       <h1>F distribution</h1>
+      <p class="tagline">ใช้สำหรับการทดสอบ ANOVA และการเปรียบเทียบความแปรปรวน</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="reset" class="ghost">ค่าเริ่มต้น</button>
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>พื้นที่ด้านขวา</h2>
-      <label>ค่า F
-        <input id="f-value" type="number" step="0.001" value="3.0">
-      </label>
-      <label>df1
-        <input id="f-df1" type="number" min="1" step="1" value="3">
-      </label>
-      <label>df2
-        <input id="f-df2" type="number" min="1" step="1" value="20">
-      </label>
-      <button class="primary" id="f-calc">คำนวณ</button>
-      <p id="f-cdf"></p>
+      <h2>พื้นที่จากค่า F</h2>
+      <div class="grid-two">
+        <label>ค่า F
+          <input id="f-value" type="number" step="0.01" value="3.5">
+        </label>
+        <label>df₁ (numerator)
+          <input id="f-df1" type="number" min="1" step="1" value="4">
+        </label>
+        <label>df₂ (denominator)
+          <input id="f-df2" type="number" min="1" step="1" value="20">
+        </label>
+      </div>
+      <fieldset>
+        <legend>เลือกช่วง</legend>
+        <label><input type="radio" name="f-tail" value="left" checked> พื้นที่ซ้าย (P(F ≤ f))</label>
+        <label><input type="radio" name="f-tail" value="right"> พื้นที่ขวา (P(F ≥ f))</label>
+      </fieldset>
+      <button class="primary" id="f-calc">คำนวณพื้นที่</button>
+      <output id="f-result" class="result-block"></output>
     </article>
+
     <article class="card">
       <h2>หา critical value</h2>
-      <label>พื้นที่ทางขวา (α)
-        <input id="f-alpha" type="number" step="0.0001" value="0.05">
-      </label>
-      <label>df1
-        <input id="f-df1-crit" type="number" min="1" step="1" value="3">
-      </label>
-      <label>df2
-        <input id="f-df2-crit" type="number" min="1" step="1" value="20">
-      </label>
-      <button class="primary" id="f-inv">หาค่า F</button>
-      <p id="f-inv-result"></p>
+      <div class="grid-two">
+        <label>df₁
+          <input id="f-df1-crit" type="number" min="1" step="1" value="4">
+        </label>
+        <label>df₂
+          <input id="f-df2-crit" type="number" min="1" step="1" value="20">
+        </label>
+        <label>พื้นที่ขวา (α หรือ 0.05)
+          <input id="f-prob" type="number" step="0.0001" value="0.05">
+        </label>
+      </div>
+      <button class="primary" id="f-inv">หาค่า critical</button>
+      <output id="f-inv-result" class="result-block"></output>
     </article>
+
     <article class="card">
-      <h2>ลิงก์</h2>
+      <h2>การตีความ</h2>
       <ul>
-        <li><a href="../content/adv/35-oneway-anova.html">One-way ANOVA</a></li>
-        <li><a href="../content/30-test-variance-ratio.html">F-test</a></li>
-        <li><a href="../tables/f-table.html">ตาราง F</a></li>
+        <li>ANOVA one-way: df₁ = k − 1, df₂ = N − k</li>
+        <li>เปรียบความแปรปรวนสองกลุ่ม: df₁ = n₁ − 1, df₂ = n₂ − 1</li>
+        <li>ดูรายละเอียดเพิ่มเติมที่ <a href="../content/adv/35-oneway-anova.html">บท 35</a> และ <a href="../tables/f-table.html">ตาราง F</a></li>
       </ul>
     </article>
   </main>
@@ -66,37 +87,67 @@
   </footer>
   <script type="module">
     import { fCdf, fInv } from './distributions.js';
-    const fValueInput = document.getElementById('f-value');
+
+    const valueInput = document.getElementById('f-value');
     const df1Input = document.getElementById('f-df1');
     const df2Input = document.getElementById('f-df2');
-    const cdfOutput = document.getElementById('f-cdf');
-    const alphaInput = document.getElementById('f-alpha');
+    const resultOutput = document.getElementById('f-result');
     const df1CritInput = document.getElementById('f-df1-crit');
     const df2CritInput = document.getElementById('f-df2-crit');
+    const probInput = document.getElementById('f-prob');
     const invOutput = document.getElementById('f-inv-result');
 
+    function validateDf(df, label) {
+      if (!Number.isFinite(df) || df < 1) throw new Error(`${label} ต้อง ≥ 1`);
+      return df;
+    }
+
+    function showError(target, message) {
+      target.innerHTML = `<p data-error>${message}</p>`;
+    }
+
     document.getElementById('f-calc')?.addEventListener('click', () => {
-      const x = Number(fValueInput.value);
-      const df1 = Number(df1Input.value);
-      const df2 = Number(df2Input.value);
-      if (df1 < 1 || df2 < 1) {
-        cdfOutput.textContent = 'df ต้องมากกว่า 0';
-        return;
+      try {
+        const f = Number(valueInput.value);
+        if (!Number.isFinite(f) || f < 0) throw new Error('ค่า F ต้องไม่ติดลบ');
+        const df1 = validateDf(Number(df1Input.value), 'df₁');
+        const df2 = validateDf(Number(df2Input.value), 'df₂');
+        const tail = document.querySelector('input[name="f-tail"]:checked')?.value ?? 'left';
+        const left = fCdf(f, df1, df2);
+        const right = 1 - left;
+        if (tail === 'left') {
+          resultOutput.innerHTML = `<p>P(F ≤ ${f.toFixed(3)}) = ${left.toFixed(4)}</p><p class="tagline">ตรวจสอบพื้นที่สะสมด้านซ้าย</p>`;
+        } else {
+          resultOutput.innerHTML = `<p>P(F ≥ ${f.toFixed(3)}) = ${right.toFixed(4)}</p><p class="tagline">ใช้เป็น p-value ในการทดสอบ ANOVA</p>`;
+        }
+      } catch (error) {
+        showError(resultOutput, error.message);
       }
-      const p = 1 - fCdf(x, df1, df2);
-      cdfOutput.textContent = `พื้นที่ด้านขวา ≈ ${p.toFixed(4)}`;
     });
 
     document.getElementById('f-inv')?.addEventListener('click', () => {
       try {
-        const alpha = Number(alphaInput.value);
-        const df1 = Number(df1CritInput.value);
-        const df2 = Number(df2CritInput.value);
-        const critical = fInv(1 - alpha, df1, df2);
-        invOutput.textContent = `F₍crit₎ ≈ ${critical.toFixed(4)}`;
+        const df1 = validateDf(Number(df1CritInput.value), 'df₁');
+        const df2 = validateDf(Number(df2CritInput.value), 'df₂');
+        const alpha = Number(probInput.value);
+        if (!Number.isFinite(alpha) || alpha <= 0 || alpha >= 1) throw new Error('พื้นที่ต้องอยู่ในช่วง (0,1)');
+        const value = fInv(1 - alpha, df1, df2);
+        invOutput.innerHTML = `<p>F<sub>${df1},${df2}</sub>(α=${alpha}) = ${value.toFixed(4)}</p>`;
       } catch (error) {
-        invOutput.textContent = error.message;
+        showError(invOutput, error.message);
       }
+    });
+
+    document.getElementById('reset')?.addEventListener('click', () => {
+      valueInput.value = '3.5';
+      df1Input.value = '4';
+      df2Input.value = '20';
+      df1CritInput.value = '4';
+      df2CritInput.value = '20';
+      probInput.value = '0.05';
+      document.querySelector('input[name="f-tail"][value="left"]').checked = true;
+      resultOutput.innerHTML = '';
+      invOutput.innerHTML = '';
     });
   </script>
 </body>

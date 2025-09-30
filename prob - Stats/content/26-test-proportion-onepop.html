@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>26. ทดสอบสัดส่วนกลุ่มเดียว</title>
+  <title>26. การทดสอบสัดส่วนกลุ่มเดียว</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 26</p>
-      <h1>ทดสอบสัดส่วนกลุ่มเดียว</h1>
+      <h1>การทดสอบสัดส่วนกลุ่มเดียว</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="25-test-mean-onepop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>ตรวจสอบอัตราความสำเร็จหรือส่วนแบ่งตลาดเทียบกับเป้าหมาย</p>
       <ul>
-        <li>สมมติฐานและสถิติทดสอบ</li>
-        <li>เงื่อนไขการใช้ normal approximation</li>
-        <li>ตัวอย่างสำรวจความคิดเห็น</li>
+        <li>ตั้งสมมติฐานเกี่ยวกับ p และใช้ข้อมูลนับความสำเร็จ</li>
+        <li>การประมาณ SE ภายใต้ H0 ด้วย p0</li>
+        <li>เงื่อนไข np0 และ n(1−p0) ≥ 10 สำหรับการใช้ Z</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรทดสอบสัดส่วน</p>
+      <ul>
+        <li>Z = (p̂ − p_0) / √(p_0(1−p_0)/n)</li>
+        <li>p̂ = x/n</li>
+        <li>ใช้ continuity correction เมื่อ n ไม่ใหญ่มาก</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>สำรวจสัดส่วนลูกค้าที่เปิดอีเมลโปรโมชันเทียบกับเกณฑ์เดิม</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power proportion</a></li>
-        <li><a href="18-ci-proportion-onepop.html">บท CI proportion</a></li>
-        <li><a href="review/review-07-case-ab-test.html">ทบทวน A/B</a></li>
+        <li><a href="25-test-mean-onepop.html">การทดสอบค่าเฉลี่ยกลุ่มเดียว</a></li>
+        <li><a href="27-test-means-twopop.html">การทดสอบสองค่าเฉลี่ย</a></li>
+        <li><a href="../tools/z.html">เครื่องมือ Z</a></li>
       </ul>
     </article>
   </main>

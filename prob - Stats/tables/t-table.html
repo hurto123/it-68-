@@ -3,62 +3,141 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>t Table</title>
+  <title>Interactive t Table</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
   <link rel="stylesheet" href="../styles/typography-access.css">
   <script defer src="../app.js"></script>
+  <style>
+    main { display: grid; gap: 1.5rem; }
+    .controls { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .table-wrapper { max-height: 480px; overflow: auto; border-radius: 1rem; border: 1px solid rgba(148,163,184,0.35); }
+    table { border-collapse: collapse; width: 100%; min-width: 640px; }
+    th, td { padding: 0.45rem 0.6rem; border: 1px solid rgba(148,163,184,0.25); text-align: center; font-variant-numeric: tabular-nums; }
+    thead th { position: sticky; top: 0; background: var(--surface, #fff); }
+    tbody th { position: sticky; left: 0; background: var(--surface, #fff); }
+    [data-highlight="true"] { background: rgba(34,197,94,0.25); font-weight: 600; }
+  </style>
 </head>
 <body data-page="table">
   <header class="site-header">
     <div>
       <p class="eyebrow">Table</p>
-      <h1>ตาราง t (สองด้าน)</h1>
+      <h1>ตารางค่า t (critical values)</h1>
+      <p class="tagline">เลือก df, ระดับนัยสำคัญ และโหมด one/two-tailed ได้ทันที</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#resources">กลับ</a>
     </nav>
   </header>
-  <main class="card-grid">
-    <article class="card">
-      <label>ระดับนัยสำคัญ (α)
-        <input id="t-alpha" type="number" step="0.0001" value="0.05">
+  <main class="card">
+    <section class="controls">
+      <label>df
+        <input id="input-df" type="number" min="1" step="1" value="10">
       </label>
-      <div class="table-wrapper">
-        <table id="t-table"></table>
-      </div>
-    </article>
+      <label>α
+        <input id="input-alpha" type="number" step="0.001" value="0.05">
+      </label>
+      <label>โหมด
+        <select id="tail-mode">
+          <option value="two">two-tailed (α/2)</option>
+          <option value="one">one-tailed</option>
+        </select>
+      </label>
+      <button class="ghost" id="copy-value">คัดลอกค่า</button>
+    </section>
+    <p id="t-summary" class="tagline"></p>
+    <div class="table-wrapper">
+      <table id="t-table"></table>
+    </div>
   </main>
   <script type="module">
     import { studentTInv } from '../tools/distributions.js';
-    const table = document.getElementById('t-table');
-    const alphaInput = document.getElementById('t-alpha');
 
-    function build(alpha) {
-      table.innerHTML = '<tr><th>df</th><th>t critical</th></tr>';
-      const dfs = [...Array(30).keys()].map(i => i + 1).concat([40, 60, 120, Infinity]);
-      dfs.forEach(df => {
-        const p = 1 - alpha / 2;
-        const value = Number.isFinite(df) ? studentTInv(p, df).toFixed(4) : studentTInv(p, 1e6).toFixed(4);
+    const dfList = [...Array.from({ length: 30 }, (_, i) => i + 1), 40, 60, 80, 120, 240, Infinity];
+    const alphaList = [0.20, 0.10, 0.05, 0.025, 0.01, 0.005, 0.001];
+
+    const table = document.getElementById('t-table');
+    const dfInput = document.getElementById('input-df');
+    const alphaInput = document.getElementById('input-alpha');
+    const modeSelect = document.getElementById('tail-mode');
+    const summary = document.getElementById('t-summary');
+    const copyBtn = document.getElementById('copy-value');
+
+    function buildTable() {
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = '<th>df</th>' + alphaList.map(a => `<th>α=${a}</th>`).join('');
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      dfList.forEach(df => {
         const row = document.createElement('tr');
-        row.innerHTML = `<th>${df === Infinity ? '∞' : df}</th><td>${value}</td>`;
-        table.appendChild(row);
+        row.innerHTML = `<th>${df === Infinity ? '∞' : df}</th>`;
+        alphaList.forEach(alpha => {
+          const cell = document.createElement('td');
+          const value = criticalValue(df, alpha, 'two');
+          cell.dataset.df = String(df);
+          cell.dataset.alpha = String(alpha);
+          cell.dataset.mode = 'two';
+          cell.textContent = value.toFixed(4);
+          row.appendChild(cell);
+        });
+        tbody.appendChild(row);
       });
+      table.appendChild(tbody);
     }
 
-    alphaInput.addEventListener('input', () => {
-      const alpha = Number(alphaInput.value);
-      if (alpha <= 0 || alpha >= 1) return;
-      build(alpha);
+    function criticalValue(df, alpha, mode) {
+      const dfNum = df === Infinity ? 1e9 : df;
+      if (mode === 'one') {
+        return studentTInv(1 - alpha, dfNum);
+      }
+      return studentTInv(1 - alpha / 2, dfNum);
+    }
+
+    function highlight(df, alpha, mode) {
+      table.querySelectorAll('[data-highlight="true"]').forEach(el => el.removeAttribute('data-highlight'));
+      let dfNearest = dfList[0];
+      dfList.forEach(curr => {
+        const currVal = curr === Infinity ? 1e9 : curr;
+        const prevVal = dfNearest === Infinity ? 1e9 : dfNearest;
+        if (Math.abs(currVal - df) < Math.abs(prevVal - df)) {
+          dfNearest = curr;
+        }
+      });
+      const alphaNearest = alphaList.reduce((prev, curr) => Math.abs(curr - alpha) < Math.abs(prev - alpha) ? curr : prev, alphaList[0]);
+      table.querySelectorAll(`td[data-alpha="${alphaNearest}"]`).forEach(cell => {
+        if (Number(cell.dataset.df) === dfNearest) {
+          cell.setAttribute('data-highlight', 'true');
+        }
+      });
+      const value = criticalValue(df, alpha, mode);
+      summary.innerHTML = `<code>t<sub>${mode === 'one' ? 'α' : 'α/2'}, df=${df.toFixed(0)}</sub> ≈ ${value.toFixed(4)}</code>`;
+      copyBtn.dataset.value = value.toFixed(6);
+    }
+
+    dfInput.addEventListener('input', () => update());
+    alphaInput.addEventListener('input', () => update());
+    modeSelect.addEventListener('change', () => update());
+
+    function update() {
+      const df = Math.max(1, Number(dfInput.value));
+      const alpha = Math.min(0.5, Math.max(0.0001, Number(alphaInput.value)));
+      highlight(df, alpha, modeSelect.value);
+    }
+
+    copyBtn.addEventListener('click', () => {
+      const value = copyBtn.dataset.value;
+      if (!value) return;
+      navigator.clipboard?.writeText(value);
+      copyBtn.textContent = 'คัดลอกแล้ว!';
+      setTimeout(() => { copyBtn.textContent = 'คัดลอกค่า'; }, 2000);
     });
 
-    build(Number(alphaInput.value));
+    buildTable();
+    update();
   </script>
-  <style>
-    .table-wrapper { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { padding: 0.4rem; border: 1px solid rgba(148, 163, 184, 0.4); text-align: center; }
-  </style>
 </body>
 </html>

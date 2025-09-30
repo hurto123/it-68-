@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Experimental Design</title>
+  <title>39. การออกแบบการทดลอง</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -15,8 +15,8 @@
 <body data-page="advanced">
   <header class="site-header">
     <div>
-      <p class="eyebrow">หัวข้อขั้นสูง</p>
-      <h1>Experimental Design</h1>
+      <p class="eyebrow">หัวข้อขั้นสูง 39</p>
+      <h1>การออกแบบการทดลอง (Experimental Design)</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
@@ -25,19 +25,51 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ใจความสำคัญ</h2>
+      <h2>หลักการสำคัญ</h2>
       <ul>
-        <li>หลัก randomization/blocking/blinding</li>
-        <li>ผลของ confounding และ bias</li>
-        <li>การเชื่อมโยงกับ power และ MDE</li>
+        <li><strong>Randomization</strong>: สุ่มมอบ treatment เพื่อลด bias และสร้างความเท่าเทียม</li>
+        <li><strong>Replication</strong>: ทำซ้ำหลายหน่วยทดลองเพื่อประเมินความแปรปรวน</li>
+        <li><strong>Control</strong>: ใช้กลุ่มเปรียบเทียบหรือการรักษาคงที่เพื่อโฟกัสผลของ treatment</li>
       </ul>
     </article>
     <article class="card">
-      <h2>เครื่องมือที่เกี่ยวข้อง</h2>
+      <h2>Blocking &amp; Blinding</h2>
       <ul>
-        <li><a href="../../tools/power-sample-size.html">Power planner</a></li>
-        <li><a href="../review/review-07-case-ab-test.html">เครื่องมือ A/B</a></li>
-        <li><a href="../../data/ab_test.csv">ข้อมูลทดลอง</a></li>
+        <li><strong>Blocking</strong>: จัดหน่วยทดลองที่คล้ายกันไว้กลุ่มเดียว เพื่อลดความแปรปรวนภายใน</li>
+        <li><strong>Blinding</strong>: ซ่อนข้อมูล treatment จากผู้เข้าร่วม/ผู้ประเมิน เพื่อป้องกันอคติ</li>
+        <li>Double-blind และ placebo control สำคัญในงานการแพทย์และพฤติกรรมศาสตร์</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>จัดการ confounding</h2>
+      <ul>
+        <li>ระบุปัจจัยที่อาจส่งผลต่อผลลัพธ์ และใช้การ randomize หรือ block เพื่อควบคุม</li>
+        <li>ออกแบบ factorial design เพื่อตรวจสอบ interaction ระหว่างปัจจัย</li>
+        <li>บันทึกตัวแปรร่วม (covariate) สำหรับใช้ปรับใน ANCOVA หรือ regression</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ผลกระทบต่อ power</h2>
+      <ul>
+        <li>ขนาดตัวอย่าง (n) และขนาดเอฟเฟกต์ (effect size) เป็นตัวกำหนด power</li>
+        <li>ลดความแปรปรวน (เช่น ผ่าน blocking) จะเพิ่ม power โดยไม่ต้องเพิ่ม n มาก</li>
+        <li>ใช้การวางแผน power ล่วงหน้าเพื่อให้การทดลองมีโอกาสตรวจจับผลลัพธ์ที่สำคัญ</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>การดำเนินงานจริง</h2>
+      <ul>
+        <li>สร้าง protocol ที่ชัดเจน: วัตถุประสงค์, การคัดเลือก, วิธีสุ่ม, วิธีเก็บข้อมูล</li>
+        <li>ติดตามการปฏิบัติตาม (compliance) และจัดการกรณี drop-out อย่างเป็นระบบ</li>
+        <li>บันทึก deviation และใช้ intention-to-treat analysis เมื่อเหมาะสม</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>เครื่องมือและเอกสารอ้างอิง</h2>
+      <ul>
+        <li><a href="../../tools/experiment-designer.html">Experiment Designer</a> สำหรับวางแผนการสุ่มและ blocking</li>
+        <li><a href="../../tools/power-sample-size.html">ตัวคำนวณขนาดตัวอย่าง/พลังทดสอบ</a></li>
+        <li>ศึกษาต่อในหัวข้อ <a href="35-oneway-anova.html">ANOVA</a> และ <a href="../27-test-means-twopop.html">การทดสอบค่าเฉลี่ย</a> เพื่อวิเคราะห์ผลลัพธ์</li>
       </ul>
     </article>
   </main>

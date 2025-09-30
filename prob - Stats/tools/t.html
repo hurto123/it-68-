@@ -11,47 +11,74 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .grid-two { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    fieldset { border: 1px solid rgba(148, 163, 184, 0.4); border-radius: 0.75rem; padding: 0.75rem 1rem; margin-top: 0.75rem; }
+    fieldset legend { font-weight: 600; }
+    .result-block { margin-top: 0.75rem; background: rgba(34, 197, 94, 0.12); border-radius: 0.75rem; padding: 1rem; }
+    .result-block p { margin: 0.25rem 0; }
+    output[data-error] { color: #b91c1c; }
+  </style>
 </head>
 <body data-page="tool">
   <header class="site-header">
     <div>
       <p class="eyebrow">Calculator</p>
-      <h1>Student's t</h1>
+      <h1>Student's t distribution</h1>
+      <p class="tagline">คำนวณพื้นที่และ critical value ของ t-distribution พร้อมคำแนะนำว่าผลหมายความว่าอย่างไร</p>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="reset" class="ghost">ค่าเริ่มต้น</button>
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>พื้นที่ด้านซ้าย</h2>
-      <label>ค่า t
-        <input id="t-value" type="number" step="0.001" value="2.0">
-      </label>
-      <label>df
-        <input id="t-df" type="number" min="1" step="1" value="10">
-      </label>
-      <button class="primary" id="t-calc">คำนวณ</button>
-      <p id="t-cdf"></p>
+      <h2>หาพื้นที่จากค่า t</h2>
+      <div class="grid-two">
+        <label>ค่า t
+          <input id="t-value" type="number" step="0.001" value="2">
+        </label>
+        <label>df (degrees of freedom)
+          <input id="t-df" type="number" min="1" step="1" value="10">
+        </label>
+      </div>
+      <fieldset>
+        <legend>เลือกช่วงที่ต้องการ</legend>
+        <label><input type="radio" name="t-tail" value="left" checked> พื้นที่ซ้ายของค่า t</label>
+        <label><input type="radio" name="t-tail" value="right"> พื้นที่ขวาของค่า t</label>
+        <label><input type="radio" name="t-tail" value="two"> สองด้าน |t| ≥ |ค่า t|</label>
+      </fieldset>
+      <button class="primary" id="t-calc">คำนวณพื้นที่</button>
+      <output id="t-cdf" class="result-block"></output>
     </article>
+
     <article class="card">
       <h2>หา critical value</h2>
-      <label>พื้นที่ (0-1)
-        <input id="t-prob" type="number" step="0.0001" value="0.975">
-      </label>
-      <label>df
-        <input id="t-df-crit" type="number" min="1" step="1" value="10">
-      </label>
+      <div class="grid-two">
+        <label>df
+          <input id="t-df-crit" type="number" min="1" step="1" value="10">
+        </label>
+        <label>พื้นที่ (เช่น 0.975 หรือ 0.95)
+          <input id="t-prob" type="number" step="0.0001" value="0.975">
+        </label>
+      </div>
+      <fieldset>
+        <legend>โหมด</legend>
+        <label><input type="radio" name="t-inv-tail" value="left" checked> ค่า percentile (พื้นที่ซ้าย)</label>
+        <label><input type="radio" name="t-inv-tail" value="two"> ค่าควิกสำหรับสองด้าน (α/2)</label>
+      </fieldset>
       <button class="primary" id="t-inv">หาค่า t</button>
-      <p id="t-inv-result"></p>
+      <output id="t-inv-result" class="result-block"></output>
     </article>
+
     <article class="card">
-      <h2>ลิงก์ที่เกี่ยวข้อง</h2>
+      <h2>Tips &amp; ลิงก์เพิ่มเติม</h2>
       <ul>
-        <li><a href="../content/13-t-chi2-f.html">บท 13 t, χ², F</a></li>
-        <li><a href="../content/17-ci-mean-onepop.html">CI ค่าเฉลี่ย</a></li>
-        <li><a href="../tables/t-table.html">ตาราง t</a></li>
+        <li>df = n − 1 (one-sample/paired), df = n₁ + n₂ − 2 (two-sample pooled)</li>
+        <li>ถ้า df สูง (&gt; 120) ผลลัพธ์จะเข้าใกล้การแจกแจงปกติ</li>
+        <li>ดูตารางหรือสูตรเพิ่มเติมได้ที่ <a href="../content/17-ci-mean-onepop.html">บท 17</a> และ <a href="../tables/t-table.html">ตาราง t</a></li>
       </ul>
     </article>
   </main>
@@ -60,6 +87,7 @@
   </footer>
   <script type="module">
     import { studentTCdf, studentTInv } from './distributions.js';
+
     const valueInput = document.getElementById('t-value');
     const dfInput = document.getElementById('t-df');
     const cdfOutput = document.getElementById('t-cdf');
@@ -67,26 +95,70 @@
     const dfCritInput = document.getElementById('t-df-crit');
     const invOutput = document.getElementById('t-inv-result');
 
-    document.getElementById('t-calc')?.addEventListener('click', () => {
-      const t = Number(valueInput.value);
-      const df = Number(dfInput.value);
-      if (df < 1) {
-        cdfOutput.textContent = 'df ต้องมากกว่า 0';
-        return;
+    function validateDf(df) {
+      if (!Number.isFinite(df) || df < 1) {
+        throw new Error('df ต้องมากกว่า 0');
       }
-      const p = studentTCdf(t, df);
-      cdfOutput.textContent = `P(T ≤ ${t.toFixed(3)}) ≈ ${p.toFixed(4)}`;
+      return df;
+    }
+
+    function showError(output, message) {
+      output.innerHTML = `<p data-error>${message}</p>`;
+    }
+
+    document.getElementById('t-calc')?.addEventListener('click', () => {
+      try {
+        const t = Number(valueInput.value);
+        const df = validateDf(Number(dfInput.value));
+        const tail = document.querySelector('input[name="t-tail"]:checked')?.value ?? 'left';
+        let result;
+        if (tail === 'left') {
+          result = studentTCdf(t, df);
+          cdfOutput.innerHTML = `<p>P(T ≤ ${t.toFixed(3)}) = ${result.toFixed(4)}</p><p class="tagline">พื้นที่ด้านซ้ายสำหรับ df = ${df}</p>`;
+        } else if (tail === 'right') {
+          result = 1 - studentTCdf(t, df);
+          cdfOutput.innerHTML = `<p>P(T ≥ ${t.toFixed(3)}) = ${result.toFixed(4)}</p><p class="tagline">ตีความเป็น p-value ด้านขวา</p>`;
+        } else {
+          const tailProb = studentTCdf(-Math.abs(t), df);
+          const right = 1 - studentTCdf(Math.abs(t), df);
+          const total = tailProb + right;
+          cdfOutput.innerHTML = `<p>P(|T| ≥ ${Math.abs(t).toFixed(3)}) = ${total.toFixed(4)}</p><p class="tagline">ใช้สำหรับ two-sided test (รวมสองด้าน)</p>`;
+        }
+      } catch (error) {
+        showError(cdfOutput, error.message);
+      }
     });
 
     document.getElementById('t-inv')?.addEventListener('click', () => {
       try {
+        const df = validateDf(Number(dfCritInput.value));
         const p = Number(probInput.value);
-        const df = Number(dfCritInput.value);
-        const t = studentTInv(p, df);
-        invOutput.textContent = `t ≈ ${t.toFixed(4)}`;
+        if (!Number.isFinite(p) || p <= 0 || p >= 1) {
+          throw new Error('พื้นที่ต้องอยู่ในช่วง (0,1)');
+        }
+        const tail = document.querySelector('input[name="t-inv-tail"]:checked')?.value ?? 'left';
+        if (tail === 'left') {
+          const t = studentTInv(p, df);
+          invOutput.innerHTML = `<p>t<sub>${df}</sub> (พื้นที่ซ้าย ${p}) = ${t.toFixed(4)}</p>`;
+        } else {
+          const alpha = 1 - p;
+          const t = studentTInv(1 - alpha / 2, df);
+          invOutput.innerHTML = `<p>t<sub>${df}, α/2</sub> = ${t.toFixed(4)} (two-sided)</p>`;
+        }
       } catch (error) {
-        invOutput.textContent = error.message;
+        showError(invOutput, error.message);
       }
+    });
+
+    document.getElementById('reset')?.addEventListener('click', () => {
+      valueInput.value = '2';
+      dfInput.value = '10';
+      dfCritInput.value = '10';
+      probInput.value = '0.975';
+      document.querySelector('input[name="t-tail"][value="left"]').checked = true;
+      document.querySelector('input[name="t-inv-tail"][value="left"]').checked = true;
+      cdfOutput.innerHTML = '';
+      invOutput.innerHTML = '';
     });
   </script>
 </body>

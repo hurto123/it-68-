@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>เคส A/B</title>
+  <title>รีวิวเคส A/B Test</title>
   <link rel="stylesheet" href="../../styles/tokens.css">
   <link rel="stylesheet" href="../../styles/components.css">
   <link rel="stylesheet" href="../../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">สรุปเร็ว</p>
-      <h1>เคส A/B</h1>
+      <h1>รีวิวเคสจริง: A/B Testing</h1>
     </div>
     <nav class="header-actions">
       <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
@@ -25,19 +25,38 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ภาพรวม</h2>
+      <h2>บริบทตัวอย่าง</h2>
+      <p>ทีมโปรดักต์เทียบหน้า Landing Page A (เดิม) vs B (ดีไซน์ใหม่)</p>
       <ul>
-        <li>กรอบคิด MDE, Power, Sample size</li>
-        <li>ตัวอย่างสองค่าเฉลี่ยและสองสัดส่วน</li>
-        <li>การอ่านผลลัพธ์จาก power tool</li>
+        <li>ตัวชี้วัด: Conversion rate (p), ต้องการเพิ่ม ≥ 2 จุดเปอร์เซ็นต์</li>
+        <li>ข้อมูลเริ่มต้น: p<sub>A</sub> ≈ 0.10, p<sub>B</sub> คาด 0.12</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>แผนก่อนรัน</h2>
+      <ol>
+        <li>กำหนด H₀: p<sub>B</sub> − p<sub>A</sub> = 0, H₁: p<sub>B</sub> − p<sub>A</sub> &gt; 0</li>
+        <li>ตั้งระดับนัยสำคัญ α (เช่น 0.05) และ power ที่ต้องการ (เช่น 80%)</li>
+        <li>ใช้เครื่องมือ power เพื่อหา <strong>MDE</strong> หรือ n ที่ต้องใช้ต่อกลุ่ม</li>
+        <li>วางแผนการสุ่ม, ระยะเวลา, เกณฑ์หยุดทดลอง</li>
+      </ol>
+    </article>
+    <article class="card">
+      <h2>วิเคราะห์ผลหลังรัน</h2>
+      <ul>
+        <li>คำนวณสัดส่วนจริง: p̂<sub>A</sub>, p̂<sub>B</sub> พร้อม standard error ร่วม</li>
+        <li>หาค่า z-test: <em>z = (p̂<sub>B</sub> − p̂<sub>A</sub>)/√(p̂(1-p̂)(1/n<sub>A</sub> + 1/n<sub>B</sub>))</em></li>
+        <li>รายงาน p-value, CI ของผลต่าง, ขนาดเอฟเฟกต์ (เช่น uplift%)</li>
+        <li>ตรวจ Post-test: สมดุลกลุ่ม, ปัญหาการทดลอง (เช่น ซ้อนกลุ่ม)</li>
       </ul>
     </article>
     <article class="card">
       <h2>ปุ่มลัด</h2>
       <ul>
-        <li><a href="../19-ci-means-twopop.html">บท 19/20/27/28</a></li>
-        <li><a href="../../tools/power-sample-size.html">เปิด Power tool mode A/B</a></li>
-        <li><a href="../../data/ab_test.csv">ดูข้อมูล A/B</a></li>
+        <li><a href="../20-ci-proportions-twopop.html">บท 20: ช่วงเชื่อมั่นสัดส่วน 2 กลุ่ม</a></li>
+        <li><a href="../28-test-proportions-twopop.html">บท 28: Z test สัดส่วนสองกลุ่ม</a></li>
+        <li><a href="../27-test-means-twopop.html">เปรียบเทียบค่าเฉลี่ย (ถ้า metric เป็นเวลา/ยอดขาย)</a></li>
+        <li><a href="../../tools/power-sample-size.html">คำนวณขนาดตัวอย่าง/Power</a></li>
       </ul>
     </article>
   </main>
