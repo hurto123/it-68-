@@ -1,4 +1,5 @@
 const cache = new Map();
+self.cache = cache;
 let requestCounter = 0;
 
 function memoKey(fn, params) {
@@ -13,6 +14,20 @@ function withCache(fn, params, compute) {
   const result = compute();
   cache.set(key, result);
   return result;
+}
+
+function normalizeTail(tail) {
+  const value = typeof tail === 'string' ? tail.trim().toLowerCase() : '';
+  if (value === 'two' || value === 'both' || value === 'two-sided' || value === 'two_sided') {
+    return 'two-sided';
+  }
+  if (value === 'left' || value === 'less' || value === 'lower') {
+    return 'left';
+  }
+  if (value === 'right' || value === 'greater' || value === 'upper') {
+    return 'right';
+  }
+  return 'two-sided';
 }
 
 const LOG_SQRT_TWO_PI = 0.5 * Math.log(2 * Math.PI);
@@ -243,22 +258,22 @@ function computeCritical(alpha, df, tail = 'two-sided') {
   if (df <= 0) {
     throw new Error('df ต้องมากกว่า 0');
   }
-  const mode = tail || 'two-sided';
+  const mode = normalizeTail(tail);
   if (mode === 'two-sided') {
-    const crit = Math.abs(studentTInv(1 - alpha / 2, df));
-    return { lower: -crit, upper: crit };
+    const value = Math.abs(studentTInv(1 - alpha / 2, df));
+    return { lower: -value, upper: value, crit: value, mode };
   }
   if (mode === 'left') {
-    const crit = -Math.abs(studentTInv(1 - alpha, df));
-    return { lower: crit, upper: null };
+    const value = studentTInv(alpha, df);
+    return { lower: value, upper: null, crit: Math.abs(value), mode };
   }
-  const crit = Math.abs(studentTInv(1 - alpha, df));
-  return { lower: null, upper: crit };
+  const value = studentTInv(1 - alpha, df);
+  return { lower: null, upper: value, crit: Math.abs(value), mode };
 }
 
 function computePower(params) {
-  const { alpha = 0.05, df, delta = 0, test = 'two-sided' } = params;
-  const mode = test || 'two-sided';
+  const { alpha = 0.05, df, delta = 0 } = params;
+  const mode = normalizeTail(params.test || params.tail || params.tails);
   const critical = computeCritical(alpha, df, mode);
   let leftTail = 0;
   let rightTail = 0;
@@ -276,7 +291,9 @@ function computePower(params) {
     alpha,
     df,
     delta,
+    tails: mode,
     test: mode,
+    crit: critical.crit,
     critical,
     leftTail,
     rightTail,
@@ -289,38 +306,72 @@ self.addEventListener('message', (event) => {
   const requestId = id != null ? id : `req-${++requestCounter}`;
   try {
     let payload;
-    switch (fn) {
+    const alias = typeof fn === 'string' ? fn : '';
+    const operation = {
+      'nct-power': 'power',
+      'nct-cdf': 'cdf',
+      'nct-crit': 'crit',
+      'student-t-inv': 'central-inv',
+      'student-t-cdf': 'central-cdf'
+    }[alias] || alias;
+    switch (operation) {
       case 'cdf':
-        payload = withCache(fn, params, () => ({
-          cdf: noncentralTCdf(
-            params.x,
-            params.nu ?? params.df,
-            Number.isFinite(params.delta) ? params.delta : 0
-          )
-        }));
+        {
+          const df = params.nu ?? params.df;
+          const delta = Number.isFinite(params.delta) ? params.delta : 0;
+          payload = withCache(operation, { x: params.x, df, delta }, () => ({
+            cdf: noncentralTCdf(params.x, df, delta)
+          }));
+        }
         break;
       case 'crit':
-        payload = withCache(fn, params, () => ({
-          critical: computeCritical(params.alpha, params.nu ?? params.df, params.tail)
-        }));
+        {
+          const df = params.nu ?? params.df;
+          const tailParam = params.tail ?? params.tails ?? params.test;
+          const normalizedTail = normalizeTail(tailParam);
+          payload = withCache(operation, {
+            alpha: params.alpha,
+            df,
+            tail: normalizedTail
+          }, () => {
+            const result = computeCritical(params.alpha, df, tailParam);
+            return { critical: result, crit: result.crit };
+          });
+        }
         break;
       case 'power':
-        payload = withCache(fn, params, () => computePower({
-          alpha: params.alpha,
-          df: params.nu ?? params.df,
-          delta: params.delta,
-          test: params.test || params.tail
-        }));
+        {
+          const df = params.nu ?? params.df;
+          const tailParam = params.test || params.tail || params.tails;
+          const normalizedTail = normalizeTail(tailParam);
+          payload = withCache(operation, {
+            alpha: params.alpha,
+            df,
+            delta: params.delta,
+            tail: normalizedTail
+          }, () => computePower({
+            alpha: params.alpha,
+            df,
+            delta: params.delta,
+            test: tailParam
+          }));
+        }
         break;
       case 'central-cdf':
-        payload = withCache(fn, params, () => ({
-          cdf: studentTCdf(params.x, params.nu ?? params.df)
-        }));
+        {
+          const df = params.nu ?? params.df;
+          payload = withCache(operation, { x: params.x, df }, () => ({
+            cdf: studentTCdf(params.x, df)
+          }));
+        }
         break;
       case 'central-inv':
-        payload = withCache(fn, params, () => ({
-          value: studentTInv(params.p, params.nu ?? params.df)
-        }));
+        {
+          const df = params.nu ?? params.df;
+          payload = withCache(operation, { p: params.p, df }, () => ({
+            value: studentTInv(params.p, df)
+          }));
+        }
         break;
       default:
         throw new Error('ไม่รู้จักคำสั่ง worker');
