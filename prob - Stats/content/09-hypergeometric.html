@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>09. การแจกแจงไฮเปอร์จีโอเมตริก</title>
+  <title>09. การแจกแจงไฮเปอร์จีออเมตริก</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -11,12 +11,32 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .math { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+    .hyper-lab { display: grid; gap: var(--space-3); }
+    .controls { display: grid; gap: var(--space-2); max-width: 480px; }
+    .prob-table { width: 100%; border-collapse: collapse; }
+    .prob-table th, .prob-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
+    .prob-table th { background: var(--neutral-100); }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 180px; padding-block: var(--space-3); overflow-x: auto; }
+    .bar { background: linear-gradient(180deg, var(--brand-200), var(--brand-600)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; }
+    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; color: white; font-weight: 700; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; font-size: .875rem; }
+    #hyper-warning { color: var(--danger-600); font-weight: 600; display: none; }
+    @media (max-width: 720px) { section { padding: var(--space-3); } }
+  </style>
 </head>
 <body data-page="lesson">
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 09</p>
-      <h1>การแจกแจงไฮเปอร์จีโอเมตริก</h1>
+      <h1>👨‍🏫 บทเรียนที่ 9: การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric Distribution)</h1>
+      <p class="highlight">สวัสดีครับนักศึกษา! ในบทที่แล้วเราได้เรียนรู้การแจกแจงทวินาม ซึ่งมีเงื่อนไขสำคัญคือ "การทดลองแต่ละครั้งเป็นอิสระต่อกัน" แต่จะเกิดอะไรขึ้นถ้าการทดลองของเรา "ไม่เป็นอิสระ" ต่อกันล่ะ? นี่คือที่มาของการแจกแจงไฮเปอร์จีออเมตริกครับ</p>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="08-binomial.html">บทก่อนหน้า</button>
@@ -24,41 +44,208 @@
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ใช้เมื่อตัวอย่างถูกดึงโดยไม่คืนกลับจากประชากรจำกัด</p>
+  <main class="lesson">
+    <section>
+      <h2>1. อธิบายเนื้อหาของการเรียน: การสุ่มแบบ "ไม่ใส่คืน"</h2>
+      <p>แนวคิดหลัก: การแจกแจงไฮเปอร์จีออเมตริกใช้อธิบายความน่าจะเป็นของ "จำนวนครั้งที่ 'สำเร็จ'" จากการสุ่มตัวอย่าง "โดยไม่ใส่คืน (Without Replacement)" จากประชากรที่มีขนาดจำกัด</p>
+      <p><strong>หัวใจที่แตกต่างจากทวินาม:</strong> เมื่อเราหยิบของชิ้นแรกออกมาแล้ว "ไม่ใส่คืน" ประชากรทั้งหมดจะลดลง และสัดส่วนของของที่ "สำเร็จ" กับ "ล้มเหลว" ก็จะเปลี่ยนไป ทำให้การหยิบครั้งที่สอง "ไม่เป็นอิสระ" จากครั้งแรก</p>
+      <p><strong>สถานการณ์ที่พบ:</strong></p>
       <ul>
-        <li>โครงสร้างประชากรที่แบ่งเป็นความสำเร็จ/ล้มเหลว</li>
-        <li>สูตร PMF และการเปรียบเทียบกับทวินาม</li>
-        <li>การประมาณด้วยทวินามเมื่อประชากรใหญ่พอ</li>
+        <li>การสุ่มหยิบไพ่ 5 ใบจากสำรับ (เมื่อหยิบแล้วไม่ใส่คืน) แล้วนับ "จำนวนไพ่โพดำ"</li>
+        <li>การควบคุมคุณภาพสินค้า โดยสุ่มสินค้า 10 ชิ้นจากล็อตการผลิต 100 ชิ้น (เมื่อหยิบแล้วไม่ใส่คืน) แล้วนับ "จำนวนชิ้นที่ชำรุด"</li>
+        <li>การเลือกคณะกรรมการ 5 คนจากกลุ่มคน 20 คน (มีชาย 12 หญิง 8) แล้วนับ "จำนวนผู้หญิง" ที่ได้รับเลือก</li>
       </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตร PMF มีการนับแบบ combination หลายชั้น</p>
+    </section>
+
+    <section>
+      <h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
+      <article class="grid-2">
+        <div>
+          <h3>ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
+          <div class="math">f(x) = P(X=x) = \frac{\binom{M}{x} \binom{N-M}{n-x}}{\binom{N}{n}}</div>
+          <p>การทำงาน (ใช้หลักการ Combination จากบทที่ 2):</p>
+          <ul>
+            <li>N: คือ ขนาดของประชากรทั้งหมด (ของทั้งหมดในกล่อง)</li>
+            <li>M: คือ จำนวนของที่ "สำเร็จ" ทั้งหมด ที่มีอยู่ในประชากร (จำนวนของที่เราสนใจ)</li>
+            <li>n: คือ ขนาดของตัวอย่างที่เราสุ่มออกมา (จำนวนของที่หยิบ)</li>
+            <li>x: คือ จำนวนของที่ "สำเร็จ" ที่เราสนใจ ว่าจะพบในตัวอย่าง</li>
+            <li>ตัวเศษ: คือ (วิธีเลือกของที่สำเร็จ x ชิ้น จากทั้งหมด M ชิ้น) × (วิธีเลือกของที่ล้มเหลว n-x ชิ้น จากทั้งหมด N-M ชิ้น)</li>
+            <li>ตัวส่วน: คือ (วิธีเลือกของ n ชิ้น จากประชากรทั้งหมด N ชิ้น)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>ค่าคาดหวัง (Expected Value)</h3>
+          <div class="math">E(X) = \mu = n \left( \frac{M}{N} \right)</div>
+          <p>การทำงาน: (ขนาดตัวอย่าง) × (สัดส่วนของที่สำเร็จในประชากร) - สูตรนี้ดูคล้ายกับ np ของทวินามเลย!</p>
+        </div>
+      </article>
+    </section>
+
+    <section>
+      <h2>4. การเข้าใจในเนื้อหา</h2>
+      <p><strong>ทวินาม vs ไฮเปอร์จีออเมตริก</strong></p>
       <ul>
-        <li>PMF: P(X = k) = [C(K,k) C(N−K, n−k)] / C(N, n)</li>
-        <li>ค่าคาดหมาย: μ = n (K/N)</li>
-        <li>ความแปรปรวน: σ^2 = n (K/N)(1−K/N) ((N−n)/(N−1))</li>
+        <li><strong>ทวินาม:</strong> สุ่ม "โดยใส่คืน" หรือจากประชากรที่ใหญ่มากๆ (จนการไม่ใส่คืนแทบไม่มีผล) -> ความน่าจะเป็น p คงที่</li>
+        <li><strong>ไฮเปอร์จีออเมตริก:</strong> สุ่ม "โดยไม่ใส่คืน" จากประชากรขนาดจำกัด -> ความน่าจะเป็นเปลี่ยนไปทุกครั้งที่หยิบ</li>
       </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>การสุ่มตรวจสินค้าโดยไม่คืนตัวหรือการจับไพ่จากสำรับเพื่อดูจำนวนไพ่หัวใจ</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
+      <p><strong>ข้อสังเกต:</strong> ถ้าขนาดประชากร (N) ใหญ่กว่าขนาดตัวอย่าง (n) มากๆ (กฎทั่วไปคือ N≥20n) การแจกแจงไฮเปอร์จีออเมตริกจะมีค่าใกล้เคียงกับการแจกแจงทวินามมาก จนสามารถใช้ทวินามในการประมาณค่าเพื่อความสะดวกได้</p>
+      <p>(การจับสลากโดยไม่ใส่คืนเป็นตัวอย่างคลาสสิกของไฮเปอร์จีออเมตริก)</p>
+    </section>
+
+    <section>
+      <h2>5. ยกตัวอย่าง: การควบคุมคุณภาพ</h2>
+      <p><strong>โจทย์:</strong> กล่องใบหนึ่งมีปากกา 12 ด้าม เป็นปากกาสีน้ำเงิน (สำเร็จ) 5 ด้าม และสีแดง (ล้มเหลว) 7 ด้าม ถ้าสุ่มหยิบปากกามา 3 ด้าม (โดยไม่ใส่คืน) จงหาความน่าจะเป็นที่จะหยิบได้ปากกาสีน้ำเงิน "2 ด้ามพอดี"</p>
+      <p><strong>วิเคราะห์:</strong></p>
       <ul>
-        <li><a href="08-binomial.html">การแจกแจงทวินาม</a></li>
-        <li><a href="10-poisson.html">การแจกแจง Poisson</a></li>
-        <li><a href="../data/qc_defects.csv">ข้อมูลการตรวจคุณภาพ</a></li>
+        <li>N = 12 (ปากกาทั้งหมด)</li>
+        <li>M = 5 (จำนวนปากกาสีน้ำเงิน)</li>
+        <li>n = 3 (ขนาดตัวอย่างที่สุ่ม)</li>
+        <li>x = 2 (จำนวนสีน้ำเงินที่สนใจ)</li>
       </ul>
-    </article>
+      <p><strong>วิธีทำ:</strong></p>
+      <div class="math">P(X=2) = \frac{\binom{5}{2} \binom{7}{1}}{\binom{12}{3}} = \frac{10 \times 7}{220} \approx 0.318</div>
+      <p><strong>สรุป:</strong> มีโอกาสประมาณ 31.8% ที่จะสุ่มหยิบปากกา 3 ด้ามแล้วได้สีน้ำเงิน 2 ด้าม</p>
+    </section>
+
+    <section>
+      <h2>Interactive: Hypergeometric Explorer</h2>
+      <p>กำหนดขนาดประชากร จำนวนรายการที่ถือว่า "สำเร็จ" และขนาดตัวอย่างเพื่อดูความแตกต่างจากการสุ่มแบบทวินาม ดูทั้งค่าเฉลี่ยที่คาดหวังและความน่าจะเป็นแต่ละค่า x</p>
+      <div class="hyper-lab">
+        <div class="controls">
+          <label for="hyper-N">ขนาดประชากรทั้งหมด (N)</label>
+          <input type="number" id="hyper-N" min="1" max="120" value="20">
+          <label for="hyper-M">จำนวนที่สำเร็จในประชากร (M)</label>
+          <input type="number" id="hyper-M" min="0" max="120" value="8">
+          <label for="hyper-n">ขนาดตัวอย่าง (n)</label>
+          <input type="number" id="hyper-n" min="1" max="60" value="5">
+          <p id="hyper-warning" role="alert">พารามิเตอร์ไม่ถูกต้อง: ต้องมี 0 ≤ M ≤ N และ n ≤ N</p>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h3>ค่าคาดหวัง</h3>
+            <p>E(X) = n × (M/N) = <span id="hyper-mean">2.0000</span></p>
+          </div>
+          <div>
+            <h3>เลือกค่า x</h3>
+            <input type="number" id="hyper-x" min="0" value="2">
+            <button class="ghost" id="hyper-calc">คำนวณ P(X=x)</button>
+            <p>P(X = <span id="hyper-x-display">2</span>) = <span id="hyper-prob">0.0000</span></p>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="prob-table" aria-label="ตารางความน่าจะเป็นไฮเปอร์จีออเมตริก">
+            <thead>
+              <tr>
+                <th scope="col">x</th>
+                <th scope="col">P(X = x)</th>
+              </tr>
+            </thead>
+            <tbody id="hyper-table"></tbody>
+          </table>
+        </div>
+        <div class="bar-chart" id="hyper-chart" role="img" aria-label="แผนภูมิแท่งแสดงการแจกแจงไฮเปอร์จีออเมตริก"></div>
+      </div>
+    </section>
   </main>
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
     <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
   </footer>
+  <script>
+    const NInput = document.getElementById('hyper-N');
+    const MInput = document.getElementById('hyper-M');
+    const nInput = document.getElementById('hyper-n');
+    const warning = document.getElementById('hyper-warning');
+    const meanSpan = document.getElementById('hyper-mean');
+    const tableBody = document.getElementById('hyper-table');
+    const chart = document.getElementById('hyper-chart');
+    const xInput = document.getElementById('hyper-x');
+    const xDisplay = document.getElementById('hyper-x-display');
+    const probDisplay = document.getElementById('hyper-prob');
+    const calcBtn = document.getElementById('hyper-calc');
+
+    function combination(n, k) {
+      if (k < 0 || k > n) return 0;
+      k = Math.min(k, n - k);
+      let result = 1;
+      for (let i = 1; i <= k; i += 1) {
+        result *= (n - k + i) / i;
+      }
+      return result;
+    }
+
+    function hyperProb(N, M, n, x) {
+      return combination(M, x) * combination(N - M, n - x) / combination(N, n);
+    }
+
+    function validate(N, M, n) {
+      return Number.isFinite(N) && Number.isFinite(M) && Number.isFinite(n) && N >= 1 && M >= 0 && n >= 1 && M <= N && n <= N;
+    }
+
+    function render() {
+      const N = Number(NInput.value);
+      const M = Number(MInput.value);
+      const n = Number(nInput.value);
+      if (!validate(N, M, n)) {
+        warning.style.display = 'block';
+        tableBody.innerHTML = '';
+        chart.innerHTML = '';
+        meanSpan.textContent = '–';
+        return;
+      }
+      warning.style.display = 'none';
+      const mean = n * (M / N);
+      meanSpan.textContent = mean.toFixed(4);
+      const minX = Math.max(0, n - (N - M));
+      const maxX = Math.min(n, M);
+      xInput.min = minX;
+      xInput.max = maxX;
+      if (Number(xInput.value) < minX) xInput.value = minX;
+      if (Number(xInput.value) > maxX) xInput.value = maxX;
+
+      tableBody.innerHTML = '';
+      chart.innerHTML = '';
+      for (let x = minX; x <= maxX; x += 1) {
+        const prob = hyperProb(N, M, n, x);
+        const tr = document.createElement('tr');
+        const tdX = document.createElement('td');
+        tdX.textContent = x;
+        tdX.setAttribute('scope', 'row');
+        const tdP = document.createElement('td');
+        tdP.textContent = prob.toFixed(4);
+        tr.append(tdX, tdP);
+        tableBody.appendChild(tr);
+
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${prob * 260}px`;
+        bar.dataset.value = prob.toFixed(3);
+        const label = document.createElement('span');
+        label.textContent = x;
+        bar.appendChild(label);
+        chart.appendChild(bar);
+      }
+      updateSingle();
+    }
+
+    function updateSingle() {
+      const N = Number(NInput.value);
+      const M = Number(MInput.value);
+      const n = Number(nInput.value);
+      const x = Number(xInput.value);
+      xDisplay.textContent = x;
+      if (!validate(N, M, n)) {
+        probDisplay.textContent = '–';
+        return;
+      }
+      probDisplay.textContent = hyperProb(N, M, n, x).toFixed(4);
+    }
+
+    [NInput, MInput, nInput].forEach((input) => input.addEventListener('input', render));
+    calcBtn.addEventListener('click', updateSingle);
+    xInput.addEventListener('input', updateSingle);
+
+    render();
+  </script>
 </body>
 </html>
