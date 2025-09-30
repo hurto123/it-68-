@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Lab</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Tool</p>
+      <h1>Bootstrap &amp; Resampling Lab</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>เตรียมข้อมูล</h2>
+      <p>พิมพ์หรือวางตัวเลขคั่นด้วยจุลภาค/เว้นวรรค (อย่างน้อย 5 ค่า) หรืออัปโหลดไฟล์ CSV คอลัมน์เดียว</p>
+      <textarea id="data-input" rows="6" placeholder="12.4, 11.8, 13.0, ..."></textarea>
+      <div class="tool-actions">
+        <input type="file" id="file-input" accept=".csv,.txt">
+        <label>ชุดตัวอย่าง
+          <select id="example-select">
+            <option value="sample">ตัวอย่าง (ผลิตภาพโรงงาน)</option>
+            <option value="custom">ใช้ข้อมูลของฉัน</option>
+          </select>
+        </label>
+        <button class="secondary" id="reset-btn">รีเซ็ตตัวอย่าง</button>
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </div>
+      <p class="tagline">ข้อมูลไม่ถูกส่งออกนอกอุปกรณ์ ข้อมูลจะถูกเก็บใน localStorage เพื่อกลับมาใช้งานต่อได้</p>
+    </article>
+    <article class="card">
+      <h2>การตั้งค่า Bootstrap</h2>
+      <div class="form-grid">
+        <label>สถิติที่สนใจ
+          <select id="statistic">
+            <option value="mean">ค่าเฉลี่ย (mean)</option>
+            <option value="median">มัธยฐาน (median)</option>
+          </select>
+        </label>
+        <label>จำนวนรอบ (B)
+          <input type="number" id="iterations" min="100" max="20000" step="100" value="2000">
+        </label>
+        <label>ระดับนัย (α)
+          <input type="number" id="alpha" step="0.01" min="0.001" max="0.2" value="0.05">
+        </label>
+      </div>
+      <button class="primary" id="run-bootstrap">รัน Bootstrap</button>
+      <p class="tagline">ผลลัพธ์จะคำนวณด้วย web worker เพื่อไม่ให้หน้าเว็บค้าง</p>
+    </article>
+    <article class="card">
+      <h2>สรุปผล</h2>
+      <div id="result-summary">
+        <p>กรอกข้อมูลแล้วกด “รัน Bootstrap”</p>
+      </div>
+      <footer class="card-footer">
+        <button class="ghost" id="download-csv">Export Distribution CSV</button>
+        <button class="ghost" id="download-png">Export Histogram PNG</button>
+      </footer>
+    </article>
+    <article class="card">
+      <h2>Bootstrap Distribution</h2>
+      <canvas id="histogram" width="480" height="320" aria-label="Bootstrap histogram"></canvas>
+      <p id="histogram-caption" class="tagline">รอผลการคำนวณเพื่อแสดง histogram</p>
+    </article>
+    <article class="card">
+      <h2>เชื่อมโยงบทเรียน</h2>
+      <ul>
+        <li><a href="../content/adv/37-bootstrap.html">หัวข้อ 37 Bootstrap</a></li>
+        <li><a href="../exercises/adv-bootstrap.html">แบบฝึก Bootstrap CI</a></li>
+        <li><a href="../content/method-notes.html">Method Notes</a> – แนวทางการรายงาน</li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    const dataInput = document.getElementById('data-input');
+    const iterationsInput = document.getElementById('iterations');
+    const alphaInput = document.getElementById('alpha');
+    const statisticSelect = document.getElementById('statistic');
+    const runButton = document.getElementById('run-bootstrap');
+    const summary = document.getElementById('result-summary');
+    const histogramCanvas = document.getElementById('histogram');
+    const histogramCaption = document.getElementById('histogram-caption');
+    const exampleSelect = document.getElementById('example-select');
+    const fileInput = document.getElementById('file-input');
+    const resetBtn = document.getElementById('reset-btn');
+    const downloadCsvBtn = document.getElementById('download-csv');
+    const downloadPngBtn = document.getElementById('download-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    const ctx = histogramCanvas.getContext('2d');
+    const worker = new Worker('../workers/bootstrap.worker.js');
+
+    const STORAGE_KEY = 'bootstrap-lab-state-v1';
+    let loadedFromQuery = false;
+
+    const SAMPLE_SERIES = '12.4, 11.8, 13.0, 12.6, 11.9, 12.7, 12.2, 12.5, 13.1, 12.8';
+
+    const textEncoder = new TextEncoder();
+    const textDecoder = new TextDecoder();
+
+    let lastDistribution = [];
+    let lastResult = null;
+
+    function encodeState(text) {
+      return btoa(String.fromCharCode(...textEncoder.encode(text)));
+    }
+
+    function decodeState(base64) {
+      return textDecoder.decode(Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)));
+    }
+
+    function parseValues(text) {
+      return text.split(/[,\s]+/).map(Number).filter((value) => Number.isFinite(value));
+    }
+
+    function renderHistogram(values) {
+      ctx.clearRect(0, 0, histogramCanvas.width, histogramCanvas.height);
+      if (!values.length) {
+        histogramCaption.textContent = 'รอผลการคำนวณเพื่อแสดง histogram';
+        return;
+      }
+      const padding = 40;
+      const bins = Math.min(20, Math.max(6, Math.round(Math.sqrt(values.length))));
+      const minValue = Math.min(...values);
+      const maxValue = Math.max(...values);
+      const binWidth = (maxValue - minValue) / bins || 1;
+      const counts = Array.from({ length: bins }, () => 0);
+      values.forEach((value) => {
+        const index = Math.min(bins - 1, Math.floor((value - minValue) / binWidth));
+        counts[index] += 1;
+      });
+      const maxCount = Math.max(...counts);
+      const barWidth = (histogramCanvas.width - padding * 2) / bins;
+
+      ctx.strokeStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(padding, histogramCanvas.height - padding);
+      ctx.lineTo(histogramCanvas.width - padding, histogramCanvas.height - padding);
+      ctx.stroke();
+
+      counts.forEach((count, index) => {
+        const height = (count / (maxCount || 1)) * (histogramCanvas.height - padding * 2);
+        const x = padding + index * barWidth;
+        const y = histogramCanvas.height - padding - height;
+        ctx.fillStyle = 'rgba(99,102,241,0.75)';
+        ctx.fillRect(x + 4, y, barWidth - 8, height);
+      });
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '12px sans-serif';
+      ctx.fillText(`min = ${minValue.toFixed(3)}`, padding, padding - 16);
+      ctx.fillText(`max = ${maxValue.toFixed(3)}`, histogramCanvas.width - padding - 80, padding - 16);
+      histogramCaption.textContent = `จำนวนรอบ = ${values.length}, bins = ${bins}`;
+    }
+
+    function formatInterval([lower, upper]) {
+      return `[${lower.toFixed(3)}, ${upper.toFixed(3)}]`;
+    }
+
+    function renderResult(result, statistic, alpha, size) {
+      lastResult = result;
+      const percentile = formatInterval(result.percentile);
+      const basic = formatInterval(result.basic);
+      const biasText = result.bias >= 0 ? `+${result.bias.toFixed(4)}` : result.bias.toFixed(4);
+      summary.innerHTML = `
+        <section>
+          <h3>สถิติหลัก</h3>
+          <p>Point estimate (${statistic}) = ${result.point.toFixed(4)}</p>
+          <p>Bias = ${biasText}, SE = ${result.se.toFixed(4)}</p>
+          <p>Percentile CI ${(1 - alpha) * 100}% = ${percentile}</p>
+          <p>Basic CI ${(1 - alpha) * 100}% = ${basic}</p>
+        </section>
+        <section>
+          <h3>ข้อเสนอแนะ</h3>
+          <ul>
+            <li>ตรวจสอบว่าจำนวนรอบ (B = ${size}) เพียงพอ โดยดูว่าช่วงเริ่มนิ่งหรือไม่</li>
+            <li>หาก bias สูง ควรตรวจสอบการสุ่มหรือเลือกสถิติอื่น เช่น median</li>
+            <li>บันทึก seed/เครื่องมือที่ใช้เพื่อให้การทดลองทำซ้ำได้</li>
+          </ul>
+        </section>
+      `;
+    }
+
+    function buildPermalink() {
+      const params = new URLSearchParams();
+      const text = dataInput.value.trim();
+      if (text) {
+        params.set('data', encodeState(text));
+      }
+      params.set('stat', statisticSelect.value);
+      params.set('iter', iterationsInput.value);
+      params.set('alpha', alphaInput.value);
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+      return url;
+    }
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const dataParam = params.get('data');
+      const stat = params.get('stat');
+      const iter = params.get('iter');
+      const alpha = params.get('alpha');
+      if (dataParam) {
+        try {
+          dataInput.value = decodeState(dataParam);
+          exampleSelect.value = 'custom';
+          loadedFromQuery = true;
+        } catch (error) {
+          dataInput.value = SAMPLE_SERIES;
+          exampleSelect.value = 'sample';
+        }
+      } else {
+        dataInput.value = SAMPLE_SERIES;
+        exampleSelect.value = 'sample';
+      }
+      if (stat) statisticSelect.value = stat;
+      if (iter) iterationsInput.value = Number(iter);
+      if (alpha) alphaInput.value = Number(alpha);
+      return loadedFromQuery;
+    }
+
+    function loadFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const state = JSON.parse(raw);
+        if (state.data) {
+          dataInput.value = state.data;
+          exampleSelect.value = 'custom';
+        }
+        if (state.stat) statisticSelect.value = state.stat;
+        if (state.iter) iterationsInput.value = Number(state.iter);
+        if (state.alpha) alphaInput.value = Number(state.alpha);
+      } catch (error) {
+        // ignore corrupted storage
+      }
+    }
+
+    function saveState() {
+      try {
+        const payload = {
+          data: dataInput.value.trim(),
+          stat: statisticSelect.value,
+          iter: Number(iterationsInput.value) || 2000,
+          alpha: Number(alphaInput.value) || 0.05
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (error) {
+        // ignore write failures (e.g. private mode)
+      }
+    }
+
+    function handleWorkerMessage(event) {
+      const { error, distribution = [], ...result } = event.data || {};
+      if (error) {
+        summary.innerHTML = `<p>${error}</p>`;
+        return;
+      }
+      lastDistribution = distribution;
+      renderResult(result, statisticSelect.value, Number(alphaInput.value), Number(iterationsInput.value));
+      renderHistogram(distribution);
+      downloadCsvBtn.disabled = false;
+      downloadPngBtn.disabled = false;
+    }
+
+    worker.addEventListener('message', handleWorkerMessage);
+
+    runButton?.addEventListener('click', () => {
+      const values = parseValues(dataInput.value);
+      if (values.length < 5) {
+        summary.innerHTML = '<p>ต้องมีข้อมูลอย่างน้อย 5 ค่า</p>';
+        return;
+      }
+      const iterations = Number(iterationsInput.value) || 2000;
+      const alpha = Number(alphaInput.value) || 0.05;
+      if (alpha <= 0 || alpha >= 1) {
+        summary.innerHTML = '<p>α ต้องอยู่ระหว่าง 0 และ 1</p>';
+        return;
+      }
+      summary.innerHTML = '<p>กำลังคำนวณ...</p>';
+      downloadCsvBtn.disabled = true;
+      downloadPngBtn.disabled = true;
+      worker.postMessage({
+        data: values,
+        iterations,
+        statistic: statisticSelect.value,
+        alpha,
+        includeDistribution: true
+      });
+      buildPermalink();
+      saveState();
+    });
+
+    exampleSelect?.addEventListener('change', () => {
+      if (exampleSelect.value === 'sample') {
+        dataInput.value = SAMPLE_SERIES;
+      }
+      buildPermalink();
+      saveState();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      dataInput.value = SAMPLE_SERIES;
+      statisticSelect.value = 'mean';
+      iterationsInput.value = 2000;
+      alphaInput.value = 0.05;
+      exampleSelect.value = 'sample';
+      summary.innerHTML += '<p class="tagline">รีเซ็ตเป็นชุดตัวอย่างแล้ว</p>';
+      renderHistogram([]);
+      downloadCsvBtn.disabled = true;
+      downloadPngBtn.disabled = true;
+      buildPermalink();
+      saveState();
+    });
+
+    fileInput?.addEventListener('change', async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      const numeric = parseValues(text);
+      if (!numeric.length) {
+        summary.innerHTML = '<p>ไฟล์ต้องมีตัวเลขอย่างน้อย 1 ค่า</p>';
+        return;
+      }
+      dataInput.value = numeric.join(', ');
+      exampleSelect.value = 'custom';
+      buildPermalink();
+      saveState();
+    });
+
+    dataInput?.addEventListener('input', () => {
+      if (exampleSelect.value !== 'sample') {
+        exampleSelect.value = 'custom';
+      }
+      saveState();
+    });
+
+    iterationsInput?.addEventListener('input', saveState);
+    alphaInput?.addEventListener('input', saveState);
+    statisticSelect?.addEventListener('change', () => {
+      saveState();
+      buildPermalink();
+    });
+
+    downloadCsvBtn?.addEventListener('click', () => {
+      if (!lastDistribution.length) return;
+      const header = 'bootstrap_statistic';
+      const rows = lastDistribution.map((value) => value.toString());
+      const blob = new Blob([header + '\n' + rows.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bootstrap-distribution.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    downloadPngBtn?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = histogramCanvas.toDataURL('image/png');
+      link.download = 'bootstrap-histogram.png';
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = buildPermalink();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
+      }
+    });
+
+    const hasQueryState = restoreFromQuery();
+    if (!hasQueryState) {
+      loadFromStorage();
+    }
+    renderHistogram([]);
+    downloadCsvBtn.disabled = true;
+    downloadPngBtn.disabled = true;
+  </script>
+</body>
+</html>

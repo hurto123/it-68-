@@ -24,9 +24,10 @@
     <article class="card">
       <p>ใช้ข้อมูล <code>data/regression_cars.csv</code>:</p>
       <ol>
-        <li>ตั้งโมเดล mpg = β₀ + β₁*weight แล้วประมาณค่า β</li>
-        <li>คำนวณ R² และตีความ</li>
-        <li>ประเมินว่าหาก weight เพิ่ม 100 ปอนด์ mpg จะเปลี่ยนเท่าไร</li>
+        <li>ตั้งโมเดล mpg = β₀ + β₁·weight แล้วประมาณค่า β ด้วย OLS</li>
+        <li>คำนวณ R², RMSE และรายงานค่า SE(β₁)</li>
+        <li>ตรวจ residual plot ว่ามี pattern หรือไม่ พร้อมคำนวณค่า Durbin–Watson</li>
+        <li>ประเมินว่าหาก weight เพิ่ม 100 ปอนด์ mpg จะเปลี่ยนเท่าไร และสร้าง 95% CI สำหรับการเปลี่ยนแปลงนั้น</li>
       </ol>
     </article>
   </main>
