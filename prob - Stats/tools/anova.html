@@ -26,17 +26,37 @@
   <main class="card-grid">
     <article class="card">
       <h2>ใส่ข้อมูล</h2>
+      <p>รูปแบบ: <code>ชื่อกลุ่ม: ค่า1, ค่า2, ...</code> แต่ละกลุ่มคั่นด้วยบรรทัดใหม่</p>
       <textarea id="anova-input" rows="8" placeholder="Group A: 12, 14, 15\nGroup B: 10, 11, 13\nGroup C: 16, 17, 18"></textarea>
-      <button class="primary" id="calculate">คำนวณ</button>
-      <button class="secondary" id="reset">รีเซ็ต</button>
-      <p class="tagline">คั่นค่าด้วยเครื่องหมายจุลภาคหรือเว้นบรรทัด</p>
+      <div class="tool-actions">
+        <label>ชุดตัวอย่าง
+          <select id="anova-example">
+            <option value="plants">Plant Growth (Balanced)</option>
+            <option value="qa">QA Shift</option>
+            <option value="custom">ใช้ข้อมูลของฉัน</option>
+          </select>
+        </label>
+        <button class="primary" id="calculate">คำนวณ</button>
+        <button class="secondary" id="reset">รีเซ็ตเป็นตัวอย่าง</button>
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </div>
+      <p class="tagline">ตัวอย่างจะเติมค่าพร้อมสำหรับ balanced one-way ANOVA</p>
     </article>
     <article class="card">
       <h2>ผลลัพธ์</h2>
       <div id="anova-output">
         <p>กรอกข้อมูลอย่างน้อย 2 กลุ่มเพื่อเริ่ม</p>
       </div>
+      <footer class="card-footer">
+        <button class="ghost" id="export-csv">Export ANOVA Table CSV</button>
+        <button class="ghost" id="export-png">Export Mean Plot PNG</button>
+      </footer>
       <p class="tagline">ใช้สำหรับบท <a href="../content/adv/35-oneway-anova.html">35</a> และ <a href="../content/30-test-variance-ratio.html">30</a></p>
+    </article>
+    <article class="card">
+      <h2>Mean Plot</h2>
+      <canvas id="anova-chart" width="480" height="320" aria-label="Group means chart"></canvas>
+      <p class="tagline" id="chart-caption">ฟิตโมเดลเพื่อดูค่าเฉลี่ยกลุ่มและเส้น grand mean</p>
     </article>
     <article class="card">
       <h2>เชื่อมโยง</h2>
@@ -50,62 +70,264 @@
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
   </footer>
-  <script>
+  <script type="module">
+    import { fCdf } from './distributions.js';
+
+    const textEncoder = new TextEncoder();
+    const textDecoder = new TextDecoder();
+
+    function encodeState(text) {
+      return btoa(String.fromCharCode(...textEncoder.encode(text)));
+    }
+
+    function decodeState(base64) {
+      return textDecoder.decode(Uint8Array.from(atob(base64), c => c.charCodeAt(0)));
+    }
+
     const input = document.getElementById('anova-input');
     const output = document.getElementById('anova-output');
+    const exampleSelect = document.getElementById('anova-example');
+    const chartCanvas = document.getElementById('anova-chart');
+    const chartCtx = chartCanvas.getContext('2d');
+    const chartCaption = document.getElementById('chart-caption');
+    const exportCsvBtn = document.getElementById('export-csv');
+    const exportPngBtn = document.getElementById('export-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    if (exportCsvBtn) exportCsvBtn.disabled = true;
+    if (exportPngBtn) exportPngBtn.disabled = true;
+
+    const examples = {
+      plants: `Control: 21.0, 21.4, 20.8, 21.2\nFertilizer A: 22.5, 22.1, 22.8, 22.4\nFertilizer B: 24.0, 24.3, 23.8, 24.1`,
+      qa: `Shift A: 12, 13, 11, 12\nShift B: 15, 16, 14, 15\nShift C: 18, 17, 19, 18`
+    };
+
+    let lastResult = null;
 
     function parseGroups(text) {
       const groups = {};
       text.split(/\n+/).forEach(line => {
         const [label, values] = line.split(':');
         if (!label || !values) return;
-        groups[label.trim()] = values.split(/[,\s]+/).map(Number).filter(v => !Number.isNaN(v));
+        const cleanLabel = label.trim();
+        const numbers = values.split(/[,\s]+/).map(Number).filter(v => Number.isFinite(v));
+        if (numbers.length) {
+          groups[cleanLabel] = numbers;
+        }
       });
       return groups;
     }
 
-    function anova(groups) {
-      const labels = Object.keys(groups).filter(label => groups[label].length);
-      if (labels.length < 2) {
-        throw new Error('ต้องมีอย่างน้อยสองกลุ่ม');
-      }
+    function computeAnova(groups) {
+      const labels = Object.keys(groups);
+      if (labels.length < 2) throw new Error('ต้องมีอย่างน้อยสองกลุ่ม');
+      const sizes = labels.map(label => groups[label].length);
+      if (sizes.some(size => size < 2)) throw new Error('แต่ละกลุ่มต้องมีอย่างน้อย 2 ค่า');
+      const totalN = sizes.reduce((a, b) => a + b, 0);
       const allValues = labels.flatMap(label => groups[label]);
-      const grandMean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
+      const grandMean = allValues.reduce((a, b) => a + b, 0) / totalN;
       let ssBetween = 0;
       let ssWithin = 0;
+      const groupMeans = {};
       labels.forEach(label => {
         const values = groups[label];
         const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        groupMeans[label] = mean;
         ssBetween += values.length * (mean - grandMean) ** 2;
         ssWithin += values.reduce((acc, value) => acc + (value - mean) ** 2, 0);
       });
       const dfBetween = labels.length - 1;
-      const dfWithin = allValues.length - labels.length;
+      const dfWithin = totalN - labels.length;
       const msBetween = ssBetween / dfBetween;
       const msWithin = ssWithin / dfWithin;
       const fValue = msWithin === 0 ? Infinity : msBetween / msWithin;
-      return { labels, grandMean, ssBetween, ssWithin, dfBetween, dfWithin, msBetween, msWithin, fValue };
+      const pValue = fValue === Infinity ? 0 : 1 - fCdf(fValue, dfBetween, dfWithin);
+      return {
+        labels,
+        sizes,
+        grandMean,
+        ssBetween,
+        ssWithin,
+        dfBetween,
+        dfWithin,
+        msBetween,
+        msWithin,
+        fValue,
+        pValue,
+        totalN,
+        groupMeans
+      };
     }
 
-    document.getElementById('calculate')?.addEventListener('click', () => {
+    function renderChart(result) {
+      chartCtx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      const padding = 40;
+      const { labels, groupMeans, grandMean } = result;
+      const values = labels.map(label => groupMeans[label]);
+      const minValue = Math.min(grandMean, ...values);
+      const maxValue = Math.max(grandMean, ...values);
+      const barWidth = (chartCanvas.width - padding * 2) / labels.length - 10;
+      chartCtx.strokeStyle = '#0f172a';
+      chartCtx.beginPath();
+      chartCtx.moveTo(padding, padding);
+      chartCtx.lineTo(padding, chartCanvas.height - padding);
+      chartCtx.lineTo(chartCanvas.width - padding, chartCanvas.height - padding);
+      chartCtx.stroke();
+      chartCtx.fillStyle = 'rgba(59,130,246,0.7)';
+      labels.forEach((label, index) => {
+        const value = groupMeans[label];
+        const x = padding + index * (barWidth + 10) + 5;
+        const height = ((value - minValue) / ((maxValue - minValue) || 1)) * (chartCanvas.height - padding * 2);
+        const y = chartCanvas.height - padding - height;
+        chartCtx.fillRect(x, y, barWidth, height);
+        chartCtx.fillStyle = '#0f172a';
+        chartCtx.fillText(value.toFixed(2), x, y - 6);
+        chartCtx.fillText(label, x, chartCanvas.height - padding + 14);
+        chartCtx.fillStyle = 'rgba(59,130,246,0.7)';
+      });
+      const grandY = chartCanvas.height - padding - ((grandMean - minValue) / ((maxValue - minValue) || 1)) * (chartCanvas.height - padding * 2);
+      chartCtx.strokeStyle = '#ef4444';
+      chartCtx.beginPath();
+      chartCtx.moveTo(padding, grandY);
+      chartCtx.lineTo(chartCanvas.width - padding, grandY);
+      chartCtx.stroke();
+      chartCtx.fillStyle = '#ef4444';
+      chartCtx.fillText(`Grand mean ${grandMean.toFixed(2)}`, padding + 5, grandY - 6);
+      chartCaption.textContent = 'สี่เหลี่ยม = mean รายกลุ่ม, เส้นแดง = grand mean';
+    }
+
+    function renderResult(result) {
+      const tableRows = `
+        <tr><td>ระหว่างกลุ่ม</td><td>${result.dfBetween}</td><td>${result.ssBetween.toFixed(3)}</td><td>${result.msBetween.toFixed(3)}</td><td>${result.fValue.toFixed(3)}</td><td>${result.pValue.toFixed(4)}</td></tr>
+        <tr><td>ภายในกลุ่ม</td><td>${result.dfWithin}</td><td>${result.ssWithin.toFixed(3)}</td><td>${result.msWithin.toFixed(3)}</td><td>—</td><td>—</td></tr>
+        <tr><td>รวม</td><td>${result.totalN - 1}</td><td>${(result.ssBetween + result.ssWithin).toFixed(3)}</td><td>—</td><td>—</td><td>—</td></tr>`;
+      const groupDetails = result.labels.map((label, index) => `<li>${label}: n = ${result.sizes[index]}, mean = ${result.groupMeans[label].toFixed(3)}</li>`).join('');
+      output.innerHTML = `
+        <section>
+          <h3>ANOVA Table</h3>
+          <table>
+            <thead><tr><th>แหล่งที่มา</th><th>df</th><th>SS</th><th>MS</th><th>F</th><th>p</th></tr></thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </section>
+        <section>
+          <h3>ขั้นตอนการตีความ</h3>
+          <ol>
+            <li>ดูค่า p: ${result.pValue.toFixed(4)} → ${result.pValue < 0.05 ? 'ปฏิเสธ H₀ ที่ระดับ 0.05' : 'ยังไม่พอปฏิเสธ H₀ ที่ระดับ 0.05'}</li>
+            <li>เช็กขนาดผล: MS ระหว่าง / MS ภายใน = ${result.fValue.toFixed(3)}</li>
+            <li>ดู mean รายกลุ่มเพื่อหาแนวโน้ม</li>
+          </ol>
+          <ul>${groupDetails}</ul>
+        </section>
+        <section>
+          <h3>ถัดไป</h3>
+          <ul>
+            <li>ถ้า p &lt; α → ทำ post-hoc (เช่น Tukey) จากบท 35</li>
+            <li>ตรวจ assumptions: independence, normality, equal variance</li>
+            <li>ใช้ power planner เพื่อวางแผน n เพิ่มเติม</li>
+          </ul>
+        </section>
+      `;
+    }
+
+    function buildPermalink(text) {
+      const params = new URLSearchParams();
+      if (text.trim()) {
+        params.set('groups', encodeState(text.trim()));
+      }
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+      return url;
+    }
+
+    function runAnova() {
       try {
         const groups = parseGroups(input.value);
-        const result = anova(groups);
-        output.innerHTML = `
-          <p>df ระหว่าง = ${result.dfBetween}, df ภายใน = ${result.dfWithin}</p>
-          <p>SS ระหว่าง = ${result.ssBetween.toFixed(3)}, SS ภายใน = ${result.ssWithin.toFixed(3)}</p>
-          <p>MS ระหว่าง = ${result.msBetween.toFixed(3)}, MS ภายใน = ${result.msWithin.toFixed(3)}</p>
-          <p>F = ${result.fValue.toFixed(3)}</p>
-        `;
+        const result = computeAnova(groups);
+        lastResult = result;
+        renderResult(result);
+        renderChart(result);
+        exportCsvBtn.disabled = false;
+        exportPngBtn.disabled = false;
+        buildPermalink(input.value);
       } catch (error) {
-        output.textContent = error.message;
+        output.innerHTML = `<p>${error.message}</p>`;
+        chartCtx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+        chartCaption.textContent = 'ฟิตโมเดลเพื่อดูค่าเฉลี่ยกลุ่มและเส้น grand mean';
+      }
+    }
+
+    document.getElementById('calculate')?.addEventListener('click', runAnova);
+
+    document.getElementById('reset')?.addEventListener('click', () => {
+      exampleSelect.value = 'plants';
+      input.value = examples.plants;
+      output.innerHTML = '<p>โหลดตัวอย่างใหม่แล้ว กดคำนวณเพื่อดูผลลัพธ์</p>';
+      chartCtx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      chartCaption.textContent = 'ฟิตโมเดลเพื่อดูค่าเฉลี่ยกลุ่มและเส้น grand mean';
+      buildPermalink(input.value);
+    });
+
+    exampleSelect?.addEventListener('change', () => {
+      const value = exampleSelect.value;
+      if (value === 'custom') return;
+      if (examples[value]) {
+        input.value = examples[value];
+        buildPermalink(input.value);
       }
     });
 
-    document.getElementById('reset')?.addEventListener('click', () => {
-      input.value = '';
-      output.innerHTML = '<p>กรอกข้อมูลอย่างน้อย 2 กลุ่มเพื่อเริ่ม</p>';
+    exportCsvBtn?.addEventListener('click', () => {
+      if (!lastResult) return;
+      const rows = [
+        ['Source', 'df', 'SS', 'MS', 'F', 'p'],
+        ['Between', lastResult.dfBetween, lastResult.ssBetween, lastResult.msBetween, lastResult.fValue, lastResult.pValue],
+        ['Within', lastResult.dfWithin, lastResult.ssWithin, lastResult.msWithin, '', ''],
+        ['Total', lastResult.totalN - 1, lastResult.ssBetween + lastResult.ssWithin, '', '', '']
+      ];
+      const csv = rows.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'anova-table.csv';
+      a.click();
+      URL.revokeObjectURL(url);
     });
+
+    exportPngBtn?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = chartCanvas.toDataURL('image/png');
+      link.download = 'anova-means.png';
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = buildPermalink(input.value);
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
+      }
+    });
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const groupsParam = params.get('groups');
+      if (groupsParam) {
+        const text = decodeState(groupsParam);
+        input.value = text;
+        exampleSelect.value = 'custom';
+      } else {
+        input.value = examples.plants;
+        exampleSelect.value = 'plants';
+      }
+    }
+
+    restoreFromQuery();
   </script>
 </body>
 </html>
