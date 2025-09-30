@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ANOVA Calculator</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Tool</p>
+      <h1>One-way ANOVA</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>ใส่ข้อมูล</h2>
+      <textarea id="anova-input" rows="8" placeholder="Group A: 12, 14, 15\nGroup B: 10, 11, 13\nGroup C: 16, 17, 18"></textarea>
+      <button class="primary" id="calculate">คำนวณ</button>
+      <button class="secondary" id="reset">รีเซ็ต</button>
+      <p class="tagline">คั่นค่าด้วยเครื่องหมายจุลภาคหรือเว้นบรรทัด</p>
+    </article>
+    <article class="card">
+      <h2>ผลลัพธ์</h2>
+      <div id="anova-output">
+        <p>กรอกข้อมูลอย่างน้อย 2 กลุ่มเพื่อเริ่ม</p>
+      </div>
+      <p class="tagline">ใช้สำหรับบท <a href="../content/adv/35-oneway-anova.html">35</a> และ <a href="../content/30-test-variance-ratio.html">30</a></p>
+    </article>
+    <article class="card">
+      <h2>เชื่อมโยง</h2>
+      <ul>
+        <li><a href="../tools/power-sample-size.html">Power Planner (F-test)</a></li>
+        <li><a href="../tables/f-table.html">ตาราง F</a></li>
+        <li><a href="../data/anova_plants.csv">ตัวอย่างข้อมูล</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script>
+    const input = document.getElementById('anova-input');
+    const output = document.getElementById('anova-output');
+
+    function parseGroups(text) {
+      const groups = {};
+      text.split(/\n+/).forEach(line => {
+        const [label, values] = line.split(':');
+        if (!label || !values) return;
+        groups[label.trim()] = values.split(/[,\s]+/).map(Number).filter(v => !Number.isNaN(v));
+      });
+      return groups;
+    }
+
+    function anova(groups) {
+      const labels = Object.keys(groups).filter(label => groups[label].length);
+      if (labels.length < 2) {
+        throw new Error('ต้องมีอย่างน้อยสองกลุ่ม');
+      }
+      const allValues = labels.flatMap(label => groups[label]);
+      const grandMean = allValues.reduce((a, b) => a + b, 0) / allValues.length;
+      let ssBetween = 0;
+      let ssWithin = 0;
+      labels.forEach(label => {
+        const values = groups[label];
+        const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        ssBetween += values.length * (mean - grandMean) ** 2;
+        ssWithin += values.reduce((acc, value) => acc + (value - mean) ** 2, 0);
+      });
+      const dfBetween = labels.length - 1;
+      const dfWithin = allValues.length - labels.length;
+      const msBetween = ssBetween / dfBetween;
+      const msWithin = ssWithin / dfWithin;
+      const fValue = msWithin === 0 ? Infinity : msBetween / msWithin;
+      return { labels, grandMean, ssBetween, ssWithin, dfBetween, dfWithin, msBetween, msWithin, fValue };
+    }
+
+    document.getElementById('calculate')?.addEventListener('click', () => {
+      try {
+        const groups = parseGroups(input.value);
+        const result = anova(groups);
+        output.innerHTML = `
+          <p>df ระหว่าง = ${result.dfBetween}, df ภายใน = ${result.dfWithin}</p>
+          <p>SS ระหว่าง = ${result.ssBetween.toFixed(3)}, SS ภายใน = ${result.ssWithin.toFixed(3)}</p>
+          <p>MS ระหว่าง = ${result.msBetween.toFixed(3)}, MS ภายใน = ${result.msWithin.toFixed(3)}</p>
+          <p>F = ${result.fValue.toFixed(3)}</p>
+        `;
+      } catch (error) {
+        output.textContent = error.message;
+      }
+    });
+
+    document.getElementById('reset')?.addEventListener('click', () => {
+      input.value = '';
+      output.innerHTML = '<p>กรอกข้อมูลอย่างน้อย 2 กลุ่มเพื่อเริ่ม</p>';
+    });
+  </script>
+</body>
+</html>

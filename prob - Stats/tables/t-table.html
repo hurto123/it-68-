@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>t Table</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <script defer src="../app.js"></script>
+</head>
+<body data-page="table">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Table</p>
+      <h1>ตาราง t (สองด้าน)</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#resources">กลับ</a>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <label>ระดับนัยสำคัญ (α)
+        <input id="t-alpha" type="number" step="0.0001" value="0.05">
+      </label>
+      <div class="table-wrapper">
+        <table id="t-table"></table>
+      </div>
+    </article>
+  </main>
+  <script type="module">
+    import { studentTInv } from '../tools/distributions.js';
+    const table = document.getElementById('t-table');
+    const alphaInput = document.getElementById('t-alpha');
+
+    function build(alpha) {
+      table.innerHTML = '<tr><th>df</th><th>t critical</th></tr>';
+      const dfs = [...Array(30).keys()].map(i => i + 1).concat([40, 60, 120, Infinity]);
+      dfs.forEach(df => {
+        const p = 1 - alpha / 2;
+        const value = Number.isFinite(df) ? studentTInv(p, df).toFixed(4) : studentTInv(p, 1e6).toFixed(4);
+        const row = document.createElement('tr');
+        row.innerHTML = `<th>${df === Infinity ? '∞' : df}</th><td>${value}</td>`;
+        table.appendChild(row);
+      });
+    }
+
+    alphaInput.addEventListener('input', () => {
+      const alpha = Number(alphaInput.value);
+      if (alpha <= 0 || alpha >= 1) return;
+      build(alpha);
+    });
+
+    build(Number(alphaInput.value));
+  </script>
+  <style>
+    .table-wrapper { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.4rem; border: 1px solid rgba(148, 163, 184, 0.4); text-align: center; }
+  </style>
+</body>
+</html>

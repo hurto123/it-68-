@@ -1,0 +1,17 @@
+@media print {
+  body {
+    background: #fff !important;
+    color: #000;
+  }
+  header, footer, nav, .hero, #command-palette {
+    display: none !important;
+  }
+  main {
+    padding: 0;
+    gap: 1.2rem;
+  }
+  .card {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}

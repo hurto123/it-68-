@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decision Map</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="map">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Navigator</p>
+      <h1>Decision Map: เลือกวิธีวิเคราะห์</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html">กลับหน้าแรก</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>1. เป้าหมายการวิเคราะห์</h2>
+      <ul>
+        <li>อธิบาย/สรุปตัวแปรเดี่ยว → ใช้บท 01–12 + ตาราง</li>
+        <li>ประมาณค่าพารามิเตอร์ → เลือก CI (บท 16–22)</li>
+        <li>ทดสอบสมมติฐาน → บท 23–30 พร้อมเครื่องมือทดสอบ</li>
+        <li>สร้างแบบจำลอง → หัวข้อขั้นสูง 32–39</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>2. โฟลว์เลือกวิธี</h2>
+      <ol>
+        <li>ชนิดตัวแปรตอบ (ต่อเนื่อง, สัดส่วน, การนับ)</li>
+        <li>จำนวนกลุ่ม (1, 2, มากกว่า 2, จับคู่)</li>
+        <li>สมมติฐานเกี่ยวกับ σ หรือโครงสร้างความแปรปรวน</li>
+        <li>ขนาดตัวอย่างและความสมดุล</li>
+      </ol>
+      <p>ใช้ <a href="../tools/power-sample-size.html">Power & Sample Size</a> เพื่อตรวจความเป็นไปได้</p>
+    </article>
+    <article class="card">
+      <h2>3. ปุ่มลัดเครื่องมือ</h2>
+      <ul>
+        <li><a href="../tools/z.html">Z / t / χ² / F Calculators</a></li>
+        <li><a href="../tools/power-sample-size.html">Power Planner</a></li>
+        <li><a href="../tools/chi2-tests.html">Chi-square Tests</a></li>
+        <li><a href="../tools/anova.html">ANOVA Calculator</a></li>
+        <li><a href="../sim/correlation-explorer.html">Correlation Explorer</a></li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>4. ขยายเส้นทาง</h2>
+      <p>เมื่อผ่านขั้นพื้นฐาน แนะนำให้เรียนรู้ Regression (บท 33–34), ANOVA (บท 35), และ Bootstrap (บท 37) เพื่อพร้อมใช้งานจริง</p>
+      <p>สำหรับการออกแบบการทดลอง ดู <a href="adv/39-experimental-design.html">Experimental Design</a></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+  </footer>
+</body>
+</html>

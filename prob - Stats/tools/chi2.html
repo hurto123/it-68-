@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi-square Calculator</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="tool">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Calculator</p>
+      <h1>Chi-square distribution</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>พื้นที่ด้านซ้าย</h2>
+      <label>ค่า χ²
+        <input id="chi2-value" type="number" step="0.001" value="5.991">
+      </label>
+      <label>df
+        <input id="chi2-df" type="number" min="1" step="1" value="2">
+      </label>
+      <button class="primary" id="chi2-calc">คำนวณ</button>
+      <p id="chi2-cdf"></p>
+    </article>
+    <article class="card">
+      <h2>หา critical value</h2>
+      <label>พื้นที่ (0-1)
+        <input id="chi2-prob" type="number" step="0.0001" value="0.95">
+      </label>
+      <label>df
+        <input id="chi2-df-crit" type="number" min="1" step="1" value="2">
+      </label>
+      <button class="primary" id="chi2-inv">หาค่า χ²</button>
+      <p id="chi2-inv-result"></p>
+    </article>
+    <article class="card">
+      <h2>ลิงก์</h2>
+      <ul>
+        <li><a href="../content/22-ci-variance.html">CI ความแปรปรวน</a></li>
+        <li><a href="../content/29-test-variance-onepop.html">ทดสอบความแปรปรวน</a></li>
+        <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script type="module">
+    import { chiSquareCdf, chiSquareInv } from './distributions.js';
+    const valueInput = document.getElementById('chi2-value');
+    const dfInput = document.getElementById('chi2-df');
+    const cdfOutput = document.getElementById('chi2-cdf');
+    const probInput = document.getElementById('chi2-prob');
+    const dfCritInput = document.getElementById('chi2-df-crit');
+    const invOutput = document.getElementById('chi2-inv-result');
+
+    document.getElementById('chi2-calc')?.addEventListener('click', () => {
+      const x = Number(valueInput.value);
+      const df = Number(dfInput.value);
+      if (df < 1) {
+        cdfOutput.textContent = 'df ต้องมากกว่า 0';
+        return;
+      }
+      const p = chiSquareCdf(x, df);
+      cdfOutput.textContent = `P(X ≤ ${x.toFixed(3)}) ≈ ${p.toFixed(4)}`;
+    });
+
+    document.getElementById('chi2-inv')?.addEventListener('click', () => {
+      try {
+        const p = Number(probInput.value);
+        const df = Number(dfCritInput.value);
+        const x = chiSquareInv(p, df);
+        invOutput.textContent = `χ² ≈ ${x.toFixed(4)}`;
+      } catch (error) {
+        invOutput.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

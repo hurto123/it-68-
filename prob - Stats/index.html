@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>หลักสูตรสถิติสำหรับการวิเคราะห์ข้อมูล</title>
+  <link rel="manifest" href="pwa/manifest.json">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/light.css" id="theme-style">
+  <link rel="stylesheet" href="styles/theme-high-contrast.css" media="(prefers-contrast: more)">
+  <link rel="stylesheet" href="styles/typography-access.css">
+  <link rel="stylesheet" href="styles/print.css" media="print">
+  <script defer src="app.js"></script>
+  <script defer src="search.js"></script>
+  <script defer src="app/command-palette.js"></script>
+  <script defer src="i18n/i18n.js"></script>
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="header-brand">
+      <h1 data-i18n="title">หลักสูตรสถิติเพื่อการตัดสินใจ</h1>
+      <p data-i18n="subtitle">เรียนรู้แบบโมดูล - จากพื้นฐานถึงประยุกต์</p>
+    </div>
+    <nav class="header-actions">
+      <button id="i18n-toggle" class="ghost" data-i18n="action.toggleLang">ภาษา: TH/EN</button>
+      <button id="print-current" class="ghost" data-i18n="action.print">พิมพ์หน้านี้</button>
+      <button id="command-palette-open" class="primary" data-i18n="action.command">⌘K / Ctrl+K</button>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h2 data-i18n="hero.headline">เลือกเส้นทางการเรียนของคุณ</h2>
+        <p data-i18n="hero.body">เริ่มต้นจากบทเรียนทีละบท ทบทวนแบบรวดเร็ว หรือข้ามไปใช้เครื่องมือเฉพาะกิจทันที</p>
+        <div class="hero-actions">
+          <a class="primary" href="#curriculum" data-i18n="hero.ctaCurriculum">สำรวจหลักสูตร</a>
+          <a class="secondary" href="#tools" data-i18n="hero.ctaTools">ทดลองเครื่องมือ</a>
+          <a class="secondary" href="content/decision-map.html" data-i18n="hero.ctaDecision">Decision Map</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 240 140" role="presentation">
+          <path d="M20 120 Q70 40 120 100 T220 60" fill="none" stroke="var(--color-accent)" stroke-width="8" stroke-linecap="round" />
+          <circle cx="60" cy="70" r="10" fill="var(--color-surface-strong)" />
+          <circle cx="140" cy="90" r="10" fill="var(--color-surface-strong)" />
+        </svg>
+      </div>
+    </section>
+
+    <section id="curriculum" class="card-grid">
+      <header>
+        <h2 data-i18n="section.curriculum.title">หลักสูตรไล่บท (31 บท)</h2>
+        <p data-i18n="section.curriculum.desc">เนื้อหาเรียงลำดับจากความน่าจะเป็นพื้นฐานไปจนถึงการทดสอบสมมติฐานขั้นสูง</p>
+      </header>
+      <div id="lesson-grid" class="grid"></div>
+    </section>
+
+    <section id="review" class="card-grid">
+      <header>
+        <h2 data-i18n="section.review.title">ทบทวนแบบเร่งด่วน</h2>
+        <p data-i18n="section.review.desc">สรุปประเด็นสำคัญสำหรับการเตรียมสอบหรือการใช้งานจริง</p>
+      </header>
+      <ul class="card-list" id="review-links"></ul>
+    </section>
+
+    <section id="advanced" class="card-grid">
+      <header>
+        <h2 data-i18n="section.advanced.title">ต่อยอดใช้งานจริง</h2>
+        <p data-i18n="section.advanced.desc">หัวข้อขั้นสูงพร้อมตัวอย่างและลิงก์ไปเครื่องมือที่เกี่ยวข้อง</p>
+      </header>
+      <ul class="card-list" id="advanced-links"></ul>
+    </section>
+
+    <section id="tools" class="card-grid">
+      <header>
+        <h2 data-i18n="section.tools.title">เครื่องมือ &amp; ซิมูเลเตอร์</h2>
+        <p data-i18n="section.tools.desc">สำรวจเครื่องมือคำนวณ ทดสอบสมมติฐาน และซิมูเลเตอร์เพื่อเสริมความเข้าใจ</p>
+      </header>
+      <div class="grid" id="tool-links"></div>
+    </section>
+
+    <section id="resources" class="card-grid">
+      <header>
+        <h2 data-i18n="section.resources.title">แหล่งเสริม</h2>
+        <p data-i18n="section.resources.desc">อภิธานสัญลักษณ์ เอกสารอ้างอิง และแบบฝึกหัดสำหรับฝึกใช้งาน</p>
+      </header>
+      <div class="grid">
+        <a class="card" href="content/glossary.html" data-i18n="resource.glossary">อภิธานคำศัพท์</a>
+        <a class="card" href="content/symbols.html" data-i18n="resource.symbols">สัญลักษณ์ทางสถิติ</a>
+        <a class="card" href="content/method-notes.html" data-i18n="resource.method">ข้อควรระวังเชิงวิธีวิทยา</a>
+        <a class="card" href="content/references.html" data-i18n="resource.references">แหล่งอ้างอิง</a>
+        <a class="card" href="content/pdpa-privacy.html" data-i18n="resource.privacy">นโยบายข้อมูล/ความเป็นส่วนตัว</a>
+        <a class="card" href="tables/z-table.html" data-i18n="resource.tables">ตารางสถิติแบบโต้ตอบ</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2024 Stats Learning Lab</p>
+    <a href="#" id="install-pwa" class="ghost" data-i18n="action.install">ติดตั้งเป็นแอป</a>
+  </footer>
+
+  <dialog id="command-palette" aria-modal="true">
+    <form method="dialog" class="palette">
+      <header>
+        <input type="search" id="command-search" placeholder="ค้นหา..." aria-label="Command search">
+      </header>
+      <ul id="command-results" role="listbox"></ul>
+      <footer>
+        <menu>
+          <button value="cancel" data-i18n="action.close">ปิด</button>
+        </menu>
+      </footer>
+    </form>
+  </dialog>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('pwa/sw.js');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "title": "Statistics Learning Hub",
+  "subtitle": "Modular lessons from foundations to practice",
+  "action": {
+    "toggleLang": "Language: TH/EN",
+    "print": "Print this page",
+    "command": "⌘K / Ctrl+K",
+    "close": "Close",
+    "install": "Install app"
+  },
+  "hero": {
+    "headline": "Choose your learning path",
+    "body": "Start from fundamentals, jump to quick review, or launch a calculator instantly.",
+    "ctaCurriculum": "Browse curriculum",
+    "ctaTools": "Launch tools",
+    "ctaDecision": "Decision Map"
+  },
+  "section": {
+    "curriculum": {
+      "title": "Full curriculum (31 lessons)",
+      "desc": "A guided journey from probability basics to inference workflows."
+    },
+    "review": {
+      "title": "Rapid review",
+      "desc": "Compact notes to refresh formulas and workflows."
+    },
+    "advanced": {
+      "title": "Applied extensions",
+      "desc": "Deep dives with case studies and supporting tools."
+    },
+    "tools": {
+      "title": "Tools & simulators",
+      "desc": "Calculators, simulations, and planning aides."
+    },
+    "resources": {
+      "title": "Reference center",
+      "desc": "Glossary, symbols, method notes, and policies."
+    }
+  },
+  "resource": {
+    "glossary": "Glossary",
+    "symbols": "Statistical symbols",
+    "method": "Method guardrails",
+    "references": "References",
+    "privacy": "Privacy & data policy",
+    "tables": "Interactive tables"
+  }
+}
