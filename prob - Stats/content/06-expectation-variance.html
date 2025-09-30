@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>06. ค่าคาดหวังและความแปรปรวน</title>
+  <title>06. ค่าคาดหมายและความแปรปรวน</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 06</p>
-      <h1>ค่าคาดหวังและความแปรปรวน</h1>
+      <h1>ค่าคาดหมายและความแปรปรวน</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="05-random-variables.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>วัดแนวโน้มศูนย์กลางและการกระจายของตัวแปรสุ่ม</p>
       <ul>
-        <li>นิยาม E[X] และ linearity</li>
-        <li>Var(X) และสูตรลัด E[X^2] - (E[X])^2</li>
-        <li>ตัวอย่างค่าคาดหวังของ PMF/PDF</li>
+        <li>นิยามค่าคาดหมาย E[X] สำหรับตัวแปรสุ่มทั้งสองประเภท</li>
+        <li>ความแปรปรวน Var(X) และส่วนเบี่ยงเบนมาตรฐาน</li>
+        <li>สูตรลัดความแปรปรวนผ่าน E[X^2]</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>จำสูตรหลักเพื่อประยุกต์ในทุกการแจกแจง</p>
+      <ul>
+        <li>ค่าคาดหมาย: E[X] = Σ_x x p(x) หรือ ∫ x f(x) dx</li>
+        <li>ความแปรปรวน: Var(X) = E[(X − μ)^2]</li>
+        <li>สูตรลัด: Var(X) = E[X^2] − (E[X])^2</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>คำนวณรายได้เฉลี่ยและความเสี่ยงของการลงทุนที่ให้ผลตอบแทนหลายระดับ</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="05-random-variables.html">บทก่อนหน้า</a></li>
-        <li><a href="16-ci-intro.html">CI intro</a></li>
-        <li><a href="../tools/z.html">เครื่องคิดเลข</a></li>
+        <li><a href="05-random-variables.html">ตัวแปรสุ่ม</a></li>
+        <li><a href="07-discrete-uniform.html">การแจกแจงแบบสม่ำเสมอ</a></li>
+        <li><a href="method-notes.html">บันทึกเพิ่มเติม</a></li>
       </ul>
     </article>
   </main>

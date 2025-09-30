@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>27. ทดสอบค่าเฉลี่ยสองกลุ่ม</title>
+  <title>27. การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 27</p>
-      <h1>ทดสอบค่าเฉลี่ยสองกลุ่ม</h1>
+      <h1>การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="26-test-proportion-onepop.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>พิจารณาว่าค่าเฉลี่ยของสองกลุ่มแตกต่างกันหรือไม่</p>
       <ul>
-        <li>Pooled vs Welch</li>
-        <li>การประเมิน power</li>
-        <li>การตีความผลลัพธ์</li>
+        <li>กรณีความแปรปรวนเท่ากัน ใช้ pooled t-test</li>
+        <li>กรณีไม่เท่า ใช้ Welch t-test</li>
+        <li>แนวคิด power และการกำหนดขนาดตัวอย่าง</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรสำหรับสถิติทดสอบ</p>
+      <ul>
+        <li>t_{pooled} = (ar X_1 − ar X_2)/√(s_p^2(1/n_1 + 1/n_2))</li>
+        <li>s_p^2 = ((n_1−1)s_1^2 + (n_2−1)s_2^2)/(n_1+n_2−2)</li>
+        <li>Welch df ตามสูตร Welch-Satterthwaite</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>ทดสอบเวลาการเรียนรู้ออนไลน์ vs ห้องเรียนปกติหรือเปรียบเทียบสูตรผลิตภัณฑ์ใหม่</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">Power Welch</a></li>
-        <li><a href="19-ci-means-twopop.html">บท CI means two</a></li>
-        <li><a href="../data/regression_cars.csv">ข้อมูล cars</a></li>
+        <li><a href="26-test-proportion-onepop.html">การทดสอบสัดส่วนกลุ่มเดียว</a></li>
+        <li><a href="28-test-proportions-twopop.html">การทดสอบสองสัดส่วน</a></li>
+        <li><a href="../tools/power-sample-size.html">บท power</a></li>
       </ul>
     </article>
   </main>

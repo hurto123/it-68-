@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>16. บทนำ Confidence Interval</title>
+  <title>16. เกริ่นนำช่วงความเชื่อมั่น</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 16</p>
-      <h1>บทนำ Confidence Interval</h1>
+      <h1>เกริ่นนำช่วงความเชื่อมั่น</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="15-sampling-other-stats.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>เรียนรู้โครงสร้างทองคำของช่วงประมาณแบบ point ± critical × SE</p>
       <ul>
-        <li>องค์ประกอบของ CI</li>
-        <li>ตัวอย่างค่าเฉลี่ยและสัดส่วน</li>
-        <li>ลิงก์ไปตารางและเครื่องมือ</li>
+        <li>ความหมายของช่วงความเชื่อมั่นและการตีความ</li>
+        <li>ส่วนประกอบ: point estimate, critical value, standard error</li>
+        <li>ความสัมพันธ์ระหว่างความเชื่อมั่น กว้างของช่วง และขนาดตัวอย่าง</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>เขียนช่วงความเชื่อมั่นในรูปแบบมาตรฐาน</p>
+      <ul>
+        <li>CI = point ± critical × SE</li>
+        <li>SE = σ/√n หรือ s/√n ตามข้อมูล</li>
+        <li>เลือก critical จาก Z หรือ t ตามเงื่อนไข</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>สรุปความสูงเฉลี่ยของลูกค้าพร้อมช่วงความเชื่อมั่น 95% เพื่อสื่อสารความไม่แน่นอน</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="../tools/power-sample-size.html">เครื่องมือ power</a></li>
-        <li><a href="17-ci-mean-onepop.html">บทต่อ mean</a></li>
-        <li><a href="review/review-04-estimation.html">ทบทวน estimation</a></li>
+        <li><a href="15-sampling-other-stats.html">สถิติจากตัวอย่าง</a></li>
+        <li><a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ยกลุ่มเดียว</a></li>
+        <li><a href="31-summary-next.html">Roadmap การอนุมาน</a></li>
       </ul>
     </article>
   </main>

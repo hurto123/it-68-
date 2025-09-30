@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>04. Conditional Probability</title>
+  <title>04. ความน่าจะเป็นแบบมีเงื่อนไข</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 04</p>
-      <h1>Conditional Probability</h1>
+      <h1>ความน่าจะเป็นแบบมีเงื่อนไข</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="03-probability-basics.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>เจาะลึกการปรับความน่าจะเป็นเมื่อมีข้อมูลเพิ่มเติมและการแยกประเภทเหตุการณ์</p>
       <ul>
-        <li>นิยาม P(A|B) และการตีความ</li>
-        <li>เหตุการณ์อิสระ vs. mutually exclusive</li>
-        <li>การใช้ Bayes rule แบบพื้นฐาน</li>
+        <li>นิยามความน่าจะเป็นแบบมีเงื่อนไข P(A|B)</li>
+        <li>กฎการคูณ กฎบวก และกฎรวมความน่าจะเป็น (Law of Total Probability)</li>
+        <li>เปรียบเทียบเหตุการณ์อิสระกับเหตุการณ์ที่แยกจากกัน</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>สูตรสำคัญช่วยให้แก้โจทย์แบบหลายขั้นตอนหรือข้อมูลไม่สมบูรณ์</p>
+      <ul>
+        <li>นิยาม: P(A|B) = P(A ∩ B) / P(B)</li>
+        <li>กฎการคูณ: P(A ∩ B) = P(A|B)P(B) = P(B|A)P(A)</li>
+        <li>Bayes' Rule: P(A|B) = P(B|A)P(A) / P(B)</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>วิเคราะห์ผลตรวจคัดกรองโรคเมื่อรู้ความชุกของโรคและความไว/จำเพาะของเครื่องมือ</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="adv/36-chi2-gof-independence.html">ตารางความสัมพันธ์</a></li>
-        <li><a href="decision-map.html">Decision map</a></li>
-        <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
+        <li><a href="03-probability-basics.html">บทก่อนหน้า: ความน่าจะเป็นพื้นฐาน</a></li>
+        <li><a href="05-random-variables.html">บทถัดไป: ตัวแปรสุ่ม</a></li>
+        <li><a href="02-descriptive.html">ทบทวนการนับ</a></li>
       </ul>
     </article>
   </main>

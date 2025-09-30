@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>24. Critical value vs p-value</title>
+  <title>24. วิธี critical value vs p-value</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -16,7 +16,7 @@
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 24</p>
-      <h1>Critical value vs p-value</h1>
+      <h1>วิธี critical value vs p-value</h1>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="23-hypothesis-intro.html">บทก่อนหน้า</button>
@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>สองวิธีการตัดสินใจที่เทียบเท่ากันสำหรับการทดสอบสมมติฐาน</p>
       <ul>
-        <li>เปรียบเทียบสองวิธีการตัดสิน</li>
-        <li>การใช้กราฟช่วยอธิบาย</li>
-        <li>ตัวอย่างกรณีศึกษา</li>
+        <li>การหาช่วง critical region เพื่อเปรียบเทียบกับสถิติทดสอบ</li>
+        <li>การคำนวณ p-value และการตีความ</li>
+        <li>ขั้นตอนการรายงานผลลัพธ์แบบเป็นระบบ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>จับคู่สถิติทดสอบกับกฎตัดสินใจ</p>
+      <ul>
+        <li>ถ้า |test statistic| > critical → ปฏิเสธ H0</li>
+        <li>p-value = P(|T| ≥ |t_{obs}| | H0)</li>
+        <li>เปรียบเทียบ p-value กับ α</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>การทดสอบค่าเฉลี่ยน้ำหนักสินค้าแล้วรายงานทั้งค่า p และช่วงตัดสินใจ</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="23-hypothesis-intro.html">บท introduction</a></li>
-        <li><a href="../tables/z-table.html">ตาราง critical</a></li>
-        <li><a href="../tools/power-sample-size.html">เครื่องมือ power</a></li>
+        <li><a href="23-hypothesis-intro.html">บทนำการทดสอบสมมติฐาน</a></li>
+        <li><a href="25-test-mean-onepop.html">การทดสอบค่าเฉลี่ยกลุ่มเดียว</a></li>
+        <li><a href="method-notes.html">บันทึกการรายงานผล</a></li>
       </ul>
     </article>
   </main>

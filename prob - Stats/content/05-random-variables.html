@@ -26,19 +26,33 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <h2>ประเด็นหลัก</h2>
+      <h2>ภาพรวม</h2>
+      <p>แปลงเหตุการณ์สุ่มให้เป็นค่าตัวเลขเพื่อวิเคราะห์เชิงปริมาณ</p>
       <ul>
-        <li>แบ่งประเภท discrete และ continuous</li>
-        <li>ฟังก์ชัน PMF/PDF และ CDF</li>
-        <li>การแปลงตัวแปรสุ่มง่าย ๆ</li>
+        <li>ความแตกต่างระหว่างตัวแปรสุ่มแบบไม่ต่อเนื่องและต่อเนื่อง</li>
+        <li>นิยามฟังก์ชันมวลความน่าจะเป็น (PMF) และฟังก์ชันความหนาแน่น (PDF)</li>
+        <li>ฟังก์ชันสะสม (CDF) และการหาความน่าจะเป็นจากกราฟ</li>
       </ul>
+    </article>
+    <article class="card">
+      <h2>สูตรและหลักคิดสำคัญ</h2>
+      <p>เครื่องมือพื้นฐานในการหาความน่าจะเป็นของค่าและช่วง</p>
+      <ul>
+        <li>คุณสมบัติ PMF: Σ_x p(x) = 1, p(x) ≥ 0</li>
+        <li>คุณสมบัติ PDF: ∫ f(x) dx = 1, f(x) ≥ 0</li>
+        <li>การหาความน่าจะเป็นจาก CDF: P(a ≤ X ≤ b) = F(b) − F(a^- )</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h2>ตัวอย่างสถานการณ์</h2>
+      <p>การแจกแจงจำนวนลูกค้าที่มาถึงร้าน (ไม่ต่อเนื่อง) เทียบกับเวลารอคอยลูกค้าถัดไป (ต่อเนื่อง)</p>
     </article>
     <article class="card">
       <h2>เชื่อมต่อการเรียน</h2>
       <ul>
-        <li><a href="06-expectation-variance.html">บท expectation</a></li>
-        <li><a href="../sim/correlation-explorer.html">ซิมูเลเตอร์ correlation</a></li>
-        <li><a href="../tables/z-table.html">ตาราง Z</a></li>
+        <li><a href="04-conditional.html">เงื่อนไขและกฎบวก/คูณ</a></li>
+        <li><a href="06-expectation-variance.html">ค่าคาดหมายและความแปรปรวน</a></li>
+        <li><a href="symbols.html">สัญลักษณ์ที่ใช้บ่อย</a></li>
       </ul>
     </article>
   </main>
