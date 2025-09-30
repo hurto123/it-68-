@@ -56,6 +56,7 @@
     {"title": "Regression Playground", "href": "tools/regression-playground.html", "summary": "อัปโหลดข้อมูล ทดสอบ SLR/MLR และ residual", "tags": ["tool", "regression"]},
     {"title": "ANOVA Calculator", "href": "tools/anova.html", "summary": "กรอกข้อมูลหลายกลุ่มและคำนวณ F", "tags": ["tool", "anova"]},
     {"title": "Chi-square Tests", "href": "tools/chi2-tests.html", "summary": "คำนวณ χ² สำหรับ GoF และ Independence", "tags": ["tool", "chi-square"]},
+    {"title": "Bootstrap Lab", "href": "tools/bootstrap-lab.html", "summary": "รัน bootstrap CI (mean/median) พร้อม histogram", "tags": ["tool", "bootstrap"]},
     {"title": "Correlation Explorer", "href": "sim/correlation-explorer.html", "summary": "ซิมูเลเตอร์ปรับสัญญาณ-สัญญาณรบกวน", "tags": ["sim", "correlation"]},
     {"title": "Power & Sample Size", "href": "tools/power-sample-size.html", "summary": "วางแผนการทดลองและคำนวณ power", "tags": ["tool", "power"]},
     {"title": "Z / t / χ² / F Calculators", "href": "tools/z.html", "summary": "เข้าถึงชุดคำนวณตระกูล distribution", "tags": ["tool", "distribution"]},
