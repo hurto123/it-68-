@@ -1,0 +1,10 @@
+:root {
+  --ps-color-primary: #2563eb;
+  --ps-color-accent: #10b981;
+  --ps-color-neutral: #1f2937;
+  --ps-radius-lg: 20px;
+  --ps-shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.12);
+  --ps-spacing-unit: 1rem;
+  --ps-font-heading: "Noto Sans Thai", system-ui, sans-serif;
+  --ps-font-body: "Noto Sans Thai", system-ui, sans-serif;
+}
