@@ -28,6 +28,11 @@
     .example-table th, .example-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
     .example-table th { background: var(--neutral-100); }
     .code-block { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+    .quiz-card { background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: var(--space-3); display: grid; gap: var(--space-3); }
+    .quiz-grid { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .quiz-grid label { display: grid; gap: var(--space-1); font-weight: 600; }
+    .quiz-grid input { width: 100%; }
+    .quiz-feedback { font-weight: 600; }
   </style>
 </head>
 <body data-page="lesson">
@@ -134,6 +139,28 @@
     </section>
 
     <section>
+      <h2>Mini Quiz: ทดสอบความเข้าใจ</h2>
+      <p>ลองคำนวณและกรอกคำตอบลงในช่องเพื่อทบทวนความเข้าใจของกฎการนับ Permutation และ Combination</p>
+      <div class="quiz-card">
+        <div class="quiz-grid">
+          <label for="quiz-add">กฎการคูณ: เสื้อ 3 แบบ × กางเกง 4 แบบ มีได้กี่ชุด?
+            <input id="quiz-add" type="number" min="0" inputmode="numeric" placeholder="กรอกจำนวนวิธี">
+          </label>
+
+          <label for="quiz-perm">Permutation: P(5, 2) = ?
+            <input id="quiz-perm" type="number" min="0" inputmode="numeric" placeholder="กรอกค่า P(5,2)">
+          </label>
+
+          <label for="quiz-comb">Combination: C(6, 2) = ?
+            <input id="quiz-comb" type="number" min="0" inputmode="numeric" placeholder="กรอกค่า C(6,2)">
+          </label>
+        </div>
+        <button class="primary" id="quiz-check">ตรวจคำตอบ</button>
+        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite">พร้อมตรวจคำตอบ!</p>
+      </div>
+    </section>
+
+    <section>
       <h2>Interactive: Counting Playground</h2>
       <p>ทดลองปรับจำนวนชิ้นและขั้นตอนเพื่อดูผลลัพธ์ของกฎการบวก กฎการคูณ รวมถึง Permutation และ Combination แบบโต้ตอบ</p>
       <div class="grid-2">
@@ -221,6 +248,46 @@
       document.getElementById('comb-result').textContent = isFinite(combination) ? combination.toLocaleString('th-TH') : '—';
 
       updateBars([addition, multiplication, permutation, combination]);
+    });
+
+    const quizItems = [
+      {
+        id: 'quiz-add',
+        answer: 12,
+        success: 'ยอดเยี่ยม! คุณเข้าใจกฎการคูณของหลักการนับอย่างถูกต้อง',
+        retry: 'ลองคิดว่าต้องเลือกเสื้อและกางเกงต่อเนื่องกันอีกครั้งนะครับ'
+      },
+      {
+        id: 'quiz-perm',
+        answer: factorial(5) / factorial(5 - 2),
+        success: 'ตรงเป๊ะ! P(5,2) = 20 สะท้อนความสำคัญของลำดับ',
+        retry: 'Permutation ให้ความสำคัญกับลำดับ ลองใช้สูตร n!/(n-r)! ดูใหม่อีกครั้ง'
+      },
+      {
+        id: 'quiz-comb',
+        answer: (factorial(6) / factorial(6 - 2)) / factorial(2),
+        success: 'ถูกต้องเลย! C(6,2) = 15 เพราะไม่สนใจลำดับ',
+        retry: 'ลองนำค่า P(6,2) มาหารด้วย 2! เพื่อปรับกรณีที่สลับตำแหน่งซ้ำกันออกครับ'
+      }
+    ];
+
+    document.getElementById('quiz-check').addEventListener('click', () => {
+      let hasEmpty = false;
+      const feedback = quizItems.map(({ id, answer, success, retry }) => {
+        const field = document.getElementById(id);
+        const raw = field.value;
+        if (raw.trim() === '') {
+          hasEmpty = true;
+          field.focus();
+        }
+        const value = Number(raw);
+        if (!Number.isFinite(value)) {
+          hasEmpty = true;
+        }
+        return Math.abs(value - answer) < 1e-6 ? success : retry;
+      });
+      const message = hasEmpty ? 'กรุณากรอกตัวเลขให้ครบทุกข้อก่อนครับ' : feedback.join(' • ');
+      document.getElementById('quiz-feedback').textContent = message;
     });
 
     updateBars([7, 12, 336, 56]);
