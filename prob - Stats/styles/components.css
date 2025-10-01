@@ -206,3 +206,50 @@ button,
     gap: var(--spacing-sm);
   }
 }
+
+
+
+/* === Global UX/UI upgrades === */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.skip-link:focus{position:fixed;left:1rem;top:1rem;width:auto;height:auto;z-index:10000;background:var(--accent-3);color:var(--text-1);padding:.5rem .75rem;border-radius:8px;}
+
+.site-header{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:var(--surface-2);border-bottom:1px solid var(--surface-4);backdrop-filter:saturate(120%) blur(6px);}
+.site-header .brand-link{font-weight:800;text-decoration:none;color:var(--text-1);}
+.site-actions{display:flex;gap:.5rem;align-items:center;}
+.btn-sm{border:1px solid var(--surface-4);background:var(--surface-3);padding:.35rem .65rem;border-radius:999px;cursor:pointer;font-size:.9rem;}
+.btn-sm:hover{filter:brightness(1.05);}
+
+#progressbar{position:sticky;top:44px;height:4px;background:transparent;}
+#progressbar>span{display:block;height:4px;width:0;background:var(--accent-7);transition:width .15s ease;}
+
+.toc.sticky{position:sticky;top:64px;max-height:calc(100vh - 80px);overflow:auto;border-left:4px solid var(--surface-4);padding-left:.8rem;margin:1rem 0 1.5rem;}
+.toc a{display:block;color:var(--text-2);text-decoration:none;padding:.1rem 0;}
+.toc a.active{color:var(--text-1);font-weight:700;text-decoration:underline;}
+
+.site-footer{margin-top:2rem;padding:1rem;border-top:1px solid var(--surface-4);background:var(--surface-2);}
+.prev-next{display:flex;gap:.6rem;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+.btn-nav{border:1px solid var(--surface-4);background:var(--surface-3);padding:.45rem .8rem;border-radius:999px;text-decoration:none;color:var(--text-1);}
+.btn-nav.disabled{opacity:.5;pointer-events:none;}
+
+.small{font-size:.85rem;}
+kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--surface-4);padding:.1rem .35rem;border-radius:6px;}
+
+@media print{
+  .site-header, #progressbar, .site-footer, .toc.sticky { display:none !important; }
+}
+
+
+/* --- Index UX upgrades --- */
+.sticky-top{ position: sticky; top: 60px; z-index: 5; background: var(--surface-1); padding-bottom:.4rem; }
+.tag-row{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.35rem; }
+.tag{ font-size:.72rem; border:1px solid var(--surface-4); background:var(--surface-2); padding:.12rem .45rem; border-radius:999px; }
+mark.search-hit{ background: var(--accent-3); color: var(--text-1); border-radius:4px; padding: 0 .15rem; }
+.lesson.card:focus{ outline: 3px solid var(--accent-6); outline-offset: 2px; }
+.sortbar{ display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+.sortbar select{ padding:.4rem .6rem; border-radius:10px; border:1px solid var(--surface-4); }
+.statline{ display:flex; gap:1rem; align-items:center; color: var(--text-3); font-size:.9rem; }
+.continue-card{ display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.continue-card .btn{ border:1px solid var(--surface-4); background:var(--surface-3); padding:.45rem .8rem; border-radius:999px; cursor:pointer; }
+@media (max-width: 640px){
+  .continue-card{ flex-direction:column; align-items:flex-start; }
+}

@@ -1,0 +1,22 @@
+/* skin-clean.css (auto-created) */
+body.skin-clean{--surface-2:#fff; --surface-4:#e7eaf3; --text-1:#0f172a; --text-2:#1f2937; --text-3:#475569;}
+
+.skin-clean .site-header{background:var(--surface-2) !important; backdrop-filter:none !important; 
+  border-bottom:1px solid var(--surface-4); box-shadow:0 1px 0 var(--surface-4); z-index:1000;}
+
+.skin-clean .toc.sticky{background:var(--surface-2); z-index: 999; }
+
+.skin-clean main h2, .skin-clean main h3{ scroll-margin-top: 96px; }
+
+.skin-clean .muted{ color: var(--text-2); }
+
+
+/* --- Fixes: force light background, prevent unintended stickiness, stronger headings --- */
+body.skin-clean{ background:#f7f8fb !important; color:#0f172a; color-scheme: light; }
+.skin-clean .site-header{ background:#fff !important; backdrop-filter:none !important; z-index:1000; }
+.skin-clean #progressbar{ background:transparent; }
+.skin-clean .toc.sticky{ position:sticky; top:72px; background:#fff !important; z-index:999; max-height:calc(100vh - 92px); overflow:auto; border-left:4px solid var(--surface-4); padding-left:.8rem; }
+.skin-clean .sticky{ position:static; } /* neutralize any accidental .sticky from old content */
+.skin-clean h1, .skin-clean h2, .skin-clean h3{ text-shadow:none !important; -webkit-text-stroke:0 !important; }
+.skin-clean main h1, .skin-clean main h2, .skin-clean main h3{ scroll-margin-top:104px; }
+
