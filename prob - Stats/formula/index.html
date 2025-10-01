@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formula Explorer — รวมสูตรความน่าจะเป็น</title>
+  <meta name="description" content="สารบัญสูตรความน่าจะเป็นและสถิติ: Bernoulli, Binomial, Poisson, Normal, Z-score, CLT และอื่น ๆ" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../print.css" media="print" />
+  <style>
+    .formula-grid {
+      display:grid;
+      gap:1rem;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      margin:1.5rem 0 2rem;
+    }
+    .formula-grid .card {
+      display:flex;
+      flex-direction:column;
+      gap:.6rem;
+      min-height:220px;
+    }
+    .formula-grid .btn {
+      align-self:flex-start;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#formula-list">ข้ามไปยังรายการสูตร</a>
+  <header class="wrap" role="banner" style="padding:1.5rem 0 1.2rem;">
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="../index.html">หน้าแรก</a>
+      <span aria-hidden="true">›</span>
+      <span>Formula Explorer</span>
+    </nav>
+    <h1>Formula Explorer</h1>
+    <p class="muted">เลือกดูสูตรที่ต้องการพร้อมตัวอย่างการใช้งาน ตาราง และกราฟประกอบ</p>
+  </header>
+
+  <main class="wrap content formula-page narrow" id="formula-list" role="main">
+    <section class="formula-grid">
+      <article class="card">
+        <h2>Bernoulli Distribution</h2>
+        <p class="muted">ลองครั้งเดียว (สำเร็จ/ล้มเหลว) พร้อมสูตร PMF และคำนวณค่าเฉลี่ย</p>
+        <p><a class="btn" href="bernoulli.html">เปิดสูตร Bernoulli</a></p>
+      </article>
+      <article class="card">
+        <h2>Binomial Distribution</h2>
+        <p class="muted">นับจำนวนความสำเร็จจาก n ครั้ง พร้อมตารางตัดสินใจ</p>
+        <p><a class="btn" href="binomial.html">เปิดสูตร Binomial</a></p>
+      </article>
+      <article class="card">
+        <h2>Hypergeometric Distribution</h2>
+        <p class="muted">สุ่มโดยไม่ใส่คืน ใช้เลือกทีม/ตัวอย่างแบบจำกัด</p>
+        <p><a class="btn" href="hypergeometric.html">เปิดสูตร Hypergeometric</a></p>
+      </article>
+      <article class="card">
+        <h2>Poisson Distribution</h2>
+        <p class="muted">นับจำนวนเหตุการณ์ที่เกิดตามอัตรา λ พร้อมกราฟเปรียบเทียบ</p>
+        <p><a class="btn" href="poisson.html">เปิดสูตร Poisson</a></p>
+      </article>
+      <article class="card">
+        <h2>Normal Distribution</h2>
+        <p class="muted">PDF, CDF และตาราง Z สำหรับพื้นที่ใต้โค้ง</p>
+        <p><a class="btn" href="normal.html">เปิดสูตร Normal</a></p>
+      </article>
+      <article class="card">
+        <h2>Z-Score</h2>
+        <p class="muted">มาตรฐานค่าจากการแจกแจงปกติ พร้อมตัวอย่างการแปลงค่า</p>
+        <p><a class="btn" href="z-score.html">เปิดสูตร Z-Score</a></p>
+      </article>
+      <article class="card">
+        <h2>CLT: x̄ &amp; p̂</h2>
+        <p class="muted">เข้าใจการแจกแจงของค่าเฉลี่ยและสัดส่วนตัวอย่าง</p>
+        <p><a class="btn" href="clt-xbar-phat.html">เปิดสูตร CLT</a></p>
+      </article>
+      <article class="card">
+        <h2>t Distribution</h2>
+        <p class="muted">ใช้กับตัวอย่างขนาดเล็กหรือไม่รู้ค่า σ พร้อมตาราง critical value</p>
+        <p><a class="btn" href="t-distribution.html">เปิดสูตร t</a></p>
+      </article>
+      <article class="card">
+        <h2>Chi-Square Distribution</h2>
+        <p class="muted">สำหรับการวิเคราะห์ความแปรปรวนและความเป็นอิสระ</p>
+        <p><a class="btn" href="chi-square.html">เปิดสูตร Chi-Square</a></p>
+      </article>
+      <article class="card">
+        <h2>F Distribution</h2>
+        <p class="muted">ใช้เปรียบเทียบความแปรปรวนสองกลุ่มใน ANOVA</p>
+        <p><a class="btn" href="f-distribution.html">เปิดสูตร F</a></p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="wrap" role="contentinfo" style="padding:1rem 0 2rem;">
+    <p class="muted">© คอร์สสถิติ (ไทย) — สูตรทั้งหมดสามารถพิมพ์ได้ผ่าน <code>print.css</code></p>
+  </footer>
+
+  <script defer src="../assets/js/site-core.js"></script>
+  <script defer src="../assets/js/sw-register.js"></script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+</body>
+</html>

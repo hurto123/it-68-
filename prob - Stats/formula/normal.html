@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Normal Distribution (โค้งปกติ) | อธิบายสูตร</title>
+  <meta name="description" content="การแจกแจงแบบปกติ: PDF, CDF, Z-score, Empirical Rule พร้อมเครื่องคำนวณอินเทอร์แอกทีฟ กราฟระบายพื้นที่ใต้โค้ง โหมดตารางเปอร์เซ็นไทล์ของ Z และดาวน์โหลดกราฟเป็น PNG">
+  <meta property="og:title" content="Normal Distribution (โค้งปกติ) | อธิบายสูตร">
+  <meta property="og:description" content="PDF, CDF, Z-score, กฎ 68–95–99.7, ตารางเปอร์เซ็นไทล์ของ Z และดาวน์โหลดกราฟ">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-02">
+  <meta name="doc:depends_on" content="lesson08.html,summary-lesson08.html,glossary.html#gl-dist">
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+
+  <style>
+    .wrap{max-width:1020px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+    .formula-box{background:#0f1320;border:1px solid var(--border);border-radius:12px;padding:.8rem;overflow:auto}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    table{width:100%;border-collapse:collapse;margin:.5rem 0}
+    th,td{border:1px solid var(--border);padding:.45rem .5rem;text-align:center}
+    th{background:#101525}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.6rem;border-radius:12px}
+    .warn{background:#231b0f;border-left:4px solid var(--warn);padding:.6rem;border-radius:12px}
+    .calc-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    input[type="number"], select{
+      background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    input[type="number"]{ width:120px; }
+    canvas{width:100%;height:260px;background:#0c111b;border:1px solid var(--border);border-radius:12px}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;background:#0e1220;color:#cfe0ff;margin-left:.35rem}
+    .mini{font-size:.9rem}
+    .step{margin:.25rem 0}
+    .chipline{display:flex;gap:.4rem;flex-wrap:wrap}
+    .chip2{display:inline-block;border:1px solid var(--border);background:#0e1220;color:#cfe0ff;border-radius:999px;padding:.15rem .55rem;font-size:.85rem}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .ghost{opacity:.9}
+  </style>
+</head>
+<body>
+<header role="banner">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>Formula Explorer</h1>
+    </div>
+    <nav class="breadcrumb" aria-label="breadcrumb">
+      <a href="../index.html">หน้าแรก</a> › <span class="muted">Normal</span>
+    </nav>
+    <div class="title" style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem">
+      <div>
+        <h2 style="margin:.2rem 0;font-size:1.8rem">การแจกแจงแบบปกติ (Normal) 👑</h2>
+        <p class="muted">โค้งระฆังคว่ำ — กำหนดด้วยค่าเฉลี่ย μ และส่วนเบี่ยงเบนมาตรฐาน σ</p>
+      </div>
+      <div class="toolbar">
+        <a class="btn secondary" href="../glossary.html">Glossary</a>
+        <a class="btn ghost" href="../lesson08.html">บทที่ 8</a>
+        <a class="btn ghost" href="../summary-lesson08.html">สรุป 1 หน้า</a>
+        <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        <button class="btn ghost" id="btn-save-png">📥 บันทึกกราฟเป็น PNG</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap grid content formula-page narrow" role="main">
+  <section class="card grid2">
+    <div>
+      <h3>1) ที่มา &amp; คุณสมบัติ</h3>
+      <ul class="list-compact">
+        <li>เกิดบ่อยในธรรมชาติ/งานวัด: ส่วนสูง, คะแนนรวม, เสียงรบกวน ฯลฯ</li>
+        <li>สมมาตรรอบค่าเฉลี่ย μ และหางบางลงแบบเอ็กซ์โปเนนเชียล</li>
+        <li>ศูนย์กลางเดียว: <strong>Mean = Median = Mode = μ</strong></li>
+      </ul>
+      <div class="ok" style="margin-top:.4rem">
+        <strong>Empirical Rule:</strong> ประมาณ 68% อยู่ใน μ±1σ, 95% ใน μ±2σ, 99.7% ใน μ±3σ
+      </div>
+    </div>
+    <div>
+      <h3>2) สัญลักษณ์/สูตร</h3>
+      <div class="formula-box mono">
+        X ~ 𝓝(μ, σ²)<br/>
+        PDF: f(x) = (1/(σ√(2π))) · exp( −(x−μ)² / (2σ²) )<br/>
+        CDF: F(x) = P(X ≤ x) ≈ 0.5 · [1 + erf( (x−μ)/(σ√2) ) ]<br/>
+        Z = (X−μ)/σ  →  Z ~ 𝓝(0,1)
+      </div>
+      <p class="mini muted">ใช้ <span class="mono">erf</span> แบบประมาณค่าเชิงตัวเลข</p>
+    </div>
+  </section>
+
+  <!-- เครื่องคำนวณ + กราฟ -->
+  <section class="card">
+    <h3>3) เครื่องคิดเลข Normal 🧮 <span class="badge">Interactive</span></h3>
+    <div class="calc-row" style="margin:.35rem 0 .5rem">
+      <label for="mu">μ:</label><input id="mu" type="number" step="0.1" value="0">
+      <label for="sigma">σ (&gt;0):</label><input id="sigma" type="number" step="0.1" value="1" min="0.0001">
+      <label for="mode">โหมด:</label>
+      <select id="mode">
+        <option value="left">P(X ≤ x)</option>
+        <option value="right">P(X ≥ x)</option>
+        <option value="between">P(a ≤ X ≤ b)</option>
+        <option value="density">f(x) (PDF) ที่ x</option>
+      </select>
+      <span id="inputs-left-right">
+        <label for="x">x:</label><input id="x" type="number" step="0.1" value="1.0">
+      </span>
+      <span id="inputs-between" style="display:none">
+        <label for="a">a:</label><input id="a" type="number" step="0.1" value="-1">
+        <label for="b">b:</label><input id="b" type="number" step="0.1" value="1">
+      </span>
+      <button class="btn" id="btn-calc">คำนวณ</button>
+      <button class="btn secondary" id="btn-reset">รีเซ็ต</button>
+      <span class="mini muted" id="status" aria-live="polite"></span>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <table>
+          <tbody>
+            <tr><th style="width:40%">ผลลัพธ์</th><td id="result">—</td></tr>
+            <tr><th>Z ที่เกี่ยวข้อง</th><td id="zinfo">—</td></tr>
+            <tr><th>ค่าหนาแน่น f(x)</th><td id="pdfout">—</td></tr>
+            <tr><th>สะสม F(x)=P(X≤x)</th><td id="cdfout">—</td></tr>
+          </tbody>
+        </table>
+        <div class="chipline">
+          <span class="chip2">68% → μ±1σ</span>
+          <span class="chip2">95% → μ±2σ</span>
+          <span class="chip2">99.7% → μ±3σ</span>
+        </div>
+      </div>
+      <div>
+        <canvas id="chart" aria-label="กราฟโค้งปกติพร้อมพื้นที่ใต้โค้ง"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- วิธีทำ/ตัวอย่าง -->
+  <section class="card grid2">
+    <div>
+      <h3>4) วิธีทำโจทย์ (Workflow)</h3>
+      <ol>
+        <li class="step">ตรวจว่าเป็น Normal: รู้ μ และ σ</li>
+        <li class="step">ปรับเป็น Z: <span class="mono">z = (x−μ)/σ</span> หรือช่วง <span class="mono">[a,b] → [za, zb]</span></li>
+        <li class="step">ใช้ตาราง Φ(z) หรือ CDF ของ Normal มาตรฐาน</li>
+        <li class="step">กรณีช่วง: <span class="mono">P(a≤X≤b) = Φ(zb) − Φ(za)</span></li>
+      </ol>
+    </div>
+    <div>
+      <h3>5) ตัวอย่างคำนวณ</h3>
+      <p><strong>ตัวอย่าง:</strong> X~𝓝(μ=170, σ=8) หา P(X ≤ 182)</p>
+      <ol class="list-compact">
+        <li>z = (182−170)/8 = 12/8 = 1.5</li>
+        <li>Φ(1.5) ≈ 0.9332 ⇒ P(X≤182) ≈ 0.9332</li>
+      </ol>
+      <p class="mini muted">ตรงกับการใช้เครื่องคิดเลขด้านบน (โหมด P(X≤x) ใส่ μ,σ,x)</p>
+    </div>
+  </section>
+
+  <!-- ตารางเปอร์เซ็นไทล์/ค่าวิกฤตของ Z + อินพุตแปลงเปอร์เซ็นต์เป็น z -->
+  <section class="card">
+    <h3>6) ตารางเปอร์เซ็นไทล์/ค่าสำคัญของ Z 📊 <span class="badge">Interactive</span></h3>
+    <div class="grid2">
+      <div>
+        <table aria-label="ตารางค่า Z ที่ใช้บ่อย">
+          <thead>
+            <tr>
+              <th>เปอร์เซ็นไทล์ (ซ้าย)</th>
+              <th>z*</th>
+              <th>หมายเหตุ</th>
+            </tr>
+          </thead>
+          <tbody id="z-common">
+            <!-- เติมด้วยสคริปต์ -->
+          </tbody>
+        </table>
+        <p class="mini muted">เปอร์เซ็นไทล์ (ซ้าย) คือค่า p ที่ทำให้ Φ(z*) = p</p>
+      </div>
+      <div>
+        <table aria-label="ค่าวิกฤตสำหรับการทดสอบสมมติฐาน">
+          <thead>
+            <tr>
+              <th>α</th>
+              <th>หนึ่งทาง (ขวา)</th>
+              <th>สองทาง (±)</th>
+            </tr>
+          </thead>
+          <tbody id="z-critical">
+            <!-- เติมด้วยสคริปต์ -->
+          </tbody>
+        </table>
+
+        <div class="calc-row" style="margin-top:.6rem">
+          <label for="pcent">แปลงเปอร์เซ็นต์ซ้าย p (0–100):</label>
+          <input id="pcent" type="number" min="0.001" max="99.999" step="0.001" value="95.000">
+          <button class="btn" id="btn-p2z">คำนวณ z</button>
+          <span class="mini muted" id="p2z-out">z = —</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card grid2">
+    <div>
+      <h3>7) ลิงก์ที่เกี่ยวข้อง</h3>
+      <div class="toolbar">
+        <a class="btn ghost" href="./z-score.html">Z-Score</a>
+        <a class="btn ghost" href="./clt-xbar-phat.html">CLT: x̄ &amp; p̂</a>
+        <a class="btn ghost" href="./binomial.html">Binomial</a>
+        <a class="btn ghost" href="./poisson.html">Poisson</a>
+      </div>
+    </div>
+    <div>
+      <h3>8) หมายเหตุการใช้งาน</h3>
+      <ul class="list-compact">
+        <li>σ ต้อง &gt; 0 เสมอ</li>
+        <li>หากข้อมูลมี outlier/เบ้มาก อาจไม่เหมาะกับ Normal</li>
+        <li>ค่าโอกาส/เปอร์เซ็นไทล์คำนวณด้วยการประมาณเชิงตัวเลข</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+  <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+</footer>
+
+<script>
+  // ===== utilities =====
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const fmt = (x, d=6) => Number.isFinite(x)
+      ? (Math.round(x*10**d)/10**d).toFixed(d).replace(/0+$/,'').replace(/\.$/,'') || '0'
+      : '—';
+
+  // erf approximation (Abramowitz–Stegun 7.1.26)
+  function erf(x){
+    const sgn = Math.sign(x)||1;
+    x = Math.abs(x);
+    const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429;
+    const p=0.3275911;
+    const t = 1/(1+p*x);
+    const y = 1 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-x*x);
+    return sgn*y;
+  }
+  const phi = (x,mu=0,sig=1) => (1/(sig*Math.sqrt(2*Math.PI))) * Math.exp(-0.5*((x-mu)/sig)**2);
+  const Phi = (x,mu=0,sig=1) => 0.5*(1+erf((x-mu)/(sig*Math.SQRT2)));
+
+  // Inverse normal CDF (Peter J. Acklam approximation)
+  function invPhi(p){
+    if(!(p>0 && p<1)) return NaN;
+    const a=[-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];
+    const b=[-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01, -1.328068155288572e+01];
+    const c=[-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];
+    const d=[7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];
+
+    const plow = 0.02425, phigh = 1 - plow;
+    let q, r, x;
+    if (p < plow){
+      q = Math.sqrt(-2*Math.log(p));
+      x = (((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) /
+          ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);
+    } else if (phigh < p){
+      q = Math.sqrt(-2*Math.log(1-p));
+      x = -(((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) /
+           ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);
+    } else {
+      q = p - 0.5; r = q*q;
+      x = (((((a[0]*r + a[1])*r + a[2])*r + a[3])*r + a[4])*r + a[5])*q /
+          (((((b[0]*r + b[1])*r + b[2])*r + b[3])*r + b[4])*r + 1);
+    }
+    const e = Phi(x) - p;
+    const u = e / (Math.sqrt(2*Math.PI) * Math.exp(-0.5*x*x));
+    x = x - u/(1 + x*u/2);
+    return x;
+  }
+
+  // ===== DOM (calculator) =====
+  const muEl = document.getElementById('mu');
+  const sgEl = document.getElementById('sigma');
+  const modeEl = document.getElementById('mode');
+  const xEl = document.getElementById('x');
+  const aEl = document.getElementById('a');
+  const bEl = document.getElementById('b');
+  const spanLR = document.getElementById('inputs-left-right');
+  const spanAB = document.getElementById('inputs-between');
+  const btnCalc = document.getElementById('btn-calc');
+  const btnReset = document.getElementById('btn-reset');
+  const statusEl = document.getElementById('status');
+
+  const resultEl = document.getElementById('result');
+  const zinfoEl = document.getElementById('zinfo');
+  const pdfEl = document.getElementById('pdfout');
+  const cdfEl = document.getElementById('cdfout');
+
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+
+  // ===== graph =====
+  function resizeCanvas(){
+    const ratio = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    if(rect.width === 0 || rect.height === 0){ return; }
+    canvas.width = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(ratio, ratio);
+  }
+
+  let lastGraph = {mu:0, sig:1, mode:'left', val1:1, val2:undefined};
+
+  function drawNormal(mu, sig, shadeMode, val1, val2){
+    resizeCanvas();
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.globalAlpha = 0.25; ctx.strokeStyle = '#223049';
+    for(let i=1;i<=4;i++){ const y=H-(H*i/5); ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+
+    const xmin = mu - 4*sig, xmax = mu + 4*sig;
+    const mapX = x => ((x - xmin) / (xmax - xmin)) * (W-20) + 10;
+    const peak = phi(mu,mu,sig);
+    const mapY = y => H - y * (H*0.9/peak);
+
+    ctx.beginPath();
+    let first = true;
+    for(let i=0;i<=300;i++){
+      const x = xmin + (xmax-xmin)*i/300;
+      const y = phi(x,mu,sig);
+      const X = mapX(x), Y = mapY(y);
+      if(first){ ctx.moveTo(X,Y); first=false; } else ctx.lineTo(X,Y);
+    }
+    ctx.strokeStyle = '#6ea8ff'; ctx.lineWidth=2; ctx.stroke();
+
+    ctx.fillStyle = 'rgba(110,168,255,0.35)';
+    if(shadeMode==='left' || shadeMode==='right'){
+      const x = val1;
+      const a = shadeMode==='left' ? xmin : x;
+      const b = shadeMode==='left' ? x    : xmax;
+      ctx.beginPath();
+      ctx.moveTo(mapX(a), H);
+      for(let i=0;i<=200;i++){
+        const xx = a + (b-a)*i/200;
+        const yy = phi(xx,mu,sig);
+        ctx.lineTo(mapX(xx), mapY(yy));
+      }
+      ctx.lineTo(mapX(b), H);
+      ctx.closePath(); ctx.fill();
+    } else if(shadeMode==='between'){
+      const a = Math.min(val1, val2);
+      const b = Math.max(val1, val2);
+      ctx.beginPath();
+      ctx.moveTo(mapX(a), H);
+      for(let i=0;i<=200;i++){
+        const xx = a + (b-a)*i/200;
+        const yy = phi(xx,mu,sig);
+        ctx.lineTo(mapX(xx), mapY(yy));
+      }
+      ctx.lineTo(mapX(b), H);
+      ctx.closePath(); ctx.fill();
+    }
+  }
+
+  // ===== logic =====
+  function updateModeUI(){
+    const md = modeEl.value;
+    if(md==='between'){
+      spanLR.style.display='none';
+      spanAB.style.display='inline-flex';
+    } else {
+      spanLR.style.display='inline-flex';
+      spanAB.style.display='none';
+    }
+  }
+
+  function compute(){
+    let mu = parseFloat(muEl.value);
+    mu = Number.isFinite(mu) ? mu : 0;
+    let sig = Math.max(Number(sgEl.value), 1e-6);
+    muEl.value = mu;
+    sgEl.value = sig.toFixed(3);
+
+    const mode = modeEl.value;
+    let out='—', ztxt='—', pdf='—', cdf='—';
+
+    if(mode==='left' || mode==='right' || mode==='density'){
+      const x = parseFloat(xEl.value);
+      const z = (x - mu)/sig;
+      const Fx = Phi(x,mu,sig);
+      const fx = phi(x,mu,sig);
+      pdf = fmt(fx,6); cdf = fmt(Fx,6);
+      ztxt = `z = ${fmt(z,4)}`;
+
+      if(mode==='left'){
+        out = `P(X ≤ ${x}) = ${fmt(Fx,6)}`;
+        drawNormal(mu,sig,'left', x);
+        lastGraph = {mu, sig, mode:'left', val1:x};
+      }else if(mode==='right'){
+        const p = 1 - Fx;
+        out = `P(X ≥ ${x}) = ${fmt(p,6)}`;
+        drawNormal(mu,sig,'right', x);
+        lastGraph = {mu, sig, mode:'right', val1:x};
+      }else{ // density
+        out = `f(${x}) = ${fmt(fx,6)}`;
+        drawNormal(mu,sig,null);
+        lastGraph = {mu, sig, mode:'density', val1:x};
+      }
+    } else if(mode==='between'){
+      let a = parseFloat(aEl.value);
+      let b = parseFloat(bEl.value);
+      if(!Number.isFinite(a)) a = mu - sig;
+      if(!Number.isFinite(b)) b = mu + sig;
+      if(a>b){ const t=a; a=b; b=t; }
+      const za = (a - mu)/sig, zb = (b - mu)/sig;
+      const Fa = Phi(a,mu,sig), Fb = Phi(b,mu,sig);
+      const p = Math.max(0, Fb - Fa);
+      out = `P(${a} ≤ X ≤ ${b}) = ${fmt(p,6)}`;
+      ztxt = `[za, zb] = [${fmt(za,4)}, ${fmt(zb,4)}]`;
+      pdf = '—'; cdf = `Φ(b)−Φ(a) = ${fmt(Fb,6)} − ${fmt(Fa,6)} = ${fmt(p,6)}`;
+      drawNormal(mu,sig,'between', a, b);
+      lastGraph = {mu, sig, mode:'between', val1:a, val2:b};
+    }
+
+    resultEl.textContent = out;
+    zinfoEl.textContent = ztxt;
+    pdfEl.textContent = pdf;
+    cdfEl.textContent = cdf;
+    statusEl.textContent = `อัปเดต μ=${mu}, σ=${fmt(sig,3)}`;
+  }
+
+  modeEl.addEventListener('change', ()=>{ updateModeUI(); compute(); });
+  btnCalc.addEventListener('click', compute);
+  btnReset.addEventListener('click', ()=>{
+    muEl.value = 0; sgEl.value = 1; modeEl.value='left';
+    xEl.value = 1.0; aEl.value = -1; bEl.value = 1;
+    updateModeUI();
+    compute();
+  });
+  window.addEventListener('resize', ()=>{
+    resizeCanvas();
+    const g = lastGraph;
+    drawNormal(g.mu, g.sig, g.mode === 'density' ? null : g.mode, g.val1, g.val2);
+  });
+
+  // appear animation
+  const cards = document.querySelectorAll('.card');
+  const obs = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}],
+          {duration:450, easing:'ease-out', fill:'forwards'});
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold:.12});
+  cards.forEach(c=>obs.observe(c));
+
+  // ===== ตารางเปอร์เซ็นไทล์/ค่าวิกฤตของ Z =====
+  const zCommonTbody = document.getElementById('z-common');
+  const zCritTbody = document.getElementById('z-critical');
+  const pcentEl = document.getElementById('pcent');
+  const btnP2Z = document.getElementById('btn-p2z');
+  const p2zOut = document.getElementById('p2z-out');
+
+  function buildZTables(){
+    const percents = [50, 60, 70, 75, 80, 85, 90, 95, 97.5, 98, 99, 99.5, 99.9];
+    zCommonTbody.innerHTML = '';
+    percents.forEach(p=>{
+      const prob = p/100;
+      const z = invPhi(prob);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${p}%</td><td>${fmt(z,4)}</td><td>${prob===0.5?'ค่ากลาง (z=0)':''}</td>`;
+      zCommonTbody.appendChild(tr);
+    });
+
+    const alphas = [0.10, 0.05, 0.025, 0.01, 0.005, 0.001];
+    zCritTbody.innerHTML = '';
+    alphas.forEach(alpha=>{
+      const z_one = invPhi(1-alpha);
+      const z_two = invPhi(1-alpha/2);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${alpha}</td><td>${fmt(z_one,3)}</td><td>±${fmt(z_two,3)}</td>`;
+      zCritTbody.appendChild(tr);
+    });
+  }
+
+  btnP2Z.addEventListener('click', ()=>{
+    const p = clamp(Number(pcentEl.value)/100, 1e-6, 1-1e-6);
+    const z = invPhi(p);
+    p2zOut.textContent = `z = ${fmt(z,5)}  (Φ(z) = ${fmt(p,5)})`;
+  });
+
+  // ===== ดาวน์โหลดกราฟเป็น PNG =====
+  document.getElementById('btn-save-png').addEventListener('click', ()=>{
+    const g = lastGraph;
+    drawNormal(g.mu, g.sig, g.mode === 'density' ? null : g.mode, g.val1, g.val2);
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replace(/[:.]/g,'-');
+    a.href = url;
+    a.download = `normal-plot-${stamp}.png`;
+    a.click();
+  });
+
+  // init
+  function init(){
+    updateModeUI();
+    buildZTables();
+    compute();
+  }
+  init();
+</script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>อธิบายสูตร — Z-Score & Normal | คอร์สสถิติ</title>
+  <meta name="description" content="Z-Score และการแจกแจงแบบปกติ: นิยาม สัญลักษณ์ วิธีทำ ขั้นตอน เหตุผล ตัวอย่าง ข้อผิดพลาด เครื่องคิดเลขหาพื้นที่ใต้โค้ง">
+  <meta name="keywords" content="z-score, normal distribution, standard normal, พื้นที่ใต้โค้ง, สถิติ, สัดส่วน">
+  <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#1421; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b; --danger:#ef4444;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:0 auto;padding:1.2rem}
+    header{
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(1000px 400px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(800px 320px at 90% -20%, rgba(21,181,136,.14), transparent 60%),
+        var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    .brand{display:flex;align-items:center;gap:.8rem}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
+    .brand h1{margin:0;font-size:1.1rem}
+    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
+    nav.breadcrumb a{color:#cfe0ff}
+
+    .title{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+      padding:.6rem 0 1.0rem;
+    }
+    .title h2{margin:.2rem 0;font-size:1.8rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--border);background:#0e1220;border-radius:999px;padding:.25rem .6rem;color:#cfe0ff;font-size:.85rem}
+    .btn{
+      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
+      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
+    }
+    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
+    .btn.ghost{background:#0e1220;color:#cfe0ff;border:1px solid var(--border);box-shadow:none}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem
+    }
+    .hl{background:#0f2237;border-left:4px solid var(--accent-2);padding:.8rem;border-radius:12px}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.8rem;border-radius:12px}
+    .warn{background:#2a160c;border-left:4px solid var(--warn);padding:.8rem;border-radius:12px}
+    .muted{color:var(--muted)}
+    h3{margin:.2rem 0}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media (max-width:860px){.two{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:.5rem;vertical-align:top}
+    th{background:#111824}
+    .checklist li{margin:.2rem 0}
+    @keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .pop{animation:pop .6s cubic-bezier(.2,.7,.2,1)}
+    @media (prefers-reduced-motion:reduce){.pop{animation:none}}
+
+    .svgbox{background:#0c1020;border:1px solid var(--border);border-radius:14px;padding:.6rem;overflow:auto}
+    footer{border-top:1px solid var(--border);background:#0d1119;margin-top:1rem}
+    .footnav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+    .footnav a{color:#cfe0ff}
+
+    input[type="number"]{
+      width:120px;background:#0b0f19;color:#e8e8ea;border:1px solid var(--border);border-radius:10px;padding:.35rem .5rem
+    }
+    .pill{border:1px solid var(--border);background:#0a0e19;border-radius:999px;padding:.2rem .55rem;font-size:.8rem;color:#cfe0ff}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  </style>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>อธิบายสูตร — Z-Score & Normal</h1>
+        <span class="badge">บท 8 • แจกแจงต่อเนื่อง</span>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <a href="../index.html#formula">อธิบายสูตร</a> › <span class="muted">Z-Score</span>
+      </nav>
+      <div class="title">
+        <div>
+          <h2>Z-Score & การแจกแจงแบบปกติ — แปลงค่าเป็น “หน่วย σ” เพื่อหาพื้นที่ใต้โค้ง ⛩️</h2>
+          <p class="muted">รวม: ที่มา • สัญลักษณ์ • วิธีทำ • ขั้นตอน • เหตุผล • ตัวอย่าง • ข้อผิดพลาด + เครื่องคิดเลขย่อ (กราฟระบายพื้นที่)</p>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+          <a class="btn secondary" href="../lesson08.html">เปิดบท 8</a>
+          <a class="btn ghost" href="poisson.html">← Poisson</a>
+          <a class="btn ghost" href="clt-xbar-phat.html">CLT →</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid content formula-page narrow" role="main">
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🎯 เป้าหมายการเรียนรู้</h3>
+          <ul>
+            <li>เข้าใจนิยาม Z-Score และเหตุผลของการ “มาตรฐาน” ค่า</li>
+            <li>ใช้ \( Z = \dfrac{X-\mu}{\sigma} \) เพื่อเปลี่ยน X → Z และหาพื้นที่ด้วย CDF มาตรฐาน \(\Phi(z)\)</li>
+            <li>คำนวณโอกาสแบบซ้าย/ขวา/ช่วง และตีความผลลัพธ์ได้</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧭 Prerequisites</h3>
+          <ul>
+            <li>เข้าใจค่าเฉลี่ย \(\mu\) และส่วนเบี่ยงเบนมาตรฐาน \(\sigma\)</li>
+            <li>รู้จักโค้งปกติ (สมมาตร, ระฆังคว่ำ) และกฎ 68–95–99.7 (Empirical Rule)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>1) ที่มาของสูตร 🔍</h3>
+      <p>โค้งปกติทั่วไป \(\mathcal{N}(\mu,\sigma^2)\) มีพารามิเตอร์ต่างกันมากมาย จึงนิยม “มาตรฐาน” ให้กลายเป็นโค้งเดียวกันคือ <strong>Standard Normal</strong> \(\mathcal{N}(0,1)\) โดยใช้</p>
+      <div class="hl">
+        $$\boxed{Z = \frac{X-\mu}{\sigma}}\quad\Rightarrow\quad Z \sim \mathcal{N}(0,1)$$
+        $$\Phi(z)=P(Z\le z),\quad \varphi(z)=\frac{1}{\sqrt{2\pi}}e^{-z^2/2}$$
+      </div>
+
+      <h3 style="margin-top:.8rem">2) สัญลักษณ์ ✍️</h3>
+      <table>
+        <tbody>
+          <tr><th>\(X\)</th><td>ตัวแปรสุ่มแบบต่อเนื่องที่กระจายปกติ \(\mathcal{N}(\mu,\sigma^2)\)</td></tr>
+          <tr><th>\(\mu\)</th><td>ค่าเฉลี่ยของประชากร (ตำแหน่งโค้ง)</td></tr>
+          <tr><th>\(\sigma\)</th><td>ส่วนเบี่ยงเบนมาตรฐานของประชากร (ความกว้างโค้ง)</td></tr>
+          <tr><th>\(Z\)</th><td>Z-Score (หน่วยเท่ากับจำนวนเท่าของ \(\sigma\) ห่างจาก \(\mu\))</td></tr>
+          <tr><th>\(\Phi(z)\)</th><td>CDF ของ Standard Normal (พื้นที่ซ้ายของ z)</td></tr>
+          <tr><th>\(\varphi(z)\)</th><td>PDF ของ Standard Normal</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>3) วิธีทำโดยสรุป 🧠</h3>
+          <ol>
+            <li>แปลงค่าที่สนใจจาก \(X\) เป็น \(Z\) ด้วย \(Z=(X-\mu)/\sigma\)</li>
+            <li>ใช้ตาราง Z หรือ CDF \(\Phi(z)\) เพื่อหาพื้นที่ซ้าย</li>
+            <li>ถ้าถาม “ขวา/ช่วง” ใช้ <em>ส่วนเติมเต็ม</em> และ/หรือ “ส่วนต่าง” ของพื้นที่</li>
+          </ol>
+        </div>
+        <div>
+          <h3>4) ขั้นตอนละเอียด 🧩</h3>
+          <ul>
+            <li><strong>หาพื้นที่ซ้าย:</strong> \(P(X\le a)=\Phi\!\big(\frac{a-\mu}{\sigma}\big)\)</li>
+            <li><strong>ขวา:</strong> \(P(X\ge a)=1-\Phi\!\big(\frac{a-\mu}{\sigma}\big)\)</li>
+            <li><strong>ช่วง:</strong> \(P(a\le X\le b)=\Phi(z_b)-\Phi(z_a)\)</li>
+          </ul>
+          <div class="ok"><strong>เคล็ดลับ:</strong> โค้งปกติสมมาตร ⇒ \(\Phi(-z)=1-\Phi(z)\)</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:.8rem">5) สิ่งใดมาจากไหน 🧱</h3>
+      <ul>
+        <li>การ “มาตรฐาน” นำโค้งปกติทุกเส้นมารวมกันที่ \(\mu=0,\sigma=1\) เพื่อใช้ตารางเดียว</li>
+        <li>พื้นที่ใต้โค้ง = ความน่าจะเป็น (PDF ไม่ใช่ความสูง แต่ “พื้นที่” ในช่วง)</li>
+      </ul>
+
+      <h3 style="margin-top:.8rem">6) การปรับวิธีตอบ 🔧</h3>
+      <ul>
+        <li>กรณีข้อมูลเฉลี่ยหลายตัวอย่าง ให้ใช้ <em>Standard Error</em> และ CLT (ดูหน้า CLT)</li>
+        <li>ถ้าแจกแจงไม่ปกติและตัวอย่างเล็กมาก อาจใช้วิธีอื่นแทน</li>
+      </ul>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🧪 ตัวอย่างสั้น</h3>
+          <p><strong>โจทย์:</strong> ความสูง \(X\sim\mathcal{N}(170, 6^2)\). หา \(P(X\le 176)\).</p>
+          <ul>
+            <li>\(z = (176-170)/6 = 1\)</li>
+            <li>\(P=\Phi(1)\approx 0.8413\)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧮 ตัวอย่างเต็มขั้น</h3>
+          <p><strong>โจทย์:</strong> \(X\sim\mathcal{N}(500, 80^2)\). หา \(P(450\le X\le 600)\).</p>
+          <ol>
+            <li>\(z_a=(450-500)/80=-0.625\), \(z_b=(600-500)/80=1.25\)</li>
+            <li>\(P=\Phi(1.25)-\Phi(-0.625)\)</li>
+            <li>คำนวณด้วยเครื่องคิดเลขย่อด้านล่าง</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>⚠️ ข้อผิดพลาดที่พบบ่อย</h3>
+          <ul>
+            <li>สลับทิศทางซ้าย/ขวา ลืมใช้ส่วนเติมเต็ม</li>
+            <li>ใส่ \(\sigma\) ไม่ตรงหน่วย ทำให้ \(z\) ผิด</li>
+            <li>คิดว่า PDF สูง = โอกาสมาก (จริง ๆ ต้องดู “พื้นที่” ไม่ใช่ “ความสูง”)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>✅ เช็กตัวเอง</h3>
+          <ul class="checklist">
+            <li>คำนวณ \(z\) ได้จาก \(X,\mu,\sigma\)</li>
+            <li>ใช้ \(\Phi(z)\) สำหรับซ้าย/ขวา/ช่วง</li>
+            <li>ตีความผลลัพธ์ในบริบทจริงได้</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>🧷 เครื่องคิดเลข Z-Score & พื้นที่ใต้โค้ง</h3>
+      <div class="two" role="group" aria-label="Z calc">
+        <div>
+          <p class="muted">กรอก \(\mu\), \(\sigma\) และค่าสนใจ (X หรือ z) เลือกโหมดพื้นที่</p>
+          <p>
+            <label>ค่าเฉลี่ย \(\mu\)<br>
+              <input type="number" id="mu" value="0" step="0.001">
+            </label>
+          </p>
+          <p>
+            <label>ส่วนเบี่ยงเบนมาตรฐาน \(\sigma\) ( &gt; 0 )<br>
+              <input type="number" id="sd" value="1" step="0.001" min="0.0001">
+            </label>
+          </p>
+
+          <p><span class="pill">แปลงค่า:</span>
+            <label><input type="radio" name="modeZ" value="XtoZ" checked> X → Z</label>
+            <label style="margin-left:.6rem"><input type="radio" name="modeZ" value="ZtoX"> Z → X</label>
+          </p>
+          <div id="xBox">
+            <label>X = <input type="number" id="xVal" value="1.0" step="0.001"></label>
+          </div>
+          <div id="zBox" style="display:none">
+            <label>Z = <input type="number" id="zVal" value="1.0" step="0.001"></label>
+          </div>
+
+          <hr style="border-color:var(--border)">
+
+          <p><span class="pill">โหมดพื้นที่:</span>
+            <label><input type="radio" name="modeArea" value="left" checked> ซ้าย: P(X ≤ a)</label>
+            <label style="margin-left:.6rem"><input type="radio" name="modeArea" value="right"> ขวา: P(X ≥ a)</label>
+            <label style="margin-left:.6rem"><input type="radio" name="modeArea" value="between"> ช่วง: P(a ≤ X ≤ b)</label>
+          </p>
+          <div id="oneSide">
+            <label>a = <input type="number" id="aVal" value="1.0" step="0.001"></label>
+          </div>
+          <div id="twoSide" style="display:none">
+            <label>a = <input type="number" id="aVal2" value="-1.0" step="0.001"></label>
+            <label style="margin-left:.6rem">b = <input type="number" id="bVal2" value="1.0" step="0.001"></label>
+          </div>
+
+          <p class="actions" style="margin-top:.6rem">
+            <button class="btn" id="calcBtn">คำนวณ</button>
+            <button class="btn ghost" id="fillExamples">เติมตัวอย่าง</button>
+          </p>
+        </div>
+
+        <div>
+          <h4>ผลลัพธ์</h4>
+          <div class="hl" id="resultBox">—</div>
+          <p class="muted" style="margin-top:.5rem">ใช้การประมาณ CDF ของโค้งปกติมาตรฐาน (ความคลาดเคลื่อนเล็กมาก เหมาะสำหรับการเรียน)</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1rem">
+        <h3>📈 กราฟโค้งปกติ (ระบายพื้นที่ตามที่เลือก)</h3>
+        <div class="svgbox" id="chartBox" aria-label="กราฟโค้งปกติพร้อมพื้นที่"></div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>🔗 ไปทำแบบฝึก/ควิซ</h3>
+      <div class="actions">
+        <a class="btn ghost" href="../practice/lesson08.html" aria-disabled="true" title="กำลังจะมี">แบบฝึกฝน (บท 8)</a>
+        <a class="btn ghost" href="../quiz/lesson08.html" aria-disabled="true" title="กำลังจะมี">ควิซท้ายบท (บท 8)</a>
+        <a class="btn secondary" href="../index.html#formula">กลับหน้าอธิบายสูตร</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footnav">
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../glossary.html" aria-disabled="true">Glossary</a>
+        <a href="../about.html" aria-disabled="true">About</a>
+        <a href="../credits.html" aria-disabled="true">Credits</a>
+      </div>
+      <p class="muted">© คอร์สสถิติ (ไทย). หน้านี้รองรับการพิมพ์เป็น PDF</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== UI: แสดง/ซ่อน อินพุตตามโหมด
+    const modeZ = document.getElementsByName('modeZ');
+    const xBox = document.getElementById('xBox');
+    const zBox = document.getElementById('zBox');
+    modeZ.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const v = document.querySelector('input[name="modeZ"]:checked').value;
+        xBox.style.display = v==='XtoZ' ? '' : 'none';
+        zBox.style.display = v==='ZtoX' ? '' : 'none';
+      });
+    });
+
+    const modeArea = document.getElementsByName('modeArea');
+    const oneSide = document.getElementById('oneSide');
+    const twoSide = document.getElementById('twoSide');
+    modeArea.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const v = document.querySelector('input[name="modeArea"]:checked').value;
+        oneSide.style.display = (v==='left' || v==='right') ? '' : 'none';
+        twoSide.style.display = (v==='between') ? '' : 'none';
+        drawChart(); // อัปเดตกาฟทันที
+      });
+    });
+
+    // ===== Math helpers: PDF/CDF ของ Standard Normal
+    const SQRT2PI = Math.sqrt(2*Math.PI);
+    function pdfStd(z){ return Math.exp(-0.5*z*z)/SQRT2PI; }
+
+    // erf approx (Abramowitz & Stegun 7.1.26)
+    function erf(x){
+      const sign = x<0?-1:1; x = Math.abs(x);
+      const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+      const t = 1/(1+p*x);
+      const y = 1 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+      return sign*y;
+    }
+    function cdfStd(z){ return 0.5*(1+erf(z/Math.SQRT2)); } // Φ(z)
+
+    // ===== Format number
+    function fmt(v){
+      if(!isFinite(v)) return 'NaN';
+      if(Math.abs(v)===0) return '0';
+      if(Math.abs(v)<1e-6) return v.toExponential(2);
+      return (+v).toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+    }
+
+    // ===== Calculator
+    function calc(){
+      const mu = Number(document.getElementById('mu').value);
+      const sd = Number(document.getElementById('sd').value);
+      const result = document.getElementById('resultBox');
+
+      if(!(sd>0)) { result.textContent = 'กรุณาใส่ σ > 0'; return; }
+
+      // แปลงค่า
+      const modeZ = document.querySelector('input[name="modeZ"]:checked').value;
+      let zcalc = null, xcalc = null;
+      if(modeZ==='XtoZ'){
+        const x = Number(document.getElementById('xVal').value);
+        zcalc = (x - mu)/sd;
+        xcalc = x;
+      }else{
+        const z = Number(document.getElementById('zVal').value);
+        xcalc = mu + z*sd;
+        zcalc = z;
+      }
+
+      // โหมดพื้นที่
+      const modeA = document.querySelector('input[name="modeArea"]:checked').value;
+      let probText = '';
+      if(modeA==='left'){
+        const a = Number(document.getElementById('aVal').value);
+        const za = (a - mu)/sd;
+        const p = cdfStd(za);
+        probText = `P(X ≤ ${fmt(a)}) = Φ(${fmt(za)}) = <strong>${fmt(p)}</strong>`;
+      }else if(modeA==='right'){
+        const a = Number(document.getElementById('aVal').value);
+        const za = (a - mu)/sd;
+        const p = 1 - cdfStd(za);
+        probText = `P(X ≥ ${fmt(a)}) = 1 - Φ(${fmt(za)}) = <strong>${fmt(p)}</strong>`;
+      }else{
+        const a = Number(document.getElementById('aVal2').value);
+        const b = Number(document.getElementById('bVal2').value);
+        if(a>b){ result.textContent = 'ช่วงผิดลำดับ: ต้องมี a ≤ b'; return; }
+        const za = (a - mu)/sd, zb = (b - mu)/sd;
+        const p = cdfStd(zb) - cdfStd(za);
+        probText = `P(${fmt(a)} ≤ X ≤ ${fmt(b)}) = Φ(${fmt(zb)}) - Φ(${fmt(za)}) = <strong>${fmt(p)}</strong>`;
+      }
+
+      result.innerHTML = `
+        <div><strong>แปลงค่า</strong> → Z = ${(modeZ==='XtoZ')?fmt(zcalc):'—'}, X = ${(modeZ==='ZtoX')?fmt(xcalc):'—'}</div>
+        <div style="margin-top:.35rem">${probText}</div>
+      `;
+      if(window.MathJax?.typeset) MathJax.typeset();
+
+      drawChart();
+    }
+    document.getElementById('calcBtn').addEventListener('click', calc);
+
+    document.getElementById('fillExamples').addEventListener('click', ()=>{
+      document.getElementById('mu').value = 170;
+      document.getElementById('sd').value = 6;
+      document.querySelector('input[name="modeZ"][value="XtoZ"]').checked = true;
+      document.getElementById('xVal').value = 176;
+      document.querySelector('input[name="modeArea"][value="left"]').checked = true;
+      document.getElementById('aVal').value = 176;
+      xBox.style.display=''; zBox.style.display='none';
+      oneSide.style.display=''; twoSide.style.display='none';
+      document.getElementById('resultBox').textContent='—';
+      drawChart();
+    });
+
+    // ===== Chart: bell curve & shaded area
+    function drawChart(){
+      const mu = Number(document.getElementById('mu').value);
+      const sd = Number(document.getElementById('sd').value);
+      const modeA = document.querySelector('input[name="modeArea"]:checked').value;
+
+      const a = Number(document.getElementById('aVal')?.value ?? 0);
+      const a2 = Number(document.getElementById('aVal2')?.value ?? -1);
+      const b2 = Number(document.getElementById('bVal2')?.value ?? 1);
+
+      const W=720, H=300, pad={l:40,r:10,t:10,b:40};
+      const xMin = mu - 4*sd, xMax = mu + 4*sd;
+      const yMax = pdfStd(0)/sd; // สูงสุดที่ x=mu
+
+      const scaleX = x => pad.l + (x - xMin) / (xMax - xMin) * (W - pad.l - pad.r);
+      const scaleY = y => (H - pad.b) - y / yMax * (H - pad.t - pad.b);
+
+      // เส้นโค้ง
+      let path = '';
+      const n=200;
+      for(let i=0;i<=n;i++){
+        const x = xMin + (xMax - xMin)*i/n;
+        const z = (x - mu)/sd;
+        const y = pdfStd(z)/sd;
+        const X = scaleX(x), Y = scaleY(y);
+        path += (i===0?`M${X},${Y}`:` L${X},${Y}`);
+      }
+
+      // โซนระบาย
+      function clipPathForArea(){
+        let left=a, right=a;
+        if(modeA==='left'){ left = xMin; right = a; }
+        else if(modeA==='right'){ left = a; right = xMax; }
+        else { left = Math.max(a2, xMin); right = Math.min(b2, xMax); }
+        if(left>right){ const t=left; left=right; right=t; }
+        const L = Math.max(xMin, left), R = Math.min(xMax, right);
+
+        let p = `M${scaleX(L)},${scaleY(0)} `;
+        const steps=200;
+        for(let i=0;i<=steps;i++){
+          const x = L + (R-L)*i/steps;
+          const z = (x - mu)/sd;
+          const y = pdfStd(z)/sd;
+          p += `L${scaleX(x)},${scaleY(y)} `;
+        }
+        p += `L${scaleX(R)},${scaleY(0)} Z`;
+        return p;
+      }
+
+      // แกนอ้างอิง/ติ๊ก
+      let ticks=''; const T=8;
+      for(let i=0;i<=T;i++){
+        const x = xMin + (xMax-xMin)*i/T;
+        const X = scaleX(x);
+        ticks += `<line x1="${X}" y1="${H-pad.b}" x2="${X}" y2="${H-pad.b+6}" stroke="#223049"/>`;
+        ticks += `<text x="${X}" y="${H-pad.b+18}" font-size="10" fill="#cfe0ff" text-anchor="middle">${fmt(x)}</text>`;
+      }
+
+      const svg = `
+        <svg viewBox="0 0 ${W} ${H}">
+          <rect x="0" y="0" width="${W}" height="${H}" fill="#0a0e19"/>
+          <g>
+            <line x1="${pad.l}" y1="${H-pad.b}" x2="${W-pad.r}" y2="${H-pad.b}" stroke="#223049"/>
+            <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${H-pad.b}" stroke="#223049"/>
+            ${ticks}
+            <text x="${W-pad.r}" y="${H-8}" fill="#cfe0ff" font-size="10" text-anchor="end">X</text>
+            <text x="${pad.l-10}" y="${pad.t+10}" fill="#cfe0ff" font-size="10" text-anchor="end">PDF</text>
+          </g>
+          <path d="${clipPathForArea()}" fill="#4f8cff" opacity="0.4">
+            <title>พื้นที่ที่เลือก</title>
+          </path>
+          <path d="${path}" fill="none" stroke="#15b588" stroke-width="2"/>
+          <line x1="${scaleX(mu)}" y1="${pad.t}" x2="${scaleX(mu)}" y2="${H-pad.b}" stroke="#274061" stroke-dasharray="6 6"/>
+        </svg>
+      `;
+      document.getElementById('chartBox').innerHTML = svg;
+    }
+
+    // redraw chart on inputs change
+    ['mu','sd','aVal','aVal2','bVal2','xVal','zVal'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('input', drawChart);
+    });
+
+    // initial draw
+    drawChart();
+  </script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+</body>
+</html>
