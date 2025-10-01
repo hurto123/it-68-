@@ -27,6 +27,9 @@
     .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
     .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
     .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    .feedback { font-style: italic; color: var(--neutral-600); min-height: 1.5em; }
+    .feedback.error { color: var(--danger-600); }
+    .feedback.success { color: var(--success-600); }
   </style>
 </head>
 <body data-page="lesson">
@@ -138,7 +141,8 @@
           </label>
         </div>
         <button class="primary" id="prob-update">คำนวณความน่าจะเป็น</button>
-        <p>ผลลัพธ์: <strong>P(E) = <span id="prob-result">0.625</span></strong></p>
+        <p id="prob-feedback" class="feedback" aria-live="polite"></p>
+        <p>ผลลัพธ์: <strong>P(E) = <span id="prob-result" aria-live="polite">0.6250</span></strong></p>
         <div class="bar-chart" role="img" aria-label="สัดส่วนของเหตุการณ์">
           <div class="bar" id="bar-fav" style="height:62.5%" data-value="62.5%"><span>สนใจ</span></div>
           <div class="bar" id="bar-unfav" style="height:37.5%" data-value="37.5%"><span>อื่นๆ</span></div>
@@ -165,29 +169,56 @@
       return `${Math.min(100, Math.max(0, value)).toFixed(1)}%`;
     };
 
+    const barFav = document.getElementById('bar-fav');
+    const barUnfav = document.getElementById('bar-unfav');
+    const probResult = document.getElementById('prob-result');
+    const feedbackEl = document.getElementById('prob-feedback');
+    const table = document.getElementById('prob-table');
+
+    const setFeedback = (message = '', type = '') => {
+      feedbackEl.textContent = message;
+      feedbackEl.classList.remove('error', 'success');
+      if (type) feedbackEl.classList.add(type);
+    };
+
+    const setBar = (bar, percent) => {
+      const safePercent = Number.isFinite(percent) && percent > 0 ? percent : 0;
+      const height = clampPercent(safePercent);
+      bar.style.height = height;
+      bar.dataset.value = height;
+    };
+
+    const resetDisplay = (message = '') => {
+      probResult.textContent = '—';
+      setBar(barFav, 0);
+      setBar(barUnfav, 0);
+      setFeedback(message, message ? 'error' : '');
+    };
+
+    const updateDisplay = (probability, announce = true) => {
+      probResult.textContent = probability.toFixed(4);
+      setBar(barFav, probability * 100);
+      setBar(barUnfav, (1 - probability) * 100);
+      setFeedback(announce ? 'บันทึกสถานการณ์ใหม่เรียบร้อยแล้ว!' : '', announce ? 'success' : '');
+    };
+
     document.getElementById('prob-update').addEventListener('click', () => {
       const total = Number(document.getElementById('total-outcomes').value);
       const favor = Number(document.getElementById('favorable-outcomes').value);
       if (!Number.isFinite(total) || total <= 0 || !Number.isFinite(favor) || favor < 0 || favor > total) {
-        document.getElementById('prob-result').textContent = '—';
+        resetDisplay('กรุณากรอกข้อมูลที่ถูกต้อง (n(E) ต้องไม่เกิน n(S))');
         return;
       }
       const probability = favor / total;
-      document.getElementById('prob-result').textContent = probability.toFixed(4);
-      const favPercent = probability * 100;
-      const unfavPercent = 100 - favPercent;
-      const barFav = document.getElementById('bar-fav');
-      const barUnfav = document.getElementById('bar-unfav');
-      barFav.style.height = clampPercent(favPercent);
-      barUnfav.style.height = clampPercent(unfavPercent);
-      barFav.dataset.value = clampPercent(favPercent);
-      barUnfav.dataset.value = clampPercent(unfavPercent);
+      updateDisplay(probability);
 
-      const table = document.getElementById('prob-table');
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>สถานการณ์ที่ตั้งเอง</td><td>${total.toLocaleString('th-TH')} ผล</td><td>${favor.toLocaleString('th-TH')} ผล</td><td>${probability.toFixed(4)}</td>`;
       table.prepend(newRow);
     });
+
+    setFeedback('');
+    updateDisplay(5 / 8, false);
   </script>
 </body>
 </html>

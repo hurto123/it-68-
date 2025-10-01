@@ -21,10 +21,12 @@
     .conditional-lab { display: grid; gap: var(--space-3); }
     .conditional-lab input { width: 100%; }
     .venn { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 1rem; justify-items: center; align-items: center; }
-    .venn div { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 700; }
+    .venn div { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 700; text-align: center; gap: .25rem; padding: var(--space-2); }
     .venn .a { background: color-mix(in srgb, var(--brand-500) 80%, transparent); }
     .venn .b { background: color-mix(in srgb, var(--success-500) 80%, transparent); }
     .venn .ab { background: color-mix(in srgb, var(--warning-500) 80%, transparent); grid-column: span 2; width: 60%; aspect-ratio: 1 / 1; }
+    .venn div span.label { font-size: 1rem; font-weight: 700; }
+    .venn div span.value { font-size: .875rem; font-weight: 600; }
     .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-2); }
     .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
     .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
@@ -148,18 +150,18 @@
         <button class="primary" id="conditional-update">คำนวณ</button>
         <div class="grid-2">
           <div>
-            <p>P(A) = <strong id="pa">0.4</strong></p>
-            <p>P(B) = <strong id="pb">0.5</strong></p>
-            <p>P(A ∩ B) = <strong id="pab">0.3</strong></p>
-            <p>P(A | B) = <strong id="pa-given-b">0.6</strong></p>
-            <p>P(B | A) = <strong id="pb-given-a">0.75</strong></p>
+            <p>P(A) = <strong id="pa">0.4000</strong></p>
+            <p>P(B) = <strong id="pb">0.5000</strong></p>
+            <p>P(A ∩ B) = <strong id="pab">0.3000</strong></p>
+            <p>P(A | B) = <strong id="pa-given-b">0.6000</strong></p>
+            <p>P(B | A) = <strong id="pb-given-a">0.7500</strong></p>
             <p>Independent? <strong id="independent-flag">ไม่เป็นอิสระ</strong></p>
           </div>
           <div>
             <div class="venn" aria-label="ภาพแทนเซต">
-              <div class="a" id="venn-a">A</div>
-              <div class="b" id="venn-b">B</div>
-              <div class="ab" id="venn-ab">A∩B</div>
+              <div class="a" id="venn-a"><span class="label">A</span><span class="value">40%</span></div>
+              <div class="b" id="venn-b"><span class="label">B</span><span class="value">50%</span></div>
+              <div class="ab" id="venn-ab"><span class="label">A∩B</span><span class="value">30%</span></div>
             </div>
             <div class="bar-chart" role="img" aria-label="เปรียบเทียบความน่าจะเป็น">
               <div class="bar" id="bar-pa" style="height:40%" data-value="40%"><span>P(A)</span></div>
@@ -178,14 +180,39 @@
   <script>
     const percentText = (value) => `${Math.round(value * 1000) / 10}%`;
 
-    document.getElementById('conditional-update').addEventListener('click', () => {
+    const barPa = document.getElementById('bar-pa');
+    const barPb = document.getElementById('bar-pb');
+    const barPab = document.getElementById('bar-pab');
+
+    const setProbabilityValue = (id, probability) => {
+      document.getElementById(id).textContent = Number.isFinite(probability) ? probability.toFixed(4) : '—';
+    };
+
+    const setProbabilityBar = (bar, probability) => {
+      const safe = Number.isFinite(probability) && probability >= 0 ? probability : 0;
+      const display = percentText(safe);
+      bar.style.height = display;
+      bar.dataset.value = display;
+    };
+
+    const setCircle = (id, label, probability) => {
+      const element = document.getElementById(id);
+      const safe = Number.isFinite(probability) && probability >= 0 ? probability : 0;
+      element.innerHTML = `<span class="label">${label}</span><span class="value">${percentText(safe)}</span>`;
+    };
+
+    const render = () => {
       const a = Number(document.getElementById('count-a').value);
       const b = Number(document.getElementById('count-b').value);
       const ab = Number(document.getElementById('count-ab').value);
       const total = Number(document.getElementById('count-total').value);
 
-      if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(ab) || !Number.isFinite(total) || total <= 0) return;
-      if (ab > a || ab > b || a > total || b > total || ab > total) return;
+      if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(ab) || !Number.isFinite(total) || total <= 0) {
+        return;
+      }
+      if (ab > a || ab > b || a > total || b > total || ab > total) {
+        return;
+      }
 
       const pa = a / total;
       const pb = b / total;
@@ -194,27 +221,25 @@
       const pbGivenA = pa > 0 ? pab / pa : NaN;
       const independent = Math.abs(pab - pa * pb) < 1e-6;
 
-      document.getElementById('pa').textContent = pa.toFixed(4);
-      document.getElementById('pb').textContent = pb.toFixed(4);
-      document.getElementById('pab').textContent = pab.toFixed(4);
-      document.getElementById('pa-given-b').textContent = Number.isFinite(paGivenB) ? paGivenB.toFixed(4) : '—';
-      document.getElementById('pb-given-a').textContent = Number.isFinite(pbGivenA) ? pbGivenA.toFixed(4) : '—';
+      setProbabilityValue('pa', pa);
+      setProbabilityValue('pb', pb);
+      setProbabilityValue('pab', pab);
+      setProbabilityValue('pa-given-b', paGivenB);
+      setProbabilityValue('pb-given-a', pbGivenA);
       document.getElementById('independent-flag').textContent = independent ? 'เป็นอิสระ' : 'ไม่เป็นอิสระ';
 
-      const barPa = document.getElementById('bar-pa');
-      const barPb = document.getElementById('bar-pb');
-      const barPab = document.getElementById('bar-pab');
-      barPa.style.height = percentText(pa);
-      barPb.style.height = percentText(pb);
-      barPab.style.height = percentText(pab);
-      barPa.dataset.value = percentText(pa);
-      barPb.dataset.value = percentText(pb);
-      barPab.dataset.value = percentText(pab);
+      setProbabilityBar(barPa, pa);
+      setProbabilityBar(barPb, pb);
+      setProbabilityBar(barPab, pab);
 
-      document.getElementById('venn-a').textContent = `A\n${percentText(pa)}`.replace('\\n', '\n');
-      document.getElementById('venn-b').textContent = `B\n${percentText(pb)}`.replace('\\n', '\n');
-      document.getElementById('venn-ab').textContent = `A∩B\n${percentText(pab)}`.replace('\\n', '\n');
-    });
+      setCircle('venn-a', 'A', pa);
+      setCircle('venn-b', 'B', pb);
+      setCircle('venn-ab', 'A∩B', pab);
+    };
+
+    document.getElementById('conditional-update').addEventListener('click', render);
+
+    render();
   </script>
 </body>
 </html>

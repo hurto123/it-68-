@@ -28,6 +28,9 @@
     .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
     .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
     .note { font-style: italic; color: var(--neutral-600); }
+    .pmf-message { font-style: italic; color: var(--neutral-600); margin-inline-start: .5rem; display: inline-block; min-width: 14ch; }
+    .pmf-message.ok { color: var(--success-600); }
+    .pmf-message.warn { color: var(--danger-600); }
   </style>
 </head>
 <body data-page="lesson">
@@ -149,7 +152,7 @@
 1:0.5
 2:0.25</textarea>
         <button class="primary" id="pmf-update">อัปเดตการแจกแจง</button>
-        <p>ผลรวมความน่าจะเป็น: <strong id="pmf-sum">1.00</strong></p>
+        <p>ผลรวมความน่าจะเป็น: <strong id="pmf-sum">1.0000</strong><span id="pmf-message" class="pmf-message" aria-live="polite"></span></p>
         <div class="bar-chart" id="pmf-chart" role="img" aria-label="กราฟแท่งความน่าจะเป็น"></div>
       </div>
     </section>
@@ -161,35 +164,78 @@
   <script>
     const chart = document.getElementById('pmf-chart');
     const sumEl = document.getElementById('pmf-sum');
+    const messageEl = document.getElementById('pmf-message');
 
-    const renderPMF = (pairs) => {
+    const setMessage = (text = '', type = '') => {
+      messageEl.textContent = text;
+      messageEl.classList.remove('ok', 'warn');
+      if (type) messageEl.classList.add(type);
+    };
+
+    const renderPMF = ({ pairs, invalid }) => {
       chart.innerHTML = '';
-      const validPairs = pairs.filter(({ prob }) => prob >= 0);
-      const total = validPairs.reduce((acc, { prob }) => acc + prob, 0);
+      const total = pairs.reduce((acc, { prob }) => acc + prob, 0);
       sumEl.textContent = total.toFixed(4);
-      const maxProb = Math.max(...validPairs.map(({ prob }) => prob), 0.01);
-      validPairs.forEach(({ value, prob }) => {
+
+      if (!pairs.length) {
+        const note = document.createElement('p');
+        note.className = 'note';
+        note.textContent = invalid ? `ไม่มีข้อมูลที่จะแสดง (ละเว้น ${invalid} บรรทัดที่ไม่ถูกต้อง)` : 'ไม่มีข้อมูลที่จะแสดง';
+        chart.appendChild(note);
+        setMessage('เพิ่มข้อมูลในรูปแบบ x:prob ต่อบรรทัดเพื่อดูกราฟ', 'warn');
+        return;
+      }
+
+      const maxProb = Math.max(...pairs.map(({ prob }) => prob), 0.01);
+      pairs.forEach(({ value, prob }) => {
         const bar = document.createElement('div');
         bar.className = 'bar';
         bar.style.height = `${Math.min(100, (prob / maxProb) * 100)}%`;
         bar.dataset.value = prob.toFixed(3);
+        bar.title = `P(X=${value}) = ${prob.toFixed(3)}`;
         const label = document.createElement('span');
         label.textContent = value;
         bar.appendChild(label);
         chart.appendChild(bar);
       });
+
+      const tolerance = 1e-4;
+      if (Math.abs(total - 1) <= tolerance) {
+        const message = invalid ? `ผลรวม ≈ 1 (ละเว้น ${invalid} บรรทัดที่ไม่ถูกต้อง)` : 'ข้อมูลสมบูรณ์ (ผลรวม ≈ 1)';
+        setMessage(message, 'ok');
+      } else {
+        const message = invalid ? `ผลรวม = ${total.toFixed(4)} (ละเว้น ${invalid} บรรทัดที่ไม่ถูกต้อง)` : `ผลรวม = ${total.toFixed(4)} (ควรเท่ากับ 1)`;
+        setMessage(message, 'warn');
+      }
     };
 
     const parseInput = (text) => {
-      return text.split(/\n+/).map(line => line.trim()).filter(Boolean).map(line => {
-        const [value, prob] = line.split(':');
-        return { value: value.trim(), prob: Number(prob) };
-      }).filter(({ prob }) => Number.isFinite(prob));
+      const pairs = [];
+      let invalid = 0;
+      text.split(/\n+/).forEach((line, index) => {
+        const trimmed = line.trim();
+        if (!trimmed) {
+          return;
+        }
+        const [rawValue, rawProb] = trimmed.split(':');
+        if (rawProb === undefined) {
+          invalid += 1;
+          return;
+        }
+        const value = (rawValue ?? '').trim() || `ค่า ${index + 1}`;
+        const prob = Number(rawProb);
+        if (!Number.isFinite(prob) || prob < 0) {
+          invalid += 1;
+          return;
+        }
+        pairs.push({ value, prob });
+      });
+      return { pairs, invalid };
     };
 
     document.getElementById('pmf-update').addEventListener('click', () => {
-      const pairs = parseInput(document.getElementById('pmf-input').value);
-      renderPMF(pairs);
+      const data = parseInput(document.getElementById('pmf-input').value);
+      renderPMF(data);
     });
 
     renderPMF(parseInput(document.getElementById('pmf-input').value));
