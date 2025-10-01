@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Bernoulli Distribution | อธิบายสูตร</title>
+  <meta name="description" content="สูตร Bernoulli Distribution (X~Bernoulli(p)) นิยาม สัญลักษณ์ PMF, ค่าเฉลี่ย, ความแปรปรวน ตัวอย่างคำนวณ และเครื่องมือคำนวณ p แบบอินเทอร์แอกทีฟ">
+  <meta property="og:title" content="Bernoulli Distribution | อธิบายสูตร">
+  <meta property="og:description" content="นิยาม/สูตร/ตัวอย่างของ Bernoulli พร้อมตาราง PMF และกราฟ">
+  <meta name="doc:version" content="1.0.0">
+  <meta name="doc:updated_at" content="2025-10-02">
+  <meta name="doc:depends_on" content="lesson07.html,summary-lesson07.html,glossary.html#gl-dist">
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+
+  <style>
+    /* เสริมเฉพาะหน้านี้เล็กน้อย */
+    body{background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);} /* ปรับให้เข้มขึ้นเล็กน้อย */
+    .wrap{max-width:1020px}
+    .card{overflow:hidden}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+    .formula-box{
+      background:#0f1320;border:1px solid var(--border);border-radius:12px;padding:.8rem;overflow:auto
+    }
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    table{width:100%;border-collapse:collapse;margin:.4rem 0}
+    th,td{border:1px solid var(--border);padding:.45rem .5rem;text-align:center}
+    th{background:#101525}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.6rem;border-radius:12px}
+    .warn{background:#231b0f;border-left:4px solid var(--warn);padding:.6rem;border-radius:12px}
+    .toolbar{display:flex;gap:.5rem;flex-wrap:wrap}
+    .mini{font-size:.9rem}
+    .calc-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    input[type="number"]{
+      width:110px;background:#0b0f19;border:1px solid var(--border);border-radius:10px;color:#e8e8ea;padding:.45rem .55rem;
+    }
+    canvas{width:100%;height:220px;background:#0c111b;border:1px solid var(--border);border-radius:12px}
+    .badge{display:inline-block;border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;background:#0e1220;color:#cfe0ff;margin-left:.35rem}
+    .step{margin:.25rem 0}
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Formula Explorer</h1>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <span class="muted">Bernoulli</span>
+      </nav>
+      <div class="title" style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:.6rem 0 1.0rem">
+        <div>
+          <h2 style="margin:.2rem 0;font-size:1.8rem">การแจกแจงแบบเบอร์นูลลี (Bernoulli) 👍👎</h2>
+          <p class="muted">p = โอกาส “สำเร็จ” ในการทดลอง 1 ครั้ง, X ∈ {0,1}</p>
+        </div>
+        <div class="toolbar">
+          <a class="btn secondary" href="../glossary.html">Glossary</a>
+          <a class="btn ghost" href="../lesson07.html">บทที่ 7</a>
+          <a class="btn ghost" href="../summary-lesson07.html">สรุป 1 หน้า</a>
+          <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid content formula-page narrow" role="main">
+    <!-- ที่มา + สัญลักษณ์ -->
+    <section class="card">
+      <h3>1) ที่มา (Intuition) &amp; บริบทที่ใช้</h3>
+      <p>เบอร์นูลลีคือ “หน่วยพื้นฐานที่สุด” ของการทดลองที่มีผลลัพธ์ได้ 2 แบบ: <strong>สำเร็จ</strong> (1) หรือ <strong>ล้มเหลว</strong> (0) เช่น โยนเหรียญ (หัว/ก้อย), ตรวจสินค้าดี/เสีย, ผู้เข้าสอบผ่าน/ตก</p>
+
+      <div class="grid2" style="margin-top:.4rem">
+        <div>
+          <h3>2) สัญลักษณ์/พารามิเตอร์</h3>
+          <ul class="list-compact">
+            <li><strong>X ~ Bernoulli(p)</strong> หรือ <strong>X ~ Bern(p)</strong></li>
+            <li><strong>p</strong> = P(สำเร็จ) ∈ (0,1), และ <strong>1−p</strong> = P(ล้มเหลว)</li>
+            <li><strong>ค่าที่เป็นไปได้ของ X</strong>: 0, 1 เท่านั้น</li>
+          </ul>
+        </div>
+        <div>
+          <h3>3) สูตร (PMF / Mean / Variance)</h3>
+          <div class="formula-box mono">
+            PMF: &nbsp;P(X = x) = p^x (1−p)^{1−x} , &nbsp;x ∈ {0,1}<br/>
+            ค่าเฉลี่ย: &nbsp;E[X] = p &nbsp;&nbsp;|&nbsp; ความแปรปรวน: Var(X) = p(1−p)
+          </div>
+          <p class="muted mini">หมายเหตุ: เขียนแบบแยกค่าก็ได้: P(X=1)=p, P(X=0)=1−p</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ตาราง + เครื่องคิดเลข + กราฟ -->
+    <section class="card">
+      <h3>4) ตาราง PMF + เครื่องคิดเลข 🧮<span class="badge">Interactive</span></h3>
+      <div class="calc-row" style="margin:.35rem 0 .5rem">
+        <label for="p">ค่า p (0–1):</label>
+        <input id="p" type="number" min="0" max="1" step="0.01" value="0.60" aria-label="ค่า p ระหว่าง 0 ถึง 1">
+        <button class="btn" id="btn-calc">คำนวณ</button>
+        <button class="btn secondary" id="btn-reset">รีเซ็ต</button>
+        <span class="muted mini" id="status" aria-live="polite"></span>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <table aria-label="ตาราง PMF Bernoulli">
+            <thead>
+              <tr><th>x</th><th>P(X=x)</th></tr>
+            </thead>
+            <tbody id="pmf-rows">
+              <tr><td>0</td><td id="px0">0.40</td></tr>
+              <tr><td>1</td><td id="px1">0.60</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><th>รวม</th><th id="sum">1.00</th></tr>
+            </tfoot>
+          </table>
+          <p class="mini muted">สถิติสรุป: <span id="stats">E[X]=0.60, Var(X)=0.24, SD=0.4899</span></p>
+        </div>
+        <div>
+          <canvas id="chart" aria-label="กราฟแท่ง P(X=0), P(X=1)"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- วิธีทำ / ขั้นตอน / อธิบายที่มา -->
+    <section class="card">
+      <h3>5) วิธีทำโจทย์เบอร์นูลลี (Workflow)</h3>
+      <ol>
+        <li class="step">ระบุว่าเหตุการณ์ “สำเร็จ” คืออะไร (เช่น ออกหัว, ผ่านการตรวจ)</li>
+        <li class="step">กำหนดค่า <strong>p = P(สำเร็จ)</strong> และ <strong>1−p = P(ล้มเหลว)</strong></li>
+        <li class="step">กำหนดตัวแปรสุ่ม <strong>X</strong> ให้เท่ากับ 1 เมื่อสำเร็จ และ 0 เมื่อไม่สำเร็จ</li>
+        <li class="step">ใช้ PMF: <span class="mono">P(X=x) = p^x (1−p)^{1−x}</span> เพื่อหาความน่าจะเป็น</li>
+        <li class="step">ถ้าต้องการค่าเฉลี่ย/ความแปรปรวน ใช้: <span class="mono">E[X]=p, Var(X)=p(1−p)</span></li>
+      </ol>
+
+      <div class="ok" style="margin-top:.6rem">
+        <strong>ที่มาของสูตรย่อ:</strong> เพราะ X มีค่าแค่ 0 หรือ 1 จึงนิยาม PMF ให้สั้นด้วยยกกำลังของ p และ (1−p) ตามค่า x; <em>E[X]=1·p + 0·(1−p)=p</em>, และ <em>Var(X)=E[X^2]−(E[X])^2 = p−p^2 = p(1−p)</em>
+      </div>
+    </section>
+
+    <!-- ตัวอย่างพร้อมวิธีทำเต็มขั้น -->
+    <section class="card">
+      <h3>6) ตัวอย่าง &amp; เฉลยแบบ “ทีละขั้น”</h3>
+
+      <h4 style="margin:.2rem 0">ตัวอย่าง A — โยนเหรียญ (หัว=สำเร็จ) โดย p=0.5</h4>
+      <ul class="list-compact">
+        <li>โจทย์: หา P(X=1) และ P(X=0), E[X], Var(X)</li>
+        <li>วิธีทำ: <span class="mono">P(X=1)=p=0.5, P(X=0)=1−p=0.5</span></li>
+        <li>สรุป: <span class="mono">E[X]=0.5, Var(X)=0.25</span></li>
+      </ul>
+
+      <h4 style="margin:.2rem 0">ตัวอย่าง B — ตรวจสินค้าผ่านมาตรฐาน p=0.93</h4>
+      <ol class="list-compact">
+        <li>นิยาม “สำเร็จ” = สินค้าผ่านการตรวจ ⇒ p=0.93</li>
+        <li>PMF: <span class="mono">P(X=1)=0.93, P(X=0)=0.07</span></li>
+        <li>สถิติ: <span class="mono">E[X]=0.93, Var(X)=0.93×0.07=0.0651, SD≈0.2552</span></li>
+      </ol>
+
+      <div class="warn" style="margin-top:.6rem">
+        <strong>ข้อควรระวัง:</strong> เบอร์นูลลีเป็น “ครั้งเดียว” เท่านั้น ถ้าซ้ำหลายครั้ง (n ครั้ง) และยังคง p เดิมทุกครั้ง → ใช้ <a href="./binomial.html">Binomial</a> แทน
+      </div>
+    </section>
+
+    <!-- ความเชื่อมโยง/ดัดแปลง -->
+    <section class="card grid2">
+      <div>
+        <h3>7) ดัดแปลงใช้งาน/ขยายผล</h3>
+        <ul class="list-compact">
+          <li><strong>Sum ของเบอร์นูลลี n ตัวอิสระ</strong> → <a href="./binomial.html">Binomial(n,p)</a></li>
+          <li><strong>คาดหวังรวม</strong> ของ n ครั้ง = n·p (เชิงเส้นของความคาดหวัง)</li>
+          <li>ใช้เป็น “ตัวบล็อก” ในโมเดลความน่าจะเป็น เช่น การจำแนก “สำเร็จ/ล้มเหลว”</li>
+        </ul>
+      </div>
+      <div>
+        <h3>8) ลิงก์ที่เกี่ยวข้อง</h3>
+        <div class="toolbar">
+          <a class="btn ghost" href="./binomial.html">Binomial</a>
+          <a class="btn ghost" href="./poisson.html">Poisson</a>
+          <a class="btn ghost" href="./z-score.html">Z-Score</a>
+          <a class="btn ghost" href="./clt-xbar-phat.html">CLT: x̄ &amp; p̂</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" role="contentinfo" style="border-top:1px solid var(--border);margin-top:1rem;padding-top:.8rem">
+    <div class="muted">© คอร์สสถิติ (ไทย) — หน้านี้รองรับการพิมพ์ด้วย <code>print.css</code></div>
+  </footer>
+
+  <script>
+    // แอนิเมชันโผล่
+    const cards = document.querySelectorAll('.card');
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.animate([
+            {opacity:0, transform:'translateY(8px)'},
+            {opacity:1, transform:'translateY(0)'}
+          ], {duration:450, easing:'ease-out', fill:'forwards'});
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    cards.forEach(card=>obs.observe(card));
+
+    // เครื่องคิดเลข Bernoulli + กราฟ
+    const pInput = document.getElementById('p');
+    const px0 = document.getElementById('px0');
+    const px1 = document.getElementById('px1');
+    const sum = document.getElementById('sum');
+    const stats = document.getElementById('stats');
+    const statusEl = document.getElementById('status');
+    const canvas = document.getElementById('chart');
+    const ctx = canvas.getContext('2d');
+    const btnCalc = document.getElementById('btn-calc');
+    const btnReset = document.getElementById('btn-reset');
+
+    let currentP = 0.6;
+
+    function clamp(v, lo, hi){
+      return Math.max(lo, Math.min(hi, v));
+    }
+    function fmt(x){
+      return (Math.round(x*10000)/10000).toFixed(4).replace(/\.0+$/,'').replace(/\.(\d*?)0+$/, '.$1');
+    }
+    function resizeCanvas(){
+      const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      if(rect.width === 0 || rect.height === 0){ return; }
+      canvas.width = rect.width * ratio;
+      canvas.height = rect.height * ratio;
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(ratio, ratio);
+    }
+    function drawBars(p){
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      ctx.clearRect(0,0,w,h);
+      // กริดเบา ๆ
+      ctx.globalAlpha = 0.25;
+      ctx.strokeStyle = '#223049';
+      for(let i=1;i<=4;i++){
+        const y = h - (h*i/5);
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+      // บาร์ 2 แท่ง: x=0, x=1
+      const barW = Math.min(80, w*0.18);
+      const gap = barW*0.6;
+      const totalW = barW*2 + gap;
+      const startX = (w-totalW)/2;
+      const vals = [1-p, p];
+      vals.forEach((v,i)=>{
+        const x = startX + i*(barW+gap);
+        const y = h - v*h*0.9; // padding top
+        ctx.fillStyle = i ? '#6ea8ff' : '#15b588';
+        ctx.fillRect(x, y, barW, h-y);
+        ctx.fillStyle = '#cfe0ff';
+        ctx.textAlign = 'center';
+        ctx.font = '14px system-ui, -apple-system, "Noto Sans Thai", sans-serif';
+        ctx.fillText(i===0?'P(X=0)':'P(X=1)', x+barW/2, h-8);
+        ctx.fillText(fmt(v), x+barW/2, Math.max(16, y-6));
+      });
+    }
+
+    function compute(){
+      let p = parseFloat(pInput.value);
+      if(Number.isNaN(p)){
+        statusEl.textContent = 'กรุณาใส่ p เป็นตัวเลข 0–1';
+        return;
+      }
+      p = clamp(p, 0, 1);
+      currentP = p;
+      pInput.value = p.toFixed(2);
+      const p0 = 1-p;
+      px0.textContent = p0.toFixed(2);
+      px1.textContent = p.toFixed(2);
+      sum.textContent = (p0+p).toFixed(2);
+      const variance = p*(1-p);
+      const sd = Math.sqrt(variance);
+      stats.textContent = `E[X]=${fmt(p)}, Var(X)=${fmt(variance)}, SD=${fmt(sd)}`;
+      statusEl.textContent = `อัปเดตด้วย p=${p.toFixed(2)}`;
+      resizeCanvas();
+      drawBars(p);
+    }
+
+    btnCalc.addEventListener('click', compute);
+    btnReset.addEventListener('click', ()=>{
+      pInput.value='0.60';
+      compute();
+    });
+
+    window.addEventListener('resize', ()=>{
+      resizeCanvas();
+      drawBars(currentP);
+    });
+
+    // เริ่มต้น
+    resizeCanvas();
+    compute();
+  </script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+</body>
+</html>

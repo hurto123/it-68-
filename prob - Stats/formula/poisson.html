@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html class="theme-light" lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>อธิบายสูตร — Poisson Distribution | คอร์สสถิติ</title>
+  <meta name="description" content="สูตรปัวส์ซอง (Poisson): ที่มา สัญลักษณ์ วิธีทำ ขั้นตอน เหตุผล ตัวอย่าง ข้อผิดพลาด พร้อมเครื่องคิดเลข P(X=x) และช่วง">
+  <meta name="keywords" content="poisson, ปัวส์ซอง, ความน่าจะเป็น, สถิติ, pmf, cdf, lambda">
+  <meta name="author" content="ทีมผู้เรียบเรียงคอร์สสถิติ">
+
+  <script>
+    // การกำหนดค่าสำหรับ MathJax v3 (แบบที่ถูกต้อง)
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+
+  <style>
+    :root{
+      --bg:#0b0c10; --surface:#141821; --surface-2:#10131a; --text:#e8e8ea; --muted:#9aa0a6;
+      --accent:#79a7ff; --accent-2:#4f8cff; --ok:#15b588; --warn:#f59e0b; --danger:#ef4444;
+      --border:#242a35; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      background:linear-gradient(180deg,#0b0c10 0%,#0f1117 100%);
+      color:var(--text);
+      font:16px/1.75 system-ui,"Noto Sans Thai",ui-sans-serif,-apple-system,Segoe UI,Roboto,"Noto Sans",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px;margin:0 auto;padding:1.2rem}
+    header{
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(1000px 400px at 10% -10%, rgba(79,140,255,.18), transparent 60%),
+        radial-gradient(800px 320px at 90% -20%, rgba(21,181,136,.14), transparent 60%),
+        var(--surface);
+      border-bottom:1px solid var(--border);
+    }
+    .brand{display:flex;align-items:center;gap:.8rem}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#4f8cff,#15b588);box-shadow:0 8px 24px rgba(79,140,255,.35)}
+    .brand h1{margin:0;font-size:1.1rem}
+    nav.breadcrumb{margin-top:.6rem;color:var(--muted);font-size:.9rem}
+    nav.breadcrumb a{color:#cfe0ff}
+    .title{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+      padding:.6rem 0 1.0rem;
+    }
+    .title h2{margin:.2rem 0;font-size:1.8rem}
+    .badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--border);background:#0e1220;border-radius:999px;padding:.25rem .6rem;color:#cfe0ff;font-size:.85rem}
+    .btn{
+      appearance:none;border:none;cursor:pointer;padding:.6rem .85rem;border-radius:12px;font-weight:700;
+      background:linear-gradient(135deg,var(--accent-2),#7fb0ff);color:#071021;box-shadow:0 10px 20px rgba(79,140,255,.35)
+    }
+    .btn.secondary{background:#0f1320;color:var(--text);border:1px solid var(--border);box-shadow:none}
+    .btn.ghost{background:#0e1220;color:#cfe0ff;border:1px solid var(--border);box-shadow:none}
+    .grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .card{
+      background:linear-gradient(180deg,var(--surface) 0%,var(--surface-2) 100%);
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem
+    }
+    .hl{background:#0f2237;border-left:4px solid var(--accent-2);padding:.8rem;border-radius:12px}
+    .ok{background:#0f231c;border-left:4px solid var(--ok);padding:.8rem;border-radius:12px}
+    .warn{background:#2a160c;border-left:4px solid var(--warn);padding:.8rem;border-radius:12px}
+    .muted{color:var(--muted)}
+    h3{margin:.2rem 0}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media (max-width:860px){.two{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid var(--border);padding:.5rem;vertical-align:top}
+    th{background:#111824}
+    .checklist li{margin:.2rem 0}
+    @keyframes pop{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .pop{animation:pop .6s cubic-bezier(.2,.7,.2,1)}
+    @media (prefers-reduced-motion:reduce){.pop{animation:none}}
+    footer{border-top:1px solid var(--border);background:#0d1119;margin-top:1rem}
+    .footnav{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.4rem}
+    .footnav a{color:#cfe0ff}
+    .calc input[type="number"]{
+      width:120px;background:#0b0f19;color:#e8e8ea;border:1px solid var(--border);border-radius:10px;padding:.35rem .5rem
+    }
+    .pill{border:1px solid var(--border);background:#0a0e19;border-radius:999px;padding:.2rem .55rem;font-size:.8rem;color:#cfe0ff}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+    .svgbox{background:#0c1020;border:1px solid var(--border);border-radius:14px;padding:.6rem;overflow:auto}
+  </style>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../print.css" media="print">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>อธิบายสูตร — Poisson Distribution</h1>
+        <span class="badge">บท 7 • แจกแจงไม่ต่อเนื่อง</span>
+      </div>
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">หน้าแรก</a> › <a href="../index.html#formula">อธิบายสูตร</a> › <span class="muted">Poisson</span>
+      </nav>
+      <div class="title">
+        <div>
+          <h2>สูตรปัวส์ซอง (Poisson) — นับจำนวนเหตุการณ์ในช่วงเวลา/พื้นที่ ⏳</h2>
+          <p class="muted">รวม: ที่มา • สัญลักษณ์ • วิธีทำ • ขั้นตอน • เหตุผล • ตัวอย่าง • ข้อผิดพลาด + เครื่องคิดเลขย่อ</p>
+        </div>
+        <div class="actions">
+          <button class="btn" onclick="window.print()">🖨️ พิมพ์/บันทึก PDF</button>
+          <a class="btn secondary" href="../lesson07.html">เปิดบท 7</a>
+          <a class="btn ghost" href="binomial.html">← Binomial</a>
+          <a class="btn ghost" href="z-score.html">Z-Score →</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap grid content formula-page narrow" role="main">
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🎯 เป้าหมายการเรียนรู้</h3>
+          <ul>
+            <li>เข้าใจที่มาและเงื่อนไขของ Poisson (นับเหตุการณ์แบบสุ่มอิสระ อัตราเฉลี่ยคงที่)</li>
+            <li>ใช้สูตร \(P(X=x)=e^{-\lambda}\,\dfrac{\lambda^x}{x!}\), \(E[X]=V[X]=\lambda\) ได้ถูกต้อง</li>
+            <li>คำนวณโอกาสแบบ “ค่าจุด/ช่วง/อย่างน้อย/ไม่เกิน” และแปลงหน่วยอัตราได้</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧭 Prerequisites</h3>
+          <ul>
+            <li>แนวคิดการนับ/โอกาสพื้นฐาน, ลอการิทึม/แฟกทอเรียล (เบื้องต้น)</li>
+            <li>การตีความ “อัตราเฉลี่ยต่อช่วง” เช่น “10 คน/ชั่วโมง”, “0.5 ข้อผิด/หน้า”</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>1) ที่มาของสูตร 🔍</h3>
+      <p>Poisson โมเดล “จำนวนเหตุการณ์” ในช่วงเวลา/พื้นที่ที่สนใจ เมื่อเหตุการณ์เกิดแบบสุ่ม อิสระ และมีอัตราเฉลี่ยต่อช่วงคงที่ = \(\lambda\).</p>
+      <div class="hl">
+        $$\boxed{P(X=x)=e^{-\lambda}\,\frac{\lambda^x}{x!}},\quad x=0,1,2,\dots$$
+        $$E[X]=\lambda,\quad V[X]=\lambda$$
+      </div>
+
+      <h3 style="margin-top:.8rem">2) สัญลักษณ์ ✍️</h3>
+      <table>
+        <tbody>
+          <tr><th>X</th><td>จำนวนเหตุการณ์ในช่วง (ตัวแปรสุ่มไม่ต่อเนื่อง)</td></tr>
+          <tr><th>\(\lambda\)</th><td>อัตราเฉลี่ยต่อ “ช่วง” (เช่น 10 ต่อชั่วโมง, 0.5 ต่อหน้า)</td></tr>
+          <tr><th>e</th><td>ค่าคงที่ธรรมชาติ ≈ 2.71828</td></tr>
+          <tr><th>\(x!\)</th><td>แฟกทอเรียล (\(x\cdot(x-1)\cdots 1\), และ \(0!=1\))</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>3) วิธีทำโดยสรุป 🧠</h3>
+          <ol>
+            <li>ระบุ “ช่วง” ที่สนใจ และหา \(\lambda\) (ถ้าจำเป็นต้องปรับสเกลช่วงให้ตรงกันก่อน)</li>
+            <li>ถ้าถามค่าจุด \(P(X=x)\) ใช้สูตร PMF ข้างต้น</li>
+            <li>ถ้าถามเป็นช่วง (เช่น \(\le, \ge\)) ให้รวมค่าจุด หรือใช้ “ส่วนเติมเต็ม” ลดงาน</li>
+          </ol>
+        </div>
+        <div>
+          <h3>4) ขั้นตอนละเอียด 🧩</h3>
+          <ul>
+            <li><strong>ปรับสเกล \(\lambda\):</strong> ถ้าให้ “10 คน/ชั่วโมง” แต่ถาม “30 นาที” ⇒ \(\lambda=10\times0.5=5\)</li>
+            <li><strong>ค่าจุด:</strong> \(P(X=x)=e^{-\lambda}\,\lambda^x/x!\)</li>
+            <li><strong>ช่วง:</strong> \(P(X\le k)=\sum_{x=0}^k e^{-\lambda}\,\lambda^x/x!\), และ \(P(X\ge k)=1-P(X\le k-1)\)</li>
+          </ul>
+          <div class="ok"><strong>เคล็ดลับ:</strong> ใช้ส่วนเติมเต็มเมื่อหางด้านหนึ่งยาว (เช่น “อย่างน้อย”) เพื่อคำนวณสั้นลง</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:.8rem">5) สิ่งใดมาจากไหน 🧱</h3>
+      <ul>
+        <li>รูป \(e^{-\lambda}\) มาจากการประมาณแบบ “เหตุการณ์เกิดอิสระถี่มากแต่โอกาสจิ๋ว” (ขีดจำกัดของ Binomial เมื่อ \(n\to\infty,\;p\to 0,\;np=\lambda\) คงที่)</li>
+        <li>\(\lambda^x/x!\) มาจากการแจกแจง “นับ” x ครั้ง ภายใต้อัตราเฉลี่ย \(\lambda\)</li>
+        <li>\(E[X]=V[X]=\lambda\) เป็นคุณสมบัติเฉพาะของ Poisson</li>
+      </ul>
+
+      <h3 style="margin-top:.8rem">6) การปรับวิธีตอบ 🔧</h3>
+      <ul>
+        <li>คำว่า “โดยเฉลี่ย … ต่อช่วง” ⇒ นั่นคือ \(\lambda\) ของช่วงนั้น ๆ</li>
+        <li>ถ้าช่วงเปลี่ยน ให้คูณหารตามสัดส่วนเวลาหรือพื้นที่เพื่อได้ \(\lambda\) ใหม่</li>
+        <li>เมื่อ \(\lambda\) ใหญ่มาก อาจใช้ Normal Approximation (ต่อยอดภายหลัง)</li>
+      </ul>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>🧪 ตัวอย่างสั้น</h3>
+          <p><strong>โจทย์:</strong> โดยเฉลี่ยมีลูกค้าเข้าร้าน 10 คน/ชั่วโมง จงหา \(P(X=8)\) สำหรับ 1 ชั่วโมง</p>
+          <ul>
+            <li>\(\lambda=10,\; x=8\)</li>
+            <li>\(P= e^{-10}\,\dfrac{10^8}{8!}\)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>🧮 ตัวอย่างเต็มขั้น</h3>
+          <p><strong>โจทย์:</strong> ข้อผิดพลาดเฉลี่ย 0.5 จุด/หน้า เอกสาร 1 หน้า จงหา \(P(X\le 2)\)</p>
+          <ol>
+            <li>\(\lambda=0.5\)</li>
+            <li>\(P(X\le2)=\sum_{x=0}^{2} e^{-0.5}\,\dfrac{0.5^x}{x!}\)</li>
+            <li>คำนวณทีละค่าแล้วรวม หรือใช้เครื่องคิดเลขย่อด้านล่าง</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <div class="two">
+        <div>
+          <h3>⚠️ ข้อผิดพลาดที่พบบ่อย</h3>
+          <ul>
+            <li>ลืมปรับสเกล \(\lambda\) ให้ตรงกับ “ช่วง” ที่โจทย์ถาม</li>
+            <li>ใช้ Poisson ทั้งที่ “ไม่อิสระ/อัตราไม่คงที่” → ควรพิจารณาโมเดลอื่น</li>
+            <li>ตีความ “อย่างน้อย/ไม่เกิน” ผิด ไม่ใช้ส่วนเติมเต็ม</li>
+          </ul>
+        </div>
+        <div>
+          <h3>✅ เช็กตัวเอง</h3>
+          <ul class="checklist">
+            <li>คำนวณ \(P(X=x)\) ได้</li>
+            <li>รวมช่วง (\(\le, \ge\)) ด้วยผลรวม/ส่วนเติมเต็มได้</li>
+            <li>ปรับ \(\lambda\) เมื่อช่วงเวลา/พื้นที่เปลี่ยน</li>
+            <li>รู้ว่าเมื่อไรควรพิจารณา Approximation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>🧷 เครื่องคิดเลข Poisson (ย่อ)</h3>
+      <p class="muted">คำนวณ <strong>ค่าจุด</strong> \(P(X=x)\) หรือ <strong>ช่วง</strong> \(P(a \le X \le b)\). ใส่ \(\lambda\) ให้ตรง “ช่วง” ที่คุณสนใจ</p>
+      <div class="two calc" role="group" aria-label="เครื่องคิดเลข Poisson">
+        <div>
+          <p>
+            <label>อัตราเฉลี่ย \(\lambda\) (≥0)<br>
+              <input type="number" id="lam" value="10" step="0.001" min="0">
+            </label>
+          </p>
+
+          <p>
+            <span class="pill">โหมด: </span>
+            <label><input type="radio" name="mode" value="point" checked> ค่าจุด x</label>
+            <label style="margin-left:.6rem"><input type="radio" name="mode" value="range"> ช่วง a…b</label>
+          </p>
+
+          <div id="pointInputs">
+            <label>x = <input type="number" id="x" value="8" min="0" step="1"></label>
+          </div>
+          <div id="rangeInputs" style="display:none">
+            <label>a = <input type="number" id="a" value="0" min="0" step="1"></label>
+            <label style="margin-left:.6rem">b = <input type="number" id="b" value="8" min="0" step="1"></label>
+          </div>
+
+          <p class="actions" style="margin-top:.6rem">
+            <button class="btn" id="calcBtn">คำนวณ</button>
+            <button class="btn ghost" id="fillExamples">เติมตัวอย่าง</button>
+          </p>
+        </div>
+
+        <div>
+          <h4>ผลลัพธ์</h4>
+          <div class="hl" id="resultBox">—</div>
+          <p class="muted" style="margin-top:.5rem">หมายเหตุ: ใช้การบวกลอการิทึม/แฟกทอเรียลเชิงตัวเลขอย่างง่าย เหมาะสำหรับการเรียน</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card pop">
+      <h3>📊 ภาพรวม PMF (แถบค่า) สำหรับ \(\lambda\) ที่กำลังใช้</h3>
+      <p class="muted">แสดงค่าประมาณ \(P(X=x)\) สำหรับช่วง x = 0…k (คำนวณตาม \(\lambda\) ปัจจุบัน)</p>
+      <div class="actions">
+        <label>แสดงถึง x = <input type="number" id="maxX" value="20" min="5" step="1"></label>
+        <button class="btn ghost" id="drawBtn">วาดกราฟ</button>
+      </div>
+      <div class="svgbox" id="chartBox" aria-label="กราฟแท่ง PMF"></div>
+    </section>
+
+    <section class="card pop">
+      <h3>🔗 ไปทำแบบฝึก/ควิซ</h3>
+      <div class="actions">
+        <a class="btn ghost" href="../practice/lesson07.html" aria-disabled="true" title="กำลังจะมี">แบบฝึกฝน (บท 7)</a>
+        <a class="btn ghost" href="../quiz/lesson07.html" aria-disabled="true" title="กำลังจะมี">ควิซท้ายบท (บท 7)</a>
+        <a class="btn secondary" href="../index.html#formula">กลับหน้าอธิบายสูตร</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footnav">
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../glossary.html" aria-disabled="true">Glossary</a>
+        <a href="../about.html" aria-disabled="true">About</a>
+        <a href="../credits.html" aria-disabled="true">Credits</a>
+      </div>
+      <p class="muted">© คอร์สสถิติ (ไทย). หน้านี้รองรับการพิมพ์เป็น PDF</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== UI mode switch
+    const modeRadios = document.querySelectorAll('input[name="mode"]');
+    const pointInputs = document.getElementById('pointInputs');
+    const rangeInputs = document.getElementById('rangeInputs');
+    modeRadios.forEach(r=>{
+      r.addEventListener('change', ()=>{
+        const mode = document.querySelector('input[name="mode"]:checked').value;
+        pointInputs.style.display = mode==='point' ? '' : 'none';
+        rangeInputs.style.display = mode==='range' ? '' : 'none';
+      });
+    });
+
+    // ===== Math helpers
+    function lnGamma(z){ // Lanczos approx for factorial via Gamma (for big x)
+      const g = 7;
+      const C = [0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
+               -176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+      if(z < 0.5) return Math.log(Math.PI) - Math.log(Math.sin(Math.PI*z)) - lnGamma(1 - z);
+      z -= 1;
+      let x = C[0];
+      for (let i = 1; i < g + 2; i++) x += C[i] / (z + i);
+      const t = z + g + 0.5;
+      return 0.5*Math.log(2*Math.PI) + (z+0.5)*Math.log(t) - t + Math.log(x) - Math.log(z+1);
+    }
+    function lnFactorial(x){
+      if(x===0 || x===1) return 0;
+      if(x<0 || !Number.isInteger(x)) return NaN;
+      if(x<50){ // exact loop for small x
+        let s=0; for(let k=2;k<=x;k++) s+=Math.log(k); return s;
+      }
+      return lnGamma(x+1);
+    }
+    function pmfPoisson(lam, x){
+      if(lam<0 || x<0 || !Number.isInteger(x)) return 0;
+      // log-space for stability: ln P = -lam + x ln lam - ln(x!)
+      const lnP = -lam + (x===0?0:x*Math.log(lam)) - lnFactorial(x);
+      return Math.exp(lnP);
+    }
+    function cdfPoisson(lam, k){ // P(X<=k)
+      k = Math.floor(k);
+      if(k<0) return 0;
+      let s=0;
+      for(let x=0;x<=k;x++) s += pmfPoisson(lam,x);
+      return s;
+    }
+
+    // ===== Calculator
+    function fmt(v){
+      if(!isFinite(v)) return 'NaN';
+      if(v===0) return '0';
+      if(v<1e-8) return v.toExponential(2);
+      return v.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+    }
+    function calc(){
+      const lam = Number(document.getElementById('lam').value);
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      const box = document.getElementById('resultBox');
+
+      if(!(lam>=0)) return box.textContent='กรุณาใส่ λ ≥ 0';
+
+      if(mode==='point'){
+        const x = Number(document.getElementById('x').value);
+        if(!(x>=0 && Number.isInteger(x))) return box.textContent='x ต้องเป็นจำนวนเต็มไม่ลบ';
+        const prob = pmfPoisson(lam,x);
+        box.innerHTML = `
+          <div><strong>P(X=${x})</strong> = ${fmt(prob)}</div>
+          <div class="muted">= e<sup>-λ</sup> λ<sup>${x}</sup> / ${x}!</div>
+          <div style="margin-top:.4rem">E[X]=${fmt(lam)}, Var[X]=${fmt(lam)}</div>
+        `;
+      }else{
+        const a = Number(document.getElementById('a').value);
+        const b = Number(document.getElementById('b').value);
+        if(!(Number.isInteger(a)&&Number.isInteger(b))) return box.textContent='a,b เป็นจำนวนเต็ม';
+        if(a>b) return box.textContent='ช่วงผิดลำดับ: ต้องมี a ≤ b';
+        if(a<0) return box.textContent='a ต้องไม่ติดลบ';
+        let s=0;
+        for(let x=a;x<=b;x++) s += pmfPoisson(lam,x);
+        box.innerHTML = `
+          <div><strong>P(${a} ≤ X ≤ ${b})</strong> = ${fmt(s)}</div>
+          <div class="muted">= Σ<sub>x=${a}..${b}</sub> e<sup>-λ</sup> λ<sup>x</sup> / x!</div>
+          <div style="margin-top:.4rem">เคล็ดลับ: ใช้ส่วนเติมเต็มสำหรับ “อย่างน้อย/มากกว่าเท่ากับ”</div>
+        `;
+      }
+      if(window.MathJax?.typeset) MathJax.typeset(); // re-typeset inline
+    }
+    document.getElementById('calcBtn').addEventListener('click', calc);
+
+    document.getElementById('fillExamples').addEventListener('click', ()=>{
+      document.getElementById('lam').value = 10;
+      document.querySelector('input[value="point"]').checked = true;
+      pointInputs.style.display='';
+      rangeInputs.style.display='none';
+      document.getElementById('x').value = 8;
+      document.getElementById('resultBox').textContent = '—';
+    });
+
+    // ===== Tiny PMF chart
+    function drawChart(){
+      const lam = Number(document.getElementById('lam').value);
+      const maxX = Math.max(5, Math.min(100, Number(document.getElementById('maxX').value)||20));
+      const data = [];
+      for(let x=0;x<=maxX;x++) data.push({x, p: pmfPoisson(lam,x)});
+      const maxP = Math.max(...data.map(d=>d.p)) || 1;
+
+      const W = 720, H = 260, pad = {l:40,b:30,t:10,r:10};
+      const bw = (W - pad.l - pad.r) / (maxX+1);
+      let svg = `<svg viewBox="0 0 ${W} ${H}">
+        <rect x="0" y="0" width="${W}" height="${H}" fill="#0a0e19"/>
+        <g stroke="#223049" stroke-width="1">
+          <line x1="${pad.l}" y1="${H-pad.b}" x2="${W-pad.r}" y2="${H-pad.b}"/>
+          <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${H-pad.b}"/>
+        </g>
+        <g fill="#cfe0ff" font-size="10">
+          <text x="${pad.l-10}" y="${pad.t+10}" text-anchor="end">P(X)</text>
+          <text x="${W-pad.r}" y="${H-8}" text-anchor="end">x</text>
+        </g>
+      `;
+      data.forEach((d,i)=>{
+        const x = pad.l + i*bw + 1;
+        const h = Math.max(1, (H-pad.t-pad.b) * (d.p/maxP));
+        const y = (H-pad.b) - h;
+        svg += `<rect x="${x}" y="${y}" width="${Math.max(1,bw-2)}" height="${h}" fill="#4f8cff">
+                  <title>x=${d.x}, P=${d.p.toFixed(6)}</title>
+                </rect>`;
+      });
+      svg += `</svg>`;
+      const box = document.getElementById('chartBox');
+      box.innerHTML = svg;
+    }
+    document.getElementById('drawBtn').addEventListener('click', drawChart);
+
+    // initial draw
+    drawChart();
+  </script>
+  <script src="../assets/js/mathjax-loader.js" defer></script>
+  <script src="../assets/js/router.js" defer></script>
+  <script src="../assets/js/breadcrumbs.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+</body>
+</html>
