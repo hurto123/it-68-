@@ -44,5 +44,10 @@
     "references": "References",
     "privacy": "Privacy & data policy",
     "tables": "Interactive tables"
+  },
+  "palette": {
+    "placeholder": "Search lessons, tools, or keywords",
+    "searchLabel": "Search commands and content",
+    "resultsLabel": "Search results"
   }
 }

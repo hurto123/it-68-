@@ -12,15 +12,28 @@ async function loadLocale(locale) {
 async function applyTranslations(locale) {
   currentLocale = locale;
   const dict = await loadLocale(locale);
-  document.querySelectorAll('[data-i18n]').forEach(node => {
+  document.querySelectorAll('[data-i18n],[data-i18n-attrs]').forEach(node => {
     const key = node.getAttribute('data-i18n');
-    const translation = key.split('.').reduce((acc, part) => acc?.[part], dict);
-    if (translation) {
-      if (node.tagName === 'INPUT' && node.type === 'search') {
-        node.placeholder = translation;
-      } else {
-        node.textContent = translation;
+    if (key) {
+      const translation = key.split('.').reduce((acc, part) => acc?.[part], dict);
+      if (translation) {
+        if (node.tagName === 'INPUT' && node.type === 'search') {
+          node.placeholder = translation;
+        } else {
+          node.textContent = translation;
+        }
       }
+    }
+    const attrMap = node.getAttribute('data-i18n-attrs');
+    if (attrMap) {
+      attrMap.split(',').map(entry => entry.trim()).filter(Boolean).forEach(mapping => {
+        const [attr, attrKey] = mapping.split(':').map(part => part.trim());
+        if (!attr || !attrKey) return;
+        const attrTranslation = attrKey.split('.').reduce((acc, part) => acc?.[part], dict);
+        if (attrTranslation) {
+          node.setAttribute(attr, attrTranslation);
+        }
+      });
     }
   });
   window.dispatchEvent(new CustomEvent('i18n:ready', { detail: { locale } }));

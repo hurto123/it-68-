@@ -104,9 +104,9 @@
   <dialog id="command-palette" aria-modal="true">
     <form method="dialog" class="palette">
       <header>
-        <input type="search" id="command-search" placeholder="ค้นหา..." aria-label="Command search">
+        <input type="search" id="command-search" data-i18n="palette.placeholder" data-i18n-attrs="aria-label:palette.searchLabel" aria-label="Command search">
       </header>
-      <ul id="command-results" role="listbox"></ul>
+      <ul id="command-results" role="listbox" aria-live="polite" data-i18n-attrs="aria-label:palette.resultsLabel" aria-label="Search results"></ul>
       <footer>
         <menu>
           <button value="cancel" data-i18n="action.close">ปิด</button>
