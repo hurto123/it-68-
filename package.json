@@ -1,0 +1,38 @@
+{
+  "name": "prob-stats-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "index:build": "node scripts/build-search-index.mjs",
+    "dev": "http-server . -p 5173 -a 0.0.0.0 -c-1",
+    "build": "node scripts/build-static.mjs",
+    "preview": "http-server dist -p 4173 -a 127.0.0.1 -c-1",
+    "serve-and-check": "npm run build && start-server-and-test preview http://127.0.0.1:4173 \"node scripts/run-link-check.mjs\"",
+    "format": "prettier --write .",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"**/*.{css,scss}\"",
+    "lint:html": "htmlhint \"**/*.html\"",
+    "lint": "npm-run-all lint:js lint:css lint:html",
+    "test:perf": "npm run build && lhci autorun",
+    "build:zip": "npm run build && node scripts/zip-dist.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@lhci/cli": "^0.15.1",
+    "archiver": "^5.3.2",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "htmlhint": "^1.1.5",
+    "http-server": "^14.1.1",
+    "linkinator": "^6.1.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.3.3",
+    "start-server-and-test": "^2.0.3",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.0"
+  }
+}
