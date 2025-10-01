@@ -1,1221 +1,450 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สถิติออนไลน์ - ระบบเรียนรู้แบบครบวงจร</title>
-    <meta name="description" content="เรียนรู้สถิติและความน่าจะเป็นแบบครบวงจร พร้อมระบบติดตามความคืบหน้าและใช้งานออฟไลน์ได้">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3b82f6">
-    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
-    
-    <!-- KaTeX for Math Rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-    
-    <!-- Chart.js for Graphs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        .lesson-card {
-            transition: all 0.3s ease;
-        }
-        
-        .lesson-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .progress-bar {
-            transition: width 0.5s ease;
-        }
-        
-        .completed {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-        
-        .current {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-        
-        .category-header {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-        }
-        
-        .review-header {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
-        
-        .floating-progress {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        @media (max-width: 768px) {
-            .floating-progress {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Prob &amp; Stats — แผนบทเรียน</title>
+<link href="./pwa/manifest.json" rel="manifest"/>
+<link href="styles/tokens.css" rel="stylesheet"/>
+<link href="styles/components.css" rel="stylesheet"/>
+<link href="styles/light.css" id="theme-link" rel="stylesheet"/><link href="./hotfix.css" rel="stylesheet"/>
+
+<link href="styles/typography-access.css" rel="stylesheet"/>
+<link href="styles/print.css" media="print" rel="stylesheet"/>
+<link href="styles/skin-clean.css" rel="stylesheet"/>
+<style>
+    body{ background:#f7f8fb; color:#0f172a; }
+    main{ max-width:1100px; margin:0 auto; padding:1.25rem 1rem 4rem; }
+    .site-header{ position:sticky; top:0; z-index:1000; display:flex; justify-content:space-between; align-items:center;
+      gap:.6rem; padding:.6rem 1rem; background:#fff; border-bottom:1px solid #e7eaf3; }
+    .brand-link{ text-decoration:none; font-weight:800; color:#0f172a; }
+    .btn-sm{ border:1px solid #e7eaf3; background:#f2f4f8; padding:.35rem .65rem; border-radius:999px; cursor:pointer; }
+    #progressbar{ position:sticky; top:44px; height:4px; background:transparent; }
+    #progressbar>span{ display:block; height:4px; width:0; background:#2563eb; transition:width .15s ease; }
+    .page-header{ display:grid; gap:.4rem; margin:.9rem 0 1rem; }
+    .pill{ display:inline-block; padding:.2rem .6rem; border-radius:999px; background:#f2f4f8; font-size:.85rem; }
+    .muted{ color:#475569; }
+    .card{ background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(15,23,42,.06); }
+    .lesson-grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap:1rem; margin-top:1rem; }
+    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; }
+    .filter-btn{ border:1px solid #e7eaf3; background:#f2f4f8; padding:.38rem .7rem; border-radius:999px; cursor:pointer; color:#1f2937; }
+    .visited-pill{ background: #c5f7d3; color: #0f5132; border:1px solid #0f5132; }
+    @media print{ .site-header, #progressbar, .filters { display:none !important; } }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen font-thai">
-    <!-- Header -->
-    <header class="bg-white shadow-lg border-b-4 border-blue-500">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="text-4xl">📊</div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">สถิติออนไลน์</h1>
-                        <p class="text-gray-600">ระบบเรียนรู้แบบครบวงจร</p>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-4">
-                    <div class="text-right">
-                        <p class="text-sm text-gray-600">ความคืบหน้าทั้งหมด</p>
-                        <p class="text-lg font-bold text-blue-600" id="overall-progress">0%</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+<body class="skin-clean">
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+<header class="site-header" role="banner">
+<a class="brand-link" href="index.html">📊 Prob &amp; Stats</a>
+<nav aria-label="เครื่องมือ" class="site-actions">
+<button class="btn-sm" id="theme-toggle" title="สลับธีม (T)">ธีม</button>
+<button class="btn-sm" id="print-current" title="พิมพ์หน้านี้ (P)">พิมพ์</button>
+</nav>
+</header>
+<div aria-hidden="true" id="progressbar"><span></span></div>
+<main id="main">
+<header class="page-header">
+<div class="pill">📚 Lesson Plan</div>
+<h1>หน้าแรก</h1>
+<p class="muted">ค้นหาและเลือกบทเรียนที่ต้องการ (กด <kbd>/</kbd> เพื่อค้นหา)</p>
+<div class="controls">
+<input aria-label="ค้นหาบทเรียน" id="q" placeholder="ค้นหา: counting, probability, normal ..." type="search"/>
+<div aria-label="ตัวกรอง" class="filters">
+<button aria-pressed="false" class="filter-btn" data-filter="intro">intro</button>
+<button aria-pressed="false" class="filter-btn" data-filter="counting">counting</button>
+<button aria-pressed="false" class="filter-btn" data-filter="probability">probability</button>
+<button aria-pressed="false" class="filter-btn" data-filter="binomial">binomial</button>
+<button aria-pressed="false" class="filter-btn" data-filter="normal">normal</button>
+</div>
+</div>
+<p class="muted small"><span id="stat-count">45</span> บท</p>
+</header>
+<section class="card">
+<div class="lesson-grid" id="lesson-grid">
+<a class="lesson card" data-tags="intro" data-title="ความหมายของสถิติ &amp; ระเบียบวิธี" href="content/01-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ความหมายของสถิติ &amp; ระเบียบวิธี</h3>
+<p class="muted small">01-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="descriptive" data-title="หลักการนับเบื้องต้น (Counting Principles)" href="content/02-descriptive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">หลักการนับเบื้องต้น (Counting Principles)</h3>
+<p class="muted small">02-descriptive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="probability basics" data-title="นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์" href="content/03-probability-basics.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์</h3>
+<p class="muted small">03-probability-basics.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="conditional" data-title="👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง" href="content/04-conditional.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง</h3>
+<p class="muted small">04-conditional.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="random variables" data-title="👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)" href="content/05-random-variables.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)</h3>
+<p class="muted small">05-random-variables.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="expectation variance" data-title="👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม" href="content/06-expectation-variance.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</h3>
+<p class="muted small">06-expectation-variance.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="discrete uniform" data-title="👨‍🏫 บทเรียนที่ 7: การแจกแจงเอกรูปไม่ต่อเนื่อง (Discrete Uniform Distribution)" href="content/07-discrete-uniform.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 7: การแจกแจงเอกรูปไม่ต่อเนื่อง (Discrete Uniform Distribution)</h3>
+<p class="muted small">07-discrete-uniform.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="binomial" data-title="👨‍🏫 บทเรียนที่ 8: การแจกแจงทวินาม (Binomial Distribution)" href="content/08-binomial.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 8: การแจกแจงทวินาม (Binomial Distribution)</h3>
+<p class="muted small">08-binomial.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="hypergeometric" data-title="👨‍🏫 บทเรียนที่ 9: การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric Distribution)" href="content/09-hypergeometric.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 9: การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric Distribution)</h3>
+<p class="muted small">09-hypergeometric.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="poisson" data-title="👨‍🏫 บทเรียนที่ 10: การแจกแจงปัวซง (Poisson Distribution)" href="content/10-poisson.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 10: การแจกแจงปัวซง (Poisson Distribution)</h3>
+<p class="muted small">10-poisson.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="continuous normal" data-title="ตัวแปรต่อเนื่อง &amp; การแจกแจงปกติ" href="content/11-continuous-normal.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ตัวแปรต่อเนื่อง &amp; การแจกแจงปกติ</h3>
+<p class="muted small">11-continuous-normal.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="standard normal z" data-title="Z-score &amp; ตารางปกติมาตรฐาน" href="content/12-standard-normal-z.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">Z-score &amp; ตารางปกติมาตรฐาน</h3>
+<p class="muted small">12-standard-normal-z.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="t chi2 f" data-title="ภาพรวม t, χ², และ F" href="content/13-t-chi2-f.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ภาพรวม t, χ², และ F</h3>
+<p class="muted small">13-t-chi2-f.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="clt" data-title="การแจกแจงตัวอย่าง &amp; ทฤษฎีขีดจำกัดกลาง" href="content/14-clt.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การแจกแจงตัวอย่าง &amp; ทฤษฎีขีดจำกัดกลาง</h3>
+<p class="muted small">14-clt.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="sampling other stats" data-title="การแจกแจงของสถิติอื่น ๆ" href="content/15-sampling-other-stats.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การแจกแจงของสถิติอื่น ๆ</h3>
+<p class="muted small">15-sampling-other-stats.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci intro" data-title="เกริ่นนำช่วงความเชื่อมั่น" href="content/16-ci-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เกริ่นนำช่วงความเชื่อมั่น</h3>
+<p class="muted small">16-ci-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci mean onepop" data-title="ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว" href="content/17-ci-mean-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</h3>
+<p class="muted small">17-ci-mean-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci proportion onepop" data-title="ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว" href="content/18-ci-proportion-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</h3>
+<p class="muted small">18-ci-proportion-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci means twopop" data-title="ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย" href="content/19-ci-means-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</h3>
+<p class="muted small">19-ci-means-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci proportions twopop" data-title="ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน" href="content/20-ci-proportions-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</h3>
+<p class="muted small">20-ci-proportions-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="sample size" data-title="การวางแผนขนาดตัวอย่าง" href="content/21-sample-size.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การวางแผนขนาดตัวอย่าง</h3>
+<p class="muted small">21-sample-size.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci variance" data-title="ช่วงความเชื่อมั่นของความแปรปรวน" href="content/22-ci-variance.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของความแปรปรวน</h3>
+<p class="muted small">22-ci-variance.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="hypothesis intro" data-title="บทนำการทดสอบสมมติฐาน" href="content/23-hypothesis-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">บทนำการทดสอบสมมติฐาน</h3>
+<p class="muted small">23-hypothesis-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="critical vs pvalue" data-title="วิธี critical value vs p-value" href="content/24-critical-vs-pvalue.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">วิธี critical value vs p-value</h3>
+<p class="muted small">24-critical-vs-pvalue.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test mean onepop" data-title="การทดสอบค่าเฉลี่ยกลุ่มเดียว" href="content/25-test-mean-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบค่าเฉลี่ยกลุ่มเดียว</h3>
+<p class="muted small">25-test-mean-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test proportion onepop" data-title="การทดสอบสัดส่วนกลุ่มเดียว" href="content/26-test-proportion-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบสัดส่วนกลุ่มเดียว</h3>
+<p class="muted small">26-test-proportion-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test means twopop" data-title="การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ" href="content/27-test-means-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</h3>
+<p class="muted small">27-test-means-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test proportions twopop" data-title="การทดสอบสัดส่วนสองกลุ่ม" href="content/28-test-proportions-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบสัดส่วนสองกลุ่ม</h3>
+<p class="muted small">28-test-proportions-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test variance onepop" data-title="การทดสอบความแปรปรวนกลุ่มเดียว" href="content/29-test-variance-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบความแปรปรวนกลุ่มเดียว</h3>
+<p class="muted small">29-test-variance-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test variance ratio" data-title="การทดสอบอัตราส่วนความแปรปรวน" href="content/30-test-variance-ratio.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบอัตราส่วนความแปรปรวน</h3>
+<p class="muted small">30-test-variance-ratio.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="summary next" data-title="บทสรุป &amp; ก้าวต่อไป" href="content/31-summary-next.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">บทสรุป &amp; ก้าวต่อไป</h3>
+<p class="muted small">31-summary-next.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="decision map" data-title="Decision Map: เลือกวิธีวิเคราะห์" href="content/decision-map.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">Decision Map: เลือกวิธีวิเคราะห์</h3>
+<p class="muted small">decision-map.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="glossary" data-title="อภิธานศัพท์" href="content/glossary.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">อภิธานศัพท์</h3>
+<p class="muted small">glossary.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="method notes" data-title="ข้อกำกับการใช้สูตร" href="content/method-notes.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ข้อกำกับการใช้สูตร</h3>
+<p class="muted small">method-notes.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="pdpa privacy" data-title="นโยบายข้อมูล &amp; ความเป็นส่วนตัว" href="content/pdpa-privacy.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">นโยบายข้อมูล &amp; ความเป็นส่วนตัว</h3>
+<p class="muted small">pdpa-privacy.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="references" data-title="แหล่งอ้างอิง" href="content/references.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">แหล่งอ้างอิง</h3>
+<p class="muted small">references.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review foundation probability" data-title="รากฐานแห่งความน่าจะเป็น (Foundation Review)" href="content/review-01-foundation-probability.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">รากฐานแห่งความน่าจะเป็น (Foundation Review)</h3>
+<p class="muted small">review-01-foundation-probability.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review data blueprints distributions" data-title="พิมพ์เขียวของข้อมูล (The Blueprints of Data - Distributions)" href="content/review-02-data-blueprints-distributions.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">พิมพ์เขียวของข้อมูล (The Blueprints of Data - Distributions)</h3>
+<p class="muted small">review-02-data-blueprints-distributions.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review clt sampling" data-title="หัวใจสถิติ (CLT และการแจกแจงของตัวอย่างสุ่ม)" href="content/review-03-clt-sampling.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">หัวใจสถิติ (CLT และการแจกแจงของตัวอย่างสุ่ม)</h3>
+<p class="muted small">review-03-clt-sampling.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review estimation deep dive" data-title="เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ 🕵️‍♂️)" href="content/review-04-estimation-deep-dive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ 🕵️‍♂️)</h3>
+<p class="muted small">review-04-estimation-deep-dive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review hypothesis testing deep dive" data-title="เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)" href="content/review-05-hypothesis-testing-deep-dive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)</h3>
+<p class="muted small">review-05-hypothesis-testing-deep-dive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review case one sample" data-title="กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว" href="content/review-06-case-one-sample.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</h3>
+<p class="muted small">review-06-case-one-sample.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review case ab testing" data-title="กรณีศึกษา #2 - การเปรียบเทียบสองกลุ่ม (A/B Testing)" href="content/review-07-case-ab-testing.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">กรณีศึกษา #2 - การเปรียบเทียบสองกลุ่ม (A/B Testing)</h3>
+<p class="muted small">review-07-case-ab-testing.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review choosing tool" data-title="แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)" href="content/review-08-choosing-tool.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)</h3>
+<p class="muted small">review-08-choosing-tool.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="symbols" data-title="สัญลักษณ์ทางสถิติ" href="content/symbols.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">สัญลักษณ์ทางสถิติ</h3>
+<p class="muted small">symbols.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+</div>
+<p class="muted small">กด <kbd>Alt</kbd>+<kbd>Enter</kbd> เพื่อเปิดบทแรกที่กรองไว้</p>
+</section>
+</main>
+<footer class="site-footer" role="contentinfo">
+<p class="muted small">© Prob &amp; Stats — โครงแบบ content page สะอาดและอ่านง่าย</p>
+</footer>
+<script src="./app.js"></script>
+<script>
+  (function(){
+    // Theme toggle + print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      } else if(href.includes('theme-high-contrast.css')) {
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{ const pref = localStorage.getItem('stats-theme'); if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')) themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css')); }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
 
-    <!-- Floating Progress Card -->
-    <div class="floating-progress bg-white/90 rounded-xl p-4 shadow-lg border">
-        <div class="text-center mb-3">
-            <p class="text-sm font-medium text-gray-700">ความคืบหน้า</p>
-            <p class="text-2xl font-bold text-blue-600" id="progress-display">0/39</p>
-        </div>
-        <div class="w-32 bg-gray-200 rounded-full h-3">
-            <div class="progress-bar bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full" style="width: 0%" id="progress-bar"></div>
-        </div>
-        <button onclick="resetProgress()" class="mt-3 w-full text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg transition-colors">
-            รีเซ็ตความคืบหน้า
-        </button>
-    </div>
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{ const el = document.scrollingElement || document.documentElement; const max = el.scrollHeight - el.clientHeight; const pct = max>0 ? (el.scrollTop/max)*100 : 0; bar.style.width = pct.toFixed(2)+'%'; };
+      document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    })();
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-8">
-        <!-- Course Overview -->
-        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border-l-4 border-blue-500">
-            <div class="flex items-start space-x-4">
-                <div class="text-5xl">🎓</div>
-                <div class="flex-1">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">หลักสูตรสถิติเชิงประยุกต์</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-4">
-                        หลักสูตรสถิติเชิงประยุกต์แบบครบวงจร ตั้งแต่พื้นฐานไปจนถึง Bayesian Statistics และ Resampling Methods 
-                        พร้อมเครื่องมือโต้ตอบ ระบบสำหรับครู และการใช้งานออฟไลน์
-                    </p>
-                    <div class="flex flex-wrap gap-3 mb-6">
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">📚 10 โมดูลหลัก</span>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">🧮 41 บทเรียน</span>
-                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">🛠️ 8 เครื่องมือโต้ตอบ</span>
-                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">👨‍🏫 เครื่องมือสำหรับครู</span>
-                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">📄 ส่งออก PDF</span>
-                        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-medium">♿ การเข้าถึงครบถ้วน</span>
-                    </div>
-                    
-                    <!-- Learning Paths -->
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-4">
-                        <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
-                            <span class="mr-2">🛤️</span>
-                            เลือกเส้นทางการเรียนของคุณ
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <button onclick="setLearningPath('medical')" class="learning-path-btn bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-left transition-all">
-                                <div class="text-2xl mb-2">🏥</div>
-                                <div class="font-bold text-blue-800">สายแพทย์</div>
-                                <div class="text-sm text-gray-600">เน้นสถิติทางการแพทย์</div>
-                            </button>
-                            <button onclick="setLearningPath('engineering')" class="learning-path-btn bg-white hover:bg-green-50 border-2 border-green-200 rounded-lg p-4 text-left transition-all">
-                                <div class="text-2xl mb-2">⚙️</div>
-                                <div class="font-bold text-green-800">สายวิศวะ</div>
-                                <div class="text-sm text-gray-600">เน้นการควบคุมคุณภาพ</div>
-                            </button>
-                            <button onclick="setLearningPath('data')" class="learning-path-btn bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-lg p-4 text-left transition-all">
-                                <div class="text-2xl mb-2">📊</div>
-                                <div class="font-bold text-purple-800">สายข้อมูล</div>
-                                <div class="text-sm text-gray-600">เน้นการวิเคราะห์ข้อมูล</div>
-                            </button>
-                        </div>
-                        <div id="selected-path" class="mt-4 text-sm text-gray-600 hidden">
-                            <span class="font-medium">เส้นทางที่เลือก:</span> <span id="path-name"></span>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="flex flex-wrap gap-3">
-                        <button onclick="toggleMode('exam')" class="bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-lg font-medium transition-colors">
-                            ⏱️ โหมดสอบจำลอง
-                        </button>
-                        <button onclick="toggleMode('sandbox')" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-4 py-2 rounded-lg font-medium transition-colors">
-                            🧪 Sandbox สถิติ
-                        </button>
-                        <button onclick="exportProgress()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium transition-colors">
-                            💾 ส่งออกความคืบหน้า
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    // Simple filter
+    const q = document.getElementById('q');
+    const grid = document.getElementById('lesson-grid');
+    const cards = Array.from(grid.querySelectorAll('.lesson.card'));
+    const stat = document.getElementById('stat-count');
+    const filters = Array.from(document.querySelectorAll('.filter-btn'));
+    const visitedKey = 'stats-visited';
 
-        <!-- Course Modules Section -->
-        <section class="mb-12">
-            <div class="category-header text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">📚</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">หลักสูตรสถิติเชิงประยุกต์</h3>
-                        <p class="opacity-90">10 โมดูลหลัก 41 บทเรียน พร้อมเครื่องมือโต้ตอบ</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div id="course-modules">
-                    <!-- Course modules will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
+    function getVisitedSet(){ try{ return new Set(JSON.parse(localStorage.getItem(visitedKey) || '[]')); }catch(e){ return new Set(); } }
+    function markVisited(){ const visited = getVisitedSet(); cards.forEach(card=>{ const href=card.getAttribute('href'); const pill=card.querySelector('.visited-pill'); if(visited.has(href)) pill && (pill.hidden=false); else pill && (pill.hidden=true); }); }
 
-        <!-- Interactive Tools Section -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">🛠️</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">เครื่องมือโต้ตอบ</h3>
-                        <p class="opacity-90">Simulators, Calculators และ Data Lab</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="interactive-tools">
-                    <!-- Interactive tools will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
+    function applyFilter(){ const term=(q.value||'').trim().toLowerCase(); const activeTags=new Set(filters.filter(b=>b.getAttribute('aria-pressed')==='true').map(b=>b.dataset.filter)); let shown=0;
+      cards.forEach(card=>{ const title=(card.dataset.title||'').toLowerCase(); const tags=(card.dataset.tags||'').toLowerCase(); const file=card.textContent.toLowerCase();
+        const matchText=!term || title.includes(term) || tags.includes(term) || file.includes(term); const matchTag=activeTags.size===0 || Array.from(activeTags).some(t=>tags.includes(t) || title.includes(t));
+        const show=matchText && matchTag; card.style.display=show?'':'none'; if(show) shown++; }); stat.textContent=shown; }
+    q && q.addEventListener('input', applyFilter);
+    document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q && q.focus(); }
+      if(e.key==='Enter' && e.altKey){ const first=cards.find(c=>c.style.display!=='none'); if(first) window.location.href=first.getAttribute('href'); } });
+    filters.forEach(btn=>btn.addEventListener('click',()=>{ const pressed=btn.getAttribute('aria-pressed')==='true'; btn.setAttribute('aria-pressed', (!pressed).toString()); applyFilter(); }));
 
-        <!-- Teacher Resources Section -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">👨‍🏫</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">เครื่องมือสำหรับครู</h3>
-                        <p class="opacity-90">สร้างสไลด์ ใบงาน และข้อสอบ</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teacher-tools">
-                    <!-- Teacher tools will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- PDF and Printing Section -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">📄</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">PDF และการพิมพ์</h3>
-                        <p class="opacity-90">ส่งออกเอกสารและสรุปเนื้อหา</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="pdf-tools">
-                    <!-- PDF tools will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Accessibility Tools Section -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">♿</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">การเข้าถึงและภาษา</h3>
-                        <p class="opacity-90">ปรับแต่งการแสดงผลและภาษา</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="accessibility-tools">
-                    <!-- Accessibility tools will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Search and Navigation -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">🔍</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">ค้นหาและนำทาง</h3>
-                        <p class="opacity-90">ค้นหาเนื้อหา สูตร และแนวคิด</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <!-- Search Bar -->
-                <div class="mb-6">
-                    <div class="relative">
-                        <input type="text" id="search-input" placeholder="ค้นหาหัวข้อ สูตร หรือแนวคิด..." 
-                               class="w-full px-4 py-3 pl-12 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none">
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <span class="text-xl">🔍</span>
-                        </div>
-                    </div>
-                    <div id="search-results" class="mt-4 hidden">
-                        <!-- Search results will appear here -->
-                    </div>
-                </div>
-                
-                <!-- Quick Tags -->
-                <div class="mb-6">
-                    <h4 class="font-bold text-gray-800 mb-3">หัวข้อยอดนิยม</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="searchByTag('normal')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm transition-colors">#normal</button>
-                        <button onclick="searchByTag('hypothesis-test')" class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm transition-colors">#hypothesis-test</button>
-                        <button onclick="searchByTag('confidence-interval')" class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-1 rounded-full text-sm transition-colors">#confidence-interval</button>
-                        <button onclick="searchByTag('binomial')" class="bg-orange-100 hover:bg-orange-200 text-orange-800 px-3 py-1 rounded-full text-sm transition-colors">#binomial</button>
-                        <button onclick="searchByTag('clt')" class="bg-red-100 hover:bg-red-200 text-red-800 px-3 py-1 rounded-full text-sm transition-colors">#clt</button>
-                    </div>
-                </div>
-                
-                <!-- Learning Graph -->
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <h4 class="font-bold text-gray-800 mb-3 flex items-center">
-                        <span class="mr-2">🗺️</span>
-                        แผนที่การเรียน
-                    </h4>
-                    <div class="text-center">
-                        <canvas id="learning-graph" width="600" height="300" class="max-w-full h-auto border rounded-lg bg-white"></canvas>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-2 text-center">คลิกที่โหนดเพื่อไปยังบทเรียน</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Additional Resources Section -->
-        <section class="mb-12">
-            <div class="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">🛠️</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">ทรัพยากรเสริม</h3>
-                        <p class="opacity-90">เครื่องมือและเอกสารสำคัญ</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="additional-resources">
-                    <!-- Additional resources will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Statistics Sandbox -->
-        <section id="sandbox-section" class="mb-12 hidden">
-            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-t-2xl p-6">
-                <div class="flex items-center space-x-3">
-                    <span class="text-3xl">🧪</span>
-                    <div>
-                        <h3 class="text-2xl font-bold">Sandbox สถิติ</h3>
-                        <p class="opacity-90">ทดลองและสำรวจแนวคิดทางสถิติ</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Interactive Controls -->
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-4">ปรับพารามิเตอร์</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">ขนาดตัวอย่าง (n)</label>
-                                <input type="range" id="sample-size" min="10" max="1000" value="100" class="w-full">
-                                <span id="sample-size-value" class="text-sm text-gray-600">100</span>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">ค่าเฉลี่ย (μ)</label>
-                                <input type="range" id="mean-value" min="0" max="100" value="50" class="w-full">
-                                <span id="mean-value-display" class="text-sm text-gray-600">50</span>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">ส่วนเบี่ยงเบนมาตรฐาน (σ)</label>
-                                <input type="range" id="std-value" min="1" max="20" value="10" class="w-full">
-                                <span id="std-value-display" class="text-sm text-gray-600">10</span>
-                            </div>
-                            <button onclick="generateSample()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                                🎲 สุ่มตัวอย่างใหม่
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Chart Display -->
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-4">กราฟแสดงผล</h4>
-                        <canvas id="sandbox-chart" width="400" height="300" class="border rounded-lg bg-gray-50"></canvas>
-                        <div id="sandbox-stats" class="mt-4 p-4 bg-gray-50 rounded-lg">
-                            <div class="text-sm text-gray-600">สถิติตัวอย่าง:</div>
-                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                <div><strong>x̄:</strong> <span id="sample-mean">-</span></div>
-                                <div><strong>s:</strong> <span id="sample-std">-</span></div>
-                                <div><strong>min:</strong> <span id="sample-min">-</span></div>
-                                <div><strong>max:</strong> <span id="sample-max">-</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-16">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex items-center justify-center space-x-2 mb-4">
-                <span class="text-2xl">📊</span>
-                <span class="text-xl font-bold">สถิติออนไลน์</span>
-            </div>
-            <p class="text-gray-400">ระบบเรียนรู้สถิติแบบครบวงจร - เรียนรู้ในจังหวะของคุณเอง</p>
-        </div>
-    </footer>
-
-    <script>
-        // Course structure based on comprehensive roadmap
-        const courseModules = {
-            intro: {
-                title: "บทนำ & สัญลักษณ์",
-                icon: "📚",
-                color: "blue",
-                lessons: [
-                    { title: "ความหมายของสถิติและระเบียบวิธี", file: "01-intro-statistics.html", icon: "📊" },
-                    { title: "สัญลักษณ์และสัญกรณ์ทางสถิติ", file: "02-notation-symbols.html", icon: "🔤" }
-                ]
-            },
-            descriptive: {
-                title: "สถิติเชิงพรรณนา",
-                icon: "📈",
-                color: "green",
-                lessons: [
-                    { title: "ตารางและกราฟ", file: "03-tables-graphs.html", icon: "📊" },
-                    { title: "สถิติกึ่งกลาง (Central Tendency)", file: "04-central-tendency.html", icon: "🎯" },
-                    { title: "การกระจาย (Dispersion)", file: "05-dispersion.html", icon: "📏" },
-                    { title: "รูปร่างการแจกแจง", file: "06-distribution-shape.html", icon: "📈" }
-                ]
-            },
-            probability: {
-                title: "ความน่าจะเป็น & การนับ",
-                icon: "🎲",
-                color: "purple",
-                lessons: [
-                    { title: "พื้นฐานความน่าจะเป็น", file: "07-probability-basics.html", icon: "🎲" },
-                    { title: "หลักการนับ (Counting Principles)", file: "08-counting-principles.html", icon: "🔢" },
-                    { title: "ความน่าจะเป็นแบบมีเงื่อนไข", file: "09-conditional-probability.html", icon: "🔗" },
-                    { title: "ทฤษฎีบทเบส์ (Bayes' Theorem)", file: "10-bayes-theorem.html", icon: "🧠" }
-                ]
-            },
-            distributions: {
-                title: "ตัวแปรสุ่ม & การแจกแจง",
-                icon: "📊",
-                color: "indigo",
-                lessons: [
-                    { title: "ตัวแปรสุ่มและค่าคาดหวัง", file: "11-random-variables.html", icon: "🎯" },
-                    { title: "Bernoulli และ Binomial", file: "12-bernoulli-binomial.html", icon: "🪙" },
-                    { title: "Poisson Distribution", file: "13-poisson.html", icon: "⏰" },
-                    { title: "Uniform Distribution", file: "14-uniform.html", icon: "📏" },
-                    { title: "Normal Distribution", file: "15-normal.html", icon: "🔔" },
-                    { title: "t, χ², F Distributions", file: "16-t-chi2-f.html", icon: "🔢" },
-                    { title: "ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT)", file: "17-clt.html", icon: "🌊" }
-                ]
-            },
-            estimation: {
-                title: "การประมาณค่า",
-                icon: "🎯",
-                color: "yellow",
-                lessons: [
-                    { title: "การประมาณแบบจุด", file: "18-point-estimation.html", icon: "📍" },
-                    { title: "ช่วงความเชื่อมั่น - ค่าเฉลี่ย", file: "19-ci-mean.html", icon: "📊" },
-                    { title: "ช่วงความเชื่อมั่น - สัดส่วน", file: "20-ci-proportion.html", icon: "🥧" },
-                    { title: "ช่วงความเชื่อมั่น - ความแปรปรวน", file: "21-ci-variance.html", icon: "📏" },
-                    { title: "การคำนวณขนาดตัวอย่าง", file: "22-sample-size.html", icon: "🔍" }
-                ]
-            },
-            hypothesis: {
-                title: "การทดสอบสมมติฐาน",
-                icon: "🔬",
-                color: "red",
-                lessons: [
-                    { title: "หลักการทดสอบสมมติฐาน", file: "23-hypothesis-basics.html", icon: "🔬" },
-                    { title: "ทดสอบค่าเฉลี่ย (1 กลุ่ม)", file: "24-test-mean-one.html", icon: "🎯" },
-                    { title: "ทดสอบสัดส่วน (1 กลุ่ม)", file: "25-test-proportion-one.html", icon: "📊" },
-                    { title: "เปรียบเทียบ 2 กลุ่ม", file: "26-test-two-groups.html", icon: "⚖️" },
-                    { title: "ANOVA (หลายกลุ่ม)", file: "27-anova.html", icon: "📈" },
-                    { title: "Power และ Type I/II Error", file: "28-power-errors.html", icon: "⚡" }
-                ]
-            },
-            regression: {
-                title: "สหสัมพันธ์ & ถดถอย",
-                icon: "📈",
-                color: "teal",
-                lessons: [
-                    { title: "สหสัมพันธ์ (Correlation)", file: "29-correlation.html", icon: "🔗" },
-                    { title: "ถดถอยเชิงเส้นอย่างง่าย", file: "30-simple-regression.html", icon: "📈" },
-                    { title: "การตรวจสมมติฐาน", file: "31-regression-assumptions.html", icon: "🔍" },
-                    { title: "ถดถอยพหุคูณ", file: "32-multiple-regression.html", icon: "📊" }
-                ]
-            },
-            resampling: {
-                title: "Resampling Methods",
-                icon: "🔄",
-                color: "orange",
-                lessons: [
-                    { title: "Bootstrap Method", file: "33-bootstrap.html", icon: "🥾" },
-                    { title: "Permutation Tests", file: "34-permutation.html", icon: "🔀" },
-                    { title: "Cross-Validation", file: "35-cross-validation.html", icon: "✅" }
-                ]
-            },
-            bayes: {
-                title: "เกริ่น Bayesian Statistics",
-                icon: "🧠",
-                color: "pink",
-                lessons: [
-                    { title: "Prior, Likelihood, Posterior", file: "36-bayesian-basics.html", icon: "🧠" },
-                    { title: "Bayesian Inference", file: "37-bayesian-inference.html", icon: "🔮" },
-                    { title: "MCMC เบื้องต้น", file: "38-mcmc-intro.html", icon: "⛓️" }
-                ]
-            },
-            ethics: {
-                title: "การนำเสนอผล & จริยธรรม",
-                icon: "⚖️",
-                color: "gray",
-                lessons: [
-                    { title: "การนำเสนอผลการวิเคราะห์", file: "39-presentation.html", icon: "📋" },
-                    { title: "จริยธรรมในการวิจัย", file: "40-research-ethics.html", icon: "⚖️" },
-                    { title: "การตีความผลอย่างถูกต้อง", file: "41-interpretation.html", icon: "🎯" }
-                ]
-            }
-        };
-
-        // Interactive tools and simulators
-        const interactiveTools = [
-            { title: "LLN Simulator", file: "sim-lln.html", icon: "🎲", description: "กฎจำนวนมาก" },
-            { title: "CLT Simulator", file: "sim-clt.html", icon: "🌊", description: "ทฤษฎีขีดจำกัดส่วนกลาง" },
-            { title: "Power & Sample Size", file: "sim-power.html", icon: "⚡", description: "พลังการทดสอบ" },
-            { title: "Type I/II Error", file: "sim-errors.html", icon: "❌", description: "ความผิดพลาดในการทดสอบ" },
-            { title: "Bootstrap CI", file: "sim-bootstrap.html", icon: "🥾", description: "ช่วงความเชื่อมั่นแบบ Bootstrap" },
-            { title: "Statistical Calculators", file: "calculators.html", icon: "🧮", description: "เครื่องคำนวณสถิติ" },
-            { title: "Data Lab", file: "data-lab.html", icon: "🧪", description: "วิเคราะห์ข้อมูล CSV" },
-            { title: "Problem Sandbox", file: "problem-sandbox.html", icon: "🏖️", description: "ทดลองโจทย์" }
-        ];
-
-        // Teacher tools and resources
-        const teacherTools = [
-            { title: "Slide Deck Generator", file: "teacher-slides.html", icon: "📽️", description: "สร้างสไลด์สำหรับสอน" },
-            { title: "Worksheet Builder", file: "teacher-worksheets.html", icon: "📝", description: "สร้างใบงาน" },
-            { title: "Quiz Bank", file: "teacher-quiz.html", icon: "❓", description: "คลังข้อสอบ" },
-            { title: "Exam Builder", file: "teacher-exam.html", icon: "📋", description: "สร้างข้อสอบ" },
-            { title: "Rubric Generator", file: "teacher-rubric.html", icon: "📊", description: "สร้างเกณฑ์การให้คะแนน" },
-            { title: "Progress Dashboard", file: "teacher-dashboard.html", icon: "📈", description: "ติดตามความคืบหน้า" }
-        ];
-
-        // PDF and printing tools
-        const pdfTools = [
-            { title: "Print This Chapter", file: "#", icon: "🖨️", description: "พิมพ์บทนี้", action: "printChapter" },
-            { title: "Cheat Sheet Generator", file: "cheat-sheet.html", icon: "📄", description: "สร้างสรุป 1 หน้า" },
-            { title: "Course Compilation", file: "course-pdf.html", icon: "📚", description: "รวมเล่มคอร์ส" },
-            { title: "My Notes PDF", file: "#", icon: "📝", description: "ส่งออกโน้ตส่วนตัว", action: "exportNotes" },
-            { title: "Formula Reference", file: "formula-ref.html", icon: "🧮", description: "สูตรอ้างอิง" }
-        ];
-
-        // Accessibility and language tools
-        const accessibilityTools = [
-            { title: "Dark/Light Mode", file: "#", icon: "🌓", description: "เปลี่ยนธีม", action: "toggleTheme" },
-            { title: "Font Size", file: "#", icon: "🔤", description: "ปรับขนาดตัวอักษร", action: "adjustFontSize" },
-            { title: "High Contrast", file: "#", icon: "🔲", description: "โหมดคอนทราสต์สูง", action: "toggleContrast" },
-            { title: "TH/EN Toggle", file: "#", icon: "🌐", description: "เปลี่ยนภาษา", action: "toggleLanguage" },
-            { title: "Text-to-Speech", file: "#", icon: "🔊", description: "อ่านออกเสียง", action: "toggleSpeech" }
-        ];
-
-        // Additional resources
-        const additionalResources = [
-            { title: "แผนภาพตัดสินใจ", file: "decision-map.html", icon: "🗺️" },
-            { title: "พจนานุกรมศัพท์", file: "glossary.html", icon: "📚" },
-            { title: "บันทึกวิธีการ", file: "method-notes.html", icon: "📝" },
-            { title: "เอกสารอ้างอิง", file: "references.html", icon: "📖" },
-            { title: "นโยบายความเป็นส่วนตัว", file: "pdpa-privacy.html", icon: "🔒" }
-        ];
-
-        // Progress tracking and advanced features
-        let completedLessons = JSON.parse(localStorage.getItem('completedLessons') || '[]');
-        let currentLesson = parseInt(localStorage.getItem('currentLesson') || '0');
-        let learningPath = localStorage.getItem('learningPath') || '';
-        let examMode = false;
-        let sandboxMode = false;
-        
-        // Search index for quick lookup
-        const searchIndex = [
-            { term: 'normal distribution', lessons: [11, 12], type: 'concept' },
-            { term: 'การแจกแจงปกติ', lessons: [11, 12], type: 'concept' },
-            { term: 'hypothesis test', lessons: [23, 24, 25, 26, 27, 28], type: 'concept' },
-            { term: 'การทดสอบสมมติฐาน', lessons: [23, 24, 25, 26, 27, 28], type: 'concept' },
-            { term: 'confidence interval', lessons: [16, 17, 18, 19, 20, 22], type: 'concept' },
-            { term: 'ช่วงความเชื่อมั่น', lessons: [16, 17, 18, 19, 20, 22], type: 'concept' },
-            { term: 'binomial', lessons: [8], type: 'distribution' },
-            { term: 'ทวินาม', lessons: [8], type: 'distribution' },
-            { term: 'clt', lessons: [14], type: 'theorem' },
-            { term: 'central limit theorem', lessons: [14], type: 'theorem' },
-            { term: 'z-score', lessons: [12], type: 'formula' },
-            { term: 't-test', lessons: [25, 27], type: 'test' }
-        ];
-        
-        // Learning paths configuration
-        const learningPaths = {
-            medical: {
-                name: 'สายแพทย์',
-                priority: [3, 5, 8, 11, 12, 14, 16, 17, 23, 25],
-                description: 'เน้นสถิติทางการแพทย์และการวิจัยทางคลินิก'
-            },
-            engineering: {
-                name: 'สายวิศวะ',
-                priority: [2, 7, 11, 13, 14, 19, 22, 29, 30],
-                description: 'เน้นการควบคุมคุณภาพและการวิเคราะห์ความน่าเชื่อถือ'
-            },
-            data: {
-                name: 'สายข้อมูล',
-                priority: [2, 5, 10, 11, 14, 16, 19, 23, 27],
-                description: 'เน้นการวิเคราะห์ข้อมูลและการทำนาย'
-            }
-        };
-
-        // Create module card
-        function createModuleCard(moduleKey, module) {
-            const totalLessons = module.lessons.length;
-            const completedCount = module.lessons.filter((_, index) => 
-                completedLessons.includes(`${moduleKey}-${index}`)
-            ).length;
-            const progress = Math.round((completedCount / totalLessons) * 100);
-            
-            const colorClasses = {
-                blue: 'from-blue-500 to-blue-600',
-                green: 'from-green-500 to-green-600',
-                purple: 'from-purple-500 to-purple-600',
-                indigo: 'from-indigo-500 to-indigo-600',
-                yellow: 'from-yellow-500 to-yellow-600',
-                red: 'from-red-500 to-red-600',
-                teal: 'from-teal-500 to-teal-600',
-                orange: 'from-orange-500 to-orange-600',
-                pink: 'from-pink-500 to-pink-600',
-                gray: 'from-gray-500 to-gray-600'
-            };
-
-            return `
-                <div class="bg-white rounded-xl shadow-lg border-2 border-gray-100 overflow-hidden mb-6">
-                    <div class="bg-gradient-to-r ${colorClasses[module.color]} text-white p-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-2xl">${module.icon}</span>
-                                <div>
-                                    <h3 class="text-lg font-bold">${module.title}</h3>
-                                    <p class="text-sm opacity-90">${totalLessons} บทเรียน</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-sm opacity-90">ความคืบหน้า</div>
-                                <div class="text-xl font-bold">${progress}%</div>
-                            </div>
-                        </div>
-                        <div class="mt-3 bg-white/20 rounded-full h-2">
-                            <div class="bg-white rounded-full h-2 transition-all duration-500" style="width: ${progress}%"></div>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            ${module.lessons.map((lesson, index) => createLessonCard(lesson, index, moduleKey)).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Create lesson card
-        function createLessonCard(lesson, index, moduleKey) {
-            const lessonId = `${moduleKey}-${index}`;
-            const isCompleted = completedLessons.includes(lessonId);
-            const isCurrent = currentLesson === lessonId;
-            
-            let statusClass = 'bg-gray-50 border-gray-200 hover:bg-gray-100';
-            let statusIcon = '⭕';
-            let statusText = 'ยังไม่เริ่ม';
-            
-            if (isCompleted) {
-                statusClass = 'bg-green-50 border-green-200 hover:bg-green-100';
-                statusIcon = '✅';
-                statusText = 'เสร็จแล้ว';
-            } else if (isCurrent) {
-                statusClass = 'bg-blue-50 border-blue-200 hover:bg-blue-100';
-                statusIcon = '▶️';
-                statusText = 'กำลังเรียน';
-            }
-
-            return `
-                <div class="lesson-card ${statusClass} rounded-lg p-3 border-2 cursor-pointer transition-all" onclick="selectLesson('${lessonId}', '${lesson.file}', '${lesson.title}')">
-                    <div class="flex items-start space-x-3">
-                        <span class="text-lg">${statusIcon}</span>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <span class="text-sm">${lesson.icon}</span>
-                                <h4 class="font-medium text-sm leading-tight truncate">${lesson.title}</h4>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-600">${statusText}</span>
-                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded text-right">${index + 1}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Create tool card
-        function createToolCard(tool, bgColor = 'yellow', textColor = 'yellow') {
-            const action = tool.action ? `onclick="${tool.action}()"` : `onclick="openResource('${tool.file}', '${tool.title}')"`;
-            
-            return `
-                <div class="lesson-card bg-${bgColor}-50 border-${bgColor}-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-${bgColor}-100 transition-all" ${action}>
-                    <div class="flex items-start space-x-3 mb-3">
-                        <span class="text-2xl">${tool.icon}</span>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-sm leading-tight mb-1">${tool.title}</h4>
-                            <p class="text-xs text-gray-600">${tool.description}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs text-${textColor}-600 font-medium">คลิกเพื่อใช้งาน</span>
-                        ${tool.file !== '#' ? `<span class="text-xs bg-${bgColor}-100 text-${textColor}-800 px-2 py-1 rounded">${tool.file}</span>` : ''}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Open resource
-        function openResource(fileName, title) {
-            try {
-                window.open(fileName, '_blank', 'noopener,noreferrer');
-                showNotification(`📂 เปิด: ${title}`, 'success');
-            } catch (error) {
-                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
-            }
-        }
-
-        // Populate all sections
-        function populateAllSections() {
-            // Course modules
-            const modulesContainer = document.getElementById('course-modules');
-            modulesContainer.innerHTML = Object.entries(courseModules).map(([key, module]) => 
-                createModuleCard(key, module)
-            ).join('');
-            
-            // Interactive tools
-            const toolsContainer = document.getElementById('interactive-tools');
-            toolsContainer.innerHTML = interactiveTools.map(tool => 
-                createToolCard(tool, 'yellow', 'yellow')
-            ).join('');
-            
-            // Teacher tools
-            const teacherContainer = document.getElementById('teacher-tools');
-            teacherContainer.innerHTML = teacherTools.map(tool => 
-                createToolCard(tool, 'indigo', 'indigo')
-            ).join('');
-            
-            // PDF tools
-            const pdfContainer = document.getElementById('pdf-tools');
-            pdfContainer.innerHTML = pdfTools.map(tool => 
-                createToolCard(tool, 'green', 'green')
-            ).join('');
-            
-            // Accessibility tools
-            const accessibilityContainer = document.getElementById('accessibility-tools');
-            accessibilityContainer.innerHTML = accessibilityTools.map(tool => 
-                createToolCard(tool, 'purple', 'purple')
-            ).join('');
-        }
-
-        // Update progress display
-        function updateProgress() {
-            // Calculate total lessons from all modules
-            const totalLessons = Object.values(courseModules).reduce((total, module) => 
-                total + module.lessons.length, 0
-            );
-            const completed = completedLessons.length;
-            const percentage = Math.round((completed / totalLessons) * 100);
-            
-            document.getElementById('overall-progress').textContent = `${percentage}%`;
-            document.getElementById('progress-display').textContent = `${completed}/${totalLessons}`;
-            document.getElementById('progress-bar').style.width = `${percentage}%`;
-        }
-
-        // Select lesson
-        function selectLesson(lessonId, fileName, lessonTitle) {
-            // Mark as current lesson
-            currentLesson = lessonId;
-            localStorage.setItem('currentLesson', currentLesson);
-            
-            // Mark as completed if not already
-            if (!completedLessons.includes(lessonId)) {
-                completedLessons.push(lessonId);
-                localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
-            }
-            
-            // Open lesson file in new tab
-            try {
-                window.open(fileName, '_blank', 'noopener,noreferrer');
-                
-                // Show success message
-                showNotification(`🎯 เปิดบทเรียน: ${lessonTitle}`, 'success');
-            } catch (error) {
-                // Fallback if window.open fails
-                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
-            }
-            
-            // Refresh display
-            populateAllSections();
-            updateProgress();
-        }
-
-        // Show notification
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg text-white font-medium transition-all duration-300 ${
-                type === 'success' ? 'bg-green-500' : 
-                type === 'error' ? 'bg-red-500' : 
-                'bg-blue-500'
-            }`;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transform = 'translate(-50%, -100%)';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        // Reset progress
-        function resetProgress() {
-            if (confirm('คุณต้องการรีเซ็ตความคืบหน้าทั้งหมดหรือไม่?')) {
-                completedLessons = [];
-                currentLesson = '';
-                localStorage.removeItem('completedLessons');
-                localStorage.removeItem('currentLesson');
-                populateAllSections();
-                updateProgress();
-                showNotification('✅ รีเซ็ตความคืบหน้าเรียบร้อยแล้ว!', 'success');
-            }
-        }
-
-        // Accessibility and tool functions
-        function toggleTheme() {
-            const body = document.body;
-            body.classList.toggle('dark-mode');
-            const isDark = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            showNotification(isDark ? '🌙 เปลี่ยนเป็นโหมดมืด' : '☀️ เปลี่ยนเป็นโหมดสว่าง', 'info');
-        }
-
-        function adjustFontSize() {
-            const currentSize = parseInt(localStorage.getItem('fontSize') || '16');
-            const newSize = currentSize >= 20 ? 14 : currentSize + 2;
-            document.documentElement.style.fontSize = `${newSize}px`;
-            localStorage.setItem('fontSize', newSize);
-            showNotification(`🔤 ขนาดตัวอักษร: ${newSize}px`, 'info');
-        }
-
-        function toggleContrast() {
-            document.body.classList.toggle('high-contrast');
-            const isHighContrast = document.body.classList.contains('high-contrast');
-            localStorage.setItem('highContrast', isHighContrast);
-            showNotification(isHighContrast ? '🔲 เปิดโหมดคอนทราสต์สูง' : '🔳 ปิดโหมดคอนทราสต์สูง', 'info');
-        }
-
-        function toggleLanguage() {
-            const currentLang = localStorage.getItem('language') || 'th';
-            const newLang = currentLang === 'th' ? 'en' : 'th';
-            localStorage.setItem('language', newLang);
-            showNotification(newLang === 'th' ? '🇹🇭 เปลี่ยนเป็นภาษาไทย' : '🇺🇸 Changed to English', 'info');
-        }
-
-        function toggleSpeech() {
-            if ('speechSynthesis' in window) {
-                if (speechSynthesis.speaking) {
-                    speechSynthesis.cancel();
-                    showNotification('🔇 หยุดการอ่านออกเสียง', 'info');
-                } else {
-                    const text = 'ระบบเรียนรู้สถิติออนไลน์ พร้อมให้บริการ';
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'th-TH';
-                    speechSynthesis.speak(utterance);
-                    showNotification('🔊 เริ่มการอ่านออกเสียง', 'info');
-                }
-            } else {
-                showNotification('❌ เบราว์เซอร์ไม่รองรับการอ่านออกเสียง', 'error');
-            }
-        }
-
-        function printChapter() {
-            window.print();
-            showNotification('🖨️ เปิดหน้าต่างพิมพ์', 'info');
-        }
-
-        function exportNotes() {
-            const notes = {
-                completedLessons,
-                currentLesson,
-                learningPath,
-                timestamp: new Date().toISOString(),
-                notes: 'User notes would be collected here'
-            };
-            
-            const dataStr = JSON.stringify(notes, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `my-statistics-notes-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            URL.revokeObjectURL(url);
-            showNotification('📝 ส่งออกโน้ตส่วนตัวเรียบร้อย', 'success');
-        }
-
-        // Set learning path
-        function setLearningPath(path) {
-            learningPath = path;
-            localStorage.setItem('learningPath', path);
-            
-            const pathInfo = learningPaths[path];
-            document.getElementById('selected-path').classList.remove('hidden');
-            document.getElementById('path-name').textContent = pathInfo.name;
-            
-            // Update lesson priorities
-            populateLessons();
-            showNotification(`🛤️ เลือกเส้นทาง: ${pathInfo.name}`, 'success');
-        }
-
-        // Toggle modes
-        function toggleMode(mode) {
-            if (mode === 'exam') {
-                examMode = !examMode;
-                showNotification(examMode ? '⏱️ เปิดโหมดสอบจำลอง' : '📚 ปิดโหมดสอบจำลอง', 'info');
-            } else if (mode === 'sandbox') {
-                sandboxMode = !sandboxMode;
-                const sandboxSection = document.getElementById('sandbox-section');
-                if (sandboxMode) {
-                    sandboxSection.classList.remove('hidden');
-                    initializeSandbox();
-                    showNotification('🧪 เปิด Sandbox สถิติ', 'success');
-                } else {
-                    sandboxSection.classList.add('hidden');
-                    showNotification('📚 ปิด Sandbox สถิติ', 'info');
-                }
-            }
-        }
-
-        // Search functionality
-        function performSearch(query) {
-            const results = searchIndex.filter(item => 
-                item.term.toLowerCase().includes(query.toLowerCase())
-            );
-            
-            const resultsContainer = document.getElementById('search-results');
-            if (results.length > 0) {
-                resultsContainer.innerHTML = results.map(result => `
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
-                        <div class="font-medium text-blue-800">${result.term}</div>
-                        <div class="text-sm text-blue-600">พบในบทที่: ${result.lessons.join(', ')}</div>
-                        <div class="text-xs text-gray-500">ประเภท: ${result.type}</div>
-                    </div>
-                `).join('');
-                resultsContainer.classList.remove('hidden');
-            } else {
-                resultsContainer.innerHTML = '<div class="text-gray-500 text-center py-4">ไม่พบผลการค้นหา</div>';
-                resultsContainer.classList.remove('hidden');
-            }
-        }
-
-        // Search by tag
-        function searchByTag(tag) {
-            document.getElementById('search-input').value = tag;
-            performSearch(tag);
-        }
-
-        // Export progress
-        function exportProgress() {
-            const progressData = {
-                completedLessons,
-                currentLesson,
-                learningPath,
-                timestamp: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            const dataStr = JSON.stringify(progressData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `statistics-progress-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            URL.revokeObjectURL(url);
-            showNotification('💾 ส่งออกความคืบหน้าเรียบร้อย', 'success');
-        }
-
-        // Initialize sandbox
-        function initializeSandbox() {
-            const ctx = document.getElementById('sandbox-chart').getContext('2d');
-            
-            // Update slider displays
-            document.getElementById('sample-size').addEventListener('input', function() {
-                document.getElementById('sample-size-value').textContent = this.value;
-            });
-            
-            document.getElementById('mean-value').addEventListener('input', function() {
-                document.getElementById('mean-value-display').textContent = this.value;
-            });
-            
-            document.getElementById('std-value').addEventListener('input', function() {
-                document.getElementById('std-value-display').textContent = this.value;
-            });
-            
-            generateSample();
-        }
-
-        // Generate sample for sandbox
-        function generateSample() {
-            const n = parseInt(document.getElementById('sample-size').value);
-            const mu = parseFloat(document.getElementById('mean-value').value);
-            const sigma = parseFloat(document.getElementById('std-value').value);
-            
-            // Generate normal random sample
-            const sample = [];
-            for (let i = 0; i < n; i++) {
-                // Box-Muller transform for normal distribution
-                const u1 = Math.random();
-                const u2 = Math.random();
-                const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-                sample.push(mu + sigma * z);
-            }
-            
-            // Calculate statistics
-            const mean = sample.reduce((a, b) => a + b) / n;
-            const variance = sample.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1);
-            const std = Math.sqrt(variance);
-            const min = Math.min(...sample);
-            const max = Math.max(...sample);
-            
-            // Update display
-            document.getElementById('sample-mean').textContent = mean.toFixed(2);
-            document.getElementById('sample-std').textContent = std.toFixed(2);
-            document.getElementById('sample-min').textContent = min.toFixed(2);
-            document.getElementById('sample-max').textContent = max.toFixed(2);
-            
-            // Create histogram
-            const bins = 20;
-            const binWidth = (max - min) / bins;
-            const histogram = new Array(bins).fill(0);
-            
-            sample.forEach(value => {
-                const binIndex = Math.min(Math.floor((value - min) / binWidth), bins - 1);
-                histogram[binIndex]++;
-            });
-            
-            // Update chart
-            const ctx = document.getElementById('sandbox-chart').getContext('2d');
-            
-            if (window.sandboxChart) {
-                window.sandboxChart.destroy();
-            }
-            
-            window.sandboxChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: histogram.map((_, i) => (min + i * binWidth).toFixed(1)),
-                    datasets: [{
-                        label: 'ความถี่',
-                        data: histogram,
-                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: `Histogram (n=${n}, μ=${mu}, σ=${sigma})`
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'ความถี่'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'ค่า'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Draw learning graph
-        function drawLearningGraph() {
-            const canvas = document.getElementById('learning-graph');
-            const ctx = canvas.getContext('2d');
-            
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Simple learning path visualization
-            const nodes = [
-                { x: 50, y: 150, label: 'พื้นฐาน', lessons: [0, 1, 2] },
-                { x: 200, y: 100, label: 'ความน่าจะเป็น', lessons: [3, 4, 5] },
-                { x: 200, y: 200, label: 'การแจกแจง', lessons: [6, 7, 8, 9, 10] },
-                { x: 350, y: 150, label: 'การประมาณ', lessons: [15, 16, 17, 18] },
-                { x: 500, y: 150, label: 'การทดสอบ', lessons: [23, 24, 25, 26] }
-            ];
-            
-            // Draw connections
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(50, 150);
-            ctx.lineTo(200, 100);
-            ctx.moveTo(50, 150);
-            ctx.lineTo(200, 200);
-            ctx.moveTo(200, 100);
-            ctx.lineTo(350, 150);
-            ctx.moveTo(200, 200);
-            ctx.lineTo(350, 150);
-            ctx.moveTo(350, 150);
-            ctx.lineTo(500, 150);
-            ctx.stroke();
-            
-            // Draw nodes
-            nodes.forEach(node => {
-                ctx.fillStyle = '#3b82f6';
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
-                ctx.fill();
-                
-                ctx.fillStyle = 'white';
-                ctx.font = '12px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(node.label, node.x, node.y - 30);
-            });
-        }
-
-        // Search input handler
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            searchInput.addEventListener('input', function() {
-                const query = this.value.trim();
-                if (query.length > 2) {
-                    performSearch(query);
-                } else {
-                    document.getElementById('search-results').classList.add('hidden');
-                }
-            });
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            populateAllSections();
-            updateProgress();
-            drawLearningGraph();
-            
-            // Load saved learning path
-            if (learningPath && learningPaths[learningPath]) {
-                const pathInfo = learningPaths[learningPath];
-                document.getElementById('selected-path').classList.remove('hidden');
-                document.getElementById('path-name').textContent = pathInfo.name;
-            }
-            
-            // Load saved preferences
-            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-            if (savedDarkMode) {
-                document.body.classList.add('dark-mode');
-            }
-            
-            const savedFontSize = localStorage.getItem('fontSize');
-            if (savedFontSize) {
-                document.documentElement.style.fontSize = `${savedFontSize}px`;
-            }
-            
-            const savedHighContrast = localStorage.getItem('highContrast') === 'true';
-            if (savedHighContrast) {
-                document.body.classList.add('high-contrast');
-            }
-            
-            // Initialize KaTeX if available
-            if (typeof renderMathInElement !== 'undefined') {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ]
-                });
-            }
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987e25d4a5a1799c',t:'MTc1OTM0NDY0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    applyFilter(); markVisited();
+  })();  
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="./hotfix.js"></script></body>
 </html>
