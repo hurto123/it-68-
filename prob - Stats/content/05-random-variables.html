@@ -1,198 +1,293 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>05. ตัวแปรสุ่ม</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 5: ตัวแปรสุ่ม (Random Variables)</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .definition { border-radius: var(--radius-lg); padding: var(--space-3); background: var(--neutral-100); border: 1px solid var(--neutral-200); }
-    .pmf-table { width: 100%; border-collapse: collapse; }
-    .pmf-table th, .pmf-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
-    .pmf-table th { background: var(--neutral-100); }
-    .builder { display: grid; gap: var(--space-3); }
-    .builder textarea { width: 100%; min-height: 140px; font-family: var(--font-mono); }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 180px; padding-block: var(--space-2); }
-    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
-    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
-    .note { font-style: italic; color: var(--neutral-600); }
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+    }
   </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 05</p>
-      <h1>👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! ที่ผ่านมาเราได้เรียนรู้เกี่ยวกับ "เหตุการณ์" และ "ความน่าจะเป็น" กันไปแล้ว แต่บ่อยครั้งในทางสถิติ เราสนใจผลลัพธ์ที่เป็น "ตัวเลข" มากกว่าคำอธิบาย ในบทเรียนนี้ เราจะมาเรียนรู้วิธีการ "แปลง" ผลลัพธ์ของการทดลองสุ่มให้กลายเป็นตัวเลขที่เราสามารถนำไปวิเคราะห์ต่อได้ ผ่านเครื่องมือที่เรียกว่า "ตัวแปรสุ่ม"</p>
-    </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="04-conditional.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="06-expectation-variance.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: ตัวแปรสุ่มคืออะไร?</h2>
-      <p><strong>นิยาม:</strong> ตัวแปรสุ่ม คือ "ตัวแปรที่ค่าของมันเป็นตัวเลขที่ได้จากผลลัพธ์ของการทดลองสุ่ม"</p>
-      <p><strong>หน้าที่ของมัน:</strong> คือการทำ "ฟังก์ชัน" ที่เปลี่ยนผลลัพธ์ที่อาจจะไม่ใช่ตัวเลข (เช่น หัว, ก้อย) ให้กลายเป็นตัวเลขที่เราสนใจ (เช่น จำนวนครั้งที่ออกหัว)</p>
-      <p><strong>สัญลักษณ์:</strong> เรานิยมใช้ตัวอักษรภาษาอังกฤษตัวใหญ่ เช่น X, Y, Z แทนตัวแปรสุ่ม และใช้ตัวอักษรตัวเล็ก เช่น x, y, z แทนค่าที่เป็นไปได้ของตัวแปรสุ่มนั้น</p>
-      <p><strong>ตัวอย่างง่ายๆ:</strong></p>
-      <ul>
-        <li>การทดลองสุ่ม: โยนเหรียญ 2 ครั้ง</li>
-        <li>แซมเปิลสเปซ (S): {HH, HT, TH, TT}</li>
-        <li>กำหนดตัวแปรสุ่ม (X): ให้ X = "จำนวนครั้งที่เหรียญออกหัว"</li>
-        <li>แปลงผลลัพธ์เป็นตัวเลข: TT → X=0, HT หรือ TH → X=1, HH → X=2</li>
-      </ul>
-      <p>จะเห็นว่าตอนนี้เราสามารถอธิบายผลลัพธ์ด้วยตัวเลข 0, 1, 2 ได้แล้ว</p>
-    </section>
+<body class="bg-slate-50 text-slate-800">
 
-    <section>
-      <h2>2. ประเภทของตัวแปรสุ่ม</h2>
-      <div class="grid-2">
-        <div class="definition">
-          <h3>ตัวแปรสุ่มแบบไม่ต่อเนื่อง (Discrete Random Variable)</h3>
-          <ul>
-            <li>ค่าที่เป็นไปได้เป็นจำนวนที่ "นับได้" อาจจะเป็นจำนวนจำกัด หรือไม่จำกัดก็ได้</li>
-            <li>ค่าที่เป็นไปได้มักจะเป็น "จำนวนเต็ม" หรือตัวเลขที่แยกกันอย่างชัดเจน</li>
-            <li><strong>คีย์เวิร์ด:</strong> "จำนวน..."</li>
-          </ul>
-          <p>ตัวอย่าง:</p>
-          <ul>
-            <li>X = จำนวนลูกเต๋าที่ออกแต้ม 6 จากการทอด 10 ครั้ง (0 ถึง 10)</li>
-            <li>Y = จำนวนลูกค้าที่เข้าร้านใน 1 ชั่วโมง (0, 1, 2, 3, ...)</li>
-            <li>Z = จำนวนสินค้าที่ชำรุดจากการผลิต 100 ชิ้น (0 ถึง 100)</li>
-          </ul>
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-cyan-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-cyan-600">บทที่ 05</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">🔢 ตัวแปรสุ่ม (Random Variables)</h1>
         </div>
-        <div class="definition">
-          <h3>ตัวแปรสุ่มแบบต่อเนื่อง (Continuous Random Variable)</h3>
-          <ul>
-            <li>ค่าที่เป็นไปได้เป็นจำนวนที่ "นับไม่ได้" เพราะสามารถมีค่าเป็นจุดทศนิยมใดๆ ก็ได้ภายในช่วงที่กำหนด</li>
-            <li><strong>คีย์เวิร์ด:</strong> ตัวแปรที่มาจากการ "วัด"</li>
-          </ul>
-          <p>ตัวอย่าง:</p>
-          <ul>
-            <li>X = น้ำหนักของนักศึกษา (55.0, 55.1, 55.12, ... kg)</li>
-            <li>Y = อุณหภูมิของห้อง (25.0, 25.2, 25.21 °C, ...)</li>
-            <li>Z = เวลาที่ใช้ในการวิ่งมาราธอน (3.5, 3.52, 3.521 ชั่วโมง, ...)</li>
-          </ul>
-        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
       </div>
-    </section>
+      <p class="mt-4 text-lg bg-cyan-50 border border-cyan-200 text-cyan-800 p-4 rounded-lg">
+        สวัสดีครับ! ที่ผ่านมาเราได้เรียนรู้เกี่ยวกับ "เหตุการณ์" และ "ความน่าจะเป็น" กันไปแล้ว แต่บ่อยครั้งเราสนใจผลลัพธ์ที่เป็น "ตัวเลข" มากกว่า ในบทนี้ เราจะมาเรียนรู้วิธี "แปลง" ผลลัพธ์ของการทดลองสุ่มให้กลายเป็นตัวเลขที่วิเคราะห์ต่อได้ ผ่านเครื่องมือที่เรียกว่า "ตัวแปรสุ่ม" ครับ
+      </p>
+    </header>
 
-    <section>
-      <h2>3.&nbsp;&amp;&nbsp;4. การแจกแจงความน่าจะเป็น (Probability Distribution)</h2>
-      <p>เมื่อเรามีตัวแปรสุ่มแล้ว สิ่งต่อไปที่เราอยากรู้คือ "แต่ละค่าของตัวแปรสุ่มนั้น มีโอกาสเกิดขึ้นบ่อยแค่ไหน?" คำตอบของคำถามนี้อยู่ในรูปของ "การแจกแจงความน่าจะเป็น" ซึ่งเปรียบเสมือน "แผนที่" ที่บอกโครงสร้างความน่าจะเป็นทั้งหมดของตัวแปรสุ่มนั้นๆ</p>
-      <div class="grid-2">
-        <div class="definition">
-          <h3>สำหรับตัวแปรสุ่มไม่ต่อเนื่อง: ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
-          <ul>
-            <li>หน้าที่: บอกความน่าจะเป็น ณ "จุด" ใดจุดหนึ่ง</li>
-            <li>สัญลักษณ์: f(x) = P(X = x)</li>
-            <li>คุณสมบัติ: f(x) ≥ 0 และ ∑ f(x) = 1</li>
-          </ul>
-        </div>
-        <div class="definition">
-          <h3>สำหรับตัวแปรสุ่มต่อเนื่อง: ฟังก์ชันความหนาแน่นของความน่าจะเป็น (PDF)</h3>
-          <ul>
-            <li>หน้าที่: บอก "ความหนาแน่น" ของความน่าจะเป็น ณ จุดใดจุดหนึ่ง (ไม่ใช่ความน่าจะเป็นโดยตรง)</li>
-            <li>สำคัญ: สำหรับตัวแปรต่อเนื่อง ความน่าจะเป็นที่จุดใดจุดหนึ่งพอดี มีค่าเป็น 0 เสมอ! เราจะสนใจความน่าจะเป็นของ "ช่วง" เท่านั้น</li>
-            <li>คุณสมบัติ: f(x) ≥ 0 และ ∫ f(x)dx = 1</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-    <section>
-      <h2>5. ยกตัวอย่าง (ตัวแปรสุ่มไม่ต่อเนื่อง)</h2>
-      <p>โจทย์: จากการโยนเหรียญที่เที่ยงตรง 2 ครั้ง ให้ X = จำนวนครั้งที่ออกหัว จงหาการแจกแจงความน่าจะเป็นของ X</p>
-      <p>วิเคราะห์:</p>
-      <ul>
-        <li>S = {HH, HT, TH, TT} ⇒ n(S) = 4</li>
-        <li>ค่าที่เป็นไปได้ของ X คือ {0, 1, 2}</li>
-      </ul>
-      <p>วิธีทำ:</p>
-      <ul>
-        <li>P(X=0): เกิดจากกรณี TT มี 1 แบบ ⇒ f(0) = 1/4</li>
-        <li>P(X=1): เกิดจากกรณี HT, TH มี 2 แบบ ⇒ f(1) = 2/4</li>
-        <li>P(X=2): เกิดจากกรณี HH มี 1 แบบ ⇒ f(2) = 1/4</li>
-      </ul>
-      <table class="pmf-table" aria-label="การแจกแจงตัวอย่าง">
-        <thead><tr><th>x (จำนวนหัว)</th><th>f(x) = P(X=x)</th></tr></thead>
-        <tbody>
-          <tr><td>0</td><td>1/4</td></tr>
-          <tr><td>1</td><td>2/4</td></tr>
-          <tr><td>2</td><td>1/4</td></tr>
-        </tbody>
-      </table>
-      <p class="note">ตรวจสอบคุณสมบัติ: ผลรวมของ f(x) = 1/4 + 2/4 + 1/4 = 4/4 = 1 (ถูกต้อง!)</p>
-    </section>
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
 
-    <section>
-      <h2>Interactive: Random Variable Playground</h2>
-      <p>กรอกค่าของตัวแปรสุ่มและความน่าจะเป็น (รูปแบบ x:prob ต่อบรรทัด) เพื่อสร้าง PMF ตรวจสอบผลรวม และดูกราฟแท่ง</p>
-      <div class="builder">
-        <label for="pmf-input">ข้อมูลตัวแปรสุ่ม</label>
-        <textarea id="pmf-input">0:0.25
+        <!-- Section 1: What is a Random Variable -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. ตัวแปรสุ่มคืออะไร?</h2>
+          <p class="mb-4"><b>นิยาม:</b> ตัวแปรสุ่ม คือ "ตัวแปรที่ค่าของมันเป็นตัวเลขซึ่งได้จากผลลัพธ์ของการทดลองสุ่ม" พูดง่ายๆ คือเป็นฟังก์ชันที่แปลงผลลัพธ์ (เช่น หัว, ก้อย) ให้เป็นตัวเลข (เช่น 0, 1) ครับ</p>
+          <div class="bg-slate-50 p-4 rounded-lg border">
+            <h3 class="font-semibold text-slate-800">ตัวอย่าง: โยนเหรียญ 2 ครั้ง</h3>
+            <ul class="list-decimal list-inside ml-4 mt-2 space-y-2">
+                <li><b>การทดลองสุ่ม:</b> โยนเหรียญเที่ยงตรง 2 ครั้ง</li>
+                <li><b>แซมเปิลสเปซ (S):</b> $S = \{ HH, HT, TH, TT \}$</li>
+                <li><b>กำหนดตัวแปรสุ่ม (X):</b> ให้ $X$ = "จำนวนครั้งที่เหรียญออกหัว"</li>
+                <li><b>แปลงผลลัพธ์เป็นค่าของ X:</b>
+                    <ul class="list-disc list-inside ml-6 text-sm">
+                        <li>ผลลัพธ์ $TT \rightarrow X = 0$</li>
+                        <li>ผลลัพธ์ $HT, TH \rightarrow X = 1$</li>
+                        <li>ผลลัพธ์ $HH \rightarrow X = 2$</li>
+                    </ul>
+                </li>
+            </ul>
+             <p class="mt-3 font-semibold text-cyan-700">ตอนนี้เราสามารถอธิบายผลลัพธ์ด้วยตัวเลข $\{0, 1, 2\}$ ซึ่งนำไปคำนวณต่อได้ง่ายขึ้น</p>
+          </div>
+        </section>
+
+        <!-- Section 2: Types of Random Variables -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. ประเภทของตัวแปรสุ่ม</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-sky-500 pl-4">
+                    <h3 class="text-xl font-semibold text-sky-700">ไม่ต่อเนื่อง (Discrete)</h3>
+                    <p class="text-sm mt-1">ค่าที่เป็นไปได้เป็นจำนวนที่ "นับได้" (จำนวนเต็ม, ค่าที่แยกกันชัดเจน)</p>
+                    <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
+                        <li><b>คีย์เวิร์ด:</b> "จำนวน..."</li>
+                        <li><b>ตัวอย่าง:</b> จำนวนครั้งที่ทอยลูกเต๋าได้แต้ม 6, จำนวนลูกค้าในร้าน</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-emerald-500 pl-4">
+                    <h3 class="text-xl font-semibold text-emerald-700">ต่อเนื่อง (Continuous)</h3>
+                    <p class="text-sm mt-1">ค่าที่เป็นไปได้อยู่ใน "ช่วง" และเป็นจำนวนที่ "นับไม่ได้" (เป็นทศนิยมเท่าไหร่ก็ได้)</p>
+                     <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
+                        <li><b>คีย์เวิร์ด:</b> ค่าที่มาจากการ "วัด"</li>
+                        <li><b>ตัวอย่าง:</b> น้ำหนัก, ส่วนสูง, อุณหภูมิ, เวลา</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Probability Distribution -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">3. การแจกแจงความน่าจะเป็น (Probability Distribution)</h2>
+          <p class="mb-4">คือ "แผนที่" ที่อธิบายว่าแต่ละค่าของตัวแปรสุ่ม ($x$) มีโอกาสเกิดขึ้นบ่อยแค่ไหน ($P(X=x)$) ซึ่งมีรูปแบบแตกต่างกันระหว่างตัวแปรสุ่มไม่ต่อเนื่องและต่อเนื่อง</p>
+          <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-slate-50 p-4 rounded-lg border">
+                  <h3 class="font-semibold text-slate-800">สำหรับตัวแปรสุ่มไม่ต่อเนื่อง: PMF</h3>
+                  <p class="text-sm mt-1"><b>ฟังก์ชันมวลของความน่าจะเป็น (Probability Mass Function)</b> บอกความน่าจะเป็น ณ แต่ละจุด</p>
+                  <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                      <li>$f(x) = P(X = x)$</li>
+                      <li>คุณสมบัติ: $\sum f(x) = 1$</li>
+                  </ul>
+              </div>
+               <div class="bg-slate-50 p-4 rounded-lg border">
+                  <h3 class="font-semibold text-slate-800">สำหรับตัวแปรสุ่มต่อเนื่อง: PDF</h3>
+                  <p class="text-sm mt-1"><b>ฟังก์ชันความหนาแน่นของความน่าจะเป็น (Probability Density Function)</b> บอก "ความหนาแน่น" ของความน่าจะเป็นในแต่ละช่วง</p>
+                  <ul class="list-disc list-inside text-sm mt-2 space-y-1">
+                      <li>$P(a \le X \le b) = \int_a^b f(x)dx$</li>
+                      <li>คุณสมบัติ: $\int_{-\infty}^{\infty} f(x)dx = 1$</li>
+                  </ul>
+              </div>
+          </div>
+        </section>
+        
+        <!-- Section 4: Example PMF -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. ตัวอย่าง: การสร้าง PMF</h2>
+            <p><b>โจทย์:</b> จากการโยนเหรียญเที่ยงตรง 2 ครั้ง, ให้ $X$ = จำนวนครั้งที่ออกหัว จงหาการแจกแจงความน่าจะเป็นของ $X$</p>
+            <ul class="list-disc list-inside my-3 ml-4">
+                <li>$S = \{HH, HT, TH, TT\}$, n(S) = 4</li>
+                <li>ค่าที่เป็นไปได้ของ $X$ คือ $\{0, 1, 2\}$</li>
+                <li>$P(X=0)$ (กรณี TT): $f(0) = 1/4$</li>
+                <li>$P(X=1)$ (กรณี HT, TH): $f(1) = 2/4$</li>
+                <li>$P(X=2)$ (กรณี HH): $f(2) = 1/4$</li>
+            </ul>
+            <div class="overflow-x-auto">
+                <table class="w-full max-w-sm mx-auto text-center border">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="p-2 border font-semibold">$x$ (จำนวนหัว)</th>
+                            <th class="p-2 border font-semibold">$f(x) = P(X=x)$</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="p-2 border">0</td><td class="p-2 border">1/4 = 0.25</td></tr>
+                        <tr><td class="p-2 border">1</td><td class="p-2 border">2/4 = 0.50</td></tr>
+                        <tr><td class="p-2 border">2</td><td class="p-2 border">1/4 = 0.25</td></tr>
+                        <tr class="bg-slate-100 font-bold"><td class="p-2 border">ผลรวม</td><td class="p-2 border">1.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">PMF Builder</h2>
+          <p class="text-sm mb-3 text-slate-600">กรอกค่าของตัวแปรสุ่มและความน่าจะเป็น (รูปแบบ `x:prob`) เพื่อสร้างและแสดงผลการแจกแจง</p>
+          
+          <div>
+              <label for="pmf-input" class="block text-xs font-medium text-slate-700">ข้อมูลตัวแปรสุ่ม (แต่ละค่าขึ้นบรรทัดใหม่)</label>
+              <textarea id="pmf-input" rows="4" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2 font-mono text-sm">0:0.25
 1:0.5
 2:0.25</textarea>
-        <button class="primary" id="pmf-update">อัปเดตการแจกแจง</button>
-        <p>ผลรวมความน่าจะเป็น: <strong id="pmf-sum">1.00</strong></p>
-        <div class="bar-chart" id="pmf-chart" role="img" aria-label="กราฟแท่งความน่าจะเป็น"></div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+          </div>
+          <button id="pmf-update" class="w-full bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-cyan-700 transition-colors shadow mt-3">
+              สร้าง/อัปเดตการแจกแจง
+          </button>
+
+          <hr class="my-5">
+
+          <div>
+              <h3 class="text-lg font-semibold text-slate-900">ผลลัพธ์</h3>
+              <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md mt-2">
+                  <span class="font-medium">ผลรวมความน่าจะเป็น $\sum P(X=x)$</span>
+                  <span id="pmf-sum" class="font-bold text-lg">1.000</span>
+              </div>
+              <div id="pmf-chart-container" class="mt-4 w-full bg-slate-100 rounded-lg p-3 min-h-[200px]">
+                  <svg id="pmf-chart" class="w-full" viewBox="0 0 300 150" aria-label="กราฟแท่งแสดงการแจกแจงความน่าจะเป็น"></svg>
+              </div>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: ค่าคาดหวังและความแปรปรวน</p>
+    </footer>
+
+  </div>
+
   <script>
-    const chart = document.getElementById('pmf-chart');
-    const sumEl = document.getElementById('pmf-sum');
-
-    const renderPMF = (pairs) => {
-      chart.innerHTML = '';
-      const validPairs = pairs.filter(({ prob }) => prob >= 0);
-      const total = validPairs.reduce((acc, { prob }) => acc + prob, 0);
-      sumEl.textContent = total.toFixed(4);
-      const maxProb = Math.max(...validPairs.map(({ prob }) => prob), 0.01);
-      validPairs.forEach(({ value, prob }) => {
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        bar.style.height = `${Math.min(100, (prob / maxProb) * 100)}%`;
-        bar.dataset.value = prob.toFixed(3);
-        const label = document.createElement('span');
-        label.textContent = value;
-        bar.appendChild(label);
-        chart.appendChild(bar);
-      });
-    };
-
-    const parseInput = (text) => {
-      return text.split(/\n+/).map(line => line.trim()).filter(Boolean).map(line => {
-        const [value, prob] = line.split(':');
-        return { value: value.trim(), prob: Number(prob) };
-      }).filter(({ prob }) => Number.isFinite(prob));
-    };
-
-    document.getElementById('pmf-update').addEventListener('click', () => {
-      const pairs = parseInput(document.getElementById('pmf-input').value);
-      renderPMF(pairs);
+    // --- KaTeX Auto-rendering ---
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+      }
     });
 
-    renderPMF(parseInput(document.getElementById('pmf-input').value));
+    // --- Interactive PMF Builder ---
+    const pmfInput = document.getElementById('pmf-input');
+    const updateBtn = document.getElementById('pmf-update');
+    const chartSVG = document.getElementById('pmf-chart');
+    const sumEl = document.getElementById('pmf-sum');
+
+    const parseInput = (text) => {
+        return text.split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && line.includes(':'))
+            .map(line => {
+                const parts = line.split(':');
+                const value = parts[0].trim();
+                const prob = parseFloat(parts[1].trim());
+                return { value, prob };
+            })
+            .filter(pair => !isNaN(pair.prob) && pair.prob >= 0);
+    };
+
+    const renderPMF = () => {
+        const pairs = parseInput(pmfInput.value);
+        chartSVG.innerHTML = ''; // Clear previous chart
+
+        const totalProb = pairs.reduce((sum, p) => sum + p.prob, 0);
+        sumEl.textContent = totalProb.toFixed(3);
+        sumEl.classList.toggle('text-red-600', Math.abs(totalProb - 1) > 1e-9);
+        sumEl.classList.toggle('text-green-600', Math.abs(totalProb - 1) < 1e-9);
+
+        if (pairs.length === 0) return;
+
+        const maxProb = Math.max(...pairs.map(p => p.prob), 0.01);
+        const width = 300, height = 150;
+        const barCount = pairs.length;
+        const gap = 10;
+        const barWidth = (width - (gap * (barCount + 1))) / barCount;
+        
+        const ns = "http://www.w3.org/2000/svg";
+
+        pairs.forEach((pair, i) => {
+            const barHeight = (pair.prob / maxProb) * (height - 30); // Leave space for text
+            const x = gap + i * (barWidth + gap);
+            const y = height - barHeight - 20;
+
+            const rect = document.createElementNS(ns, "rect");
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('width', barWidth);
+            rect.setAttribute('height', barHeight);
+            rect.setAttribute('fill', '#06b6d4'); // cyan-500
+            rect.setAttribute('rx', '2');
+            chartSVG.appendChild(rect);
+
+            const probText = document.createElementNS(ns, "text");
+            probText.setAttribute('x', x + barWidth / 2);
+            probText.setAttribute('y', y - 5);
+            probText.setAttribute('text-anchor', 'middle');
+            probText.setAttribute('font-size', '10');
+            probText.setAttribute('fill', '#0891b2');
+            probText.textContent = pair.prob.toFixed(3);
+            chartSVG.appendChild(probText);
+
+            const valueText = document.createElementNS(ns, "text");
+            valueText.setAttribute('x', x + barWidth / 2);
+            valueText.setAttribute('y', height - 5);
+            valueText.setAttribute('text-anchor', 'middle');
+            valueText.setAttribute('font-size', '12');
+            valueText.setAttribute('font-weight', 'bold');
+            valueText.setAttribute('fill', '#0e7490');
+            valueText.textContent = pair.value;
+            chartSVG.appendChild(valueText);
+        });
+    };
+
+    updateBtn.addEventListener('click', renderPMF);
+    
+    // Initial render on page load
+    document.addEventListener('DOMContentLoaded', renderPMF);
   </script>
+
 </body>
 </html>

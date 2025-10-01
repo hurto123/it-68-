@@ -1,68 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>รีวิวพื้นฐานความน่าจะเป็น</title>
-  <link rel="stylesheet" href="../../styles/tokens.css">
-  <link rel="stylesheet" href="../../styles/components.css">
-  <link rel="stylesheet" href="../../styles/light.css">
-  <link rel="stylesheet" href="../../styles/typography-access.css">
-  <link rel="stylesheet" href="../../styles/print.css" media="print">
-  <script defer src="../../app.js"></script>
-  <script defer src="../../i18n/i18n.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>รีวิวพื้นฐานความน่าจะเป็น</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
 </head>
-<body data-page="review">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">สรุปเร็ว</p>
-      <h1>รีวิวพื้นฐานความน่าจะเป็น</h1>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวมเร็ว</h2>
-      <ul>
-        <li>ตั้ง <strong>sample space (S)</strong> และระบุ <strong>เหตุการณ์ (E)</strong> ก่อนคิดความน่าจะเป็น</li>
-        <li>โฟกัสที่คำถาม: “ผลลัพธ์ที่ต้องการคืออะไร” และ “จำนวนผลรวมทั้งหมดมีกี่แบบ”</li>
-        <li>ใช้ผังต้นไม้ ตาราง หรือ mind map เพื่อตรวจว่าเคสครอบคลุมครบและไม่ซ้ำ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>หลักการนับทันใจ</h2>
-      <ul>
-        <li><strong>กฎบวก</strong>: เคสไม่ทับกัน &rarr; รวมจำนวนกันได้</li>
-        <li><strong>กฎคูณ</strong>: เหตุการณ์ต่อเนื่องที่เป็นอิสระ &rarr; คูณจำนวนวิธี</li>
-        <li><strong>แฟกทอเรียล</strong> n! = 1×2×…×n, <strong>Permutation</strong> <em>P(n,r) = n!/(n-r)!</em>, <strong>Combination</strong> <em>C(n,r) = n!/(r!(n-r)!)</em></li>
-        <li>จำกัดกรณี: ใช้ “หักลบส่วนที่ไม่ต้องการ” หรือ “คำนวณจากเคสพื้นฐานแล้วจัดหมู่”</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>เช็กลิสต์เหตุการณ์</h2>
-      <ul>
-        <li>นิยามความน่าจะเป็นแบบ Classical: <em>P(E) = |E| / |S|</em> เมื่อทุกผลลัพธ์เท่าเทียม</li>
-        <li>ระวังเหตุการณ์ซ้อนทับ: <em>P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</em></li>
-        <li>เหตุการณ์ตรงข้าม: <em>P(A<sup>c</sup>) = 1 − P(A)</em>, ใช้เมื่อคำนวณทางตรงยาก</li>
-        <li>เชื่อมโยงกับข้อมูลจริง: แยก “จำนวนวิธี” กับ “ความถี่เชิงประจักษ์” ให้ชัด</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ปุ่มลัด</h2>
-      <ul>
-        <li><a href="../01-intro.html">บท 01-04: ปูพื้นฐานและหลักการนับ</a></li>
-        <li><a href="../03-probability-basics.html">นิยามความน่าจะเป็น & ตัวอย่าง</a></li>
-        <li><a href="../../tools/chi2-tests.html">เตรียมต่อยอดไปยังการทดสอบ χ²</a></li>
-        <li><a href="../decision-map.html">Decision map (ฉบับเต็ม)</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<body data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">สรุปเร็ว</p>
+<h1>รีวิวพื้นฐานความน่าจะเป็น</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>ภาพรวมเร็ว</h2>
+<ul>
+<li>ตั้ง <strong>sample space (S)</strong> และระบุ <strong>เหตุการณ์ (E)</strong> ก่อนคิดความน่าจะเป็น</li>
+<li>โฟกัสที่คำถาม: “ผลลัพธ์ที่ต้องการคืออะไร” และ “จำนวนผลรวมทั้งหมดมีกี่แบบ”</li>
+<li>ใช้ผังต้นไม้ ตาราง หรือ mind map เพื่อตรวจว่าเคสครอบคลุมครบและไม่ซ้ำ</li>
+</ul>
+</article>
+<article class="card">
+<h2>หลักการนับทันใจ</h2>
+<ul>
+<li><strong>กฎบวก</strong>: เคสไม่ทับกัน → รวมจำนวนกันได้</li>
+<li><strong>กฎคูณ</strong>: เหตุการณ์ต่อเนื่องที่เป็นอิสระ → คูณจำนวนวิธี</li>
+<li><strong>แฟกทอเรียล</strong> n! = 1×2×…×n, <strong>Permutation</strong> <em>P(n,r) = n!/(n-r)!</em>, <strong>Combination</strong> <em>C(n,r) = n!/(r!(n-r)!)</em></li>
+<li>จำกัดกรณี: ใช้ “หักลบส่วนที่ไม่ต้องการ” หรือ “คำนวณจากเคสพื้นฐานแล้วจัดหมู่”</li>
+</ul>
+</article>
+<article class="card">
+<h2>เช็กลิสต์เหตุการณ์</h2>
+<ul>
+<li>นิยามความน่าจะเป็นแบบ Classical: <em>P(E) = |E| / |S|</em> เมื่อทุกผลลัพธ์เท่าเทียม</li>
+<li>ระวังเหตุการณ์ซ้อนทับ: <em>P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</em></li>
+<li>เหตุการณ์ตรงข้าม: <em>P(A<sup>c</sup>) = 1 − P(A)</em>, ใช้เมื่อคำนวณทางตรงยาก</li>
+<li>เชื่อมโยงกับข้อมูลจริง: แยก “จำนวนวิธี” กับ “ความถี่เชิงประจักษ์” ให้ชัด</li>
+</ul>
+</article>
+<article class="card">
+<h2>ปุ่มลัด</h2>
+<ul>
+<li><a href="../01-intro.html">บท 01-04: ปูพื้นฐานและหลักการนับ</a></li>
+<li><a href="../03-probability-basics.html">นิยามความน่าจะเป็น &amp; ตัวอย่าง</a></li>
+<li><a href="../../tools/chi2-tests.html">เตรียมต่อยอดไปยังการทดสอบ χ²</a></li>
+<li><a href="../decision-map.html">Decision map (ฉบับเต็ม)</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

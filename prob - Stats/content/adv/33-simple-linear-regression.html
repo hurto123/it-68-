@@ -1,83 +1,84 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>33. สัมประสิทธิ์ถดถอยเชิงเส้นอย่างง่าย</title>
-  <link rel="stylesheet" href="../../styles/tokens.css">
-  <link rel="stylesheet" href="../../styles/components.css">
-  <link rel="stylesheet" href="../../styles/light.css">
-  <link rel="stylesheet" href="../../styles/typography-access.css">
-  <link rel="stylesheet" href="../../styles/print.css" media="print">
-  <script defer src="../../app.js"></script>
-  <script defer src="../../i18n/i18n.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>33. สัมประสิทธิ์ถดถอยเชิงเส้นอย่างง่าย</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
 </head>
-<body data-page="advanced">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">หัวข้อขั้นสูง 33</p>
-      <h1>การถดถอยเชิงเส้นอย่างง่าย (Simple Linear Regression)</h1>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>องค์ประกอบหลัก</h2>
-      <ul>
-        <li>สมการ <code>\hat{y} = \beta_0 + \beta_1 x</code> ใช้คาดการณ์ตัวแปรตอบสนองจากตัวแปรอิสระตัวเดียว</li>
-        <li>ค่า <strong>β̂1</strong> = ความชัน, <strong>β̂0</strong> = จุดตัดแกน y</li>
-        <li>ใช้วิธี OLS (Ordinary Least Squares) เพื่อลดผลรวมกำลังสองของ residual</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>การประมาณค่าและค่าความคลาดเคลื่อน</h2>
-      <ul>
-        <li><code>\beta_1 = \frac{\sum (x_i-\bar{x})(y_i-\bar{y})}{\sum (x_i-\bar{x})^2}</code>, <code>\beta_0 = \bar{y} - \beta_1 \bar{x}</code></li>
-        <li>ส่วนเบี่ยงเบนมาตรฐานของสัมประสิทธิ์: <code>SE(\beta_1) = \frac{s}{\sqrt{\sum (x_i-\bar{x})^2}}</code></li>
-        <li>ทดสอบสมมติฐาน <code>H_0: \beta_1 = 0</code> ด้วย t-test และสร้างช่วงความเชื่อมั่น</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>การประเมินแบบจำลอง</h2>
-      <ul>
-        <li>ค่า <strong>R²</strong> = สัดส่วนความแปรปรวนของ y ที่อธิบายด้วย x (0–1)</li>
-        <li>ตรวจ residual plot → ควรสุ่มและไม่มีลักษณะโค้งหรือ funnel</li>
-        <li>ค่า <strong>RMSE</strong> หรือ <strong>MAE</strong> ใช้ตีความความคลาดเคลื่อนในหน่วยจริง</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>การวินิจฉัยสมมติฐาน</h2>
-      <ul>
-        <li>ใช้ QQ-plot หรือ Shapiro–Wilk ตรวจความปกติของ residual เมื่อ n เล็ก</li>
-        <li>ทดสอบ homoscedasticity ด้วย Breusch–Pagan หรือ White test หากพบ funnel</li>
-        <li>Durbin–Watson ใช้สำหรับข้อมูลอนุกรมเวลาเพื่อจับ autocorrelation</li>
-        <li>หากสมมติฐานไม่ผ่าน → พิจารณาแปลงตัวแปร (log/Box-Cox) หรือใช้ robust regression</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สมมติฐานสำคัญ</h2>
-      <ul>
-        <li>ความสัมพันธ์เชิงเส้นระหว่าง x และ y</li>
-        <li>ความเป็นอิสระของ residual (ตรวจด้วย Durbin-Watson สำหรับข้อมูลอนุกรมเวลา)</li>
-        <li>ความแปรปรวนคงที่ (Homoscedasticity) และความปกติของ residual</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>แนวทางปฏิบัติ</h2>
-      <ul>
-        <li>แยกชุดข้อมูล train/test หรือใช้ cross-validation เมื่อข้อมูลมากพอ</li>
-        <li>ปรับมาตรการวัด x เมื่อมีสเกลใหญ่เพื่อให้อินเตอร์เซปต์อ่านง่าย</li>
-        <li>นำเข้า <a href="../../tools/regression-playground.html">Regression Playground</a> เพื่อทดลองจำลอง</li>
-        <li>เมื่อ pattern ไม่เป็นเส้นตรง → พิจารณาแปลง log หรือ polynomial regression</li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 33</p>
+<h1>การถดถอยเชิงเส้นอย่างง่าย (Simple Linear Regression)</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>องค์ประกอบหลัก</h2>
+<ul>
+<li>สมการ <code>\hat{y} = \beta_0 + \beta_1 x</code> ใช้คาดการณ์ตัวแปรตอบสนองจากตัวแปรอิสระตัวเดียว</li>
+<li>ค่า <strong>β̂1</strong> = ความชัน, <strong>β̂0</strong> = จุดตัดแกน y</li>
+<li>ใช้วิธี OLS (Ordinary Least Squares) เพื่อลดผลรวมกำลังสองของ residual</li>
+</ul>
+</article>
+<article class="card">
+<h2>การประมาณค่าและค่าความคลาดเคลื่อน</h2>
+<ul>
+<li><code>\beta_1 = \frac{\sum (x_i-\bar{x})(y_i-\bar{y})}{\sum (x_i-\bar{x})^2}</code>, <code>\beta_0 = \bar{y} - \beta_1 \bar{x}</code></li>
+<li>ส่วนเบี่ยงเบนมาตรฐานของสัมประสิทธิ์: <code>SE(\beta_1) = \frac{s}{\sqrt{\sum (x_i-\bar{x})^2}}</code></li>
+<li>ทดสอบสมมติฐาน <code>H_0: \beta_1 = 0</code> ด้วย t-test และสร้างช่วงความเชื่อมั่น</li>
+</ul>
+</article>
+<article class="card">
+<h2>การประเมินแบบจำลอง</h2>
+<ul>
+<li>ค่า <strong>R²</strong> = สัดส่วนความแปรปรวนของ y ที่อธิบายด้วย x (0–1)</li>
+<li>ตรวจ residual plot → ควรสุ่มและไม่มีลักษณะโค้งหรือ funnel</li>
+<li>ค่า <strong>RMSE</strong> หรือ <strong>MAE</strong> ใช้ตีความความคลาดเคลื่อนในหน่วยจริง</li>
+</ul>
+</article>
+<article class="card">
+<h2>การวินิจฉัยสมมติฐาน</h2>
+<ul>
+<li>ใช้ QQ-plot หรือ Shapiro–Wilk ตรวจความปกติของ residual เมื่อ n เล็ก</li>
+<li>ทดสอบ homoscedasticity ด้วย Breusch–Pagan หรือ White test หากพบ funnel</li>
+<li>Durbin–Watson ใช้สำหรับข้อมูลอนุกรมเวลาเพื่อจับ autocorrelation</li>
+<li>หากสมมติฐานไม่ผ่าน → พิจารณาแปลงตัวแปร (log/Box-Cox) หรือใช้ robust regression</li>
+</ul>
+</article>
+<article class="card">
+<h2>สมมติฐานสำคัญ</h2>
+<ul>
+<li>ความสัมพันธ์เชิงเส้นระหว่าง x และ y</li>
+<li>ความเป็นอิสระของ residual (ตรวจด้วย Durbin-Watson สำหรับข้อมูลอนุกรมเวลา)</li>
+<li>ความแปรปรวนคงที่ (Homoscedasticity) และความปกติของ residual</li>
+</ul>
+</article>
+<article class="card">
+<h2>แนวทางปฏิบัติ</h2>
+<ul>
+<li>แยกชุดข้อมูล train/test หรือใช้ cross-validation เมื่อข้อมูลมากพอ</li>
+<li>ปรับมาตรการวัด x เมื่อมีสเกลใหญ่เพื่อให้อินเตอร์เซปต์อ่านง่าย</li>
+<li>นำเข้า <a href="../../tools/regression-playground.html">Regression Playground</a> เพื่อทดลองจำลอง</li>
+<li>เมื่อ pattern ไม่เป็นเส้นตรง → พิจารณาแปลง log หรือ polynomial regression</li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

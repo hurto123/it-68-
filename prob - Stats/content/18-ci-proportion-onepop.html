@@ -1,64 +1,239 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>18. ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 18: ช่วงความเชื่อมั่นของสัดส่วน (กลุ่มเดียว)</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 18</p>
-      <h1>ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-rose-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-rose-600">บทที่ 18</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">p: ช่วงความเชื่อมั่นของสัดส่วน (กลุ่มเดียว)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-lg">
+        สวัสดีครับ! นอกจากค่าเฉลี่ยแล้ว อีกหนึ่งค่าที่เราสนใจในการอนุมานทางสถิติก็คือ "สัดส่วน" ของประชากร ($p$) เช่น สัดส่วนผู้ที่พึงพอใจในสินค้า หรือสัดส่วนผู้มีสิทธิ์เลือกตั้ง ในบทนี้ เราจะมาเรียนรู้วิธีสร้างช่วงความเชื่อมั่นสำหรับพารามิเตอร์นี้กันครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การประมาณค่าสัดส่วน</h2>
+          <p>เรามักจะไม่ทราบสัดส่วนที่แท้จริง ($p$) ของประชากร แต่เราสามารถประมาณได้จาก <b>สัดส่วนของกลุ่มตัวอย่าง ($\hat{p}$ อ่านว่า "พี-แฮท")</b> ซึ่งคำนวณได้จาก:</p>
+          <div class="p-4 bg-slate-100 rounded-lg text-center my-4 text-lg">
+             $ \hat{p} = \frac{x}{n} $
+             <p class="text-sm text-slate-600 mt-1">(เมื่อ $x$ คือจำนวนครั้งที่สำเร็จในตัวอย่างขนาด $n$)</p>
+          </div>
+          <p>เมื่อขนาดตัวอย่าง $n$ ใหญ่พอ ทฤษฎีบทขีดจำกัดกลาง (CLT) บอกเราว่าการแจกแจงของ $\hat{p}$ จะเข้าใกล้การแจกแจงปกติ ทำให้เราสามารถสร้างช่วงความเชื่อมั่นได้</p>
+        </section>
+
+        <!-- Section 2: Formula & Conditions -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรและเงื่อนไขการใช้งาน</h2>
+          <div class="p-4 bg-slate-50 rounded-lg border">
+            <h3 class="text-lg font-semibold">สูตรช่วงความเชื่อมั่นสำหรับสัดส่วน</h3>
+            <p class="text-center my-2 text-base md:text-lg"> $ \hat{p} \pm Z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} $ </p>
+            <ul class="text-sm space-y-1 mt-2">
+                <li><b>Point Estimate:</b> $\hat{p}$</li>
+                <li><b>Critical Value:</b> $Z_{\alpha/2}$ (เราใช้ Z-score เสมอสำหรับสัดส่วน)</li>
+                <li><b>Standard Error:</b> $\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-lime-50 border-lime-200 rounded-lg border mt-4">
+            <h3 class="text-lg font-semibold text-lime-800">เงื่อนไขสำหรับการประมาณด้วยโค้งปกติ</h3>
+            <p class="text-sm text-lime-800">สูตรนี้จะใช้ได้ก็ต่อเมื่อขนาดตัวอย่างใหญ่พอ ซึ่งโดยทั่วไปจะตรวจสอบจาก:</p>
+            <p class="text-center my-2 font-semibold">$ n\hat{p} \ge 10 \quad \text{และ} \quad n(1-\hat{p}) \ge 10 $</p>
+            <p class="text-xs text-lime-700">หมายความว่า จำนวนครั้งที่ "สำเร็จ" และ "ล้มเหลว" ที่คาดหวังในตัวอย่างควรมีอย่างน้อย 10 ครั้ง</p>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: การสำรวจความพึงพอใจ (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: จากการสุ่มสำรวจลูกค้า 200 คน ($n=200$), พบว่ามี 160 คน ($x=160$) พึงพอใจในบริการ จงสร้างช่วงความเชื่อมั่น 95% สำหรับสัดส่วนลูกค้าที่พึงพอใจทั้งหมด</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: คำนวณ Point Estimate ($\hat{p}$) และตรวจสอบเงื่อนไข</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>คำนวณ $\hat{p}$:</b> $ \hat{p} = \frac{x}{n} = \frac{160}{200} = 0.8 $</li>
+                    <li><b>ตรวจสอบเงื่อนไข:</b>
+                        <ul class="list-inside ml-4">
+                            <li>$n\hat{p} = 200 \times 0.8 = 160$ (ซึ่ง $\ge 10$) ✅</li>
+                            <li>$n(1-\hat{p}) = 200 \times 0.2 = 40$ (ซึ่ง $\ge 10$) ✅</li>
+                        </ul>
+                        <span class="text-xs text-slate-600">(เงื่อนไขผ่าน สามารถใช้การประมาณด้วยโค้งปกติได้)</span>
+                    </li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: หาค่าวิกฤต ($Z_{\alpha/2}$)</b></p>
+                 <p class="text-sm my-2">สำหรับความเชื่อมั่น 95%, $\alpha = 0.05$, ดังนั้น $\alpha/2 = 0.025$. ค่า Z ที่มีพื้นที่ด้านขวาเป็น 0.025 คือ $Z_{0.025} = 1.96$</p>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: คำนวณ Margin of Error (E)</b></p>
+                <p class="mt-2 text-sm"><b>คำนวณ Standard Error (SE):</b> $SE = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} = \sqrt{\frac{0.8(0.2)}{200}} = \sqrt{\frac{0.16}{200}} \approx 0.0283$</p>
+                <p class="mt-1 text-sm"><b>คำนวณ Margin of Error:</b> $E = Z_{\alpha/2} \times SE = 1.96 \times 0.0283 \approx 0.0555$</p>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 4: สร้างช่วงความเชื่อมั่นและตีความ</b></p>
+                <p class="font-semibold text-rose-700 mt-2"> $ \hat{p} \pm E \Rightarrow 0.8 \pm 0.0555 $ </p>
+                <p class="font-semibold text-rose-700 mt-2">ช่วงความเชื่อมั่นคือ [0.7445, 0.8555]</p>
+                <p class="text-sm mt-1"><b>สรุป:</b> เราเชื่อมั่น 95% ว่าสัดส่วนที่แท้จริงของลูกค้าทั้งหมดที่พึงพอใจในบริการ อยู่ระหว่าง 74.45% ถึง 85.55%</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI for Proportion Calculator</h2>
+          <div class="space-y-2">
+              <div><label class="block text-xs font-medium">จำนวนที่สำเร็จ ($x$)</label><input type="number" id="ci-x" value="160" min="0" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ขนาดตัวอย่าง ($n$)</label><input type="number" id="ci-n" value="200" min="1" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ระดับความเชื่อมั่น</label><select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div id="ci-results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการคำนวณ</h3>
+              <div id="condition-check" class="p-2 rounded-md text-center text-xs font-semibold"></div>
+              <div class="mt-2 space-y-1 text-sm">
+                  <p>Sample Proportion ($\hat{p}$): <span id="p-hat" class="font-bold float-right"></span></p>
+                  <p>Critical Value ($Z_{\alpha/2}$): <span id="crit-val" class="font-bold float-right"></span></p>
+                  <p>Margin of Error (E): <span id="moe-val" class="font-bold float-right"></span></p>
+              </div>
+              <div class="mt-2 text-center bg-rose-100 p-2 rounded-md">
+                 <p class="text-sm text-rose-800">ช่วงความเชื่อมั่น 95%:</p>
+                 <p class="font-bold text-xl text-rose-900">[<span id="lower-bound"></span>, <span id="upper-bound"></span>]</p>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="17-ci-mean-onepop.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="19-ci-means-twopop.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ใช้เมื่อสนใจสัดส่วนความสำเร็จหรืออัตราในประชากร</p>
-      <ul>
-        <li>ประมาณค่า point estimate ด้วย p̂ = x/n</li>
-        <li>เงื่อนไข n p̂ และ n(1−p̂) ≥ 10 เพื่อใช้ประมาณปกติ</li>
-        <li>ตีความช่วงความเชื่อมั่นในงานสำรวจความคิดเห็นหรือคุณภาพ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรมาตรฐานสำหรับช่วงสัดส่วน</p>
-      <ul>
-        <li>CI: p̂ ± z_{α/2} √(p̂(1−p̂)/n)</li>
-        <li>Margin of Error (E) = z_{α/2} √(p̂(1−p̂)/n)</li>
-        <li>เลือกค่าประมาณ p สำหรับการวางแผน (เช่น 0.5)</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>สำรวจสัดส่วนลูกค้าที่พึงพอใจบริการเพื่อรายงานผู้บริหาร</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ย</a></li>
-        <li><a href="19-ci-means-twopop.html">CI สองค่าเฉลี่ย</a></li>
-        <li><a href="../tools/z.html">เครื่องมือ Z</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const xInput = document.getElementById('ci-x');
+      const nInput = document.getElementById('ci-n');
+      const levelSelect = document.getElementById('ci-level');
+      const allInputs = [xInput, nInput, levelSelect];
+
+      const conditionEl = document.getElementById('condition-check');
+      const pHatEl = document.getElementById('p-hat');
+      const critValEl = document.getElementById('crit-val');
+      const moeEl = document.getElementById('moe-val');
+      const lowerBoundEl = document.getElementById('lower-bound');
+      const upperBoundEl = document.getElementById('upper-bound');
+      
+      const Z_CRIT = { "0.90": 1.645, "0.95": 1.960, "0.99": 2.576 };
+
+      function calculateCI() {
+          const x = parseInt(xInput.value);
+          const n = parseInt(nInput.value);
+          const level = levelSelect.value;
+          
+          // Clear previous results
+          const clearResults = () => {
+            pHatEl.textContent = '–';
+            critValEl.textContent = '–';
+            moeEl.textContent = '–';
+            lowerBoundEl.textContent = '–';
+            upperBoundEl.textContent = '–';
+          };
+
+          if (isNaN(x) || isNaN(n) || n <= 0 || x < 0 || x > n) {
+              conditionEl.textContent = 'ข้อมูลไม่ถูกต้อง';
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-red-100 text-red-800';
+              clearResults();
+              return;
+          }
+
+          const pHat = x / n;
+          const n_pHat = n * pHat;
+          const n_one_minus_pHat = n * (1 - pHat);
+
+          if (n_pHat < 10 || n_one_minus_pHat < 10) {
+              conditionEl.textContent = `เงื่อนไขไม่ผ่าน (np̂=${n_pHat.toFixed(1)}, n(1-p̂)=${n_one_minus_pHat.toFixed(1)})`;
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-red-100 text-red-800';
+          } else {
+              conditionEl.textContent = 'เงื่อนไขผ่าน สามารถใช้ Normal Approx.';
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-green-100 text-green-800';
+          }
+
+          const criticalValue = Z_CRIT[level];
+          const standardError = Math.sqrt((pHat * (1 - pHat)) / n);
+          const marginOfError = criticalValue * standardError;
+          
+          const lowerBound = pHat - marginOfError;
+          const upperBound = pHat + marginOfError;
+
+          pHatEl.textContent = pHat.toFixed(4);
+          critValEl.textContent = criticalValue.toFixed(3);
+          moeEl.textContent = marginOfError.toFixed(4);
+          lowerBoundEl.textContent = lowerBound.toFixed(4);
+          upperBoundEl.textContent = upperBound.toFixed(4);
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateCI));
+      calculateCI();
+    });
+  </script>
+
 </body>
 </html>

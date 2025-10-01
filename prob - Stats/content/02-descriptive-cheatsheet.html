@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 2: หลักการนับเบื้องต้น</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    /* Style for KaTeX rendered formulas */
+    .katex-display {
+      margin: 1rem 0;
+    }
+    /* Style for the bar chart bars */
+    .bar {
+      transition: height 0.5s ease-in-out, background-color 0.3s ease;
+    }
+    details > summary {
+      cursor: pointer;
+    }
+    details[open] > summary ~ * {
+        animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-blue-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-blue-600">บทที่ 02</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">👨‍🏫 หลักการนับเบื้องต้น (Counting Principles)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg">
+        สวัสดีครับนักศึกษา! ในบทเรียนที่แล้วเราได้เห็นภาพรวมของสถิติไปแล้ว ในบทนี้เราจะมาเรียนรู้เครื่องมือพื้นฐานแต่ทรงพลังที่สุดอย่างหนึ่ง ซึ่งก็คือ "ศิลปะแห่งการนับ" ครับ หลายครั้งก่อนที่เราจะคำนวณความน่าจะเป็นได้ เราต้องตอบคำถามพื้นฐานให้ได้ก่อนว่า "จำนวนวิธีทั้งหมดที่เป็นไปได้มีกี่วิธี?"
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Why learn to count? -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. ทำไมต้องเรียน "นับเลข"?</h2>
+          <p class="mb-4">แน่นอนว่าทุกคนนับเลขเป็น แต่ในทางสถิติ "การนับ" หมายถึงการหาจำนวนวิธีที่เป็นไปได้ทั้งหมดของเหตุการณ์ที่ซับซ้อน เช่น:</p>
+          <ul class="list-disc list-inside space-y-2 text-slate-700 bg-slate-50 p-4 rounded-md">
+            <li>ถ้ามีเสื้อ 3 ตัว กางเกง 2 ตัว จะแต่งตัวได้ทั้งหมดกี่แบบ?</li>
+            <li>ถ้ามีคน 10 คน จะเลือกกรรมการ 3 คนได้กี่วิธี?</li>
+            <li>ถ้าจะสร้างรหัส ATM 4 หลัก จะสร้างได้ทั้งหมดกี่รหัส?</li>
+          </ul>
+          <p class="mt-4">การนับด้วยวิธีปกติอาจจะช้าและผิดพลาดได้ง่าย "หลักการนับ" จึงเป็นเครื่องมือที่ช่วยให้เราหาคำตอบเหล่านี้ได้อย่างเป็นระบบและรวดเร็วครับ โดยมีกฎพื้นฐานที่สำคัญ 2 ข้อคือ กฎการบวกและกฎการคูณ</p>
+        </section>
+
+        <!-- Section 2 & 3: Rules and Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. กฎพื้นฐานและเครื่องมือขั้นสูง</h2>
+          <div class="grid md:grid-cols-2 gap-6 mt-4">
+            <!-- Addition Rule -->
+            <div class="bg-amber-50 border border-amber-200 p-4 rounded-lg">
+              <h3 class="text-xl font-semibold text-amber-800">กฎการบวก (Addition Rule)</h3>
+              <p class="mt-2"><b>ความหมาย:</b> ใช้เมื่องานมี "ทางเลือก" ให้ทำได้หลายวิธี โดยแต่ละวิธีทำงานเสร็จสิ้นในตัวเอง และไม่สามารถทำพร้อมกันได้</p>
+              <p class="mt-2 font-semibold text-amber-700">คีย์เวิร์ด: "หรือ", "อย่างใดอย่างหนึ่ง"</p>
+            </div>
+            <!-- Multiplication Rule -->
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
+              <h3 class="text-xl font-semibold text-green-800">กฎการคูณ (Multiplication Rule)</h3>
+              <p class="mt-2"><b>ความหมาย:</b> ใช้เมื่องานประกอบด้วย "ขั้นตอน" ย่อยๆ ที่ต้องทำต่อเนื่องกันไปจนกว่าจะเสร็จ</p>
+              <p class="mt-2 font-semibold text-green-700">คีย์เวิร์ด: "และ", "ต่อเนื่องกัน"</p>
+            </div>
+          </div>
+          <hr class="my-6">
+           <!-- Factorials -->
+          <div>
+            <h3 class="text-xl font-semibold text-slate-800">พื้นฐานสำคัญ: แฟกทอเรียล (Factorial)</h3>
+            <p class="mt-2">สัญลักษณ์ `n!` (อ่านว่า n แฟกทอเรียล) คือผลคูณของจำนวนเต็มบวกตั้งแต่ 1 ถึง n เป็นเครื่องมือพื้นฐานที่ใช้ในสูตรการนับขั้นสูง</p>
+            <div class="text-center my-2 font-semibold text-lg">$$ n! = n \times (n-1) \times (n-2) \times \cdots \times 1 $$</div>
+            <p class="text-sm"><b>ข้อกำหนด:</b> $0! = 1$</p>
+            <table class="w-full md:w-1/2 mx-auto mt-3 text-sm text-center border">
+                <thead class="bg-slate-100">
+                    <tr><th class="p-2 border">n</th><th class="p-2 border">n!</th><th class="p-2 border">ค่า</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="p-2 border">2</td><td class="p-2 border">2 × 1</td><td class="p-2 border font-bold">2</td></tr>
+                    <tr><td class="p-2 border">3</td><td class="p-2 border">3 × 2 × 1</td><td class="p-2 border font-bold">6</td></tr>
+                    <tr><td class="p-2 border">4</td><td class="p-2 border">4 × 3 × 2 × 1</td><td class="p-2 border font-bold">24</td></tr>
+                    <tr><td class="p-2 border">5</td><td class="p-2 border">5 × 4 × 3 × 2 × 1</td><td class="p-2 border font-bold">120</td></tr>
+                </tbody>
+            </table>
+          </div>
+          <hr class="my-6">
+          <div class="grid md:grid-cols-2 gap-6 mt-4">
+            <!-- Permutation -->
+            <div>
+              <h3 class="text-xl font-semibold text-slate-800">การเรียงสับเปลี่ยน (Permutation)</h3>
+              <p class="mt-2"><b>ความหมาย:</b> คือการนำของ n ชิ้นที่แตกต่างกัน มาจัด "เรียงลำดับ" r ชิ้น</p>
+              <p class="mt-2 font-bold text-red-600">หัวใจสำคัญ: "ลำดับมีความสำคัญ" (Order Matters!)</p>
+              <div class="text-center my-2">$$ P_{n,r} = \frac{n!}{(n-r)!} $$</div>
+            </div>
+            <!-- Combination -->
+            <div>
+              <h3 class="text-xl font-semibold text-slate-800">การจัดหมู่ (Combination)</h3>
+              <p class="mt-2"><b>ความหมาย:</b> คือการนำของ n ชิ้นที่แตกต่างกัน มา "เลือกเป็นกลุ่ม" r ชิ้น</p>
+              <p class="mt-2 font-bold text-blue-600">หัวใจสำคัญ: "ลำดับไม่มีความสำคัญ" (Order Doesn't Matter!)</p>
+              <div class="text-center my-2">$$ C_{n,r} = \frac{n!}{r!(n-r)!} $$</div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Section 4: Permutation vs Combination -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. การเข้าใจในเนื้อหา: Permutation vs Combination</h2>
+            <p class="mb-4">วิธีแยกแยะที่ง่ายที่สุดระหว่างสองเรื่องนี้คือการถามตัวเองว่า "ลำดับสำคัญหรือไม่?"</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-semibold text-red-700">Permutation (ลำดับสำคัญ)</h3>
+                    <ul class="list-disc list-inside mt-2 space-y-1">
+                        <li><b>คีย์เวิร์ด:</b> จัดลำดับ, เรียง, เข้าแถว, ตำแหน่ง (ประธาน, รองฯ)</li>
+                        <li><b>ตัวอย่าง:</b> "แข่งขันวิ่ง" ที่มีผู้ชนะที่ 1, 2, 3 (A ได้ที่ 1, B ได้ที่ 2 ≠ B ได้ที่ 1, A ได้ที่ 2)</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-semibold text-blue-700">Combination (ลำดับไม่สำคัญ)</h3>
+                    <ul class="list-disc list-inside mt-2 space-y-1">
+                         <li><b>คีย์เวิร์ด:</b> เลือก, กลุ่ม, ทีม, คณะกรรมการ, หยิบ</li>
+                        <li><b>ตัวอย่าง:</b> "เลือกคณะกรรมการ" 3 คน (ขอแค่มี A, B, C อยู่ในกลุ่มก็พอ ไม่ว่าใครจะถูกเลือกก่อน)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-slate-800 mb-3">ตัวอย่างเปรียบเทียบ: เลือก 2 คน จาก 3 คน (A, B, C)</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="font-semibold text-red-700">Permutation (จัดตำแหน่งประธาน, รองฯ)</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">A,B</span>
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">B,A</span>
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">A,C</span>
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">C,A</span>
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">B,C</span>
+                            <span class="bg-red-100 text-red-800 font-mono px-3 py-1 rounded-full">C,B</span>
+                        </div>
+                        <p class="mt-2 text-sm">มีทั้งหมด <b>6 วิธี</b> เพราะการสลับที่ถือเป็นคนละตำแหน่ง</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-blue-700">Combination (เลือกกรรมการ 2 คน)</p>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                             <span class="bg-blue-100 text-blue-800 font-mono px-3 py-1 rounded-full">{A, B}</span>
+                             <span class="bg-blue-100 text-blue-800 font-mono px-3 py-1 rounded-full">{A, C}</span>
+                             <span class="bg-blue-100 text-blue-800 font-mono px-3 py-1 rounded-full">{B, C}</span>
+                        </div>
+                        <p class="mt-2 text-sm">มีทั้งหมด <b>3 วิธี</b> เพราะ {A, B} กับ {B, A} ถือเป็นกลุ่มเดียวกัน</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Examples -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">4. ตัวอย่างการประยุกต์ใช้</h2>
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-lg font-semibold text-green-700">ตัวอย่างกฎการคูณ:</h3>
+              <p><b>โจทย์:</b> มีเสื้อ 3 แบบ และกางเกง 4 แบบ จะแต่งตัวได้กี่วิธี?</p>
+              <p class="font-bold">วิธีทำ: จำนวนวิธี = (วิธีเลือกเสื้อ) × (วิธีเลือกกางเกง) = 3 × 4 = 12 วิธี</p>
+              <div class="mt-4 p-4 bg-slate-50 rounded-lg">
+                <h4 class="font-semibold text-center mb-3">แผนภาพต้นไม้ (Tree Diagram)</h4>
+                <div class="text-center text-sm text-slate-600">แต่ละเส้นที่ลากจากเสื้อไปยังกางเกง คือ 1 วิธีในการแต่งตัว</div>
+                <!-- Tree Diagram will be a simplified visual -->
+                 <div class="flex justify-around mt-4">
+                    <div class="text-center">
+                        <div class="font-bold mb-2">เสื้อ</div>
+                        <div class="w-12 h-10 bg-sky-500 rounded-md flex items-center justify-center text-white font-bold mb-2">S1</div>
+                        <div class="w-12 h-10 bg-emerald-500 rounded-md flex items-center justify-center text-white font-bold mb-2">S2</div>
+                        <div class="w-12 h-10 bg-rose-500 rounded-md flex items-center justify-center text-white font-bold">S3</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-bold mb-2">กางเกง</div>
+                        <div class="w-12 h-10 bg-slate-800 rounded-md flex items-center justify-center text-white font-bold mb-2">P1</div>
+                        <div class="w-12 h-10 bg-slate-600 rounded-md flex items-center justify-center text-white font-bold mb-2">P2</div>
+                        <div class="w-12 h-10 bg-slate-400 rounded-md flex items-center justify-center text-white font-bold mb-2">P3</div>
+                        <div class="w-12 h-10 bg-slate-300 rounded-md flex items-center justify-center text-slate-800 font-bold">P4</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div>
+              <h3 class="text-lg font-semibold text-red-700">ตัวอย่าง Permutation (ของซ้ำ):</h3>
+              <p><b>โจทย์:</b> สามารถจัดเรียงตัวอักษรจากคำว่า `SUCCESS` ได้ทั้งหมดกี่วิธี?</p>
+              <p><b>วิเคราะห์:</b> เป็นการเรียงสับเปลี่ยน แต่มีของซ้ำกัน คือ S (3 ตัว) และ C (2 ตัว) จากทั้งหมด 7 ตัวอักษร</p>
+              <p><b>สูตร:</b> $ \frac{n!}{n_1! n_2! \cdots n_k!} $ โดยที่ $n_1, n_2, \dots$ คือจำนวนของที่ซ้ำกันแต่ละกลุ่ม</p>
+              <p><b>วิธีทำ:</b> $$ \frac{7!}{3!2!} = \frac{5040}{(6)(2)} = \frac{5040}{12} = 420 \text{ วิธี} $$</p>
+            </div>
+            <hr>
+            <div>
+              <h3 class="text-lg font-semibold text-blue-700">ตัวอย่าง Combination:</h3>
+              <p><b>โจทย์:</b> มีนักเรียน 10 คน ต้องการเลือกตัวแทน 3 คนไปแข่งขัน จะเลือกได้กี่วิธี?</p>
+              <p><b>วิเคราะห์:</b> เป็นการ "เลือกกลุ่ม" 3 คนจาก 10 คน ลำดับการถูกเลือกไม่สำคัญ</p>
+              <p><b>วิธีทำ:</b> $$ C_{10,3} = \frac{10!}{3!(10-3)!} = \frac{10 \times 9 \times 8}{3 \times 2 \times 1} = 120 \text{ วิธี} $$</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 6: Practice Problems -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">5. แบบฝึกหัดทบทวน</h2>
+          <div class="space-y-4">
+            <details class="bg-slate-50 p-4 rounded-lg">
+                <summary class="font-semibold text-slate-800">1. มีหนังสือคณิตศาสตร์ต่างกัน 3 เล่ม และหนังสือเคมีต่างกัน 4 เล่ม ต้องการจัดเรียงบนชั้นหนังสือโดยให้หนังสือวิชาเดียวกันอยู่ติดกัน จะจัดได้กี่วิธี?</summary>
+                <div class="mt-3 pt-3 border-t">
+                    <p><b>วิเคราะห์:</b></p>
+                    <ul class="list-decimal list-inside text-sm ml-4">
+                        <li><b>ขั้นตอนที่ 1 (จัดกลุ่มใหญ่):</b> มองหนังสือแต่ละวิชาเป็น "มัด" ใหญ่ๆ 1 มัด จะมี 2 มัด (คณิต, เคมี) สลับกันได้ $2!$ วิธี</li>
+                        <li><b>ขั้นตอนที่ 2 (สลับในกลุ่ม):</b> ในมัดคณิต สลับกันเองได้ $3!$ วิธี</li>
+                        <li><b>ขั้นตอนที่ 3 (สลับในกลุ่ม):</b> ในมัดเคมี สลับกันเองได้ $4!$ วิธี</li>
+                    </ul>
+                    <p class="mt-2"><b>วิธีทำ:</b> ใช้กฎการคูณ เพราะเป็นงานต่อเนื่องกัน</p>
+                    <p class="font-bold text-blue-600">$$ (2!) \times (3!) \times (4!) = (2) \times (6) \times (24) = 288 \text{ วิธี} $$</p>
+                </div>
+            </details>
+            <details class="bg-slate-50 p-4 rounded-lg">
+                <summary class="font-semibold text-slate-800">2. ในการแข่งขันบาสเกตบอล มีทีมเข้าร่วม 8 ทีม โดยทุกทีมต้องพบกันหมด (แข่งแบบ Round Robin) จะมีการแข่งขันทั้งหมดกี่คู่?</summary>
+                <div class="mt-3 pt-3 border-t">
+                    <p><b>วิเคราะห์:</b> การแข่งขัน 1 คู่ เกิดจากการ "เลือก" ทีมมา 2 ทีมจาก 8 ทีม ลำดับไม่มีความสำคัญ (ทีม A เจอ ทีม B เหมือนกับ ทีม B เจอ ทีม A) ดังนั้นจึงใช้ Combination</p>
+                    <p><b>วิธีทำ:</b> เลือก 2 ทีมจาก 8 ทีม ($n=8, r=2$)</p>
+                    <p class="font-bold text-blue-600">$$ C_{8,2} = \frac{8!}{2!(8-2)!} = \frac{8 \times 7}{2 \times 1} = 28 \text{ คู่} $$</p>
+                </div>
+            </details>
+            <details class="bg-slate-50 p-4 rounded-lg">
+                <summary class="font-semibold text-slate-800">3. ต้องการสร้างรหัสผ่าน 4 ตัวอักษรจาก A, B, C, D, E โดยห้ามใช้ตัวอักษรซ้ำ จะสร้างได้กี่รหัส?</summary>
+                <div class="mt-3 pt-3 border-t">
+                    <p><b>วิเคราะห์:</b> เป็นการเลือกตัวอักษร 4 ตัวจาก 5 ตัว มา "เรียง" เป็นรหัสผ่าน ซึ่งลำดับมีความสำคัญ (รหัส 'ABCD' ไม่เหมือนกับ 'DBCA') ดังนั้นจึงใช้ Permutation</p>
+                    <p><b>วิธีทำ:</b> เลือกและเรียง 4 ตัวจาก 5 ตัว ($n=5, r=4$)</p>
+                    <p class="font-bold text-blue-600">$$ P_{5,4} = \frac{5!}{(5-4)!} = \frac{5!}{1!} = 5 \times 4 \times 3 \times 2 = 120 \text{ รหัส} $$</p>
+                </div>
+            </details>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Interactive Playground</h2>
+          <p class="text-sm mb-6 text-slate-600">ทดลองปรับค่าต่างๆ เพื่อดูผลลัพธ์ของกฎการนับแต่ละแบบ</p>
+          
+          <div class="space-y-6">
+            <!-- Addition Rule Inputs -->
+            <fieldset class="border border-amber-300 p-3 rounded-lg">
+              <legend class="text-sm font-medium text-amber-800 px-1">กฎการบวก (ทางเลือก)</legend>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="option-a" class="block text-xs font-medium text-slate-700">วิธี A</label>
+                  <input type="number" id="option-a" value="5" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+                <div>
+                  <label for="option-b" class="block text-xs font-medium text-slate-700">วิธี B</label>
+                  <input type="number" id="option-b" value="4" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Multiplication Rule Inputs -->
+            <fieldset class="border border-green-300 p-3 rounded-lg">
+              <legend class="text-sm font-medium text-green-800 px-1">กฎการคูณ (ขั้นตอน)</legend>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="step-1" class="block text-xs font-medium text-slate-700">ขั้นตอนที่ 1</label>
+                  <input type="number" id="step-1" value="3" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+                <div>
+                  <label for="step-2" class="block text-xs font-medium text-slate-700">ขั้นตอนที่ 2</label>
+                  <input type="number" id="step-2" value="4" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- P&C Inputs -->
+            <fieldset class="border border-slate-300 p-3 rounded-lg">
+              <legend class="text-sm font-medium text-slate-800 px-1">Permutation & Combination</legend>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label for="perm-n" class="block text-xs font-medium text-slate-700">n (ของทั้งหมด)</label>
+                  <input type="number" id="perm-n" value="10" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+                <div>
+                  <label for="perm-r" class="block text-xs font-medium text-slate-700">r (ที่เลือก)</label>
+                  <input type="number" id="perm-r" value="3" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2">
+                </div>
+              </div>
+            </fieldset>
+            
+            <button id="calc-btn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow">
+              คำนวณผลลัพธ์
+            </button>
+          </div>
+
+          <hr class="my-6">
+          
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900">ผลลัพธ์</h3>
+            <div class="mt-4 space-y-2 text-sm">
+              <div class="flex justify-between items-center bg-amber-50 p-2 rounded-md">
+                <span class="font-medium text-amber-800">กฎการบวก</span>
+                <span id="add-result" class="text-lg font-bold text-amber-900">9</span>
+              </div>
+              <div class="flex justify-between items-center bg-green-50 p-2 rounded-md">
+                <span class="font-medium text-green-800">กฎการคูณ</span>
+                <span id="mult-result" class="text-lg font-bold text-green-900">12</span>
+              </div>
+              <div class="flex justify-between items-center bg-red-50 p-2 rounded-md">
+                <span class="font-medium text-red-800">Permutation P(n,r)</span>
+                <span id="perm-result" class="text-lg font-bold text-red-900">720</span>
+              </div>
+              <div class="flex justify-between items-center bg-blue-50 p-2 rounded-md">
+                <span class="font-medium text-blue-800">Combination C(n,r)</span>
+                <span id="comb-result" class="text-lg font-bold text-blue-900">120</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">กราฟเปรียบเทียบ</h3>
+            <div id="bar-chart-container" class="w-full h-48 bg-slate-100 rounded-lg p-2 flex items-end justify-around gap-2">
+              <div class="flex flex-col items-center w-1/4 text-center">
+                <div class="bar w-full bg-amber-400 hover:bg-amber-500 rounded-t-md" id="bar-add" style="height: 1.25%;"></div>
+                <span class="text-xs font-medium mt-1">บวก</span>
+              </div>
+               <div class="flex flex-col items-center w-1/4 text-center">
+                <div class="bar w-full bg-green-400 hover:bg-green-500 rounded-t-md" id="bar-mult" style="height: 1.67%;"></div>
+                <span class="text-xs font-medium mt-1">คูณ</span>
+              </div>
+              <div class="flex flex-col items-center w-1/4 text-center">
+                <div class="bar w-full bg-red-400 hover:bg-red-500 rounded-t-md" id="bar-perm" style="height: 100%;"></div>
+                <span class="text-xs font-medium mt-1">Permutation</span>
+              </div>
+              <div class="flex flex-col items-center w-1/4 text-center">
+                <div class="bar w-full bg-blue-400 hover:bg-blue-500 rounded-t-md" id="bar-comb" style="height: 16.67%;"></div>
+                <span class="text-xs font-medium mt-1">Combination</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: ความน่าจะเป็นเบื้องต้น</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // --- KaTeX Auto-rendering ---
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
+
+    // --- Interactive Calculator Logic ---
+    const optionAInput = document.getElementById('option-a');
+    const optionBInput = document.getElementById('option-b');
+    const step1Input = document.getElementById('step-1');
+    const step2Input = document.getElementById('step-2');
+    const nInput = document.getElementById('perm-n');
+    const rInput = document.getElementById('perm-r');
+    const calcBtn = document.getElementById('calc-btn');
+
+    const addResultEl = document.getElementById('add-result');
+    const multResultEl = document.getElementById('mult-result');
+    const permResultEl = document.getElementById('perm-result');
+    const combResultEl = document.getElementById('comb-result');
+    
+    const barAdd = document.getElementById('bar-add');
+    const barMult = document.getElementById('bar-mult');
+    const barPerm = document.getElementById('bar-perm');
+    const barComb = document.getElementById('bar-comb');
+
+    // Factorial function with memoization for performance
+    const factorial = (() => {
+        const cache = {};
+        return n => {
+            if (n < 0) return NaN;
+            if (n === 0) return 1;
+            if (cache[n]) return cache[n];
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            cache[n] = result;
+            return result;
+        };
+    })();
+
+    const performCalculations = () => {
+        const optionA = parseInt(optionAInput.value, 10);
+        const optionB = parseInt(optionBInput.value, 10);
+        const step1 = parseInt(step1Input.value, 10);
+        const step2 = parseInt(step2Input.value, 10);
+        const n = parseInt(nInput.value, 10);
+        const r = parseInt(rInput.value, 10);
+        
+        // --- Calculations ---
+        const addition = (isNaN(optionA) || isNaN(optionB)) ? NaN : optionA + optionB;
+        const multiplication = (isNaN(step1) || isNaN(step2)) ? NaN : step1 * step2;
+        
+        let permutation = NaN;
+        let combination = NaN;
+
+        // Validation for P & C
+        if (!isNaN(n) && !isNaN(r) && n >= 0 && r >= 0 && r <= n) {
+            permutation = 1;
+            for (let i = 0; i < r; i++) {
+                permutation *= (n - i);
+            }
+            combination = permutation / factorial(r);
+        }
+
+        // --- Display results ---
+        addResultEl.textContent = isFinite(addition) ? addition.toLocaleString('th-TH') : '—';
+        multResultEl.textContent = isFinite(multiplication) ? multiplication.toLocaleString('th-TH') : '—';
+        permResultEl.textContent = isFinite(permutation) ? permutation.toLocaleString('th-TH') : '—';
+        combResultEl.textContent = isFinite(combination) ? combination.toLocaleString('th-TH') : '—';
+
+        // --- Update bar chart ---
+        updateBars([addition, multiplication, permutation, combination]);
+    };
+
+    const updateBars = (values) => {
+        const [add, mult, perm, comb] = values.map(v => (isFinite(v) && v >= 0) ? v : 0);
+        const bars = [barAdd, barMult, barPerm, barComb];
+        const maxVal = Math.max(add, mult, perm, comb, 1); // Avoid division by zero
+        
+        values.forEach((val, index) => {
+            const height = ( (isFinite(val) && val >= 0 ? val : 0) / maxVal) * 100;
+            bars[index].style.height = `${Math.max(height, 1)}%`; // Minimum height of 1%
+        });
+    };
+
+    // Event Listeners
+    calcBtn.addEventListener('click', performCalculations);
+
+    // Initial calculation on page load
+    document.addEventListener('DOMContentLoaded', performCalculations);
+  </script>
+
+</body>
+</html>
+

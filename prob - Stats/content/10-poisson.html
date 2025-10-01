@@ -1,224 +1,318 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>10. การแจกแจงปัวซง</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 10: การแจกแจงปัวซง</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .math { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
-    .poisson-lab { display: grid; gap: var(--space-3); }
-    .controls { display: grid; gap: var(--space-2); max-width: 420px; }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 180px; padding-block: var(--space-3); overflow-x: auto; }
-    .bar { background: linear-gradient(180deg, var(--brand-100), var(--brand-600)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; }
-    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; color: white; font-weight: 700; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; font-size: .875rem; }
-    @media (max-width: 720px) { section { padding: var(--space-3); } }
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
   </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 10</p>
-      <h1>👨‍🏫 บทเรียนที่ 10: การแจกแจงปัวซง (Poisson Distribution)</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! เรามาถึงการแจกแจงแบบไม่ต่อเนื่องตัวสุดท้ายในบทนี้กันแล้ว นั่นคือ "การแจกแจงปัวซง" ซึ่งมีลักษณะพิเศษและมีประโยชน์อย่างมากในการอธิบายเหตุการณ์ที่เกิดขึ้น "แบบสุ่ม" ภายใน "ขอบเขต" ที่กำหนด</p>
-    </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="09-hypergeometric.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="11-continuous-normal.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: การนับเหตุการณ์ในขอบเขต</h2>
-      <p>แนวคิดหลัก: การแจกแจงปัวซงใช้อธิบายความน่าจะเป็นของ "จำนวนครั้งที่เหตุการณ์หนึ่งๆ เกิดขึ้น" ภายใน "ช่วงเวลา, พื้นที่, หรือขอบเขต" ที่กำหนดไว้ โดยที่เรารู้ "อัตราการเกิดโดยเฉลี่ย" ของเหตุการณ์นั้น</p>
-      <p><strong>สถานการณ์ที่พบ:</strong></p>
-      <ul>
-        <li>(เวลา) จำนวนลูกค้าที่เดินเข้าร้านใน 1 ชั่วโมง</li>
-        <li>(เวลา) จำนวนอีเมลที่ได้รับใน 1 วัน</li>
-        <li>(พื้นที่) จำนวนจุดบกพร่องบนผ้า 1 ตารางเมตร</li>
-        <li>(พื้นที่) จำนวนต้นไม้ในพื้นที่ป่า 1 เฮกตาร์</li>
-        <li>(ปริมาตร) จำนวนแบคทีเรียในน้ำ 1 มิลลิลิตร</li>
-      </ul>
-      <p><strong>เงื่อนไขสำคัญ:</strong></p>
-      <ul>
-        <li>จำนวนเหตุการณ์ที่เกิดขึ้นในแต่ละช่วง เป็นอิสระต่อกัน</li>
-        <li>ความน่าจะเป็นที่เหตุการณ์จะเกิดในขอบเขตสั้นๆ เป็นสัดส่วนกับความยาวของขอบเขตนั้น</li>
-        <li>อัตราการเกิดเหตุการณ์ (λ) คงที่ ตลอดช่วงขอบเขตที่พิจารณา</li>
-      </ul>
-    </section>
+<body class="bg-slate-50 text-slate-800">
 
-    <section>
-      <h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
-      <article class="grid-2">
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-purple-500">
+      <div class="flex justify-between items-start">
         <div>
-          <h3>ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
-          <div class="math">f(x) = P(X=x) = \frac{e^{-\lambda} \lambda^x}{x!}</div>
-          <p>การทำงาน:</p>
-          <ul>
-            <li>X: คือตัวแปรสุ่ม "จำนวนครั้งที่เหตุการณ์เกิดขึ้น"</li>
-            <li>x: คือจำนวนครั้งที่เราสนใจ (เช่น 0, 1, 2, 3, ...)</li>
-            <li>λ (แลมบ์ดา): คือ "ค่าเฉลี่ย" หรือ "อัตราการเกิด" ของเหตุการณ์ในขอบเขตนั้นๆ (เป็นพารามิเตอร์ตัวเดียวที่สำคัญที่สุด)</li>
-            <li>e: คือค่าคงที่ทางคณิตศาสตร์ มีค่าประมาณ 2.71828...</li>
-          </ul>
+          <p class="text-sm font-semibold text-purple-600">บทที่ 10</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">📞 การแจกแจงปัวซง (Poisson Distribution)</h1>
         </div>
-        <div>
-          <h3>ค่าคาดหวังและความแปรปรวน (ง่ายที่สุด!)</h3>
-          <div class="math">E(X) = \mu = \lambda</div>
-          <div class="math">V(X) = \sigma^2 = \lambda</div>
-          <p><strong>คุณสมบัติพิเศษ:</strong> สำหรับการแจกแจงปัวซง "ค่าเฉลี่ย" และ "ความแปรปรวน" จะมีค่าเท่ากันเสมอ!</p>
-        </div>
-      </article>
-    </section>
-
-    <section>
-      <h2>4. การเข้าใจในเนื้อหา</h2>
-      <p>หัวใจของการแจกแจงปัวซงคือพารามิเตอร์ "แลมบ์ดา (λ)" ซึ่งหมายถึง "ค่าเฉลี่ย" ถ้าเราหาแลมบ์ดาที่ถูกต้องสำหรับขอบเขตที่เราสนใจได้ การคำนวณที่เหลือก็จะตรงไปตรงมา</p>
-      <p><strong>ข้อควรระวัง:</strong> ต้องปรับค่า λ ให้สอดคล้องกับ "ขอบเขต" ของคำถามเสมอ เช่น ถ้าโจทย์ให้ "เฉลี่ย 10 สายต่อชั่วโมง" แต่ถามถึง "ใน 30 นาที" -> เราต้องปรับ λ = 5 สายต่อ 30 นาที</p>
-      <p>(จำนวนรถยนต์ที่วิ่งผ่านจุดๆ หนึ่งใน 1 นาที สามารถอธิบายได้ด้วยการแจกแจงปัวซง)</p>
-    </section>
-
-    <section>
-      <h2>5. ยกตัวอย่าง: ศูนย์บริการลูกค้า</h2>
-      <p><strong>โจทย์:</strong> ศูนย์บริการลูกค้าแห่งหนึ่งได้รับโทรศัพท์โดยเฉลี่ย 4 สายต่อชั่วโมง (λ=4) จงหาความน่าจะเป็นที่ในชั่วโมงถัดไป จะมีโทรศัพท์เข้ามา "เพียง 2 สาย"</p>
-      <p><strong>วิเคราะห์:</strong></p>
-      <ul>
-        <li>นี่คือการแจกแจงปัวซง เพราะเป็นการนับจำนวนเหตุการณ์ (โทรศัพท์เข้า) ในขอบเขตเวลา (1 ชั่วโมง)</li>
-        <li>อัตราเฉลี่ย λ=4 (สายต่อชั่วโมง)</li>
-        <li>เราสนใจหาความน่าจะเป็นที่ x = 2</li>
-      </ul>
-      <p><strong>วิธีทำ:</strong></p>
-      <div class="math">P(X=2) = \frac{e^{-4} (4)^2}{2!} = \frac{0.0183 \times 16}{2} = 0.1464</div>
-      <p><strong>สรุป:</strong> มีโอกาสประมาณ 14.64% ที่ในชั่วโมงถัดไปจะมีโทรศัพท์เข้ามา 2 สายพอดี</p>
-      <p><strong>คำถามเสริม:</strong> แล้วความน่าจะเป็นที่จะมีโทรศัพท์เข้ามา "น้อยกว่า 2 สาย" เป็นเท่าไหร่?</p>
-      <p><strong>วิธีทำ:</strong> "น้อยกว่า 2 สาย" หมายถึง 0 สาย หรือ 1 สาย -> P(X < 2) = P(X=0) + P(X=1)</p>
-      <div class="math">P(X=0) = e^{-4} = 0.0183</div>
-      <div class="math">P(X=1) = 4e^{-4} = 0.0732</div>
-      <div class="math">P(X < 2) = 0.0183 + 0.0732 = 0.0915</div>
-    </section>
-
-    <section>
-      <h2>Interactive: Poisson Event Studio</h2>
-      <p>ทดลองเปลี่ยนค่า λ และช่วงเหตุการณ์สูงสุดที่ต้องการวิเคราะห์ เพื่อดูรูปทรงของการแจกแจงปัวซง ความเป็นไปได้ของแต่ละค่า x และค่าความน่าจะเป็นสะสม</p>
-      <div class="poisson-lab">
-        <div class="controls">
-          <label for="pois-lambda">อัตราการเกิดเฉลี่ย (λ)</label>
-          <input type="range" id="pois-lambda" min="0.5" max="12" step="0.1" value="4">
-          <output for="pois-lambda" id="pois-lambda-display">4.0</output>
-          <label for="pois-max">จำนวน x สูงสุดที่ต้องการแสดง</label>
-          <input type="number" id="pois-max" min="5" max="30" value="12">
-        </div>
-        <div class="grid-2">
-          <div>
-            <h3>ค่าที่คำนวณได้</h3>
-            <p>E(X) = λ = <span id="pois-mean">4.0000</span></p>
-            <p>Var(X) = λ = <span id="pois-var">4.0000</span></p>
-            <p>SD(X) = √λ = <span id="pois-sd">2.0000</span></p>
-          </div>
-          <div>
-            <h3>คำนวณค่าเฉพาะ</h3>
-            <label for="pois-x">ใส่ค่า x</label>
-            <input type="number" id="pois-x" min="0" value="2">
-            <button class="ghost" id="pois-calc">คำนวณ</button>
-            <p>P(X = <span id="pois-x-display">2</span>) = <span id="pois-prob">0.1464</span></p>
-            <p>P(X ≤ <span id="pois-xc-display">2</span>) = <span id="pois-cdf">0.2381</span></p>
-          </div>
-        </div>
-        <div class="bar-chart" id="pois-chart" role="img" aria-label="แผนภูมิแท่งแสดงการแจกแจงปัวซง"></div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
       </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+      <p class="mt-4 text-lg bg-purple-50 border border-purple-200 text-purple-800 p-4 rounded-lg">
+        สวัสดีครับ! เรามาถึงการแจกแจงแบบไม่ต่อเนื่องตัวสุดท้ายในบทนี้กันแล้ว นั่นคือ "การแจกแจงปัวซง" ซึ่งมีประโยชน์อย่างมากในการอธิบายเหตุการณ์ที่เกิดขึ้น "แบบสุ่ม" ภายใน "ขอบเขต" ที่กำหนดครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การนับเหตุการณ์ในขอบเขต</h2>
+          <p>การแจกแจงปัวซง ใช้อธิบายความน่าจะเป็นของ <b class="text-slate-900">"จำนวนครั้งที่เหตุการณ์หนึ่งๆ เกิดขึ้น"</b> ภายใน <b class="text-purple-600">"ช่วงเวลา, พื้นที่, หรือขอบเขต"</b> ที่กำหนดไว้ โดยที่เรารู้ "อัตราการเกิดโดยเฉลี่ย" ของเหตุการณ์นั้น</p>
+           <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">สถานการณ์ที่พบได้บ่อย:</h3>
+              <ul class="list-disc list-inside mt-2 ml-4 text-sm space-y-1">
+                  <li><b>เวลา:</b> จำนวนลูกค้าที่เข้าร้านใน 1 ชั่วโมง, จำนวนอีเมลที่ได้รับใน 1 วัน</li>
+                  <li><b>พื้นที่:</b> จำนวนจุดบกพร่องบนผ้า 1 ตารางเมตร, จำนวนต้นไม้ในพื้นที่ป่า 1 เฮกตาร์</li>
+                  <li><b>ปริมาตร:</b> จำนวนแบคทีเรียในน้ำ 1 มิลลิลิตร</li>
+              </ul>
+          </div>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรและคุณสมบัติ</h2>
+           <div class="space-y-4">
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
+              <p class="text-center my-2 text-base md:text-lg"> $ P(X=x) = \frac{e^{-\lambda} \lambda^x}{x!} $ </p>
+              <ul class="text-sm space-y-1">
+                <li>$X$ = จำนวนครั้งที่เหตุการณ์เกิดขึ้น, $x$ = จำนวนครั้งที่เราสนใจ (0, 1, 2,...)</li>
+                <li>$\lambda$ (แลมบ์ดา) = อัตราการเกิดโดยเฉลี่ยของเหตุการณ์ในขอบเขตนั้นๆ (พารามิเตอร์ที่สำคัญที่สุด)</li>
+                <li>$e \approx 2.71828$ คือค่าคงที่ทางคณิตศาสตร์</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-purple-50 border-purple-200 rounded-lg border">
+              <h3 class="text-lg font-semibold text-purple-800">คุณสมบัติพิเศษ: ง่ายที่สุด!</h3>
+              <p class="text-center my-2 text-lg"> $ E(X) = \lambda $ และ $ V(X) = \lambda $ </p>
+              <p class="text-sm text-purple-800">สำหรับการแจกแจงปัวซง "ค่าเฉลี่ย" และ "ความแปรปรวน" จะมีค่าเท่ากับ $\lambda$ เสมอ</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: ศูนย์บริการลูกค้า (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: ศูนย์บริการลูกค้าแห่งหนึ่งได้รับโทรศัพท์โดยเฉลี่ย 4 สายต่อชั่วโมง จงหาความน่าจะเป็นที่ในชั่วโมงถัดไป จะมีโทรศัพท์เข้ามา "เพียง 2 สาย"</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: วิเคราะห์โจทย์และกำหนดตัวแปร</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>นี่คือการแจกแจงปัวซง เพราะเป็นการนับเหตุการณ์ (โทรศัพท์เข้า) ในขอบเขตเวลา (1 ชั่วโมง)</li>
+                    <li>อัตราเฉลี่ยในขอบเขตที่สนใจ ($\lambda$): 4 สายต่อชั่วโมง</li>
+                    <li>จำนวนครั้งที่สำเร็จที่เราสนใจ ($x$): 2 สาย</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: แทนค่าในสูตร PMF</b></p>
+                <p class="font-semibold text-purple-700 mt-2"> $ P(X=2) = \frac{e^{-4} (4)^2}{2!} $ </p>
+                <ul class="list-decimal list-inside my-2 ml-4 text-sm">
+                    <li>$e^{-4} \approx 0.018316$</li>
+                    <li>$4^2 = 16$</li>
+                    <li>$2! = 2 \times 1 = 2$</li>
+                </ul>
+                 <p class="font-semibold text-purple-700 mt-2"> $ P(X=2) = \frac{0.018316 \times 16}{2} \approx 0.1465 $ </p>
+                <p class="text-sm mt-1"><b>สรุป:</b> มีโอกาสประมาณ 14.65% ที่ในชั่วโมงถัดไปจะมีโทรศัพท์เข้ามา 2 สายพอดี</p>
+
+                <hr class="my-3">
+                 <p><b>ขั้นตอนที่ 3: ดูภาพรวมของการแจกแจง (ตารางและกราฟ)</b></p>
+                 <div class="grid md:grid-cols-2 gap-4 mt-2">
+                    <div class="overflow-x-auto">
+                        <h4 class="text-center text-sm font-semibold mb-2">ตาราง PMF (สำหรับ $\lambda=4$)</h4>
+                        <table class="w-full text-xs text-center border">
+                            <thead class="bg-slate-100"><tr><th class="p-1 border">$x$</th><th class="p-1 border">$P(X=x)$</th></tr></thead>
+                            <tbody>
+                                <tr><td class="p-1 border">0</td><td class="p-1 border">0.0183</td></tr>
+                                <tr><td class="p-1 border">1</td><td class="p-1 border">0.0733</td></tr>
+                                <tr class="bg-purple-100 font-bold"><td class="p-1 border">2</td><td class="p-1 border">0.1465</td></tr>
+                                <tr><td class="p-1 border">3</td><td class="p-1 border">0.1954</td></tr>
+                                <tr><td class="p-1 border">4</td><td class="p-1 border">0.1954</td></tr>
+                                <tr><td class="p-1 border">5</td><td class="p-1 border">0.1563</td></tr>
+                                <tr><td class="p-1 border">...</td><td class="p-1 border">...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div>
+                        <h4 class="text-center text-sm font-semibold mb-2">กราฟแสดงการแจกแจง</h4>
+                        <svg viewBox="0 0 150 100" class="w-full h-auto bg-slate-50 rounded-lg p-2">
+                           <defs><style>.bar-label{font-size:8px;text-anchor:middle;fill:#475569;}</style></defs>
+                           <rect x="5" y="77.1" width="10" height="2.9" fill="#ddd6fe"></rect><text x="10" y="95" class="bar-label">0</text>
+                           <rect x="18" y="63.4" width="10" height="16.6" fill="#ddd6fe"></rect><text x="23" y="95" class="bar-label">1</text>
+                           <rect x="31" y="46.7" width="10" height="33.3" fill="#c4b5fd"></rect><text x="36" y="95" class="bar-label">2</text>
+                           <rect x="44" y="29" width="10" height="51" fill="#a78bfa"></rect><text x="49" y="95" class="bar-label">3</text>
+                           <rect x="57" y="29" width="10" height="51" fill="#a78bfa"></rect><text x="62" y="95" class="bar-label">4</text>
+                           <rect x="70" y="42.9" width="10" height="37.1" fill="#c4b5fd"></rect><text x="75" y="95" class="bar-label">5</text>
+                        </svg>
+                     </div>
+                 </div>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Poisson Explorer</h2>
+          <p class="text-sm mb-3 text-slate-600">ปรับค่า $\lambda$ เพื่อดูการเปลี่ยนแปลงของรูปทรงการแจกแจง</p>
+          
+          <div class="space-y-3">
+              <div>
+                  <label for="pois-lambda" class="block text-sm font-medium">อัตราการเกิดเฉลี่ย ($\lambda$): <span id="pois-lambda-display" class="font-bold text-purple-600">4.0</span></label>
+                  <input type="range" id="pois-lambda" min="0.1" max="15" step="0.1" value="4" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer mt-1">
+              </div>
+          </div>
+          
+          <div id="pois-chart-container" class="mt-4 w-full bg-slate-50 rounded-lg p-2 min-h-[180px]">
+              <svg id="pois-chart" class="w-full" viewBox="0 0 300 150"></svg>
+          </div>
+
+          <hr class="my-4">
+          
+          <div>
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">คุณสมบัติของการแจกแจงนี้</h3>
+              <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center bg-blue-50 p-2 rounded-md"><span class="font-medium text-blue-800">ค่าคาดหวัง E(X)</span><span id="pois-mean" class="font-bold text-lg text-blue-800">–</span></div>
+                  <div class="flex justify-between items-center bg-orange-50 p-2 rounded-md"><span class="font-medium text-orange-800">ความแปรปรวน V(X)</span><span id="pois-var" class="font-bold text-lg text-orange-800">–</span></div>
+                  <div class="flex justify-between items-center bg-green-50 p-2 rounded-md"><span class="font-medium text-green-800">ส่วนเบี่ยงเบนฯ SD(X)</span><span id="pois-sd" class="font-bold text-lg text-green-800">–</span></div>
+              </div>
+          </div>
+           <div class="mt-4">
+               <h3 class="text-base font-semibold text-slate-900 mb-1">คำนวณความน่าจะเป็นเฉพาะจุด</h3>
+               <div class="flex items-center space-x-2">
+                   <label for="pois-x" class="text-sm">P(X =</label>
+                   <input type="number" id="pois-x" value="2" min="0" class="w-16 p-1 border rounded-md text-center">
+                   <label for="pois-x" class="text-sm">) =</label>
+                   <span id="pois-prob" class="font-bold text-purple-700"></span>
+               </div>
+           </div>
+
+        </div>
+      </aside>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: การแจกแจงแบบต่อเนื่อง</p>
+    </footer>
+
+  </div>
+
   <script>
-    const lambdaSlider = document.getElementById('pois-lambda');
-    const lambdaDisplay = document.getElementById('pois-lambda-display');
-    const maxInput = document.getElementById('pois-max');
-    const meanSpan = document.getElementById('pois-mean');
-    const varSpan = document.getElementById('pois-var');
-    const sdSpan = document.getElementById('pois-sd');
-    const xInput = document.getElementById('pois-x');
-    const xDisplay = document.getElementById('pois-x-display');
-    const xcDisplay = document.getElementById('pois-xc-display');
-    const probDisplay = document.getElementById('pois-prob');
-    const cdfDisplay = document.getElementById('pois-cdf');
-    const chart = document.getElementById('pois-chart');
-    const calcBtn = document.getElementById('pois-calc');
-
-    function factorial(n) {
-      let result = 1;
-      for (let i = 2; i <= n; i += 1) result *= i;
-      return result;
-    }
-
-    function poissonProb(lambda, x) {
-      return Math.exp(-lambda) * Math.pow(lambda, x) / factorial(x);
-    }
-
-    function poissonCdf(lambda, x) {
-      let sum = 0;
-      for (let k = 0; k <= x; k += 1) {
-        sum += poissonProb(lambda, k);
+    document.addEventListener("DOMContentLoaded", function() {
+      // --- KaTeX Auto-rendering ---
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
       }
-      return sum;
-    }
 
-    function render() {
-      const lambda = Number(lambdaSlider.value);
-      const maxX = Math.max(5, Math.min(Number(maxInput.value), 30));
-      maxInput.value = maxX;
-      meanSpan.textContent = lambda.toFixed(4);
-      varSpan.textContent = lambda.toFixed(4);
-      sdSpan.textContent = Math.sqrt(lambda).toFixed(4);
-      lambdaDisplay.textContent = lambda.toFixed(1);
+      // --- Interactive Poisson Explorer ---
+      const lambdaSlider = document.getElementById('pois-lambda');
+      const lambdaDisplay = document.getElementById('pois-lambda-display');
+      
+      const meanSpan = document.getElementById('pois-mean');
+      const varSpan = document.getElementById('pois-var');
+      const sdSpan = document.getElementById('pois-sd');
+      
+      const xInput = document.getElementById('pois-x');
+      const probSpan = document.getElementById('pois-prob');
+      
+      const chartSVG = document.getElementById('pois-chart');
 
-      chart.innerHTML = '';
-      const eMinusLambda = Math.exp(-lambda);
-      for (let x = 0; x <= maxX; x += 1) {
-        const prob = poissonProb(lambda, x);
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        bar.style.height = `${prob * 260}px`;
-        bar.dataset.value = prob.toFixed(3);
-        const label = document.createElement('span');
-        label.textContent = x;
-        bar.appendChild(label);
-        chart.appendChild(bar);
+      const memoFactorial = (() => {
+          const cache = [1];
+          return (n) => {
+              if (n < 0) return NaN;
+              if (n >= 171) return Infinity; // Prevent overflow
+              if (n < cache.length) return cache[n];
+              for (let i = cache.length; i <= n; i++) {
+                  cache[i] = cache[i - 1] * i;
+              }
+              return cache[n];
+          };
+      })();
+
+      const poissonProb = (lambda, x) => {
+          if (lambda < 0 || x < 0 || !Number.isInteger(x)) return 0;
+          return (Math.pow(lambda, x) * Math.exp(-lambda)) / memoFactorial(x);
+      };
+
+      function render(lambda) {
+          lambdaDisplay.textContent = lambda.toFixed(1);
+          
+          meanSpan.textContent = lambda.toFixed(4);
+          varSpan.textContent = lambda.toFixed(4);
+          sdSpan.textContent = Math.sqrt(lambda).toFixed(4);
+          
+          const maxX = Math.ceil(lambda + 3 * Math.sqrt(lambda));
+          const probs = [];
+          for (let x = 0; x <= maxX; x++) {
+              probs.push({ x, prob: poissonProb(lambda, x) });
+          }
+
+          renderChart(probs);
+          updateSingleProb();
       }
-      if (Number(xInput.value) > maxX) xInput.value = Math.floor(maxX / 2);
-      updateSingle();
-    }
+      
+      function renderChart(probs) {
+          chartSVG.innerHTML = '';
+          const maxProb = Math.max(...probs.map(p => p.prob), 0.1);
+          const width = 300, height = 150;
+          const ns = "http://www.w3.org/2000/svg";
+          
+          const barWidth = Math.max(2, (width / probs.length) * 0.7);
+          const gap = (width - (barWidth * probs.length)) / (probs.length + 1);
 
-    function updateSingle() {
-      const lambda = Number(lambdaSlider.value);
-      const x = Math.max(0, Math.floor(Number(xInput.value)));
-      xInput.value = x;
-      xDisplay.textContent = x;
-      xcDisplay.textContent = x;
-      probDisplay.textContent = poissonProb(lambda, x).toFixed(4);
-      cdfDisplay.textContent = poissonCdf(lambda, x).toFixed(4);
-    }
+          probs.forEach(({ x, prob }, i) => {
+              const barHeight = (prob / maxProb) * (height - 30);
+              const xPos = gap + i * (barWidth + gap);
 
-    lambdaSlider.addEventListener('input', render);
-    maxInput.addEventListener('input', render);
-    calcBtn.addEventListener('click', updateSingle);
-    xInput.addEventListener('input', updateSingle);
+              const rect = document.createElementNS(ns, 'rect');
+              rect.setAttribute('x', xPos);
+              rect.setAttribute('y', height - 20 - barHeight);
+              rect.setAttribute('width', barWidth);
+              rect.setAttribute('height', barHeight);
+              rect.setAttribute('fill', '#c084fc'); // purple-400
+              rect.setAttribute('rx', 1);
+              chartSVG.appendChild(rect);
+              
+              if (probs.length <= 25) {
+                const text = document.createElementNS(ns, 'text');
+                text.setAttribute('x', xPos + barWidth / 2);
+                text.setAttribute('y', height - 5);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('font-size', '10');
+                text.textContent = x;
+                chartSVG.appendChild(text);
+              }
+          });
+      }
+      
+      function updateSingleProb() {
+          const lambda = parseFloat(lambdaSlider.value);
+          const x = parseInt(xInput.value);
+          if (!isNaN(lambda) && !isNaN(x) && x >= 0) {
+              probSpan.textContent = poissonProb(lambda, x).toFixed(5);
+          } else {
+              probSpan.textContent = '–';
+          }
+      }
 
-    render();
+      lambdaSlider.addEventListener('input', () => render(parseFloat(lambdaSlider.value)));
+      xInput.addEventListener('input', updateSingleProb);
+      
+      // Initial render
+      render(parseFloat(lambdaSlider.value));
+    });
   </script>
+
 </body>
 </html>

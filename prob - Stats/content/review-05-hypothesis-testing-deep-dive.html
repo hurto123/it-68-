@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>บททบทวนที่ 5: เจาะลึกการทดสอบสมมติฐาน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 5: เจาะลึกการทดสอบสมมติฐาน</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
     .lesson {
       display: grid;
       gap: var(--size-6);
@@ -87,80 +88,79 @@
       }
     }
   </style>
-</head>
-<body data-page="review">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">👨‍🏫 บททบทวนที่ 5</p>
-      <h1>เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)</h1>
-      <p class="subtitle">เข้าใจตรรกะของศาลสถิติและอ่านคำพิพากษาอย่างมั่นใจ</p>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <article class="card flow">
-      <h2>1. ตรรกะของศาลสถิติ: Innocent Until Proven Guilty</h2>
-      <p>หัวใจของการทดสอบสมมติฐานทั้งหมดตั้งอยู่บนหลักการเดียวกับกระบวนการยุติธรรม:</p>
-      <div class="callout">
-        <p><strong>สมมติฐานหลัก (H<sub>0</sub>):</strong> คือ "จำเลย" เราจะตั้งต้นด้วยการสันนิษฐานว่าจำเลยเป็นผู้บริสุทธิ์ (H<sub>0</sub> เป็นจริง) เสมอ</p>
-        <p><strong>สมมติฐานแย้ง (H<sub>1</sub>):</strong> คือ "โจทก์" ที่มีหน้าที่หาหลักฐานมาคัดค้าน</p>
-        <p><strong>ข้อมูลตัวอย่าง:</strong> คือ "พยานหลักฐาน" ที่จะบอกว่าเราควรปฏิเสธ H<sub>0</sub> หรือไม่</p>
-        <p><strong>คำตัดสิน:</strong> ปฏิเสธ H<sub>0</sub> ก็ต่อเมื่อหลักฐานแน่นพอจนไม่น่าจะเกิดโดยบังเอิญหากจำเลยบริสุทธิ์จริง</p>
-      </div>
-    </article>
-
-    <article class="card flow">
-      <h2>2. กระบวนการพิจารณาคดี 5 ขั้นตอน</h2>
-      <ol class="steps">
-        <li><strong>ตั้งสำนวนคดี (State Hypotheses):</strong> กำหนด H<sub>0</sub> ที่มักมีเครื่องหมาย = และ H<sub>1</sub> ที่กำหนดทิศทางของคดี</li>
-        <li><strong>กำหนดมาตรฐานการตัดสิน (Set Significance Level):</strong> ระบุ \(\alpha\) เช่น 0.05 เป็นมาตรฐานความแน่นของหลักฐาน (Type I Error)</li>
-        <li><strong>รวบรวมหลักฐาน (Calculate Test Statistic):</strong> สรุปพยานทั้งหมดให้อยู่ในรูปตัวเลขเดียว เช่น Z, t, χ², F</li>
-        <li><strong>ชั่งน้ำหนักหลักฐาน (Determine p-value or Critical Region):</strong> คำนวณ p-value หรือใช้พื้นที่วิกฤตในการตัดสิน</li>
-        <li><strong>อ่านคำพิพากษา (Make a Decision & Interpret):</strong> เปรียบเทียบ p-value กับ \(\alpha\) เพื่อสรุปว่าจะปฏิเสธ H<sub>0</sub> หรือไม่ พร้อมตีความผลตามบริบท</li>
-      </ol>
-    </article>
-
-    <article class="card flow">
-      <h2>3. คำพิพากษาที่ถูกต้อง: "Fail to Reject" ไม่ใช่ "Accept"</h2>
-      <p>เรา <strong>ไม่เคย</strong> พูดว่า "ยอมรับ H<sub>0</sub>" เพราะการที่หลักฐานไม่เพียงพอ ไม่ได้แปลว่าเราพิสูจน์ได้ว่าจำเลยบริสุทธิ์ เพียงแต่หลักฐานชุดนี้ยังไม่พอจะเอาผิดเท่านั้น</p>
-    </article>
-
-    <article class="card flow">
-      <h2>Hypothesis Judge Lab</h2>
-      <p>ลองกำหนดค่า \(\alpha\), p-value และทิศทางการทดสอบ เพื่อดูการตัดสินใจแบบโต้ตอบพร้อมภาพพื้นที่ปฏิเสธ (สร้างสด ไม่ใช่ภาพนิ่ง)</p>
-      <div class="lab">
-        <div class="control flow">
-          <label for="test-direction">รูปแบบการทดสอบ
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 5</p>
+<h1>เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)</h1>
+<p class="subtitle">เข้าใจตรรกะของศาลสถิติและอ่านคำพิพากษาอย่างมั่นใจ</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<h2>1. ตรรกะของศาลสถิติ: Innocent Until Proven Guilty</h2>
+<p>หัวใจของการทดสอบสมมติฐานทั้งหมดตั้งอยู่บนหลักการเดียวกับกระบวนการยุติธรรม:</p>
+<div class="callout">
+<p><strong>สมมติฐานหลัก (H<sub>0</sub>):</strong> คือ "จำเลย" เราจะตั้งต้นด้วยการสันนิษฐานว่าจำเลยเป็นผู้บริสุทธิ์ (H<sub>0</sub> เป็นจริง) เสมอ</p>
+<p><strong>สมมติฐานแย้ง (H<sub>1</sub>):</strong> คือ "โจทก์" ที่มีหน้าที่หาหลักฐานมาคัดค้าน</p>
+<p><strong>ข้อมูลตัวอย่าง:</strong> คือ "พยานหลักฐาน" ที่จะบอกว่าเราควรปฏิเสธ H<sub>0</sub> หรือไม่</p>
+<p><strong>คำตัดสิน:</strong> ปฏิเสธ H<sub>0</sub> ก็ต่อเมื่อหลักฐานแน่นพอจนไม่น่าจะเกิดโดยบังเอิญหากจำเลยบริสุทธิ์จริง</p>
+</div>
+</article>
+<article class="card flow">
+<h2>2. กระบวนการพิจารณาคดี 5 ขั้นตอน</h2>
+<ol class="steps">
+<li><strong>ตั้งสำนวนคดี (State Hypotheses):</strong> กำหนด H<sub>0</sub> ที่มักมีเครื่องหมาย = และ H<sub>1</sub> ที่กำหนดทิศทางของคดี</li>
+<li><strong>กำหนดมาตรฐานการตัดสิน (Set Significance Level):</strong> ระบุ \(\alpha\) เช่น 0.05 เป็นมาตรฐานความแน่นของหลักฐาน (Type I Error)</li>
+<li><strong>รวบรวมหลักฐาน (Calculate Test Statistic):</strong> สรุปพยานทั้งหมดให้อยู่ในรูปตัวเลขเดียว เช่น Z, t, χ², F</li>
+<li><strong>ชั่งน้ำหนักหลักฐาน (Determine p-value or Critical Region):</strong> คำนวณ p-value หรือใช้พื้นที่วิกฤตในการตัดสิน</li>
+<li><strong>อ่านคำพิพากษา (Make a Decision &amp; Interpret):</strong> เปรียบเทียบ p-value กับ \(\alpha\) เพื่อสรุปว่าจะปฏิเสธ H<sub>0</sub> หรือไม่ พร้อมตีความผลตามบริบท</li>
+</ol>
+</article>
+<article class="card flow">
+<h2>3. คำพิพากษาที่ถูกต้อง: "Fail to Reject" ไม่ใช่ "Accept"</h2>
+<p>เรา <strong>ไม่เคย</strong> พูดว่า "ยอมรับ H<sub>0</sub>" เพราะการที่หลักฐานไม่เพียงพอ ไม่ได้แปลว่าเราพิสูจน์ได้ว่าจำเลยบริสุทธิ์ เพียงแต่หลักฐานชุดนี้ยังไม่พอจะเอาผิดเท่านั้น</p>
+</article>
+<article class="card flow">
+<h2>Hypothesis Judge Lab</h2>
+<p>ลองกำหนดค่า \(\alpha\), p-value และทิศทางการทดสอบ เพื่อดูการตัดสินใจแบบโต้ตอบพร้อมภาพพื้นที่ปฏิเสธ (สร้างสด ไม่ใช่ภาพนิ่ง)</p>
+<div class="lab">
+<div class="control flow">
+<label for="test-direction">รูปแบบการทดสอบ
             <select id="test-direction">
-              <option value="two">สองหาง</option>
-              <option value="left">หางซ้าย</option>
-              <option value="right">หางขวา</option>
-            </select>
-          </label>
-          <label for="alpha">ระดับนัยสำคัญ (\(\alpha\))
-            <input type="number" id="alpha" value="0.05" min="0.001" max="0.2" step="0.001">
-          </label>
-          <label for="statistic">ค่าสถิติทดสอบ (เช่น Z หรือ t)
-            <input type="number" id="statistic" value="1.92" step="0.01">
-          </label>
-          <label for="pvalue">p-value ที่คำนวณได้
-            <input type="number" id="pvalue" value="0.0548" step="0.0001" min="0" max="1">
-          </label>
-          <p><strong>คำพิพากษา:</strong> <span id="verdict" class="verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
-        </div>
-        <canvas id="hypothesis-chart" role="img" aria-label="พื้นที่วิกฤตสำหรับการทดสอบสมมติฐาน"></canvas>
-      </div>
-      <p>หาก p-value ≤ α → ปฏิเสธ H<sub>0</sub>; หาก p-value > α → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</p>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
-  <script>
+<option value="two">สองหาง</option>
+<option value="left">หางซ้าย</option>
+<option value="right">หางขวา</option>
+</select>
+</label>
+<label for="alpha">ระดับนัยสำคัญ (\(\alpha\))
+            <input id="alpha" max="0.2" min="0.001" step="0.001" type="number" value="0.05"/>
+</label>
+<label for="statistic">ค่าสถิติทดสอบ (เช่น Z หรือ t)
+            <input id="statistic" step="0.01" type="number" value="1.92"/>
+</label>
+<label for="pvalue">p-value ที่คำนวณได้
+            <input id="pvalue" max="1" min="0" step="0.0001" type="number" value="0.0548"/>
+</label>
+<p><strong>คำพิพากษา:</strong> <span class="verdict" id="verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
+</div>
+<canvas aria-label="พื้นที่วิกฤตสำหรับการทดสอบสมมติฐาน" id="hypothesis-chart" role="img"></canvas>
+</div>
+<p>หาก p-value ≤ α → ปฏิเสธ H<sub>0</sub>; หาก p-value &gt; α → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</p>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
     const hypoCanvas = document.getElementById('hypothesis-chart');
     const hypoCtx = hypoCanvas.getContext('2d');
     const testDirection = document.getElementById('test-direction');
@@ -293,5 +293,104 @@
 
     updateVerdict();
   </script>
-</body>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

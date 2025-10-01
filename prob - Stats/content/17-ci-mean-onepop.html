@@ -1,64 +1,360 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>17. ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 17: ช่วงความเชื่อมั่นของค่าเฉลี่ย (กลุ่มเดียว)</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 17</p>
-      <h1>ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-cyan-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-cyan-600">บทที่ 17</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">μ: ช่วงความเชื่อมั่นของค่าเฉลี่ย (กลุ่มเดียว)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-cyan-50 border border-cyan-200 text-cyan-800 p-4 rounded-lg">
+        สวัสดีครับ! ในบทนี้เราจะนำโครงสร้างพื้นฐานของช่วงความเชื่อมั่นที่เรียนไป มาประยุกต์ใช้กับกรณีที่พบบ่อยที่สุด นั่นคือการประมาณค่าเฉลี่ยของประชากร ($\mu$) จากกลุ่มตัวอย่างเพียงกลุ่มเดียว เราจะได้เรียนรู้ว่าเมื่อไหร่ควรใช้ Z-score และเมื่อไหร่ควรใช้ t-score ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Decision Making -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. หัวใจสำคัญ: จะใช้ Z หรือ t?</h2>
+          <p>การตัดสินใจว่าจะใช้ค่าวิกฤตจาก Z-distribution หรือ t-distribution ขึ้นอยู่กับว่าเรารู้ค่า $\sigma$ (ส่วนเบี่ยงเบนมาตรฐานของประชากร) หรือไม่ และขนาดตัวอย่าง ($n$) ใหญ่พอหรือไม่</p>
+          <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">แผนผังการตัดสินใจ</h3>
+              <div class="mt-2 space-y-4">
+                  <div class="p-3 border rounded-md">
+                      <p class="font-semibold">คำถามที่ 1: เราทราบค่า $\sigma$ ของประชากรหรือไม่?</p>
+                  </div>
+                  <div class="flex items-center">
+                      <div class="w-10 border-t-2 border-gray-300"></div>
+                      <div class="px-2 text-sm text-gray-500">ถ้า "ทราบ"</div>
+                  </div>
+                  <div class="ml-12 p-3 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
+                      <p class="font-bold text-green-700">✅ ใช้ Z-Distribution</p>
+                      <p class="text-xs">ไม่ว่าขนาดตัวอย่าง n จะเป็นเท่าไหร่ก็ตาม</p>
+                  </div>
+                  <div class="flex items-center">
+                      <div class="w-10 border-t-2 border-gray-300"></div>
+                      <div class="px-2 text-sm text-gray-500">ถ้า "ไม่ทราบ"</div>
+                  </div>
+                   <div class="ml-12 p-3 border rounded-md">
+                      <p class="font-semibold">คำถามที่ 2: ขนาดตัวอย่าง $n$ ใหญ่พอหรือไม่ ($n \ge 30$)?</p>
+                  </div>
+                   <div class="ml-12 flex items-center">
+                      <div class="w-10 border-t-2 border-gray-300"></div>
+                      <div class="px-2 text-sm text-gray-500">ถ้า "ใช่"</div>
+                  </div>
+                  <div class="ml-24 p-3 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
+                      <p class="font-bold text-green-700">✅ ใช้ Z-Distribution (โดยประมาณ)</p>
+                      <p class="text-xs">เราจะใช้ $s$ (ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง) แทน $\sigma$ ได้ เพราะ CLT ทำงาน</p>
+                  </div>
+                   <div class="ml-12 flex items-center">
+                      <div class="w-10 border-t-2 border-gray-300"></div>
+                      <div class="px-2 text-sm text-gray-500">ถ้า "ไม่ใช่"</div>
+                  </div>
+                   <div class="ml-24 p-3 border-l-4 border-amber-500 bg-amber-50 rounded-r-lg">
+                      <p class="font-bold text-amber-700">⚠️ ใช้ t-Distribution</p>
+                      <p class="text-xs">โดยมีเงื่อนไขว่าประชากรต้องมีการแจกแจงใกล้เคียงปกติ</p>
+                  </div>
+              </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรช่วงความเชื่อมั่นสำหรับค่าเฉลี่ย</h2>
+           <div class="grid md:grid-cols-2 gap-4">
+               <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">กรณีใช้ Z (ทราบ $\sigma$ หรือ n ≥ 30)</h3>
+                  <p class="text-center my-2"> $ \bar{X} \pm Z_{\alpha/2} \left(\frac{\sigma}{\sqrt{n}}\right) $ </p>
+                  <p class="text-xs text-slate-600">ถ้าไม่ทราบ $\sigma$ แต่ $n \ge 30$ ให้ใช้ $s$ แทน $\sigma$</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">กรณีใช้ t (ไม่ทราบ $\sigma$ และ n < 30)</h3>
+                   <p class="text-center my-2"> $ \bar{X} \pm t_{\alpha/2, df} \left(\frac{s}{\sqrt{n}}\right) $ </p>
+                   <p class="text-xs text-slate-600">โดยมี $df = n-1$</p>
+                </div>
+           </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: เวลาให้บริการลูกค้า (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: ร้านกาแฟแห่งหนึ่งต้องการประมาณเวลาเฉลี่ยที่ใช้ในการชงกาแฟ 1 แก้ว</h3>
+                
+                <div class="mt-4 p-4 border-l-4 border-cyan-400 bg-cyan-50">
+                    <h4 class="font-bold">กรณีที่ 1 (n ≥ 30, ไม่ทราบ σ)</h4>
+                    <p class="text-sm">สุ่มตัวอย่าง 40 แก้ว ($n=40$) พบว่ามีเวลาเฉลี่ย ($\bar{X}$) 150 วินาที และมีส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง ($s$) 12 วินาที จงสร้างช่วงความเชื่อมั่น 95%</p>
+                    <ol class="list-decimal list-inside my-2 ml-4 text-sm space-y-2">
+                        <li><b>เลือกการแจกแจง:</b> ไม่ทราบ $\sigma$ แต่ $n=40 \ge 30$ ดังนั้นใช้ <b>Z-distribution</b></li>
+                        <li><b>หาค่าวิกฤต:</b> สำหรับความเชื่อมั่น 95%, $\alpha=0.05$, $\alpha/2 = 0.025$ จะได้ $Z_{0.025} = 1.96$</li>
+                        <li><b>คำนวณ Margin of Error (E):</b> $E = Z_{\alpha/2} \times \frac{s}{\sqrt{n}} = 1.96 \times \frac{12}{\sqrt{40}} \approx 1.96 \times 1.897 \approx 3.72$</li>
+                        <li><b>สร้างช่วงความเชื่อมั่น:</b> $\bar{X} \pm E \Rightarrow 150 \pm 3.72$ ซึ่งคือช่วง <b>[146.28, 153.72]</b></li>
+                    </ol>
+                    <div class="mt-2 text-center"><svg viewBox="0 0 200 80" class="w-full max-w-xs mx-auto"><line x1="10" y1="50" x2="190" y2="50" stroke="#94a3b8"></line><rect x="44" y="45" width="112" height="10" fill="rgba(6,182,212,0.4)" stroke="#0891b2"></rect><circle cx="100" cy="50" r="3" fill="#0e7490"></circle><text x="100" y="40" font-size="8" text-anchor="middle">$\bar{X}$=150</text><text x="44" y="65" font-size="8" text-anchor="middle">146.28</text><text x="156" y="65" font-size="8" text-anchor="middle">153.72</text></svg></div>
+                </div>
+
+                <div class="mt-6 p-4 border-l-4 border-amber-400 bg-amber-50">
+                     <h4 class="font-bold">กรณีที่ 2 (n < 30, ไม่ทราบ σ)</h4>
+                     <p class="text-sm">สุ่มตัวอย่าง 15 แก้ว ($n=15$) พบว่ามีเวลาเฉลี่ย ($\bar{X}$) 155 วินาที และ $s=10$ วินาที จงสร้างช่วงความเชื่อมั่น 95%</p>
+                      <ol class="list-decimal list-inside my-2 ml-4 text-sm space-y-2">
+                        <li><b>เลือกการแจกแจง:</b> ไม่ทราบ $\sigma$ และ $n=15 < 30$ ดังนั้นใช้ <b>t-distribution</b></li>
+                        <li><b>หาค่าวิกฤต:</b> $df = n-1 = 14$ สำหรับความเชื่อมั่น 95%, $\alpha/2 = 0.025$ เปิดตาราง t จะได้ $t_{0.025, 14} = 2.145$</li>
+                        <li><b>คำนวณ Margin of Error (E):</b> $E = t_{\alpha/2, df} \times \frac{s}{\sqrt{n}} = 2.145 \times \frac{10}{\sqrt{15}} \approx 2.145 \times 2.582 \approx 5.54$</li>
+                        <li><b>สร้างช่วงความเชื่อมั่น:</b> $\bar{X} \pm E \Rightarrow 155 \pm 5.54$ ซึ่งคือช่วง <b>[149.46, 160.54]</b></li>
+                    </ol>
+                    <div class="mt-2 text-center"><svg viewBox="0 0 200 80" class="w-full max-w-xs mx-auto"><line x1="10" y1="50" x2="190" y2="50" stroke="#94a3b8"></line><rect x="35" y="45" width="130" height="10" fill="rgba(245,158,11,0.4)" stroke="#b45309"></rect><circle cx="100" cy="50" r="3" fill="#92400e"></circle><text x="100" y="40" font-size="8" text-anchor="middle">$\bar{X}$=155</text><text x="35" y="65" font-size="8" text-anchor="middle">149.46</text><text x="165" y="65" font-size="8" text-anchor="middle">160.54</text></svg></div>
+                </div>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI for Mean Calculator</h2>
+          <div class="space-y-2">
+              <div><label class="block text-xs font-medium">ค่าเฉลี่ยตัวอย่าง ($\bar{X}$)</label><input type="number" id="ci-mean" value="150" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">SD ประชากร ($\sigma$, ถ้าทราบ)</label><input type="number" id="ci-pop-sd" placeholder="เว้นว่างถ้าไม่ทราบ" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">SD ตัวอย่าง ($s$)</label><input type="number" id="ci-sample-sd" value="12" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ขนาดตัวอย่าง ($n$)</label><input type="number" id="ci-n" value="40" min="2" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ระดับความเชื่อมั่น</label><select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div id="ci-results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการคำนวณ</h3>
+              <div class="bg-slate-100 p-2 rounded-md text-center"><p class="text-sm">ใช้การแจกแจง: <span id="dist-used" class="font-bold text-lg"></span></p></div>
+              <div class="mt-2 space-y-1 text-sm">
+                  <p>Critical Value: <span id="crit-val" class="font-bold float-right"></span></p>
+                  <p>Margin of Error: <span id="moe-val" class="font-bold float-right"></span></p>
+              </div>
+              <div class="mt-2 text-center bg-cyan-100 p-2 rounded-md">
+                 <p class="text-sm text-cyan-800">ช่วงความเชื่อมั่น:</p>
+                 <p class="font-bold text-xl text-cyan-900">[<span id="lower-bound"></span>, <span id="upper-bound"></span>]</p>
+              </div>
+              <div class="mt-2"><svg id="ci-chart" class="w-full" viewBox="0 0 200 60"></svg></div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="16-ci-intro.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="18-ci-proportion-onepop.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ประยุกต์โครงสร้างทองคำกับค่าเฉลี่ยของประชากรเดียว</p>
-      <ul>
-        <li>เลือกใช้ Z หรือ t ตามว่ารู้ σ หรือไม่ และขนาดตัวอย่าง</li>
-        <li>การคำนวณ SE ด้วย σ/√n หรือ s/√n</li>
-        <li>การตีความช่วงค่าเฉลี่ยในบริบทปัญหา</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>เขียนสูตรทั้งกรณีรู้ σ และไม่รู้</p>
-      <ul>
-        <li>CI_Z: ar X ± z_{α/2} (σ/√n)</li>
-        <li>CI_t: ar X ± t_{α/2, df} (s/√n)</li>
-        <li>df = n−1 สำหรับ t</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>ประมาณค่าเฉลี่ยเวลาให้บริการลูกค้าในร้านด้วยตัวอย่าง 40 คนหรือ 15 คนแล้วเลือก critical ให้เหมาะสม</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="16-ci-intro.html">บทนำ CI</a></li>
-        <li><a href="18-ci-proportion-onepop.html">CI สัดส่วนกลุ่มเดียว</a></li>
-        <li><a href="../tables/t-table.html">ตาราง t</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const meanInput = document.getElementById('ci-mean');
+      const popSdInput = document.getElementById('ci-pop-sd');
+      const sampleSdInput = document.getElementById('ci-sample-sd');
+      const nInput = document.getElementById('ci-n');
+      const levelSelect = document.getElementById('ci-level');
+      const allInputs = [meanInput, popSdInput, sampleSdInput, nInput, levelSelect];
+
+      const distUsedEl = document.getElementById('dist-used');
+      const critValEl = document.getElementById('crit-val');
+      const moeEl = document.getElementById('moe-val');
+      const lowerBoundEl = document.getElementById('lower-bound');
+      const upperBoundEl = document.getElementById('upper-bound');
+      const chartSVG = document.getElementById('ci-chart');
+      const ns = "http://www.w3.org/2000/svg";
+      
+      const Z_CRIT = { "0.90": 1.645, "0.95": 1.960, "0.99": 2.576 };
+      // Simplified t-table lookup
+      const T_CRIT = {
+          "0.95": { 1:12.706, 5:2.571, 10:2.228, 14:2.145, 15:2.131, 20:2.086, 29:2.045, 30:2.042, 40:2.021, 60:2.000, 120:1.980 },
+          "0.90": { 1:6.314, 5:2.015, 10:1.812, 14:1.761, 15:1.753, 20:1.725, 29:1.699, 30:1.697, 40:1.684, 60:1.671, 120:1.658 },
+          "0.99": { 1:63.657, 5:4.032, 10:3.169, 14:2.977, 15:2.947, 20:2.845, 29:2.756, 30:2.750, 40:2.704, 60:2.660, 120:2.617 }
+      };
+      
+      function getTValue(df, level) {
+          if (df <= 0) return NaN;
+          const table = T_CRIT[level];
+          if (df > 120) return Z_CRIT[level]; // Approximate with Z for large df
+          if(table[df]) return table[df];
+          // Simple interpolation for values not in table
+          const lowerDf = Object.keys(table).reverse().find(k => k < df);
+          const upperDf = Object.keys(table).find(k => k > df);
+          if(!lowerDf || !upperDf) return table[Object.keys(table).pop()];
+          const t1 = table[lowerDf], t2 = table[upperDf];
+          return t1 + (t2 - t1) * (df - lowerDf) / (upperDf - lowerDf);
+      }
+
+      function drawChart(mean, lower, upper) {
+          chartSVG.innerHTML = '';
+          const range = upper - lower;
+          const viewMin = lower - range * 0.2;
+          const viewMax = upper + range * 0.2;
+          const viewRange = viewMax - viewMin;
+          
+          const scaleX = (val) => (val - viewMin) / viewRange * 200;
+
+          const line = document.createElementNS(ns, 'line');
+          line.setAttribute('x1', scaleX(viewMin));
+          line.setAttribute('y1', 30);
+          line.setAttribute('x2', scaleX(viewMax));
+          line.setAttribute('y2', 30);
+          line.setAttribute('stroke', '#94a3b8');
+          chartSVG.appendChild(line);
+
+          const ciRect = document.createElementNS(ns, 'rect');
+          ciRect.setAttribute('x', scaleX(lower));
+          ciRect.setAttribute('y', 25);
+          ciRect.setAttribute('width', scaleX(upper) - scaleX(lower));
+          ciRect.setAttribute('height', 10);
+          ciRect.setAttribute('fill', 'rgba(6,182,212,0.4)');
+          ciRect.setAttribute('stroke', '#0891b2');
+          chartSVG.appendChild(ciRect);
+
+          const meanDot = document.createElementNS(ns, 'circle');
+          meanDot.setAttribute('cx', scaleX(mean));
+          meanDot.setAttribute('cy', 30);
+          meanDot.setAttribute('r', 3);
+          meanDot.setAttribute('fill', '#0e7490');
+          chartSVG.appendChild(meanDot);
+
+          const meanText = document.createElementNS(ns, 'text');
+          meanText.setAttribute('x', scaleX(mean));
+          meanText.setAttribute('y', 20);
+          meanText.setAttribute('font-size', '8');
+          meanText.setAttribute('text-anchor', 'middle');
+          meanText.textContent = `\u00D7\u0304=${mean.toFixed(2)}`;
+          chartSVG.appendChild(meanText);
+
+          const lowerText = document.createElementNS(ns, 'text');
+          lowerText.setAttribute('x', scaleX(lower));
+          lowerText.setAttribute('y', 50);
+          lowerText.setAttribute('font-size', '8');
+          lowerText.setAttribute('text-anchor', 'middle');
+          lowerText.textContent = lower.toFixed(2);
+          chartSVG.appendChild(lowerText);
+          
+          const upperText = document.createElementNS(ns, 'text');
+          upperText.setAttribute('x', scaleX(upper));
+          upperText.setAttribute('y', 50);
+          upperText.setAttribute('font-size', '8');
+          upperText.setAttribute('text-anchor', 'middle');
+          upperText.textContent = upper.toFixed(2);
+          chartSVG.appendChild(upperText);
+      }
+
+      function calculateCI() {
+          const mean = parseFloat(meanInput.value);
+          const popSd = parseFloat(popSdInput.value);
+          const sampleSd = parseFloat(sampleSdInput.value);
+          const n = parseInt(nInput.value);
+          const level = levelSelect.value;
+          
+          critValEl.textContent = '–';
+          moeEl.textContent = '–';
+          lowerBoundEl.textContent = '–';
+          upperBoundEl.textContent = '–';
+          chartSVG.innerHTML = '';
+
+          if (isNaN(mean) || isNaN(n) || n < 2) return;
+
+          let useZ = false;
+          let sd_to_use = sampleSd;
+          let criticalValue;
+          let df;
+
+          if (!isNaN(popSd) && popSd > 0) { // Case 1: Sigma known
+              useZ = true;
+              sd_to_use = popSd;
+              distUsedEl.textContent = 'Z (ทราบค่า σ)';
+          } else if (n >= 30) { // Case 2: Sigma unknown, n large
+              useZ = true;
+              distUsedEl.textContent = 'Z (ประมาณค่า)';
+          } else { // Case 3: Sigma unknown, n small
+              useZ = false;
+              df = n - 1;
+              distUsedEl.textContent = `t (df=${df})`;
+          }
+
+          if (isNaN(sd_to_use) || sd_to_use <= 0) return;
+
+          if (useZ) {
+              criticalValue = Z_CRIT[level];
+          } else {
+              criticalValue = getTValue(df, level);
+          }
+          
+          if(isNaN(criticalValue)) return;
+
+          const standardError = sd_to_use / Math.sqrt(n);
+          const marginOfError = criticalValue * standardError;
+          
+          const lowerBound = mean - marginOfError;
+          const upperBound = mean + marginOfError;
+
+          critValEl.textContent = criticalValue.toFixed(3);
+          moeEl.textContent = marginOfError.toFixed(4);
+          lowerBoundEl.textContent = lowerBound.toFixed(4);
+          upperBoundEl.textContent = upperBound.toFixed(4);
+          
+          drawChart(mean, lowerBound, upperBound);
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateCI));
+      calculateCI();
+    });
+  </script>
+
 </body>
 </html>
+

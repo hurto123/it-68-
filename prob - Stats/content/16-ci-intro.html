@@ -1,64 +1,240 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>16. เกริ่นนำช่วงความเชื่อมั่น</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 16: เกริ่นนำช่วงความเชื่อมั่น</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 16</p>
-      <h1>เกริ่นนำช่วงความเชื่อมั่น</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-fuchsia-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-fuchsia-600">บทที่ 16</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">🎯 เกริ่นนำช่วงความเชื่อมั่น (Confidence Intervals)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-fuchsia-50 border border-fuchsia-200 text-fuchsia-800 p-4 rounded-lg">
+        สวัสดีครับ! ถึงตอนนี้เราทราบแล้วว่าค่าสถิติจากกลุ่มตัวอย่าง (เช่น $\bar{X}$) เป็นเพียง "ค่าประมาณ" ของค่าพารามิเตอร์จริงในประชากร (เช่น $\mu$) เท่านั้น ในบทนี้ เราจะเรียนรู้วิธีสร้าง "ช่วง" ที่เรามีความมั่นใจว่าค่าพารามิเตอร์จริงจะตกอยู่ข้างใน ซึ่งเป็นเครื่องมือหลักของสถิติเชิงอนุมานครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: จากการประมาณแบบจุดสู่แบบช่วง</h2>
+          <p>การใช้ค่าจากกลุ่มตัวอย่างเพียงค่าเดียว (เช่น $\bar{X} = 175$ ซม.) เพื่อประมาณค่าพารามิเตอร์ของประชากร เรียกว่า <b>การประมาณค่าแบบจุด (Point Estimate)</b> ซึ่งมีข้อเสียคือเราไม่รู้เลยว่าค่าประมาณของเราใกล้เคียงกับค่าจริงแค่ไหน</p>
+          <p class="mt-2"><b>ช่วงความเชื่อมั่น (Confidence Interval)</b> แก้ปัญหานี้โดยการสร้าง "ช่วง" ของค่าที่เป็นไปได้ขึ้นมารอบๆ ค่าประมาณแบบจุด พร้อมกับระบุ "ระดับความเชื่อมั่น" (Confidence Level) ว่าเรามั่นใจแค่ไหนที่ช่วงนี้จะครอบคลุมค่าพารามิเตอร์จริงของประชากร</p>
+        </section>
+
+        <!-- Section 2: Anatomy of a CI -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. องค์ประกอบของช่วงความเชื่อมั่น</h2>
+          <p>ช่วงความเชื่อมั่นมีโครงสร้างพื้นฐานที่เหมือนกันเสมอ:</p>
+          <div class="p-4 bg-slate-800 text-white font-mono rounded-lg text-center my-4 text-base md:text-lg">
+            ค่าประมาณแบบจุด ± ขอบเขตความคลาดเคลื่อน
+          </div>
+          <p>โดยที่ "ขอบเขตความคลาดเคลื่อน" (Margin of Error) คำนวณมาจาก:</p>
+           <div class="p-4 bg-slate-100 rounded-lg border text-center my-4 text-base md:text-lg">
+            ขอบเขตความคลาดเคลื่อน = (ค่าวิกฤต) × (ความคลาดเคลื่อนมาตรฐาน)
+          </div>
+          <ul class="list-disc list-inside mt-4 space-y-2 text-sm">
+              <li><b>ค่าประมาณแบบจุด (Point Estimate):</b> ค่าสถิติจากกลุ่มตัวอย่างที่เราใช้เป็นตัวแทน เช่น $\bar{X}$ หรือ $\hat{p}$</li>
+              <li><b>ค่าวิกฤต (Critical Value):</b> ตัวเลขที่ได้จากการแจกแจง (เช่น Z-score หรือ t-score) ซึ่งขึ้นอยู่กับ "ระดับความเชื่อมั่น" ที่เราต้องการ เช่น 1.96 สำหรับความเชื่อมั่น 95%</li>
+              <li><b>ความคลาดเคลื่อนมาตรฐาน (Standard Error):</b> ส่วนเบี่ยงเบนมาตรฐานของการแจกแจงของค่าสถิตินั้นๆ เช่น $\sigma/\sqrt{n}$ สำหรับค่าเฉลี่ย</li>
+          </ul>
+        </section>
+        
+        <!-- Section 3: Interpretation -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. การตีความหมาย (สำคัญมาก!)</h2>
+            <p>สมมติว่าเราคำนวณช่วงความเชื่อมั่น 95% สำหรับส่วนสูงเฉลี่ยของคนไทยได้เป็น [168 ซม., 172 ซม.]</p>
+            <div class="p-4 border-l-4 border-green-500 bg-green-50 mt-4">
+                <h3 class="font-semibold text-green-800">การตีความที่ถูกต้อง ✅</h3>
+                <p class="text-sm">"เรามีความเชื่อมั่น 95% ว่าส่วนสูงเฉลี่ย<b>ที่แท้จริงของประชากรคนไทย</b> อยู่ระหว่าง 168 ซม. และ 172 ซม."</p>
+                <p class="text-xs mt-1 text-slate-600">(ความหมายทางเทคนิค: หากเราสุ่มตัวอย่างและสร้างช่วงความเชื่อมั่นแบบนี้ซ้ำๆ 100 ครั้ง, เราคาดว่าประมาณ 95 ช่วงจาก 100 ช่วงจะครอบคลุมค่าเฉลี่ยจริงของประชากร)</p>
+            </div>
+             <div class="p-4 border-l-4 border-red-500 bg-red-50 mt-4">
+                <h3 class="font-semibold text-red-800">การตีความที่ผิด ❌</h3>
+                <p class="text-sm">"มีโอกาส 95% ที่ค่าเฉลี่ยของประชากรจะอยู่ในช่วง [168, 172]"</p>
+                <p class="text-xs mt-1 text-slate-600">(ผิด เพราะค่าเฉลี่ยของประชากร ($\mu$) เป็นค่าคงที่ค่าหนึ่ง มันจะอยู่หรือไม่ก็ไม่อยู่ใน "ช่วงที่เราคำนวณได้" นี้เลย ไม่มีความน่าจะเป็นเข้ามาเกี่ยวข้องกับตัวมัน)</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI Simulation</h2>
+          <p class="text-sm mb-3 text-slate-600">จำลองการสร้างช่วงความเชื่อมั่นซ้ำๆ เพื่อดูความหมายของ "ระดับความเชื่อมั่น"</p>
+          
+          <div class="space-y-3">
+              <div>
+                  <label for="ci-level" class="block text-xs font-medium">ระดับความเชื่อมั่น:</label>
+                  <select id="ci-level" class="w-full mt-1 p-2 border rounded-md">
+                      <option value="0.80">80%</option>
+                      <option value="0.90">90%</option>
+                      <option value="0.95" selected>95%</option>
+                      <option value="0.99">99%</option>
+                  </select>
+              </div>
+              <button id="run-sim" class="w-full bg-fuchsia-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-fuchsia-700 transition-colors shadow">
+                จำลองการสุ่ม 100 ตัวอย่าง
+              </button>
+          </div>
+          
+          <div class="mt-4 w-full bg-slate-100 rounded-lg p-2 min-h-[250px] relative">
+              <svg id="ci-chart" class="w-full h-full" viewBox="0 0 200 250"></svg>
+          </div>
+          
+          <div id="sim-results" class="mt-2 text-center p-2 rounded-md font-semibold"></div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="15-sampling-other-stats.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="17-ci-mean-onepop.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เรียนรู้โครงสร้างทองคำของช่วงประมาณแบบ point ± critical × SE</p>
-      <ul>
-        <li>ความหมายของช่วงความเชื่อมั่นและการตีความ</li>
-        <li>ส่วนประกอบ: point estimate, critical value, standard error</li>
-        <li>ความสัมพันธ์ระหว่างความเชื่อมั่น กว้างของช่วง และขนาดตัวอย่าง</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>เขียนช่วงความเชื่อมั่นในรูปแบบมาตรฐาน</p>
-      <ul>
-        <li>CI = point ± critical × SE</li>
-        <li>SE = σ/√n หรือ s/√n ตามข้อมูล</li>
-        <li>เลือก critical จาก Z หรือ t ตามเงื่อนไข</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>สรุปความสูงเฉลี่ยของลูกค้าพร้อมช่วงความเชื่อมั่น 95% เพื่อสื่อสารความไม่แน่นอน</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="15-sampling-other-stats.html">สถิติจากตัวอย่าง</a></li>
-        <li><a href="17-ci-mean-onepop.html">CI ค่าเฉลี่ยกลุ่มเดียว</a></li>
-        <li><a href="31-summary-next.html">Roadmap การอนุมาน</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const levelSelect = document.getElementById('ci-level');
+      const runBtn = document.getElementById('run-sim');
+      const chartSVG = document.getElementById('ci-chart');
+      const resultsDiv = document.getElementById('sim-results');
+      const ns = "http://www.w3.org/2000/svg";
+
+      const TRUE_MEAN = 100;
+      const POP_SD = 15;
+      const SAMPLE_SIZE = 30;
+      
+      const CRITICAL_VALUES = {
+          "0.80": 1.282,
+          "0.90": 1.645,
+          "0.95": 1.960,
+          "0.99": 2.576
+      };
+
+      function runSimulation() {
+          chartSVG.innerHTML = '';
+          const level = levelSelect.value;
+          const criticalValue = CRITICAL_VALUES[level];
+          const standardError = POP_SD / Math.sqrt(SAMPLE_SIZE);
+          const marginOfError = criticalValue * standardError;
+          
+          let captures = 0;
+          const numSims = 100;
+
+          // Draw true mean line
+          const meanY = 125;
+          const meanLine = document.createElementNS(ns, 'line');
+          meanLine.setAttribute('x1', '10');
+          meanLine.setAttribute('x2', '190');
+          meanLine.setAttribute('y1', meanY);
+          meanLine.setAttribute('y2', meanY);
+          meanLine.setAttribute('stroke', '#4a5568');
+          meanLine.setAttribute('stroke-width', '2');
+          meanLine.setAttribute('stroke-dasharray', '4,4');
+          chartSVG.appendChild(meanLine);
+          
+          const meanText = document.createElementNS(ns, 'text');
+          meanText.setAttribute('x', '195');
+          meanText.setAttribute('y', meanY + 4);
+          meanText.setAttribute('font-size', '10');
+          meanText.setAttribute('text-anchor', 'end');
+          meanText.textContent = `μ = ${TRUE_MEAN}`;
+          chartSVG.appendChild(meanText);
+
+          for (let i = 0; i < numSims; i++) {
+              // Simulate a sample mean from N(mu, SE)
+              const sampleMean = TRUE_MEAN + standardError * (Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(2 * Math.PI * Math.random()));
+              
+              const lowerBound = sampleMean - marginOfError;
+              const upperBound = sampleMean + marginOfError;
+              
+              const isCaptured = lowerBound <= TRUE_MEAN && upperBound >= TRUE_MEAN;
+              if (isCaptured) captures++;
+
+              const xPos = 15 + (i % 10) * 17;
+              const yBase = 10 + Math.floor(i / 10) * 23;
+
+              const scaleY = (val) => yBase + 10 - (val - (TRUE_MEAN - 2*marginOfError)) / (4*marginOfError) * 10;
+              
+              const ciLine = document.createElementNS(ns, 'line');
+              ciLine.setAttribute('x1', xPos);
+              ciLine.setAttribute('x2', xPos);
+              ciLine.setAttribute('y1', scaleY(lowerBound));
+              ciLine.setAttribute('y2', scaleY(upperBound));
+              ciLine.setAttribute('stroke', isCaptured ? '#10b981' : '#ef4444');
+              ciLine.setAttribute('stroke-width', '1.5');
+              chartSVG.appendChild(ciLine);
+
+              const centerDot = document.createElementNS(ns, 'circle');
+              centerDot.setAttribute('cx', xPos);
+              centerDot.setAttribute('cy', scaleY(sampleMean));
+              centerDot.setAttribute('r', '1');
+              centerDot.setAttribute('fill', '#1f2937');
+              chartSVG.appendChild(centerDot);
+          }
+          
+          const percentage = (captures / numSims) * 100;
+          resultsDiv.innerHTML = `<span class="${captures >= (parseFloat(level)*100-5) ? 'text-green-700' : 'text-red-700'}">${captures} จาก 100 ช่วง (${percentage.toFixed(0)}%)</span> ครอบคลุมค่าเฉลี่ยจริง`;
+           resultsDiv.className = `mt-2 text-center p-2 rounded-md font-semibold text-sm ${captures >= (parseFloat(level)*100-5) ? 'bg-green-100' : 'bg-red-100'}`;
+      }
+      
+      runBtn.addEventListener('click', runSimulation);
+      // Initial run
+      runSimulation();
+
+    });
+  </script>
+
 </body>
 </html>

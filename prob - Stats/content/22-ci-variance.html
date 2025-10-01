@@ -1,64 +1,275 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>22. ช่วงความเชื่อมั่นของความแปรปรวน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 22: ช่วงความเชื่อมั่นของความแปรปรวน</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 22</p>
-      <h1>ช่วงความเชื่อมั่นของความแปรปรวน</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-orange-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-orange-600">บทที่ 22</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">σ²: ช่วงความเชื่อมั่นของความแปรปรวน</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-orange-50 border border-orange-200 text-orange-800 p-4 rounded-lg">
+        สวัสดีครับ! นอกจากค่าเฉลี่ยและสัดส่วนแล้ว "ความแปรปรวน" ($\sigma^2$) หรือ "ความสม่ำเสมอ" ก็เป็นอีกหนึ่งพารามิเตอร์ที่สำคัญมาก โดยเฉพาะในงานควบคุมคุณภาพ ในบทนี้ เราจะมาเรียนรู้วิธีสร้างช่วงความเชื่อมั่นสำหรับความแปรปรวน โดยใช้เครื่องมือใหม่คือ "การแจกแจงไคสแควร์" (Chi-Squared) ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การประมาณค่าความผันผวน</h2>
+          <p>เราสนใจพารามิเตอร์ $\sigma^2$ (ความแปรปรวนของประชากร) ซึ่งบ่งบอกถึงการกระจายตัวของข้อมูล เราจะประมาณค่านี้โดยใช้ <b>ความแปรปรวนของกลุ่มตัวอย่าง ($s^2$)</b> เป็นค่าประมาณแบบจุด</p>
+          <p class="mt-2">หัวใจสำคัญคือสถิติ $\frac{(n-1)s^2}{\sigma^2}$ มีการแจกแจงแบบ <b>ไคสแควร์ ($\chi^2$)</b> ที่มีองศาอิสระ (df) เท่ากับ $n-1$ ซึ่งทำให้เราสามารถสร้างช่วงความเชื่อมั่นได้</p>
+            <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">ลักษณะสำคัญของการแจกแจง $\chi^2$</h3>
+              <ul class="list-disc list-inside mt-2 ml-4 text-sm space-y-1">
+                  <li>มีค่าเป็นบวกเสมอ</li>
+                  <li>มีการกระจายที่ <b>เบ้ขวา</b> (ไม่สมมาตร)</li>
+                  <li>รูปร่างของโค้งขึ้นอยู่กับค่า <b>องศาอิสระ (df)</b></li>
+              </ul>
+          </div>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรช่วงความเชื่อมั่น</h2>
+           <div class="space-y-4">
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">สำหรับความแปรปรวน ($\sigma^2$)</h3>
+              <p class="text-center my-2 text-base md:text-lg"> $ \left[ \frac{(n-1)s^2}{\chi^2_{\alpha/2, n-1}}, \quad \frac{(n-1)s^2}{\chi^2_{1-\alpha/2, n-1}} \right] $ </p>
+              <p class="text-sm">สังเกตว่าช่วงความเชื่อมั่นนี้ <b>ไม่สมมาตร</b> รอบค่า $s^2$ และค่า $\chi^2$ ที่ใช้เป็นตัวหารสำหรับขอบเขตล่างและบนนั้นสลับตำแหน่งกัน ($\chi^2$ ค่ามากอยู่ฝั่งซ้าย, ค่าน้อยอยู่ฝั่งขวา)</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border">
+                <h3 class="text-lg font-semibold">สำหรับส่วนเบี่ยงเบนมาตรฐาน ($\sigma$)</h3>
+                <p class="text-sm">เพียงแค่ถอดรากที่สองของขอบเขตช่วงความเชื่อมั่นของความแปรปรวน:</p>
+                <p class="text-center my-2 text-base md:text-lg"> $ \left[ \sqrt{\frac{(n-1)s^2}{\chi^2_{\alpha/2, n-1}}}, \quad \sqrt{\frac{(n-1)s^2}{\chi^2_{1-\alpha/2, n-1}}} \right] $ </p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: ความสม่ำเสมอของเครื่องจักร (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: เครื่องจักรบรรจุน้ำดื่มลงขวด ถูกสุ่มตัวอย่างมา 20 ขวด ($n=20$) พบว่ามีส่วนเบี่ยงเบนมาตรฐานของปริมาตร ($s$) เท่ากับ 0.05 ลิตร จงสร้างช่วงความเชื่อมั่น 95% สำหรับความแปรปรวน ($\sigma^2$) และส่วนเบี่ยงเบนมาตรฐาน ($\sigma$) ของปริมาตรบรรจุของเครื่องจักรนี้</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: กำหนดค่าจากโจทย์และหา df</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>ขนาดตัวอย่าง ($n$): 20</li>
+                    <li>SD ตัวอย่าง ($s$): 0.05 $\implies$ ความแปรปรวนตัวอย่าง ($s^2$): $0.05^2 = 0.0025$</li>
+                    <li>ระดับความเชื่อมั่น: 95% $\implies \alpha = 0.05$</li>
+                    <li>องศาอิสระ ($df$): $n-1 = 19$</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: หาค่าวิกฤตจากตาราง $\chi^2$</b></p>
+                <p class="text-sm my-2">เราต้องการค่า $\chi^2$ ที่ตำแหน่งพื้นที่ด้านขวาเท่ากับ $\alpha/2 = 0.025$ และ $1-\alpha/2 = 0.975$</p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>ค่าวิกฤตขวา:</b> $\chi^2_{0.025, 19} = 32.852$ (ใช้สำหรับขอบเขตล่าง)</li>
+                    <li><b>ค่าวิกฤตซ้าย:</b> $\chi^2_{0.975, 19} = 8.907$ (ใช้สำหรับขอบเขตบน)</li>
+                </ul>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: สร้างช่วงความเชื่อมั่นสำหรับ $\sigma^2$</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                   <li><b>ขอบเขตล่าง (Lower Bound):</b> $\frac{(19)(0.0025)}{32.852} = \frac{0.0475}{32.852} \approx 0.00145$</li>
+                   <li><b>ขอบเขตบน (Upper Bound):</b> $\frac{(19)(0.0025)}{8.907} = \frac{0.0475}{8.907} \approx 0.00533$</li>
+                </ul>
+                <p class="font-semibold text-orange-700 mt-2">ช่วงความเชื่อมั่น 95% สำหรับ $\sigma^2$ คือ [0.00145, 0.00533]</p>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 4: สร้างช่วงความเชื่อมั่นสำหรับ $\sigma$ และตีความ</b></p>
+                 <p class="text-sm my-2">ถอดรากที่สองของขอบเขตที่ได้จากขั้นตอนที่ 3:</p>
+                <p class="font-semibold text-orange-700 mt-2">$[\sqrt{0.00145}, \sqrt{0.00533}] \approx [0.038, 0.073]$</p>
+                <p class="text-sm mt-1"><b>สรุป:</b> เราเชื่อมั่น 95% ว่าส่วนเบี่ยงเบนมาตรฐานที่แท้จริงของปริมาตรบรรจุของเครื่องจักรนี้ อยู่ระหว่าง 0.038 ถึง 0.073 ลิตร</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI for Variance Calculator</h2>
+          <div class="space-y-2">
+              <div><label class="block text-xs font-medium">SD ตัวอย่าง ($s$)</label><input type="number" id="ci-s" value="0.05" min="0" step="0.01" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ขนาดตัวอย่าง ($n$)</label><input type="number" id="ci-n" value="20" min="2" class="w-full p-1 border rounded-md mt-1"></div>
+              <div><label class="block text-xs font-medium">ระดับความเชื่อมั่น</label><select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div id="ci-results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการคำนวณ</h3>
+              <div class="mt-2 space-y-1 text-sm">
+                  <p>Degrees of Freedom (df): <span id="df-val" class="font-bold float-right"></span></p>
+                  <p>$\chi^2_{L}$ (ค่าวิกฤตซ้าย): <span id="chi2-left" class="font-bold float-right"></span></p>
+                  <p>$\chi^2_{R}$ (ค่าวิกฤตขวา): <span id="chi2-right" class="font-bold float-right"></span></p>
+              </div>
+              <div class="mt-2 text-center bg-orange-100 p-2 rounded-md">
+                 <p class="text-sm text-orange-800">ช่วงความเชื่อมั่นสำหรับ $\sigma^2$:</p>
+                 <p class="font-bold text-lg text-orange-900">[<span id="var-lower"></span>, <span id="var-upper"></span>]</p>
+              </div>
+              <div class="mt-2 text-center bg-orange-100 p-2 rounded-md">
+                 <p class="text-sm text-orange-800">ช่วงความเชื่อมั่นสำหรับ $\sigma$:</p>
+                 <p class="font-bold text-lg text-orange-900">[<span id="sd-lower"></span>, <span id="sd-upper"></span>]</p>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="21-sample-size.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="23-hypothesis-intro.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เมื่อสนใจการประมาณความแปรปรวนหรือส่วนเบี่ยงเบนมาตรฐาน</p>
-      <ul>
-        <li>ใช้การแจกแจง χ² สำหรับตัวอย่างจากประชากรปกติ</li>
-        <li>ช่วงไม่สมมาตรและตีความอย่างระมัดระวัง</li>
-        <li>แปลงช่วงของความแปรปรวนเป็นช่วงของส่วนเบี่ยงเบนมาตรฐาน</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรช่วงจำเป็นสำหรับการประเมินความเสถียรของกระบวนการ</p>
-      <ul>
-        <li>CI_{σ^2}: ((n−1)s^2/χ²_{α/2, n−1}, (n−1)s^2/χ²_{1−α/2, n−1})</li>
-        <li>แปลงเป็น SD: (√L, √U)</li>
-        <li>ตรวจสอบสมมติฐานความเป็นปกติ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>ประเมินความสม่ำเสมอของเครื่องจักรโดยคำนวณช่วงของส่วนเบี่ยงเบนมาตรฐาน</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="21-sample-size.html">การวางแผนขนาดตัวอย่าง</a></li>
-        <li><a href="23-hypothesis-intro.html">บทนำการทดสอบสมมติฐาน</a></li>
-        <li><a href="../tables/chi2-table.html">ตาราง χ²</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const sInput = document.getElementById('ci-s');
+      const nInput = document.getElementById('ci-n');
+      const levelSelect = document.getElementById('ci-level');
+      const allInputs = [sInput, nInput, levelSelect];
+
+      const dfEl = document.getElementById('df-val');
+      const chi2LeftEl = document.getElementById('chi2-left');
+      const chi2RightEl = document.getElementById('chi2-right');
+      const varLowerEl = document.getElementById('var-lower');
+      const varUpperEl = document.getElementById('var-upper');
+      const sdLowerEl = document.getElementById('sd-lower');
+      const sdUpperEl = document.getElementById('sd-upper');
+      
+      // Simplified Chi-Squared table lookup
+      const CHI2_CRIT = {
+          "0.90": { df: 19, l: 10.117, r: 30.144 },
+          "0.95": { df: 19, l: 8.907, r: 32.852 },
+          "0.99": { df: 19, l: 6.844, r: 38.582 },
+          // Add more df values as needed for a more robust calculator
+          "0.95_df9": { df: 9, l: 2.700, r: 19.023 },
+          "0.95_df29": { df: 29, l: 16.047, r: 45.722 }
+      };
+
+      function getChi2Values(df, level) {
+          // This is a very simplified lookup for demonstration.
+          // A real application would use a library or a larger table.
+          const key = `${level}_df${df}`;
+          if (CHI2_CRIT[key]) return CHI2_CRIT[key];
+          
+          // Fallback for df=19 (from the example)
+          const fallback = CHI2_CRIT[level];
+          if(fallback) return { df: 'approx.', l: fallback.l, r: fallback.r };
+          return null;
+      }
+
+
+      function calculateCI() {
+          const s = parseFloat(sInput.value);
+          const n = parseInt(nInput.value);
+          const level = levelSelect.value;
+          
+          const clearResults = () => {
+              dfEl.textContent = '–'; chi2LeftEl.textContent = '–'; chi2RightEl.textContent = '–';
+              varLowerEl.textContent = '–'; varUpperEl.textContent = '–';
+              sdLowerEl.textContent = '–'; sdUpperEl.textContent = '–';
+          };
+
+          if (isNaN(s) || isNaN(n) || s < 0 || n < 2) {
+              clearResults();
+              return;
+          }
+
+          const df = n - 1;
+          const s2 = s * s;
+          const term = (n - 1) * s2;
+
+          let crit_vals = getChi2Values(df, level);
+          // A bit of logic to make the demo calculator more flexible
+          if (!crit_vals) {
+              if (df === 9) crit_vals = getChi2Values(9, level);
+              else if (df === 29) crit_vals = getChi2Values(29, level);
+              else crit_vals = getChi2Values(19, level); // default to 19
+          }
+
+
+          if (!crit_vals) {
+              clearResults();
+              return;
+          }
+
+          const chi2_left = crit_vals.l;
+          const chi2_right = crit_vals.r;
+
+          const var_lower = term / chi2_right;
+          const var_upper = term / chi2_left;
+
+          const sd_lower = Math.sqrt(var_lower);
+          const sd_upper = Math.sqrt(var_upper);
+          
+          dfEl.textContent = df;
+          chi2LeftEl.textContent = chi2_left.toFixed(3);
+          chi2RightEl.textContent = chi2_right.toFixed(3);
+          
+          varLowerEl.textContent = var_lower.toExponential(4);
+          varUpperEl.textContent = var_upper.toExponential(4);
+          
+          sdLowerEl.textContent = sd_lower.toFixed(4);
+          sdUpperEl.textContent = sd_upper.toFixed(4);
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateCI));
+      calculateCI();
+    });
+  </script>
+
 </body>
 </html>

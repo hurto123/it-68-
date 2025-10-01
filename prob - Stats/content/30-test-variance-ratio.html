@@ -1,64 +1,246 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>30. การทดสอบอัตราส่วนความแปรปรวน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 30: การทดสอบอัตราส่วนความแปรปรวน</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 30</p>
-      <h1>การทดสอบอัตราส่วนความแปรปรวน</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-yellow-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-yellow-600">บทที่ 30</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">F: การทดสอบอัตราส่วนความแปรปรวน</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg">
+        สวัสดีครับ! ในบทนี้เราจะมาเรียนรู้วิธีการเปรียบเทียบ "ความแปรปรวน" หรือ "ความสม่ำเสมอ" ระหว่างประชากรสองกลุ่มที่เป็นอิสระต่อกัน เช่น การเปรียบเทียบความเสถียรของเครื่องจักร 2 เครื่อง โดยใช้เครื่องมือที่เรียกว่า "F-test" และ "การแจกแจง F" ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดและสมมติฐาน</h2>
+          <p>เราสนใจที่จะทดสอบว่าความแปรปรวนของประชากรสองกลุ่ม ($\sigma_1^2$ และ $\sigma_2^2$) เท่ากันหรือไม่ สมมติฐานหลักจึงเป็นการตั้งว่า "ความแปรปรวนทั้งสองเท่ากัน"</p>
+          <div class="p-4 bg-slate-100 rounded-lg text-center my-4">
+             <p class="text-lg">$ H_0: \sigma_1^2 = \sigma_2^2 \quad (\text{หรือ } \frac{\sigma_1^2}{\sigma_2^2} = 1) $</p>
+             <p class="mt-2">สมมติฐานทางเลือก ($H_1$) จะเป็นหนึ่งในสามรูปแบบ: $H_1: \sigma_1^2 \ne \sigma_2^2$, $H_1: \sigma_1^2 > \sigma_2^2$, หรือ $H_1: \sigma_1^2 < \sigma_2^2$</p>
+          </div>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สถิติทดสอบ F (F-statistic)</h2>
+          <div class="p-4 bg-slate-50 rounded-lg border">
+            <h3 class="text-lg font-semibold">สูตรสถิติทดสอบ</h3>
+            <p class="text-center my-2 text-base md:text-lg"> $ F = \frac{s_1^2}{s_2^2} $ </p>
+            <ul class="text-sm space-y-1 mt-2">
+                <li>$s_1^2$ และ $s_2^2$ คือความแปรปรวนของตัวอย่างกลุ่มที่ 1 และ 2 ตามลำดับ</li>
+                <li><b>ข้อตกลงทั่วไป:</b> เพื่อความสะดวกในการเปิดตาราง เรามักจะกำหนดให้กลุ่มที่มีความแปรปรวนตัวอย่างสูงกว่าเป็นกลุ่มที่ 1 เสมอ เพื่อให้ค่า $F \ge 1$ และทำการทดสอบแบบทางเดียวด้านขวา</li>
+                <li>ค่าสถิตินี้มีการแจกแจงแบบ F โดยมี <b>องศาอิสระ 2 ตัว</b>: $df_1 = n_1-1$ (ของตัวเศษ) และ $df_2 = n_2-1$ (ของตัวส่วน)</li>
+            </ul>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: เปรียบเทียบความเสถียรของเครื่องจักร</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: โรงงานแห่งหนึ่งต้องการเปรียบเทียบความสม่ำเสมอในการบรรจุน้ำหนักสินค้าของเครื่องจักร 2 เครื่อง จึงสุ่มตัวอย่างจากเครื่องจักร A 10 ชิ้น และเครื่องจักร B 8 ชิ้น ได้ข้อมูลดังตาราง จงทดสอบว่าความแปรปรวนของเครื่องจักรทั้งสองแตกต่างกันหรือไม่ที่ $\alpha = 0.10$</h3>
+                <div class="my-4 overflow-x-auto"><table class="w-full max-w-sm mx-auto text-center border"><thead class="bg-slate-100"><tr><th class="p-2 border">เครื่องจักร</th><th class="p-2 border">n</th><th class="p-2 border">$s^2$</th></tr></thead><tbody><tr><td class="p-2 border font-semibold">A</td><td class="p-2 border">10</td><td class="p-2 border">25</td></tr><tr><td class="p-2 border font-semibold">B</td><td class="p-2 border">8</td><td class="p-2 border">12</td></tr></tbody></table></div>
+
+                <p><b>ขั้นตอนที่ 1: ตั้งสมมติฐาน</b> $\implies H_0: \sigma_A^2 = \sigma_B^2$, $H_1: \sigma_A^2 \ne \sigma_B^2$</p>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: คำนวณสถิติทดสอบ (F-statistic)</b></p>
+                <p class="text-sm my-2">เนื่องจาก $s_A^2 > s_B^2$ เราจะกำหนดให้กลุ่ม A เป็นกลุ่มที่ 1 และ B เป็นกลุ่มที่ 2</p>
+                <p class="font-semibold text-yellow-700 mt-2"> $ F = \frac{s_A^2}{s_B^2} = \frac{25}{12} \approx 2.083 $ </p>
+                <p class="text-sm">องศาอิสระคือ $df_1 = n_A-1 = 9$ และ $df_2 = n_B-1 = 7$</p>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: หาค่าวิกฤต (Critical Value) และตัดสินใจ</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                   <li><b>หาค่าวิกฤต:</b> สำหรับการทดสอบสองทาง เราจะดูที่ $\alpha/2 = 0.05$ ค่าวิกฤตจากตาราง F คือ $F_{\alpha/2, df_1, df_2} = F_{0.05, 9, 7} \approx 3.68$</li>
+                   <li><b>เปรียบเทียบ:</b> สถิติทดสอบ ($F = 2.083$) <b>ไม่มากกว่า</b> ค่าวิกฤต (3.68)</li>
+                   <li class="font-bold">ตัดสินใจ: ไม่ปฏิเสธ $H_0$</li>
+                </ul>
+                 <div class="my-4 text-center">
+                    <svg viewBox="0 0 400 200" class="w-full h-auto max-w-sm mx-auto">
+                        <defs><path id="f-curve" d="M 50,180 Q 80,20 150,80 T 380,175"></path></defs>
+                        <path d="M290,180 L290,148 C320,155 380,170 380,175 L380,180 Z" fill="rgba(239, 68, 68, 0.4)"></path>
+                        <use href="#f-curve" stroke="#d97706" stroke-width="2" fill="none"></use>
+                        <line x1="290" y1="148" x2="290" y2="180" stroke="#b45309" stroke-width="1.5"></line>
+                        <text x="290" y="195" text-anchor="middle" font-size="12" fill="#b45309">Crit=3.68</text>
+                        <line x1="210" y1="110" x2="210" y2="180" stroke="#0ea5e9" stroke-width="2"></line>
+                        <text x="210" y="105" text-anchor="middle" font-size="12" fill="#0ea5e9">F=2.083</text>
+                        <line x1="5" y1="180" x2="395" y2="180" stroke="#4a5568"></line>
+                    </svg>
+                 </div>
+                <p class="text-sm mt-1"><b>สรุป:</b> ที่ระดับนัยสำคัญ 0.10 เรายังไม่มีหลักฐานเพียงพอที่จะสรุปได้ว่าความแปรปรวนของเครื่องจักรทั้งสองแตกต่างกัน</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">F-Test for Two Variances</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2 border-r pr-4"><h3 class="text-sm font-bold text-center">กลุ่ม 1</h3><div><label class="block text-xs font-medium">$s_1^2$</label><input type="number" id="s1_sq" value="25" min="0" class="w-full p-1 border rounded-md"></div><div><label class="block text-xs font-medium">$n_1$</label><input type="number" id="n1" value="10" min="2" class="w-full p-1 border rounded-md"></div></div>
+            <div class="space-y-2"><h3 class="text-sm font-bold text-center">กลุ่ม 2</h3><div><label class="block text-xs font-medium">$s_2^2$</label><input type="number" id="s2_sq" value="12" min="0" class="w-full p-1 border rounded-md"></div><div><label class="block text-xs font-medium">$n_2$</label><input type="number" id="n2" value="8" min="2" class="w-full p-1 border rounded-md"></div></div>
+          </div>
+          <div class="mt-2"><label class="block text-xs font-medium">ระดับนัยสำคัญ ($\alpha$)</label><select id="alpha-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.10" selected>0.10</option><option value="0.05">0.05</option><option value="0.01">0.01</option></select></div>
+          
+          <hr class="my-4">
+          
+          <div id="results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการทดสอบ (Two-tailed)</h3>
+              <div class="mt-2 grid grid-cols-2 gap-2 text-sm">
+                  <p>F-stat: <span id="f-stat" class="font-bold"></span></p>
+                  <p>df: (<span id="df1-val"></span>, <span id="df2-val"></span>)</p>
+                  <p class="col-span-2">Critical Value F<sub>α/2</sub>: <span id="crit-val" class="font-bold text-lg"></span></p>
+              </div>
+              <div class="mt-2 text-center p-3 rounded-md" id="decision-box">
+                 <p class="font-bold text-xl" id="decision-text"></p>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="29-test-variance-onepop.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="31-summary-next.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เปรียบเทียบความแปรปรวนของสองกระบวนการผ่านการแจกแจง F</p>
-      <ul>
-        <li>สถานการณ์ที่ใช้ F-test เช่น ตรวจสอบความเท่ากันของ σ^2</li>
-        <li>การจัดลำดับตัวอย่างให้ค่า F ≥ 1</li>
-        <li>ความเชื่อมโยงกับ ANOVA ในการเปรียบเทียบหลายกลุ่ม</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรของ F-test</p>
-      <ul>
-        <li>F = (s_1^2/σ_1^2) / (s_2^2/σ_2^2) ≈ (s_1^2/s_2^2)</li>
-        <li>df1 = n_1 − 1, df2 = n_2 − 1</li>
-        <li>ปฏิเสธ H0 เมื่อ F_{obs} > F_{α, df1, df2}</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>ประเมินความเสถียรสองสายการผลิตหรือการวัดสองเครื่องมือ</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="29-test-variance-onepop.html">การทดสอบความแปรปรวนกลุ่มเดียว</a></li>
-        <li><a href="31-summary-next.html">บทสรุปและก้าวต่อไป</a></li>
-        <li><a href="../tools/anova.html">เครื่องมือ ANOVA</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const allInputs = ['s1_sq', 'n1', 's2_sq', 'n2', 'alpha-level'].map(id => document.getElementById(id));
+
+      const fStatEl = document.getElementById('f-stat');
+      const df1El = document.getElementById('df1-val');
+      const df2El = document.getElementById('df2-val');
+      const critValEl = document.getElementById('crit-val');
+      const decisionBox = document.getElementById('decision-box');
+      const decisionText = document.getElementById('decision-text');
+
+      // Simplified F-table lookup for demonstration
+      const F_CRIT = {
+        "0.05": { "9,7": 3.68, "10,15": 2.54, "20,20": 2.12 }, // alpha/2 for alpha=0.10
+        "0.025": { "9,7": 4.82, "10,15": 3.06, "20,20": 2.46 }, // alpha/2 for alpha=0.05
+        "0.005": { "9,7": 8.02, "10,15": 4.25, "20,20": 3.25 }  // alpha/2 for alpha=0.01
+      };
+      
+      function getFCritical(alpha, df1, df2) {
+          const alpha_half = (alpha / 2).toFixed(3).replace(/0$/, '');
+          const table = F_CRIT[alpha_half];
+          if (!table) return NaN;
+          // This is a very simple lookup
+          if(table[`${df1},${df2}`]) return table[`${df1},${df2}`];
+          // Fallback to the first available for demo
+          return table[Object.keys(table)[0]];
+      }
+
+      function calculate() {
+          let [s1_sq, n1, s2_sq, n2, alpha] = allInputs.map(el => parseFloat(el.value));
+
+          const clearResults = () => { fStatEl.textContent = '–'; df1El.textContent='–'; df2El.textContent='–'; critValEl.textContent = '–'; decisionText.textContent = ''; decisionBox.className='mt-2 text-center p-3 rounded-md'; };
+
+          if ([s1_sq, n1, s2_sq, n2, alpha].some(isNaN) || n1 < 2 || n2 < 2 || s1_sq < 0 || s2_sq < 0) {
+              clearResults();
+              return;
+          }
+
+          let df1, df2;
+          let fStat;
+
+          // Convention to put larger variance in numerator
+          if (s1_sq >= s2_sq) {
+              fStat = s1_sq / s2_sq;
+              df1 = n1 - 1;
+              df2 = n2 - 1;
+          } else {
+              fStat = s2_sq / s1_sq;
+              df1 = n2 - 1;
+              df2 = n1 - 1;
+          }
+          
+          const criticalValue = getFCritical(alpha, df1, df2);
+
+          fStatEl.textContent = fStat.toFixed(4);
+          df1El.textContent = df1;
+          df2El.textContent = df2;
+          
+          if(isNaN(criticalValue)) {
+              critValEl.textContent = 'ไม่มีในตาราง';
+              decisionText.textContent = 'ไม่สามารถตัดสินใจ';
+              decisionBox.className = 'mt-2 text-center p-3 rounded-md bg-gray-100 text-gray-800';
+              return;
+          }
+
+          critValEl.textContent = criticalValue.toFixed(4);
+
+          if (fStat > criticalValue) {
+              decisionText.textContent = `ปฏิเสธ H₀ (F > F_crit)`;
+              decisionBox.className = 'mt-2 text-center p-3 rounded-md bg-red-100 text-red-800';
+          } else {
+              decisionText.textContent = `ไม่ปฏิเสธ H₀ (F ≤ F_crit)`;
+              decisionBox.className = 'mt-2 text-center p-3 rounded-md bg-green-100 text-green-800';
+          }
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculate));
+      calculate();
+    });
+  </script>
+
 </body>
 </html>

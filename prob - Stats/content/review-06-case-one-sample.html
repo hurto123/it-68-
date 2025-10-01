@@ -1,17 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>บททบทวนที่ 6: กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 6: กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
     .lesson {
       display: grid;
       gap: var(--size-6);
@@ -72,95 +73,94 @@
       }
     }
   </style>
-</head>
-<body data-page="review">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">👨‍🏫 บททบทวนที่ 6</p>
-      <h1>กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</h1>
-      <p class="subtitle">สวมบทนักสืบและผู้พิพากษาเพื่อวิเคราะห์ข้อมูลของ Gemini Coffee</p>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <article class="card flow">
-      <div class="scenario">
-        <h2>สถานการณ์สมมติ</h2>
-        <p>คุณเป็นผู้จัดการร้านกาแฟแห่งใหม่ "Gemini Coffee" คุณต้องการวิเคราะห์พฤติกรรมการใช้จ่ายของลูกค้าเพื่อวางแผนการตลาด คุณจึงได้ทำการสุ่มเก็บข้อมูลค่าใช้จ่ายของลูกค้ามา 25 คน (n=25) และได้ข้อมูลดังนี้:</p>
-        <ul>
-          <li>ค่าใช้จ่ายเฉลี่ย (\(\bar{x}\)): 140 บาท</li>
-          <li>ส่วนเบี่ยงเบนมาตรฐาน (s): 20 บาท</li>
-        </ul>
-      </div>
-    </article>
-
-    <article class="card flow">
-      <h2>ภารกิจที่ 1: เป็นนักสืบ (ประมาณค่าเฉลี่ยจริง)</h2>
-      <p><strong>คำถาม:</strong> ค่าใช้จ่ายเฉลี่ยที่แท้จริง (μ) ของลูกค้าทั้งหมดน่าจะอยู่ที่ประมาณเท่าไหร่?</p>
-      <ol>
-        <li><strong>เครื่องมือ:</strong> สร้างช่วงความเชื่อมั่น 95% สำหรับ μ</li>
-        <li><strong>เลือกเครื่องมือ:</strong> ไม่ทราบ σ และ n เล็ก (25) จึงใช้ t-Distribution</li>
-        <li><strong>ค่าวิกฤต:</strong> df = 24, t<sub>critical</sub> = 2.064</li>
-        <li><strong>สูตร:</strong> \(CI = 140 ± 2.064 (20/\sqrt{25}) = 140 ± 8.256\)</li>
-        <li><strong>สรุป:</strong> ช่วงความเชื่อมั่นคือ (131.74, 148.26)</li>
-      </ol>
-      <p><em>ตีความ:</em> เราเชื่อมั่น 95% ว่าค่าใช้จ่ายเฉลี่ยจริงอยู่ระหว่าง 131.74 – 148.26 บาท</p>
-    </article>
-
-    <article class="card flow">
-      <h2>ภารกิจที่ 2: เป็นผู้พิพากษา (ทดสอบคำกล่าวอ้าง)</h2>
-      <p><strong>สถานการณ์:</strong> ผู้จัดการสาขาเดิมอ้างว่า "ร้านกาแฟแถวนี้ลูกค้าใช้จ่ายเฉลี่ยแค่ 130 บาท" ต้องการทดสอบว่าร้าน Gemini Coffee มีค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทหรือไม่</p>
-      <ol>
-        <li>ตั้งสมมติฐาน: H<sub>0</sub>: μ = 130, H<sub>1</sub>: μ &gt; 130 (หางขวา)</li>
-        <li>ระดับนัยสำคัญ: α = 0.05</li>
-        <li>ค่าสถิติทดสอบ: \(t = \dfrac{140 - 130}{20/\sqrt{25}} = 2.5\)</li>
-        <li>p-value ≈ 0.01</li>
-        <li>สรุป: p-value &lt; α → ปฏิเสธ H<sub>0</sub>; ค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทอย่างมีนัยสำคัญ</li>
-      </ol>
-    </article>
-
-    <article class="card flow">
-      <h2>One-Sample Analysis Lab</h2>
-      <p>ทดลองคำนวณช่วงความเชื่อมั่นและการทดสอบ t แบบสดๆ พร้อมแผนภาพการตัดสิน (ไม่ใช้ภาพนิ่ง)</p>
-      <div class="lab">
-        <div class="control flow">
-          <label for="lab-mean">\(\bar{x}\) (ค่าเฉลี่ยตัวอย่าง)
-            <input type="number" id="lab-mean" value="140" step="0.1">
-          </label>
-          <label for="lab-sd">s (ส่วนเบี่ยงเบนมาตรฐาน)
-            <input type="number" id="lab-sd" value="20" step="0.1">
-          </label>
-          <label for="lab-n">n (ขนาดตัวอย่าง)
-            <input type="number" id="lab-n" value="25" min="2">
-          </label>
-          <label for="lab-mu0">μ<sub>0</sub> (ค่าที่อ้าง)
-            <input type="number" id="lab-mu0" value="130" step="0.1">
-          </label>
-          <label for="lab-confidence">ความเชื่อมั่น (%)
-            <input type="number" id="lab-confidence" value="95" min="50" max="99.9" step="0.1">
-          </label>
-          <label for="lab-alpha">α (สำหรับทดสอบ)
-            <input type="number" id="lab-alpha" value="0.05" min="0.001" max="0.2" step="0.001">
-          </label>
-          <div class="results" aria-live="polite">
-            <p><strong>CI:</strong> <span id="lab-ci">(0, 0)</span></p>
-            <p><strong>t:</strong> <span id="lab-t">0.00</span></p>
-            <p><strong>p-value (หางเดียว):</strong> <span id="lab-p">0.000</span></p>
-            <p><strong>คำตัดสิน:</strong> <span id="lab-verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
-          </div>
-        </div>
-        <canvas id="one-sample-chart" role="img" aria-label="กราฟการตัดสินของการทดสอบ t"></canvas>
-      </div>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
-  <script>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 6</p>
+<h1>กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</h1>
+<p class="subtitle">สวมบทนักสืบและผู้พิพากษาเพื่อวิเคราะห์ข้อมูลของ Gemini Coffee</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<div class="scenario">
+<h2>สถานการณ์สมมติ</h2>
+<p>คุณเป็นผู้จัดการร้านกาแฟแห่งใหม่ "Gemini Coffee" คุณต้องการวิเคราะห์พฤติกรรมการใช้จ่ายของลูกค้าเพื่อวางแผนการตลาด คุณจึงได้ทำการสุ่มเก็บข้อมูลค่าใช้จ่ายของลูกค้ามา 25 คน (n=25) และได้ข้อมูลดังนี้:</p>
+<ul>
+<li>ค่าใช้จ่ายเฉลี่ย (\(\bar{x}\)): 140 บาท</li>
+<li>ส่วนเบี่ยงเบนมาตรฐาน (s): 20 บาท</li>
+</ul>
+</div>
+</article>
+<article class="card flow">
+<h2>ภารกิจที่ 1: เป็นนักสืบ (ประมาณค่าเฉลี่ยจริง)</h2>
+<p><strong>คำถาม:</strong> ค่าใช้จ่ายเฉลี่ยที่แท้จริง (μ) ของลูกค้าทั้งหมดน่าจะอยู่ที่ประมาณเท่าไหร่?</p>
+<ol>
+<li><strong>เครื่องมือ:</strong> สร้างช่วงความเชื่อมั่น 95% สำหรับ μ</li>
+<li><strong>เลือกเครื่องมือ:</strong> ไม่ทราบ σ และ n เล็ก (25) จึงใช้ t-Distribution</li>
+<li><strong>ค่าวิกฤต:</strong> df = 24, t<sub>critical</sub> = 2.064</li>
+<li><strong>สูตร:</strong> \(CI = 140 ± 2.064 (20/\sqrt{25}) = 140 ± 8.256\)</li>
+<li><strong>สรุป:</strong> ช่วงความเชื่อมั่นคือ (131.74, 148.26)</li>
+</ol>
+<p><em>ตีความ:</em> เราเชื่อมั่น 95% ว่าค่าใช้จ่ายเฉลี่ยจริงอยู่ระหว่าง 131.74 – 148.26 บาท</p>
+</article>
+<article class="card flow">
+<h2>ภารกิจที่ 2: เป็นผู้พิพากษา (ทดสอบคำกล่าวอ้าง)</h2>
+<p><strong>สถานการณ์:</strong> ผู้จัดการสาขาเดิมอ้างว่า "ร้านกาแฟแถวนี้ลูกค้าใช้จ่ายเฉลี่ยแค่ 130 บาท" ต้องการทดสอบว่าร้าน Gemini Coffee มีค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทหรือไม่</p>
+<ol>
+<li>ตั้งสมมติฐาน: H<sub>0</sub>: μ = 130, H<sub>1</sub>: μ &gt; 130 (หางขวา)</li>
+<li>ระดับนัยสำคัญ: α = 0.05</li>
+<li>ค่าสถิติทดสอบ: \(t = \dfrac{140 - 130}{20/\sqrt{25}} = 2.5\)</li>
+<li>p-value ≈ 0.01</li>
+<li>สรุป: p-value &lt; α → ปฏิเสธ H<sub>0</sub>; ค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทอย่างมีนัยสำคัญ</li>
+</ol>
+</article>
+<article class="card flow">
+<h2>One-Sample Analysis Lab</h2>
+<p>ทดลองคำนวณช่วงความเชื่อมั่นและการทดสอบ t แบบสดๆ พร้อมแผนภาพการตัดสิน (ไม่ใช้ภาพนิ่ง)</p>
+<div class="lab">
+<div class="control flow">
+<label for="lab-mean">\(\bar{x}\) (ค่าเฉลี่ยตัวอย่าง)
+            <input id="lab-mean" step="0.1" type="number" value="140"/>
+</label>
+<label for="lab-sd">s (ส่วนเบี่ยงเบนมาตรฐาน)
+            <input id="lab-sd" step="0.1" type="number" value="20"/>
+</label>
+<label for="lab-n">n (ขนาดตัวอย่าง)
+            <input id="lab-n" min="2" type="number" value="25"/>
+</label>
+<label for="lab-mu0">μ<sub>0</sub> (ค่าที่อ้าง)
+            <input id="lab-mu0" step="0.1" type="number" value="130"/>
+</label>
+<label for="lab-confidence">ความเชื่อมั่น (%)
+            <input id="lab-confidence" max="99.9" min="50" step="0.1" type="number" value="95"/>
+</label>
+<label for="lab-alpha">α (สำหรับทดสอบ)
+            <input id="lab-alpha" max="0.2" min="0.001" step="0.001" type="number" value="0.05"/>
+</label>
+<div aria-live="polite" class="results">
+<p><strong>CI:</strong> <span id="lab-ci">(0, 0)</span></p>
+<p><strong>t:</strong> <span id="lab-t">0.00</span></p>
+<p><strong>p-value (หางเดียว):</strong> <span id="lab-p">0.000</span></p>
+<p><strong>คำตัดสิน:</strong> <span id="lab-verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
+</div>
+</div>
+<canvas aria-label="กราฟการตัดสินของการทดสอบ t" id="one-sample-chart" role="img"></canvas>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
     const oneCanvas = document.getElementById('one-sample-chart');
     const oneCtx = oneCanvas.getContext('2d');
     const meanInput = document.getElementById('lab-mean');
@@ -359,5 +359,104 @@
 
     updateLab();
   </script>
-</body>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

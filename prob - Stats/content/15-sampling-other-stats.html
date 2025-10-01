@@ -1,64 +1,240 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>15. การแจกแจงของสถิติอื่น ๆ</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 15: การแจกแจงของสถิติอื่นๆ</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 15</p>
-      <h1>การแจกแจงของสถิติอื่น ๆ</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-pink-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-pink-600">บทที่ 15</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">📊 การแจกแจงของสถิติอื่นๆ</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-pink-50 border border-pink-200 text-pink-800 p-4 rounded-lg">
+        สวัสดีครับ! นอกจากค่าเฉลี่ยของตัวอย่าง ($\bar{X}$) แล้ว ยังมีค่าสถิติอื่นๆ อีกมากมายที่เราใช้ในการอนุมานเกี่ยวกับประชากร ในบทนี้ เราจะมาดูกันว่าค่าสถิติที่สำคัญเหล่านั้นมีการแจกแจงตัวอย่างเป็นอย่างไรครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Sample Proportion -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. การแจกแจงของสัดส่วนตัวอย่าง ($\hat{p}$)</h2>
+          <p>บ่อยครั้งเราสนใจ "สัดส่วน" ของสิ่งที่เราสนใจในประชากร (เช่น สัดส่วนผู้มีสิทธิ์เลือกตั้งที่จะเลือกผู้สมัคร A) เราจะประมาณค่าสัดส่วนประชากร ($p$) ด้วยค่าสัดส่วนที่ได้จากตัวอย่าง ($\hat{p}$)</p>
+          <p class="text-center my-4 text-lg p-3 bg-slate-100 rounded-lg"> $ \hat{p} = \frac{x}{n} $ <span class="text-sm text-slate-600">(เมื่อ $x$ คือจำนวนครั้งที่สำเร็จในตัวอย่างขนาด $n$)</span></p>
+          <p>ตามทฤษฎีบทขีดจำกัดกลาง เมื่อขนาดตัวอย่าง $n$ ใหญ่พอ การแจกแจงของ $\hat{p}$ จะเข้าใกล้การแจกแจงปกติ โดยมีคุณสมบัติดังนี้:</p>
+            <div class="space-y-4 mt-4">
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">ค่าเฉลี่ยของ $\hat{p}$</h3>
+                  <p class="text-center my-2 text-lg"> $ \mu_{\hat{p}} = p $ </p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">Standard Error ของ $\hat{p}$</h3>
+                   <p class="text-center my-2 text-lg"> $ \sigma_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}} $ </p>
+                </div>
+                <div class="p-4 bg-lime-50 border-lime-200 rounded-lg border">
+                  <h3 class="text-lg font-semibold text-lime-800">เงื่อนไขสำหรับการประมาณด้วยโค้งปกติ</h3>
+                  <p class="text-sm text-lime-800">โดยทั่วไป เราจะถือว่า $n$ ใหญ่พอ ถ้า $np \ge 10$ และ $n(1-p) \ge 10$</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Difference between two means -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. การแจกแจงของผลต่างระหว่างค่าเฉลี่ย 2 กลุ่ม ($\bar{X}_1 - \bar{X}_2$)</h2>
+          <p>ใช้เมื่อเราต้องการเปรียบเทียบค่าเฉลี่ยของสองประชากรที่เป็นอิสระต่อกัน (เช่น เปรียบเทียบรายได้เฉลี่ยระหว่างเพศชายและหญิง)</p>
+          <p>เมื่อเราสุ่มตัวอย่างขนาด $n_1$ และ $n_2$ จากแต่ละประชากร การแจกแจงของผลต่างของค่าเฉลี่ยจากตัวอย่าง ($\bar{X}_1 - \bar{X}_2$) จะมีคุณสมบัติดังนี้ (ถ้า $n_1, n_2$ ใหญ่พอ):</p>
+           <div class="space-y-4 mt-4">
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">ค่าเฉลี่ยของ $\bar{X}_1 - \bar{X}_2$</h3>
+                  <p class="text-center my-2 text-lg"> $ \mu_{\bar{X}_1 - \bar{X}_2} = \mu_1 - \mu_2 $ </p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">Standard Error ของ $\bar{X}_1 - \bar{X}_2$</h3>
+                   <p class="text-center my-2 text-lg"> $ \sigma_{\bar{X}_1 - \bar{X}_2} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} $ </p>
+                </div>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Proportion Explorer</h2>
+          <p class="text-sm mb-3 text-slate-600">ดูการแจกแจงของสัดส่วนตัวอย่าง ($\hat{p}$)</p>
+          
+          <div class="space-y-3">
+              <div>
+                  <label for="p-slider" class="block text-xs font-medium">สัดส่วนประชากร (p): <span id="p-display" class="font-bold text-pink-600">0.30</span></label>
+                  <input type="range" id="p-slider" min="0.01" max="0.99" step="0.01" value="0.3" class="w-full">
+              </div>
+              <div>
+                  <label for="n-slider" class="block text-xs font-medium">ขนาดตัวอย่าง (n): <span id="n-display" class="font-bold text-pink-600">50</span></label>
+                  <input type="range" id="n-slider" min="10" max="500" value="50" class="w-full">
+              </div>
+          </div>
+          
+          <div class="mt-4 w-full bg-slate-100 rounded-lg p-1 min-h-[150px]"><svg id="p-chart" class="w-full" viewBox="0 0 400 200"></svg></div>
+          
+          <hr class="my-4">
+          
+          <div>
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">คุณสมบัติของการแจกแจงนี้</h3>
+              <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md"><span class="font-medium">Mean ($\mu_{\hat{p}}$)</span><span id="p-mean" class="font-bold text-lg text-slate-800">–</span></div>
+                  <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md"><span class="font-medium">Std. Error ($\sigma_{\hat{p}}$)</span><span id="p-se" class="font-bold text-lg text-slate-800">–</span></div>
+              </div>
+              <div id="norm-approx" class="mt-2 text-center p-2 rounded-md font-semibold"></div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="14-clt.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="16-ci-intro.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ขยายจากค่าเฉลี่ยไปสู่สถิติที่ใช้บ่อยในการอนุมาน</p>
-      <ul>
-        <li>การแจกแจงของสัดส่วนตัวอย่าง (p̂)</li>
-        <li>การแจกแจงส่วนต่างค่าเฉลี่ยสองกลุ่ม</li>
-        <li>การแจกแจงของความแปรปรวนตัวอย่างและอัตราส่วน F</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐานภายใต้เงื่อนไขขนาดตัวอย่างใหญ่</p>
-      <ul>
-        <li>p̂ ≈ Normal(p, p(1−p)/n)</li>
-        <li>ar X_1 − ar X_2 ≈ Normal(μ_1−μ_2, σ_1^2/n_1 + σ_2^2/n_2)</li>
-        <li>S^2 χ²(df)/σ^2 และ F = (S_1^2/σ_1^2)/(S_2^2/σ_2^2)</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>เปรียบเทียบอัตราการผ่านมาตรฐานของสองโรงงานหรือส่วนต่างคะแนนเฉลี่ยของสองชั้นเรียน</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="14-clt.html">ทฤษฎีขีดจำกัดกลาง</a></li>
-        <li><a href="16-ci-intro.html">บทนำช่วงความเชื่อมั่น</a></li>
-        <li><a href="method-notes.html">บทความเรื่องการสุ่มตัวอย่าง</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+
+      const pSlider = document.getElementById('p-slider');
+      const nSlider = document.getElementById('n-slider');
+      const pDisplay = document.getElementById('p-display');
+      const nDisplay = document.getElementById('n-display');
+      
+      const pMean = document.getElementById('p-mean');
+      const pSE = document.getElementById('p-se');
+      const normApprox = document.getElementById('norm-approx');
+      const pChart = document.getElementById('p-chart');
+      const ns = "http://www.w3.org/2000/svg";
+
+      const normalPDF = (x, mu, sigma) => {
+          if (sigma <= 0) return 0;
+          return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+      };
+
+      function draw() {
+          const p = parseFloat(pSlider.value);
+          const n = parseInt(nSlider.value);
+          pDisplay.textContent = p.toFixed(2);
+          nDisplay.textContent = n;
+
+          const mu_p_hat = p;
+          const sigma_p_hat = Math.sqrt(p * (1 - p) / n);
+          
+          pMean.textContent = mu_p_hat.toFixed(4);
+          pSE.textContent = sigma_p_hat.toFixed(4);
+          
+          const np = n * p;
+          const n_one_minus_p = n * (1-p);
+          if (np >= 10 && n_one_minus_p >= 10) {
+              normApprox.textContent = `เงื่อนไขผ่าน (np=${np.toFixed(1)}, n(1-p)=${n_one_minus_p.toFixed(1)})`;
+              normApprox.className = "mt-2 text-center p-2 rounded-md font-semibold bg-green-100 text-green-800 text-xs";
+          } else {
+              normApprox.textContent = `เงื่อนไขไม่ผ่าน (np=${np.toFixed(1)}, n(1-p)=${n_one_minus_p.toFixed(1)})`;
+               normApprox.className = "mt-2 text-center p-2 rounded-md font-semibold bg-red-100 text-red-800 text-xs";
+          }
+
+          pChart.innerHTML = '';
+          const width = 400, height = 200;
+          
+          const minX = Math.max(0, mu_p_hat - 4 * sigma_p_hat);
+          const maxX = Math.min(1, mu_p_hat + 4 * sigma_p_hat);
+          
+          const scaleX = (x) => (x - minX) / (maxX - minX) * width;
+          const maxY = normalPDF(mu_p_hat, mu_p_hat, sigma_p_hat);
+          const scaleY = (y) => height - 15 - (y / maxY) * (height - 25);
+
+          let pathData = `M ${scaleX(minX)},${scaleY(0)}`;
+          for(let x = minX; x <= maxX; x += (maxX - minX) / 200) {
+              pathData += ` L ${scaleX(x)},${scaleY(normalPDF(x, mu_p_hat, sigma_p_hat))}`;
+          }
+          pathData += ` L ${scaleX(maxX)},${scaleY(0)}`;
+
+          const path = document.createElementNS(ns, 'path');
+          path.setAttribute('d', pathData);
+          path.setAttribute('fill', 'rgba(236, 72, 153, 0.4)');
+          path.setAttribute('stroke', '#be185d');
+          path.setAttribute('stroke-width', '2');
+          pChart.appendChild(path);
+
+           const xAxis = document.createElementNS(ns, 'line');
+          xAxis.setAttribute('x1', 0); xAxis.setAttribute('y1', height - 15);
+          xAxis.setAttribute('x2', width); xAxis.setAttribute('y2', height - 15);
+          xAxis.setAttribute('stroke', '#4a5568');
+          pChart.appendChild(xAxis);
+
+          for(let i = -3; i <= 3; i++) {
+              const xVal = mu_p_hat + i * sigma_p_hat;
+              if (xVal < 0 || xVal > 1) continue;
+              const xPos = scaleX(xVal);
+              const tick = document.createElementNS(ns, 'line');
+              tick.setAttribute('x1', xPos); tick.setAttribute('y1', height - 15);
+              tick.setAttribute('x2', xPos); tick.setAttribute('y2', height - 10);
+              tick.setAttribute('stroke', '#4a5568');
+              pChart.appendChild(tick);
+              const label = document.createElementNS(ns, 'text');
+              label.setAttribute('x', xPos); label.setAttribute('y', height - 2);
+              label.setAttribute('text-anchor', 'middle');
+              label.setAttribute('font-size', '10');
+              label.textContent = xVal.toFixed(2);
+              pChart.appendChild(label);
+          }
+      }
+
+      [pSlider, nSlider].forEach(el => el.addEventListener('input', draw));
+      draw();
+    });
+  </script>
+
 </body>
 </html>

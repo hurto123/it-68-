@@ -1,68 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>รีวิวเคสตัวอย่าง 1 กลุ่ม</title>
-  <link rel="stylesheet" href="../../styles/tokens.css">
-  <link rel="stylesheet" href="../../styles/components.css">
-  <link rel="stylesheet" href="../../styles/light.css">
-  <link rel="stylesheet" href="../../styles/typography-access.css">
-  <link rel="stylesheet" href="../../styles/print.css" media="print">
-  <script defer src="../../app.js"></script>
-  <script defer src="../../i18n/i18n.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>รีวิวเคสตัวอย่าง 1 กลุ่ม</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
 </head>
-<body data-page="review">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">สรุปเร็ว</p>
-      <h1>รีวิวเคสจริง: วิเคราะห์ 1 กลุ่ม</h1>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>บริบทตัวอย่าง</h2>
-      <p>สตาร์ทอัพต้องการพิสูจน์ว่าเวลาตอบแชทเฉลี่ย &lt; 2 นาที หลังอัปเดตระบบ</p>
-      <ul>
-        <li>ข้อมูล: สุ่ม 40 เคส, ได้ x̄ = 1.7 นาที, s = 0.6 นาที</li>
-        <li>สมมติฐาน: H₀: μ = 2, H₁: μ &lt; 2</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ขั้นวิเคราะห์ด่วน</h2>
-      <ol>
-        <li>สำรวจข้อมูลเบื้องต้น (กราฟ, outlier, ความเป็นอิสระ)</li>
-        <li>เลือกการทดสอบ: t-test กลุ่มเดียว (เพราะไม่รู้ σ แต่ n ≥ 30)</li>
-        <li>คำนวณสถิติ: <em>t = (1.7−2)/(0.6/√40)</em></li>
-        <li>เทียบกับ t-critical หรือหา p-value และสรุป</li>
-      </ol>
-    </article>
-    <article class="card">
-      <h2>ตีความ & การสื่อสาร</h2>
-      <ul>
-        <li>รายงานค่าเฉลี่ย, SD, และช่วงเชื่อมั่น 95% (x̄ ± t × s/√n)</li>
-        <li>แปลผลธุรกิจ: หาก H₀ ถูกปฏิเสธ &rarr; การอัปเดตช่วยลดเวลาตอบ</li>
-        <li>เสนอการติดตาม: ตรวจสม่ำเสมอ, เก็บข้อมูลคุณภาพบริการอื่นๆ</li>
-        <li>พูดถึงข้อจำกัด: ขนาดตัวอย่าง, ฤดูกาล, ประเภทลูกค้า</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ปุ่มลัด</h2>
-      <ul>
-        <li><a href="../25-test-mean-onepop.html">บท 25: t/Z test กลุ่มเดียว</a></li>
-        <li><a href="../17-ci-mean-onepop.html">บท 17: ช่วงเชื่อมั่นค่าเฉลี่ยกลุ่มเดียว</a></li>
-        <li><a href="../21-sample-size.html">บท 21: วางแผนขนาดตัวอย่าง</a></li>
-        <li><a href="../../tools/power-sample-size.html">คำนวณ power & MDE</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<body data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">สรุปเร็ว</p>
+<h1>รีวิวเคสจริง: วิเคราะห์ 1 กลุ่ม</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>บริบทตัวอย่าง</h2>
+<p>สตาร์ทอัพต้องการพิสูจน์ว่าเวลาตอบแชทเฉลี่ย &lt; 2 นาที หลังอัปเดตระบบ</p>
+<ul>
+<li>ข้อมูล: สุ่ม 40 เคส, ได้ x̄ = 1.7 นาที, s = 0.6 นาที</li>
+<li>สมมติฐาน: H₀: μ = 2, H₁: μ &lt; 2</li>
+</ul>
+</article>
+<article class="card">
+<h2>ขั้นวิเคราะห์ด่วน</h2>
+<ol>
+<li>สำรวจข้อมูลเบื้องต้น (กราฟ, outlier, ความเป็นอิสระ)</li>
+<li>เลือกการทดสอบ: t-test กลุ่มเดียว (เพราะไม่รู้ σ แต่ n ≥ 30)</li>
+<li>คำนวณสถิติ: <em>t = (1.7−2)/(0.6/√40)</em></li>
+<li>เทียบกับ t-critical หรือหา p-value และสรุป</li>
+</ol>
+</article>
+<article class="card">
+<h2>ตีความ &amp; การสื่อสาร</h2>
+<ul>
+<li>รายงานค่าเฉลี่ย, SD, และช่วงเชื่อมั่น 95% (x̄ ± t × s/√n)</li>
+<li>แปลผลธุรกิจ: หาก H₀ ถูกปฏิเสธ → การอัปเดตช่วยลดเวลาตอบ</li>
+<li>เสนอการติดตาม: ตรวจสม่ำเสมอ, เก็บข้อมูลคุณภาพบริการอื่นๆ</li>
+<li>พูดถึงข้อจำกัด: ขนาดตัวอย่าง, ฤดูกาล, ประเภทลูกค้า</li>
+</ul>
+</article>
+<article class="card">
+<h2>ปุ่มลัด</h2>
+<ul>
+<li><a href="../25-test-mean-onepop.html">บท 25: t/Z test กลุ่มเดียว</a></li>
+<li><a href="../17-ci-mean-onepop.html">บท 17: ช่วงเชื่อมั่นค่าเฉลี่ยกลุ่มเดียว</a></li>
+<li><a href="../21-sample-size.html">บท 21: วางแผนขนาดตัวอย่าง</a></li>
+<li><a href="../../tools/power-sample-size.html">คำนวณ power &amp; MDE</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

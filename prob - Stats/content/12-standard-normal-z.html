@@ -1,64 +1,283 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>12. Z-score & ตารางปกติมาตรฐาน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 12: Z-score และตารางปกติมาตรฐาน</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 12</p>
-      <h1>Z-score & ตารางปกติมาตรฐาน</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-sky-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-sky-600">บทที่ 12</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">🔢 Z-score และตารางปกติมาตรฐาน</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-sky-50 border border-sky-200 text-sky-800 p-4 rounded-lg">
+        สวัสดีครับ! ในบทที่แล้วเรารู้จัก "โค้งปกติ" ซึ่งมีหน้าตาได้หลากหลายขึ้นอยู่กับค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐาน ในบทนี้เราจะเรียนรู้วิธีการ "แปลง" โค้งปกติใดๆ ให้เป็นมาตรฐานเดียวกัน เพื่อที่เราจะสามารถหาพื้นที่ใต้โค้ง (ความน่าจะเป็น) ได้โดยใช้ "ตาราง Z" ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การแปลงเป็นมาตรฐาน (Standardization)</h2>
+          <p>หัวใจสำคัญคือการใช้ <b>Z-score</b> เพื่อแปลงค่าจากหน่วยเดิม (เช่น คะแนน, น้ำหนัก) ให้กลายเป็นหน่วยที่เป็นมาตรฐานเดียวกัน</p>
+          <div class="p-4 bg-slate-800 text-white font-mono rounded-lg text-center my-4 text-lg">
+            $ Z = \frac{X - \mu}{\sigma} $
+          </div>
+          <p><b>การตีความ:</b> Z-score บอกเราว่า "ค่า $X$ ที่เราสนใจ อยู่ห่างจากค่าเฉลี่ย ($\mu$) เป็นจำนวนกี่เท่าของส่วนเบี่ยงเบนมาตรฐาน ($\sigma$)"</p>
+          <ul class="list-disc list-inside text-sm ml-4 mt-2">
+              <li>ถ้า $Z$ เป็นบวก หมายความว่าค่า $X$ อยู่สูงกว่าค่าเฉลี่ย</li>
+              <li>ถ้า $Z$ เป็นลบ หมายความว่าค่า $X$ อยู่ต่ำกว่าค่าเฉลี่ย</li>
+          </ul>
+          <p class="mt-2">เมื่อเราแปลงค่า $X$ ใดๆ เป็นค่า $Z$ แล้ว มันจะมาจากการแจกแจงที่เรียกว่า <b>การแจกแจงปกติมาตรฐาน (Standard Normal Distribution)</b> ซึ่งมี $\mu=0$ และ $\sigma=1$ เสมอ</p>
+        </section>
+
+        <!-- Section 2: Using the Z-table -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. การใช้ตาราง Z เพื่อหาความน่าจะเป็น</h2>
+          <p>ตาราง Z จะบอก "พื้นที่ใต้โค้งปกติมาตรฐานที่นับจากซ้ายสุดมาจนถึงค่า Z ที่กำหนด" ซึ่งก็คือค่าของ $P(Z \le z)$ หรือเขียนแทนด้วยสัญลักษณ์ $\Phi(z)$</p>
+          <div class="mt-4 text-center">
+             <h4 class="text-sm font-semibold mb-2">ภาพแสดงพื้นที่ $\Phi(z)$ ที่ได้จากตาราง Z</h4>
+             <svg viewBox="0 0 200 100" class="w-full h-auto max-w-sm mx-auto"><path d="M10,90 C40,90 40,10 100,10 C160,10 160,90 190,90" stroke="#4f46e5" stroke-width="2" fill="none"></path><path d="M10,90 C40,90 40,10 100,10 C130,10 130,60 140,90 Z" fill="rgba(99,102,241,0.3)"></path><line x1="140" y1="29.4" x2="140" y2="90" stroke="#312e81" stroke-dasharray="2,2"></line><text x="140" y="98" text-anchor="middle" font-size="8">z</text><text x="75" y="60" font-size="10" fill="#312e81">Area = Φ(z)</text></svg>
+          </div>
+           <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">หลักการคำนวณความน่าจะเป็นของช่วง:</h3>
+              <p class="text-center my-2 text-base"> $ P(a \le X \le b) = P(Z_a \le Z \le Z_b) = \Phi(Z_b) - \Phi(Z_a) $ </p>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: การคำนวณคะแนนสอบ</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: คะแนนสอบวิชาสถิติมีการแจกแจงปกติ โดยมีค่าเฉลี่ย ($\mu$) 75 คะแนน และส่วนเบี่ยงเบนมาตรฐาน ($\sigma$) 10 คะแนน</h3>
+                
+                <p class="mt-3"><b>คำถาม ก: จงหาความน่าจะเป็นที่นักศึกษาคนหนึ่งจะสอบได้คะแนนระหว่าง 60 ถึง 85 คะแนน</b></p>
+                <p class="mt-2"><b>ขั้นตอนที่ 1: แปลงค่า $X$ เป็น $Z$</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>สำหรับคะแนน $X_1 = 60$: $ Z_1 = \frac{60 - 75}{10} = -1.5 $</li>
+                    <li>สำหรับคะแนน $X_2 = 85$: $ Z_2 = \frac{85 - 75}{10} = 1.0 $</li>
+                </ul>
+                <p class="text-sm">ดังนั้น $P(60 \le X \le 85)$ จะเท่ากับ $P(-1.5 \le Z \le 1.0)$</p>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: เปิดตาราง Z เพื่อหาค่า $\Phi(z)$</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>จากตาราง Z, พื้นที่ด้านซ้ายของ $Z=1.0$ คือ $\Phi(1.0) = 0.8413$</li>
+                    <li>จากตาราง Z, พื้นที่ด้านซ้ายของ $Z=-1.5$ คือ $\Phi(-1.5) = 0.0668$</li>
+                </ul>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: คำนวณความน่าจะเป็นของช่วง</b></p>
+                <p class="font-semibold text-sky-700 mt-2"> $ P(-1.5 \le Z \le 1.0) = \Phi(1.0) - \Phi(-1.5) = 0.8413 - 0.0668 = 0.7745 $ </p>
+                <p class="text-sm mt-1"><b>สรุป:</b> มีโอกาสประมาณ 77.45% ที่นักศึกษาจะสอบได้คะแนนระหว่าง 60 ถึง 85 คะแนน</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Z-Score Calculator</h2>
+          <p class="text-sm mb-3 text-slate-600">คำนวณ Z-score และหาพื้นที่ใต้โค้งปกติมาตรฐาน</p>
+          <div class="space-y-2">
+              <div>
+                  <label class="block text-xs font-medium">ค่าเฉลี่ย ($\mu$)</label>
+                  <input type="number" id="z-mean" value="75" class="w-full p-1 border rounded-md mt-1">
+              </div>
+              <div>
+                  <label class="block text-xs font-medium">ส่วนเบี่ยงเบนฯ ($\sigma$)</label>
+                  <input type="number" id="z-sd" value="10" min="0.1" class="w-full p-1 border rounded-md mt-1">
+              </div>
+              <div>
+                  <label class="block text-xs font-medium">ค่าที่สนใจ ($X$)</label>
+                  <input type="number" id="z-x" value="85" class="w-full p-1 border rounded-md mt-1">
+              </div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div>
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลลัพธ์</h3>
+              <div class="text-center bg-sky-100 p-2 rounded-md">
+                 <p class="text-sm">Z-Score = <span id="z-score-val" class="font-bold text-2xl text-sky-800">1.000</span></p>
+              </div>
+              <div class="mt-2 space-y-2 text-sm">
+                  <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md"><span class="font-medium">P(X ≤ x) หรือ $\Phi(z)$</span><span id="z-prob-left" class="font-bold text-lg">–</span></div>
+                  <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md"><span class="font-medium">P(X > x) หรือ $1-\Phi(z)$</span><span id="z-prob-right" class="font-bold text-lg">–</span></div>
+              </div>
+          </div>
+          <div class="mt-2 w-full bg-slate-50 rounded-lg p-2">
+               <svg id="z-chart" class="w-full" viewBox="0 0 400 200"></svg>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="11-continuous-normal.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="13-t-chi2-f.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ฝึกการแปลงตัวแปรปกติทั่วไปให้เป็นมาตรฐานเพื่อใช้ตาราง Z</p>
-      <ul>
-        <li>ความหมายของ Z-score วัดระยะจากค่าเฉลี่ยเป็นหน่วย σ</li>
-        <li>การใช้ตารางมาตรฐานเพื่อหาพื้นที่ทั้งด้านซ้ายและสองด้าน</li>
-        <li>เทคนิคการหาพื้นที่ส่วนต่าง ๆ และการตีความผล</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรมาตรฐานใช้ทุกครั้งที่ต้องการตารางปกติ</p>
-      <ul>
-        <li>Z = (X − μ) / σ</li>
-        <li>P(a ≤ X ≤ b) = Φ(z_b) − Φ(z_a)</li>
-        <li>การกลับค่า: X = μ + zσ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>คำนวณโอกาสได้คะแนนสูงกว่าค่าเฉลี่ยสองส่วนเบี่ยงเบน หรือหาค่าตัดสินใจจากเปอร์เซ็นไทล์</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="11-continuous-normal.html">การแจกแจงปกติ</a></li>
-        <li><a href="13-t-chi2-f.html">บทถัดไป: t/χ²/F</a></li>
-        <li><a href="../tables/z-table.html">ตาราง Z</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: การแจกแจงอื่นๆ</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+
+      const meanInput = document.getElementById('z-mean');
+      const sdInput = document.getElementById('z-sd');
+      const xInput = document.getElementById('z-x');
+      const allInputs = [meanInput, sdInput, xInput];
+      
+      const zScoreDisplay = document.getElementById('z-score-val');
+      const probLeftDisplay = document.getElementById('z-prob-left');
+      const probRightDisplay = document.getElementById('z-prob-right');
+      const chartSVG = document.getElementById('z-chart');
+
+      const normalPDF = (x, mu = 0, sigma = 1) => {
+          const sigma2 = sigma * sigma;
+          return (1 / Math.sqrt(2 * Math.PI * sigma2)) * Math.exp(-Math.pow(x - mu, 2) / (2 * sigma2));
+      };
+      
+      const standardNormalCDF = (z) => {
+        if (z < -8) return 0;
+        if (z > 8) return 1;
+        const t = 1 / (1 + 0.2316419 * Math.abs(z));
+        const d = 0.3989423 * Math.exp(-z * z / 2);
+        let prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+        return z > 0 ? 1 - prob : prob;
+      };
+
+      function calculateAndDraw() {
+          const mu = parseFloat(meanInput.value);
+          const sigma = parseFloat(sdInput.value);
+          const xVal = parseFloat(xInput.value);
+
+          if (isNaN(mu) || isNaN(sigma) || isNaN(xVal) || sigma <= 0) {
+              zScoreDisplay.textContent = '–';
+              probLeftDisplay.textContent = '–';
+              probRightDisplay.textContent = '–';
+              chartSVG.innerHTML = '';
+              return;
+          }
+
+          const z = (xVal - mu) / sigma;
+          const probLeft = standardNormalCDF(z);
+          const probRight = 1 - probLeft;
+
+          zScoreDisplay.textContent = z.toFixed(3);
+          probLeftDisplay.textContent = probLeft.toFixed(4);
+          probRightDisplay.textContent = probRight.toFixed(4);
+          
+          drawChart(z);
+      }
+      
+      function drawChart(z) {
+          chartSVG.innerHTML = '';
+          const width = 400, height = 200, ns = "http://www.w3.org/2000/svg";
+          
+          const minX = -4, maxX = 4;
+          const scaleX = (x) => (x - minX) / (maxX - minX) * width;
+          const maxY = normalPDF(0);
+          const scaleY = (y) => height - 15 - (y / maxY) * (height - 25);
+
+          let pathData = `M ${scaleX(minX)},${scaleY(0)}`;
+          let areaPathData = `M ${scaleX(minX)},${scaleY(0)}`;
+          
+          for(let x = minX; x <= maxX; x += (maxX - minX) / 200) {
+              const y = normalPDF(x);
+              pathData += ` L ${scaleX(x)},${scaleY(y)}`;
+              if (x <= z) {
+                  areaPathData += ` L ${scaleX(x)},${scaleY(y)}`;
+              }
+          }
+          pathData += ` L ${scaleX(maxX)},${scaleY(0)}`;
+          areaPathData += ` L ${scaleX(z)},${scaleY(0)} Z`;
+
+          const areaPath = document.createElementNS(ns, 'path');
+          areaPath.setAttribute('d', areaPathData);
+          areaPath.setAttribute('fill', 'rgba(59,130,246,0.5)'); // blue-500
+          chartSVG.appendChild(areaPath);
+
+          const mainPath = document.createElementNS(ns, 'path');
+          mainPath.setAttribute('d', pathData);
+          mainPath.setAttribute('stroke', '#3b82f6');
+          mainPath.setAttribute('stroke-width', '2');
+          mainPath.setAttribute('fill', 'none');
+          chartSVG.appendChild(mainPath);
+
+          const xAxis = document.createElementNS(ns, 'line');
+          xAxis.setAttribute('x1', 0); xAxis.setAttribute('y1', height - 15);
+          xAxis.setAttribute('x2', width); xAxis.setAttribute('y2', height - 15);
+          xAxis.setAttribute('stroke', '#4a5568');
+          chartSVG.appendChild(xAxis);
+
+          for(let i = -3; i <= 3; i++) {
+              const xPos = scaleX(i);
+              const tick = document.createElementNS(ns, 'line');
+              tick.setAttribute('x1', xPos); tick.setAttribute('y1', height - 15);
+              tick.setAttribute('x2', xPos); tick.setAttribute('y2', height - 10);
+              tick.setAttribute('stroke', '#4a5568');
+              chartSVG.appendChild(tick);
+              const label = document.createElementNS(ns, 'text');
+              label.setAttribute('x', xPos); label.setAttribute('y', height - 2);
+              label.setAttribute('text-anchor', 'middle');
+              label.setAttribute('font-size', '10');
+              label.textContent = i === 0 ? `z=0` : i;
+              chartSVG.appendChild(label);
+          }
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateAndDraw));
+      calculateAndDraw();
+    });
+  </script>
+
 </body>
 </html>

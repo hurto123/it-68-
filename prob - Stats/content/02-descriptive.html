@@ -1,229 +1,499 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>02. หลักการนับเบื้องต้น</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
-  <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-    .calc-grid { display: grid; gap: var(--space-2); }
-    .calc-grid label { font-weight: 600; }
-    .result-display { font-size: 1.5rem; font-weight: 700; }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-3); }
-    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
-    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
-    .example-table { width: 100%; border-collapse: collapse; }
-    .example-table th, .example-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
-    .example-table th { background: var(--neutral-100); }
-    .code-block { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>02. หลักการนับเบื้องต้น (Counting Principles)</title>
+<link href="../pwa/manifest.json" rel="manifest"/>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<link href="../styles/skin-clean.css" rel="stylesheet"/>
+<link href="../hotfix.css" rel="stylesheet"/>
+<style>
+    .kpis { display:grid; gap:.75rem; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); margin:.8rem 0 1.2rem;}
+    .kpi { background:var(--surface-1,#fff); border:1px solid var(--surface-4,#e7eaf3); border-radius:14px; padding:.8rem 1rem; }
+    .kpi .n { font-weight:800; font-size:1.25rem; }
+    .muted { color: var(--text-2,#64748b); }
+    .ctrl { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
+    .ctrl input[type="number"]{ width:6rem; }
+    .card{ background:var(--surface-1,#fff); border:1px solid var(--surface-4,#e7eaf3); border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(15,23,42,.06); }
+    .svg-wrap{ width:100%; overflow:auto; background:var(--surface-2,#f7f8fb); border:1px dashed var(--surface-4,#e7eaf3); border-radius:12px; padding:.75rem; }
+    svg{ max-width:100%; height:auto; }
+    code.formula { background:var(--surface-2,#f4f6fb); padding:.15rem .35rem; border-radius:6px; }
+    .sol { display:none; margin-top:.5rem; padding:.6rem .75rem; border-left:4px solid var(--accent-7,#2563eb); background:var(--surface-2,#f5f7fb); border-radius:8px; }
+    .btn-sm{ border:1px solid var(--surface-4,#e7eaf3); background:var(--surface-2,#f2f4f8); padding:.35rem .65rem; border-radius:999px; cursor:pointer; }
+    .toc.sticky{ position:sticky; top:calc(var(--header-h,64px) + 8px); max-height:calc(100vh - 84px); overflow:auto; border-left:4px solid var(--surface-4,#e7eaf3); padding-left:.8rem; margin:1rem 0 1.5rem; }
+    .toc a{ display:block; color:var(--text-2,#334155); text-decoration:none; padding:.08rem 0; }
+    .toc a.active{ color:var(--text-1,#0f172a); font-weight:700; text-decoration:underline; }
+    .breadcrumbs{ color:var(--text-2,#475569); margin:.25rem 0 .25rem; }
+    .breadcrumbs a{ color:inherit; text-decoration:none; }
+    @media print{ .site-header, #progressbar, .site-footer, .toc.sticky { display:none !important; } }
   </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 02</p>
-      <h1>👨‍🏫 บทเรียนที่ 2: หลักการนับเบื้องต้น (Counting Principles)</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! ในบทเรียนที่แล้วเราได้เห็นภาพรวมของสถิติไปแล้ว ในบทนี้เราจะมาเรียนรู้เครื่องมือพื้นฐานแต่ทรงพลังที่สุดอย่างหนึ่ง ซึ่งก็คือ "ศิลปะแห่งการนับ" ครับ หลายครั้งก่อนที่เราจะคำนวณความน่าจะเป็นได้ เราต้องตอบคำถามพื้นฐานให้ได้ก่อนว่า "จำนวนวิธีทั้งหมดที่เป็นไปได้มีกี่วิธี?"</p>
-    </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="01-intro.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="03-probability-basics.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: ทำไมต้องเรียน "นับเลข"?</h2>
-      <p>แน่นอนว่าทุกคนนับเลขเป็น แต่ในทางสถิติ "การนับ" หมายถึงการหาจำนวนวิธีที่เป็นไปได้ทั้งหมดของเหตุการณ์ที่ซับซ้อน เช่น</p>
-      <ul>
-        <li>ถ้ามีเสื้อ 3 ตัว กางเกง 2 ตัว จะแต่งตัวได้ทั้งหมดกี่แบบ?</li>
-        <li>ถ้ามีคน 10 คน จะเลือกกรรมการ 3 คนได้กี่วิธี?</li>
-        <li>ถ้าจะสร้างรหัส ATM 4 หลัก จะสร้างได้ทั้งหมดกี่รหัส?</li>
-      </ul>
-      <p>การนับด้วยวิธีปกติอาจจะช้าและผิดพลาดได้ง่าย "หลักการนับ" จึงเป็นเครื่องมือที่ช่วยให้เราหาคำตอบเหล่านี้ได้อย่างเป็นระบบและรวดเร็วครับ โดยมีกฎพื้นฐานที่สำคัญ 2 ข้อคือ กฎการบวกและกฎการคูณ</p>
-    </section>
+<body class="skin-clean">
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+<header class="site-header" role="banner">
+<a class="brand-link" href="../index.html">📊 Prob &amp; Stats</a>
+<nav aria-label="เครื่องมือ" class="site-actions">
+<button class="btn-sm" id="theme-toggle" title="สลับธีม (T)">ธีม</button>
+<button class="btn-sm" id="print-current" title="พิมพ์หน้านี้ (P)">พิมพ์</button>
+</nav>
+</header>
+<div aria-hidden="true" id="progressbar"><span></span></div>
+<main id="main">
+<nav aria-label="ตำแหน่งเนื้อหา" class="breadcrumbs"><a href="../index.html">หน้าแรก</a> / <a href="./02-descriptive.html">บทที่ 2</a></nav>
+<header class="page-header">
+<div class="pill">👨‍🏫 บทเรียนที่ 2</div>
+<h1>หลักการนับเบื้องต้น (Counting Principles)</h1>
+<p class="muted">ศิลปะแห่งการนับ: Rule of Sum, Rule of Product, Permutations, Combinations พร้อมตัวอย่างโต้ตอบ</p>
+<a class="btn-sm" href="./02-descriptive-cheatsheet.html" target="_blank">พิมพ์สรุป 1 หน้า</a>
+<div class="kpis">
+<div class="kpi"><div class="n" id="kpi-cases">—</div><div class="muted">จำนวนกรณีที่นับได้</div></div>
+<div class="kpi"><div class="n" id="kpi-sets">4</div><div class="muted">แนวคิดหลัก</div></div>
+<div class="kpi"><div class="n" id="kpi-time">~25 นาที</div><div class="muted">เวลาเรียนโดยเฉลี่ย</div></div>
+</div>
+</header>
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc"></nav>
+<section class="card" id="intro">
+<h2>1) บทนำ</h2>
+<p>ก่อนลงสู่ความน่าจะเป็น เราต้อง “นับจำนวนกรณี” ให้ถูกต้องก่อน หลักการนับช่วยบอกว่ามีวิธีเกิดเหตุการณ์ทั้งหมดกี่แบบ โดยไม่ต้องไล่ไล่นับทีละกรณี</p>
+</section>
+<section class="card" id="rules">
+<h2>2) กฎบวก (Rule of Sum) และกฎคูณ (Rule of Product)</h2>
+<h3>2.1 Rule of Sum</h3>
+<p>ถ้างาน A ทำได้ <code>m</code> วิธี และงาน B ทำได้ <code>n</code> วิธี และ <strong>สองงานไม่ทับซ้อนกัน</strong> จำนวนวิธีเลือกทำงานอย่างใดอย่างหนึ่งคือ <code>m + n</code></p>
+<h3>2.2 Rule of Product</h3>
+<p>ถ้าขั้นตอนที่ 1 ทำได้ <code>m</code> วิธี และขั้นตอนที่ 2 ทำได้ <code>n</code> วิธี <strong>โดยอิสระ</strong> จำนวนวิธีของสองขั้นตอนต่อเนื่องคือ <code>m × n</code></p>
+<div aria-label="ตัวอย่างโต้ตอบ Rule of Sum/Product" class="card">
+<h3>ตัวอย่างโต้ตอบ: รวม/คูณจำนวนวิธี</h3>
+<div class="ctrl">
+<label>A = <input id="A" min="0" type="number" value="3"/></label>
+<label>B = <input id="B" min="0" type="number" value="5"/></label>
+<label>โหมด:
+            <select id="mode">
+<option value="sum">Sum (ไม่ทับซ้อน)</option>
+<option value="prod">Product (อิสระ)</option>
+</select>
+</label>
+<button class="btn-sm" id="calc">คำนวณ</button>
+</div>
+<p class="muted">ผลลัพธ์: <strong id="ans">—</strong></p>
+</div>
+</section>
+<section class="card" id="permcomb">
+<h2>3) การเรียงสับเปลี่ยนและการจัดหมู่</h2>
+<h3>3.1 Permutation (nPr)</h3>
+<p>จำนวนวิธีเลือกและ <strong>จัดลำดับ</strong> <code>r</code> ตัวจาก <code>n</code> ตัว คือ
+        <code class="formula">nPr = n! / (n - r)!</code></p>
+<h3>3.2 Combination (nCr)</h3>
+<p>จำนวนวิธีเลือก <strong>ไม่สนลำดับ</strong> <code>r</code> ตัวจาก <code>n</code> ตัว คือ
+        <code class="formula">nCr = n! / (r! (n - r)!)</code></p>
+<div aria-label="คำนวณ nPr / nCr" class="card">
+<h3>ตัวอย่างโต้ตอบ: คำนวณ nPr / nCr</h3>
+<div class="ctrl">
+<label>n = <input id="n" min="0" type="number" value="6"/></label>
+<label>r = <input id="r" min="0" type="number" value="3"/></label>
+<button class="btn-sm" id="calc2">คำนวณ</button>
+</div>
+<p class="muted">nPr = <strong id="npr">—</strong> | nCr = <strong id="ncr">—</strong></p>
+</div>
+</section>
+<section class="card" id="tree">
+<h2>4) ผังต้นไม้ (Counting Tree) แบบ SVG</h2>
+<p class="muted">ใส่รายการตัวเลือกสองขั้นตอน แล้วดูจำนวนกรณีทั้งหมด (Rule of Product) พร้อมแสดงเส้นทางทั้งหมด</p>
+<div class="ctrl">
+<label>ขั้นที่ 1 (คั่นด้วยเครื่องหมายจุลภาค): <input id="stage1" size="28" type="text" value="แดง,เขียว,น้ำเงิน"/></label>
+<label>ขั้นที่ 2 (คั่นด้วยเครื่องหมายจุลภาค): <input id="stage2" size="18" type="text" value="S,M,L"/></label>
+<button class="btn-sm" id="draw-tree">วาดผัง</button>
+</div>
+<div class="svg-wrap"><svg aria-label="ผังต้นไม้" id="tree-svg" role="img" viewbox="0 0 800 420"></svg></div>
+</section>
+<section class="card" id="playground">
+<h2>6) Data Playground: สร้าง Sample Space</h2>
+<p class="muted">กำหนดตัวเลือกได้สูงสุด 3 ขั้นตอน ระบบจะสร้าง <em>sample space</em> และนับจำนวนกรณีให้ พร้อมตัวกรองผลลัพธ์</p>
+<div class="ctrl">
+<label>ขั้นที่ 1: <input id="pg-s1" size="24" type="text" value="A,B,C"/></label>
+<label>ขั้นที่ 2: <input id="pg-s2" size="18" type="text" value="1,2,3"/></label>
+<label>ขั้นที่ 3: <input id="pg-s3" placeholder="ว่างได้" size="14" type="text" value=""/></label>
+<label><input id="pg-unique" type="checkbox"/> ห้ามซ้ำตัวเลือกภายในผลลัพธ์เดียวกัน</label>
+<button class="btn-sm" id="pg-build">สร้าง Sample Space</button>
+<label>กรองผล: <input id="pg-filter" placeholder="เช่น A-2" type="text"/></label>
+</div>
+<div class="card" style="max-height:260px; overflow:auto;">
+<div class="muted">จำนวนกรณีที่แสดง: <strong id="pg-count">—</strong></div>
+<ul id="pg-list" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.35rem .75rem; margin:.5rem 0 0;"></ul>
+</div>
+</section>
+<section class="card" id="ex">
+<h2>5) แบบฝึกหัด</h2>
+<ol>
+<li>พาสเวิร์ดยาว 3 ตัวอักษร ใช้ได้เฉพาะ A–Z (ตัวใหญ่) ทั้งหมด มีกี่แบบ? <button class="btn-sm reveal">เฉลย</button><div class="sol">Rule of Product: 26×26×26 = 26<sup>3</sup> = 17576</div></li>
+<li>จัดโต๊ะรางวัลให้ผู้ชนะ 3 คนจากผู้เข้าแข่งขัน 10 คน โดย <em>เรียงอันดับ</em> (ที่ 1, 2, 3) ได้กี่วิธี? <button class="btn-sm reveal">เฉลย</button><div class="sol">Permutation: 10P3 = 10×9×8 = 720</div></li>
+<li>เลือกตัวแทน 3 คนจากชั้นเรียน 12 คน โดยไม่สนลำดับ ได้กี่วิธี? <button class="btn-sm reveal">เฉลย</button><div class="sol">Combination: 12C3 = 220</div></li>
+</ol>
+</section>
+<section class="card" id="quiz">
+<h2>7) แบบทดสอบ (Quiz)</h2>
+<ol class="quiz-list">
+<li>
+          พาสเวิร์ดยาว 4 ตัวอักษร ใช้ A–Z ตัวใหญ่เท่านั้น มีกี่แบบ?
+          <div class="ctrl">
+<label><input name="q1" type="radio" value="A"/> 4×26</label>
+<label><input name="q1" type="radio" value="B"/> 26<sup>4</sup></label>
+<label><input name="q1" type="radio" value="C"/> 26×25×24×23</label>
+<button class="btn-sm check" data-q="1">ตรวจคำตอบ</button>
+</div>
+<div class="sol" id="exp-1">Rule of Product (อนุญาตซ้ำตำแหน่ง): 26×26×26×26 = 26<sup>4</sup></div>
+</li>
+<li>
+          หยิบลูกบอล 2 ลูกจากกล่องที่มีลูกบอลต่างสีกันทั้งหมด 10 สี โดย “ไม่สนลำดับ” ได้กี่วิธี?
+          <div class="ctrl">
+<label><input name="q2" type="radio" value="A"/> 10P2</label>
+<label><input name="q2" type="radio" value="B"/> 10C2</label>
+<label><input name="q2" type="radio" value="C"/> 10×10</label>
+<button class="btn-sm check" data-q="2">ตรวจคำตอบ</button>
+</div>
+<div class="sol" id="exp-2">ไม่สนลำดับ ⇒ Combination: 10C2 = 45</div>
+</li>
+<li>
+          จัดอันดับผู้ชนะ 3 คนจากผู้เข้าแข่งขัน 8 คน (ที่ 1, 2, 3) ได้กี่วิธี?
+          <div class="ctrl">
+<label><input name="q3" type="radio" value="A"/> 8C3</label>
+<label><input name="q3" type="radio" value="B"/> 8P3</label>
+<label><input name="q3" type="radio" value="C"/> 8×3</label>
+<button class="btn-sm check" data-q="3">ตรวจคำตอบ</button>
+</div>
+<div class="sol" id="exp-3">สนลำดับ ⇒ Permutation: 8P3 = 8×7×6 = 336</div>
+</li>
+</ol>
+<div class="ctrl">
+<button class="btn-sm" id="quiz-reset">เริ่มใหม่</button>
+<a class="btn-sm" href="./02-descriptive-cheatsheet.html" target="_blank">พิมพ์สรุป 1 หน้า</a>
+</div>
+</section>
+</main>
+<footer class="site-footer" role="contentinfo">
+<nav aria-label="การนำทางบท" class="prev-next">
+<a aria-disabled="true" class="btn-nav prev disabled">← บทก่อนหน้า</a>
+<a aria-disabled="true" class="btn-nav next disabled">บทถัดไป →</a>
+</nav>
+<p class="muted small">กด <kbd>[</kbd> เพื่อย้อนกลับ, <kbd>]</kbd> เพื่อไปถัดไป, <kbd>T</kbd> สลับธีม, <kbd>P</kbd> พิมพ์</p>
+</footer>
+<script src="../app.js"></script>
+<script src="../i18n/i18n.js"></script>
+<script defer="" src="../hotfix.js"></script>
+<script>
+  (function(){
+    // Theme toggle + Print (fallback)
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        try{ localStorage.setItem('stats-theme','hc'); }catch(e){}
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        try{ localStorage.setItem('stats-theme','light'); }catch(e){}
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
 
-    <section>
-      <h2>2.&nbsp;&amp;&nbsp;3. ความหมายและการทำงานของสูตร: กฎพื้นฐานและเครื่องมือขั้นสูง</h2>
-      <article class="grid-2">
-        <div>
-          <h3>กฎข้อที่ 1: กฎการบวก (Addition Rule)</h3>
-          <p>ความหมาย: ใช้เมื่อการทำงานอย่างหนึ่งมี "ทางเลือก" ให้ทำได้หลายวิธี โดยแต่ละวิธี "ทำงานเสร็จสิ้นในตัวเอง" และไม่สามารถทำพร้อมกันได้</p>
-          <p>การทำงาน: เราจะนำจำนวนวิธีของแต่ละทางเลือกมา "บวก" กัน</p>
-          <p><strong>คีย์เวิร์ด:</strong> "หรือ", "อย่างใดอย่างหนึ่ง"</p>
-        </div>
-        <div>
-          <h3>กฎข้อที่ 2: กฎการคูณ (Multiplication Rule)</h3>
-          <p>ความหมาย: ใช้เมื่อการทำงานอย่างหนึ่งประกอบด้วย "ขั้นตอน" ย่อยๆ หลายขั้นตอนที่ต้องทำ "ต่อเนื่องกันไป" จนกว่าจะเสร็จสมบูรณ์</p>
-          <p>การทำงาน: เราจะนำจำนวนวิธีของแต่ละขั้นตอนย่อยมา "คูณ" กัน</p>
-          <p><strong>คีย์เวิร์ด:</strong> "และ", "ต่อเนื่องกัน", "ทำตามลำดับ"</p>
-        </div>
-      </article>
-      <article class="grid-2">
-        <div>
-          <h3>เครื่องมือขั้นสูง: การเรียงสับเปลี่ยน (Permutation)</h3>
-          <p>ความหมาย: คือการนำของที่แตกต่างกันทั้งหมด n ชิ้น มาจัด "เรียงลำดับ" เพียงแค่ r ชิ้น</p>
-          <p>หัวใจสำคัญ: "ลำดับมีความสำคัญ" (Order Matters!) การสลับที่กันถือว่าเป็นคนละวิธี</p>
-          <div class="code-block">P<sub>n,r</sub> = n!/(n-r)!</div>
-          <p>n! (อ่านว่า n-factorial) คือ n×(n−1)×(n−2)×⋯×1 (เช่น 4!=4×3×2×1=24)</p>
-          <ul>
-            <li>n คือ จำนวนของทั้งหมดที่มีให้เลือก</li>
-            <li>r คือ จำนวนของที่เราจะนำมาจัดลำดับ</li>
-          </ul>
-        </div>
-        <div>
-          <h3>เครื่องมือขั้นสูง: การจัดหมู่ (Combination)</h3>
-          <p>ความหมาย: คือการนำของที่แตกต่างกันทั้งหมด n ชิ้น มา "เลือกเป็นกลุ่ม" จำนวน r ชิ้น</p>
-          <p>หัวใจสำคัญ: "ลำดับไม่มีความสำคัญ" (Order Doesn't Matter!) ขอแค่ได้ของครบตามจำนวนก็พอ ใครมาก่อนมาหลังไม่สำคัญ</p>
-          <div class="code-block">C<sub>n,r</sub> = n! / [r!(n-r)!]</div>
-          <p>สัญลักษณ์ต่างๆ มีความหมายเหมือนกับ Permutation</p>
-        </div>
-      </article>
-    </section>
-
-    <section>
-      <h2>4. การเข้าใจในเนื้อหา: Permutation vs Combination</h2>
-      <p>วิธีแยกแยะที่ง่ายที่สุดระหว่างสองเรื่องนี้คือการถามตัวเองว่า "ลำดับสำคัญหรือไม่?"</p>
-      <div class="grid-2">
-        <div>
-          <h3>Permutation (ลำดับสำคัญ)</h3>
-          <ul>
-            <li>นึกถึงการ "แข่งขันวิ่ง" ที่มีผู้ชนะที่ 1, 2, 3 การที่นาย A ได้ที่ 1 นาย B ได้ที่ 2 ไม่เหมือนกับ นาย B ได้ที่ 1 นาย A ได้ที่ 2</li>
-            <li>นึกถึงการ "จัดตำแหน่ง" เช่น ประธาน, รองประธาน, เหรัญญิก</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Combination (ลำดับไม่สำคัญ)</h3>
-          <ul>
-            <li>นึกถึงการ "เลือกคณะกรรมการ" 3 คน ขอแค่มีนาย A, B, C อยู่ในกลุ่มก็พอ ไม่สำคัญว่าจะเลือกใครเข้ามาก่อนหรือหลัง</li>
-            <li>นึกถึงการ "เลือกไพ่" 5 ใบบนมือ ลำดับที่จั่วไพ่ขึ้นมาไม่มีผลต่อไพ่ในมือ</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>5. ยกตัวอย่าง</h2>
-      <h3>ตัวอย่างกฎการคูณ</h3>
-      <p>โจทย์: มีเสื้อ 3 แบบ และกางเกง 4 แบบ จะแต่งตัวได้กี่วิธี?</p>
-      <p>วิเคราะห์: การแต่งตัวมี 2 ขั้นตอนต่อเนื่องกันคือ 1) เลือกเสื้อ และ 2) เลือกกางเกง</p>
-      <p>วิธีทำ: จำนวนวิธี = (วิธีเลือกเสื้อ) × (วิธีเลือกกางเกง) = 3 × 4 = <strong>12 วิธี</strong></p>
-      <h3>ตัวอย่าง Permutation</h3>
-      <p>โจทย์: มีนักวิ่ง 8 คน จะมีวิธีแจกเหรียญทอง, เงิน, ทองแดง (ที่ 1, 2, 3) ได้กี่วิธี?</p>
-      <p>วิเคราะห์: นี่คือการเลือกคน 3 คนจาก 8 คนมา "จัดลำดับ" เพราะลำดับการเข้าเส้นชัยสำคัญ</p>
-      <p>วิธีทำ: n=8, r=3</p>
-      <div class="code-block">P<sub>8,3</sub> = 8×7×6 = <strong>336 วิธี</strong></div>
-      <h3>ตัวอย่าง Combination</h3>
-      <p>โจทย์: มีนักเรียน 10 คน ต้องการเลือกตัวแทน 3 คนไปแข่งขัน จะเลือกได้กี่วิธี?</p>
-      <p>วิเคราะห์: นี่คือการเลือกคน 3 คนจาก 10 คนมา "จัดกลุ่ม" ลำดับการถูกเลือกไม่สำคัญ</p>
-      <p>วิธีทำ: n=10, r=3</p>
-      <div class="code-block">C<sub>10,3</sub> = (10×9×8)/6 = <strong>120 วิธี</strong></div>
-      <p>เราได้เรียนรู้เครื่องมือสำคัญในการนับไปแล้วนะครับ ซึ่งจะเป็นฐานให้เราสามารถคำนวณความน่าจะเป็นในบทเรียนถัดไปได้อย่างแม่นยำ ถ้าพร้อมแล้วเราไปต่อกันเลย!</p>
-    </section>
-
-    <section>
-      <h2>Interactive: Counting Playground</h2>
-      <p>ทดลองปรับจำนวนชิ้นและขั้นตอนเพื่อดูผลลัพธ์ของกฎการบวก กฎการคูณ รวมถึง Permutation และ Combination แบบโต้ตอบ</p>
-      <div class="grid-2">
-        <div class="calc-grid" aria-label="ตั้งค่าการนับ">
-          <label for="option-a">จำนวนวิธีของทางเลือก A</label>
-          <input id="option-a" type="number" min="0" value="3">
-
-          <label for="option-b">จำนวนวิธีของทางเลือก B</label>
-          <input id="option-b" type="number" min="0" value="4">
-
-          <label for="step-1">จำนวนวิธีขั้นตอนที่ 1</label>
-          <input id="step-1" type="number" min="0" value="3">
-
-          <label for="step-2">จำนวนวิธีขั้นตอนที่ 2</label>
-          <input id="step-2" type="number" min="0" value="4">
-
-          <label for="perm-n">n (จำนวนทั้งหมด)</label>
-          <input id="perm-n" type="number" min="0" value="8">
-
-          <label for="perm-r">r (จำนวนที่เลือก)</label>
-          <input id="perm-r" type="number" min="0" value="3">
-
-          <button class="primary" id="calc-btn">คำนวณ</button>
-        </div>
-        <div>
-          <p><strong>ผลลัพธ์</strong></p>
-          <p>กฎการบวก: <span class="result-display" id="add-result">7</span></p>
-          <p>กฎการคูณ: <span class="result-display" id="mult-result">12</span></p>
-          <p>Permutation P(n,r): <span class="result-display" id="perm-result">336</span></p>
-          <p>Combination C(n,r): <span class="result-display" id="comb-result">56</span></p>
-          <div class="bar-chart" role="img" aria-label="เปรียบเทียบจำนวนกรณี">
-            <div class="bar" id="bar-add" style="height:40%" data-value="7"><span>บวก</span></div>
-            <div class="bar" id="bar-mult" style="height:60%" data-value="12"><span>คูณ</span></div>
-            <div class="bar" id="bar-perm" style="height:90%" data-value="336"><span>Permutation</span></div>
-            <div class="bar" id="bar-comb" style="height:70%" data-value="56"><span>Combination</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
-  <script>
-    const factorial = (n) => {
-      if (n < 0) return NaN;
-      let result = 1;
-      for (let i = 2; i <= n; i += 1) result *= i;
-      return result;
-    };
-
-    const clampHeight = (value, max) => {
-      if (!isFinite(value) || value <= 0) return 5;
-      return Math.min(100, Math.max(5, (value / max) * 100));
-    };
-
-    const updateBars = (values) => {
-      const max = Math.max(...values.map(v => (isFinite(v) ? v : 0)), 1);
-      const ids = ['bar-add', 'bar-mult', 'bar-perm', 'bar-comb'];
-      values.forEach((value, index) => {
-        const bar = document.getElementById(ids[index]);
-        const safeValue = isFinite(value) ? value : 0;
-        bar.style.height = `${clampHeight(safeValue, max)}%`;
-        bar.dataset.value = safeValue.toLocaleString('th-TH');
-      });
-    };
-
-    document.getElementById('calc-btn').addEventListener('click', () => {
-      const optionA = Number(document.getElementById('option-a').value);
-      const optionB = Number(document.getElementById('option-b').value);
-      const step1 = Number(document.getElementById('step-1').value);
-      const step2 = Number(document.getElementById('step-2').value);
-      const n = Number(document.getElementById('perm-n').value);
-      const r = Number(document.getElementById('perm-r').value);
-
-      const addition = optionA + optionB;
-      const multiplication = step1 * step2;
-      const permutation = r <= n ? factorial(n) / factorial(n - r) : NaN;
-      const combination = r <= n ? permutation / factorial(r) : NaN;
-
-      document.getElementById('add-result').textContent = isFinite(addition) ? addition.toLocaleString('th-TH') : '—';
-      document.getElementById('mult-result').textContent = isFinite(multiplication) ? multiplication.toLocaleString('th-TH') : '—';
-      document.getElementById('perm-result').textContent = isFinite(permutation) ? permutation.toLocaleString('th-TH') : '—';
-      document.getElementById('comb-result').textContent = isFinite(combination) ? combination.toLocaleString('th-TH') : '—';
-
-      updateBars([addition, multiplication, permutation, combination]);
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
     });
 
-    updateBars([7, 12, 336, 56]);
+    // Scroll progress
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // TOC จาก h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+    // Prev/Next
+    (async function(){
+      const prevA = document.querySelector('.prev-next .prev');
+      const nextA = document.querySelector('.prev-next .next');
+      function setLink(el, href, label){
+        if(!el) return;
+        if(href){
+          el.classList.remove('disabled');
+          el.removeAttribute('aria-disabled');
+          el.setAttribute('href', href);
+          if(label) el.textContent = label;
+        }
+      }
+      function numericFallback(){
+        const name = location.pathname.split('/').pop(); // NN-xxx.html
+        const m = name.match(/^(\d+)(.*)$/);
+        if(!m) return;
+        const n = parseInt(m[1],10);
+        const pad = (x)=>String(x).padStart(m[1].length,'0');
+        const dir = location.pathname.replace(name,'');
+        const prevHref = n>1 ? dir + pad(n-1) + m[2] : null;
+        const nextHref = dir + pad(n+1) + m[2];
+        setLink(prevA, prevHref, '← บทก่อนหน้า');
+        setLink(nextA, nextHref, 'บทถัดไป →');
+      }
+      try{
+        const res = await fetch('../search-index.json',{cache:'no-store'});
+        if(!res.ok) return numericFallback();
+        const idx = await res.json();
+        const items = Array.isArray(idx) ? idx : (idx.items||idx.lessons||[]);
+        const list = items.map(x=> (typeof x==='string'? x : (x.href||x.file||x.url||''))).filter(Boolean);
+        const cur = location.pathname.split('/').slice(-2).join('/');
+        const i = list.indexOf(cur);
+        if(i>=0){
+          const prev = list[i-1] || null;
+          const next = list[i+1] || null;
+          setLink(prevA, prev, '← บทก่อนหน้า');
+          setLink(nextA, next, 'บทถัดไป →');
+        } else {
+          numericFallback();
+        }
+      }catch(e){
+        numericFallback();
+      }
+    })();
+
+    // ====== Interactive: Sum/Product ======
+    (function(){
+      const A = document.getElementById('A');
+      const B = document.getElementById('B');
+      const mode = document.getElementById('mode');
+      const calc = document.getElementById('calc');
+      const ans = document.getElementById('ans');
+      const kpi = document.getElementById('kpi-cases');
+      function upd(){
+        const a = Math.max(0, parseInt(A.value||'0',10));
+        const b = Math.max(0, parseInt(B.value||'0',10));
+        const m = mode.value;
+        const val = (m==='sum') ? (a+b) : (a*b);
+        ans.textContent = val.toString();
+        if(kpi) kpi.textContent = val.toString();
+      }
+      calc && calc.addEventListener('click', upd);
+      [A,B,mode].forEach(el=> el && el.addEventListener('change', upd));
+      upd();
+    })();
+
+    // ====== Interactive: nPr / nCr ======
+    (function(){
+      const nI = document.getElementById('n');
+      const rI = document.getElementById('r');
+      const calc = document.getElementById('calc2');
+      const npr = document.getElementById('npr');
+      const ncr = document.getElementById('ncr');
+      function fact(x){
+        x = Math.floor(Math.max(0,x));
+        let f = 1n;
+        for(let i=2n;i<=BigInt(x);i++) f *= i;
+        return f;
+      }
+      function perm(n,r){
+        if(r>n) return 0n;
+        return fact(n) / fact(n-r);
+      }
+      function comb(n,r){
+        if(r>n) return 0n;
+        return fact(n) / (fact(r) * fact(n-r));
+      }
+      function upd(){
+        const n = parseInt(nI.value||'0',10);
+        const r = parseInt(rI.value||'0',10);
+        const P = perm(n,r); const C = comb(n,r);
+        npr.textContent = P.toString();
+        ncr.textContent = C.toString();
+      }
+      calc && calc.addEventListener('click', upd);
+      [nI,rI].forEach(el=> el && el.addEventListener('change', upd));
+      upd();
+    })();
+
+    // ====== Interactive: Counting Tree SVG ======
+    (function(){
+      const stage1 = document.getElementById('stage1');
+      const stage2 = document.getElementById('stage2');
+      const btn = document.getElementById('draw-tree');
+      const svg = document.getElementById('tree-svg');
+      function draw(){
+        const s1 = (stage1.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+        const s2 = (stage2.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+        const pad = 30, W = 760, H = Math.max(200, 40 + s1.length * s2.length * 12);
+        svg.setAttribute('viewBox', `0 0 ${W+pad*2} ${H+pad*2}`);
+        svg.innerHTML = '';
+
+        const mkText = (x,y,t,cls)=>{
+          const el = document.createElementNS('http://www.w3.org/2000/svg','text');
+          el.setAttribute('x',x); el.setAttribute('y',y); el.setAttribute('font-size','12'); el.setAttribute('fill','#334155');
+          if(cls) el.setAttribute('class',cls);
+          el.textContent = t; svg.appendChild(el);
+        };
+        const mkLine = (x1,y1,x2,y2)=>{
+          const el = document.createElementNS('http://www.w3.org/2000/svg','line');
+          el.setAttribute('x1',x1); el.setAttribute('y1',y1); el.setAttribute('x2',x2); el.setAttribute('y2',y2);
+          el.setAttribute('stroke','#94a3b8'); el.setAttribute('stroke-width','1.5');
+          svg.appendChild(el);
+        };
+        mkText(pad, pad+10, 'เริ่มต้น');
+        let y = pad+30;
+        const x1 = pad+120, x2 = x1 + 220, x3 = x2 + 220;
+        s1.forEach((a, i)=>{
+          const y1 = y + i * Math.max(18, 22);
+          mkLine(pad+40, y1-10, x1-10, y1-10);
+          mkText(x1, y1-6, a);
+          s2.forEach((b, j)=>{
+            const y2 = y1 + j * 14;
+            mkLine(x1+60, y1-10, x2-10, y2-6);
+            mkText(x2, y2-6, b);
+            mkLine(x2+60, y2-6, x3-10, y2-6);
+            mkText(x3, y2-2, `${a}-${b}`);
+          });
+        });
+        mkText(pad, H+pad-6, `จำนวนกรณีทั้งหมด: ${s1.length * s2.length}`);
+      }
+      btn && btn.addEventListener('click', draw);
+      draw();
+    })();
+
+    // ====== Playground ======
+    (function(){
+      const s1 = document.getElementById('pg-s1');
+      const s2 = document.getElementById('pg-s2');
+      const s3 = document.getElementById('pg-s3');
+      const uniq = document.getElementById('pg-unique');
+      const build = document.getElementById('pg-build');
+      const filterI = document.getElementById('pg-filter');
+      const list = document.getElementById('pg-list');
+      const count = document.getElementById('pg-count');
+
+      function cartProd(arrs){
+        return arrs.reduce((acc,cur)=>{
+          const out = [];
+          acc.forEach(a=> cur.forEach(b=> out.push(a.concat([b])) ));
+          return out;
+        }, [[]]);
+      }
+      function uniqOK(items){
+        if(!uniq || !uniq.checked) return true;
+        const seen = new Set(items);
+        return seen.size === items.length;
+      }
+      function buildSpace(){
+        const A = (s1.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+        const B = (s2.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+        const C = (s3.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+        const arrs = [A]; if(B.length) arrs.push(B); if(C.length) arrs.push(C);
+        let tuples = arrs.length ? cartProd(arrs) : [];
+        tuples = tuples.filter(t=> uniqOK(t));
+        const q = (filterI.value||'').trim().toLowerCase();
+        list.innerHTML='';
+        let shown = 0;
+        tuples.forEach(t=>{
+          const label = t.join('-');
+          if(q && label.toLowerCase().indexOf(q)===-1) return;
+          const li = document.createElement('li');
+          li.textContent = label;
+          list.appendChild(li);
+          shown++;
+        });
+        count.textContent = `${shown}${q ? ` / ทั้งหมด ${tuples.length}` : ''}`;
+      }
+      ['input','change'].forEach(ev=>{
+        s1 && s1.addEventListener(ev, buildSpace);
+        s2 && s2.addEventListener(ev, buildSpace);
+        s3 && s3.addEventListener(ev, buildSpace);
+        uniq && uniq.addEventListener(ev, buildSpace);
+        filterI && filterI.addEventListener(ev, buildSpace);
+      });
+      build && build.addEventListener('click', buildSpace);
+      buildSpace();
+    })();
+
+    // ====== Quiz ======
+    (function(){
+      const answers = { 1:'B', 2:'B', 3:'B' };
+      document.querySelectorAll('button.check').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const q = btn.getAttribute('data-q');
+          const val = (document.querySelector(`input[name="q${q}"]:checked`)||{}).value;
+          const ok = val === answers[q];
+          btn.textContent = ok ? 'ถูกต้อง ✓' : 'ลองใหม่ ×';
+          const exp = document.getElementById('exp-'+q);
+          if(exp){ exp.style.display = 'block'; }
+        });
+      });
+      const reset = document.getElementById('quiz-reset');
+      reset && reset.addEventListener('click', ()=>{
+        document.querySelectorAll('.quiz-list input[type="radio"]').forEach(i=> i.checked = false);
+        document.querySelectorAll('button.check').forEach(b=> b.textContent = 'ตรวจคำตอบ');
+        document.querySelectorAll('#quiz .sol').forEach(s=> s.style.display = 'none');
+      });
+    })();
+
+  })();
   </script>
 </body>
 </html>

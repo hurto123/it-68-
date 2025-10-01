@@ -1,64 +1,240 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>20. ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 20: ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 20</p>
-      <h1>ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-emerald-600">บทที่ 20</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">p₁-p₂: ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-lg">
+        สวัสดีครับ! ต่อเนื่องจากการเปรียบเทียบค่าเฉลี่ย ในบทนี้เราจะมาเรียนรู้วิธีการเปรียบเทียบ "สัดส่วน" ระหว่างสองกลุ่มประชากรที่เป็นอิสระต่อกัน เช่น การเปรียบเทียบประสิทธิภาพของยา 2 ชนิด หรืออัตราการตอบรับแคมเปญโฆษณา 2 รูปแบบ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การประมาณค่าผลต่างของสัดส่วน</h2>
+          <p>เราสนใจพารามิเตอร์ $p_1 - p_2$ ซึ่งเป็นผลต่างที่แท้จริงของสัดส่วนระหว่างสองประชากร เราจะประมาณค่านี้โดยใช้ <b>ค่าประมาณแบบจุด (Point Estimate)</b> ซึ่งก็คือผลต่างของสัดส่วนจากกลุ่มตัวอย่าง:</p>
+          <div class="p-4 bg-slate-100 rounded-lg text-center my-4 text-lg">
+             $ \hat{p}_1 - \hat{p}_2 $
+          </div>
+          <p>และเช่นเคย เราจะสร้างช่วงความเชื่อมั่นรอบๆ ค่าประมาณนี้ด้วยโครงสร้าง: <br><b>ค่าประมาณแบบจุด ± (ค่าวิกฤต × Standard Error)</b></p>
+        </section>
+
+        <!-- Section 2: Formulas & Conditions -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรและเงื่อนไขการใช้งาน</h2>
+          <div class="p-4 bg-slate-50 rounded-lg border">
+            <h3 class="text-lg font-semibold">สูตรช่วงความเชื่อมั่นสำหรับผลต่างของสัดส่วน</h3>
+            <p class="text-center my-2 text-base md:text-lg"> $ (\hat{p}_1 - \hat{p}_2) \pm Z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} $ </p>
+            <ul class="text-sm space-y-1 mt-2">
+                <li><b>Point Estimate:</b> $\hat{p}_1 - \hat{p}_2$</li>
+                <li><b>Critical Value:</b> $Z_{\alpha/2}$ (ใช้ Z-score เสมอ)</li>
+                <li><b>Standard Error:</b> $\sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}$</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-lime-50 border-lime-200 rounded-lg border mt-4">
+            <h3 class="text-lg font-semibold text-lime-800">เงื่อนไขสำหรับการประมาณด้วยโค้งปกติ</h3>
+            <p class="text-sm text-lime-800">เราจะใช้สูตรนี้ได้เมื่อขนาดตัวอย่างของทั้งสองกลุ่มใหญ่พอ โดยต้องผ่านเงื่อนไขทั้ง 4 ข้อ:</p>
+            <p class="text-center my-2 font-semibold">$ n_1\hat{p}_1 \ge 10, \quad n_1(1-\hat{p}_1) \ge 10, \quad n_2\hat{p}_2 \ge 10, \quad \text{และ} \quad n_2(1-\hat{p}_2) \ge 10 $</p>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: เปรียบเทียบแคมเปญโฆษณา (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: บริษัทแห่งหนึ่งทดลองโฆษณา 2 รูปแบบ กลุ่ม A (เห็นโฆษณาแบบที่ 1) มี 150 คน ซื้อสินค้า 24 คน และกลุ่ม B (เห็นโฆษณาแบบที่ 2) มี 200 คน ซื้อสินค้า 40 คน จงสร้างช่วงความเชื่อมั่น 95% สำหรับผลต่างของสัดส่วนการซื้อสินค้า ($p_B - p_A$)</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: คำนวณ Point Estimate ($\hat{p}_A, \hat{p}_B$) และตรวจสอบเงื่อนไข</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>คำนวณ $\hat{p}$:</b> 
+                      $ \hat{p}_A = \frac{24}{150} = 0.16 $, 
+                      $ \hat{p}_B = \frac{40}{200} = 0.20 $
+                    </li>
+                    <li><b>Point Estimate:</b> $\hat{p}_B - \hat{p}_A = 0.20 - 0.16 = 0.04$</li>
+                    <li><b>ตรวจสอบเงื่อนไข:</b> $n_A\hat{p}_A=24 \ge 10$, $n_A(1-\hat{p}_A)=126 \ge 10$, $n_B\hat{p}_B=40 \ge 10$, $n_B(1-\hat{p}_B)=160 \ge 10$ (ผ่านทุกข้อ ✅)</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: หาค่าวิกฤต ($Z_{\alpha/2}$) และ Standard Error (SE)</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>ค่าวิกฤต:</b> สำหรับความเชื่อมั่น 95%, $Z_{0.025} = 1.96$</li>
+                    <li><b>Standard Error:</b> $SE = \sqrt{\frac{0.20(0.80)}{200} + \frac{0.16(0.84)}{150}} = \sqrt{0.0008 + 0.000896} \approx 0.0412$</li>
+                </ul>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: สร้างช่วงความเชื่อมั่นและตีความ</b></p>
+                <p class="font-semibold text-emerald-700 mt-2"> $(\hat{p}_B - \hat{p}_A) \pm (Z_{\alpha/2} \times SE) \Rightarrow 0.04 \pm (1.96 \times 0.0412) \Rightarrow 0.04 \pm 0.0807 $ </p>
+                <p class="font-semibold text-emerald-700 mt-2">ช่วงความเชื่อมั่นคือ [-0.0407, 0.1207]</p>
+                <p class="text-sm mt-1"><b>สรุป:</b> เราเชื่อมั่น 95% ว่าผลต่างที่แท้จริงของสัดส่วนการซื้อสินค้า ($p_B - p_A$) อยู่ระหว่าง -0.0407 ถึง 0.1207 <b>เนื่องจากช่วงความเชื่อมั่นนี้คร่อมค่า 0</b> (มีทั้งค่าลบและบวก) เราจึงไม่สามารถสรุปได้ว่าสัดส่วนการซื้อของทั้งสองกลุ่มแตกต่างกันอย่างมีนัยสำคัญทางสถิติ</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI for Difference in Proportions</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2 border-r pr-4">
+              <h3 class="text-sm font-bold text-center">กลุ่ม 1</h3>
+              <div><label class="block text-xs font-medium">$x_1$</label><input type="number" id="x1" value="24" min="0" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$n_1$</label><input type="number" id="n1" value="150" min="1" class="w-full p-1 border rounded-md"></div>
+            </div>
+            <div class="space-y-2">
+              <h3 class="text-sm font-bold text-center">กลุ่ม 2</h3>
+              <div><label class="block text-xs font-medium">$x_2$</label><input type="number" id="x2" value="40" min="0" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$n_2$</label><input type="number" id="n2" value="200" min="1" class="w-full p-1 border rounded-md"></div>
+            </div>
+          </div>
+          <div class="mt-2"><label class="block text-xs font-medium">ระดับความเชื่อมั่น</label><select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+          
+          <hr class="my-4">
+          
+          <div id="ci-results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการคำนวณ</h3>
+              <div id="condition-check" class="p-2 rounded-md text-center text-xs font-semibold"></div>
+              <div class="mt-2 space-y-1 text-sm">
+                  <p>Point Estimate ($\hat{p}_1-\hat{p}_2$): <span id="point-est" class="font-bold float-right"></span></p>
+                  <p>Margin of Error: <span id="moe-val" class="font-bold float-right"></span></p>
+              </div>
+              <div class="mt-2 text-center bg-emerald-100 p-2 rounded-md">
+                 <p class="text-sm text-emerald-800">ช่วงความเชื่อมั่น:</p>
+                 <p class="font-bold text-xl text-emerald-900">[<span id="lower-bound"></span>, <span id="upper-bound"></span>]</p>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="19-ci-means-twopop.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="21-sample-size.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>วิเคราะห์ความแตกต่างของสัดส่วนระหว่างสองกลุ่ม</p>
-      <ul>
-        <li>การสุ่มตัวอย่างอิสระสองกลุ่ม</li>
-        <li>การคำนวณ SE ด้วย p̂ รวมแต่ละกลุ่ม</li>
-        <li>การตีความช่วงในงานวิจัยทางการแพทย์หรือการตลาด</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรช่วงสำหรับสองสัดส่วน</p>
-      <ul>
-        <li>CI: (p̂_1 − p̂_2) ± z_{α/2} √(p̂_1(1−p̂_1)/n_1 + p̂_2(1−p̂_2)/n_2)</li>
-        <li>เงื่อนไข: n_i p̂_i และ n_i(1−p̂_i) ≥ 10</li>
-        <li>การเลือกค่าประมาณพรีวิศวกรรมเพื่อวางแผนการเก็บข้อมูล</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>เปรียบเทียบอัตราการตอบรับแคมเปญระหว่างกลุ่มทดลองและควบคุม</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="19-ci-means-twopop.html">CI ส่วนต่างค่าเฉลี่ย</a></li>
-        <li><a href="21-sample-size.html">การวางแผนขนาดตัวอย่าง</a></li>
-        <li><a href="../tools/z.html">เครื่องมือ Z</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const x1_input = document.getElementById('x1');
+      const n1_input = document.getElementById('n1');
+      const x2_input = document.getElementById('x2');
+      const n2_input = document.getElementById('n2');
+      const levelSelect = document.getElementById('ci-level');
+      const allInputs = [x1_input, n1_input, x2_input, n2_input, levelSelect];
+
+      const conditionEl = document.getElementById('condition-check');
+      const pointEstEl = document.getElementById('point-est');
+      const moeEl = document.getElementById('moe-val');
+      const lowerBoundEl = document.getElementById('lower-bound');
+      const upperBoundEl = document.getElementById('upper-bound');
+      
+      const Z_CRIT = { "0.90": 1.645, "0.95": 1.960, "0.99": 2.576 };
+
+      function calculateCI() {
+          const x1 = parseInt(x1_input.value);
+          const n1 = parseInt(n1_input.value);
+          const x2 = parseInt(x2_input.value);
+          const n2 = parseInt(n2_input.value);
+          const level = levelSelect.value;
+          
+          const clearResults = () => {
+              conditionEl.textContent = 'ข้อมูลไม่ถูกต้อง';
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-red-100 text-red-800';
+              pointEstEl.textContent = '–'; moeEl.textContent = '–';
+              lowerBoundEl.textContent = '–'; upperBoundEl.textContent = '–';
+          };
+
+          if (isNaN(x1) || isNaN(n1) || isNaN(x2) || isNaN(n2) || n1 <= 0 || n2 <= 0 || x1 < 0 || x2 < 0 || x1 > n1 || x2 > n2) {
+              clearResults();
+              return;
+          }
+
+          const p1 = x1 / n1;
+          const p2 = x2 / n2;
+          
+          const cond1 = n1 * p1 >= 10 && n1 * (1 - p1) >= 10;
+          const cond2 = n2 * p2 >= 10 && n2 * (1 - p2) >= 10;
+
+          if (cond1 && cond2) {
+              conditionEl.textContent = 'เงื่อนไขผ่าน สามารถใช้ Normal Approx.';
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-green-100 text-green-800';
+          } else {
+              conditionEl.textContent = 'เงื่อนไขไม่ผ่าน อาจไม่เหมาะสม';
+              conditionEl.className = 'p-2 rounded-md text-center text-xs font-semibold bg-red-100 text-red-800';
+          }
+
+          const pointEstimate = p1 - p2;
+          const standardError = Math.sqrt((p1 * (1 - p1) / n1) + (p2 * (1 - p2) / n2));
+          const criticalValue = Z_CRIT[level];
+          const marginOfError = criticalValue * standardError;
+          const lowerBound = pointEstimate - marginOfError;
+          const upperBound = pointEstimate + marginOfError;
+
+          pointEstEl.textContent = pointEstimate.toFixed(4);
+          moeEl.textContent = marginOfError.toFixed(4);
+          lowerBoundEl.textContent = lowerBound.toFixed(4);
+          upperBoundEl.textContent = upperBound.toFixed(4);
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateCI));
+      calculateCI();
+    });
+  </script>
+
 </body>
 </html>

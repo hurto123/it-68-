@@ -1,193 +1,326 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>03. ความน่าจะเป็นพื้นฐาน</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
-  <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .definition { border-radius: var(--radius-lg); padding: var(--space-3); background: var(--neutral-100); border: 1px solid var(--neutral-200); }
-    .prob-lab { display: grid; gap: var(--space-3); }
-    .prob-lab input[type="number"] { width: 100%; }
-    .outcome-table { width: 100%; border-collapse: collapse; }
-    .outcome-table th, .outcome-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
-    .outcome-table th { background: var(--neutral-100); }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-2); }
-    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
-    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บทเรียนที่ 3: นิยามของความน่าจะเป็น, แซมเปิลสเปซ, เหตุการณ์</title>
+<!-- Site styles -->
+<link href="../pwa/manifest.json" rel="manifest"/>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<style>
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem 6rem; }
+    header.page-header { display: grid; gap:.5rem; margin-bottom: 1.25rem; }
+    .pill { display:inline-block; padding:.2rem .6rem; border-radius:999px; background: var(--surface-3); font-size:.85rem; }
+    .card { background: var(--surface-2); border:1px solid var(--surface-4); border-radius:16px; padding:1rem; box-shadow: var(--shadow-2); }
+    .grid-2 { display:grid; grid-template-columns:1fr; gap:1rem; }
+    @media (min-width: 900px){ .grid-2 { grid-template-columns:1fr 1fr; } }
+    .svg-wrap { width:100%; overflow:auto; background: var(--surface-1); border:1px dashed var(--surface-4); border-radius:12px; padding:.75rem; }
+    svg { max-width:100%; height:auto; }
+    .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--surface-4); padding: .1rem .35rem; border-radius: 6px; }
+    .result { font-weight:700; }
+    .toc { border-left:4px solid var(--surface-4); padding-left:.8rem; margin:1rem 0 2rem; line-height:1.7; }
+    .toc a { display:block; color: var(--text-2); text-decoration:none; }
+    .toc a:hover { color: var(--text-1); text-decoration:underline; }
+    .print-actions { position: sticky; bottom: 1rem; display:flex; justify-content:flex-end; margin-top:1rem; }
+    .btn { border-radius: 999px; padding: .55rem .9rem; border: 1px solid var(--surface-4); background: var(--surface-3); cursor: pointer; }
+    .btn:hover { filter: brightness(1.03); }
+    .callout { background: var(--surface-1); border-left:6px solid var(--accent-7); padding:.8rem 1rem; border-radius:12px; }
   </style>
-</head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 03</p>
-      <h1>👨‍🏫 บทเรียนที่ 3: นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! ยินดีต้อนรับสู่บทเรียนที่ 3 ครับ หลังจากที่เราเชี่ยวชาญ "ศิลปะแห่งการนับ" จากบทที่แล้วกันมาแล้ว ตอนนี้เราพร้อมที่จะนำทักษะเหล่านั้นมาใช้เพื่อหา "ความน่าจะเป็น" ซึ่งเป็นหัวใจสำคัญของสถิติศาสตร์ ในบทนี้ เราจะมาทำความเข้าใจคำศัพท์พื้นฐานและนิยามที่สำคัญที่สุดกันครับ</p>
-    </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="02-descriptive.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="04-conditional.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: การทดลองสุ่ม, แซมเปิลสเปซ, และเหตุการณ์</h2>
-      <p>ก่อนที่เราจะคำนวณความน่าจะเป็นได้ เราต้องรู้จักกับ 3 คำศัพท์พื้นฐานนี้ก่อนครับ</p>
-      <div class="grid-2">
-        <div class="definition">
-          <h3>การทดลองสุ่ม (Random Experiment)</h3>
-          <p>คือ "การกระทำ" ที่เราทราบผลลัพธ์ที่เป็นไปได้ทั้งหมด แต่เรา <strong>ไม่สามารถบอกได้อย่างแน่ชัด</strong> ว่าผลลัพธ์ที่จะเกิดขึ้นในแต่ละครั้งจะเป็นอะไร</p>
-          <p>ตัวอย่าง: การโยนเหรียญ 1 ครั้ง, การทอดลูกเต๋า 1 ลูก, การสุ่มหยิบไพ่ 1 ใบ</p>
-        </div>
-        <div class="definition">
-          <h3>แซมเปิลสเปซ (Sample Space, S)</h3>
-          <p>คือ "เซตของผลลัพธ์ทั้งหมดที่เป็นไปได้" จากการทดลองสุ่ม</p>
-          <ul>
-            <li>โยนเหรียญ 1 ครั้ง: S = {หัว, ก้อย}</li>
-            <li>ทอดลูกเต๋า 1 ลูก: S = {1, 2, 3, 4, 5, 6}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="definition">
-        <h3>เหตุการณ์ (Event, E)</h3>
-        <p>คือ "ผลลัพธ์ที่เราสนใจ" ซึ่งจะเป็นสับเซต (ส่วนหนึ่ง) ของแซมเปิลสเปซ</p>
-        <ul>
-          <li>การทอดลูกเต๋า 1 ลูก: เหตุการณ์ที่สนใจคือ "ได้แต้มเป็นเลขคู่" ⇒ E = {2, 4, 6}</li>
-          <li>การทอดลูกเต๋า 1 ลูก: เหตุการณ์ที่สนใจคือ "ได้แต้มมากกว่า 4" ⇒ E = {5, 6}</li>
-        </ul>
-      </div>
-    </section>
+<link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean"><a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+<header class="site-header" role="banner">
+<div class="brand">
+<a class="brand-link" href="../index.html">📊 Prob &amp; Stats</a>
+</div>
+<nav aria-label="เครื่องมือ" class="site-actions">
+<button class="btn-sm" id="theme-toggle" title="สลับธีม (T)">ธีม</button>
+<button class="btn-sm" id="print-current" title="พิมพ์หน้านี้ (P)">พิมพ์</button>
+</nav>
+</header>
+<div aria-hidden="true" id="progressbar"><span></span></div>
+<main id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><header class="page-header">
+<div class="pill">👨‍🏫 บทเรียนที่ 3</div>
+<h1>นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์</h1>
+<p class="muted">จาก “การนับ” → “ความน่าจะเป็น” : รู้จักการทดลองสุ่ม แซมเปิลสเปซ และเหตุการณ์</p>
+</header>
+<nav class="toc">
+<strong>สารบัญ</strong>
+<a href="#defs">1) คำจำกัดความพื้นฐาน</a>
+<a href="#prob-def">2) นิยามความน่าจะเป็น</a>
+<a href="#props">3) คุณสมบัติพื้นฐาน</a>
+<a href="#examples">4) ตัวอย่าง + กราฟบาร์ (SVG)</a>
+</nav>
+<section class="card" id="defs">
+<h2>1) คำจำกัดความพื้นฐาน</h2>
+<ul>
+<li><strong>การทดลองสุ่ม</strong>: การกระทำที่ทราบผลลัพธ์ที่เป็นไปได้ทั้งหมด แต่ไม่รู้ว่าจะออกอะไรในครั้งถัดไป</li>
+<li><strong>แซมเปิลสเปซ (S)</strong>: เซตของผลลัพธ์ทั้งหมด</li>
+<li><strong>เหตุการณ์ (E)</strong>: เซตย่อยของ S ที่เราสนใจ</li>
+</ul>
+<div class="grid-2">
+<div class="card">
+<h3>ตัวอย่าง: เหรียญ</h3>
+<p>S = {หัว, ก้อย}</p>
+</div>
+<div class="card">
+<h3>ตัวอย่าง: ลูกเต๋า</h3>
+<p>S = {1,2,3,4,5,6}</p>
+</div>
+</div>
+</section>
+<section class="card" id="prob-def">
+<h2>2) นิยามความน่าจะเป็น</h2>
+<p>ความน่าจะเป็นของเหตุการณ์ E:</p>
+<p class="kbd">P(E) = n(E) / n(S)</p>
+<p class="muted">คิดเป็น “จำนวนแบบที่ต้องการ” / “จำนวนแบบทั้งหมด”</p>
+<div class="card">
+<h3>คำนวณ P(E) แบบโต้ตอบ (ลูกเต๋าเที่ยงตรง)</h3>
+<div class="controls">
+<label><input checked="" name="die" type="checkbox" value="1"/> 1</label>
+<label><input name="die" type="checkbox" value="2"/> 2</label>
+<label><input checked="" name="die" type="checkbox" value="3"/> 3</label>
+<label><input name="die" type="checkbox" value="4"/> 4</label>
+<label><input checked="" name="die" type="checkbox" value="5"/> 5</label>
+<label><input name="die" type="checkbox" value="6"/> 6</label>
+<button class="btn" id="calc-prob">คำนวณ</button>
+</div>
+<p>เหตุการณ์ E = แต้มที่เลือกไว้  ⇒  n(E) = <span class="result" id="nE">3</span>,  n(S) = <span class="result">6</span></p>
+<p>ผลลัพธ์: P(E) = <span class="result" id="PE">0.5</span></p>
+<div class="svg-wrap"><svg aria-label="กราฟบาร์โอกาสของหน้าลูกเต๋า" id="die-bars" role="img" viewbox="0 0 740 280"></svg></div>
+<p class="muted">คลิกเลือก/ยกเลิกแต้มเพื่อไฮไลต์บาร์ของเหตุการณ์ E (ไม่ใช่รูปภาพ—วาดด้วย SVG)</p>
+</div>
+</section>
+<section class="card" id="props">
+<h2>3) คุณสมบัติพื้นฐาน</h2>
+<ul>
+<li>0 ≤ P(E) ≤ 1</li>
+<li>P(S) = 1</li>
+<li><strong>เหตุการณ์ไม่เกิดร่วมกัน</strong> A∩B=∅ ⇒ P(A∪B) = P(A) + P(B)</li>
+</ul>
+<div class="card">
+<h3>สาธิต A∪B (ไม่ทับซ้อน)</h3>
+<div class="controls">
+<label>A = {<input id="A" size="10" value="1,3,5"/>}</label>
+<label>B = {<input id="B" size="10" value="2,4,6"/>}</label>
+<button class="btn" id="calc-union">คำนวณ</button>
+</div>
+<p>n(A)=<span class="result" id="nA">3</span>, n(B)=<span class="result" id="nB">3</span>, n(A∪B)=<span class="result" id="nUnion">6</span></p>
+<p>P(A)=<span class="result" id="PA">0.5</span>, P(B)=<span class="result" id="PB">0.5</span>, P(A∪B)=<span class="result" id="PUnion">1</span></p>
+</div>
+</section>
+<section class="card" id="examples">
+<h2>4) ตัวอย่าง</h2>
+<div class="grid-2">
+<div class="card">
+<h3>ตัวอย่าง 1: แต้มคี่</h3>
+<p>E={1,3,5} ⇒ P(E)=3/6=0.5</p>
+</div>
+<div class="card">
+<h3>ตัวอย่าง 2: ลูกบอล</h3>
+<p>แดง 5, ขาว 3 ⇒ P(แดง)=5/8=0.625</p>
+</div>
+</div>
+</section>
+<div class="print-actions">
+<button class="btn" id="print-current" title="พิมพ์หน้านี้">🖨️ พิมพ์</button>
+</div>
+</main>
+<script src="../app.js"></script>
+<script src="../i18n/i18n.js"></script>
+<script>
+  // ---------- Helpers ----------
+  function uniqNumsInRange(arr) {
+    const s = new Set();
+    for (const x of arr) {
+      const n = Number(x);
+      if (Number.isFinite(n) && n>=1 && n<=6) s.add(n);
+    }
+    return Array.from(s).sort((a,b)=>a-b);
+  }
 
-    <section>
-      <h2>2.&nbsp;&amp;&nbsp;3. ความหมายและการทำงานของสูตร: นิยามความน่าจะเป็น</h2>
-      <p>เมื่อเรารู้จักทั้งสามคำศัพท์แล้ว เราก็พร้อมที่จะนิยามความน่าจะเป็นครับ</p>
-      <ul>
-        <li><strong>ความหมาย:</strong> ความน่าจะเป็นของเหตุการณ์ใดๆ คือ "ตัวเลขที่ใช้วัดโอกาสในการเกิดเหตุการณ์นั้นๆ" ซึ่งจะมีค่าอยู่ระหว่าง 0 ถึง 1 เท่านั้น</li>
-        <li>ถ้า P(E) = 0 หมายถึง เหตุการณ์นั้น <strong>ไม่มีโอกาส</strong> เกิดขึ้นเลย</li>
-        <li>ถ้า P(E) = 1 หมายถึง เหตุการณ์นั้น <strong>เกิดขึ้นอย่างแน่นอน</strong></li>
-      </ul>
-      <div class="definition">
-        <h3>สูตรการคำนวณ</h3>
-        <p>P(E) = n(E) / n(S)</p>
-        <p><strong>การทำงานของสูตร:</strong></p>
-        <ul>
-          <li>P(E): คือสัญลักษณ์แทน "ความน่าจะเป็นของเหตุการณ์ E"</li>
-          <li>n(E): คือ "จำนวนผลลัพธ์ของเหตุการณ์ที่เราสนใจ" (ซึ่งเราจะใช้ความรู้จากบทที่ 2 เรื่องหลักการนับมาช่วยหา)</li>
-          <li>n(S): คือ "จำนวนผลลัพธ์ทั้งหมดที่เป็นไปได้ในแซมเปิลสเปซ"</li>
-        </ul>
-        <p>พูดง่ายๆ คือ: <strong>ความน่าจะเป็น = (จำนวนแบบที่อยากได้) ÷ (จำนวนแบบทั้งหมด)</strong></p>
-      </div>
-    </section>
+  // ---------- Die Bars (SVG) ----------
+  const dieSVG = document.getElementById("die-bars");
+  const checkboxes = Array.from(document.querySelectorAll('input[name="die"]'));
+  const nEEl = document.getElementById("nE");
+  const PEEl = document.getElementById("PE");
+  function renderBars() {
+    const S = [1,2,3,4,5,6];
+    const chosen = checkboxes.filter(c=>c.checked).map(c=>Number(c.value));
+    const nE = chosen.length;
+    nEEl.textContent = nE;
+    PEEl.textContent = (nE/6).toFixed(3).replace(/\.0+$/,"");
 
-    <section>
-      <h2>4. การเข้าใจในเนื้อหา: คุณสมบัติของความน่าจะเป็น</h2>
-      <p>ไม่ว่าเราจะคำนวณโจทย์ที่ซับซ้อนแค่ไหน ผลลัพธ์ของความน่าจะเป็นจะต้องอยู่ภายใต้กฎพื้นฐาน 3 ข้อนี้เสมอ:</p>
-      <ul>
-        <li>ความน่าจะเป็นต้องไม่ติดลบ: 0 ≤ P(E) ≤ 1 — โอกาสเกิดเหตุการณ์จะอยู่ระหว่าง 0% ถึง 100% เท่านั้น</li>
-        <li>ความน่าจะเป็นของแซมเปิลสเปซเป็น 1: P(S) = 1 — ในการทดลองสุ่ม มันต้องเกิดผลลัพธ์ใดผลลัพธ์หนึ่งในแซมเปิลสเปซอย่างแน่นอน</li>
-        <li>กฎการบวกสำหรับเหตุการณ์ที่ไม่เกิดร่วมกัน (Mutually Exclusive Events): ถ้าเหตุการณ์ A และ B ไม่สามารถเกิดขึ้นพร้อมกันได้ (เช่น โยนเหรียญครั้งเดียว ออกหัวกับก้อยพร้อมกันไม่ได้) ความน่าจะเป็นที่ "จะเกิด A หรือ B" คือ P(A∪B)=P(A)+P(B)</li>
-      </ul>
-    </section>
+    const width = 720, height = 240, pad=40;
+    dieSVG.setAttribute("viewBox", "0 0 " + (width+pad) + " " + (height+pad));
+    dieSVG.innerHTML = "";
 
-    <section>
-      <h2>5. ยกตัวอย่าง</h2>
-      <h3>ตัวอย่างที่ 1: การทอดลูกเต๋า</h3>
-      <p>โจทย์: ทอดลูกเต๋าที่เที่ยงตรง 1 ลูก 1 ครั้ง จงหาความน่าจะเป็นที่จะได้แต้มเป็นเลขคี่</p>
-      <p>วิเคราะห์:</p>
-      <ul>
-        <li>หาแซมเปิลสเปซ: S = {1, 2, 3, 4, 5, 6}</li>
-        <li>หาจำนวนผลลัพธ์ทั้งหมด: n(S) = 6</li>
-        <li>หาเหตุการณ์ที่สนใจ (E = ได้แต้มเลขคี่): E = {1, 3, 5}</li>
-        <li>หาจำนวนผลลัพธ์ที่สนใจ: n(E) = 3</li>
-      </ul>
-      <p>วิธีทำ: P(E) = 3/6 = 0.5 ⇒ ความน่าจะเป็นที่จะได้แต้มเป็นเลขคี่คือ 0.5 หรือ 50%</p>
-      <h3>ตัวอย่างที่ 2: การสุ่มหยิบลูกบอล</h3>
-      <p>โจทย์: กล่องใบหนึ่งมีลูกบอลสีแดง 5 ลูก และสีขาว 3 ลูก สุ่มหยิบลูกบอลขึ้นมา 1 ลูก จงหาความน่าจะเป็นที่จะหยิบได้ลูกบอลสีแดง</p>
-      <p>วิเคราะห์:</p>
-      <ul>
-        <li>จำนวนผลลัพธ์ทั้งหมด (มีบอลทั้งหมดกี่ลูก): n(S) = 5 + 3 = 8</li>
-        <li>จำนวนผลลัพธ์ที่สนใจ (มีบอลสีแดงกี่ลูก): n(E) = 5</li>
-      </ul>
-      <p>วิธีทำ: P(E) = 5/8 = 0.625 ⇒ ความน่าจะเป็นที่จะหยิบได้ลูกบอลสีแดงคือ 0.625 หรือ 62.5%</p>
-      <p>ตอนนี้เราได้วางฐานรากของความน่าจะเป็นเรียบร้อยแล้วครับ ในบทเรียนถัดไป เราจะไปดูกฎที่ซับซ้อนขึ้น เช่น ความน่าจะเป็นแบบมีเงื่อนไข และกฎการบวกการคูณของความน่าจะเป็นกันครับ!</p>
-    </section>
-
-    <section>
-      <h2>Interactive: Probability Lab</h2>
-      <p>ตั้งค่าจำนวนผลลัพธ์ทั้งหมดและผลลัพธ์ที่สนใจเพื่อดูความน่าจะเป็นพร้อมกราฟสัดส่วน</p>
-      <div class="prob-lab">
-        <div class="grid-2">
-          <label>จำนวนผลลัพธ์ทั้งหมด (n(S))
-            <input id="total-outcomes" type="number" min="1" value="8">
-          </label>
-          <label>จำนวนผลลัพธ์ที่สนใจ (n(E))
-            <input id="favorable-outcomes" type="number" min="0" value="5">
-          </label>
-        </div>
-        <button class="primary" id="prob-update">คำนวณความน่าจะเป็น</button>
-        <p>ผลลัพธ์: <strong>P(E) = <span id="prob-result">0.625</span></strong></p>
-        <div class="bar-chart" role="img" aria-label="สัดส่วนของเหตุการณ์">
-          <div class="bar" id="bar-fav" style="height:62.5%" data-value="62.5%"><span>สนใจ</span></div>
-          <div class="bar" id="bar-unfav" style="height:37.5%" data-value="37.5%"><span>อื่นๆ</span></div>
-        </div>
-        <table class="outcome-table" aria-label="ตัวอย่างเหตุการณ์">
-          <thead>
-            <tr><th>การทดลอง</th><th>แซมเปิลสเปซ (S)</th><th>เหตุการณ์ (E)</th><th>P(E)</th></tr>
-          </thead>
-          <tbody id="prob-table">
-            <tr><td>ทอดลูกเต๋า</td><td>{1,2,3,4,5,6}</td><td>{1,3,5}</td><td>0.5</td></tr>
-            <tr><td>หยิบลูกบอล</td><td>8 ผล</td><td>สีแดง 5 ผล</td><td>0.625</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
-  <script>
-    const clampPercent = (value) => {
-      if (!isFinite(value) || value <= 0) return '0%';
-      return `${Math.min(100, Math.max(0, value)).toFixed(1)}%`;
+    const barW = 80, gap = 30;
+    const mkRect = (x,y,w,h,fill,stroke) => {
+      const r = document.createElementNS("http://www.w3.org/2000/svg","rect");
+      r.setAttribute("x",x); r.setAttribute("y",y);
+      r.setAttribute("width",w); r.setAttribute("height",h);
+      r.setAttribute("fill",fill); r.setAttribute("stroke",stroke||"var(--surface-4)");
+      r.setAttribute("rx","8");
+      dieSVG.appendChild(r);
+      return r;
+    };
+    const mkText = (x,y,t,cls="") => {
+      const el = document.createElementNS("http://www.w3.org/2000/svg","text");
+      el.setAttribute("x",x); el.setAttribute("y",y);
+      el.setAttribute("font-size","14"); el.setAttribute("fill","var(--text-2)");
+      el.textContent = t; dieSVG.appendChild(el); return el;
     };
 
-    document.getElementById('prob-update').addEventListener('click', () => {
-      const total = Number(document.getElementById('total-outcomes').value);
-      const favor = Number(document.getElementById('favorable-outcomes').value);
-      if (!Number.isFinite(total) || total <= 0 || !Number.isFinite(favor) || favor < 0 || favor > total) {
-        document.getElementById('prob-result').textContent = '—';
-        return;
-      }
-      const probability = favor / total;
-      document.getElementById('prob-result').textContent = probability.toFixed(4);
-      const favPercent = probability * 100;
-      const unfavPercent = 100 - favPercent;
-      const barFav = document.getElementById('bar-fav');
-      const barUnfav = document.getElementById('bar-unfav');
-      barFav.style.height = clampPercent(favPercent);
-      barUnfav.style.height = clampPercent(unfavPercent);
-      barFav.dataset.value = clampPercent(favPercent);
-      barUnfav.dataset.value = clampPercent(unfavPercent);
+    // axes
+    mkText(10, 16, "ความน่าจะเป็น");
+    mkText(width-20, height+30, "แต้มบนลูกเต๋า");
 
-      const table = document.getElementById('prob-table');
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `<td>สถานการณ์ที่ตั้งเอง</td><td>${total.toLocaleString('th-TH')} ผล</td><td>${favor.toLocaleString('th-TH')} ผล</td><td>${probability.toFixed(4)}</td>`;
-      table.prepend(newRow);
-    });
+    for (let i=0;i<6;i++){
+      const x = pad + i*(barW+gap);
+      const isE = chosen.includes(i+1);
+      const barH = 160; // equal probability
+      const baseY = height - barH + 20;
+      mkRect(x, baseY, barW, barH, isE ? "var(--accent-4)" : "var(--surface-2)");
+      mkText(x+barW/2-4, baseY-6, "1/6");
+      mkText(x+barW/2-4, height+18, String(i+1));
+    }
+  }
+  document.getElementById("calc-prob").addEventListener("click", renderBars);
+  checkboxes.forEach(cb => cb.addEventListener("change", renderBars));
+  renderBars();
+
+  // ---------- Disjoint Union ----------
+  function parseSet(txt) {
+    return uniqNumsInRange(txt.split(/\s*,\s*/));
+  }
+  function calcUnion() {
+    const A = parseSet(document.getElementById("A").value);
+    const B = parseSet(document.getElementById("B").value);
+    const U = new Set([...A, ...B]);
+    document.getElementById("nA").textContent = A.length;
+    document.getElementById("nB").textContent = B.length;
+    document.getElementById("nUnion").textContent = U.size;
+    document.getElementById("PA").textContent = (A.length/6).toFixed(3).replace(/\.0+$/,"");
+    document.getElementById("PB").textContent = (B.length/6).toFixed(3).replace(/\.0+$/,"");
+    document.getElementById("PUnion").textContent = (U.size/6).toFixed(3).replace(/\.0+$/,"");
+  }
+  document.getElementById("calc-union").addEventListener("click", calcUnion);
+  calcUnion();
   </script>
-</body>
+<footer class="site-footer" role="contentinfo">
+<nav aria-label="การนำทางบท" class="prev-next">
+<a class="btn-nav prev" href="02-descriptive.html" rel="prev">← หลักการนับเบื้องต้น (Counting Principles)</a>
+<a class="btn-nav next" href="04-conditional.html" rel="next">👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง →</a>
+</nav>
+<p class="muted small">กด <kbd>[</kbd> เพื่อย้อนกลับ, <kbd>]</kbd> เพื่อไปถัดไป, <kbd>T</kbd> สลับธีม, <kbd>P</kbd> พิมพ์</p>
+</footer>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

@@ -1,64 +1,166 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>25. การทดสอบค่าเฉลี่ยกลุ่มเดียว</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
-</head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 25</p>
-      <h1>การทดสอบค่าเฉลี่ยกลุ่มเดียว</h1>
-    </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="24-critical-vs-pvalue.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="26-test-proportion-onepop.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ประเมินว่าค่าเฉลี่ยประชากรยังเท่ากับค่าที่กำหนดหรือไม่</p>
-      <ul>
-        <li>เลือก Z-test เมื่อรู้ σ หรือ n ใหญ่</li>
-        <li>เลือก t-test เมื่อไม่รู้ σ และตัวอย่างเล็ก</li>
-        <li>ตั้งสมมติฐานแบบด้านเดียวหรือสองด้านตามบริบท</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรสถิติทดสอบที่ต้องจำ</p>
-      <ul>
-        <li>Z = (ar X − μ_0) / (σ/√n)</li>
-        <li>t = (ar X − μ_0) / (s/√n)</li>
-        <li>df = n−1 สำหรับ t</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>เช็กว่าระยะเวลาให้บริการเฉลี่ยเปลี่ยนจากมาตรฐานหรือไม่ด้วยข้อมูลตัวอย่าง</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="24-critical-vs-pvalue.html">Critical vs p-value</a></li>
-        <li><a href="26-test-proportion-onepop.html">การทดสอบสัดส่วนกลุ่มเดียว</a></li>
-        <li><a href="../tools/t.html">เครื่องมือ t</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>25. การทดสอบค่าเฉลี่ยกลุ่มเดียว</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="lesson"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">บทที่ 25</p>
+<h1>การทดสอบค่าเฉลี่ยกลุ่มเดียว</h1>
+</div>
+<nav class="header-actions">
+<button class="ghost" data-prev="24-critical-vs-pvalue.html">บทก่อนหน้า</button>
+<button class="ghost" data-next="26-test-proportion-onepop.html">บทถัดไป</button>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card">
+<h2>ภาพรวม</h2>
+<p>ประเมินว่าค่าเฉลี่ยประชากรยังเท่ากับค่าที่กำหนดหรือไม่</p>
+<ul>
+<li>เลือก Z-test เมื่อรู้ σ หรือ n ใหญ่</li>
+<li>เลือก t-test เมื่อไม่รู้ σ และตัวอย่างเล็ก</li>
+<li>ตั้งสมมติฐานแบบด้านเดียวหรือสองด้านตามบริบท</li>
+</ul>
+</article>
+<article class="card">
+<h2>สูตรและหลักคิดสำคัญ</h2>
+<p>สูตรสถิติทดสอบที่ต้องจำ</p>
+<ul>
+<li>Z = (ar X − μ_0) / (σ/√n)</li>
+<li>t = (ar X − μ_0) / (s/√n)</li>
+<li>df = n−1 สำหรับ t</li>
+</ul>
+</article>
+<article class="card">
+<h2>ตัวอย่างสถานการณ์</h2>
+<p>เช็กว่าระยะเวลาให้บริการเฉลี่ยเปลี่ยนจากมาตรฐานหรือไม่ด้วยข้อมูลตัวอย่าง</p>
+</article>
+<article class="card">
+<h2>เชื่อมต่อการเรียน</h2>
+<ul>
+<li><a href="24-critical-vs-pvalue.html">Critical vs p-value</a></li>
+<li><a href="26-test-proportion-onepop.html">การทดสอบสัดส่วนกลุ่มเดียว</a></li>
+<li><a href="../tools/t.html">เครื่องมือ t</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

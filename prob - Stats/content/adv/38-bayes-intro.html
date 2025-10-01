@@ -1,74 +1,75 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>38. บทนำสถิติแบบเบย์</title>
-  <link rel="stylesheet" href="../../styles/tokens.css">
-  <link rel="stylesheet" href="../../styles/components.css">
-  <link rel="stylesheet" href="../../styles/light.css">
-  <link rel="stylesheet" href="../../styles/typography-access.css">
-  <link rel="stylesheet" href="../../styles/print.css" media="print">
-  <script defer src="../../app.js"></script>
-  <script defer src="../../i18n/i18n.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>38. บทนำสถิติแบบเบย์</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
 </head>
-<body data-page="advanced">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">หัวข้อขั้นสูง 38</p>
-      <h1>บทนำสู่การวิเคราะห์แบบเบย์ (Bayesian Inference)</h1>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>หลักคิดพื้นฐาน</h2>
-      <ul>
-        <li>ใช้ <strong>Prior</strong> (ความเชื่อก่อนเห็นข้อมูล) ผสานกับ <strong>Likelihood</strong> เพื่อได้ <strong>Posterior</strong></li>
-        <li>ปรับปรุงความเชื่อทุกครั้งที่มีข้อมูลใหม่เข้ามา</li>
-        <li>สามารถเปรียบเทียบกับการอนุมานแบบ frequentist เช่น CI vs Credible Interval</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>Beta-Binomial model</h2>
-      <ul>
-        <li>ใช้กับข้อมูลความสำเร็จ/ล้มเหลว: Prior ~ Beta(α, β)</li>
-        <li>Posterior = Beta(α + success, β + failure)</li>
-        <li>Credible interval (เช่น 95%) มาจาก quantile ของ Beta posterior</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>Normal-Normal model</h2>
-      <ul>
-        <li>สำหรับค่าเฉลี่ยของข้อมูลปกติที่มีความแปรปรวนทราบ: Prior ~ Normal(μ<sub>0</sub>, σ<sub>0</sub><sup>2</sup>)</li>
-        <li>Posterior ~ Normal(μ<sub>n</sub>, σ<sub>n</sub><sup>2</sup>) โดย <code>μ_n = \frac{\frac{μ_0}{σ_0^2} + \frac{n\bar{x}}{σ^2}}{\frac{1}{σ_0^2} + \frac{n}{σ^2}}</code></li>
-        <li>สามารถตีความเป็นการเฉลี่ยแบบถ่วงน้ำหนักระหว่าง prior กับข้อมูล</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>Credible Interval vs Confidence Interval</h2>
-      <ul>
-        <li>Credible Interval: โอกาสที่พารามิเตอร์อยู่ในช่วงนี้ (ตาม posterior)</li>
-        <li>Confidence Interval: ขั้นตอนสร้างช่วงที่ครอบพารามิเตอร์ได้ในระยะยาวตาม sampling distribution</li>
-        <li>เมื่อ prior เป็น non-informative และ n ใหญ่ → CI และ CrI มักใกล้เคียงกัน</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>แนวทางใช้งาน</h2>
-      <ul>
-        <li>ใช้ Bayes factor หรือ posterior probability ในการตัดสินใจเชิงธุรกิจ</li>
-        <li>ตั้ง prior จากข้อมูลประวัติหรือผู้เชี่ยวชาญ และอัปเดตเมื่อลงทดลองใหม่</li>
-        <li>ดาวน์โหลด <a href="../../data/ab_test.csv">ab_test.csv</a> เพื่อจำลอง Beta-Binomial ในสเปรดชีตหรือโน้ตบุ๊ก</li>
-        <li>สำหรับโมเดลซับซ้อน → ใช้ MCMC (เช่น Stan, PyMC) และตรวจ convergence ด้วย trace plot</li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 38</p>
+<h1>บทนำสู่การวิเคราะห์แบบเบย์ (Bayesian Inference)</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>หลักคิดพื้นฐาน</h2>
+<ul>
+<li>ใช้ <strong>Prior</strong> (ความเชื่อก่อนเห็นข้อมูล) ผสานกับ <strong>Likelihood</strong> เพื่อได้ <strong>Posterior</strong></li>
+<li>ปรับปรุงความเชื่อทุกครั้งที่มีข้อมูลใหม่เข้ามา</li>
+<li>สามารถเปรียบเทียบกับการอนุมานแบบ frequentist เช่น CI vs Credible Interval</li>
+</ul>
+</article>
+<article class="card">
+<h2>Beta-Binomial model</h2>
+<ul>
+<li>ใช้กับข้อมูลความสำเร็จ/ล้มเหลว: Prior ~ Beta(α, β)</li>
+<li>Posterior = Beta(α + success, β + failure)</li>
+<li>Credible interval (เช่น 95%) มาจาก quantile ของ Beta posterior</li>
+</ul>
+</article>
+<article class="card">
+<h2>Normal-Normal model</h2>
+<ul>
+<li>สำหรับค่าเฉลี่ยของข้อมูลปกติที่มีความแปรปรวนทราบ: Prior ~ Normal(μ<sub>0</sub>, σ<sub>0</sub><sup>2</sup>)</li>
+<li>Posterior ~ Normal(μ<sub>n</sub>, σ<sub>n</sub><sup>2</sup>) โดย <code>μ_n = \frac{\frac{μ_0}{σ_0^2} + \frac{n\bar{x}}{σ^2}}{\frac{1}{σ_0^2} + \frac{n}{σ^2}}</code></li>
+<li>สามารถตีความเป็นการเฉลี่ยแบบถ่วงน้ำหนักระหว่าง prior กับข้อมูล</li>
+</ul>
+</article>
+<article class="card">
+<h2>Credible Interval vs Confidence Interval</h2>
+<ul>
+<li>Credible Interval: โอกาสที่พารามิเตอร์อยู่ในช่วงนี้ (ตาม posterior)</li>
+<li>Confidence Interval: ขั้นตอนสร้างช่วงที่ครอบพารามิเตอร์ได้ในระยะยาวตาม sampling distribution</li>
+<li>เมื่อ prior เป็น non-informative และ n ใหญ่ → CI และ CrI มักใกล้เคียงกัน</li>
+</ul>
+</article>
+<article class="card">
+<h2>แนวทางใช้งาน</h2>
+<ul>
+<li>ใช้ Bayes factor หรือ posterior probability ในการตัดสินใจเชิงธุรกิจ</li>
+<li>ตั้ง prior จากข้อมูลประวัติหรือผู้เชี่ยวชาญ และอัปเดตเมื่อลงทดลองใหม่</li>
+<li>ดาวน์โหลด <a href="../../data/ab_test.csv">ab_test.csv</a> เพื่อจำลอง Beta-Binomial ในสเปรดชีตหรือโน้ตบุ๊ก</li>
+<li>สำหรับโมเดลซับซ้อน → ใช้ MCMC (เช่น Stan, PyMC) และตรวจ convergence ด้วย trace plot</li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

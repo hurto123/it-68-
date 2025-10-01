@@ -1,64 +1,283 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>13. ภาพรวม t, χ², และ F</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 13: ภาพรวมการแจกแจง t, χ², และ F</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 13</p>
-      <h1>ภาพรวม t, χ², และ F</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-amber-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-amber-600">บทที่ 13</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">📉 ภาพรวมการแจกแจง t, χ², และ F</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg">
+        สวัสดีครับ! ที่ผ่านมาเราใช้การแจกแจงปกติและ Z-score เป็นหลัก แต่ในการอนุมานทางสถิติ เรามักจะเจอกับสถานการณ์ที่ไม่สามารถใช้การแจกแจงปกติได้โดยตรง ในบทนี้ เราจะมาทำความรู้จักกับการแจกแจงที่สำคัญอีก 3 รูปแบบ ซึ่งเป็นเครื่องมือหลักในการทดสอบสมมติฐานและการสร้างช่วงความเชื่อมั่นครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: t-Distribution -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. การแจกแจงที (t-Distribution)</h2>
+          <p><b>ใช้เมื่อไหร่?</b> ใช้แทนการแจกแจงปกติ เมื่อเราไม่ทราบค่าส่วนเบี่ยงเบนมาตรฐานของประชากร ($\sigma$) และต้องประมาณค่าด้วยส่วนเบี่ยงเบนมาตรฐานของกลุ่มตัวอย่าง ($s$) โดยเฉพาะเมื่อขนาดตัวอย่างเล็ก ($n < 30$)</p>
+          <p class="mt-2"><b>ลักษณะ:</b> มีรูปร่างคล้ายโค้งระฆังของการแจกแจงปกติ แต่จะแบนและมีหางที่หนากว่า ซึ่งสะท้อนถึงความไม่แน่นอนที่เพิ่มขึ้นจากการประมาณค่า $\sigma$ ด้วย $s$</p>
+          <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">พารามิเตอร์สำคัญ: องศาอิสระ (Degrees of Freedom, df)</h3>
+              <p class="text-sm mt-1">รูปทรงของโค้ง t จะขึ้นอยู่กับค่า df ซึ่งโดยทั่วไปสำหรับค่าเฉลี่ยเดียวคือ $df = n-1$</p>
+              <ul class="list-disc list-inside mt-2 ml-4 text-sm">
+                  <li>ยิ่ง $df$ (หรือ $n$) มีค่าน้อย โค้งจะยิ่งแบนและหางหนา</li>
+                  <li>ยิ่ง $df$ มีค่ามากขึ้น โค้ง t จะยิ่งเข้าใกล้โค้งปกติมาตรฐานมากขึ้นเรื่อยๆ</li>
+              </ul>
+          </div>
+        </section>
+
+        <!-- Section 2: Chi-Squared Distribution -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. การแจกแจงไคสแควร์ (Chi-Squared, χ²)</h2>
+          <p><b>ใช้เมื่อไหร่?</b> ใช้ในการทดสอบสมมติฐานที่เกี่ยวกับ "ความแปรปรวน" ของประชากร หรือในการทดสอบความเป็นอิสระ (Test of Independence) และการทดสอบความพอดี (Goodness-of-fit Test)</p>
+          <p class="mt-2"><b>ลักษณะ:</b> เป็นการแจกแจงที่มีค่าเป็นบวกเสมอ และมีการกระจายที่เบ้ขวา (positively skewed) ไม่สมมาตรเหมือนโค้งปกติ</p>
+          <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+              <h3 class="font-semibold text-slate-800">พารามิเตอร์สำคัญ: องศาอิสระ (Degrees of Freedom, df)</h3>
+              <p class="text-sm mt-1">รูปทรงของโค้ง $\chi^2$ จะขึ้นอยู่กับค่า df</p>
+               <ul class="list-disc list-inside mt-2 ml-4 text-sm">
+                  <li>ยิ่ง $df$ มีค่าน้อย โค้งจะยิ่งเบ้ขวามาก</li>
+                  <li>ยิ่ง $df$ มีค่ามากขึ้น โค้ง $\chi^2$ จะเริ่มมีลักษณะสมมาตรและเข้าใกล้โค้งปกติมากขึ้น</li>
+              </ul>
+          </div>
+        </section>
+        
+        <!-- Section 3: F-Distribution -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. การแจกแจงเอฟ (F-Distribution)</h2>
+            <p><b>ใช้เมื่อไหร่?</b> ใช้ในการเปรียบเทียบ "อัตราส่วนของความแปรปรวน" ระหว่างประชากรตั้งแต่ 2 กลุ่มขึ้นไป ซึ่งเป็นหัวใจสำคัญของการวิเคราะห์ความแปรปรวน (Analysis of Variance - ANOVA)</p>
+             <p class="mt-2"><b>ลักษณะ:</b> เป็นการแจกแจงที่มีค่าเป็นบวกเสมอ และมีการกระจายที่เบ้ขวา คล้ายกับการแจกแจง $\chi^2$</p>
+            <div class="mt-4 bg-slate-50 p-4 rounded-lg border">
+                <h3 class="font-semibold text-slate-800">พารามิเตอร์สำคัญ: องศาอิสระ 2 ตัว</h3>
+                <p class="text-sm mt-1">รูปทรงของโค้ง F จะขึ้นอยู่กับองศาอิสระ 2 ค่า คือ:</p>
+                <ul class="list-disc list-inside mt-2 ml-4 text-sm">
+                    <li><b>Numerator degrees of freedom ($df_1$)</b>: องศาอิสระของตัวเศษ</li>
+                    <li><b>Denominator degrees of freedom ($df_2$)</b>: องศาอิสระของตัวส่วน</li>
+                </ul>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Distribution Explorer</h2>
+          <p class="text-sm mb-3 text-slate-600">เลือกการแจกแจงและปรับค่า Degrees of Freedom (df) เพื่อดูการเปลี่ยนแปลงของรูปทรงโค้ง</p>
+          
+          <div class="space-y-4">
+              <div>
+                  <label for="dist-type" class="block text-xs font-medium">เลือกประเภทการแจกแจง:</label>
+                  <select id="dist-type" class="w-full mt-1 p-2 border rounded-md">
+                      <option value="t" selected>t-Distribution</option>
+                      <option value="chi2">Chi-Squared (χ²) Distribution</option>
+                      <option value="f">F-Distribution</option>
+                  </select>
+              </div>
+              <div id="df1-controls">
+                  <label for="df1-slider" class="block text-xs font-medium">Degrees of Freedom (<span id="df1-label">df</span>): <span id="df1-display" class="font-bold text-amber-600">5</span></label>
+                  <input type="range" id="df1-slider" min="1" max="30" value="5" class="w-full">
+              </div>
+               <div id="df2-controls" class="hidden">
+                  <label for="df2-slider" class="block text-xs font-medium">Denominator df (df₂): <span id="df2-display" class="font-bold text-amber-600">10</span></label>
+                  <input type="range" id="df2-slider" min="1" max="30" value="10" class="w-full">
+              </div>
+          </div>
+          
+          <div class="mt-4 w-full bg-slate-50 rounded-lg p-2 min-h-[180px]">
+              <svg id="dist-chart" class="w-full" viewBox="0 0 400 200"></svg>
+          </div>
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="12-standard-normal-z.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="14-clt.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>ตั้งเวทีให้รู้จักการแจกแจงตัวอย่างที่ใช้ในสถิติอนุมาน</p>
-      <ul>
-        <li>ที่มาของการแจกแจง t เมื่อตัวแปรปกติแต่ σ ไม่ทราบ</li>
-        <li>การแจกแจง χ² สำหรับผลรวมกำลังสองและการประเมินความแปรปรวน</li>
-        <li>การแจกแจง F สำหรับอัตราส่วนความแปรปรวนและ ANOVA</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>จดจำพารามิเตอร์หลักของแต่ละการแจกแจง</p>
-      <ul>
-        <li>t(df): Z / √(S^2/df) เมื่อตัวอย่างเล็กและ σ ไม่ทราบ</li>
-        <li>χ²(df): Σ (Z_i)^2 สำหรับตัวอย่างอิสระ</li>
-        <li>F(d1, d2): (S_1^2/d_1) / (S_2^2/d_2)</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>ใช้ t-test สำหรับค่าเฉลี่ยเล็ก, ใช้ χ² ทดสอบความพอดี, ใช้ F เปรียบเทียบความแปรปรวน</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="12-standard-normal-z.html">Z-score</a></li>
-        <li><a href="14-clt.html">บทถัดไป: Central Limit Theorem</a></li>
-        <li><a href="../tables/t-table.html">ตารางแจกแจง</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT)</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+
+      const distTypeSelect = document.getElementById('dist-type');
+      const df1Slider = document.getElementById('df1-slider');
+      const df2Slider = document.getElementById('df2-slider');
+      const df1Display = document.getElementById('df1-display');
+      const df2Display = document.getElementById('df2-display');
+      const df1Controls = document.getElementById('df1-controls');
+      const df2Controls = document.getElementById('df2-controls');
+      const df1Label = document.getElementById('df1-label');
+      const chartSVG = document.getElementById('dist-chart');
+      
+      // Gamma function approximation
+      const lanczosGamma = (z) => {
+          const p = [676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+          if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * lanczosGamma(1 - z));
+          z -= 1;
+          let x = 0.99999999999980993;
+          for (let i = 0; i < p.length; i++) {
+              x += p[i] / (z + i + 1);
+          }
+          const t = z + p.length - 0.5;
+          return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+      };
+
+      const tPDF = (x, df) => {
+          const num = lanczosGamma((df + 1) / 2);
+          const den = Math.sqrt(df * Math.PI) * lanczosGamma(df / 2);
+          return (num / den) * Math.pow(1 + (x * x) / df, -(df + 1) / 2);
+      };
+      
+      const chi2PDF = (x, df) => {
+          if (x <= 0) return 0;
+          return (Math.pow(x, df / 2 - 1) * Math.exp(-x / 2)) / (Math.pow(2, df / 2) * lanczosGamma(df / 2));
+      };
+
+      const fPDF = (x, d1, d2) => {
+          if (x <= 0) return 0;
+          const term1 = Math.pow(d1 * x, d1) * Math.pow(d2, d2);
+          const term2 = Math.pow(d1 * x + d2, d1 + d2);
+          const num = Math.sqrt(term1 / term2);
+          const den = x * lanczosGamma(d1 / 2) * lanczosGamma(d2 / 2) / lanczosGamma((d1 + d2) / 2);
+          return num / den;
+      };
+
+      function updateUI() {
+          const type = distTypeSelect.value;
+          df1Display.textContent = df1Slider.value;
+          df2Display.textContent = df2Slider.value;
+          
+          if (type === 'f') {
+              df1Label.textContent = 'Numerator df (df₁)';
+              df2Controls.classList.remove('hidden');
+          } else {
+              df1Label.textContent = 'df';
+              df2Controls.classList.add('hidden');
+          }
+          drawChart();
+      }
+
+      function drawChart() {
+          const type = distTypeSelect.value;
+          const df1 = parseInt(df1Slider.value);
+          const df2 = parseInt(df2Slider.value);
+          
+          chartSVG.innerHTML = '';
+          const width = 400, height = 200, ns = "http://www.w3.org/2000/svg";
+          
+          let pdf, minX, maxX, maxY;
+
+          if (type === 't') {
+              pdf = (x) => tPDF(x, df1);
+              minX = -5; maxX = 5;
+              maxY = 0.4;
+          } else if (type === 'chi2') {
+              pdf = (x) => chi2PDF(x, df1);
+              minX = 0; maxX = Math.max(10, df1 * 2.5);
+              maxY = chi2PDF(Math.max(0.1, df1-2), df1) * 1.1 || 0.5;
+          } else { // F-dist
+              pdf = (x) => fPDF(x, df1, df2);
+              minX = 0; maxX = 5;
+              maxY = fPDF( (df1 > 2 ? (df1 - 2) / df1 * df2 / (df2 + 2) : 0.1), df1, df2) * 1.1 || 1.5;
+          }
+
+          const scaleX = (x) => (x - minX) / (maxX - minX) * width;
+          const scaleY = (y) => height - 15 - (y / maxY) * (height - 25);
+
+          let pathData = `M ${scaleX(minX)},${scaleY(0)}`;
+          for(let x = minX; x <= maxX; x += (maxX - minX) / 200) {
+              const y = pdf(x);
+              if (isFinite(y)) pathData += ` L ${scaleX(x)},${scaleY(y)}`;
+          }
+          if (type === 't') pathData += ` L ${scaleX(maxX)},${scaleY(0)}`;
+
+          const mainPath = document.createElementNS(ns, 'path');
+          mainPath.setAttribute('d', pathData);
+          mainPath.setAttribute('stroke', '#f59e0b'); // amber-500
+          mainPath.setAttribute('stroke-width', '2.5');
+          mainPath.setAttribute('fill', 'rgba(245,158,11,0.2)');
+          chartSVG.appendChild(mainPath);
+
+          const xAxis = document.createElementNS(ns, 'line');
+          xAxis.setAttribute('x1', 0); xAxis.setAttribute('y1', height - 15);
+          xAxis.setAttribute('x2', width); xAxis.setAttribute('y2', height - 15);
+          xAxis.setAttribute('stroke', '#4a5568');
+          chartSVG.appendChild(xAxis);
+
+          for(let i = 0; i <= 10; i++) {
+              const xVal = minX + i * (maxX - minX) / 10;
+              const xPos = scaleX(xVal);
+              const tick = document.createElementNS(ns, 'line');
+              tick.setAttribute('x1', xPos); tick.setAttribute('y1', height - 15);
+              tick.setAttribute('x2', xPos); tick.setAttribute('y2', height - 10);
+              tick.setAttribute('stroke', '#4a5568');
+              chartSVG.appendChild(tick);
+              if (i % 2 === 0) {
+                  const label = document.createElementNS(ns, 'text');
+                  label.setAttribute('x', xPos); label.setAttribute('y', height - 2);
+                  label.setAttribute('text-anchor', 'middle');
+                  label.setAttribute('font-size', '10');
+                  label.textContent = xVal.toFixed(1);
+                  chartSVG.appendChild(label);
+              }
+          }
+      }
+
+      [distTypeSelect, df1Slider, df2Slider].forEach(el => el.addEventListener('input', updateUI));
+      updateUI();
+    });
+  </script>
+
 </body>
 </html>

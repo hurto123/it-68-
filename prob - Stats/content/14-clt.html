@@ -1,64 +1,236 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>14. การแจกแจงตัวอย่าง & ทฤษฎีขีดจำกัดกลาง</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 14: ทฤษฎีบทขีดจำกัดกลาง (CLT)</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 14</p>
-      <h1>การแจกแจงตัวอย่าง & ทฤษฎีขีดจำกัดกลาง</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-lime-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-lime-600">บทที่ 14</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">🔔 ทฤษฎีบทขีดจำกัดกลาง (Central Limit Theorem)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-lime-50 border border-lime-200 text-lime-800 p-4 rounded-lg">
+        สวัสดีครับ! เรากำลังจะก้าวเข้าสู่หนึ่งในแนวคิดที่ทรงพลังและน่ามหัศจรรย์ที่สุดในวิชาสถิติ นั่นคือ "ทฤษฎีบทขีดจำกัดกลาง" หรือ CLT ซึ่งเป็นสะพานเชื่อมระหว่างสถิติเชิงพรรณนาและสถิติเชิงอนุมาน และเป็นเหตุผลว่าทำไมการแจกแจงปกติจึงสำคัญมากครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การแจกแจงของค่าเฉลี่ยจากตัวอย่าง</h2>
+          <p>ลองจินตนาการว่าเรามีประชากรกลุ่มใหญ่ (เช่น คนไทยทั้งประเทศ) เราสุ่มตัวอย่างคนมา $n$ คน แล้วคำนวณค่าเฉลี่ย (เช่น ส่วนสูงเฉลี่ย) ของกลุ่มตัวอย่างนี้ ... แล้วเราก็ทำซ้ำไปเรื่อยๆ: สุ่มกลุ่มใหม่, คำนวณค่าเฉลี่ย, สุ่มกลุ่มใหม่, คำนวณค่าเฉลี่ย...</p>
+          <p class="mt-2">ถ้าเรานำ "ค่าเฉลี่ย" ที่ได้จากแต่ละกลุ่มตัวอย่างมาพล็อตกราฟ เราจะได้การแจกแจงใหม่ที่เรียกว่า <b>"การแจกแจงของค่าเฉลี่ยจากตัวอย่าง" (Sampling Distribution of the Mean)</b></p>
+        </section>
+
+        <!-- Section 2: The CLT -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. ทฤษฎีบทขีดจำกัดกลาง (Central Limit Theorem)</h2>
+          <p>CLT บอกเราถึงคุณสมบัติที่น่าทึ่ง 3 ประการของการแจกแจงของค่าเฉลี่ยจากตัวอย่าง เมื่อขนาดตัวอย่าง ($n$) ใหญ่พอ (โดยทั่วไปคือ $n \ge 30$):</p>
+            <div class="space-y-4 mt-4">
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">1. ค่าเฉลี่ยของค่าเฉลี่ยจากตัวอย่าง จะเท่ากับค่าเฉลี่ยของประชากร</h3>
+                  <p class="text-center my-2 text-lg"> $ \mu_{\bar{X}} = \mu $ </p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg border">
+                  <h3 class="text-lg font-semibold">2. ส่วนเบี่ยงเบนมาตรฐานของค่าเฉลี่ยจากตัวอย่าง (เรียกว่า Standard Error) จะลดลง</h3>
+                   <p class="text-center my-2 text-lg"> $ \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} $ </p>
+                   <p class="text-sm">ยิ่งขนาดตัวอย่าง ($n$) ใหญ่ ค่าเฉลี่ยของกลุ่มตัวอย่างจะยิ่งเกาะกลุ่มกันแน่นขึ้นรอบๆ ค่าเฉลี่ยจริงของประชากร</p>
+                </div>
+                <div class="p-4 bg-lime-50 border-lime-200 rounded-lg border">
+                  <h3 class="text-lg font-semibold text-lime-800">3. (สำคัญที่สุด) การแจกแจงของค่าเฉลี่ยจากตัวอย่าง จะมีรูปร่างเข้าใกล้ "การแจกแจงปกติ"</h3>
+                  <p class="text-sm text-lime-800"><b>ไม่ว่าประชากรดั้งเดิมจะมีการแจกแจงแบบใดก็ตาม!</b> นี่คือความมหัศจรรย์ของ CLT</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: การใช้ CLT</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: อายุการใช้งานของหลอดไฟยี่ห้อหนึ่งมีการแจกแจงใดๆ ที่ไม่ทราบแน่ชัด แต่รู้ว่ามีอายุใช้งานเฉลี่ย ($\mu$) 800 ชั่วโมง และมีส่วนเบี่ยงเบนมาตรฐาน ($\sigma$) 40 ชั่วโมง ถ้าเราสุ่มหลอดไฟมา 100 หลอด ($n=100$), จงหาความน่าจะเป็นที่ "ค่าเฉลี่ย" ของอายุใช้งานของหลอดไฟกลุ่มนี้จะอยู่ระหว่าง 795 ถึง 805 ชั่วโมง</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: ตรวจสอบเงื่อนไข CLT และหาพารามิเตอร์ของการแจกแจงของค่าเฉลี่ย</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>ขนาดตัวอย่าง $n=100$ ซึ่งมากกว่า 30 ดังนั้นเราสามารถใช้ CLT ได้</li>
+                    <li>ค่าเฉลี่ยของค่าเฉลี่ยจากตัวอย่าง: $\mu_{\bar{X}} = \mu = 800$ ชั่วโมง</li>
+                    <li>Standard Error: $\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} = \frac{40}{\sqrt{100}} = \frac{40}{10} = 4$ ชั่วโมง</li>
+                    <li>ดังนั้น การแจกแจงของ $\bar{X}$ จะเข้าใกล้การแจกแจงปกติ $N(800, 4^2)$</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: แปลงค่า $\bar{X}$ ที่สนใจเป็น Z-score</b></p>
+                <p class="mt-2 text-sm">ใช้สูตร $Z = \frac{\bar{X} - \mu_{\bar{X}}}{\sigma_{\bar{X}}}$</p>
+                 <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li>สำหรับ $\bar{X}_1 = 795$: $ Z_1 = \frac{795 - 800}{4} = -1.25 $</li>
+                    <li>สำหรับ $\bar{X}_2 = 805$: $ Z_2 = \frac{805 - 800}{4} = 1.25 $</li>
+                </ul>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: หาความน่าจะเป็นโดยใช้ตาราง Z</b></p>
+                <p class="font-semibold text-lime-700 mt-2"> $ P(795 \le \bar{X} \le 805) = P(-1.25 \le Z \le 1.25) $ </p>
+                <p class="font-semibold text-lime-700 mt-2"> $ = \Phi(1.25) - \Phi(-1.25) $ </p>
+                <p class="font-semibold text-lime-700 mt-2"> $ = 0.8944 - 0.1056 = 0.7888 $ </p>
+                <p class="text-sm mt-1"><b>สรุป:</b> มีโอกาสประมาณ 78.88% ที่ค่าเฉลี่ยของกลุ่มตัวอย่าง 100 หลอดนี้ จะมีอายุใช้งานอยู่ระหว่าง 795 ถึง 805 ชั่วโมง</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CLT Visualizer</h2>
+          <p class="text-sm mb-3 text-slate-600">ดูว่าการแจกแจงของค่าเฉลี่ยจากตัวอย่าง ($\bar{X}$) เปลี่ยนแปลงอย่างไรเมื่อขนาดตัวอย่าง ($n$) เพิ่มขึ้น</p>
+          
+          <div class="space-y-3">
+              <div>
+                  <label for="pop-dist" class="block text-xs font-medium">1. เลือกการแจกแจงของประชากร:</label>
+                  <select id="pop-dist" class="w-full mt-1 p-2 border rounded-md">
+                      <option value="uniform">Uniform (สม่ำเสมอ)</option>
+                      <option value="skewed" selected>Skewed Right (เบ้ขวา)</option>
+                  </select>
+              </div>
+              <div>
+                  <label for="sample-size" class="block text-xs font-medium">2. ปรับขนาดตัวอย่าง (n): <span id="n-display" class="font-bold text-lime-600">30</span></label>
+                  <input type="range" id="sample-size" min="2" max="100" value="30" class="w-full">
+              </div>
+          </div>
+          
+          <div class="mt-4 space-y-4">
+              <div>
+                <h3 class="text-sm font-semibold text-center">Population Distribution</h3>
+                <div class="w-full bg-slate-100 rounded-lg p-1"><svg id="pop-chart" class="w-full" viewBox="0 0 200 100"></svg></div>
+              </div>
+               <div>
+                <h3 class="text-sm font-semibold text-center">Sampling Distribution of the Mean ($\bar{X}$)</h3>
+                <div class="w-full bg-slate-100 rounded-lg p-1"><svg id="sampling-chart" class="w-full" viewBox="0 0 200 100"></svg></div>
+              </div>
+          </div>
+          <p class="text-center text-xs text-slate-500 mt-2">สังเกตว่าถึงแม้ประชากรจะเบ้ขวา แต่เมื่อ $n$ ใหญ่ขึ้น การแจกแจงของ $\bar{X}$ จะกลายเป็นโค้งระฆังที่สมมาตรและแคบลง</p>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="13-t-chi2-f.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="15-sampling-other-stats.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>อธิบายว่าทำไมตัวอย่างจำนวนมากนำไปสู่การแจกแจงปกติโดยประมาณ</p>
-      <ul>
-        <li>นิยามการแจกแจงของค่าเฉลี่ยตัวอย่าง</li>
-        <li>ค่าเฉลี่ยของค่าเฉลี่ยตัวอย่างเท่ากับ μ</li>
-        <li>ส่วนเบี่ยงเบนมาตรฐานของค่าเฉลี่ยตัวอย่าง = σ/√n</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรสำคัญสำหรับการประมาณค่าด้วย CLT</p>
-      <ul>
-        <li>μ_{ar X} = μ</li>
-        <li>σ_{ar X} = σ/√n</li>
-        <li>เมื่อ n ใหญ่: ar X ≈ Normal(μ, σ^2/n)</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>คำนวณโอกาสที่ค่าเฉลี่ยยอดขาย 50 วันจะเกินเป้าหมายเมื่อยอดขายรายวันไม่จำเป็นต้องปกติ</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="13-t-chi2-f.html">บทภาพรวม t/χ²/F</a></li>
-        <li><a href="15-sampling-other-stats.html">สถิติอื่น ๆ</a></li>
-        <li><a href="../workers/clt.worker.js">ซิมูเลชัน CLT</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+
+      const popSelect = document.getElementById('pop-dist');
+      const nSlider = document.getElementById('sample-size');
+      const nDisplay = document.getElementById('n-display');
+      const popChart = document.getElementById('pop-chart');
+      const samplingChart = document.getElementById('sampling-chart');
+      const ns = "http://www.w3.org/2000/svg";
+
+      const POPULATIONS = {
+          uniform: { mu: 50, sigma: 28.87, draw: (svg) => {
+              svg.innerHTML = `<rect x="10" y="10" width="180" height="80" fill="rgba(132, 204, 22, 0.4)" stroke="#65a30d" stroke-width="2"></rect>`;
+          }},
+          skewed: { mu: 25, sigma: 20, draw: (svg) => {
+              svg.innerHTML = `<path d="M10,90 Q 30,10 100,60 T 190,90 Z" fill="rgba(132, 204, 22, 0.4)" stroke="#65a30d" stroke-width="2"></path>`;
+          }}
+      };
+      
+      const normalPDF = (x, mu, sigma) => {
+          if (sigma <= 0) return 0;
+          return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+      };
+
+      function draw() {
+          const popKey = popSelect.value;
+          const n = parseInt(nSlider.value);
+          nDisplay.textContent = n;
+
+          const population = POPULATIONS[popKey];
+          
+          // Draw population
+          popChart.innerHTML = '';
+          population.draw(popChart);
+
+          // Draw sampling distribution
+          samplingChart.innerHTML = '';
+          const mu_x_bar = population.mu;
+          const sigma_x_bar = population.sigma / Math.sqrt(n);
+
+          const width = 200, height = 100;
+          const minX = mu_x_bar - 3.5 * population.sigma;
+          const maxX = mu_x_bar + 3.5 * population.sigma;
+          const scaleX = (x) => ((x - minX) / (maxX - minX)) * width;
+          
+          const maxY = normalPDF(mu_x_bar, mu_x_bar, sigma_x_bar);
+          const scaleY = (y) => height - 5 - (y / maxY) * (height-10);
+
+          let pathData = `M ${scaleX(minX)},${scaleY(0)}`;
+          for(let x = minX; x <= maxX; x += (maxX - minX) / 100) {
+              pathData += ` L ${scaleX(x)},${scaleY(normalPDF(x, mu_x_bar, sigma_x_bar))}`;
+          }
+          pathData += ` L ${scaleX(maxX)},${scaleY(0)}`;
+
+          const path = document.createElementNS(ns, 'path');
+          path.setAttribute('d', pathData);
+          path.setAttribute('fill', 'rgba(101, 163, 13, 0.5)');
+          path.setAttribute('stroke', '#4d7c0f');
+          path.setAttribute('stroke-width', '2');
+          samplingChart.appendChild(path);
+      }
+
+      [popSelect, nSlider].forEach(el => el.addEventListener('input', draw));
+      draw();
+    });
+  </script>
+
 </body>
 </html>

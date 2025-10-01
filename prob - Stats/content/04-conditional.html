@@ -1,220 +1,338 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>04. ความน่าจะเป็นแบบมีเงื่อนไข</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 4: ความน่าจะเป็นแบบมีเงื่อนไข</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .definition { border-radius: var(--radius-lg); padding: var(--space-3); background: var(--neutral-100); border: 1px solid var(--neutral-200); }
-    .conditional-lab { display: grid; gap: var(--space-3); }
-    .conditional-lab input { width: 100%; }
-    .venn { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 1rem; justify-items: center; align-items: center; }
-    .venn div { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 700; }
-    .venn .a { background: color-mix(in srgb, var(--brand-500) 80%, transparent); }
-    .venn .b { background: color-mix(in srgb, var(--success-500) 80%, transparent); }
-    .venn .ab { background: color-mix(in srgb, var(--warning-500) 80%, transparent); grid-column: span 2; width: 60%; aspect-ratio: 1 / 1; }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-2); }
-    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
-    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+    }
+    details > summary {
+      cursor: pointer;
+    }
+    .bar {
+      transition: height 0.5s ease-in-out, background-color 0.3s ease;
+    }
+    details[open] > summary ~ * {
+        animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 04</p>
-      <h1>👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! ในบทเรียนที่แล้ว เราได้เรียนรู้นิยามพื้นฐานของความน่าจะเป็นไปแล้ว แต่ในโลกแห่งความเป็นจริง หลายๆ เหตุการณ์มักจะมีความเกี่ยวข้องกัน หรือการเกิดของเหตุการณ์หนึ่งอาจส่งผลต่อโอกาสการเกิดของอีกเหตุการณ์หนึ่งได้ ในบทนี้เราจะมาเรียนรู้เครื่องมือที่จะจัดการกับสถานการณ์เหล่านี้กันครับ</p>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-violet-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-violet-600">บทที่ 04</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">🔗 ความน่าจะเป็นแบบมีเงื่อนไข และกฎที่เกี่ยวข้อง</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-violet-50 border border-violet-200 text-violet-800 p-4 rounded-lg">
+        สวัสดีครับ! ในโลกแห่งความจริง เหตุการณ์ต่างๆ มักเกี่ยวข้องกัน การรู้ข้อมูลหนึ่ง อาจเปลี่ยนมุมมองที่เรามีต่ออีกสิ่งหนึ่งได้ ในบทนี้ เราจะมาเรียนรู้ "ความน่าจะเป็นแบบมีเงื่อนไข" ซึ่งเป็นเครื่องมือสำคัญในการวิเคราะห์สถานการณ์เหล่านี้ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Conditional Probability -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. ความน่าจะเป็นแบบมีเงื่อนไข (Conditional Probability)</h2>
+          <p class="mb-4">คือ ความน่าจะเป็นของ "เหตุการณ์ A" ที่จะเกิดขึ้น <b class="text-slate-900">โดยที่เรามีข้อมูลเพิ่มเติมว่า "เหตุการณ์ B" ได้เกิดขึ้นแล้ว</b></p>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-slate-50 p-4 rounded-lg border">
+                <h3 class="font-semibold">ความน่าจะเป็นปกติ</h3>
+                <p class="mt-1">"โอกาสที่วันนี้ฝนจะตกเป็นเท่าไหร่?"</p>
+            </div>
+             <div class="bg-violet-50 p-4 rounded-lg border border-violet-200">
+                <h3 class="font-semibold">ความน่าจะเป็นแบบมีเงื่อนไข</h3>
+                <p class="mt-1">"<b>ถ้ารู้ว่า</b>วันนี้มีเมฆดำเต็มท้องฟ้า (B), โอกาสที่ฝนจะตก (A) เป็นเท่าไหร่?"</p>
+            </div>
+          </div>
+          <p class="mt-4">จะเห็นได้ว่าเมื่อเรามีข้อมูลเพิ่มเติม (B) แซมเปิลสเปซของเราจะ "แคบลง" เหลือแค่ใน B เท่านั้น และโอกาสเกิด A ก็อาจเปลี่ยนไป</p>
+          <p class="mt-2 font-semibold"><b>สัญลักษณ์:</b> $P(A|B)$ อ่านว่า "ความน่าจะเป็นของ A เมื่อกำหนด B" (Prob of A given B)</p>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรสำคัญที่เกี่ยวข้อง</h2>
+          <div class="space-y-6">
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">สูตรความน่าจะเป็นแบบมีเงื่อนไข</h3>
+              <p class="text-center font-mono text-xl my-3 p-3 bg-gray-900 text-white rounded-md">$$ P(A|B) = \frac{P(A \cap B)}{P(B)} $$</p>
+              <ul class="list-disc list-inside text-sm">
+                <li>$P(A \cap B)$ คือ ความน่าจะเป็นที่ A <b>และ</b> B เกิดขึ้นพร้อมกัน (Intersection)</li>
+                <li>$P(B)$ คือ ความน่าจะเป็นของเงื่อนไข (B) ซึ่งกลายเป็น "จักรวาลใหม่" ของเรา</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">กฎการคูณ (Multiplication Rule)</h3>
+              <p>ใช้หา $P(A \cap B)$ โดยย้ายข้างสูตรข้างบน:</p>
+              <p class="text-center font-semibold my-2">$ P(A \cap B) = P(B) \times P(A|B) $</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">กฎการบวก (Addition Rule - สูตรทั่วไป)</h3>
+              <p>ใช้หา $P(A \cup B)$ หรือความน่าจะเป็นที่ A <b>หรือ</b> B จะเกิดขึ้น:</p>
+               <p class="text-center font-semibold my-2">$ P(A \cup B) = P(A) + P(B) - P(A \cap B) $</p>
+                <div class="w-full max-w-xs mx-auto my-4">
+                    <h4 class="text-center text-sm font-semibold mb-2 text-slate-700">ภาพอธิบาย: Venn Diagram</h4>
+                    <svg viewBox="0 0 100 60">
+                        <!-- Circle A -->
+                        <circle cx="40" cy="30" r="25" fill="rgb(59 130 246 / 0.5)" stroke="rgb(59 130 246)" stroke-width="0.5"></circle>
+                        <!-- Circle B -->
+                        <circle cx="60" cy="30" r="25" fill="rgb(239 68 68 / 0.5)" stroke="rgb(239 68 68)" stroke-width="0.5"></circle>
+                        <!-- Text labels -->
+                        <text x="25" y="32" font-size="8" fill="#1e3a8a">A</text>
+                        <text x="75" y="32" font-size="8" fill="#991b1b">B</text>
+                        <text x="48" y="32" font-size="6" fill="#1e1b4b">A∩B</text>
+                    </svg>
+                </div>
+              <p class="text-sm text-slate-600">เราต้องลบส่วนที่ซ้ำกัน ($A \cap B$) ออก เพราะมันถูกนับซ้ำตอนที่เราบวก $P(A)$ และ $P(B)$</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Independence vs Mutually Exclusive -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. เหตุการณ์ที่เป็นอิสระ vs. ไม่เกิดร่วมกัน</h2>
+            <p class="mb-4">สองคำนี้มีความหมายต่างกันโดยสิ้นเชิงและมักสร้างความสับสน:</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="border-l-4 border-sky-500 pl-4">
+                    <h3 class="text-xl font-semibold text-sky-700">Independent (เป็นอิสระต่อกัน)</h3>
+                    <ul class="list-disc list-inside mt-2 space-y-1">
+                        <li>การเกิดของ A <b>ไม่ส่งผล</b> ต่อการเกิดของ B</li>
+                        <li><b>สามารถเกิดร่วมกันได้</b></li>
+                        <li><b>วิธีเช็ค:</b> $P(A|B) = P(A)$ หรือ $P(A \cap B) = P(A) \times P(B)$</li>
+                        <li><b>ตัวอย่าง:</b> โยนเหรียญ 2 ครั้ง การออกหัวครั้งแรกไม่เกี่ยวกับครั้งที่สอง</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-semibold text-red-700">Mutually Exclusive (ไม่เกิดร่วมกัน)</h3>
+                    <ul class="list-disc list-inside mt-2 space-y-1">
+                         <li>ถ้า A เกิดแล้ว B <b>จะเกิดขึ้นไม่ได้เด็ดขาด</b></li>
+                         <li><b>ไม่สามารถเกิดร่วมกันได้</b> ($A \cap B = \emptyset$)</li>
+                         <li><b>ความสัมพันธ์:</b> หาก A เกิด, โอกาสเกิด B คือ 0 ทันที แสดงว่ามัน "ไม่เป็นอิสระ" อย่างยิ่ง</li>
+                         <li><b>ตัวอย่าง:</b> ทอยลูกเต๋า 1 ครั้ง ได้แต้ม 1 กับแต้ม 6 พร้อมกันไม่ได้</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Examples -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">4. ตัวอย่างการประยุกต์ใช้</h2>
+          <div class="p-4 border rounded-lg">
+            <h3 class="font-semibold text-slate-800">โจทย์: ตะกร้ามีผลไม้ 10 ผล: แอปเปิ้ล 4 (แดง 3, เขียว 1) และ ส้ม 6 (แดง 2, เขียว 4). สุ่มหยิบ 1 ผล</h3>
+            <p class="mt-2">ให้ A คือ เหตุการณ์ที่หยิบได้ "แอปเปิ้ล", B คือ เหตุการณ์ที่หยิบได้ "สีแดง"</p>
+            
+            <div class="my-4 overflow-x-auto">
+                <h4 class="font-semibold text-center mb-2">ตารางแสดงจำนวนผลไม้ (Contingency Table)</h4>
+                <table class="w-full max-w-sm mx-auto text-center border border-slate-300">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="p-2 border border-slate-300">ประเภท</th>
+                            <th class="p-2 border border-slate-300">สีแดง (B)</th>
+                            <th class="p-2 border border-slate-300">สีเขียว (B')</th>
+                            <th class="p-2 border border-slate-300 font-bold">รวม</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="p-2 border border-slate-300 font-semibold">แอปเปิ้ล (A)</td>
+                            <td class="p-2 border border-slate-300 bg-violet-100 font-bold">3</td>
+                            <td class="p-2 border border-slate-300">1</td>
+                            <td class="p-2 border border-slate-300 font-bold bg-slate-50">4</td>
+                        </tr>
+                        <tr>
+                            <td class="p-2 border border-slate-300 font-semibold">ส้ม (A')</td>
+                            <td class="p-2 border border-slate-300">2</td>
+                            <td class="p-2 border border-slate-300">4</td>
+                            <td class="p-2 border border-slate-300 font-bold bg-slate-50">6</td>
+                        </tr>
+                        <tr class="bg-slate-100 font-bold">
+                            <td class="p-2 border border-slate-300">รวม</td>
+                            <td class="p-2 border border-slate-300">5</td>
+                            <td class="p-2 border border-slate-300">5</td>
+                            <td class="p-2 border border-slate-300">10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <hr class="my-3">
+            <b class="text-violet-700">คำถาม 1: ถ้าหยิบได้ผลไม้สีแดง, ความน่าจะเป็นที่จะเป็นแอปเปิ้ลคือเท่าไหร่? (หา $P(A|B)$)</b>
+            <p class="mt-2 text-sm">จากตาราง, เราจำกัดจักรวาลของเราเหลือแค่คอลัมน์ "สีแดง" ซึ่งมีทั้งหมด 5 ผล ในจำนวนนี้มี "แอปเปิ้ล" อยู่ 3 ผล</p>
+            <p class="font-bold text-violet-600 mt-2">$$ P(A|B) = \frac{\text{จำนวนแอปเปิ้ลสีแดง}}{\text{จำนวนผลไม้สีแดงทั้งหมด}} = \frac{3}{5} = 0.6 $$</p>
+            
+            <hr class="my-3">
+             <b class="text-violet-700">คำถาม 2: ความน่าจะเป็นที่จะหยิบได้แอปเปิ้ล หรือ ผลไม้สีแดง คือเท่าไหร่? (หา $P(A \cup B)$)</b>
+             <p class="mt-2 text-sm">เรามี $P(A)=4/10$, $P(B)=5/10$, และ $P(A \cap B)=3/10$ (จากตาราง)</p>
+             <p class="font-bold text-violet-600 mt-2">$$ P(A \cup B) = P(A) + P(B) - P(A \cap B) = \frac{4}{10} + \frac{5}{10} - \frac{3}{10} = \frac{6}{10} = 0.6 $$</p>
+          </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Probability Explorer</h2>
+          <p class="text-sm mb-4 text-slate-600">ปรับค่าต่างๆ เพื่อดูความสัมพันธ์ของความน่าจะเป็น</p>
+          
+           <div class="space-y-4">
+               <div>
+                  <label for="count-total" class="block text-xs font-medium text-slate-700">n(S) - จำนวนทั้งหมด</label>
+                  <input type="number" id="count-total" value="52" min="1" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2">
+               </div>
+                <div>
+                  <label for="count-a" class="block text-xs font-medium text-slate-700">n(A) - จำนวนในเหตุการณ์ A</label>
+                  <input type="number" id="count-a" value="13" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2">
+               </div>
+                <div>
+                  <label for="count-b" class="block text-xs font-medium text-slate-700">n(B) - จำนวนในเหตุการณ์ B</label>
+                  <input type="number" id="count-b" value="12" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2">
+               </div>
+                <div>
+                  <label for="count-ab" class="block text-xs font-medium text-slate-700">n(A∩B) - จำนวนที่ซ้ำกัน</label>
+                  <input type="number" id="count-ab" value="3" min="0" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm p-2">
+               </div>
+          </div>
+
+          <hr class="my-6">
+          
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900">ผลการคำนวณ</h3>
+            <div class="mt-2 space-y-2 text-sm">
+                <div class="flex justify-between items-center bg-slate-50 p-2 rounded-md"><span class="font-medium">P(A)</span><span id="pa" class="font-bold"></span></div>
+                <div class="flex justify-between items-center bg-slate-50 p-2 rounded-md"><span class="font-medium">P(B)</span><span id="pb" class="font-bold"></span></div>
+                <div class="flex justify-between items-center bg-slate-50 p-2 rounded-md"><span class="font-medium">P(A∩B)</span><span id="pab" class="font-bold"></span></div>
+                <div class="flex justify-between items-center bg-violet-50 p-2 rounded-md border border-violet-200"><span class="font-medium text-violet-800">P(A|B)</span><span id="pa-given-b" class="font-bold text-violet-800 text-base"></span></div>
+                <div class="flex justify-between items-center bg-violet-50 p-2 rounded-md border border-violet-200"><span class="font-medium text-violet-800">P(B|A)</span><span id="pb-given-a" class="font-bold text-violet-800 text-base"></span></div>
+            </div>
+            <div id="independent-flag" class="mt-3 text-center font-semibold p-2 rounded-md"></div>
+          </div>
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="03-probability-basics.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="05-random-variables.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: ความน่าจะเป็นแบบมีเงื่อนไข (Conditional Probability)</h2>
-      <p>คืออะไร? คือความน่าจะเป็นของ "เหตุการณ์ A" ที่จะเกิดขึ้น "โดยที่เรามีข้อมูลเพิ่มเติมว่า เหตุการณ์ B ได้เกิดขึ้นแล้ว"</p>
-      <p>เปรียบเทียบ:</p>
-      <ul>
-        <li>ความน่าจะเป็นปกติ: "โอกาสที่วันนี้ฝนจะตกเป็นเท่าไหร่?"</li>
-        <li>ความน่าจะเป็นแบบมีเงื่อนไข: "ถ้าเรารู้ว่า 'วันนี้มีเมฆดำเต็มท้องฟ้า' (เหตุการณ์ B เกิดขึ้นแล้ว) โอกาสที่ฝนจะตก (เหตุการณ์ A) จะเป็นเท่าไหร่?"</li>
-      </ul>
-      <p>จะเห็นได้ว่าเมื่อเรามีข้อมูลเพิ่มเติม (B) โอกาสในการเกิด A ก็อาจจะเปลี่ยนไป (ในที่นี้คือเพิ่มขึ้น)</p>
-      <p><strong>สัญลักษณ์:</strong> P(A∣B) อ่านว่า "ความน่าจะเป็นของ A เมื่อกำหนด B" หรือ "Prob of A given B"</p>
-    </section>
+    
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: ตัวแปรสุ่ม</p>
+    </footer>
 
-    <section>
-      <h2>2.&nbsp;&amp;&nbsp;3. ความหมายและการทำงานของสูตร</h2>
-      <div class="definition">
-        <h3>สูตรความน่าจะเป็นแบบมีเงื่อนไข</h3>
-        <p>P(A|B) = P(A ∩ B) / P(B)</p>
-        <p><strong>การทำงาน:</strong></p>
-        <ul>
-          <li>P(A∣B): คือสิ่งที่เราต้องการหา</li>
-          <li>P(A∩B): คือความน่าจะเป็นที่เหตุการณ์ A และ B จะเกิดขึ้น <strong>พร้อมกัน</strong> (Intersection)</li>
-          <li>P(B): คือความน่าจะเป็นของเหตุการณ์ B ที่เรารู้ว่าเกิดขึ้นแล้ว (ซึ่งตอนนี้กลายเป็น "แซมเปิลสเปซใหม่" ของเรา)</li>
-        </ul>
-      </div>
-      <div class="grid-2">
-        <div class="definition">
-          <h3>กฎการคูณของความน่าจะเป็น (Multiplication Rule)</h3>
-          <p>ความหมาย: เป็นกฎที่ใช้หาความน่าจะเป็นที่เหตุการณ์ A และ B จะเกิดขึ้นพร้อมกัน (P(A∩B)) ซึ่งเป็นสูตรที่ย้ายข้างมาจากสูตรข้างบนนั่นเอง</p>
-          <p>P(A ∩ B) = P(B) × P(A|B) หรือ P(A ∩ B) = P(A) × P(B|A)</p>
-        </div>
-        <div class="definition">
-          <h3>เหตุการณ์ที่เป็นอิสระต่อกัน (Independent Events)</h3>
-          <p>ความหมาย: คือการที่การเกิดของเหตุการณ์หนึ่ง "ไม่ส่งผล" ต่อโอกาสการเกิดของอีกเหตุการณ์หนึ่งเลย</p>
-          <p>การตรวจสอบ: ถ้า A และ B เป็นอิสระกัน, จะได้ว่า P(A∣B)=P(A)</p>
-          <p>กฎการคูณสำหรับเหตุการณ์อิสระ (ง่ายกว่าเดิม!): P(A ∩ B) = P(A) × P(B)</p>
-        </div>
-      </div>
-      <div class="definition">
-        <h3>กฎการบวกของความน่าจะเป็น (Addition Rule)</h3>
-        <p>ความหมาย: เป็นกฎที่ใช้หาความน่าจะเป็นที่เหตุการณ์ A หรือ B จะเกิดขึ้น (P(A∪B))</p>
-        <p>สูตรทั่วไป (ใช้ได้ทุกกรณี): P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</p>
-        <p>ทำไมต้องลบส่วนที่ซ้ำกันออก? เพราะในการบวก P(A) กับ P(B) เราได้นับส่วนที่เกิดร่วมกัน (A∩B) ไปถึงสองครั้ง จึงต้องลบออกหนึ่งครั้งเพื่อให้ถูกต้อง</p>
-      </div>
-    </section>
+  </div>
 
-    <section>
-      <h2>4. การเข้าใจในเนื้อหา: Independent vs Mutually Exclusive</h2>
-      <p>สองคำนี้มักสร้างความสับสน ให้นักศึกษาจำง่ายๆ ดังนี้ครับ:</p>
-      <div class="grid-2">
-        <div>
-          <h3>Independent (เป็นอิสระ)</h3>
-          <ul>
-            <li>การเกิดของ A ไม่ส่งผล ต่อ B (เช่น โยนเหรียญครั้งแรกได้หัว ไม่ส่งผลต่อการโยนครั้งที่สอง)</li>
-            <li>เหตุการณ์อิสระ สามารถเกิดร่วมกันได้</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Mutually Exclusive (ไม่เกิดร่วมกัน)</h3>
-          <ul>
-            <li>ถ้า A เกิดแล้ว B จะเกิดไม่ได้เด็ดขาด (เช่น ทอดลูกเต๋าครั้งเดียว ได้แต้ม 1 กับแต้ม 6 พร้อมกันไม่ได้)</li>
-            <li>เหตุการณ์ที่ไม่เกิดร่วมกัน ไม่เป็นอิสระต่อกัน (เพราะการเกิดของ A ส่งผล 100% ต่อ B คือทำให้ B เกิดไม่ได้)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>5. ยกตัวอย่าง</h2>
-      <p>โจทย์: ในตะกร้ามีผลไม้ 10 ผล เป็นแอปเปิ้ล 4 ผล (3 ผลสีแดง, 1 ผลสีเขียว) และส้ม 6 ผล (2 ผลสีแดง, 4 ผลสีเขียว) สุ่มหยิบผลไม้ 1 ผล</p>
-      <ul>
-        <li>A: เหตุการณ์ที่หยิบได้แอปเปิ้ล</li>
-        <li>B: เหตุการณ์ที่หยิบได้ผลไม้สีแดง</li>
-      </ul>
-      <h3>คำถามที่ 1: จงหา P(A∣B)</h3>
-      <p>เราต้องหา P(A∩B) (แอปเปิ้ล และ สีแดง): มีแอปเปิ้ลสีแดง 3 ผล จากทั้งหมด 10 ผล → P(A∩B)=3/10</p>
-      <p>เราต้องหา P(B) (ผลไม้สีแดง): มีผลไม้สีแดงทั้งหมด 3+2=5 ผล จาก 10 ผล → P(B)=5/10</p>
-      <p>วิธีทำ: P(A|B) = (3/10)/(5/10) = 3/5 = 0.6 ⇒ ถ้าเรารู้ว่าผลไม้ที่หยิบมาเป็นสีแดง โอกาสที่มันจะเป็นแอปเปิ้ลจะสูงถึง 60%</p>
-      <h3>คำถามที่ 2: จงหา P(A∪B)</h3>
-      <p>P(A) (ได้แอปเปิ้ล) = 4/10, P(B) (ได้สีแดง) = 5/10, P(A∩B) (แอปเปิ้ลสีแดง) = 3/10</p>
-      <p>วิธีทำ (ใช้กฎการบวก): P(A ∪ B) = 4/10 + 5/10 − 3/10 = 6/10 = 0.6 ⇒ มีโอกาส 60% ที่จะหยิบได้ผลไม้ที่เป็นแอปเปิ้ล หรือเป็นสีแดง (หรือเป็นทั้งสองอย่าง)</p>
-    </section>
-
-    <section>
-      <h2>Interactive: Conditional Probability Explorer</h2>
-      <p>ปรับจำนวนสมาชิกของแต่ละกลุ่มเพื่อดู P(A∣B), P(B∣A) และตรวจสอบความเป็นอิสระของเหตุการณ์</p>
-      <div class="conditional-lab">
-        <div class="grid-2">
-          <label>จำนวนสมาชิกเหตุการณ์ A ทั้งหมด
-            <input id="count-a" type="number" min="0" value="4">
-          </label>
-          <label>จำนวนสมาชิกเหตุการณ์ B ทั้งหมด
-            <input id="count-b" type="number" min="0" value="5">
-          </label>
-          <label>จำนวนสมาชิกที่อยู่ทั้ง A และ B
-            <input id="count-ab" type="number" min="0" value="3">
-          </label>
-          <label>จำนวนสมาชิกทั้งหมดในจักรวาล (U)
-            <input id="count-total" type="number" min="1" value="10">
-          </label>
-        </div>
-        <button class="primary" id="conditional-update">คำนวณ</button>
-        <div class="grid-2">
-          <div>
-            <p>P(A) = <strong id="pa">0.4</strong></p>
-            <p>P(B) = <strong id="pb">0.5</strong></p>
-            <p>P(A ∩ B) = <strong id="pab">0.3</strong></p>
-            <p>P(A | B) = <strong id="pa-given-b">0.6</strong></p>
-            <p>P(B | A) = <strong id="pb-given-a">0.75</strong></p>
-            <p>Independent? <strong id="independent-flag">ไม่เป็นอิสระ</strong></p>
-          </div>
-          <div>
-            <div class="venn" aria-label="ภาพแทนเซต">
-              <div class="a" id="venn-a">A</div>
-              <div class="b" id="venn-b">B</div>
-              <div class="ab" id="venn-ab">A∩B</div>
-            </div>
-            <div class="bar-chart" role="img" aria-label="เปรียบเทียบความน่าจะเป็น">
-              <div class="bar" id="bar-pa" style="height:40%" data-value="40%"><span>P(A)</span></div>
-              <div class="bar" id="bar-pb" style="height:50%" data-value="50%"><span>P(B)</span></div>
-              <div class="bar" id="bar-pab" style="height:30%" data-value="30%"><span>P(A∩B)</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
   <script>
-    const percentText = (value) => `${Math.round(value * 1000) / 10}%`;
-
-    document.getElementById('conditional-update').addEventListener('click', () => {
-      const a = Number(document.getElementById('count-a').value);
-      const b = Number(document.getElementById('count-b').value);
-      const ab = Number(document.getElementById('count-ab').value);
-      const total = Number(document.getElementById('count-total').value);
-
-      if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(ab) || !Number.isFinite(total) || total <= 0) return;
-      if (ab > a || ab > b || a > total || b > total || ab > total) return;
-
-      const pa = a / total;
-      const pb = b / total;
-      const pab = ab / total;
-      const paGivenB = pb > 0 ? pab / pb : NaN;
-      const pbGivenA = pa > 0 ? pab / pa : NaN;
-      const independent = Math.abs(pab - pa * pb) < 1e-6;
-
-      document.getElementById('pa').textContent = pa.toFixed(4);
-      document.getElementById('pb').textContent = pb.toFixed(4);
-      document.getElementById('pab').textContent = pab.toFixed(4);
-      document.getElementById('pa-given-b').textContent = Number.isFinite(paGivenB) ? paGivenB.toFixed(4) : '—';
-      document.getElementById('pb-given-a').textContent = Number.isFinite(pbGivenA) ? pbGivenA.toFixed(4) : '—';
-      document.getElementById('independent-flag').textContent = independent ? 'เป็นอิสระ' : 'ไม่เป็นอิสระ';
-
-      const barPa = document.getElementById('bar-pa');
-      const barPb = document.getElementById('bar-pb');
-      const barPab = document.getElementById('bar-pab');
-      barPa.style.height = percentText(pa);
-      barPb.style.height = percentText(pb);
-      barPab.style.height = percentText(pab);
-      barPa.dataset.value = percentText(pa);
-      barPb.dataset.value = percentText(pb);
-      barPab.dataset.value = percentText(pab);
-
-      document.getElementById('venn-a').textContent = `A\n${percentText(pa)}`.replace('\\n', '\n');
-      document.getElementById('venn-b').textContent = `B\n${percentText(pb)}`.replace('\\n', '\n');
-      document.getElementById('venn-ab').textContent = `A∩B\n${percentText(pab)}`.replace('\\n', '\n');
+    // --- KaTeX Auto-rendering ---
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+      }
     });
+
+    // --- Interactive Probability Explorer ---
+    const countAEl = document.getElementById('count-a');
+    const countBEl = document.getElementById('count-b');
+    const countABEl = document.getElementById('count-ab');
+    const countTotalEl = document.getElementById('count-total');
+    const allInputs = [countAEl, countBEl, countABEl, countTotalEl];
+
+    const paEl = document.getElementById('pa');
+    const pbEl = document.getElementById('pb');
+    const pabEl = document.getElementById('pab');
+    const paGivenBEl = document.getElementById('pa-given-b');
+    const pbGivenAEl = document.getElementById('pb-given-a');
+    const independentFlagEl = document.getElementById('independent-flag');
+
+    const calculateProbabilities = () => {
+        const nA = parseFloat(countAEl.value);
+        const nB = parseFloat(countBEl.value);
+        const nAB = parseFloat(countABEl.value);
+        const nTotal = parseFloat(countTotalEl.value);
+
+        // Basic validation
+        if (isNaN(nA) || isNaN(nB) || isNaN(nAB) || isNaN(nTotal) || nTotal <= 0 || nAB > nA || nAB > nB || nA > nTotal || nB > nTotal) {
+            // Clear results if input is invalid
+            [paEl, pbEl, pabEl, paGivenBEl, pbGivenAEl].forEach(el => el.textContent = '—');
+            independentFlagEl.textContent = 'ข้อมูลไม่ถูกต้อง';
+            independentFlagEl.className = 'mt-3 text-center font-semibold p-2 rounded-md bg-red-100 text-red-800';
+            return;
+        }
+
+        const pA = nA / nTotal;
+        const pB = nB / nTotal;
+        const pAB = nAB / nTotal;
+        
+        const pAGivenB = pB > 0 ? pAB / pB : NaN;
+        const pBGivenA = pA > 0 ? pAB / pA : NaN;
+
+        const isIndependent = Math.abs(pAB - (pA * pB)) < 1e-9;
+
+        // Update UI
+        paEl.textContent = pA.toFixed(4);
+        pbEl.textContent = pB.toFixed(4);
+        pabEl.textContent = pAB.toFixed(4);
+        paGivenBEl.textContent = isNaN(pAGivenB) ? '—' : pAGivenB.toFixed(4);
+        pbGivenAEl.textContent = isNaN(pBGivenA) ? '—' : pBGivenA.toFixed(4);
+        
+        if (isIndependent) {
+            independentFlagEl.textContent = 'เป็นอิสระต่อกัน (Independent)';
+            independentFlagEl.className = 'mt-3 text-center font-semibold p-2 rounded-md bg-sky-100 text-sky-800';
+        } else {
+            independentFlagEl.textContent = 'ไม่เป็นอิสระต่อกัน (Dependent)';
+            independentFlagEl.className = 'mt-3 text-center font-semibold p-2 rounded-md bg-amber-100 text-amber-800';
+        }
+    };
+
+    // Add event listeners to all inputs
+    allInputs.forEach(input => {
+        input.addEventListener('input', calculateProbabilities);
+    });
+
+    // Initial calculation on page load
+    document.addEventListener('DOMContentLoaded', calculateProbabilities);
   </script>
+
 </body>
 </html>
+

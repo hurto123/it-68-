@@ -1,265 +1,412 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>06. ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 6: ค่าคาดหวังและความแปรปรวน</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
-    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
-    section h2 { margin-top: 0; }
-    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
-    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .math { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
-    .ev-builder { display: grid; gap: var(--space-3); }
-    .ev-table { width: 100%; border-collapse: collapse; }
-    .ev-table th, .ev-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
-    .ev-table th { background: var(--neutral-100); }
-    .controls { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
-    .controls label { font-weight: 600; }
-    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-3); }
-    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
-    .bar::after { content: attr(data-prob); position: absolute; inset-inline: 0; top: .25rem; color: white; font-weight: 700; }
-    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; font-size: .875rem; }
-    @media (max-width: 720px) {
-      section { padding: var(--space-3); }
-      .controls { flex-direction: column; align-items: stretch; }
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
   </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 06</p>
-      <h1>👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</h1>
-      <p class="highlight">สวัสดีครับนักศึกษา! หลังจากที่เราได้เรียนรู้ "การแจกแจงความน่าจะเป็น" ซึ่งเปรียบเสมือนแผนที่ที่บอกหน้าตาโดยรวมของตัวแปรสุ่มไปแล้ว ในบทนี้เราจะมาเรียนรู้วิธีการ "สรุปย่อ" ลักษณะของการแจกแจงนั้นๆ ด้วยตัวเลขเพียงไม่กี่ตัว ซึ่งก็คือ ค่าคาดหวัง และ ความแปรปรวน ครับ</p>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-teal-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-teal-600">บทที่ 06</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">📊 ค่าคาดหวังและความแปรปรวน</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-teal-50 border border-teal-200 text-teal-800 p-4 rounded-lg">
+        สวัสดีครับ! หลังจากที่เราเรียนรู้ "การแจกแจงความน่าจะเป็น" ซึ่งเปรียบเสมือนแผนที่ของตัวแปรสุ่มไปแล้ว ในบทนี้เราจะมาเรียนรู้วิธี "สรุปย่อ" ลักษณะของการแจกแจงนั้นๆ ด้วยตัวเลขเพียงไม่กี่ตัว ซึ่งก็คือ ค่าคาดหวัง และ ความแปรปรวน ครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Key Summary Values -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. ค่าสรุปย่อที่สำคัญ</h2>
+          <p class="mb-4">เรามักจะสรุปลักษณะของการแจกแจงด้วยค่าที่บอก "แนวโน้มสู่ศูนย์กลาง" และ "การกระจายตัว" ดังนี้ครับ</p>
+          <ul class="space-y-4">
+            <li class="border-l-4 border-blue-400 pl-4">
+                <h3 class="text-lg font-semibold">ค่าคาดหวัง (Expected Value), $E(X)$ หรือ $\mu$</h3>
+                <p>คือ "ค่าเฉลี่ย" ของตัวแปรสุ่มที่ถ่วงน้ำหนักด้วยความน่าจะเป็น เป็นค่าที่เราคาดว่าจะเจอโดยเฉลี่ยหากทำการทดลองซ้ำๆ จำนวนมาก</p>
+            </li>
+             <li class="border-l-4 border-orange-400 pl-4">
+                <h3 class="text-lg font-semibold">ความแปรปรวน (Variance), $V(X)$ หรือ $\sigma^2$</h3>
+                <p>คือค่าที่วัด "การกระจายตัว" หรือความผันผวนรอบๆ ค่าคาดหวัง ยิ่งค่าสูงแสดงว่าข้อมูลยิ่งกระจายตัวห่างจากค่าเฉลี่ย (เสี่ยงสูง)</p>
+            </li>
+             <li class="border-l-4 border-green-400 pl-4">
+                <h3 class="text-lg font-semibold">ส่วนเบี่ยงเบนมาตรฐาน (Standard Deviation), $SD(X)$ หรือ $\sigma$</h3>
+                <p>คือรากที่สองของความแปรปรวน ($ \sigma = \sqrt{\sigma^2} $) มีข้อดีคือมี "หน่วย" เดียวกันกับค่าคาดหวัง ทำให้ตีความการกระจายตัวได้ง่ายกว่า</p>
+            </li>
+          </ul>
+        </section>
+        
+        <!-- NEW Section: Visualizing Variance -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. การตีความความแปรปรวนด้วยภาพ</h2>
+          <p class="mb-4">ลองดูการแจกแจงสองรูปแบบนี้ ทั้งสองมีค่าคาดหวังเท่ากัน ($E(X)=2$) แต่มีความแปรปรวนต่างกัน</p>
+          <div class="grid md:grid-cols-2 gap-6 mt-4">
+              <div class="text-center">
+                  <h3 class="font-semibold">ความแปรปรวนต่ำ (Low Variance)</h3>
+                  <svg viewBox="0 0 120 100" class="w-full h-auto bg-slate-50 rounded-lg mt-2 p-2">
+                      <rect x="10" y="80" width="20" height="10" fill="#f0abfc"></rect><text x="20" y="95" font-size="8" text-anchor="middle">0</text>
+                      <rect x="35" y="60" width="20" height="30" fill="#e879f9"></rect><text x="45" y="95" font-size="8" text-anchor="middle">1</text>
+                      <rect x="60" y="10" width="20" height="80" fill="#d946ef"></rect><text x="70" y="95" font-size="8" text-anchor="middle">2</text>
+                      <rect x="85" y="60" width="20" height="30" fill="#e879f9"></rect><text x="95" y="95" font-size="8" text-anchor="middle">3</text>
+                      <line x1="70" y1="10" x2="70" y2="90" stroke="#0e7490" stroke-width="1.5" stroke-dasharray="2,2"></line>
+                      <text x="70" y="8" font-size="7" text-anchor="middle" fill="#0e7490">E(X)=2</text>
+                  </svg>
+                   <p class="text-sm mt-2">ค่าส่วนใหญ่เกาะกลุ่มใกล้ค่าเฉลี่ย (ความเสี่ยงต่ำ, คาดเดาง่าย)</p>
+              </div>
+              <div class="text-center">
+                  <h3 class="font-semibold">ความแปรปรวนสูง (High Variance)</h3>
+                   <svg viewBox="0 0 120 100" class="w-full h-auto bg-slate-50 rounded-lg mt-2 p-2">
+                      <rect x="10" y="50" width="20" height="40" fill="#f0abfc"></rect><text x="20" y="95" font-size="8" text-anchor="middle">0</text>
+                      <rect x="35" y="80" width="20" height="10" fill="#e879f9"></rect><text x="45" y="95" font-size="8" text-anchor="middle">1</text>
+                      <rect x="60" y="70" width="20" height="20" fill="#d946ef"></rect><text x="70" y="95" font-size="8" text-anchor="middle">2</text>
+                      <rect x="85" y="80" width="20" height="10" fill="#e879f9"></rect><text x="95" y="95" font-size="8" text-anchor="middle">3</text>
+                       <rect x="110" y="50" width="20" height="40" fill="#c026d3"></rect><text x="120" y="95" font-size="8" text-anchor="middle">4</text>
+                       <line x1="70" y1="10" x2="70" y2="90" stroke="#0e7490" stroke-width="1.5" stroke-dasharray="2,2"></line>
+                       <text x="70" y="8" font-size="7" text-anchor="middle" fill="#0e7490">E(X)=2</text>
+                  </svg>
+                   <p class="text-sm mt-2">ค่ากระจายตัวออกไปกว้าง (ความเสี่ยงสูง, คาดเดายาก)</p>
+              </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">3. สูตรการคำนวณ</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">สำหรับตัวแปรสุ่มไม่ต่อเนื่อง (Discrete)</h3>
+              <p class="mt-2 text-sm font-semibold text-slate-700">ค่าคาดหวัง:</p>
+              <div class="text-center my-2"> $E(X) = \mu = \sum_{\text{all }x} x \cdot P(X=x)$ </div>
+              <p class="mt-2 text-sm font-semibold text-slate-700">ความแปรปรวน (สูตรคำนวณ):</p>
+               <div class="text-center my-2"> $V(X) = \sigma^2 = E(X^2) - [E(X)]^2$ </div>
+              <p class="text-xs text-center">โดยที่ $E(X^2) = \sum_{\text{all }x} x^2 \cdot P(X=x)$</p>
+            </div>
+             <div class="p-4 bg-slate-50 rounded-lg border">
+              <h3 class="text-lg font-semibold">สำหรับตัวแปรสุ่มต่อเนื่อง (Continuous)</h3>
+              <p class="mt-2 text-sm font-semibold text-slate-700">ค่าคาดหวัง:</p>
+              <div class="text-center my-2"> $E(X) = \mu = \int_{-\infty}^{\infty} x \cdot f(x) \,dx$ </div>
+              <p class="mt-2 text-sm font-semibold text-slate-700">ความแปรปรวน (สูตรคำนวณ):</p>
+               <div class="text-center my-2"> $V(X) = \sigma^2 = E(X^2) - [E(X)]^2$ </div>
+               <p class="text-xs text-center">โดยที่ $E(X^2) = \int_{-\infty}^{\infty} x^2 \cdot f(x) \,dx$</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Section 4: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. ตัวอย่างการคำนวณ (พร้อมตาราง)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: จากการโยนเหรียญ 2 ครั้ง (X = จำนวนหัว), จงหา E(X) และ V(X)</h3>
+                <p class="text-sm my-2">การแจกแจง: $P(X=0)=0.25$, $P(X=1)=0.5$, $P(X=2)=0.25$</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="w-full text-center border">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-2 border font-semibold">$x$</th>
+                                <th class="p-2 border font-semibold">$P(X=x)$</th>
+                                <th class="p-2 border font-semibold text-blue-700">$x \cdot P(X=x)$</th>
+                                <th class="p-2 border font-semibold">$x^2$</th>
+                                <th class="p-2 border font-semibold text-orange-700">$x^2 \cdot P(X=x)$</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-2 border">0</td>
+                                <td class="p-2 border">0.25</td>
+                                <td class="p-2 border text-blue-700">0 × 0.25 = 0</td>
+                                <td class="p-2 border">0</td>
+                                <td class="p-2 border text-orange-700">0 × 0.25 = 0</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2 border">1</td>
+                                <td class="p-2 border">0.50</td>
+                                <td class="p-2 border text-blue-700">1 × 0.50 = 0.50</td>
+                                <td class="p-2 border">1</td>
+                                <td class="p-2 border text-orange-700">1 × 0.50 = 0.50</td>
+                            </tr>
+                             <tr>
+                                <td class="p-2 border">2</td>
+                                <td class="p-2 border">0.25</td>
+                                <td class="p-2 border text-blue-700">2 × 0.25 = 0.50</td>
+                                <td class="p-2 border">4</td>
+                                <td class="p-2 border text-orange-700">4 × 0.25 = 1.00</td>
+                            </tr>
+                            <tr class="bg-slate-100 font-bold">
+                                <td colspan="2" class="p-2 border text-right">ผลรวม:</td>
+                                <td class="p-2 border bg-blue-100 text-blue-800">$E(X) = 1.00$</td>
+                                <td class="p-2 border"></td>
+                                <td class="p-2 border bg-orange-100 text-orange-800">$E(X^2) = 1.50$</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4">
+                    <p class="font-bold text-teal-700 mt-2">
+                        $V(X) = E(X^2) - [E(X)]^2 = 1.50 - (1.00)^2 = 0.5$
+                    </p>
+                    <p class="font-bold text-teal-700 mt-2">
+                        $SD(X) = \sqrt{0.5} \approx 0.707$
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">E(X) & Var(X) Calculator</h2>
+          <p class="text-sm mb-3 text-slate-600">สร้างตารางการแจกแจงความน่าจะเป็นเพื่อคำนวณค่าต่างๆ</p>
+          
+          <div class="flex items-center space-x-2">
+              <label for="ev-count" class="text-sm font-medium">จำนวนผลลัพธ์:</label>
+              <input type="number" id="ev-count" value="3" min="2" max="8" class="w-16 rounded-md border-slate-300 p-1">
+              <button id="ev-apply" class="flex-grow bg-slate-200 text-slate-800 font-bold py-1 px-3 rounded-lg hover:bg-slate-300 transition-colors text-sm">สร้างตาราง</button>
+          </div>
+
+          <div class="overflow-x-auto mt-3">
+              <table class="w-full text-sm">
+                  <thead class="bg-slate-100">
+                      <tr>
+                          <th class="p-2 font-semibold text-center">ค่า (x)</th>
+                          <th class="p-2 font-semibold text-center">P(X=x)</th>
+                      </tr>
+                  </thead>
+                  <tbody id="ev-rows"></tbody>
+              </table>
+          </div>
+          
+           <p id="ev-warning" class="hidden mt-2 text-center text-sm font-semibold text-red-600 bg-red-100 p-2 rounded-md">ผลรวมความน่าจะเป็นต้องเท่ากับ 1</p>
+          
+          <div id="ev-chart-container" class="mt-4 w-full bg-slate-50 rounded-lg p-2 min-h-[180px]">
+              <svg id="ev-chart" class="w-full" viewBox="0 0 300 150"></svg>
+          </div>
+
+          <hr class="my-4">
+          
+          <div>
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลลัพธ์การคำนวณ</h3>
+              <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center bg-blue-50 p-2 rounded-md"><span class="font-medium text-blue-800">ค่าคาดหวัง E(X)</span><span id="ev-mean" class="font-bold text-lg text-blue-800">–</span></div>
+                  <div class="flex justify-between items-center bg-orange-50 p-2 rounded-md"><span class="font-medium text-orange-800">ความแปรปรวน V(X)</span><span id="ev-var" class="font-bold text-lg text-orange-800">–</span></div>
+                  <div class="flex justify-between items-center bg-green-50 p-2 rounded-md"><span class="font-medium text-green-800">ส่วนเบี่ยงเบนฯ SD(X)</span><span id="ev-sd" class="font-bold text-lg text-green-800">–</span></div>
+                  <div class="flex justify-between items-center bg-slate-100 p-2 rounded-md"><span class="font-medium text-slate-600">E(X²)</span><span id="ev-second" class="font-bold text-slate-600">–</span></div>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="05-random-variables.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="07-discrete-uniform.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="lesson">
-    <section>
-      <h2>1. อธิบายเนื้อหาของการเรียน: ค่าสรุปย่อที่สำคัญ</h2>
-      <p>ลองนึกภาพการแจกแจงความน่าจะเป็นเหมือนข้อมูลประชากรทั้งประเทศ การจะทำความเข้าใจคนทั้งประเทศ เราคงไม่ไปดูข้อมูลรายคน แต่เรามักจะดู "ค่าเฉลี่ย" และ "การกระจายตัว" ของข้อมูลนั้นๆ</p>
-      <ul>
-        <li><strong>ค่าคาดหวัง (Expected Value):</strong> คือ "ค่าเฉลี่ย" ของตัวแปรสุ่ม โดยถ่วงน้ำหนักด้วยความน่าจะเป็น มันคือค่าที่เรา "คาดว่า" จะเจอโดยเฉลี่ย หากเราทำการทดลองสุ่มนั้นซ้ำๆ เป็นจำนวนมาก สัญลักษณ์: E(X) หรือ μ (มิว)</li>
-        <li><strong>ความแปรปรวน (Variance):</strong> คือค่าที่ใช้วัด "การกระจายตัว" หรือ "ความผันผวน" ของค่าต่างๆ รอบๆ ค่าคาดหวัง ถ้าความแปรปรวนสูง หมายถึงค่าของตัวแปรสุ่มมีแนวโน้มที่จะอยู่ห่างจากค่าเฉลี่ยมากๆ (มีความเสี่ยงสูง) ถ้าความแปรปรวนต่ำ หมายถึงค่าต่างๆ มักจะเกาะกลุ่มอยู่ใกล้ๆ ค่าเฉลี่ย (มีความสม่ำเสมอ) สัญลักษณ์: V(X) หรือ σ<sup>2</sup> (ซิกมากำลังสอง)</li>
-        <li><strong>ส่วนเบี่ยงเบนมาตรฐาน (Standard Deviation):</strong> คือ รากที่สองที่เป็นบวกของความแปรปรวน ข้อดีคือมี "หน่วย" เดียวกันกับค่าเฉลี่ย ทำให้ตีความได้ง่ายกว่า สัญลักษณ์: SD(X) หรือ σ (ซิกมา)</li>
-      </ul>
-    </section>
+    
+    <!-- Footer Section -->
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab | เนื้อหาบทเรียนถัดไป: การแจกแจงแบบไม่ต่อเนื่อง</p>
+    </footer>
 
-    <section>
-      <h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
-      <div class="grid-2">
-        <article>
-          <h3>สูตรสำหรับตัวแปรสุ่มไม่ต่อเนื่อง (Discrete)</h3>
-          <p><strong>ค่าคาดหวัง (Expected Value):</strong></p>
-          <div class="math">E(X) = \mu = \sum_{\text{all }x} [x \cdot f(x)]</div>
-          <p>การทำงาน: นำ "ค่า" ของตัวแปรสุ่มแต่ละตัว (x) มาคูณกับ "ความน่าจะเป็น" ของมัน (f(x)) แล้วจับทั้งหมดมาบวกกัน</p>
-          <p><strong>ความแปรปรวน (Variance):</strong></p>
-          <div class="math">V(X)=E[(X-\mu)^2]=\sum_{\text{all }x}[(x-\mu)^2 f(x)]</div>
-          <p><strong>สูตร (สำหรับคำนวณ - ง่ายกว่า!):</strong></p>
-          <div class="math">V(X) = \sigma^2 = E(X^2) - [E(X)]^2 \quad \text{โดยที่}\quad E(X^2)=\sum_{\text{all }x}[x^2 f(x)]</div>
-          <p>การทำงาน:</p>
-          <ol>
-            <li>หา E(X) (ค่าเฉลี่ย) ให้ได้ก่อน</li>
-            <li>หา E(X<sup>2</sup>) โดยการนำค่า x แต่ละตัวมา "ยกกำลังสองก่อน" แล้วค่อยคูณกับความน่าจะเป็นของมัน แล้วจับบวกกันทั้งหมด</li>
-            <li>นำผลลัพธ์จากข้อ 2 ลบด้วยผลลัพธ์จากข้อ 1 ที่ถูกยกกำลังสอง</li>
-          </ol>
-        </article>
-        <article>
-          <h3>สูตรสำหรับตัวแปรสุ่มต่อเนื่อง (Continuous)</h3>
-          <p>แนวคิดเหมือนกันทุกประการ แต่เปลี่ยนเครื่องหมายผลรวม (Σ) ให้เป็นการอินทิเกรต (∫)</p>
-          <p><strong>ค่าคาดหวัง:</strong></p>
-          <div class="math">E(X) = \mu = \int_{-\infty}^{\infty} x \cdot f(x)\,dx</div>
-          <p><strong>ความแปรปรวน:</strong></p>
-          <div class="math">V(X) = \sigma^2 = \int_{-\infty}^{\infty} (x-\mu)^2 f(x)\,dx = E(X^2) - [E(X)]^2</div>
-        </article>
-      </div>
-    </section>
+  </div>
 
-    <section>
-      <h2>4. การเข้าใจในเนื้อหา</h2>
-      <ul>
-        <li>E(X) บอกเราถึง "จุดศูนย์กลาง" หรือ "ตำแหน่งที่ตั้ง" ของการแจกแจง</li>
-        <li>V(X) บอกเราถึง "ความกว้าง" หรือ "ความอ้วน" ของการแจกแจง</li>
-      </ul>
-      <p>(กราฟซ้ายมีความแปรปรวนต่ำ, กราฟขวามีความแปรปรวนสูง)</p>
-    </section>
-
-    <section>
-      <h2>5. ยกตัวอย่าง (ตัวแปรสุ่มไม่ต่อเนื่อง)</h2>
-      <p><strong>โจทย์:</strong> เกมโยนเหรียญ 1 อัน ถ้าออกหัวจะได้เงิน 10 บาท ถ้าออกก้อยจะเสียเงิน 5 บาท จงหา "ค่าคาดหวัง" ของเงินที่จะได้รับจากการเล่นเกมนี้ 1 ครั้ง</p>
-      <p><strong>วิเคราะห์:</strong></p>
-      <ul>
-        <li>ให้ X = จำนวนเงินที่ได้รับ</li>
-        <li>ค่าที่เป็นไปได้ของ X คือ {+10, -5}</li>
-        <li>การแจกแจงความน่าจะเป็น: P(X=10) (ออกหัว) = 0.5 และ P(X=-5) (ออกก้อย) = 0.5</li>
-      </ul>
-      <p><strong>วิธีทำ (หาค่าคาดหวัง):</strong></p>
-      <div class="math">E(X) = \sum [x \cdot f(x)] = (10 \times 0.5) + (-5 \times 0.5) = 5 - 2.5 = 2.5</div>
-      <p><strong>สรุปและตีความ:</strong> ค่าคาดหวังของเกมนี้คือ 2.5 บาท ความหมายคือ ถ้าเราเล่นเกมนี้ไปเรื่อยๆ หลายๆ ครั้ง โดยเฉลี่ยแล้ว เราคาดว่าจะได้กำไรครั้งละ 2.5 บาท ดังนั้นในระยะยาว เกมนี้เป็นเกมที่น่าเล่น</p>
-      <p><strong>โจทย์ (ต่อ):</strong> จากการโยนเหรียญ 2 ครั้ง (X = จำนวนหัว) ในบทเรียนที่แล้ว จงหาค่าคาดหวังและความแปรปรวน การแจกแจง: f(0)=1/4, f(1)=2/4, f(2)=1/4</p>
-      <p><strong>วิธีทำ (หาค่าคาดหวัง):</strong></p>
-      <div class="math">E(X) = (0 \times \tfrac{1}{4}) + (1 \times \tfrac{2}{4}) + (2 \times \tfrac{1}{4}) = 0 + \tfrac{2}{4} + \tfrac{2}{4} = \tfrac{4}{4} = 1</div>
-      <p><strong>ตีความ:</strong> โดยเฉลี่ยแล้ว การโยนเหรียญ 2 ครั้ง เราคาดว่าจะเห็นหัว 1 ครั้ง</p>
-      <p><strong>วิธีทำ (หาความแปรปรวน):</strong></p>
-      <div class="math">E(X^2) = (0^2 \times \tfrac{1}{4}) + (1^2 \times \tfrac{2}{4}) + (2^2 \times \tfrac{1}{4}) = 0 + \tfrac{2}{4} + \tfrac{4}{4} = \tfrac{6}{4} = 1.5</div>
-      <div class="math">V(X) = E(X^2) - [E(X)]^2 = 1.5 - (1)^2 = 1.5 - 1 = 0.5</div>
-      <p><strong>สรุป:</strong> ค่าคาดหวังของจำนวนหัวคือ 1 ครั้ง และความแปรปรวนคือ 0.5 (ส่วนเบี่ยงเบนมาตรฐานคือ √0.5 ≈ 0.707 ครั้ง)</p>
-    </section>
-
-    <section>
-      <h2>Interactive: Expected Value Playground</h2>
-      <p>ลองป้อนค่าของตัวแปรสุ่มไม่ต่อเนื่องและความน่าจะเป็น เพื่อให้ระบบช่วยคำนวณ E(X), E(X<sup>2</sup>), Var(X) และ SD(X) แบบทันที พร้อมแผนภูมิแท่งที่แสดงการกระจาย</p>
-      <div class="ev-builder">
-        <div class="controls" aria-label="ตั้งค่าการแจกแจง">
-          <label for="ev-count">จำนวนผลลัพธ์</label>
-          <input id="ev-count" type="number" min="2" max="8" value="3">
-          <button class="ghost" id="ev-apply">สร้างตาราง</button>
-        </div>
-        <div class="table-wrapper">
-          <table class="ev-table" aria-describedby="ev-summary">
-            <thead>
-              <tr>
-                <th scope="col">ลำดับ</th>
-                <th scope="col">ค่า x</th>
-                <th scope="col">ความน่าจะเป็น f(x)</th>
-              </tr>
-            </thead>
-            <tbody id="ev-rows"></tbody>
-          </table>
-        </div>
-        <div class="controls">
-          <button class="primary" id="ev-calc">คำนวณค่าคาดหวัง</button>
-          <p id="ev-warning" role="alert" style="display:none;color:var(--danger-600);font-weight:600;">ความน่าจะเป็นต้องรวมกันได้ 1</p>
-        </div>
-        <div class="grid-2" id="ev-summary">
-          <div>
-            <h3>ผลลัพธ์</h3>
-            <p><strong>E(X):</strong> <span id="ev-mean">–</span></p>
-            <p><strong>E(X<sup>2</sup>):</strong> <span id="ev-second">–</span></p>
-            <p><strong>Var(X):</strong> <span id="ev-var">–</span></p>
-            <p><strong>SD(X):</strong> <span id="ev-sd">–</span></p>
-          </div>
-          <div>
-            <h3>แผนภูมิความน่าจะเป็น</h3>
-            <div class="bar-chart" id="ev-chart" role="img" aria-label="แผนภูมิแท่งแสดงความน่าจะเป็น"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
   <script>
-    const countInput = document.getElementById('ev-count');
-    const applyBtn = document.getElementById('ev-apply');
-    const tbody = document.getElementById('ev-rows');
-    const calcBtn = document.getElementById('ev-calc');
-    const warning = document.getElementById('ev-warning');
-    const meanSpan = document.getElementById('ev-mean');
-    const secondSpan = document.getElementById('ev-second');
-    const varSpan = document.getElementById('ev-var');
-    const sdSpan = document.getElementById('ev-sd');
-    const chart = document.getElementById('ev-chart');
-
-    const seedData = [
-      { x: -5, p: 0.5 },
-      { x: 10, p: 0.5 },
-      { x: 2, p: 0 }
-    ];
-
-    function renderRows(total) {
-      tbody.innerHTML = '';
-      for (let i = 0; i < total; i += 1) {
-        const tr = document.createElement('tr');
-        const tdIndex = document.createElement('td');
-        tdIndex.textContent = i + 1;
-        tdIndex.setAttribute('scope', 'row');
-
-        const tdX = document.createElement('td');
-        const inputX = document.createElement('input');
-        inputX.type = 'number';
-        inputX.value = seedData[i]?.x ?? i;
-        inputX.setAttribute('aria-label', `ค่า x ลำดับที่ ${i + 1}`);
-        tdX.appendChild(inputX);
-
-        const tdP = document.createElement('td');
-        const inputP = document.createElement('input');
-        inputP.type = 'number';
-        inputP.min = '0';
-        inputP.max = '1';
-        inputP.step = '0.01';
-        inputP.value = seedData[i]?.p ?? (1 / total).toFixed(2);
-        inputP.setAttribute('aria-label', `ความน่าจะเป็นลำดับที่ ${i + 1}`);
-        tdP.appendChild(inputP);
-
-        tr.append(tdIndex, tdX, tdP);
-        tbody.appendChild(tr);
+    document.addEventListener("DOMContentLoaded", function() {
+      // --- KaTeX Auto-rendering ---
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
       }
-    }
 
-    function updateChart(data) {
-      chart.innerHTML = '';
-      data.forEach(({ x, p }) => {
-        const bar = document.createElement('div');
-        bar.className = 'bar';
-        bar.style.height = `${Math.max(p, 0) * 200}px`;
-        bar.dataset.prob = p.toFixed(3);
-        const label = document.createElement('span');
-        label.textContent = x;
-        bar.appendChild(label);
-        chart.appendChild(bar);
-      });
-    }
+      // --- Interactive E(X) and Var(X) Calculator ---
+      const countInput = document.getElementById('ev-count');
+      const applyBtn = document.getElementById('ev-apply');
+      const tbody = document.getElementById('ev-rows');
+      const warningEl = document.getElementById('ev-warning');
+      
+      const meanSpan = document.getElementById('ev-mean');
+      const secondSpan = document.getElementById('ev-second');
+      const varSpan = document.getElementById('ev-var');
+      const sdSpan = document.getElementById('ev-sd');
+      const chartSVG = document.getElementById('ev-chart');
 
-    function compute() {
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      const data = rows.map((row) => {
-        const [xInput, pInput] = row.querySelectorAll('input');
-        return { x: Number(xInput.value), p: Number(pInput.value) };
-      });
-      const totalProb = data.reduce((acc, { p }) => acc + p, 0);
-      if (Math.abs(totalProb - 1) > 0.01) {
-        warning.style.display = 'block';
-        meanSpan.textContent = secondSpan.textContent = varSpan.textContent = sdSpan.textContent = '–';
-        chart.innerHTML = '';
-        return;
+      const seedData = [
+        { x: 0, p: 0.25 },
+        { x: 1, p: 0.50 },
+        { x: 2, p: 0.25 }
+      ];
+
+      function renderRows(total) {
+        tbody.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const tr = document.createElement('tr');
+          const defaultData = seedData[i] || { x: i, p: 0 };
+          
+          tr.innerHTML = `
+            <td class="p-1"><input type="number" class="w-full text-center p-1 border rounded-md" value="${defaultData.x}" aria-label="ค่า x ที่ ${i+1}"></td>
+            <td class="p-1"><input type="number" step="0.01" min="0" max="1" class="w-full text-center p-1 border rounded-md" value="${defaultData.p.toFixed(2)}" aria-label="ความน่าจะเป็นที่ ${i+1}"></td>
+          `;
+          tbody.appendChild(tr);
+        }
+        tbody.querySelectorAll('input').forEach(input => input.addEventListener('input', computeAndRender));
       }
-      warning.style.display = 'none';
-      const mean = data.reduce((acc, { x, p }) => acc + x * p, 0);
-      const secondMoment = data.reduce((acc, { x, p }) => acc + x * x * p, 0);
-      const variance = secondMoment - mean * mean;
-      meanSpan.textContent = mean.toFixed(4);
-      secondSpan.textContent = secondMoment.toFixed(4);
-      varSpan.textContent = variance.toFixed(4);
-      sdSpan.textContent = Math.sqrt(Math.max(variance, 0)).toFixed(4);
-      updateChart(data);
-    }
+      
+      function renderChart(data, mean) {
+          chartSVG.innerHTML = '';
+          if (!data || data.length === 0) return;
 
-    applyBtn.addEventListener('click', () => {
-      const total = Math.min(Math.max(Number(countInput.value), 2), 8);
-      countInput.value = total;
-      renderRows(total);
+          const width = 300, height = 150;
+          const ns = "http://www.w3.org/2000/svg";
+          
+          const values = data.map(d => d.x);
+          const minX = Math.min(...values);
+          const maxX = Math.max(...values);
+          const rangeX = maxX - minX;
+
+          const maxProb = Math.max(...data.map(d => d.p), 0.1);
+          
+          // Function to scale x value to SVG coordinate
+          const scaleX = (x) => 15 + ((x - minX) / (rangeX || 1)) * (width - 30);
+
+          data.forEach(({x, p}) => {
+              const barHeight = (p / maxProb) * (height - 40);
+              const xPos = scaleX(x);
+
+              const rect = document.createElementNS(ns, 'rect');
+              rect.setAttribute('x', xPos - 5);
+              rect.setAttribute('y', height - 25 - barHeight);
+              rect.setAttribute('width', 10);
+              rect.setAttribute('height', barHeight);
+              rect.setAttribute('fill', '#2dd4bf');
+              rect.setAttribute('rx', 2);
+              chartSVG.appendChild(rect);
+              
+              const text = document.createElementNS(ns, 'text');
+              text.setAttribute('x', xPos);
+              text.setAttribute('y', height - 10);
+              text.setAttribute('text-anchor', 'middle');
+              text.setAttribute('font-size', '12');
+              text.textContent = x;
+              chartSVG.appendChild(text);
+          });
+          
+          // Draw mean line
+          if (typeof mean === 'number' && !isNaN(mean)) {
+              const meanXPos = scaleX(mean);
+              const line = document.createElementNS(ns, 'line');
+              line.setAttribute('x1', meanXPos);
+              line.setAttribute('y1', 10);
+              line.setAttribute('x2', meanXPos);
+              line.setAttribute('y2', height - 25);
+              line.setAttribute('stroke', '#0f766e');
+              line.setAttribute('stroke-width', '2');
+              line.setAttribute('stroke-dasharray', '3,3');
+              chartSVG.appendChild(line);
+
+              const meanText = document.createElementNS(ns, 'text');
+              meanText.setAttribute('x', meanXPos);
+              meanText.setAttribute('y', 8);
+              meanText.setAttribute('text-anchor', 'middle');
+              meanText.setAttribute('font-size', '10');
+              meanText.setAttribute('fill', '#0f766e');
+              meanText.setAttribute('font-weight', 'bold');
+              meanText.textContent = `E(X) = ${mean.toFixed(2)}`;
+              chartSVG.appendChild(meanText);
+          }
+      }
+
+      function computeAndRender() {
+          const rows = Array.from(tbody.querySelectorAll('tr'));
+          const data = rows.map(row => {
+              const inputs = row.querySelectorAll('input');
+              return {
+                  x: parseFloat(inputs[0].value),
+                  p: parseFloat(inputs[1].value)
+              };
+          }).filter(d => !isNaN(d.x) && !isNaN(d.p));
+
+          const totalProb = data.reduce((acc, { p }) => acc + p, 0);
+
+          if (Math.abs(totalProb - 1) > 0.001 || data.length !== rows.length) {
+              warningEl.classList.remove('hidden');
+              meanSpan.textContent = secondSpan.textContent = varSpan.textContent = sdSpan.textContent = '–';
+              renderChart(null);
+              return;
+          }
+          
+          warningEl.classList.add('hidden');
+
+          const mean = data.reduce((acc, { x, p }) => acc + x * p, 0);
+          const secondMoment = data.reduce((acc, { x, p }) => acc + (x**2) * p, 0);
+          const variance = secondMoment - (mean**2);
+          const sd = Math.sqrt(Math.max(0, variance));
+
+          meanSpan.textContent = mean.toFixed(4);
+          secondSpan.textContent = secondMoment.toFixed(4);
+          varSpan.textContent = variance.toFixed(4);
+          sdSpan.textContent = sd.toFixed(4);
+          
+          renderChart(data, mean);
+      }
+
+      applyBtn.addEventListener('click', () => {
+          const total = parseInt(countInput.value);
+          if (total >= 2 && total <= 8) {
+              renderRows(total);
+              computeAndRender();
+          }
+      });
+
+      // Initial render on page load
+      renderRows(parseInt(countInput.value));
+      computeAndRender();
     });
 
-    calcBtn.addEventListener('click', compute);
-
-    renderRows(Number(countInput.value));
-    compute();
   </script>
+
 </body>
 </html>
+

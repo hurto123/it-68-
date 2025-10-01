@@ -1,64 +1,273 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>19. ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 19: ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 19</p>
-      <h1>ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-slate-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-slate-600">บทที่ 19</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">μ₁-μ₂: ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-slate-50 border border-slate-200 text-slate-800 p-4 rounded-lg">
+        สวัสดีครับ! หนึ่งในการใช้งานสถิติที่พบบ่อยที่สุดคือการ "เปรียบเทียบ" ระหว่างสองกลุ่ม ในบทนี้ เราจะเรียนรู้วิธีสร้างช่วงความเชื่อมั่นสำหรับ "ผลต่างระหว่างค่าเฉลี่ยของสองประชากร" ($\mu_1 - \mu_2$) ซึ่งจะช่วยให้เราสามารถสรุปได้ว่าค่าเฉลี่ยของทั้งสองกลุ่มแตกต่างกันอย่างมีนัยสำคัญหรือไม่
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: การประมาณค่าผลต่าง</h2>
+          <p>เราสนใจพารามิเตอร์ $\mu_1 - \mu_2$ ซึ่งเป็นผลต่างที่แท้จริงของค่าเฉลี่ยระหว่างสองประชากร เราจะประมาณค่านี้โดยใช้ <b>ค่าประมาณแบบจุด (Point Estimate)</b> ซึ่งก็คือผลต่างของค่าเฉลี่ยจากกลุ่มตัวอย่าง:</p>
+          <div class="p-4 bg-slate-100 rounded-lg text-center my-4 text-lg">
+             $ \bar{X}_1 - \bar{X}_2 $
+          </div>
+          <p>จากนั้น เราจะสร้างช่วงความเชื่อมั่นรอบๆ ค่าประมาณแบบจุดนี้ โดยใช้โครงสร้างเดิมคือ: <br><b>ค่าประมาณแบบจุด ± (ค่าวิกฤต × Standard Error)</b></p>
+        </section>
+
+        <!-- Section 2: Formulas & Conditions -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรและเงื่อนไขการใช้งาน</h2>
+          <p>การเลือกสูตรที่ถูกต้องขึ้นอยู่กับว่าเรารู้ค่าความแปรปรวนของประชากร ($\sigma^2$) หรือไม่ และขนาดตัวอย่างเป็นอย่างไร</p>
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-50 rounded-lg border">
+                <h3 class="text-lg font-semibold">กรณีที่ 1: ทราบความแปรปรวนของประชากร ($\sigma_1^2, \sigma_2^2$) หรือตัวอย่างมีขนาดใหญ่ ($n_1, n_2 \ge 30$)</h3>
+                <p class="text-sm my-2">เราจะใช้ <b>Z-distribution</b> ในการหาค่าวิกฤต</p>
+                <p class="text-center my-2"> $ (\bar{X}_1 - \bar{X}_2) \pm Z_{\alpha/2} \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} $ </p>
+                <p class="text-xs text-slate-600">หมายเหตุ: ถ้าไม่ทราบ $\sigma_1^2, \sigma_2^2$ แต่ $n_1, n_2$ มีขนาดใหญ่ เราสามารถใช้ $s_1^2, s_2^2$ แทนได้</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-lg border">
+                <h3 class="text-lg font-semibold">กรณีที่ 2: ไม่ทราบความแปรปรวนของประชากร และตัวอย่างมีขนาดเล็ก</h3>
+                <p class="text-sm my-2">เราจะใช้ <b>t-distribution</b> และมี 2 กรณีย่อย:</p>
+                <ul class="list-disc list-inside ml-4 mt-2 text-sm">
+                    <li><b>สมมติว่าความแปรปรวนเท่ากัน ($\sigma_1^2 = \sigma_2^2$):</b> ใช้ Pooled t-test ซึ่งคำนวณความแปรปรวนร่วม ($s_p^2$) และ $df = n_1 + n_2 - 2$</li>
+                    <li><b>ไม่สมมติว่าความแปรปรวนเท่ากัน (กรณีทั่วไป):</b> ใช้ Welch's t-test ซึ่งคำนวณ $df$ จากสูตรที่ซับซ้อนกว่า แต่ให้ผลลัพธ์ที่น่าเชื่อถือกว่า</li>
+                </ul>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: เปรียบเทียบคะแนนสองกลุ่ม (กรณีตัวอย่างใหญ่)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: เพื่อเปรียบเทียบวิธีการสอน 2 รูปแบบ จึงสุ่มนักเรียนกลุ่ม A มา 50 คน และกลุ่ม B มา 60 คน ผลการสอบปลายภาคสรุปได้ดังตาราง จงสร้างช่วงความเชื่อมั่น 95% สำหรับผลต่างของคะแนนเฉลี่ย ($\mu_A - \mu_B$)</h3>
+                <div class="my-4 overflow-x-auto">
+                    <table class="w-full max-w-sm mx-auto text-center border">
+                        <thead class="bg-slate-100"><tr><th class="p-2 border">กลุ่ม</th><th class="p-2 border">ขนาดตัวอย่าง (n)</th><th class="p-2 border">ค่าเฉลี่ย ($\bar{X}$)</th><th class="p-2 border">SD ตัวอย่าง (s)</th></tr></thead>
+                        <tbody>
+                            <tr><td class="p-2 border font-semibold">A</td><td class="p-2 border">50</td><td class="p-2 border">85</td><td class="p-2 border">5</td></tr>
+                            <tr><td class="p-2 border font-semibold">B</td><td class="p-2 border">60</td><td class="p-2 border">81</td><td class="p-2 border">6</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><b>ขั้นตอนที่ 1: คำนวณ Point Estimate และเลือกการแจกแจง</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>Point Estimate:</b> $\bar{X}_A - \bar{X}_B = 85 - 81 = 4$ คะแนน</li>
+                    <li><b>เลือกการแจกแจง:</b> เนื่องจากไม่ทราบ $\sigma_1, \sigma_2$ แต่ขนาดตัวอย่าง $n_A=50$ และ $n_B=60$ (ทั้งคู่ $\ge 30$) เราจึงสามารถใช้ <b>Z-distribution</b> ได้</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: หาค่าวิกฤตและ Standard Error</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>ค่าวิกฤต:</b> สำหรับความเชื่อมั่น 95%, $Z_{\alpha/2} = 1.96$</li>
+                    <li><b>Standard Error:</b> $SE = \sqrt{\frac{s_A^2}{n_A} + \frac{s_B^2}{n_B}} = \sqrt{\frac{5^2}{50} + \frac{6^2}{60}} = \sqrt{0.5 + 0.6} = \sqrt{1.1} \approx 1.049$</li>
+                </ul>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: สร้างช่วงความเชื่อมั่นและตีความ</b></p>
+                <p class="font-semibold text-slate-700 mt-2"> $(\bar{X}_A - \bar{X}_B) \pm (Z_{\alpha/2} \times SE) \Rightarrow 4 \pm (1.96 \times 1.049) \Rightarrow 4 \pm 2.056 $ </p>
+                <p class="font-semibold text-slate-700 mt-2">ช่วงความเชื่อมั่นคือ [1.944, 6.056]</p>
+                <p class="text-sm mt-1"><b>สรุป:</b> เราเชื่อมั่น 95% ว่าคะแนนเฉลี่ยของนักเรียนที่สอนด้วยวิธี A <b>สูงกว่า</b>วิธี B อยู่ระหว่าง 1.944 ถึง 6.056 คะแนน (เนื่องจากช่วงทั้งหมดเป็นค่าบวก แสดงว่า $\mu_A$ น่าจะสูงกว่า $\mu_B$ อย่างมีนัยสำคัญ)</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">CI for Difference in Means</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2 border-r pr-4">
+              <h3 class="text-sm font-bold text-center">กลุ่ม 1</h3>
+              <div><label class="block text-xs font-medium">$\bar{X}_1$</label><input type="number" id="m1" value="85" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$s_1$</label><input type="number" id="s1" value="5" min="0" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$n_1$</label><input type="number" id="n1" value="50" min="2" class="w-full p-1 border rounded-md"></div>
+            </div>
+            <div class="space-y-2">
+              <h3 class="text-sm font-bold text-center">กลุ่ม 2</h3>
+              <div><label class="block text-xs font-medium">$\bar{X}_2$</label><input type="number" id="m2" value="81" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$s_2$</label><input type="number" id="s2" value="6" min="0" class="w-full p-1 border rounded-md"></div>
+              <div><label class="block text-xs font-medium">$n_2$</label><input type="number" id="n2" value="60" min="2" class="w-full p-1 border rounded-md"></div>
+            </div>
+          </div>
+          <div class="mt-2"><label class="block text-xs font-medium">ระดับความเชื่อมั่น</label><select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+          
+          <hr class="my-4">
+          
+          <div id="ci-results">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">ผลการคำนวณ</h3>
+              <div class="bg-slate-100 p-2 rounded-md text-center"><p class="text-sm">ใช้การแจกแจง: <span id="dist-used" class="font-bold text-lg"></span></p></div>
+              <div class="mt-2 space-y-1 text-sm">
+                  <p>Point Estimate ($\bar{X}_1-\bar{X}_2$): <span id="point-est" class="font-bold float-right"></span></p>
+                  <p>Margin of Error: <span id="moe-val" class="font-bold float-right"></span></p>
+              </div>
+              <div class="mt-2 text-center bg-slate-200 p-2 rounded-md">
+                 <p class="text-sm text-slate-800">ช่วงความเชื่อมั่น:</p>
+                 <p class="font-bold text-xl text-slate-900">[<span id="lower-bound"></span>, <span id="upper-bound"></span>]</p>
+              </div>
+          </div>
+
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="18-ci-proportion-onepop.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="20-ci-proportions-twopop.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เปรียบเทียบค่าเฉลี่ยของสองกลุ่มอย่างเป็นระบบ</p>
-      <ul>
-        <li>กรณีตัวอย่างใหญ่ ใช้ Z ด้วย σ หรือสัดส่วนที่ทราบ</li>
-        <li>กรณีไม่ทราบ σ ใช้ t และพิจารณา pooled vs Welch</li>
-        <li>ตรวจสอบเงื่อนไขความเป็นอิสระและการแจกแจง</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรช่วงความเชื่อมั่นที่ใช้บ่อย</p>
-      <ul>
-        <li>CI_Z: (ar X_1 − ar X_2) ± z_{α/2} √(σ_1^2/n_1 + σ_2^2/n_2)</li>
-        <li>CI_pooled: (ar X_1 − ar X_2) ± t_{α/2, df} √(s_p^2 (1/n_1 + 1/n_2))</li>
-        <li>Welch: df ประมาณด้วยสูตร Welch-Satterthwaite</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>เปรียบเทียบเวลารอคอยเฉลี่ยของสองสาขาหรือผลคะแนนของสองรูปแบบการสอน</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="18-ci-proportion-onepop.html">CI สัดส่วนกลุ่มเดียว</a></li>
-        <li><a href="20-ci-proportions-twopop.html">CI สองสัดส่วน</a></li>
-        <li><a href="method-notes.html">บันทึกเรื่อง Welch</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const m1_input = document.getElementById('m1');
+      const s1_input = document.getElementById('s1');
+      const n1_input = document.getElementById('n1');
+      const m2_input = document.getElementById('m2');
+      const s2_input = document.getElementById('s2');
+      const n2_input = document.getElementById('n2');
+      const levelSelect = document.getElementById('ci-level');
+      const allInputs = [m1_input, s1_input, n1_input, m2_input, s2_input, n2_input, levelSelect];
+
+      const distUsedEl = document.getElementById('dist-used');
+      const pointEstEl = document.getElementById('point-est');
+      const moeEl = document.getElementById('moe-val');
+      const lowerBoundEl = document.getElementById('lower-bound');
+      const upperBoundEl = document.getElementById('upper-bound');
+      
+      const Z_CRIT = { "0.90": 1.645, "0.95": 1.960, "0.99": 2.576 };
+      // Simplified t-table lookup (used as fallback for large df)
+      const T_CRIT = {"0.95": { 120:1.980 }};
+
+      function getTValueWelch(df, level) {
+          // This is a very rough approximation for demo purposes
+          if (df > 120) return Z_CRIT[level];
+          // In a real application, a more complex function or larger table is needed.
+          // For this demo, we'll just use Z as an approximation if n1 or n2 >= 30,
+          // which is a common rule of thumb.
+          return Z_CRIT[level] + 2.5 / df; // Crude adjustment
+      }
+
+      function calculateCI() {
+          const m1 = parseFloat(m1_input.value);
+          const s1 = parseFloat(s1_input.value);
+          const n1 = parseInt(n1_input.value);
+          const m2 = parseFloat(m2_input.value);
+          const s2 = parseFloat(s2_input.value);
+          const n2 = parseInt(n2_input.value);
+          const level = levelSelect.value;
+          
+          const clearResults = () => {
+              distUsedEl.textContent = '–';
+              pointEstEl.textContent = '–';
+              moeEl.textContent = '–';
+              lowerBoundEl.textContent = '–';
+              upperBoundEl.textContent = '–';
+          };
+
+          if (isNaN(m1) || isNaN(s1) || isNaN(n1) || isNaN(m2) || isNaN(s2) || isNaN(n2) || n1 < 2 || n2 < 2 || s1 < 0 || s2 < 0) {
+              clearResults();
+              return;
+          }
+
+          const pointEstimate = m1 - m2;
+          pointEstEl.textContent = pointEstimate.toFixed(4);
+
+          let criticalValue;
+          const v1 = s1*s1/n1;
+          const v2 = s2*s2/n2;
+          const standardError = Math.sqrt(v1 + v2);
+
+          if (n1 >= 30 && n2 >= 30) {
+              distUsedEl.textContent = 'Z (Large Samples)';
+              criticalValue = Z_CRIT[level];
+          } else {
+              // Using Welch-Satterthwaite equation for degrees of freedom
+              const df_num = Math.pow(v1 + v2, 2);
+              const df_den = (Math.pow(v1, 2) / (n1 - 1)) + (Math.pow(v2, 2) / (n2 - 1));
+              const df = Math.floor(df_num / df_den);
+              distUsedEl.textContent = `t (Welch, df≈${df})`;
+              criticalValue = getTValueWelch(df, level);
+          }
+          
+          if(isNaN(criticalValue)) {
+            clearResults();
+            return;
+          }
+          
+          const marginOfError = criticalValue * standardError;
+          const lowerBound = pointEstimate - marginOfError;
+          const upperBound = pointEstimate + marginOfError;
+          
+          moeEl.textContent = marginOfError.toFixed(4);
+          lowerBoundEl.textContent = lowerBound.toFixed(4);
+          upperBoundEl.textContent = upperBound.toFixed(4);
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateCI));
+      calculateCI();
+    });
+  </script>
+
 </body>
 </html>

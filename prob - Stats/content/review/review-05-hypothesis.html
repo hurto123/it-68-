@@ -1,71 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>รีวิว Hypothesis Testing</title>
-  <link rel="stylesheet" href="../../styles/tokens.css">
-  <link rel="stylesheet" href="../../styles/components.css">
-  <link rel="stylesheet" href="../../styles/light.css">
-  <link rel="stylesheet" href="../../styles/typography-access.css">
-  <link rel="stylesheet" href="../../styles/print.css" media="print">
-  <script defer src="../../app.js"></script>
-  <script defer src="../../i18n/i18n.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>รีวิว Hypothesis Testing</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
 </head>
-<body data-page="review">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">สรุปเร็ว</p>
-      <h1>รีวิวฟลว์การทดสอบสมมติฐาน</h1>
-    </div>
-    <nav class="header-actions">
-      <a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ขั้นตอนหลัก 5 ข้อ</h2>
-      <ol>
-        <li>ตั้งสมมติฐาน: H₀ (ไม่มีผล/เท่าเดิม) vs H₁ (ต้องการพิสูจน์)</li>
-        <li>กำหนดระดับนัยสำคัญ α และเลือกสถิติทดสอบให้ตรงกับข้อมูล</li>
-        <li>คำนวณสถิติทดสอบ (z, t, χ², F) และ/หรือค่า p-value</li>
-        <li>เทียบกับเกณฑ์: critical value หรือ p-value vs α</li>
-        <li>สรุปผลพร้อมบริบท: ปฏิเสธหรือไม่ปฏิเสธ H₀ + ความหมายเชิงธุรกิจ</li>
-      </ol>
-    </article>
-    <article class="card">
-      <h2>การตีความค่า p</h2>
-      <ul>
-        <li>p-value = โอกาสสังเกตค่าอย่างที่เห็น (หรือสุดโต่งกว่า) หาก H₀ เป็นจริง</li>
-        <li>p เล็กกว่า α &rarr; หลักฐานพอให้ปฏิเสธ H₀</li>
-        <li>p ใหญ่ &rarr; ยังไม่มีหลักฐานพอ ไม่ได้พิสูจน์ว่า H₀ เป็นจริง</li>
-        <li>รายงานทั้งค่า p, ขนาดเอฟเฟกต์ และ CI เพื่อภาพครบ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ข้อควรระวัง & Power</h2>
-      <ul>
-        <li>Type I Error (α): ปฏิเสธ H₀ ผิด, ลดได้โดยเลือก α เล็กลง</li>
-        <li>Type II Error (β) & Power = 1−β: เพิ่ม power ด้วยการเพิ่ม n หรือใช้วิธีวัดที่แม่นขึ้น</li>
-        <li>ตรวจสมมติฐานก่อนใช้: ความเป็นอิสระ, การแจกแจง, ความเท่ากันของความแปรปรวน</li>
-        <li>หลีกเลี่ยง p-hacking: วางแผนก่อนเก็บข้อมูล, รายงานทุกการทดสอบ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ปุ่มลัด</h2>
-      <ul>
-        <li><a href="../23-hypothesis-intro.html">บท 23: ภาพรวม Hypothesis</a></li>
-        <li><a href="../24-critical-vs-pvalue.html">บท 24: Critical vs p-value</a></li>
-        <li><a href="../25-test-mean-onepop.html">บท 25-28: ตัวอย่างการทดสอบ</a></li>
-        <li><a href="../30-test-variance-ratio.html">บท 30: F test & ANOVA entry</a></li>
-        <li><a href="../../tools/power-sample-size.html">เครื่องมือ Power & ขนาดตัวอย่าง</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
-  </footer>
-</body>
+<body data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">สรุปเร็ว</p>
+<h1>รีวิวฟลว์การทดสอบสมมติฐาน</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>ขั้นตอนหลัก 5 ข้อ</h2>
+<ol>
+<li>ตั้งสมมติฐาน: H₀ (ไม่มีผล/เท่าเดิม) vs H₁ (ต้องการพิสูจน์)</li>
+<li>กำหนดระดับนัยสำคัญ α และเลือกสถิติทดสอบให้ตรงกับข้อมูล</li>
+<li>คำนวณสถิติทดสอบ (z, t, χ², F) และ/หรือค่า p-value</li>
+<li>เทียบกับเกณฑ์: critical value หรือ p-value vs α</li>
+<li>สรุปผลพร้อมบริบท: ปฏิเสธหรือไม่ปฏิเสธ H₀ + ความหมายเชิงธุรกิจ</li>
+</ol>
+</article>
+<article class="card">
+<h2>การตีความค่า p</h2>
+<ul>
+<li>p-value = โอกาสสังเกตค่าอย่างที่เห็น (หรือสุดโต่งกว่า) หาก H₀ เป็นจริง</li>
+<li>p เล็กกว่า α → หลักฐานพอให้ปฏิเสธ H₀</li>
+<li>p ใหญ่ → ยังไม่มีหลักฐานพอ ไม่ได้พิสูจน์ว่า H₀ เป็นจริง</li>
+<li>รายงานทั้งค่า p, ขนาดเอฟเฟกต์ และ CI เพื่อภาพครบ</li>
+</ul>
+</article>
+<article class="card">
+<h2>ข้อควรระวัง &amp; Power</h2>
+<ul>
+<li>Type I Error (α): ปฏิเสธ H₀ ผิด, ลดได้โดยเลือก α เล็กลง</li>
+<li>Type II Error (β) &amp; Power = 1−β: เพิ่ม power ด้วยการเพิ่ม n หรือใช้วิธีวัดที่แม่นขึ้น</li>
+<li>ตรวจสมมติฐานก่อนใช้: ความเป็นอิสระ, การแจกแจง, ความเท่ากันของความแปรปรวน</li>
+<li>หลีกเลี่ยง p-hacking: วางแผนก่อนเก็บข้อมูล, รายงานทุกการทดสอบ</li>
+</ul>
+</article>
+<article class="card">
+<h2>ปุ่มลัด</h2>
+<ul>
+<li><a href="../23-hypothesis-intro.html">บท 23: ภาพรวม Hypothesis</a></li>
+<li><a href="../24-critical-vs-pvalue.html">บท 24: Critical vs p-value</a></li>
+<li><a href="../25-test-mean-onepop.html">บท 25-28: ตัวอย่างการทดสอบ</a></li>
+<li><a href="../30-test-variance-ratio.html">บท 30: F test &amp; ANOVA entry</a></li>
+<li><a href="../../tools/power-sample-size.html">เครื่องมือ Power &amp; ขนาดตัวอย่าง</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
 </html>

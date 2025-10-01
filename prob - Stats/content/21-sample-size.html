@@ -1,64 +1,244 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>21. การวางแผนขนาดตัวอย่าง</title>
-  <link rel="stylesheet" href="../styles/tokens.css">
-  <link rel="stylesheet" href="../styles/components.css">
-  <link rel="stylesheet" href="../styles/light.css">
-  <link rel="stylesheet" href="../styles/typography-access.css">
-  <link rel="stylesheet" href="../styles/print.css" media="print">
-  <script defer src="../app.js"></script>
-  <script defer src="../i18n/i18n.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บทที่ 21: การวางแผนขนาดตัวอย่าง</title>
+  
+  <!-- Tailwind CSS for modern styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX for beautiful math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMeaMurLTTbklKvF1iHhrztvkLpVMSciGYg7kzxGQCvnkXT/A" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+  
+  <!-- Google Fonts for better typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .katex-display {
+      margin: 1rem 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
 </head>
-<body data-page="lesson">
-  <header class="site-header">
-    <div>
-      <p class="eyebrow">บทที่ 21</p>
-      <h1>การวางแผนขนาดตัวอย่าง</h1>
+<body class="bg-slate-50 text-slate-800">
+
+  <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- Header Section -->
+    <header class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-4 border-violet-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-sm font-semibold text-violet-600">บทที่ 21</p>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">📏 การวางแผนขนาดตัวอย่าง (Sample Size Determination)</h1>
+        </div>
+        <nav class="flex space-x-2 flex-shrink-0 mt-1">
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทก่อนหน้า</button>
+          <button class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">บทถัดไป</button>
+          <button onclick="window.print();" class="text-sm text-slate-600 hover:bg-slate-100 font-medium py-2 px-3 rounded-lg transition-colors">พิมพ์</button>
+        </nav>
+      </div>
+      <p class="mt-4 text-lg bg-violet-50 border border-violet-200 text-violet-800 p-4 rounded-lg">
+        สวัสดีครับ! หนึ่งในคำถามที่สำคัญที่สุดก่อนเริ่มทำงานวิจัยหรือสำรวจคือ "เราต้องใช้ตัวอย่างขนาดเท่าไหร่?" การเลือกขนาดตัวอย่างที่เหมาะสมเป็นสิ่งจำเป็นเพื่อให้ได้ผลลัพธ์ที่น่าเชื่อถือโดยไม่สิ้นเปลืองทรัพยากรเกินความจำเป็น ในบทนี้เราจะมาเรียนรู้วิธีคำนวณหาขนาดตัวอย่างกันครับ
+      </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Left Column: Lesson Content -->
+      <main class="lg:col-span-2 space-y-8">
+
+        <!-- Section 1: Concept -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">1. แนวคิดหลัก: ความสมดุลระหว่างความแม่นยำและทรัพยากร</h2>
+          <p>การคำนวณขนาดตัวอย่าง ($n$) คือการหาจุดสมดุลระหว่างปัจจัยต่างๆ โดยมีหัวใจสำคัญคือ <b>ขอบเขตความคลาดเคลื่อน (Margin of Error, E)</b> ที่เรายอมรับได้</p>
+          <p class="mt-2">เราต้องตอบคำถามเหล่านี้ก่อนจะคำนวณได้:</p>
+          <ul class="list-disc list-inside mt-2 ml-4 text-sm space-y-2">
+              <li><b>เราต้องการความแม่นยำแค่ไหน?</b> (Margin of Error, $E$ ที่ยอมรับได้ต้องไม่เกินเท่าไหร่)</li>
+              <li><b>เราต้องการความเชื่อมั่นแค่ไหน?</b> (ระดับความเชื่อมั่น 90%, 95%, หรือ 99% ซึ่งจะส่งผลต่อค่า $Z_{\alpha/2}$)</li>
+              <li><b>ข้อมูลของเรามีการกระจายตัวมากแค่ไหน?</b> (ต้องมีการประมาณค่า $\sigma$ สำหรับค่าเฉลี่ย หรือ $p$ สำหรับสัดส่วน)</li>
+          </ul>
+        </section>
+
+        <!-- Section 2: Formulas -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">2. สูตรการคำนวณขนาดตัวอย่าง</h2>
+          <p>สูตรเหล่านี้ได้มาจากการย้ายข้างสมการของ Margin of Error ($E$) ที่เราเรียนไปในบทก่อนๆ</p>
+          <div class="grid md:grid-cols-2 gap-4 mt-4">
+              <div class="p-4 bg-slate-50 rounded-lg border">
+                <h3 class="text-lg font-semibold">สำหรับค่าเฉลี่ย ($\mu$)</h3>
+                <p class="text-center my-2 text-lg"> $ n = \left( \frac{Z_{\alpha/2} \sigma}{E} \right)^2 $ </p>
+                <ul class="text-xs text-slate-600 space-y-1">
+                  <li>$E$: Margin of Error ที่ต้องการ (เช่น ±3 คะแนน)</li>
+                  <li>$\sigma$: SD ของประชากรที่ประมาณไว้ (อาจได้จากงานวิจัยก่อนหน้า)</li>
+                </ul>
+              </div>
+              <div class="p-4 bg-slate-50 rounded-lg border">
+                <h3 class="text-lg font-semibold">สำหรับสัดส่วน ($p$)</h3>
+                 <p class="text-center my-2 text-lg"> $ n = p(1-p) \left( \frac{Z_{\alpha/2}}{E} \right)^2 $ </p>
+                 <ul class="text-xs text-slate-600 space-y-1">
+                   <li>$E$: Margin of Error ที่ต้องการ (เช่น ±0.03)</li>
+                   <li>$p$: สัดส่วนประชากรที่ประมาณไว้</li>
+                   <li class="font-semibold">ถ้าไม่ทราบ $p$: ให้ใช้ $p=0.5$ ซึ่งจะให้ขนาดตัวอย่างที่ใหญ่ที่สุด (ปลอดภัยที่สุด)</li>
+                 </ul>
+              </div>
+          </div>
+           <p class="text-center mt-4 text-sm font-semibold bg-amber-100 text-amber-800 p-2 rounded-md"><b>สำคัญ:</b> ผลลัพธ์จากการคำนวณ $n$ จะต้อง <b>ปัดขึ้นเป็นจำนวนเต็มเสมอ</b></p>
+        </section>
+        
+        <!-- Section 3: Example -->
+        <section class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. ตัวอย่าง: การวางแผนสำรวจ (อธิบายทีละขั้นตอน)</h2>
+            <div class="p-4 border rounded-lg">
+                <h3 class="font-semibold text-slate-800">โจทย์: บริษัทวิจัยตลาดต้องการสำรวจความคิดเห็นของประชาชนเกี่ยวกับผลิตภัณฑ์ใหม่ โดยต้องการให้ผลสำรวจมีความคลาดเคลื่อนไม่เกิน 3% (E = 0.03) ที่ระดับความเชื่อมั่น 95% จะต้องใช้ขนาดตัวอย่างเท่าไหร่?</h3>
+                
+                <p class="mt-3"><b>ขั้นตอนที่ 1: กำหนดค่าจากโจทย์</b></p>
+                <ul class="list-disc list-inside my-2 ml-4 text-sm">
+                    <li><b>Margin of Error (E):</b> 0.03</li>
+                    <li><b>ระดับความเชื่อมั่น:</b> 95% ซึ่งหมายถึง $\alpha=0.05$, $\alpha/2 = 0.025$</li>
+                    <li><b>ค่าวิกฤต ($Z_{\alpha/2}$):</b> $Z_{0.025} = 1.96$</li>
+                    <li><b>สัดส่วนประชากร ($p$):</b> เนื่องจากเป็นการสำรวจครั้งแรก เรายังไม่มีข้อมูลเกี่ยวกับสัดส่วนความคิดเห็น ดังนั้นเพื่อความปลอดภัย เราจะใช้ค่าที่ให้ขนาดตัวอย่างสูงสุดคือ $p = 0.5$</li>
+                </ul>
+
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 2: แทนค่าในสูตรสำหรับสัดส่วน</b></p>
+                <p class="font-semibold text-violet-700 mt-2"> $ n = p(1-p) \left( \frac{Z_{\alpha/2}}{E} \right)^2 $ </p>
+                <p class="font-semibold text-violet-700 mt-2"> $ n = 0.5(1-0.5) \left( \frac{1.96}{0.03} \right)^2 $ </p>
+                <p class="font-semibold text-violet-700 mt-2"> $ n = 0.25 \times (65.333)^2 $ </p>
+                <p class="font-semibold text-violet-700 mt-2"> $ n = 0.25 \times 4268.44 \approx 1067.11 $ </p>
+                
+                <hr class="my-3">
+                <p><b>ขั้นตอนที่ 3: ปัดขึ้นและสรุปผล</b></p>
+                <p class="text-sm mt-1">เนื่องจากขนาดตัวอย่างต้องเป็นจำนวนเต็ม เราจึงต้องปัดเศษขึ้นเสมอ</p>
+                <p class="font-semibold text-violet-700 mt-2">ขนาดตัวอย่างที่ต้องการ $n = 1068$ คน</p>
+                <p class="text-sm mt-1"><b>สรุป:</b> จะต้องสำรวจประชาชนอย่างน้อย 1068 คน เพื่อให้แน่ใจว่าผลการสำรวจจะมีความคลาดเคลื่อนไม่เกิน 3% ที่ระดับความเชื่อมั่น 95%</p>
+            </div>
+        </section>
+        
+      </main>
+
+      <!-- Right Column: Interactive Playground -->
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+          <h2 class="text-2xl font-bold text-slate-900 mb-4">Sample Size Calculator</h2>
+          <div class="space-y-3">
+              <div>
+                  <label class="block text-xs font-medium">ประเภทการประมาณค่า:</label>
+                  <select id="calc-type" class="w-full mt-1 p-2 border rounded-md"><option value="proportion" selected>สัดส่วน (Proportion)</option><option value="mean">ค่าเฉลี่ย (Mean)</option></select>
+              </div>
+              <div>
+                  <label class="block text-xs font-medium">ระดับความเชื่อมั่น:</label>
+                  <select id="ci-level" class="w-full mt-1 p-1 border rounded-md"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select>
+              </div>
+              <div>
+                  <label class="block text-xs font-medium">Margin of Error (E) ที่ต้องการ:</label>
+                  <input type="number" id="margin-error" value="0.03" step="0.01" class="w-full p-1 border rounded-md mt-1">
+              </div>
+              <div id="prop-group">
+                  <label class="block text-xs font-medium">สัดส่วนที่คาดการณ์ ($p$):</label>
+                  <input type="number" id="p-est" value="0.5" step="0.01" min="0.01" max="0.99" class="w-full p-1 border rounded-md mt-1">
+              </div>
+               <div id="mean-group" class="hidden">
+                  <label class="block text-xs font-medium">SD ประชากรที่คาดการณ์ ($\sigma$):</label>
+                  <input type="number" id="sigma-est" value="15" class="w-full p-1 border rounded-md mt-1">
+              </div>
+          </div>
+          
+          <hr class="my-4">
+          
+          <div class="text-center bg-violet-100 p-3 rounded-md">
+             <p class="text-sm text-violet-800">ขนาดตัวอย่างที่ต้องการ (n):</p>
+             <p class="font-bold text-4xl text-violet-900" id="result-n"></p>
+          </div>
+        </div>
+      </aside>
     </div>
-    <nav class="header-actions">
-      <button class="ghost" data-prev="20-ci-proportions-twopop.html">บทก่อนหน้า</button>
-      <button class="ghost" data-next="22-ci-variance.html">บทถัดไป</button>
-      <button id="print-current" class="ghost">พิมพ์</button>
-    </nav>
-  </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>กำหนดจำนวนตัวอย่างให้เพียงพอสำหรับเป้าหมายความแม่นยำ</p>
-      <ul>
-        <li>ความสัมพันธ์ระหว่าง Margin of Error, ระดับความเชื่อมั่น และ n</li>
-        <li>การใช้ค่าประมาณ σ หรือ p ในการวางแผน</li>
-        <li>Trade-off ต้นทุนและความแม่นยำ</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรประมาณขนาดตัวอย่างสำหรับค่าเฉลี่ยและสัดส่วน</p>
-      <ul>
-        <li>สำหรับค่าเฉลี่ย: n = (z_{α/2} σ / E)^2</li>
-        <li>สำหรับสัดส่วน: n = p(1−p) (z_{α/2}/E)^2</li>
-        <li>ถ้าไม่รู้ p ใช้ 0.5 เพื่อให้ได้ n สูงสุด</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>กำหนดจำนวนลูกค้าที่ต้องสำรวจเพื่อให้ Margin of Error ไม่เกิน 3% ที่ระดับ 95%</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="20-ci-proportions-twopop.html">CI สองสัดส่วน</a></li>
-        <li><a href="22-ci-variance.html">CI ความแปรปรวน</a></li>
-        <li><a href="../tools/power-sample-size.html">เครื่องมือวางแผน n</a></li>
-      </ul>
-    </article>
-  </main>
-  <footer class="site-footer">
-    <p>© 2024 Stats Learning Lab</p>
-    <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
-  </footer>
+    
+    <footer class="text-center mt-12 py-6 border-t border-slate-200">
+        <a href="#" class="text-sm text-blue-600 hover:underline font-medium py-2 px-4 rounded-lg transition-colors">กลับหน้าหลัก</a>
+        <p class="text-slate-500 mt-4 text-xs">© 2024 Stats Learning Lab</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+      }
+      
+      const calcType = document.getElementById('calc-type');
+      const levelSelect = document.getElementById('ci-level');
+      const errorInput = document.getElementById('margin-error');
+      const pInput = document.getElementById('p-est');
+      const sigmaInput = document.getElementById('sigma-est');
+      const propGroup = document.getElementById('prop-group');
+      const meanGroup = document.getElementById('mean-group');
+      const resultEl = document.getElementById('result-n');
+
+      const allInputs = [calcType, levelSelect, errorInput, pInput, sigmaInput];
+
+      const Z_CRIT = { "0.90": 1.645, "0.95": 1.960, "0.99": 2.576 };
+
+      function toggleCalculator() {
+          if (calcType.value === 'proportion') {
+              propGroup.classList.remove('hidden');
+              meanGroup.classList.add('hidden');
+          } else {
+              propGroup.classList.add('hidden');
+              meanGroup.classList.remove('hidden');
+          }
+          calculateN();
+      }
+
+      function calculateN() {
+          const type = calcType.value;
+          const level = levelSelect.value;
+          const E = parseFloat(errorInput.value);
+          const z = Z_CRIT[level];
+          
+          let n = NaN;
+
+          if (isNaN(E) || E <= 0) {
+              resultEl.textContent = '–';
+              return;
+          }
+
+          if (type === 'proportion') {
+              const p = parseFloat(pInput.value);
+              if (!isNaN(p) && p > 0 && p < 1) {
+                  n = p * (1 - p) * Math.pow(z / E, 2);
+              }
+          } else { // mean
+              const sigma = parseFloat(sigmaInput.value);
+              if (!isNaN(sigma) && sigma > 0) {
+                  n = Math.pow((z * sigma) / E, 2);
+              }
+          }
+
+          if (isNaN(n)) {
+              resultEl.textContent = '–';
+          } else {
+              resultEl.textContent = Math.ceil(n).toLocaleString();
+          }
+      }
+
+      allInputs.forEach(el => el.addEventListener('input', calculateN));
+      calcType.addEventListener('change', toggleCalculator);
+      
+      toggleCalculator();
+    });
+  </script>
+
 </body>
 </html>
