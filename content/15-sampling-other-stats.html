@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>15. การแจกแจงของสถิติอื่น ๆ</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="lesson"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">บทที่ 15</p>
+<h1>การแจกแจงของสถิติอื่น ๆ</h1>
+</div>
+<nav class="header-actions">
+<button class="ghost" data-prev="14-clt.html">บทก่อนหน้า</button>
+<button class="ghost" data-next="16-ci-intro.html">บทถัดไป</button>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card">
+<h2>ภาพรวม</h2>
+<p>ขยายจากค่าเฉลี่ยไปสู่สถิติที่ใช้บ่อยในการอนุมาน</p>
+<ul>
+<li>การแจกแจงของสัดส่วนตัวอย่าง (p̂)</li>
+<li>การแจกแจงส่วนต่างค่าเฉลี่ยสองกลุ่ม</li>
+<li>การแจกแจงของความแปรปรวนตัวอย่างและอัตราส่วน F</li>
+</ul>
+</article>
+<article class="card">
+<h2>สูตรและหลักคิดสำคัญ</h2>
+<p>สูตรค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐานภายใต้เงื่อนไขขนาดตัวอย่างใหญ่</p>
+<ul>
+<li>p̂ ≈ Normal(p, p(1−p)/n)</li>
+<li>ar X_1 − ar X_2 ≈ Normal(μ_1−μ_2, σ_1^2/n_1 + σ_2^2/n_2)</li>
+<li>S^2 χ²(df)/σ^2 และ F = (S_1^2/σ_1^2)/(S_2^2/σ_2^2)</li>
+</ul>
+</article>
+<article class="card">
+<h2>ตัวอย่างสถานการณ์</h2>
+<p>เปรียบเทียบอัตราการผ่านมาตรฐานของสองโรงงานหรือส่วนต่างคะแนนเฉลี่ยของสองชั้นเรียน</p>
+</article>
+<article class="card">
+<h2>เชื่อมต่อการเรียน</h2>
+<ul>
+<li><a href="14-clt.html">ทฤษฎีขีดจำกัดกลาง</a></li>
+<li><a href="16-ci-intro.html">บทนำช่วงความเชื่อมั่น</a></li>
+<li><a href="method-notes.html">บทความเรื่องการสุ่มตัวอย่าง</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

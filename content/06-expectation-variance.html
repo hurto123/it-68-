@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>06. ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .math { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+    .ev-builder { display: grid; gap: var(--space-3); }
+    .ev-table { width: 100%; border-collapse: collapse; }
+    .ev-table th, .ev-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
+    .ev-table th { background: var(--neutral-100); }
+    .controls { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+    .controls label { font-weight: 600; }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-3); }
+    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
+    .bar::after { content: attr(data-prob); position: absolute; inset-inline: 0; top: .25rem; color: white; font-weight: 700; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; font-size: .875rem; }
+    @media (max-width: 720px) {
+      section { padding: var(--space-3); }
+      .controls { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="lesson"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">บทที่ 06</p>
+<h1>👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</h1>
+<p class="highlight">สวัสดีครับนักศึกษา! หลังจากที่เราได้เรียนรู้ "การแจกแจงความน่าจะเป็น" ซึ่งเปรียบเสมือนแผนที่ที่บอกหน้าตาโดยรวมของตัวแปรสุ่มไปแล้ว ในบทนี้เราจะมาเรียนรู้วิธีการ "สรุปย่อ" ลักษณะของการแจกแจงนั้นๆ ด้วยตัวเลขเพียงไม่กี่ตัว ซึ่งก็คือ ค่าคาดหวัง และ ความแปรปรวน ครับ</p>
+</div>
+<nav class="header-actions">
+<button class="ghost" data-prev="05-random-variables.html">บทก่อนหน้า</button>
+<button class="ghost" data-next="07-discrete-uniform.html">บทถัดไป</button>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><section>
+<h2>1. อธิบายเนื้อหาของการเรียน: ค่าสรุปย่อที่สำคัญ</h2>
+<p>ลองนึกภาพการแจกแจงความน่าจะเป็นเหมือนข้อมูลประชากรทั้งประเทศ การจะทำความเข้าใจคนทั้งประเทศ เราคงไม่ไปดูข้อมูลรายคน แต่เรามักจะดู "ค่าเฉลี่ย" และ "การกระจายตัว" ของข้อมูลนั้นๆ</p>
+<ul>
+<li><strong>ค่าคาดหวัง (Expected Value):</strong> คือ "ค่าเฉลี่ย" ของตัวแปรสุ่ม โดยถ่วงน้ำหนักด้วยความน่าจะเป็น มันคือค่าที่เรา "คาดว่า" จะเจอโดยเฉลี่ย หากเราทำการทดลองสุ่มนั้นซ้ำๆ เป็นจำนวนมาก สัญลักษณ์: E(X) หรือ μ (มิว)</li>
+<li><strong>ความแปรปรวน (Variance):</strong> คือค่าที่ใช้วัด "การกระจายตัว" หรือ "ความผันผวน" ของค่าต่างๆ รอบๆ ค่าคาดหวัง ถ้าความแปรปรวนสูง หมายถึงค่าของตัวแปรสุ่มมีแนวโน้มที่จะอยู่ห่างจากค่าเฉลี่ยมากๆ (มีความเสี่ยงสูง) ถ้าความแปรปรวนต่ำ หมายถึงค่าต่างๆ มักจะเกาะกลุ่มอยู่ใกล้ๆ ค่าเฉลี่ย (มีความสม่ำเสมอ) สัญลักษณ์: V(X) หรือ σ<sup>2</sup> (ซิกมากำลังสอง)</li>
+<li><strong>ส่วนเบี่ยงเบนมาตรฐาน (Standard Deviation):</strong> คือ รากที่สองที่เป็นบวกของความแปรปรวน ข้อดีคือมี "หน่วย" เดียวกันกับค่าเฉลี่ย ทำให้ตีความได้ง่ายกว่า สัญลักษณ์: SD(X) หรือ σ (ซิกมา)</li>
+</ul>
+</section>
+<section>
+<h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
+<div class="grid-2">
+<article>
+<h3>สูตรสำหรับตัวแปรสุ่มไม่ต่อเนื่อง (Discrete)</h3>
+<p><strong>ค่าคาดหวัง (Expected Value):</strong></p>
+<div class="math">E(X) = \mu = \sum_{\text{all }x} [x \cdot f(x)]</div>
+<p>การทำงาน: นำ "ค่า" ของตัวแปรสุ่มแต่ละตัว (x) มาคูณกับ "ความน่าจะเป็น" ของมัน (f(x)) แล้วจับทั้งหมดมาบวกกัน</p>
+<p><strong>ความแปรปรวน (Variance):</strong></p>
+<div class="math">V(X)=E[(X-\mu)^2]=\sum_{\text{all }x}[(x-\mu)^2 f(x)]</div>
+<p><strong>สูตร (สำหรับคำนวณ - ง่ายกว่า!):</strong></p>
+<div class="math">V(X) = \sigma^2 = E(X^2) - [E(X)]^2 \quad \text{โดยที่}\quad E(X^2)=\sum_{\text{all }x}[x^2 f(x)]</div>
+<p>การทำงาน:</p>
+<ol>
+<li>หา E(X) (ค่าเฉลี่ย) ให้ได้ก่อน</li>
+<li>หา E(X<sup>2</sup>) โดยการนำค่า x แต่ละตัวมา "ยกกำลังสองก่อน" แล้วค่อยคูณกับความน่าจะเป็นของมัน แล้วจับบวกกันทั้งหมด</li>
+<li>นำผลลัพธ์จากข้อ 2 ลบด้วยผลลัพธ์จากข้อ 1 ที่ถูกยกกำลังสอง</li>
+</ol>
+</article>
+<article>
+<h3>สูตรสำหรับตัวแปรสุ่มต่อเนื่อง (Continuous)</h3>
+<p>แนวคิดเหมือนกันทุกประการ แต่เปลี่ยนเครื่องหมายผลรวม (Σ) ให้เป็นการอินทิเกรต (∫)</p>
+<p><strong>ค่าคาดหวัง:</strong></p>
+<div class="math">E(X) = \mu = \int_{-\infty}^{\infty} x \cdot f(x)\,dx</div>
+<p><strong>ความแปรปรวน:</strong></p>
+<div class="math">V(X) = \sigma^2 = \int_{-\infty}^{\infty} (x-\mu)^2 f(x)\,dx = E(X^2) - [E(X)]^2</div>
+</article>
+</div>
+</section>
+<section>
+<h2>4. การเข้าใจในเนื้อหา</h2>
+<ul>
+<li>E(X) บอกเราถึง "จุดศูนย์กลาง" หรือ "ตำแหน่งที่ตั้ง" ของการแจกแจง</li>
+<li>V(X) บอกเราถึง "ความกว้าง" หรือ "ความอ้วน" ของการแจกแจง</li>
+</ul>
+<p>(กราฟซ้ายมีความแปรปรวนต่ำ, กราฟขวามีความแปรปรวนสูง)</p>
+</section>
+<section>
+<h2>5. ยกตัวอย่าง (ตัวแปรสุ่มไม่ต่อเนื่อง)</h2>
+<p><strong>โจทย์:</strong> เกมโยนเหรียญ 1 อัน ถ้าออกหัวจะได้เงิน 10 บาท ถ้าออกก้อยจะเสียเงิน 5 บาท จงหา "ค่าคาดหวัง" ของเงินที่จะได้รับจากการเล่นเกมนี้ 1 ครั้ง</p>
+<p><strong>วิเคราะห์:</strong></p>
+<ul>
+<li>ให้ X = จำนวนเงินที่ได้รับ</li>
+<li>ค่าที่เป็นไปได้ของ X คือ {+10, -5}</li>
+<li>การแจกแจงความน่าจะเป็น: P(X=10) (ออกหัว) = 0.5 และ P(X=-5) (ออกก้อย) = 0.5</li>
+</ul>
+<p><strong>วิธีทำ (หาค่าคาดหวัง):</strong></p>
+<div class="math">E(X) = \sum [x \cdot f(x)] = (10 \times 0.5) + (-5 \times 0.5) = 5 - 2.5 = 2.5</div>
+<p><strong>สรุปและตีความ:</strong> ค่าคาดหวังของเกมนี้คือ 2.5 บาท ความหมายคือ ถ้าเราเล่นเกมนี้ไปเรื่อยๆ หลายๆ ครั้ง โดยเฉลี่ยแล้ว เราคาดว่าจะได้กำไรครั้งละ 2.5 บาท ดังนั้นในระยะยาว เกมนี้เป็นเกมที่น่าเล่น</p>
+<p><strong>โจทย์ (ต่อ):</strong> จากการโยนเหรียญ 2 ครั้ง (X = จำนวนหัว) ในบทเรียนที่แล้ว จงหาค่าคาดหวังและความแปรปรวน การแจกแจง: f(0)=1/4, f(1)=2/4, f(2)=1/4</p>
+<p><strong>วิธีทำ (หาค่าคาดหวัง):</strong></p>
+<div class="math">E(X) = (0 \times \tfrac{1}{4}) + (1 \times \tfrac{2}{4}) + (2 \times \tfrac{1}{4}) = 0 + \tfrac{2}{4} + \tfrac{2}{4} = \tfrac{4}{4} = 1</div>
+<p><strong>ตีความ:</strong> โดยเฉลี่ยแล้ว การโยนเหรียญ 2 ครั้ง เราคาดว่าจะเห็นหัว 1 ครั้ง</p>
+<p><strong>วิธีทำ (หาความแปรปรวน):</strong></p>
+<div class="math">E(X^2) = (0^2 \times \tfrac{1}{4}) + (1^2 \times \tfrac{2}{4}) + (2^2 \times \tfrac{1}{4}) = 0 + \tfrac{2}{4} + \tfrac{4}{4} = \tfrac{6}{4} = 1.5</div>
+<div class="math">V(X) = E(X^2) - [E(X)]^2 = 1.5 - (1)^2 = 1.5 - 1 = 0.5</div>
+<p><strong>สรุป:</strong> ค่าคาดหวังของจำนวนหัวคือ 1 ครั้ง และความแปรปรวนคือ 0.5 (ส่วนเบี่ยงเบนมาตรฐานคือ √0.5 ≈ 0.707 ครั้ง)</p>
+</section>
+<section>
+<h2>Interactive: Expected Value Playground</h2>
+<p>ลองป้อนค่าของตัวแปรสุ่มไม่ต่อเนื่องและความน่าจะเป็น เพื่อให้ระบบช่วยคำนวณ E(X), E(X<sup>2</sup>), Var(X) และ SD(X) แบบทันที พร้อมแผนภูมิแท่งที่แสดงการกระจาย</p>
+<div class="ev-builder">
+<div aria-label="ตั้งค่าการแจกแจง" class="controls">
+<label for="ev-count">จำนวนผลลัพธ์</label>
+<input id="ev-count" max="8" min="2" type="number" value="3"/>
+<button class="ghost" id="ev-apply">สร้างตาราง</button>
+</div>
+<div class="table-wrapper">
+<table aria-describedby="ev-summary" class="ev-table">
+<thead>
+<tr>
+<th scope="col">ลำดับ</th>
+<th scope="col">ค่า x</th>
+<th scope="col">ความน่าจะเป็น f(x)</th>
+</tr>
+</thead>
+<tbody id="ev-rows"></tbody>
+</table>
+</div>
+<div class="controls">
+<button class="primary" id="ev-calc">คำนวณค่าคาดหวัง</button>
+<p id="ev-warning" role="alert" style="display:none;color:var(--danger-600);font-weight:600;">ความน่าจะเป็นต้องรวมกันได้ 1</p>
+</div>
+<div class="grid-2" id="ev-summary">
+<div>
+<h3>ผลลัพธ์</h3>
+<p><strong>E(X):</strong> <span id="ev-mean">–</span></p>
+<p><strong>E(X<sup>2</sup>):</strong> <span id="ev-second">–</span></p>
+<p><strong>Var(X):</strong> <span id="ev-var">–</span></p>
+<p><strong>SD(X):</strong> <span id="ev-sd">–</span></p>
+</div>
+<div>
+<h3>แผนภูมิความน่าจะเป็น</h3>
+<div aria-label="แผนภูมิแท่งแสดงความน่าจะเป็น" class="bar-chart" id="ev-chart" role="img"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const countInput = document.getElementById('ev-count');
+    const applyBtn = document.getElementById('ev-apply');
+    const tbody = document.getElementById('ev-rows');
+    const calcBtn = document.getElementById('ev-calc');
+    const warning = document.getElementById('ev-warning');
+    const meanSpan = document.getElementById('ev-mean');
+    const secondSpan = document.getElementById('ev-second');
+    const varSpan = document.getElementById('ev-var');
+    const sdSpan = document.getElementById('ev-sd');
+    const chart = document.getElementById('ev-chart');
+
+    const seedData = [
+      { x: -5, p: 0.5 },
+      { x: 10, p: 0.5 },
+      { x: 2, p: 0 }
+    ];
+
+    function renderRows(total) {
+      tbody.innerHTML = '';
+      for (let i = 0; i < total; i += 1) {
+        const tr = document.createElement('tr');
+        const tdIndex = document.createElement('td');
+        tdIndex.textContent = i + 1;
+        tdIndex.setAttribute('scope', 'row');
+
+        const tdX = document.createElement('td');
+        const inputX = document.createElement('input');
+        inputX.type = 'number';
+        inputX.value = seedData[i]?.x ?? i;
+        inputX.setAttribute('aria-label', `ค่า x ลำดับที่ ${i + 1}`);
+        tdX.appendChild(inputX);
+
+        const tdP = document.createElement('td');
+        const inputP = document.createElement('input');
+        inputP.type = 'number';
+        inputP.min = '0';
+        inputP.max = '1';
+        inputP.step = '0.01';
+        inputP.value = seedData[i]?.p ?? (1 / total).toFixed(2);
+        inputP.setAttribute('aria-label', `ความน่าจะเป็นลำดับที่ ${i + 1}`);
+        tdP.appendChild(inputP);
+
+        tr.append(tdIndex, tdX, tdP);
+        tbody.appendChild(tr);
+      }
+    }
+
+    function updateChart(data) {
+      chart.innerHTML = '';
+      data.forEach(({ x, p }) => {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${Math.max(p, 0) * 200}px`;
+        bar.dataset.prob = p.toFixed(3);
+        const label = document.createElement('span');
+        label.textContent = x;
+        bar.appendChild(label);
+        chart.appendChild(bar);
+      });
+    }
+
+    function compute() {
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const data = rows.map((row) => {
+        const [xInput, pInput] = row.querySelectorAll('input');
+        return { x: Number(xInput.value), p: Number(pInput.value) };
+      });
+      const totalProb = data.reduce((acc, { p }) => acc + p, 0);
+      if (Math.abs(totalProb - 1) > 0.01) {
+        warning.style.display = 'block';
+        meanSpan.textContent = secondSpan.textContent = varSpan.textContent = sdSpan.textContent = '–';
+        chart.innerHTML = '';
+        return;
+      }
+      warning.style.display = 'none';
+      const mean = data.reduce((acc, { x, p }) => acc + x * p, 0);
+      const secondMoment = data.reduce((acc, { x, p }) => acc + x * x * p, 0);
+      const variance = secondMoment - mean * mean;
+      meanSpan.textContent = mean.toFixed(4);
+      secondSpan.textContent = secondMoment.toFixed(4);
+      varSpan.textContent = variance.toFixed(4);
+      sdSpan.textContent = Math.sqrt(Math.max(variance, 0)).toFixed(4);
+      updateChart(data);
+    }
+
+    applyBtn.addEventListener('click', () => {
+      const total = Math.min(Math.max(Number(countInput.value), 2), 8);
+      countInput.value = total;
+      renderRows(total);
+    });
+
+    calcBtn.addEventListener('click', compute);
+
+    renderRows(Number(countInput.value));
+    compute();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

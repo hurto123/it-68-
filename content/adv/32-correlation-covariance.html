@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>32. สหสัมพันธ์ &amp; โควาเรียนซ์</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+</head>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 32</p>
+<h1>สหสัมพันธ์ (Correlation) &amp; โควาเรียนซ์ (Covariance)</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>ภาพรวมและนิยาม</h2>
+<ul>
+<li>โควาเรียนซ์ <strong>cov(X,Y)</strong> วัดทิศทางการเปลี่ยนแปลงร่วมของตัวแปรสองตัว</li>
+<li>สหสัมพันธ์เชิงเส้นของเพียร์สัน <strong>r</strong> ปรับขนาดโควาเรียนซ์ให้อยู่ระหว่าง −1 ถึง 1</li>
+<li>ใช้ scatter plot เป็นตัวช่วยมองลักษณะความสัมพันธ์ก่อนตีความตัวเลข</li>
+</ul>
+</article>
+<article class="card">
+<h2>สูตรสำคัญ</h2>
+<ul>
+<li><code>cov(X,Y) = \frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})</code></li>
+<li><code>r = \frac{cov(X,Y)}{s_X s_Y}</code> โดย <code>s_X</code>, <code>s_Y</code> คือส่วนเบี่ยงเบนมาตรฐานของ X,Y</li>
+<li>สำหรับตัวอย่างสองตัวแปร เราสามารถคำนวณด้วยตารางสรุปรวม (sum of cross product)</li>
+</ul>
+</article>
+<article class="card">
+<h2>การตีความระดับค่า r</h2>
+<ul>
+<li>|r| &lt; 0.1: ความสัมพันธ์เชิงเส้นแทบไม่มีนัยสำคัญ</li>
+<li>0.1 ≤ |r| &lt; 0.3: อ่อน ๆ ต้องดูบริบทและขนาดตัวอย่างประกอบ</li>
+<li>0.3 ≤ |r| &lt; 0.5: ปานกลาง สามารถใช้เป็นสัญญาณเริ่มสร้างแบบจำลอง</li>
+<li>|r| ≥ 0.5: แข็งแรง แต่ยังต้องตรวจสอบรูปแบบไม่เชิงเส้นหรือ outlier</li>
+</ul>
+</article>
+<article class="card">
+<h2>ข้อควรระวัง &amp; กรณีตัวอย่าง</h2>
+<ul>
+<li><strong>Outlier</strong> จุดเดียวสามารถดึงค่า r ให้สูง/ต่ำผิดธรรมชาติ → ตรวจ residual หรือ IQR</li>
+<li><strong>Nonlinearity</strong>: ความสัมพันธ์โค้ง (เช่น quadratic) ทำให้ r ใกล้ 0 ทั้งที่มี pattern</li>
+<li>ใช้ <em>rolling plot</em> หรือ heatmap เพื่อตรวจค่า r ที่ผันผวนตามเวลา</li>
+<li>ตัวอย่าง: วิเคราะห์ยอดขายกับค่าใช้จ่ายโฆษณารายสัปดาห์ → ดู scatter และ seasonality ก่อนคำนวณ</li>
+</ul>
+</article>
+<article class="card">
+<h2>กับดักสาเหตุ/ผลย้อน</h2>
+<ul>
+<li><strong>Reverse causality</strong>: ตัวแปรตอบสนองจริง ๆ อาจเป็นสาเหตุ เช่น ยอดขายสูงทำให้เพิ่มงบโฆษณา</li>
+<li><strong>Third variable problem</strong>: ตัวแปรแฝง (เช่น เทศกาล, ช่องทางขาย) ทำให้ r สูงขึ้นหลอก ๆ</li>
+<li>แบ่งข้อมูลตามช่วงเวลา/กลุ่ม (stratify) เพื่อดูว่าค่า r ยังเสถียรหรือไม่</li>
+<li>ใช้ <a href="../../sim/correlation-explorer.html">Correlation Explorer</a> ทดลองเพิ่ม noise/outlier และอธิบาย spurious correlation</li>
+</ul>
+</article>
+<article class="card">
+<h2>การใช้งานจริงและต่อยอด</h2>
+<ul>
+<li>สร้าง heatmap ของค่าสหสัมพันธ์สำหรับเลือกตัวแปรใน multiple regression</li>
+<li>ใช้ Spearman rho หรือ Kendall tau เมื่อตัวแปรมีอันดับหรือไม่แจกแจงปกติ</li>
+<li>ตรวจสอบความสัมพันธ์ของตัวแปรนำเข้าสำหรับการทำ feature selection หรือ PCA</li>
+<li><a href="../../sim/correlation-explorer.html">ทดลองบนซิม Correlation Explorer</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

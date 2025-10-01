@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เฉลย: Correlation</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Answer</p>
+      <h1>เฉลย Correlation</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="adv-corr.html">กลับแบบฝึก</a>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <ul>
+        <li>ค่า r ≈ 0.995 และ cov(x, y) &gt; 0 แสดงความสัมพันธ์เชิงบวกแข็งแรง</li>
+        <li>เส้นแนวโน้มจาก SLR มีความชันบวก เหมาะสำหรับใช้พยากรณ์</li>
+        <li>เพิ่ม outlier (15, 8) → r ลดลงเหลือ ~0.86 และ cov ลดลงมาก แสดงผลของ outlier ต่อการสรุป</li>
+        <li>ใน Correlation Explorer เมื่อเพิ่ม trend + noise พบว่าสามารถสร้าง r สูงแม้ไม่มีความสัมพันธ์เชิงสาเหตุ (spurious)</li>
+      </ul>
+    </article>
+  </main>
+</body>
+</html>

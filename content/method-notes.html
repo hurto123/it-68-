@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Method Notes</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">Method Notes</p>
+<h1>ข้อกำกับการใช้สูตร</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card">
+<h2>Guardrails ที่ควรรู้</h2>
+<ul>
+<li>ตรวจสอบสมมติฐาน Normality ก่อนใช้ Z/t test (ดูบท 14, 17, 25)</li>
+<li>ขนาดตัวอย่างเล็กมาก (n&lt;30) ควรเลือก t distribution เสมอเมื่อไม่รู้ σ</li>
+<li>ค่า p ที่ใกล้เกณฑ์ควรสื่อสารพร้อม effect size และช่วงความเชื่อมั่น</li>
+<li>สำหรับ Chi-square ควรแน่ใจว่า expected count ≥ 5 อย่างน้อย 80% ของเซลล์</li>
+<li>Power analysis ควรใช้ variance สมมติฐานที่ conservative เพื่อลดความเสี่ยง</li>
+</ul>
+</article>
+<article class="card">
+<h2>Correlation &amp; Regression</h2>
+<ul>
+<li>ค่า r สูงไม่แปลว่ามีสาเหตุ → ตรวจ confounder และ reverse causality (ดูบท 32, 34)</li>
+<li>ก่อนฟิต SLR/MLR ให้ตรวจ scatter plot และ multicollinearity ด้วย VIF หรือ heatmap</li>
+<li>รายงานทั้งค่า β, SE, และช่วงความเชื่อมั่น พร้อม residual diagnostics (บท 33–34)</li>
+<li>ใช้ <a href="../tools/regression-playground.html">Regression Playground</a> เพื่อตรวจสมมติฐานแบบโต้ตอบ</li>
+</ul>
+</article>
+<article class="card">
+<h2>ANOVA &amp; Chi-square</h2>
+<ul>
+<li>One-way ANOVA ต้องการกลุ่มที่สุ่มอิสระและความแปรปรวนใกล้กัน (บท 35)</li>
+<li>ถ้า SSW สูงผิดปกติ → ตรวจ outlier และพิจารณาแปลงข้อมูลก่อนสรุปผล</li>
+<li>Chi-square Independence ควรเช็ก standardized residual เพื่อหาหมวดที่แตกต่าง (บท 36)</li>
+<li>ใช้ <a href="../tools/anova.html">ANOVA Calculator</a> และ <a href="../tools/chi2-tests.html">Chi-square Tool</a> เพื่อทวนขั้นตอน</li>
+</ul>
+</article>
+<article class="card">
+<h2>Resampling &amp; Bayesian</h2>
+<ul>
+<li>Bootstrap ใช้ได้ดีเมื่อ analytic SE ยุ่งยาก แต่ข้อมูลควรสะท้อนประชากรจริง (บท 37)</li>
+<li>แยก seed และจำนวนรอบ B ไว้อย่างโปร่งใส พร้อมบันทึกเครื่องมือที่ใช้ (ดู Bootstrap Lab)</li>
+<li>Bayesian analysis ต้องระบุ prior อย่างชัดเจน และทดสอบความไวของผลต่อ prior (บท 38)</li>
+<li>DoE ควรวาง randomization/blocking ไว้ใน protocol และตรวจสอบการเก็บข้อมูล (บท 39)</li>
+</ul>
+</article>
+<article class="card">
+<h2>แหล่งอ้างอิงต่อยอด</h2>
+<ol>
+<li>บท 32–39 สำหรับการวิเคราะห์ขั้นสูง</li>
+<li><a href="../tools/power-sample-size.html">Power &amp; Sample Size Tool</a> สำหรับตรวจสอบสมมติฐานก่อนเก็บข้อมูล</li>
+<li>แบบฝึกหัดขั้นสูงในโฟลเดอร์ <a href="../exercises/adv-corr.html">exercises</a></li>
+</ol>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+</footer>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

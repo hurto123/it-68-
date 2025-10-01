@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Prob &amp; Stats — แผนบทเรียน</title>
+<link href="./pwa/manifest.json" rel="manifest"/>
+<link href="styles/tokens.css" rel="stylesheet"/>
+<link href="styles/components.css" rel="stylesheet"/>
+<link href="styles/light.css" id="theme-link" rel="stylesheet"/><link href="./hotfix.css" rel="stylesheet"/>
+
+<link href="styles/typography-access.css" rel="stylesheet"/>
+<link href="styles/print.css" media="print" rel="stylesheet"/>
+<link href="styles/skin-clean.css" rel="stylesheet"/>
+<style>
+    body{ background:#f7f8fb; color:#0f172a; }
+    main{ max-width:1100px; margin:0 auto; padding:1.25rem 1rem 4rem; }
+    .site-header{ position:sticky; top:0; z-index:1000; display:flex; justify-content:space-between; align-items:center;
+      gap:.6rem; padding:.6rem 1rem; background:#fff; border-bottom:1px solid #e7eaf3; }
+    .brand-link{ text-decoration:none; font-weight:800; color:#0f172a; }
+    .btn-sm{ border:1px solid #e7eaf3; background:#f2f4f8; padding:.35rem .65rem; border-radius:999px; cursor:pointer; }
+    #progressbar{ position:sticky; top:44px; height:4px; background:transparent; }
+    #progressbar>span{ display:block; height:4px; width:0; background:#2563eb; transition:width .15s ease; }
+    .page-header{ display:grid; gap:.4rem; margin:.9rem 0 1rem; }
+    .pill{ display:inline-block; padding:.2rem .6rem; border-radius:999px; background:#f2f4f8; font-size:.85rem; }
+    .muted{ color:#475569; }
+    .card{ background:#fff; border:1px solid #e7eaf3; border-radius:16px; padding:1rem; box-shadow:0 10px 30px rgba(15,23,42,.06); }
+    .lesson-grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap:1rem; margin-top:1rem; }
+    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; }
+    .filter-btn{ border:1px solid #e7eaf3; background:#f2f4f8; padding:.38rem .7rem; border-radius:999px; cursor:pointer; color:#1f2937; }
+    .visited-pill{ background: #c5f7d3; color: #0f5132; border:1px solid #0f5132; }
+    @media print{ .site-header, #progressbar, .filters { display:none !important; } }
+  </style>
+</head>
+<body class="skin-clean">
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+<header class="site-header" role="banner">
+<a class="brand-link" href="index.html">📊 Prob &amp; Stats</a>
+<nav aria-label="เครื่องมือ" class="site-actions">
+<button class="btn-sm" id="theme-toggle" title="สลับธีม (T)">ธีม</button>
+<button class="btn-sm" id="print-current" title="พิมพ์หน้านี้ (P)">พิมพ์</button>
+</nav>
+</header>
+<div aria-hidden="true" id="progressbar"><span></span></div>
+<main id="main">
+<header class="page-header">
+<div class="pill">📚 Lesson Plan</div>
+<h1>หน้าแรก</h1>
+<p class="muted">ค้นหาและเลือกบทเรียนที่ต้องการ (กด <kbd>/</kbd> เพื่อค้นหา)</p>
+<div class="controls">
+<input aria-label="ค้นหาบทเรียน" id="q" placeholder="ค้นหา: counting, probability, normal ..." type="search"/>
+<div aria-label="ตัวกรอง" class="filters">
+<button aria-pressed="false" class="filter-btn" data-filter="intro">intro</button>
+<button aria-pressed="false" class="filter-btn" data-filter="counting">counting</button>
+<button aria-pressed="false" class="filter-btn" data-filter="probability">probability</button>
+<button aria-pressed="false" class="filter-btn" data-filter="binomial">binomial</button>
+<button aria-pressed="false" class="filter-btn" data-filter="normal">normal</button>
+</div>
+</div>
+<p class="muted small"><span id="stat-count">45</span> บท</p>
+</header>
+<section class="card">
+<div class="lesson-grid" id="lesson-grid">
+<a class="lesson card" data-tags="intro" data-title="ความหมายของสถิติ &amp; ระเบียบวิธี" href="content/01-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ความหมายของสถิติ &amp; ระเบียบวิธี</h3>
+<p class="muted small">01-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="descriptive" data-title="หลักการนับเบื้องต้น (Counting Principles)" href="content/02-descriptive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">หลักการนับเบื้องต้น (Counting Principles)</h3>
+<p class="muted small">02-descriptive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="probability basics" data-title="นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์" href="content/03-probability-basics.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์</h3>
+<p class="muted small">03-probability-basics.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="conditional" data-title="👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง" href="content/04-conditional.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง</h3>
+<p class="muted small">04-conditional.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="random variables" data-title="👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)" href="content/05-random-variables.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)</h3>
+<p class="muted small">05-random-variables.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="expectation variance" data-title="👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม" href="content/06-expectation-variance.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 6: ค่าคาดหวังและความแปรปรวนของตัวแปรสุ่ม</h3>
+<p class="muted small">06-expectation-variance.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="discrete uniform" data-title="👨‍🏫 บทเรียนที่ 7: การแจกแจงเอกรูปไม่ต่อเนื่อง (Discrete Uniform Distribution)" href="content/07-discrete-uniform.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 7: การแจกแจงเอกรูปไม่ต่อเนื่อง (Discrete Uniform Distribution)</h3>
+<p class="muted small">07-discrete-uniform.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="binomial" data-title="👨‍🏫 บทเรียนที่ 8: การแจกแจงทวินาม (Binomial Distribution)" href="content/08-binomial.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 8: การแจกแจงทวินาม (Binomial Distribution)</h3>
+<p class="muted small">08-binomial.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="hypergeometric" data-title="👨‍🏫 บทเรียนที่ 9: การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric Distribution)" href="content/09-hypergeometric.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 9: การแจกแจงไฮเปอร์จีออเมตริก (Hypergeometric Distribution)</h3>
+<p class="muted small">09-hypergeometric.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="poisson" data-title="👨‍🏫 บทเรียนที่ 10: การแจกแจงปัวซง (Poisson Distribution)" href="content/10-poisson.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">👨‍🏫 บทเรียนที่ 10: การแจกแจงปัวซง (Poisson Distribution)</h3>
+<p class="muted small">10-poisson.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="continuous normal" data-title="ตัวแปรต่อเนื่อง &amp; การแจกแจงปกติ" href="content/11-continuous-normal.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ตัวแปรต่อเนื่อง &amp; การแจกแจงปกติ</h3>
+<p class="muted small">11-continuous-normal.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="standard normal z" data-title="Z-score &amp; ตารางปกติมาตรฐาน" href="content/12-standard-normal-z.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">Z-score &amp; ตารางปกติมาตรฐาน</h3>
+<p class="muted small">12-standard-normal-z.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="t chi2 f" data-title="ภาพรวม t, χ², และ F" href="content/13-t-chi2-f.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ภาพรวม t, χ², และ F</h3>
+<p class="muted small">13-t-chi2-f.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="clt" data-title="การแจกแจงตัวอย่าง &amp; ทฤษฎีขีดจำกัดกลาง" href="content/14-clt.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การแจกแจงตัวอย่าง &amp; ทฤษฎีขีดจำกัดกลาง</h3>
+<p class="muted small">14-clt.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="sampling other stats" data-title="การแจกแจงของสถิติอื่น ๆ" href="content/15-sampling-other-stats.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การแจกแจงของสถิติอื่น ๆ</h3>
+<p class="muted small">15-sampling-other-stats.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci intro" data-title="เกริ่นนำช่วงความเชื่อมั่น" href="content/16-ci-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เกริ่นนำช่วงความเชื่อมั่น</h3>
+<p class="muted small">16-ci-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci mean onepop" data-title="ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว" href="content/17-ci-mean-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของค่าเฉลี่ยกลุ่มเดียว</h3>
+<p class="muted small">17-ci-mean-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci proportion onepop" data-title="ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว" href="content/18-ci-proportion-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของสัดส่วนกลุ่มเดียว</h3>
+<p class="muted small">18-ci-proportion-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci means twopop" data-title="ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย" href="content/19-ci-means-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของส่วนต่างค่าเฉลี่ย</h3>
+<p class="muted small">19-ci-means-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci proportions twopop" data-title="ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน" href="content/20-ci-proportions-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของส่วนต่างสัดส่วน</h3>
+<p class="muted small">20-ci-proportions-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="sample size" data-title="การวางแผนขนาดตัวอย่าง" href="content/21-sample-size.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การวางแผนขนาดตัวอย่าง</h3>
+<p class="muted small">21-sample-size.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="ci variance" data-title="ช่วงความเชื่อมั่นของความแปรปรวน" href="content/22-ci-variance.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ช่วงความเชื่อมั่นของความแปรปรวน</h3>
+<p class="muted small">22-ci-variance.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="hypothesis intro" data-title="บทนำการทดสอบสมมติฐาน" href="content/23-hypothesis-intro.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">บทนำการทดสอบสมมติฐาน</h3>
+<p class="muted small">23-hypothesis-intro.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="critical vs pvalue" data-title="วิธี critical value vs p-value" href="content/24-critical-vs-pvalue.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">วิธี critical value vs p-value</h3>
+<p class="muted small">24-critical-vs-pvalue.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test mean onepop" data-title="การทดสอบค่าเฉลี่ยกลุ่มเดียว" href="content/25-test-mean-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบค่าเฉลี่ยกลุ่มเดียว</h3>
+<p class="muted small">25-test-mean-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test proportion onepop" data-title="การทดสอบสัดส่วนกลุ่มเดียว" href="content/26-test-proportion-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบสัดส่วนกลุ่มเดียว</h3>
+<p class="muted small">26-test-proportion-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test means twopop" data-title="การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ" href="content/27-test-means-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบค่าเฉลี่ยสองกลุ่มอิสระ</h3>
+<p class="muted small">27-test-means-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test proportions twopop" data-title="การทดสอบสัดส่วนสองกลุ่ม" href="content/28-test-proportions-twopop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบสัดส่วนสองกลุ่ม</h3>
+<p class="muted small">28-test-proportions-twopop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test variance onepop" data-title="การทดสอบความแปรปรวนกลุ่มเดียว" href="content/29-test-variance-onepop.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบความแปรปรวนกลุ่มเดียว</h3>
+<p class="muted small">29-test-variance-onepop.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="test variance ratio" data-title="การทดสอบอัตราส่วนความแปรปรวน" href="content/30-test-variance-ratio.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">การทดสอบอัตราส่วนความแปรปรวน</h3>
+<p class="muted small">30-test-variance-ratio.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="summary next" data-title="บทสรุป &amp; ก้าวต่อไป" href="content/31-summary-next.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">บทสรุป &amp; ก้าวต่อไป</h3>
+<p class="muted small">31-summary-next.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="decision map" data-title="Decision Map: เลือกวิธีวิเคราะห์" href="content/decision-map.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">Decision Map: เลือกวิธีวิเคราะห์</h3>
+<p class="muted small">decision-map.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="glossary" data-title="อภิธานศัพท์" href="content/glossary.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">อภิธานศัพท์</h3>
+<p class="muted small">glossary.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="method notes" data-title="ข้อกำกับการใช้สูตร" href="content/method-notes.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">ข้อกำกับการใช้สูตร</h3>
+<p class="muted small">method-notes.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="pdpa privacy" data-title="นโยบายข้อมูล &amp; ความเป็นส่วนตัว" href="content/pdpa-privacy.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">นโยบายข้อมูล &amp; ความเป็นส่วนตัว</h3>
+<p class="muted small">pdpa-privacy.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="references" data-title="แหล่งอ้างอิง" href="content/references.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">แหล่งอ้างอิง</h3>
+<p class="muted small">references.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review foundation probability" data-title="รากฐานแห่งความน่าจะเป็น (Foundation Review)" href="content/review-01-foundation-probability.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">รากฐานแห่งความน่าจะเป็น (Foundation Review)</h3>
+<p class="muted small">review-01-foundation-probability.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review data blueprints distributions" data-title="พิมพ์เขียวของข้อมูล (The Blueprints of Data - Distributions)" href="content/review-02-data-blueprints-distributions.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">พิมพ์เขียวของข้อมูล (The Blueprints of Data - Distributions)</h3>
+<p class="muted small">review-02-data-blueprints-distributions.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review clt sampling" data-title="หัวใจสถิติ (CLT และการแจกแจงของตัวอย่างสุ่ม)" href="content/review-03-clt-sampling.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">หัวใจสถิติ (CLT และการแจกแจงของตัวอย่างสุ่ม)</h3>
+<p class="muted small">review-03-clt-sampling.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review estimation deep dive" data-title="เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ 🕵️‍♂️)" href="content/review-04-estimation-deep-dive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ 🕵️‍♂️)</h3>
+<p class="muted small">review-04-estimation-deep-dive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review hypothesis testing deep dive" data-title="เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)" href="content/review-05-hypothesis-testing-deep-dive.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">เจาะลึกการทดสอบสมมติฐาน (ตรรกะแห่งผู้พิพากษา 👨‍⚖️)</h3>
+<p class="muted small">review-05-hypothesis-testing-deep-dive.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review case one sample" data-title="กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว" href="content/review-06-case-one-sample.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</h3>
+<p class="muted small">review-06-case-one-sample.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review case ab testing" data-title="กรณีศึกษา #2 - การเปรียบเทียบสองกลุ่ม (A/B Testing)" href="content/review-07-case-ab-testing.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">กรณีศึกษา #2 - การเปรียบเทียบสองกลุ่ม (A/B Testing)</h3>
+<p class="muted small">review-07-case-ab-testing.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="review choosing tool" data-title="แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)" href="content/review-08-choosing-tool.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)</h3>
+<p class="muted small">review-08-choosing-tool.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+<a class="lesson card" data-tags="symbols" data-title="สัญลักษณ์ทางสถิติ" href="content/symbols.html" style="text-decoration:none; color:inherit;">
+<div class="lesson-body">
+<h3 class="lesson-title">สัญลักษณ์ทางสถิติ</h3>
+<p class="muted small">symbols.html</p>
+</div>
+<span class="pill visited-pill" hidden="">อ่านแล้ว</span>
+</a>
+</div>
+<p class="muted small">กด <kbd>Alt</kbd>+<kbd>Enter</kbd> เพื่อเปิดบทแรกที่กรองไว้</p>
+</section>
+</main>
+<footer class="site-footer" role="contentinfo">
+<p class="muted small">© Prob &amp; Stats — โครงแบบ content page สะอาดและอ่านง่าย</p>
+</footer>
+<script src="./app.js"></script>
+<script>
+  (function(){
+    // Theme toggle + print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      } else if(href.includes('theme-high-contrast.css')) {
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{ const pref = localStorage.getItem('stats-theme'); if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')) themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css')); }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{ const el = document.scrollingElement || document.documentElement; const max = el.scrollHeight - el.clientHeight; const pct = max>0 ? (el.scrollTop/max)*100 : 0; bar.style.width = pct.toFixed(2)+'%'; };
+      document.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+    })();
+
+    // Simple filter
+    const q = document.getElementById('q');
+    const grid = document.getElementById('lesson-grid');
+    const cards = Array.from(grid.querySelectorAll('.lesson.card'));
+    const stat = document.getElementById('stat-count');
+    const filters = Array.from(document.querySelectorAll('.filter-btn'));
+    const visitedKey = 'stats-visited';
+
+    function getVisitedSet(){ try{ return new Set(JSON.parse(localStorage.getItem(visitedKey) || '[]')); }catch(e){ return new Set(); } }
+    function markVisited(){ const visited = getVisitedSet(); cards.forEach(card=>{ const href=card.getAttribute('href'); const pill=card.querySelector('.visited-pill'); if(visited.has(href)) pill && (pill.hidden=false); else pill && (pill.hidden=true); }); }
+
+    function applyFilter(){ const term=(q.value||'').trim().toLowerCase(); const activeTags=new Set(filters.filter(b=>b.getAttribute('aria-pressed')==='true').map(b=>b.dataset.filter)); let shown=0;
+      cards.forEach(card=>{ const title=(card.dataset.title||'').toLowerCase(); const tags=(card.dataset.tags||'').toLowerCase(); const file=card.textContent.toLowerCase();
+        const matchText=!term || title.includes(term) || tags.includes(term) || file.includes(term); const matchTag=activeTags.size===0 || Array.from(activeTags).some(t=>tags.includes(t) || title.includes(t));
+        const show=matchText && matchTag; card.style.display=show?'':'none'; if(show) shown++; }); stat.textContent=shown; }
+    q && q.addEventListener('input', applyFilter);
+    document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q && q.focus(); }
+      if(e.key==='Enter' && e.altKey){ const first=cards.find(c=>c.style.display!=='none'); if(first) window.location.href=first.getAttribute('href'); } });
+    filters.forEach(btn=>btn.addEventListener('click',()=>{ const pressed=btn.getAttribute('aria-pressed')==='true'; btn.setAttribute('aria-pressed', (!pressed).toString()); applyFilter(); }));
+
+    applyFilter(); markVisited();
+  })();  
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="./hotfix.js"></script></body>
+</html>

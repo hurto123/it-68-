@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 6: กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .scenario {
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--size-4);
+      border-left: 4px solid var(--accent-strong);
+    }
+    .lab {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .lab label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-2);
+      font-weight: 600;
+    }
+    .lab input,
+    .lab select,
+    .lab button {
+      padding: var(--size-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-muted);
+      font: inherit;
+    }
+    .lab button {
+      cursor: pointer;
+      background: var(--accent-muted);
+      color: var(--accent-strong);
+      border: none;
+      font-weight: 600;
+    }
+    .lab canvas {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .results {
+      display: grid;
+      gap: var(--size-2);
+      padding: var(--size-3);
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 6</p>
+<h1>กรณีศึกษา #1 - การวิเคราะห์ข้อมูลกลุ่มเดียว</h1>
+<p class="subtitle">สวมบทนักสืบและผู้พิพากษาเพื่อวิเคราะห์ข้อมูลของ Gemini Coffee</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<div class="scenario">
+<h2>สถานการณ์สมมติ</h2>
+<p>คุณเป็นผู้จัดการร้านกาแฟแห่งใหม่ "Gemini Coffee" คุณต้องการวิเคราะห์พฤติกรรมการใช้จ่ายของลูกค้าเพื่อวางแผนการตลาด คุณจึงได้ทำการสุ่มเก็บข้อมูลค่าใช้จ่ายของลูกค้ามา 25 คน (n=25) และได้ข้อมูลดังนี้:</p>
+<ul>
+<li>ค่าใช้จ่ายเฉลี่ย (\(\bar{x}\)): 140 บาท</li>
+<li>ส่วนเบี่ยงเบนมาตรฐาน (s): 20 บาท</li>
+</ul>
+</div>
+</article>
+<article class="card flow">
+<h2>ภารกิจที่ 1: เป็นนักสืบ (ประมาณค่าเฉลี่ยจริง)</h2>
+<p><strong>คำถาม:</strong> ค่าใช้จ่ายเฉลี่ยที่แท้จริง (μ) ของลูกค้าทั้งหมดน่าจะอยู่ที่ประมาณเท่าไหร่?</p>
+<ol>
+<li><strong>เครื่องมือ:</strong> สร้างช่วงความเชื่อมั่น 95% สำหรับ μ</li>
+<li><strong>เลือกเครื่องมือ:</strong> ไม่ทราบ σ และ n เล็ก (25) จึงใช้ t-Distribution</li>
+<li><strong>ค่าวิกฤต:</strong> df = 24, t<sub>critical</sub> = 2.064</li>
+<li><strong>สูตร:</strong> \(CI = 140 ± 2.064 (20/\sqrt{25}) = 140 ± 8.256\)</li>
+<li><strong>สรุป:</strong> ช่วงความเชื่อมั่นคือ (131.74, 148.26)</li>
+</ol>
+<p><em>ตีความ:</em> เราเชื่อมั่น 95% ว่าค่าใช้จ่ายเฉลี่ยจริงอยู่ระหว่าง 131.74 – 148.26 บาท</p>
+</article>
+<article class="card flow">
+<h2>ภารกิจที่ 2: เป็นผู้พิพากษา (ทดสอบคำกล่าวอ้าง)</h2>
+<p><strong>สถานการณ์:</strong> ผู้จัดการสาขาเดิมอ้างว่า "ร้านกาแฟแถวนี้ลูกค้าใช้จ่ายเฉลี่ยแค่ 130 บาท" ต้องการทดสอบว่าร้าน Gemini Coffee มีค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทหรือไม่</p>
+<ol>
+<li>ตั้งสมมติฐาน: H<sub>0</sub>: μ = 130, H<sub>1</sub>: μ &gt; 130 (หางขวา)</li>
+<li>ระดับนัยสำคัญ: α = 0.05</li>
+<li>ค่าสถิติทดสอบ: \(t = \dfrac{140 - 130}{20/\sqrt{25}} = 2.5\)</li>
+<li>p-value ≈ 0.01</li>
+<li>สรุป: p-value &lt; α → ปฏิเสธ H<sub>0</sub>; ค่าใช้จ่ายเฉลี่ยสูงกว่า 130 บาทอย่างมีนัยสำคัญ</li>
+</ol>
+</article>
+<article class="card flow">
+<h2>One-Sample Analysis Lab</h2>
+<p>ทดลองคำนวณช่วงความเชื่อมั่นและการทดสอบ t แบบสดๆ พร้อมแผนภาพการตัดสิน (ไม่ใช้ภาพนิ่ง)</p>
+<div class="lab">
+<div class="control flow">
+<label for="lab-mean">\(\bar{x}\) (ค่าเฉลี่ยตัวอย่าง)
+            <input id="lab-mean" step="0.1" type="number" value="140"/>
+</label>
+<label for="lab-sd">s (ส่วนเบี่ยงเบนมาตรฐาน)
+            <input id="lab-sd" step="0.1" type="number" value="20"/>
+</label>
+<label for="lab-n">n (ขนาดตัวอย่าง)
+            <input id="lab-n" min="2" type="number" value="25"/>
+</label>
+<label for="lab-mu0">μ<sub>0</sub> (ค่าที่อ้าง)
+            <input id="lab-mu0" step="0.1" type="number" value="130"/>
+</label>
+<label for="lab-confidence">ความเชื่อมั่น (%)
+            <input id="lab-confidence" max="99.9" min="50" step="0.1" type="number" value="95"/>
+</label>
+<label for="lab-alpha">α (สำหรับทดสอบ)
+            <input id="lab-alpha" max="0.2" min="0.001" step="0.001" type="number" value="0.05"/>
+</label>
+<div aria-live="polite" class="results">
+<p><strong>CI:</strong> <span id="lab-ci">(0, 0)</span></p>
+<p><strong>t:</strong> <span id="lab-t">0.00</span></p>
+<p><strong>p-value (หางเดียว):</strong> <span id="lab-p">0.000</span></p>
+<p><strong>คำตัดสิน:</strong> <span id="lab-verdict">ยังปฏิเสธ H<sub>0</sub> ไม่ได้</span></p>
+</div>
+</div>
+<canvas aria-label="กราฟการตัดสินของการทดสอบ t" id="one-sample-chart" role="img"></canvas>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const oneCanvas = document.getElementById('one-sample-chart');
+    const oneCtx = oneCanvas.getContext('2d');
+    const meanInput = document.getElementById('lab-mean');
+    const sdInput = document.getElementById('lab-sd');
+    const nInput = document.getElementById('lab-n');
+    const mu0Input = document.getElementById('lab-mu0');
+    const confInput = document.getElementById('lab-confidence');
+    const alphaInput = document.getElementById('lab-alpha');
+    const ciLabel = document.getElementById('lab-ci');
+    const tLabel = document.getElementById('lab-t');
+    const pLabel = document.getElementById('lab-p');
+    const verdictLabel = document.getElementById('lab-verdict');
+
+    function resizeOneCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const width = oneCanvas.clientWidth;
+      const height = oneCanvas.clientHeight;
+      oneCanvas.width = width * ratio;
+      oneCanvas.height = height * ratio;
+      oneCtx.setTransform(1, 0, 0, 1, 0, 0);
+      oneCtx.scale(ratio, ratio);
+    }
+
+    function inverseNormalCDF(p) {
+      return Math.sqrt(2) * invErf(2 * p - 1);
+    }
+
+    function invErf(x) {
+      const a = 0.147;
+      const ln = Math.log(1 - x * x);
+      const term1 = 2 / (Math.PI * a) + ln / 2;
+      const term2 = ln / a;
+      return Math.sign(x) * Math.sqrt(Math.sqrt(term1 * term1 - term2) - term1);
+    }
+
+    function tCritical(df, alpha) {
+      const z = inverseNormalCDF(1 - alpha / 2);
+      const correction = (z ** 3 + z) / (4 * df);
+      return z + correction;
+    }
+
+    function tCDF(t, df) {
+      // use approximate relation via incomplete beta
+      const x = df / (df + t * t);
+      const beta = incompleteBeta(df / 2, 0.5, x);
+      if (t >= 0) {
+        return 1 - 0.5 * beta;
+      }
+      return 0.5 * beta;
+    }
+
+    function incompleteBeta(a, b, x) {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      const bt = Math.exp(logGamma(a + b) - logGamma(a) - logGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+      if (x < (a + 1) / (a + b + 2)) {
+        return bt * betacf(a, b, x) / a;
+      }
+      return 1 - bt * betacf(b, a, 1 - x) / b;
+    }
+
+    function betacf(a, b, x) {
+      const maxIterations = 200;
+      const epsilon = 3e-7;
+      let qab = a + b;
+      let qap = a + 1;
+      let qam = a - 1;
+      let c = 1;
+      let d = 1 - qab * x / qap;
+      if (Math.abs(d) < 1e-30) d = 1e-30;
+      d = 1 / d;
+      let h = d;
+      for (let m = 1; m <= maxIterations; m += 1) {
+        const m2 = 2 * m;
+        let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+        d = 1 + aa * d;
+        if (Math.abs(d) < 1e-30) d = 1e-30;
+        c = 1 + aa / c;
+        if (Math.abs(c) < 1e-30) c = 1e-30;
+        d = 1 / d;
+        h *= d * c;
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+        d = 1 + aa * d;
+        if (Math.abs(d) < 1e-30) d = 1e-30;
+        c = 1 + aa / c;
+        if (Math.abs(c) < 1e-30) c = 1e-30;
+        d = 1 / d;
+        const del = d * c;
+        h *= del;
+        if (Math.abs(del - 1) < epsilon) {
+          break;
+        }
+      }
+      return h;
+    }
+
+    function logGamma(z) {
+      const x = [0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+        771.32342877765313, -176.61502916214059, 12.507343278686905,
+        -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+      let y = z;
+      let tmp = z + 7.5;
+      tmp = (z + 0.5) * Math.log(tmp) - tmp;
+      let ser = x[0];
+      for (let i = 1; i < x.length; i += 1) {
+        ser += x[i] / (y + i);
+      }
+      return tmp + Math.log(2.5066282746310005 * ser / z);
+    }
+
+    function updateLab() {
+      const mean = Number(meanInput.value);
+      const sd = Math.max(0.0001, Number(sdInput.value));
+      const n = Math.max(2, Number(nInput.value));
+      const mu0 = Number(mu0Input.value);
+      const confidence = Math.min(0.999, Math.max(0.5, Number(confInput.value) / 100));
+      const alpha = Number(alphaInput.value);
+      const df = n - 1;
+      const se = sd / Math.sqrt(n);
+      const critical = tCritical(df, 1 - confidence);
+      const margin = critical * se;
+      const lower = mean - margin;
+      const upper = mean + margin;
+      const tStatistic = (mean - mu0) / se;
+      const pValue = 1 - tCDF(tStatistic, df);
+      const reject = pValue <= alpha;
+
+      ciLabel.textContent = `(${lower.toFixed(2)}, ${upper.toFixed(2)})`;
+      tLabel.textContent = tStatistic.toFixed(3);
+      pLabel.textContent = pValue.toFixed(4);
+      verdictLabel.textContent = reject ? 'ปฏิเสธ H₀' : 'ยังปฏิเสธ H₀ ไม่ได้';
+      verdictLabel.style.color = reject ? 'var(--critical-strong, #c1121f)' : 'var(--text-strong, #111)';
+
+      drawTChart(tStatistic, df, alpha);
+    }
+
+    function drawTChart(tStatistic, df, alpha) {
+      const width = oneCanvas.clientWidth;
+      const height = oneCanvas.clientHeight;
+      const ratio = window.devicePixelRatio || 1;
+      oneCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      oneCtx.clearRect(0, 0, oneCanvas.width, oneCanvas.height);
+
+      const padding = 36;
+      const start = -4;
+      const end = 4;
+      const steps = 200;
+      const xScale = (width - padding * 2) / (end - start);
+      const yScale = (height - padding * 2) / 0.45;
+
+      oneCtx.strokeStyle = 'var(--border-muted, #c7d0ff)';
+      oneCtx.beginPath();
+      oneCtx.moveTo(padding, height - padding);
+      oneCtx.lineTo(width - padding / 2, height - padding);
+      oneCtx.stroke();
+
+      oneCtx.beginPath();
+      for (let i = 0; i <= steps; i += 1) {
+        const x = start + (i / steps) * (end - start);
+        const y = normalPdf(x);
+        const canvasX = padding + (x - start) * xScale;
+        const canvasY = height - padding - y * yScale;
+        if (i === 0) {
+          oneCtx.moveTo(canvasX, canvasY);
+        } else {
+          oneCtx.lineTo(canvasX, canvasY);
+        }
+      }
+      oneCtx.strokeStyle = 'var(--accent-strong, #4a63e7)';
+      oneCtx.lineWidth = 2;
+      oneCtx.stroke();
+
+      const crit = inverseNormalCDF(1 - alpha);
+      const critX = padding + (crit - start) * xScale;
+      oneCtx.fillStyle = 'var(--critical-strong, #c1121f)';
+      oneCtx.fillRect(critX - 2, height - padding - 140, 4, 120);
+      oneCtx.fillText(`critical ≈ ${crit.toFixed(2)}`, critX - 36, padding + 12);
+
+      const statX = padding + (tStatistic - start) * xScale;
+      oneCtx.fillStyle = 'var(--text-strong, #111)';
+      oneCtx.fillRect(statX - 2, height - padding - 160, 4, 160);
+      oneCtx.fillText(`t = ${tStatistic.toFixed(2)}`, statX - 24, padding + 24);
+    }
+
+    function normalPdf(x) {
+      return (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * x * x);
+    }
+
+    [meanInput, sdInput, nInput, mu0Input, confInput, alphaInput].forEach((el) => el.addEventListener('input', updateLab));
+
+    resizeOneCanvas();
+    window.addEventListener('resize', () => {
+      resizeOneCanvas();
+      updateLab();
+    });
+
+    updateLab();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 8: แผนภาพช่วยตัดสินใจ</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .callout {
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--accent-strong);
+      border-radius: var(--radius-md);
+      padding: var(--size-4);
+    }
+    .grid {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .lab {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .lab fieldset {
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius-md);
+      padding: var(--size-4);
+      display: grid;
+      gap: var(--size-2);
+    }
+    .lab legend {
+      font-weight: 700;
+    }
+    .lab label {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--size-2);
+      align-items: center;
+    }
+    .lab canvas {
+      width: 100%;
+      height: 260px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .examples {
+      display: grid;
+      gap: var(--size-4);
+    }
+    details {
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--size-3);
+    }
+    details summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 8</p>
+<h1>แผนภาพช่วยตัดสินใจ (Choosing the Right Statistical Tool)</h1>
+<p class="subtitle">ตอบคำถาม 3 ข้อแล้วเดินตาม Decision Map เพื่อเลือกวิธีวิเคราะห์ที่เหมาะสม</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<p>สวัสดีครับนักศึกษา! ในบททบทวนสุดท้ายนี้ อาจารย์ขอมอบเครื่องมือที่จะเป็นประโยชน์อย่างยิ่งในการนำความรู้ทั้งหมดไปใช้งานจริง นั่นคือ "แผนภาพช่วยตัดสินใจ" หรือ Decision Map เพื่อเลือกใช้เครื่องมือทางสถิติได้ถูกต้อง</p>
+</article>
+<article class="card flow">
+<h2>วิธีใช้แผนภาพ: ตอบคำถาม 3 ข้อนี้เสมอ</h2>
+<div class="grid">
+<div class="callout">
+<h3>1. ประเภทของข้อมูลคืออะไร?</h3>
+<p>สนใจ "ค่าเฉลี่ย" (ข้อมูลเชิงปริมาณ) หรือ "สัดส่วน" (ข้อมูลเชิงคุณภาพ) หรือ "ความแปรปรวน"</p>
+</div>
+<div class="callout">
+<h3>2. มีกี่กลุ่มที่ต้องการวิเคราะห์?</h3>
+<p>วิเคราะห์ประชากรกลุ่มเดียว หรือเปรียบเทียบสองกลุ่ม (อิสระหรือจับคู่)</p>
+</div>
+<div class="callout">
+<h3>3. มีเงื่อนไขพิเศษหรือไม่?</h3>
+<p>รู้ค่า σ หรือไม่? ขนาดตัวอย่างใหญ่พอหรือยัง? ต้องเปรียบเทียบความแปรปรวนหรือไม่?</p>
+</div>
+</div>
+</article>
+<article class="card flow">
+<h2>แผนภาพช่วยตัดสินใจ (Decision Map)</h2>
+<div class="grid">
+<section>
+<h3>ประมาณค่า (Confidence Interval)</h3>
+<ul>
+<li>ค่าเฉลี่ย 1 กลุ่ม: Z-Interval (รู้ σ หรือ n ≥ 30), ไม่รู้ σ ใช้ t-Interval</li>
+<li>ค่าเฉลี่ย 2 กลุ่ม: Z-Interval (n ใหญ่) หรือ t-Interval</li>
+<li>สัดส่วน 1 กลุ่ม: Z-Interval for Proportion</li>
+<li>สัดส่วน 2 กลุ่ม: Z-Interval for 2 Proportions</li>
+</ul>
+</section>
+<section>
+<h3>ทดสอบสมมติฐาน</h3>
+<ul>
+<li>ค่าเฉลี่ย 1 กลุ่ม: Z-test (รู้ σ หรือ n ≥ 30), t-test (ไม่รู้ σ)</li>
+<li>ค่าเฉลี่ย 2 กลุ่ม: Z-test for 2 Means (n ใหญ่) หรือ t-test</li>
+<li>สัดส่วน 1 กลุ่ม: Z-test for 1 Proportion</li>
+<li>สัดส่วน 2 กลุ่ม: Z-test for 2 Proportions</li>
+<li>ความแปรปรวน 1 กลุ่ม: Chi-Square Test</li>
+<li>ความแปรปรวน 2 กลุ่ม: F-test</li>
+</ul>
+</section>
+</div>
+</article>
+<article class="card flow">
+<h2>Decision Navigator Lab</h2>
+<p>ตอบคำถามทีละข้อเพื่อให้ระบบแนะนำเครื่องมือ พร้อมกราฟลำดับขั้น (สร้างจากโค้ด)</p>
+<div class="lab">
+<div class="flow">
+<fieldset>
+<legend>เป้าหมาย</legend>
+<label><input checked="" name="goal" type="radio" value="ci"/> ประมาณค่า (Confidence Interval)</label>
+<label><input name="goal" type="radio" value="test"/> ทดสอบสมมติฐาน</label>
+</fieldset>
+<fieldset>
+<legend>ตัวแปรที่สนใจ</legend>
+<label><input checked="" name="measure" type="radio" value="mean"/> ค่าเฉลี่ย</label>
+<label><input name="measure" type="radio" value="proportion"/> สัดส่วน</label>
+<label><input name="measure" type="radio" value="variance"/> ความแปรปรวน</label>
+</fieldset>
+<fieldset>
+<legend>จำนวนกลุ่ม</legend>
+<label><input checked="" name="groups" type="radio" value="one"/> 1 กลุ่ม</label>
+<label><input name="groups" type="radio" value="two"/> 2 กลุ่ม (อิสระ)</label>
+</fieldset>
+<fieldset>
+<legend>ข้อมูลเพิ่มเติม</legend>
+<label><input id="known-sigma" type="checkbox"/> รู้ค่า σ หรือ n ≥ 30</label>
+</fieldset>
+<p><strong>คำแนะนำ:</strong> <span id="recommendation">Z-Interval for One Mean</span></p>
+</div>
+<canvas aria-label="แผนภาพการเลือกเครื่องมือ" id="decision-chart" role="img"></canvas>
+</div>
+</article>
+<article class="card flow">
+<h2>โจทย์ตัวอย่างและการวิเคราะห์</h2>
+<div class="examples">
+<details open="">
+<summary>โจทย์ตัวอย่างที่ 1: การประมาณค่าเฉลี่ย (Z-Interval)</summary>
+<p><strong>สถานการณ์:</strong> ฝ่ายควบคุมคุณภาพของโรงงานผลิตหลอดไฟต้องการประมาณอายุการใช้งานเฉลี่ย (μ) ของหลอดไฟรุ่นใหม่ ตัวอย่าง 100 หลอด มีค่าเฉลี่ย 850 ชั่วโมง ส่วนเบี่ยงเบนมาตรฐาน 40 ชั่วโมง</p>
+<p><strong>การวิเคราะห์:</strong> ต้องการสร้างช่วงความเชื่อมั่น 95% → ใช้ Z-Interval for One Mean (n ใหญ่)</p>
+<p><strong>วิธีทำ:</strong></p>
+<pre>
+รวบรวมข้อมูล: n = 100, \(\bar{x} = 850\), s = 40
+ค่าวิกฤต Z_{0.025} = 1.96
+CI = 850 ± 1.96 × (40 / 10) = 850 ± 7.84 → (842.16, 857.84)
+          </pre>
+<p><strong>ตีความ:</strong> อายุการใช้งานเฉลี่ยจริงอยู่ระหว่าง 842.16 ถึง 857.84 ชั่วโมง ด้วยความเชื่อมั่น 95%</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 2: การประมาณค่าเฉลี่ย (t-Interval)</summary>
+<p><strong>สถานการณ์:</strong> นักวิจัยต้องการประมาณระยะเวลาฟื้นตัวเฉลี่ยหลังผ่าตัดใหม่ ตัวอย่าง 16 คน ค่าเฉลี่ย 25 วัน ส่วนเบี่ยงเบนมาตรฐาน 4 วัน</p>
+<p><strong>การวิเคราะห์:</strong> n เล็กและไม่รู้ σ → ใช้ t-Interval for One Mean ที่ระดับเชื่อมั่น 99%</p>
+<pre>
+ข้อมูล: n = 16, \(\bar{x} = 25\), s = 4, df = 15
+ค่าวิกฤต t_{0.005,15} = 2.947
+CI = 25 ± 2.947 × (4 / 4) = 25 ± 2.947 → (22.053, 27.947)
+          </pre>
+<p><strong>ตีความ:</strong> เรามั่นใจ 99% ว่าเวลาเฉลี่ยอยู่ระหว่าง 22.05 ถึง 27.95 วัน</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 3: การประมาณค่าสัดส่วน (Z-Interval)</summary>
+<p><strong>สถานการณ์:</strong> มหาวิทยาลัยต้องการประมาณสัดส่วนบัณฑิตที่ได้งานภายใน 3 เดือน สำรวจ 250 คน พบว่ามี 190 คนได้งาน</p>
+<p><strong>การวิเคราะห์:</strong> ใช้ Z-Interval for Proportion ที่ระดับเชื่อมั่น 90%</p>
+<pre>
+\(\hat{p} = 190/250 = 0.76\)
+Z_{0.05} = 1.645
+CI = 0.76 ± 1.645 × sqrt(0.76 × 0.24 / 250) = 0.76 ± 0.0444 → (0.7156, 0.8044)
+          </pre>
+<p><strong>ตีความ:</strong> สัดส่วนจริงอยู่ระหว่าง 71.56% – 80.44%</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 4: การทดสอบค่าเฉลี่ย (Z-test สองกลุ่ม)</summary>
+<p><strong>สถานการณ์:</strong> บริษัทต้องการเปรียบเทียบยอดขายเฉลี่ยต่อวันของพนักงาน 2 ทีม (A และ B)</p>
+<p><strong>ข้อมูล:</strong> ทีม A: n=50, \(\bar{x}=15,000\), s=2,000; ทีม B: n=60, \(\bar{x}=14,000\), s=1,800</p>
+<p><strong>การวิเคราะห์:</strong> n ใหญ่ทั้งคู่ → ใช้ Z-test for 2 Means</p>
+<pre>
+Z_{test} = (15000 - 14000) / sqrt(2000^2/50 + 1800^2/60) = 2.73
+p-value ≈ 0.0064 (สองหาง)
+          </pre>
+<p><strong>สรุป:</strong> p-value &lt; 0.05 → ปฏิเสธ H<sub>0</sub>; ยอดขายเฉลี่ยแตกต่างกัน</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 5: การทดสอบสัดส่วน (Z-test สองกลุ่ม แบบ Pooled)</summary>
+<p><strong>สถานการณ์:</strong> โรงพยาบาลทดสอบยา A เทียบกับยา B</p>
+<p><strong>ข้อมูล:</strong> ยา A: n=200, หาย 160; ยา B: n=200, หาย 144</p>
+<p><strong>การวิเคราะห์:</strong> ใช้ Z-test for 2 Proportions (แบบ Pooled) หางเดียว</p>
+<pre>
+\(\hat{p}_A = 0.80, \hat{p}_B = 0.72, \hat{p}_c = 0.76\)
+Z_{test} = 0.08 / sqrt(0.76 × 0.24 × (1/200 + 1/200)) = 1.87
+critical (α=0.01, หางขวา) = 2.33
+          </pre>
+<p><strong>สรุป:</strong> 1.87 &lt; 2.33 → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 6: การทดสอบความแปรปรวน (Chi-Square Test)</summary>
+<p><strong>สถานการณ์:</strong> มาตรฐานระบุความแปรปรวนของความยาวต้องไม่เกิน 0.25 ตัวอย่าง 20 ชิ้นพบ s² = 0.32</p>
+<p><strong>การวิเคราะห์:</strong> ใช้ Chi-Square Test หางขวา</p>
+<pre>
+χ²_{test} = (19 × 0.32) / 0.25 = 24.32
+critical χ²_{0.05,19} = 30.144
+          </pre>
+<p><strong>สรุป:</strong> 24.32 &lt; 30.144 → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</p>
+</details>
+<details>
+<summary>โจทย์ตัวอย่างที่ 7: การทดสอบความแปรปรวน (F-test สองกลุ่ม)</summary>
+<p><strong>สถานการณ์:</strong> ครูเปรียบเทียบความสม่ำเสมอของคะแนนห้องเรียนสองห้อง</p>
+<p><strong>ข้อมูล:</strong> ห้อง A: n=21, s²=80; ห้อง B: n=25, s²=160</p>
+<p><strong>การวิเคราะห์:</strong> ใช้ F-test (ตั้ง B/ A)</p>
+<pre>
+F_{test} = 160 / 80 = 2.0
+critical F_{0.05,24,20} = 2.08
+          </pre>
+<p><strong>สรุป:</strong> 2.0 &lt; 2.08 → ยังปฏิเสธ H<sub>0</sub> ไม่ได้</p>
+</details>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const decisionCanvas = document.getElementById('decision-chart');
+    const decisionCtx = decisionCanvas.getContext('2d');
+    const recommendationLabel = document.getElementById('recommendation');
+
+    const inputs = {
+      goal: Array.from(document.querySelectorAll('input[name="goal"]')),
+      measure: Array.from(document.querySelectorAll('input[name="measure"]')),
+      groups: Array.from(document.querySelectorAll('input[name="groups"]')),
+      knownSigma: document.getElementById('known-sigma')
+    };
+
+    function resizeDecisionCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const width = decisionCanvas.clientWidth;
+      const height = decisionCanvas.clientHeight;
+      decisionCanvas.width = width * ratio;
+      decisionCanvas.height = height * ratio;
+      decisionCtx.setTransform(1, 0, 0, 1, 0, 0);
+      decisionCtx.scale(ratio, ratio);
+    }
+
+    function getSelectedValue(nodes) {
+      return nodes.find((node) => node.checked)?.value;
+    }
+
+    function chooseTool() {
+      const goal = getSelectedValue(inputs.goal);
+      const measure = getSelectedValue(inputs.measure);
+      const groups = getSelectedValue(inputs.groups);
+      const known = inputs.knownSigma.checked;
+      let recommendation = 'กรุณาเลือกเงื่อนไข';
+
+      if (goal === 'ci') {
+        if (measure === 'mean') {
+          if (groups === 'one') {
+            recommendation = known ? 'Z-Interval for One Mean' : 't-Interval for One Mean';
+          } else {
+            recommendation = known ? 'Z-Interval for Two Means' : 't-Interval for Two Means';
+          }
+        } else if (measure === 'proportion') {
+          recommendation = groups === 'one' ? 'Z-Interval for One Proportion' : 'Z-Interval for Two Proportions';
+        } else {
+          recommendation = groups === 'one' ? 'Chi-Square Confidence Interval (Variance)' : 'F-Interval (Variance Ratio)';
+        }
+      } else {
+        if (measure === 'mean') {
+          if (groups === 'one') {
+            recommendation = known ? 'Z-test for One Mean' : 't-test for One Mean';
+          } else {
+            recommendation = known ? 'Z-test for Two Means' : 't-test for Two Means';
+          }
+        } else if (measure === 'proportion') {
+          recommendation = groups === 'one' ? 'Z-test for One Proportion' : 'Z-test for Two Proportions';
+        } else {
+          recommendation = groups === 'one' ? 'Chi-Square Test for Variance' : 'F-test for Variance Ratio';
+        }
+      }
+
+      recommendationLabel.textContent = recommendation;
+      drawMap(goal, measure, groups, known, recommendation);
+    }
+
+    function drawMap(goal, measure, groups, known, recommendation) {
+      const width = decisionCanvas.clientWidth;
+      const height = decisionCanvas.clientHeight;
+      const ratio = window.devicePixelRatio || 1;
+      decisionCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      decisionCtx.clearRect(0, 0, decisionCanvas.width, decisionCanvas.height);
+
+      const nodes = [
+        { label: goal === 'ci' ? 'ประมาณค่า' : 'ทดสอบสมมติฐาน', x: width / 2, y: 40 },
+        { label: measure === 'mean' ? 'ค่าเฉลี่ย' : measure === 'proportion' ? 'สัดส่วน' : 'ความแปรปรวน', x: width / 2, y: 120 },
+        { label: groups === 'one' ? '1 กลุ่ม' : '2 กลุ่ม', x: width / 2, y: 200 },
+        { label: known ? 'รู้ σ / n ใหญ่' : 'ไม่รู้ σ / n เล็ก', x: width / 2, y: 280 },
+        { label: recommendation, x: width / 2, y: 360 }
+      ];
+
+      decisionCtx.strokeStyle = 'var(--border-muted, #c7d0ff)';
+      decisionCtx.lineWidth = 2;
+      decisionCtx.beginPath();
+      for (let i = 0; i < nodes.length - 1; i += 1) {
+        decisionCtx.moveTo(nodes[i].x, nodes[i].y + 20);
+        decisionCtx.lineTo(nodes[i + 1].x, nodes[i + 1].y - 20);
+      }
+      decisionCtx.stroke();
+
+      nodes.forEach((node, index) => {
+        const radius = index === nodes.length - 1 ? 80 : 60;
+        decisionCtx.fillStyle = index === nodes.length - 1 ? 'var(--accent-muted, #dfe7ff)' : 'var(--surface-subtle, #f4f6ff)';
+        decisionCtx.beginPath();
+        decisionCtx.ellipse(node.x, node.y, radius, 28, 0, 0, Math.PI * 2);
+        decisionCtx.fill();
+        decisionCtx.strokeStyle = 'var(--border-strong, #243b80)';
+        decisionCtx.stroke();
+        decisionCtx.fillStyle = 'var(--text-strong, #111)';
+        decisionCtx.font = '16px var(--font-sans, sans-serif)';
+        decisionCtx.textAlign = 'center';
+        decisionCtx.fillText(node.label, node.x, node.y + 6);
+      });
+    }
+
+    inputs.goal.forEach((node) => node.addEventListener('change', chooseTool));
+    inputs.measure.forEach((node) => node.addEventListener('change', chooseTool));
+    inputs.groups.forEach((node) => node.addEventListener('change', chooseTool));
+    inputs.knownSigma.addEventListener('change', chooseTool);
+
+    resizeDecisionCanvas();
+    window.addEventListener('resize', () => {
+      resizeDecisionCanvas();
+      chooseTool();
+    });
+
+    chooseTool();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

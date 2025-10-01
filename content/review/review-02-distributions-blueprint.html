@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>รีวิวพิมพ์เขียวการแจกแจง</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+</head>
+<body data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">สรุปเร็ว</p>
+<h1>รีวิวพิมพ์เขียว PMF/PDF &amp; การเลือกแจกแจง</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>ขั้นตัดสินใจ 3 คำถาม</h2>
+<ol>
+<li><strong>ชนิดตัวแปร?</strong> นับได้ (Discrete) หรือ วัดต่อเนื่อง (Continuous)</li>
+<li><strong>ช่วงค่ากับจำนวนรอบทดลอง?</strong> มีจำนวนรอบคงที่, โอกาสคงที่, หรือเหตุการณ์หายาก?</li>
+<li><strong>ต้องการอะไร?</strong> ความน่าจะเป็นจุด, ช่วง, หรือสถิติสรุป (mean/variance)</li>
+</ol>
+<p>ตอบครบแล้วเลือกแจกแจงจากแผนผังได้ทันที</p>
+</article>
+<article class="card">
+<h2>พิมพ์เขียวแจกแจงไม่ต่อเนื่อง</h2>
+<ul>
+<li><strong>Uniform</strong>: ทุกค่ามีโอกาสเท่ากัน, <em>P(X=x)=1/n</em>, ค่าเฉลี่ย <em>=(a+b)/2</em></li>
+<li><strong>Binomial</strong>: n ครั้ง, ความสำเร็จ p, <em>P(X=k)=C(n,k)p^k(1-p)^{n-k}</em>, mean=np, var=np(1-p)</li>
+<li><strong>Hypergeometric</strong>: ดึงแบบไม่คืน, <em>P(X=k)=C(K,k)C(N-K,n-k)/C(N,n)</em></li>
+<li><strong>Poisson</strong>: เหตุการณ์หายาก, λ เป็น mean และ var, ใช้เมื่อ n ใหญ่ p เล็ก</li>
+</ul>
+</article>
+<article class="card">
+<h2>พิมพ์เขียวแจกแจงต่อเนื่อง</h2>
+<ul>
+<li><strong>Uniform ต่อเนื่อง</strong>: ค่ากระจายเท่ากันในช่วง [a,b], PDF = 1/(b−a)</li>
+<li><strong>Normal(μ,σ)</strong>: รูประฆังคว่ำ, มาตรฐาน z = (x−μ)/σ, ใช้ตาราง/คำนวณพื้นที่</li>
+<li><strong>Exponential</strong> (จับคู่ Poisson): เวลารอคอย, mean = 1/λ, memoryless</li>
+<li><strong>t, χ², F</strong>: เกิดจากการสุ่มตัวอย่าง, ใช้กับการอนุมาน, เลือกตาม degrees of freedom</li>
+</ul>
+</article>
+<article class="card">
+<h2>ปุ่มลัด</h2>
+<ul>
+<li><a href="../05-random-variables.html">บท 05: ตัวแปรสุ่ม</a></li>
+<li><a href="../07-discrete-uniform.html">บท 07-10: แจกแจงไม่ต่อเนื่องหลัก</a></li>
+<li><a href="../11-continuous-normal.html">บท 11-13: แจกแจงต่อเนื่อง &amp; ตระกูล Normal</a></li>
+<li><a href="../decision-map.html#distributions">Decision map: เลือกแจกแจง</a></li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

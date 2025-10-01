@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>35. การวิเคราะห์ความแปรปรวนทางเดียว (One-way ANOVA)</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+</head>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 35</p>
+<h1>การวิเคราะห์ความแปรปรวนทางเดียว (One-way ANOVA)</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>Concept หลัก</h2>
+<ul>
+<li>ทดสอบว่า <strong>ค่าเฉลี่ยของหลายกลุ่ม</strong> (k ≥ 3) เท่ากันหรือไม่</li>
+<li>แยกความแปรปรวนเป็น <strong>ระหว่างกลุ่ม</strong> (SSB) และ <strong>ภายในกลุ่ม</strong> (SSW)</li>
+<li>สมมติฐาน: H<sub>0</sub>: μ<sub>1</sub> = μ<sub>2</sub> = … = μ<sub>k</sub></li>
+</ul>
+</article>
+<article class="card">
+<h2>สูตรและการคำนวณ</h2>
+<ul>
+<li><code>MSB = SSB/(k-1)</code>, <code>MSW = SSW/(N-k)</code></li>
+<li>สถิติทดสอบ <code>F = MSB / MSW</code> ~ F<sub>k-1,N-k</sub> ภายใต้ H<sub>0</sub></li>
+<li>ค่า p-value เลือกตัดสินใจเทียบกับระดับนัยสำคัญ (เช่น α = 0.05)</li>
+</ul>
+</article>
+<article class="card">
+<h2>สมมติฐานและการตรวจสอบ</h2>
+<ul>
+<li>แต่ละกลุ่มเป็นอิสระและแจกแจงปกติ (หรือกลุ่มใหญ่พอ)</li>
+<li>ความแปรปรวนใกล้เคียงกัน (homogeneity) → ใช้ Levene หรือ Bartlett test ตรวจสอบ</li>
+<li>ใช้ residual plot หรือ QQ-plot ตรวจสอบการเบี่ยงเบน</li>
+</ul>
+</article>
+<article class="card">
+<h2>Post-hoc &amp; การสื่อสารผล</h2>
+<ul>
+<li>หาก H<sub>0</sub> ถูกปฏิเสธ → ทำ post-hoc เช่น Tukey HSD, Bonferroni เพื่อระบุคู่ที่ต่างกัน</li>
+<li>รายงานค่าเฉลี่ย, SD, ขนาดตัวอย่างแต่ละกลุ่ม และ effect size (η² หรือ ω²)</li>
+<li>แสดงผลด้วย boxplot/interval plot เพื่อให้ผู้ฟังเห็นความแตกต่างชัดเจน</li>
+</ul>
+</article>
+<article class="card">
+<h2>ตัวอย่างการใช้งาน</h2>
+<ul>
+<li>ทดสอบสูตรอาหาร 3 แบบเปรียบเทียบผลผลิตเฉลี่ย</li>
+<li>ประเมินประสิทธิภาพโฆษณา 4 แคมเปญต่อยอดขายรายวัน</li>
+<li>ใช้ออกแบบการทดลองแบบ balanced เพื่อให้การตีความง่ายขึ้น</li>
+</ul>
+</article>
+<article class="card">
+<h2>ต่อยอด</h2>
+<ul>
+<li>เมื่อละเมิด homogeneity → ใช้ Welch ANOVA หรือ Kruskal-Wallis</li>
+<li>ขยายเป็น Two-way ANOVA เพื่อดูผลของสองปัจจัยพร้อมกัน</li>
+<li><a href="../../tools/anova.html">ทดลองคำนวณ ANOVA</a> และส่งออกตารางรายงานอัตโนมัติ</li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

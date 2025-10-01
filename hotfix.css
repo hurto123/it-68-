@@ -1,0 +1,26 @@
+:root { --header-h: 64px; }
+
+/* Make sticky offsets consume the header height */
+#progressbar { top: var(--header-h); }
+.toc.sticky { top: calc(var(--header-h) + 8px); z-index: 900; }
+
+/* Avoid headings hidden by sticky header when linking */
+:target { scroll-margin-top: calc(var(--header-h) + 12px); }
+h2[id], h3[id], h4[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+
+/* Auto-hide header on scroll */
+.site-header { transition: transform .25s ease; will-change: transform; }
+.site-header.is-hidden { transform: translateY(-100%); }
+
+/* Accessible skip link */
+.skip-link {
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus {
+  position:fixed; left:1rem; top:1rem; width:auto; height:auto; padding:.5rem .75rem;
+  background: var(--surface-1, #fff);
+  color: var(--text-1, #111);
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  border-radius:.5rem;
+  z-index: 2000;
+}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 1: รากฐานแห่งความน่าจะเป็น</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .lab-panel {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      align-items: start;
+    }
+    .lab-panel canvas {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .lab-panel label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-2);
+      font-weight: 600;
+    }
+    .lab-panel input {
+      padding: var(--size-2);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius-sm);
+      font: inherit;
+    }
+    .math-block {
+      padding: var(--size-4);
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      line-height: 1.6;
+    }
+    .concept-grid {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    .concept-grid > div {
+      padding: var(--size-4);
+      border-radius: var(--radius-md);
+      background: var(--surface-subtle);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--size-2);
+      padding: var(--size-1) var(--size-3);
+      border-radius: 999px;
+      background: var(--accent-muted);
+      color: var(--accent-strong);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 1</p>
+<h1>รากฐานแห่งความน่าจะเป็น (Foundation Review)</h1>
+<p class="subtitle">ย้ำฐานที่มั่นคงของการนับ เหตุการณ์ และตัวแปรสุ่ม เพื่อนำไปสู่สถิติขั้นสูง</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<p>สวัสดีครับนักศึกษา! ในบททบทวนแรกนี้ เราจะย้อนกลับไปที่จุดเริ่มต้น ซึ่งเป็น "ฐานราก" ของวิชาสถิติทั้งหมด นั่นคือ "ความน่าจะเป็น" และ "การนับ" หากฐานรากส่วนนี้แข็งแรง ตึกสูงที่เราสร้างขึ้นในบทต่อๆ ไปก็จะมั่นคงครับ</p>
+<section>
+<h2>1. ศิลปะแห่งการนับ (The Art of Counting)</h2>
+<p>ก่อนจะหาความน่าจะเป็น เราต้อง "นับ" ให้เป็นก่อนว่ามีกี่วิธีที่เป็นไปได้</p>
+<div aria-label="สรุปกฎการนับ" class="concept-grid">
+<div>
+<span class="badge">กฎการคูณ</span>
+<p>ใช้เมื่อการทำงานมีหลาย "ขั้นตอน" ที่ต้องทำ "ต่อเนื่องกัน"</p>
+<p><strong>ตัวอย่าง:</strong> มีเสื้อ 3 ตัว กางเกง 4 ตัว จะแต่งตัวได้ 3×4 = 12 แบบ</p>
+</div>
+<div>
+<span class="badge">Permutation</span>
+<p>การเลือกของ <em>r</em> ชิ้น จาก <em>n</em> ชิ้น มา "จัดลำดับ" ลำดับจึงมีความสำคัญ</p>
+<p><strong>ตัวอย่าง:</strong> การแจกเหรียญทอง-เงิน-ทองแดง, การจัดตำแหน่งประธาน-รองประธาน</p>
+</div>
+<div>
+<span class="badge">Combination</span>
+<p>การเลือกของ <em>r</em> ชิ้น จาก <em>n</em> ชิ้น มา "จัดกลุ่ม" โดยลำดับไม่สำคัญ</p>
+<p><strong>ตัวอย่าง:</strong> การเลือกคณะกรรมการ, การเลือกไพ่ในมือ</p>
+</div>
+</div>
+<div aria-label="สูตรที่ใช้บ่อย" class="math-block" role="group">
+<p><strong>Permutation:</strong> <var>P(n,r) = \dfrac{n!}{(n-r)!}</var></p>
+<p><strong>Combination:</strong> <var>C(n,r) = \dfrac{n!}{r!(n-r)!}</var></p>
+</div>
+</section>
+<section aria-labelledby="counting-lab-heading">
+<h3 id="counting-lab-heading">Counting Playground</h3>
+<p>ลองปรับจำนวนวัตถุและจำนวนที่เลือกดูว่า Permutation และ Combination เติบโตต่างกันอย่างไร พร้อมดูกราฟแบบทันที (คำนวณสด ไม่ใช่ภาพนิ่ง)</p>
+<div class="lab-panel">
+<div>
+<label for="counting-n">จำนวนวัตถุทั้งหมด (n)
+              <input id="counting-n" max="10" min="2" type="number" value="5"/>
+</label>
+<label for="counting-r">จำนวนที่เลือก (r)
+              <input id="counting-r" max="5" min="1" type="number" value="3"/>
+</label>
+<dl>
+<div>
+<dt>Permutation P(n,r)</dt>
+<dd id="permutation-value">60</dd>
+</div>
+<div>
+<dt>Combination C(n,r)</dt>
+<dd id="combination-value">10</dd>
+</div>
+</dl>
+</div>
+<canvas aria-label="กราฟเปรียบเทียบจำนวนวิธีแบบจัดลำดับและจัดกลุ่ม" id="counting-chart" role="img"></canvas>
+</div>
+</section>
+</article>
+<article class="card flow">
+<h2>2. นิยามและความน่าจะเป็นพื้นฐาน</h2>
+<p>ความน่าจะเป็นคือเลขระหว่าง 0 ถึง 1 ที่บอกว่าเหตุการณ์หนึ่งๆ มีโอกาสเกิดขึ้นมากน้อยแค่ไหน</p>
+<ul>
+<li><strong>สูตรพื้นฐาน:</strong> <var>P(E) = \dfrac{\text{จำนวนผลลัพธ์ที่สนใจ}}{\text{จำนวนผลลัพธ์ทั้งหมดที่เป็นไปได้}}</var></li>
+<li><strong>เหตุการณ์ (Event):</strong> ผลลัพธ์ที่เราสนใจจากการทดลองสุ่ม</li>
+<li><strong>ยูเนียน (A ∪ B):</strong> เหตุการณ์ A หรือ B เกิดขึ้น โดย <var>P(A∪B)=P(A)+P(B)-P(A∩B)</var></li>
+<li><strong>อินเตอร์เซกชัน (A ∩ B):</strong> เหตุการณ์ A และ B เกิดขึ้นพร้อมกัน</li>
+<li><strong>เหตุการณ์ที่ไม่เกิดร่วมกัน:</strong> เมื่อ <var>P(A∩B)=0</var></li>
+<li><strong>ความน่าจะเป็นมีเงื่อนไข:</strong> <var>P(A\mid B)= \dfrac{P(A∩B)}{P(B)}</var></li>
+</ul>
+<details>
+<summary>ตัวอย่างเชิงเหตุการณ์</summary>
+<p>พิจารณาไพ่ 52 ใบ: ให้ A = "ได้ไพ่โพแดง", B = "ได้ไพ่หน้า (J,Q,K)" จะมี <var>P(A)=13/52</var>, <var>P(B)=12/52</var> และ <var>P(A∩B)=3/52</var>. ดังนั้น <var>P(A∪B)=13/52 + 12/52 - 3/52 = 22/52</var>.</p>
+</details>
+</article>
+<article class="card flow">
+<h2>3. ตัวแปรสุ่ม (Random Variables)</h2>
+<p>คือตัวแปรที่ค่าของมันเป็นตัวเลขที่ได้จากการทดลองสุ่ม แบ่งเป็นสองกลุ่มใหญ่:</p>
+<ol>
+<li><strong>แบบไม่ต่อเนื่อง (Discrete):</strong> ค่าที่นับได้ เช่น จำนวนเหรียญ, จำนวนลูกเต๋า</li>
+<li><strong>แบบต่อเนื่อง (Continuous):</strong> ค่าที่วัดได้ เช่น ส่วนสูง, น้ำหนัก, อุณหภูมิ</li>
+</ol>
+</article>
+<article class="card flow">
+<h2>4. ค่าคาดหวังและความแปรปรวน</h2>
+<p>เป็นค่าสรุปที่สำคัญของตัวแปรสุ่ม:</p>
+<ul>
+<li><strong>ค่าคาดหวัง (E(X) หรือ μ):</strong> "ค่าเฉลี่ย" ของตัวแปรสุ่มในระยะยาว เปรียบเสมือนจุดศูนย์ถ่วงของการแจกแจง</li>
+<li><strong>ความแปรปรวน (Var(X) หรือ σ<sup>2</sup>):</strong> บอกการกระจายตัวของค่าตัวแปรสุ่มรอบๆ ค่าคาดหวัง ค่ายิ่งมากหมายถึงข้อมูลกระจายตัวสูง</li>
+<li><strong>ส่วนเบี่ยงเบนมาตรฐาน (σ):</strong> รากที่สองของความแปรปรวน ทำให้หน่วยกลับมาเหมือนข้อมูล</li>
+</ul>
+<div class="math-block">
+<p><strong>สำหรับตัวแปรไม่ต่อเนื่อง:</strong> <var>E(X)=\sum x_i p_i</var>, <var>Var(X)=\sum (x_i-μ)^2 p_i</var></p>
+<p><strong>สำหรับตัวแปรต่อเนื่อง:</strong> <var>E(X)=\int x f(x) dx</var>, <var>Var(X)=\int (x-μ)^2 f(x) dx</var></p>
+</div>
+<p>บททบทวนนี้คือเครื่องมือพื้นฐานทั้งหมดที่เราต้องใช้เพื่อทำความเข้าใจพฤติกรรมของข้อมูลในบทต่อไปครับ</p>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const chart = document.getElementById('counting-chart');
+    const ctx = chart.getContext('2d');
+    const nInput = document.getElementById('counting-n');
+    const rInput = document.getElementById('counting-r');
+    const permValue = document.getElementById('permutation-value');
+    const combValue = document.getElementById('combination-value');
+
+    function factorial(k) {
+      let result = 1;
+      for (let i = 2; i <= k; i += 1) {
+        result *= i;
+      }
+      return result;
+    }
+
+    function drawChart(permutation, combination) {
+      const padding = 32;
+      const width = chart.width;
+      const height = chart.height;
+      ctx.clearRect(0, 0, width, height);
+      const values = [permutation, combination];
+      const max = Math.max(...values);
+      const scale = max === 0 ? 0 : (height - padding * 2) / max;
+      const labels = ['Permutation', 'Combination'];
+
+      ctx.font = '14px var(--font-sans, sans-serif)';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = getComputedStyle(chart).getPropertyValue('--text-strong') || '#111';
+
+      values.forEach((value, index) => {
+        const barWidth = 120;
+        const x = padding + index * (barWidth + 40);
+        const barHeight = value * scale;
+        const y = height - padding - barHeight;
+        ctx.fillStyle = index === 0 ? 'var(--accent-strong, #4a63e7)' : 'var(--accent-muted, #87a6ff)';
+        ctx.fillRect(x, y, barWidth, barHeight);
+        ctx.fillStyle = getComputedStyle(chart).getPropertyValue('--text-strong') || '#111';
+        ctx.fillText(labels[index], x + barWidth / 2, height - padding / 2);
+        ctx.fillText(value.toLocaleString(), x + barWidth / 2, y - 6);
+      });
+    }
+
+    function update() {
+      const n = Number(nInput.value);
+      const r = Number(rInput.value);
+      if (r > n) {
+        rInput.value = n;
+        return update();
+      }
+      const permutation = factorial(n) / factorial(n - r);
+      const combination = permutation / factorial(r);
+      permValue.textContent = permutation.toLocaleString();
+      combValue.textContent = combination.toLocaleString();
+      drawChart(permutation, combination);
+    }
+
+    function initCanvasSize() {
+      const ratio = window.devicePixelRatio || 1;
+      chart.width = chart.clientWidth * ratio;
+      chart.height = chart.clientHeight * ratio;
+      ctx.scale(ratio, ratio);
+    }
+
+    initCanvasSize();
+    window.addEventListener('resize', () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      initCanvasSize();
+      update();
+    });
+
+    nInput.addEventListener('input', update);
+    rInput.addEventListener('input', update);
+    update();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

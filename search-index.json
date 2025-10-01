@@ -1,0 +1,7 @@
+[
+  {"title": "หลักสูตรสถิติ", "href": "index.html#curriculum", "snippet": "สำรวจบทเรียนทั้งหมด", "tokens": ["หลักสูตร", "สถิติ", "curriculum"]},
+  {"title": "รีวิวเร่งด่วน", "href": "index.html#review", "snippet": "สรุปประเด็นสำคัญ", "tokens": ["รีวิว", "review", "สรุป"]},
+  {"title": "ต่อยอดใช้งานจริง", "href": "index.html#advanced", "snippet": "หัวข้อเชิงลึก", "tokens": ["advanced", "ต่อยอด"]},
+  {"title": "เครื่องมือสถิติ", "href": "index.html#tools", "snippet": "เปิดคำนวณและซิมูเลเตอร์", "tokens": ["เครื่องมือ", "tool"]},
+  {"title": "Decision Map", "href": "content/decision-map.html", "snippet": "เลือกวิธีวิเคราะห์ให้เหมาะ", "tokens": ["decision", "map", "เลือก"]}
+]

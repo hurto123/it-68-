@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>07. การแจกแจงเอกรูปไม่ต่อเนื่อง</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .math { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+    .uniform-lab { display: grid; gap: var(--space-3); }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-3); }
+    .bar { background: linear-gradient(180deg, var(--brand-200), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; }
+    .bar::after { content: attr(data-prob); position: absolute; inset-inline: 0; top: .25rem; color: white; font-weight: 700; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; font-size: .875rem; }
+    .controls { display: grid; gap: var(--space-2); max-width: 420px; }
+    .summary { display: grid; gap: .5rem; font-weight: 600; }
+    @media (max-width: 720px) {
+      section { padding: var(--space-3); }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="lesson"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">บทที่ 07</p>
+<h1>👨‍🏫 บทเรียนที่ 7: การแจกแจงเอกรูปไม่ต่อเนื่อง (Discrete Uniform Distribution)</h1>
+<p class="highlight">สวัสดีครับนักศึกษา! ยินดีต้อนรับสู่บทเรียนแรกในซีรีส์การแจกแจงความน่าจะเป็นครับ เราจะมาเริ่มต้นกันด้วยรูปแบบที่ "เรียบง่าย" และ "ยุติธรรม" ที่สุด นั่นคือการแจกแจงเอกรูปไม่ต่อเนื่อง ซึ่งเป็นพื้นฐานสำคัญของการทำความเข้าใจการแจกแจงอื่นๆ ต่อไป</p>
+</div>
+<nav class="header-actions">
+<button class="ghost" data-prev="06-expectation-variance.html">บทก่อนหน้า</button>
+<button class="ghost" data-next="08-binomial.html">บทถัดไป</button>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><section>
+<h2>1. อธิบายเนื้อหาของการเรียน: การแจกแจงที่ทุกอย่างเท่าเทียมกัน</h2>
+<p>แนวคิดหลัก: การแจกแจงเอกรูปไม่ต่อเนื่อง คือรูปแบบของตัวแปรสุ่มที่ "ทุกๆ ค่าที่เป็นไปได้ มีโอกาสเกิดขึ้นเท่ากันพอดี"</p>
+<p>เปรียบเทียบ: ลองนึกถึงการทอด "ลูกเต๋าที่เที่ยงตรง" (Fair Die) ไม่ว่าจะเป็นหน้า 1, 2, 3, 4, 5, หรือ 6 ทุกหน้ามีโอกาสหงายขึ้นมาเท่ากัน คือ 1 ใน 6 ไม่มีหน้าไหนถูกลำเอียงเป็นพิเศษ</p>
+<p><strong>สถานการณ์ที่พบ:</strong></p>
+<ul>
+<li>การสุ่มตัวเลข 1 ตัวจากล็อตเตอรี่</li>
+<li>การสุ่มหยิบไพ่ 1 ใบจากสำรับที่สับอย่างดี</li>
+</ul>
+</section>
+<section>
+<h2>2. &amp; 3. ความหมายและการทำงานของสูตร</h2>
+<article class="grid-2">
+<div>
+<h3>ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
+<div class="math">f(x) = P(X=x) = \frac{1}{k}</div>
+<p>การทำงาน:</p>
+<ul>
+<li>x: คือค่าที่เป็นไปได้ของตัวแปรสุ่ม เช่น x = 1, 2, 3, ..., k</li>
+<li>k: คือ "จำนวนผลลัพธ์ทั้งหมดที่เป็นไปได้"</li>
+<li>สูตรนี้บอกเราง่ายๆ ว่า ความน่าจะเป็นของแต่ละผลลัพธ์ ก็คือ 1 หารด้วยจำนวนผลลัพธ์ทั้งหมดนั่นเอง</li>
+</ul>
+</div>
+<div>
+<h3>ค่าคาดหวังและความแปรปรวน</h3>
+<p><strong>ค่าคาดหวัง (Expected Value):</strong></p>
+<div class="math">E(X) = \mu = \frac{k+1}{2}</div>
+<p>การทำงาน: ค่าเฉลี่ยของการแจกแจงนี้หาได้ง่ายๆ จากการนำ (จำนวนผลลัพธ์ทั้งหมด + 1) แล้วหารด้วย 2</p>
+<p><strong>ความแปรปรวน (Variance):</strong></p>
+<div class="math">V(X) = \sigma^2 = \frac{k^2-1}{12}</div>
+<p>การทำงาน: เป็นสูตรลัดที่ใช้คำนวณการกระจายตัวของการแจกแจงนี้โดยเฉพาะ</p>
+</div>
+</article>
+</section>
+<section>
+<h2>4. การเข้าใจในเนื้อหา</h2>
+<p>หัวใจของการแจกแจงนี้คือคำว่า "Uniform" ที่แปลว่า สม่ำเสมอ หรือ เท่ากันหมด กราฟของฟังก์ชันความน่าจะเป็นจะมีลักษณะเป็นแท่งที่สูงเท่ากันทุกแท่ง เหมือนพื้นราบ</p>
+<p>(กราฟแสดงให้เห็นว่าทุกค่าของ x มีความน่าจะเป็นเท่ากันหมด)</p>
+</section>
+<section>
+<h2>5. ยกตัวอย่าง: การทอดลูกเต๋า</h2>
+<p><strong>โจทย์:</strong> ทอดลูกเต๋าที่เที่ยงตรง 1 ลูก ให้ X เป็นแต้มที่ปรากฏบนหน้าลูกเต๋า จงหาฟังก์ชันความน่าจะเป็น, ค่าคาดหวัง, และความแปรปรวน</p>
+<p><strong>วิเคราะห์:</strong></p>
+<ul>
+<li>การทดลองนี้เป็นการแจกแจงเอกรูปไม่ต่อเนื่อง เพราะทุกหน้ามีโอกาสเกิดเท่ากัน</li>
+<li>ค่าที่เป็นไปได้ของ X คือ {1, 2, 3, 4, 5, 6}</li>
+<li>จำนวนผลลัพธ์ทั้งหมด (k) = 6</li>
+</ul>
+<p><strong>วิธีทำ:</strong></p>
+<ul>
+<li>ฟังก์ชันความน่าจะเป็น: f(x) = 1/6 สำหรับ x = 1, 2, 3, 4, 5, 6 (ความน่าจะเป็นที่จะออกแต้ม 1, 2, 3, 4, 5, หรือ 6 มีค่าเท่ากับ 1/6 ทุกตัว)</li>
+<li>ค่าคาดหวัง: E(X) = (6+1)/2 = 3.5 (โดยเฉลี่ยแล้ว หากเราทอดลูกเต๋าไปเรื่อยๆ แต้มเฉลี่ยที่คาดว่าจะได้คือ 3.5)</li>
+<li>ความแปรปรวน: V(X) = (6<sup>2</sup>-1)/12 = 35/12 ≈ 2.917</li>
+</ul>
+</section>
+<section>
+<h2>Interactive: Uniform Explorer</h2>
+<p>เลื่อนค่า k เพื่อดูว่าความน่าจะเป็น, ค่าเฉลี่ย และความแปรปรวนของการแจกแจงเอกรูปเปลี่ยนไปอย่างไร พร้อมแผนภูมิแท่งที่มีความสูงเท่ากันทุกค่า</p>
+<div class="uniform-lab">
+<div class="controls">
+<label for="uniform-k">เลือกจำนวนผลลัพธ์ (k)</label>
+<input id="uniform-k" max="20" min="2" type="range" value="6"/>
+<output for="uniform-k" id="uniform-k-display">6</output>
+</div>
+<div class="summary">
+<p>ความน่าจะเป็นแต่ละค่า: <span id="uniform-prob">0.1667</span></p>
+<p>E(X) = (k+1)/2 = <span id="uniform-mean">3.5</span></p>
+<p>Var(X) = (k<sup>2</sup> - 1)/12 = <span id="uniform-var">2.9167</span></p>
+<p>SD(X) = √Var(X) = <span id="uniform-sd">1.7078</span></p>
+</div>
+<div aria-label="แผนภูมิแท่งการแจกแจงเอกรูป" class="bar-chart" id="uniform-chart" role="img"></div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const kSlider = document.getElementById('uniform-k');
+    const kDisplay = document.getElementById('uniform-k-display');
+    const probSpan = document.getElementById('uniform-prob');
+    const meanSpan = document.getElementById('uniform-mean');
+    const varSpan = document.getElementById('uniform-var');
+    const sdSpan = document.getElementById('uniform-sd');
+    const chart = document.getElementById('uniform-chart');
+
+    function renderUniform(k) {
+      const prob = 1 / k;
+      probSpan.textContent = prob.toFixed(4);
+      meanSpan.textContent = ((k + 1) / 2).toFixed(4);
+      const variance = (k * k - 1) / 12;
+      varSpan.textContent = variance.toFixed(4);
+      sdSpan.textContent = Math.sqrt(variance).toFixed(4);
+      chart.innerHTML = '';
+      for (let x = 1; x <= k; x += 1) {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${prob * 220}px`;
+        bar.dataset.prob = prob.toFixed(3);
+        const label = document.createElement('span');
+        label.textContent = x;
+        bar.appendChild(label);
+        chart.appendChild(bar);
+      }
+    }
+
+    kSlider.addEventListener('input', (event) => {
+      const k = Number(event.target.value);
+      kDisplay.textContent = k;
+      renderUniform(k);
+    });
+
+    renderUniform(Number(kSlider.value));
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

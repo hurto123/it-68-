@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Correlation Explorer</title>
+  <link rel="stylesheet" href="../styles/tokens.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/light.css">
+  <link rel="stylesheet" href="../styles/typography-access.css">
+  <link rel="stylesheet" href="../styles/print.css" media="print">
+  <script defer src="../app.js"></script>
+  <script defer src="../i18n/i18n.js"></script>
+</head>
+<body data-page="sim">
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Simulation</p>
+      <h1>Correlation Explorer</h1>
+    </div>
+    <nav class="header-actions">
+      <a class="ghost" href="../index.html#tools">กลับเครื่องมือ</a>
+      <button id="print-current" class="ghost">พิมพ์</button>
+    </nav>
+  </header>
+  <main class="card-grid">
+    <article class="card">
+      <h2>ปรับพารามิเตอร์</h2>
+      <label>สัญญาณ (slope)
+        <input type="range" id="slope" min="-2" max="2" step="0.1" value="0.8">
+      </label>
+      <label>สัญญาณรบกวน (σ)
+        <input type="range" id="noise" min="0" max="3" step="0.1" value="1">
+      </label>
+      <label>จำนวนจุด (n)
+        <input type="range" id="count" min="10" max="200" value="60">
+      </label>
+      <label>Outlier
+        <input type="checkbox" id="outlier"> เพิ่มจุดสุดโต่ง
+      </label>
+      <details>
+        <summary>วิธีอ่านผล</summary>
+        <ol>
+          <li>ดูค่า r (tagline) ว่าเพิ่ม/ลดเมื่อปรับ slope และ noise</li>
+          <li>เปิด outlier เพื่อเห็นว่าจุดเดียวสามารถดึง r ได้มากแค่ไหน</li>
+          <li>จำนวนจุดสูงขึ้น → r เสถียรมากขึ้น</li>
+        </ol>
+      </details>
+      <div class="tool-actions">
+        <button class="secondary" id="reset">Reset ตัวอย่าง</button>
+        <button class="ghost" id="copy-link">Copy Permalink</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>แผนภาพกระจาย</h2>
+      <canvas id="plot" width="480" height="340" aria-label="แผนภาพกระจาย"></canvas>
+      <p id="summary" class="tagline"></p>
+      <footer class="card-footer">
+        <button class="ghost" id="download-csv">Export Points CSV</button>
+        <button class="ghost" id="download-png">Export Plot PNG</button>
+      </footer>
+    </article>
+    <article class="card">
+      <h2>โยงเนื้อหา</h2>
+      <ul>
+        <li><a href="../content/adv/32-correlation-covariance.html">บท Correlation &amp; Covariance</a></li>
+        <li><a href="../content/33-simple-linear-regression.html">Simple Linear Regression</a></li>
+        <li><a href="../tools/regression-playground.html">Regression Playground</a></li>
+      </ul>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <p>© 2024 Stats Learning Lab</p>
+  </footer>
+  <script>
+    const slopeEl = document.getElementById('slope');
+    const noiseEl = document.getElementById('noise');
+    const countEl = document.getElementById('count');
+    const outlierEl = document.getElementById('outlier');
+    const canvas = document.getElementById('plot');
+    const ctx = canvas.getContext('2d');
+    const summary = document.getElementById('summary');
+    const downloadCsv = document.getElementById('download-csv');
+    const downloadPng = document.getElementById('download-png');
+    const copyLinkBtn = document.getElementById('copy-link');
+
+    let currentPoints = [];
+
+    function generateData() {
+      const slope = Number(slopeEl.value);
+      const noise = Number(noiseEl.value);
+      const count = Number(countEl.value);
+      const points = Array.from({ length: count }, (_, i) => {
+        const x = (i / (count - 1)) * 10 - 5;
+        const y = slope * x + (Math.random() - 0.5) * noise * 2;
+        return { x, y };
+      });
+      if (outlierEl.checked) {
+        points.push({ x: 6, y: slope * 6 + noise * 8 });
+      }
+      return points;
+    }
+
+    function computeCorrelation(data) {
+      const n = data.length;
+      const meanX = data.reduce((acc, p) => acc + p.x, 0) / n;
+      const meanY = data.reduce((acc, p) => acc + p.y, 0) / n;
+      let numerator = 0;
+      let denomX = 0;
+      let denomY = 0;
+      data.forEach(p => {
+        const dx = p.x - meanX;
+        const dy = p.y - meanY;
+        numerator += dx * dy;
+        denomX += dx ** 2;
+        denomY += dy ** 2;
+      });
+      const r = numerator / Math.sqrt(denomX * denomY);
+      return { r: Number.isFinite(r) ? r : 0, meanX, meanY };
+    }
+
+    function buildPermalink() {
+      const params = new URLSearchParams();
+      params.set('slope', slopeEl.value);
+      params.set('noise', noiseEl.value);
+      params.set('n', countEl.value);
+      if (outlierEl.checked) params.set('outlier', '1');
+      const query = params.toString();
+      const url = `${window.location.origin}${window.location.pathname}?${query}`;
+      history.replaceState(null, '', `${window.location.pathname}?${query}`);
+      return url;
+    }
+
+    function render() {
+      const data = generateData();
+      currentPoints = data;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(14,165,233,0.8)';
+      const padding = 30;
+      const xs = data.map(p => p.x);
+      const ys = data.map(p => p.y);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const minY = Math.min(...ys);
+      const maxY = Math.max(...ys);
+      data.forEach(p => {
+        const x = padding + ((p.x - minX) / (maxX - minX || 1)) * (canvas.width - padding * 2);
+        const y = canvas.height - padding - ((p.y - minY) / (maxY - minY || 1)) * (canvas.height - padding * 2);
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      const { r } = computeCorrelation(data);
+      summary.textContent = `r ≈ ${r.toFixed(3)} (slope=${slopeEl.value}, noise=${noiseEl.value})`;
+      buildPermalink();
+    }
+
+    [slopeEl, noiseEl, countEl, outlierEl].forEach(control => control.addEventListener('input', render));
+    document.getElementById('reset')?.addEventListener('click', () => {
+      slopeEl.value = 0.8;
+      noiseEl.value = 1;
+      countEl.value = 60;
+      outlierEl.checked = false;
+      render();
+    });
+
+    downloadCsv?.addEventListener('click', () => {
+      if (!currentPoints.length) return;
+      const header = 'x,y';
+      const rows = currentPoints.map(point => `${point.x.toFixed(4)},${point.y.toFixed(4)}`);
+      const blob = new Blob([header + '\n' + rows.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'correlation-points.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    downloadPng?.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'correlation-plot.png';
+      link.click();
+    });
+
+    copyLinkBtn?.addEventListener('click', async () => {
+      const url = buildPermalink();
+      try {
+        await navigator.clipboard.writeText(url);
+        copyLinkBtn.textContent = 'คัดลอกแล้ว';
+        setTimeout(() => { copyLinkBtn.textContent = 'Copy Permalink'; }, 2000);
+      } catch (error) {
+        copyLinkBtn.textContent = url;
+      }
+    });
+
+    function restoreFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('slope')) slopeEl.value = params.get('slope');
+      if (params.has('noise')) noiseEl.value = params.get('noise');
+      if (params.has('n')) countEl.value = params.get('n');
+      outlierEl.checked = params.get('outlier') === '1';
+    }
+
+    restoreFromQuery();
+    render();
+  </script>
+</body>
+</html>

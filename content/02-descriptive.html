@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บทเรียนที่ 2: หลักการนับเบื้องต้น (Counting Principles)</title>
+<!-- Site styles -->
+<link href="../pwa/manifest.json" rel="manifest"/>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<style>
+    /* Local styles for interactive widgets */
+    :root {
+      --card-pad: 1rem;
+      --radius: 16px;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1rem 6rem;
+    }
+    header.page-header {
+      display: grid;
+      gap: .5rem;
+      margin-bottom: 1.25rem;
+    }
+    .pill {
+      display:inline-block; padding:.2rem .6rem; border-radius:999px;
+      background: var(--surface-3); font-size:.85rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      background: var(--surface-2);
+      border: 1px solid var(--surface-4);
+      border-radius: var(--radius);
+      padding: var(--card-pad);
+      box-shadow: var(--shadow-2);
+    }
+    .card h3 { margin-top: .2rem; }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--surface-4); padding: .1rem .35rem; border-radius: 6px; }
+    .muted { color: var(--text-3); }
+    .ok { color: var(--green-7); font-weight: 600; }
+    .warn { color: var(--orange-7); font-weight: 600; }
+    .bad { color: var(--red-7); font-weight: 600; }
+
+    .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+    .controls label { font-size:.9rem; }
+    .controls input[type="number"] { width: 6rem; }
+
+    .svg-wrap { width: 100%; overflow: auto; background: var(--surface-1); border:1px dashed var(--surface-4); border-radius: 12px; padding:.75rem; }
+    svg { max-width: 100%; height: auto; }
+
+    .formula {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--surface-1);
+      border-radius: 12px;
+      padding: .5rem .75rem;
+      display:inline-block;
+      line-height:1.6;
+    }
+
+    .calc { display:grid; gap:.6rem; }
+    .calc .row { display:flex; gap:.6rem; align-items:center; }
+    .result { font-weight:700; }
+
+    .toc {
+      border-left: 4px solid var(--surface-4);
+      padding-left: .8rem;
+      margin: 1rem 0 2rem;
+      line-height: 1.7;
+    }
+    .toc a { display:block; color: var(--text-2); text-decoration: none; }
+    .toc a:hover { color: var(--text-1); text-decoration: underline; }
+
+    .callout {
+      background: var(--surface-1);
+      border-left: 6px solid var(--accent-7);
+      padding: .8rem 1rem;
+      border-radius: 12px;
+    }
+
+    .print-actions {
+      position: sticky; bottom: 1rem; display:flex; gap:.6rem; justify-content:flex-end;
+      margin-top: 1rem;
+    }
+    .btn {
+      border-radius: 999px; padding: .55rem .9rem; border: 1px solid var(--surface-4); background: var(--surface-3);
+      cursor: pointer;
+    }
+    .btn:hover { filter: brightness(1.03); }
+  </style>
+<link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean"><a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+<header class="site-header" role="banner">
+<div class="brand">
+<a class="brand-link" href="../index.html">📊 Prob &amp; Stats</a>
+</div>
+<nav aria-label="เครื่องมือ" class="site-actions">
+<button class="btn-sm" id="theme-toggle" title="สลับธีม (T)">ธีม</button>
+<button class="btn-sm" id="print-current" title="พิมพ์หน้านี้ (P)">พิมพ์</button>
+</nav>
+</header>
+<div aria-hidden="true" id="progressbar"><span></span></div>
+<main id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><header class="page-header">
+<div class="pill">👨‍🏫 บทเรียนที่ 2</div>
+<h1>หลักการนับเบื้องต้น (Counting Principles)</h1>
+<p class="muted">“ศิลปะแห่งการนับ”—เครื่องมือพื้นฐานที่ช่วยให้คิดเป็นระบบและเร็วก่อนเข้าสู่ความน่าจะเป็น</p>
+</header>
+<nav class="toc">
+<strong>สารบัญ</strong>
+<a href="#why-count">1) ทำไมต้องเรียนการนับ?</a>
+<a href="#rules">2) กฎการบวก &amp; 3) กฎการคูณ</a>
+<a href="#perm">Permutation (ลำดับสำคัญ)</a>
+<a href="#comb">Combination (ลำดับไม่สำคัญ)</a>
+<a href="#distinguish">4) แยก P vs C อย่างไว</a>
+<a href="#examples">5) ตัวอย่าง + แบบฝึก</a>
+</nav>
+<section class="card" id="why-count">
+<h2>1) ทำไมต้องเรียน “นับเลข” ?</h2>
+<p>ในสถิติ การ “นับวิธี” ช่วยตอบคำถามเช่น <em>แต่งตัวได้กี่แบบ</em>, <em>เลือกกรรมการได้กี่วิธี</em>, หรือ <em>ตั้งรหัสได้กี่รหัส</em> อย่างเร็วและถูกต้อง</p>
+<div class="grid-2">
+<div class="card">
+<h3>ตัวอย่างโต้ตอบ: ตู้เสื้อผ้า (กฎการคูณ)</h3>
+<p class="muted">กำหนดจำนวน <span class="kbd">เสื้อ</span> และ <span class="kbd">กางเกง</span> ระบบจะสร้างตารางวิธีแต่งตัว (ไม่ใช่รูปภาพ ใช้ SVG)</p>
+<div class="controls">
+<label>เสื้อ: <input id="shirts" min="1" type="number" value="3"/></label>
+<label>กางเกง: <input id="pants" min="1" type="number" value="4"/></label>
+<button class="btn" id="build-grid">สร้างตาราง</button>
+</div>
+<p>จำนวนวิธีทั้งหมด = <strong id="out-wardrobe">3 × 4 = 12 วิธี</strong></p>
+<div class="svg-wrap"><svg aria-label="ตารางตัวเลือกเสื้อ-กางเกง" id="wardrobe-svg" role="img" viewbox="0 0 800 400"></svg></div>
+</div>
+<div class="card">
+<h3>ตัวอย่างโต้ตอบ: รหัส ATM 4 หลัก</h3>
+<div class="controls">
+<label><input id="no-repeat" type="checkbox"/> ห้ามซ้ำตัวเลข</label>
+</div>
+<p id="out-pin">ถ้า <strong>อนุญาตให้ซ้ำ</strong> → 10<sup>4</sup> = <strong>10,000</strong> รหัส</p>
+<div class="svg-wrap"><svg aria-label="ผังขั้นตอนการสร้างรหัส 4 หลัก" id="pin-svg" role="img" viewbox="0 0 900 220"></svg></div>
+</div>
+</div>
+</section>
+<section class="card" id="rules">
+<h2>2) กฎการบวก (Addition) &amp; 3) กฎการคูณ (Multiplication)</h2>
+<div class="grid-2">
+<div class="card">
+<h3>กฎการบวก</h3>
+<p>ใช้เมื่อมี “ทางเลือกอย่างใดอย่างหนึ่ง” ที่ <strong>ไม่เกิดพร้อมกัน</strong> นับแบบรวมกัน</p>
+<div class="formula">จำนวนวิธีทั้งหมด = วิธีของทางเลือกที่ 1 + วิธีของทางเลือกที่ 2 + …</div>
+<div class="callout">คีย์เวิร์ด: “หรือ”, “อย่างใดอย่างหนึ่ง”</div>
+</div>
+<div class="card">
+<h3>กฎการคูณ</h3>
+<p>ใช้เมื่อเป็น “หลายขั้นตอนต่อเนื่องกัน” จนงานเสร็จสิ้น นับแบบคูณกัน</p>
+<div class="formula">จำนวนวิธีทั้งหมด = วิธีขั้นตอนที่ 1 × วิธีขั้นตอนที่ 2 × …</div>
+<div class="callout">คีย์เวิร์ด: “และ”, “ทำตามลำดับ”, “ต่อเนื่อง”</div>
+</div>
+</div>
+</section>
+<section class="card" id="perm">
+<h2>Permutation (ลำดับสำคัญ)</h2>
+<p>การนำของ n ชิ้น มาจัดลำดับ r ตำแหน่ง (สลับตำแหน่งถือว่าคนละวิธี)</p>
+<div class="formula">P(n, r) = n! / (n−r)!</div>
+<div class="calc card">
+<div class="row">
+<label>n: <input id="n-p" min="0" type="number" value="8"/></label>
+<label>r: <input id="r-p" min="0" type="number" value="3"/></label>
+<button class="btn" id="calc-p">คำนวณ P(n,r)</button>
+</div>
+<div>ผลลัพธ์: <span class="result" id="out-p">336</span></div>
+<p class="muted">ตัวอย่างนักวิ่ง 8 คน แจกเหรียญทอง–เงิน–ทองแดง (3 ตำแหน่ง) = <span class="kbd">P(8,3)=336</span></p>
+</div>
+</section>
+<section class="card" id="comb">
+<h2>Combination (ลำดับไม่สำคัญ)</h2>
+<p>การนำของ n ชิ้น มา “เลือกเป็นกลุ่ม” r ชิ้น (ไม่สนลำดับ)</p>
+<div class="formula">C(n, r) = n! / (r!(n−r)!)</div>
+<div class="calc card">
+<div class="row">
+<label>n: <input id="n-c" min="0" type="number" value="10"/></label>
+<label>r: <input id="r-c" min="0" type="number" value="3"/></label>
+<button class="btn" id="calc-c">คำนวณ C(n,r)</button>
+</div>
+<div>ผลลัพธ์: <span class="result" id="out-c">120</span></div>
+<p class="muted">ตัวอย่างเลือกตัวแทน 3 จาก 10 คน = <span class="kbd">C(10,3)=120</span></p>
+</div>
+</section>
+<section class="card" id="distinguish">
+<h2>4) แยก P vs C อย่างไว</h2>
+<ul>
+<li><strong>Permutation</strong>: “แข่งขัน/จัดตำแหน่ง” ลำดับมีผล เช่น ที่ 1–2–3</li>
+<li><strong>Combination</strong>: “เลือกเป็นกลุ่ม” ลำดับไม่สำคัญ เช่น เลือกกรรมการ 3 คน</li>
+</ul>
+</section>
+<section class="card" id="examples">
+<h2>5) ตัวอย่างแบบฝึก</h2>
+<div class="grid-2">
+<div class="card">
+<h3>กฎการคูณ: ตู้เสื้อผ้า</h3>
+<p>เสื้อ 3 แบบ กางเกง 4 แบบ → <strong>12</strong> วิธี</p>
+</div>
+<div class="card">
+<h3>Permutation: แจกเหรียญ</h3>
+<p>P(8,3) = 8×7×6 = <strong>336</strong> วิธี</p>
+</div>
+<div class="card">
+<h3>Combination: เลือกกรรมการ</h3>
+<p>C(10,3) = 120 วิธี</p>
+</div>
+</div>
+</section>
+<div class="print-actions">
+<button class="btn" id="print-current" title="พิมพ์หน้านี้">🖨️ พิมพ์</button>
+</div>
+</main>
+<script src="../app.js"></script>
+<script src="../i18n/i18n.js"></script>
+<script>
+  // ---------- Utilities ----------
+  const toBigInt = (n) => BigInt(String(n));
+  function factBI(n) {
+    n = toBigInt(n);
+    if (n < 0n) return 0n;
+    let acc = 1n;
+    for (let i = 2n; i <= n; i++) acc *= i;
+    return acc;
+  }
+  function nPrBI(n, r) {
+    n = toBigInt(n); r = toBigInt(r);
+    if (r > n) return 0n;
+    let acc = 1n;
+    for (let i = 0n; i < r; i++) acc *= (n - i);
+    return acc;
+  }
+  function nCrBI(n, r) {
+    n = toBigInt(n); r = toBigInt(r);
+    if (r > n) return 0n;
+    // use symmetry and multiplicative formula
+    if (r > n - r) r = n - r;
+    let num = 1n, den = 1n;
+    for (let k = 1n; k <= r; k++) { num *= (n - r + k); den *= k; }
+    // exact division expected
+    return num / den;
+  }
+  const fmt = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  // ---------- Wardrobe grid (SVG) ----------
+  const svgWardrobe = document.getElementById("wardrobe-svg");
+  const shirtsEl = document.getElementById("shirts");
+  const pantsEl = document.getElementById("pants");
+  const outWardrobe = document.getElementById("out-wardrobe");
+  function buildWardrobe() {
+    const S = Math.max(1, parseInt(shirtsEl.value || "1", 10));
+    const P = Math.max(1, parseInt(pantsEl.value || "1", 10));
+    outWardrobe.innerHTML = S + " × " + P + " = <strong>" + (S*P) + "</strong> วิธี";
+    const cellW = 80, cellH = 40, padL = 110, padT = 50;
+    const width = padL + P*cellW + 60, height = padT + S*cellH + 60;
+    svgWardrobe.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    svgWardrobe.innerHTML = "";
+
+    // axes labels
+    const mkText = (x,y,t,cls="") => {
+      const el = document.createElementNS("http://www.w3.org/2000/svg","text");
+      el.setAttribute("x", x); el.setAttribute("y", y); el.textContent = t;
+      el.setAttribute("font-size","14"); el.setAttribute("fill","var(--text-2)");
+      if (cls) el.setAttribute("class", cls);
+      svgWardrobe.appendChild(el);
+      return el;
+    };
+    mkText(10, 20, "เสื้อ S1..S"+S);
+    mkText(padL, 20, "กางเกง P1..P"+P);
+
+    // draw headers
+    for (let j=0;j<P;j++){
+      mkText(padL + j*cellW + cellW/2 - 10, padT - 10, "P"+(j+1));
+    }
+    for (let i=0;i<S;i++){
+      mkText(60, padT + i*cellH + cellH/2 + 5, "S"+(i+1));
+    }
+    // grid cells
+    for (let i=0;i<S;i++){
+      for (let j=0;j<P;j++){
+        const x = padL + j*cellW;
+        const y = padT + i*cellH;
+        const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+        rect.setAttribute("x", x); rect.setAttribute("y", y);
+        rect.setAttribute("width", cellW-6); rect.setAttribute("height", cellH-6);
+        rect.setAttribute("rx","8");
+        rect.setAttribute("fill","var(--surface-2)");
+        rect.setAttribute("stroke","var(--surface-4)");
+        rect.setAttribute("stroke-width","1");
+        svgWardrobe.appendChild(rect);
+
+        const t = document.createElementNS("http://www.w3.org/2000/svg","text");
+        t.setAttribute("x", x + (cellW/2) - 22);
+        t.setAttribute("y", y + (cellH/2) + 5);
+        t.setAttribute("font-size","12");
+        t.setAttribute("fill","var(--text-2)");
+        t.textContent = "S"+(i+1)+"-P"+(j+1);
+        svgWardrobe.appendChild(t);
+      }
+    }
+  }
+  document.getElementById("build-grid").addEventListener("click", buildWardrobe);
+  buildWardrobe();
+
+  // ---------- PIN flow (SVG) ----------
+  const svgPin = document.getElementById("pin-svg");
+  const noRepeat = document.getElementById("no-repeat");
+  const outPin = document.getElementById("out-pin");
+  function buildPIN() {
+    const digits = 10;
+    const steps = 4;
+    let ways;
+    if (!noRepeat.checked) {
+      ways = 10**4;
+      outPin.innerHTML = "ถ้า <strong>อนุญาตให้ซ้ำ</strong> → 10^4 = <strong>"+ways.toLocaleString()+"</strong> รหัส";
+    } else {
+      ways = 10*9*8*7;
+      outPin.innerHTML = "ถ้า <strong>ห้ามซ้ำ</strong> → 10×9×8×7 = <strong>"+ways.toLocaleString()+"</strong> รหัส";
+    }
+
+    const width = 860, height = 180;
+    svgPin.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    svgPin.innerHTML = "";
+
+    // draw four boxes (steps)
+    const boxW = 160, boxH = 70, gap = 40, startX = 20, y = 50;
+    for (let k=0;k<4;k++){
+      const x = startX + k*(boxW+gap);
+      const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+      rect.setAttribute("x", x); rect.setAttribute("y", y);
+      rect.setAttribute("width", boxW); rect.setAttribute("height", boxH);
+      rect.setAttribute("rx","14");
+      rect.setAttribute("fill","var(--surface-2)");
+      rect.setAttribute("stroke","var(--surface-4)");
+      svgPin.appendChild(rect);
+
+      const t1 = document.createElementNS("http://www.w3.org/2000/svg","text");
+      t1.setAttribute("x", x+14); t1.setAttribute("y", y+26);
+      t1.setAttribute("font-size","14"); t1.setAttribute("fill","var(--text-2)");
+      t1.textContent = "หลักที่ "+(k+1);
+      svgPin.appendChild(t1);
+
+      const waysHere = (!noRepeat.checked)
+        ? 10
+        : (k===0 ? 10 : (10-k)); // 10,9,8,7
+      const t2 = document.createElementNS("http://www.w3.org/2000/svg","text");
+      t2.setAttribute("x", x+14); t2.setAttribute("y", y+48);
+      t2.setAttribute("font-size","16"); t2.setAttribute("fill","var(--text-1)");
+      t2.textContent = "วิธี = " + waysHere;
+      svgPin.appendChild(t2);
+
+      // arrow to next
+      if (k<3){
+        const ax = x + boxW; const ay = y + boxH/2;
+        const nx = startX + (k+1)*(boxW+gap);
+        const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1", ax+4); line.setAttribute("y1", ay);
+        line.setAttribute("x2", nx-14); line.setAttribute("y2", ay);
+        line.setAttribute("stroke","var(--text-3)"); line.setAttribute("stroke-width","2");
+        svgPin.appendChild(line);
+        const tri = document.createElementNS("http://www.w3.org/2000/svg","polygon");
+        tri.setAttribute("points", `${nx-14},${ay-5} ${nx-14},${ay+5} ${nx+2},${ay}`);
+        tri.setAttribute("fill","var(--text-3)");
+        svgPin.appendChild(tri);
+      }
+    }
+  }
+  noRepeat.addEventListener("change", buildPIN);
+  buildPIN();
+
+  // ---------- P(n,r) / C(n,r) calculators ----------
+  function clampNR(n, r) {
+    if (n < 0 || r < 0) return [0,0];
+    if (r > n) return [n, r]; // will produce 0
+    return [n, r];
+  }
+  document.getElementById("calc-p").addEventListener("click", () => {
+    let n = parseInt(document.getElementById("n-p").value||"0", 10);
+    let r = parseInt(document.getElementById("r-p").value||"0", 10);
+    [n,r] = clampNR(n,r);
+    const val = nPrBI(n, r);
+    document.getElementById("out-p").textContent = fmt(val);
+  });
+  document.getElementById("calc-c").addEventListener("click", () => {
+    let n = parseInt(document.getElementById("n-c").value||"0", 10);
+    let r = parseInt(document.getElementById("r-c").value||"0", 10);
+    [n,r] = clampNR(n,r);
+    const val = nCrBI(n, r);
+    document.getElementById("out-c").textContent = fmt(val);
+  });
+  </script>
+<footer class="site-footer" role="contentinfo">
+<nav aria-label="การนำทางบท" class="prev-next">
+<a class="btn-nav prev" href="01-intro.html" rel="prev">← ความหมายของสถิติ &amp; ระเบียบวิธี</a>
+<a class="btn-nav next" href="03-probability-basics.html" rel="next">นิยามของความน่าจะเป็น, แซมเปิลสเปซ, และเหตุการณ์ →</a>
+</nav>
+<p class="muted small">กด <kbd>[</kbd> เพื่อย้อนกลับ, <kbd>]</kbd> เพื่อไปถัดไป, <kbd>T</kbd> สลับธีม, <kbd>P</kbd> พิมพ์</p>
+</footer>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

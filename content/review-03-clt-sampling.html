@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 3: หัวใจสถิติ (CLT และ Sampling Distribution)</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .lab {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .lab canvas {
+      width: 100%;
+      height: 260px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .lab label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-2);
+      font-weight: 600;
+    }
+    .lab input,
+    .lab select,
+    .lab button {
+      padding: var(--size-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-muted);
+      font: inherit;
+      background: var(--surface-default);
+    }
+    .lab button {
+      cursor: pointer;
+      background: var(--accent-muted);
+      color: var(--accent-strong);
+      border: none;
+      font-weight: 600;
+    }
+    .math-block {
+      background: var(--surface-subtle);
+      padding: var(--size-4);
+      border-radius: var(--radius-md);
+      line-height: 1.6;
+    }
+    .definition-list {
+      display: grid;
+      gap: var(--size-3);
+    }
+    .definition-list dt {
+      font-weight: 700;
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 3</p>
+<h1>หัวใจสถิติ (CLT และการแจกแจงของตัวอย่างสุ่ม)</h1>
+<p class="subtitle">เข้าใจสะพานที่พาเราจากข้อมูลตัวอย่างสู่อภิปรายระดับประชากร</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<p>สวัสดีครับนักศึกษา! ในบททบทวนนี้ เราจะมาเจาะลึกแนวคิดที่เป็น "หัวใจ" และ "สะพานเชื่อม" ที่สำคัญที่สุดในวิชาสถิติทั้งหมด มันคือแนวคิดที่อนุญาตให้เราก้าวข้ามจากข้อมูล "กลุ่มตัวอย่าง" เล็กๆ ไป "อนุมาน" ถึง "ประชากร" ทั้งหมดได้</p>
+</article>
+<article class="card flow">
+<h2>1. การแจกแจงของตัวอย่างสุ่ม (Sampling Distribution)</h2>
+<div class="definition-list">
+<p>คืออะไร? ไม่ใช่การแจกแจงของข้อมูลดิบ แต่คือ "การแจกแจงความน่าจะเป็นของค่าสถิติ" (เช่น ค่าเฉลี่ยตัวอย่าง \(\bar{x}\) หรือสัดส่วนตัวอย่าง \(\hat{p}\))</p>
+<p>แนวคิด: ลองจินตนาการว่าเราสุ่มตัวอย่างขนาด n ออกมาจากประชากรซ้ำแล้วซ้ำเล่าเป็นอนันต์ครั้ง ในแต่ละครั้งเราก็คำนวณค่าเฉลี่ย (\(\bar{x}\)) ออกมา เมื่อเรานำค่า \(\bar{x}\) ทั้งหมดนั้นมาสร้างเป็นกราฟการแจกแจง เราจะได้สิ่งที่เรียกว่า "การแจกแจงของค่าเฉลี่ยตัวอย่าง"</p>
+<p>ทำไมถึงสำคัญ? เพราะมันทำให้ "ค่าสถิติ" (ซึ่งปกติจะเปลี่ยนไปทุกครั้งที่สุ่ม) กลายเป็น "ตัวแปรสุ่ม" ที่มีรูปแบบการแจกแจงที่แน่นอน ทำให้เราสามารถคำนวณความน่าจะเป็นของมันได้</p>
+</div>
+</article>
+<article class="card flow">
+<h2>2. ทฤษฎีบทขีดจำกัดส่วนกลาง (Central Limit Theorem, CLT)</h2>
+<p>นี่คือทฤษฎีบทที่ทรงพลังที่สุด ที่บอกเราถึงหน้าตาของการแจกแจงของค่าเฉลี่ยตัวอย่าง:</p>
+<blockquote>"ไม่ว่าประชากรดั้งเดิมจะมีการแจกแจงรูปแบบใดก็ตาม ถ้าขนาดตัวอย่าง (n) มีขนาดใหญ่พอ (n ≥ 30) แล้ว การแจกแจงของค่าเฉลี่ยตัวอย่าง (\(\bar{x}\)) จะมีลักษณะใกล้เคียงกับการแจกแจงปกติเสมอ"</blockquote>
+<p>ความมหัศจรรย์: CLT ปลดล็อกให้เราสามารถใช้ความรู้เรื่องการแจกแจงปกติและ Z-Score มาวิเคราะห์ค่าเฉลี่ยตัวอย่างได้ โดยที่เราไม่จำเป็นต้องรู้เลยว่าข้อมูลประชากรจริงๆ มีหน้าตาเป็นอย่างไร!</p>
+</article>
+<article class="card flow">
+<h2>3. พารามิเตอร์ของการแจกแจงของตัวอย่างสุ่ม</h2>
+<div class="math-block">
+<h3>สำหรับค่าเฉลี่ยตัวอย่าง (\(\bar{x}\))</h3>
+<p><strong>ค่าเฉลี่ย:</strong> \(\mu_{\bar{x}} = \mu\)</p>
+<p><strong>ความคลาดเคลื่อนมาตรฐาน (Standard Error):</strong> \(\sigma_{\bar{x}} = \dfrac{\sigma}{\sqrt{n}}\)</p>
+<p><em>หัวใจสำคัญ:</em> มี \(\sqrt{n}\) เป็นตัวหาร ทำให้ยิ่งตัวอย่างใหญ่ ค่าเฉลี่ยตัวอย่างยิ่งเกาะกลุ่มรอบค่าเฉลี่ยจริง</p>
+<h3>สำหรับสัดส่วนตัวอย่าง (\(\hat{p}\))</h3>
+<p><strong>ค่าเฉลี่ย:</strong> \(\mu_{\hat{p}} = p\)</p>
+<p><strong>ความคลาดเคลื่อนมาตรฐาน:</strong> \(\sigma_{\hat{p}} = \sqrt{\dfrac{p(1-p)}{n}}\)</p>
+</div>
+<p>แนวคิดเรื่องการแจกแจงของตัวอย่างสุ่มและ CLT นี้เอง ที่เป็นใบอนุญาตให้เราสร้างช่วงความเชื่อมั่นและทดสอบสมมติฐานในบทถัดๆ ไปได้อย่างถูกต้อง</p>
+</article>
+<article class="card flow">
+<h2>CLT Simulation Lab</h2>
+<p>สำรวจเวทมนตร์ของ CLT ด้วยการสุ่มข้อมูลจากประชากรที่มีรูปร่างต่างกัน แล้วดูว่าเมื่อเพิ่มขนาดตัวอย่าง การแจกแจงของค่าเฉลี่ยตัวอย่างจะเข้าใกล้โค้งปกติอย่างไร (กราฟนี้สร้างจากการคำนวณสด ไม่ใช่ภาพนิ่ง)</p>
+<div class="lab">
+<div class="control flow">
+<label for="population-shape">เลือกประชากร
+            <select id="population-shape">
+<option value="uniform">Uniform 0-1</option>
+<option value="skewed">Skewed (Exponential)</option>
+<option value="bimodal">Bimodal</option>
+</select>
+</label>
+<label for="sample-size">ขนาดตัวอย่าง (n)
+            <input id="sample-size" max="100" min="2" step="2" type="range" value="10"/>
+</label>
+<span>n = <strong id="sample-size-display">10</strong></span>
+<label for="replications">จำนวนการสุ่มซ้ำ (ครั้ง)
+            <input id="replications" max="5000" min="100" step="100" type="number" value="1000"/>
+</label>
+<button id="simulate">สุ่มใหม่</button>
+<p><strong>ค่าเฉลี่ยประชากรโดยประมาณ:</strong> <span id="population-mean">0.50</span></p>
+<p><strong>ค่าเฉลี่ยของตัวอย่าง:</strong> <span id="sample-mean">0.00</span></p>
+<p><strong>ส่วนเบี่ยงเบนมาตรฐานของค่าเฉลี่ยตัวอย่าง:</strong> <span id="sample-se">0.00</span></p>
+</div>
+<canvas aria-label="ฮิสโตแกรมของค่าเฉลี่ยตัวอย่าง" id="clt-chart" role="img"></canvas>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const cltCanvas = document.getElementById('clt-chart');
+    const cltCtx = cltCanvas.getContext('2d');
+    const populationSelect = document.getElementById('population-shape');
+    const sampleSizeInput = document.getElementById('sample-size');
+    const sampleSizeDisplay = document.getElementById('sample-size-display');
+    const replicationsInput = document.getElementById('replications');
+    const populationMeanLabel = document.getElementById('population-mean');
+    const sampleMeanLabel = document.getElementById('sample-mean');
+    const sampleSeLabel = document.getElementById('sample-se');
+    const simulateButton = document.getElementById('simulate');
+
+    function resizeCltCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const width = cltCanvas.clientWidth;
+      const height = cltCanvas.clientHeight;
+      cltCanvas.width = width * ratio;
+      cltCanvas.height = height * ratio;
+      cltCtx.setTransform(1, 0, 0, 1, 0, 0);
+      cltCtx.scale(ratio, ratio);
+    }
+
+    function randomUniform() {
+      return Math.random();
+    }
+
+    function randomExponential() {
+      return -Math.log(1 - Math.random());
+    }
+
+    function randomBimodal() {
+      return Math.random() < 0.5 ? Math.random() * 0.5 : 0.5 + Math.random();
+    }
+
+    function getPopulationMean(shape) {
+      if (shape === 'uniform') return 0.5;
+      if (shape === 'skewed') return 1;
+      return 0.75;
+    }
+
+    function simulate() {
+      const shape = populationSelect.value;
+      const n = Number(sampleSizeInput.value);
+      const replications = Number(replicationsInput.value);
+      const populationMean = getPopulationMean(shape);
+      const means = [];
+
+      const generator = shape === 'uniform' ? randomUniform : (shape === 'skewed' ? randomExponential : randomBimodal);
+      for (let i = 0; i < replications; i += 1) {
+        let sum = 0;
+        for (let j = 0; j < n; j += 1) {
+          sum += generator();
+        }
+        means.push(sum / n);
+      }
+
+      const sampleMean = means.reduce((acc, val) => acc + val, 0) / means.length;
+      const variance = means.reduce((acc, val) => acc + Math.pow(val - sampleMean, 2), 0) / (means.length - 1 || 1);
+      const se = Math.sqrt(variance);
+
+      populationMeanLabel.textContent = populationMean.toFixed(3);
+      sampleMeanLabel.textContent = sampleMean.toFixed(3);
+      sampleSeLabel.textContent = se.toFixed(3);
+
+      drawHistogram(means, populationMean);
+    }
+
+    function drawHistogram(values, populationMean) {
+      const bins = 24;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const width = cltCanvas.clientWidth;
+      const height = cltCanvas.clientHeight;
+      const ratio = window.devicePixelRatio || 1;
+      cltCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      cltCtx.clearRect(0, 0, cltCanvas.width, cltCanvas.height);
+
+      const padding = 36;
+      const binWidth = (max - min) / bins || 1;
+      const histogram = new Array(bins).fill(0);
+      values.forEach((value) => {
+        const idx = Math.min(bins - 1, Math.max(0, Math.floor((value - min) / binWidth)));
+        histogram[idx] += 1;
+      });
+
+      const maxCount = Math.max(...histogram) || 1;
+      const xScale = (width - padding * 2) / bins;
+      const yScale = (height - padding * 2) / maxCount;
+
+      histogram.forEach((count, i) => {
+        const x = padding + i * xScale;
+        const barHeight = count * yScale;
+        const y = height - padding - barHeight;
+        cltCtx.fillStyle = 'var(--accent-strong, #4a63e7)';
+        cltCtx.fillRect(x, y, Math.max(2, xScale * 0.8), barHeight);
+      });
+
+      // Draw population mean line
+      const normalizedMean = (populationMean - min) / (max - min || 1);
+      const clampedMean = Math.max(0, Math.min(1, normalizedMean));
+      const meanX = padding + clampedMean * (width - padding * 2);
+      cltCtx.fillStyle = 'var(--text-strong, #111)';
+      cltCtx.fillRect(meanX, padding, 2, height - padding * 2);
+      cltCtx.fillText('μ ประชากร', meanX + 6, padding + 16);
+
+      // axes
+      cltCtx.strokeStyle = 'var(--border-muted, #c7d0ff)';
+      cltCtx.beginPath();
+      cltCtx.moveTo(padding, padding / 2);
+      cltCtx.lineTo(padding, height - padding);
+      cltCtx.lineTo(width - padding / 2, height - padding);
+      cltCtx.stroke();
+    }
+
+    sampleSizeInput.addEventListener('input', () => {
+      sampleSizeDisplay.textContent = sampleSizeInput.value;
+    });
+
+    [populationSelect, sampleSizeInput, replicationsInput].forEach((el) => el.addEventListener('input', () => {
+      sampleSizeDisplay.textContent = sampleSizeInput.value;
+    }));
+
+    simulateButton.addEventListener('click', simulate);
+
+    resizeCltCanvas();
+    window.addEventListener('resize', () => {
+      resizeCltCanvas();
+      simulate();
+    });
+
+    simulate();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>37. บูตสแตรป (Bootstrap)</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+</head>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 37</p>
+<h1>Bootstrap Confidence Interval</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>แนวคิดพื้นฐาน</h2>
+<ul>
+<li>สุ่มตัวอย่างใหม่พร้อมการคืนตัวอย่าง (resampling with replacement) จากข้อมูลที่มี</li>
+<li>คำนวณสถิติสนใจ (เช่น mean, median, regression coefficient) ทุกครั้ง → ได้ bootstrap distribution</li>
+<li>ใช้เมื่อตัวอย่างไม่ใหญ่มากหรือสูตร analytic ของ SE/CI ซับซ้อน</li>
+</ul>
+</article>
+<article class="card">
+<h2>ประเภทของ Bootstrap CI</h2>
+<ul>
+<li><strong>Percentile</strong>: ใช้ quantile 2.5% และ 97.5% ของ bootstrap distribution</li>
+<li><strong>Basic</strong>: พลิกค่ารอบสถิติจริง <code>(2\hat{\theta} - \theta^*_{upper}, 2\hat{\theta} - \theta^*_{lower})</code></li>
+<li><strong>BCa</strong>: ปรับ bias และ skewness ด้วยค่า acceleration (ต้องคำนวณ jackknife)</li>
+</ul>
+</article>
+<article class="card">
+<h2>ขั้นตอนปฏิบัติ</h2>
+<ol>
+<li>เตรียมข้อมูลตัวอย่าง n ตัว และเลือกสถิติที่ต้องการประเมิน</li>
+<li>ทำซ้ำ B ครั้ง (เช่น 1,000 หรือ 10,000): สุ่มตัวอย่าง n ตัวพร้อมคืน → คำนวณสถิติ</li>
+<li>ใช้ distribution ที่ได้สรุปค่าเฉลี่ย, SE, หรือ percentile สำหรับสร้าง CI</li>
+</ol>
+</article>
+<article class="card">
+<h2>ข้อควรระวัง</h2>
+<ul>
+<li>ข้อมูลควรเป็นตัวแทนของประชากร หากมี bias จะถูกขยายซ้ำใน bootstrap</li>
+<li>ข้อมูลที่มีโครงสร้างพิเศษ (อนุกรมเวลา, คลัสเตอร์) → ใช้ block bootstrap หรือ cluster bootstrap</li>
+<li>จำนวนรอบ B สูงขึ้นช่วยให้ CI เสถียร แต่ต้องคำนึงถึงเวลา/ทรัพยากรคอมพิวเตอร์</li>
+</ul>
+</article>
+<article class="card">
+<h2>ใช้งานร่วมกับเครื่องมือ</h2>
+<ul>
+<li><a href="../../tools/bootstrap-lab.html">Bootstrap Lab</a> สำหรับตั้งค่าสถิติและจำนวนรอบ</li>
+<li>ใช้ web worker ในหน้า Bootstrap Lab เพื่อรันการคำนวณจำนวนมากแบบขนาน</li>
+<li>สื่อสารผลด้วย histogram ของ bootstrap statistic และสรุปค่า CI อย่างชัดเจน</li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

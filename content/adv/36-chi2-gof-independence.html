@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>36. การทดสอบไคสแควร์ (GoF &amp; Independence)</title>
+<link href="../../styles/tokens.css" rel="stylesheet"/>
+<link href="../../styles/components.css" rel="stylesheet"/>
+<link href="../../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/>
+<link href="../../styles/typography-access.css" rel="stylesheet"/>
+<link href="../../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+</head>
+<body data-page="advanced"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">หัวข้อขั้นสูง 36</p>
+<h1>การทดสอบไคสแควร์: Goodness-of-Fit &amp; Independence</h1>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../../index.html#advanced">กลับหน้าต่อยอด</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="card-grid" id="main">
+<article class="card">
+<h2>ประเภทของการทดสอบ</h2>
+<ul>
+<li><strong>Goodness-of-Fit</strong>: ตรวจว่าแจกแจงจริงตรงกับแจกแจงที่คาดหมายหรือไม่</li>
+<li><strong>Test of Independence</strong>: ตรวจความสัมพันธ์ของตัวแปรเชิงคุณภาพในตารางไขว้</li>
+<li>ทั้งสองใช้สถิติไคสแควร์ <code>\chi^2</code> เปรียบเทียบความคาดหวังกับข้อมูลจริง</li>
+</ul>
+</article>
+<article class="card">
+<h2>สูตรพื้นฐาน</h2>
+<ul>
+<li><code>\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}</code> โดย O คือจำนวนจริง, E คือจำนวนคาดหมาย</li>
+<li>GoF: df = k − 1 − จำนวนพารามิเตอร์ที่ประมาณจากข้อมูล</li>
+<li>Independence: df = (r − 1)(c − 1) สำหรับตาราง r × c</li>
+</ul>
+</article>
+<article class="card">
+<h2>การเตรียม expected count</h2>
+<ul>
+<li>ในตารางไขว้: <code>E_{ij} = \frac{(row_i\ total)(col_j\ total)}{N}</code></li>
+<li>สำหรับ GoF: ใช้ความน่าจะเป็นที่คาดหวัง × จำนวนสังเกตทั้งหมด</li>
+<li>ตรวจว่าค่า E ทุกช่อง ≥ 5 หรือใช้การรวมหมวดหมู่/Monte Carlo เมื่อไม่ผ่านเงื่อนไข</li>
+</ul>
+</article>
+<article class="card">
+<h2>การตีความและการสื่อสาร</h2>
+<ul>
+<li>รายงานสถิติ <code>\chi^2</code>, df, p-value และแสดงตารางสรุปค่าสังเกต vs คาดหวัง</li>
+<li>หาก H<sub>0</sub> ถูกปฏิเสธ → วิเคราะห์ standardized residual เพื่อดูว่าช่องใดต่างจากที่คาด</li>
+<li>สื่อสารเป็น insight ว่าหมวดหมู่ใดมีสัดส่วนสูง/ต่ำกว่าที่คาด และผลต่อการตัดสินใจ</li>
+</ul>
+</article>
+<article class="card">
+<h2>กรณีศึกษา</h2>
+<ul>
+<li>GoF: ตรวจว่ายอดขายรายวันสอดคล้องกับ Poisson λ ที่คาดหรือไม่</li>
+<li>Independence: ตรวจว่าผลลัพธ์แคมเปญ (สำเร็จ/ไม่สำเร็จ) ขึ้นกับกลุ่มลูกค้า (A/B/C)</li>
+<li>ใช้ Mosaic plot หรือ stacked bar chart แสดงผลต่างอย่างเป็นภาพ</li>
+</ul>
+</article>
+<article class="card">
+<h2>เครื่องมือและแนวทางต่อยอด</h2>
+<ul>
+<li><a href="../../tools/chi2-tests.html">Chi-square Calculator</a> สำหรับคำนวณและดู p-value</li>
+<li>ใช้ exact test (Fisher) เมื่อข้อมูลน้อยหรือมี expected count ต่ำมาก</li>
+<li>ต่อยอดสู่การวิเคราะห์ log-linear หรือ correspondence analysis สำหรับตารางใหญ่</li>
+</ul>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../../index.html">กลับหน้าหลัก</a>
+</footer>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

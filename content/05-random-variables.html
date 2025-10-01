@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>05. ตัวแปรสุ่ม</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .definition { border-radius: var(--radius-lg); padding: var(--space-3); background: var(--neutral-100); border: 1px solid var(--neutral-200); }
+    .pmf-table { width: 100%; border-collapse: collapse; }
+    .pmf-table th, .pmf-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
+    .pmf-table th { background: var(--neutral-100); }
+    .builder { display: grid; gap: var(--space-3); }
+    .builder textarea { width: 100%; min-height: 140px; font-family: var(--font-mono); }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 180px; padding-block: var(--space-2); }
+    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
+    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    .note { font-style: italic; color: var(--neutral-600); }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="lesson"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">บทที่ 05</p>
+<h1>👨‍🏫 บทเรียนที่ 5: ตัวแปรสุ่ม (Random Variables)</h1>
+<p class="highlight">สวัสดีครับนักศึกษา! ที่ผ่านมาเราได้เรียนรู้เกี่ยวกับ "เหตุการณ์" และ "ความน่าจะเป็น" กันไปแล้ว แต่บ่อยครั้งในทางสถิติ เราสนใจผลลัพธ์ที่เป็น "ตัวเลข" มากกว่าคำอธิบาย ในบทเรียนนี้ เราจะมาเรียนรู้วิธีการ "แปลง" ผลลัพธ์ของการทดลองสุ่มให้กลายเป็นตัวเลขที่เราสามารถนำไปวิเคราะห์ต่อได้ ผ่านเครื่องมือที่เรียกว่า "ตัวแปรสุ่ม"</p>
+</div>
+<nav class="header-actions">
+<button class="ghost" data-prev="04-conditional.html">บทก่อนหน้า</button>
+<button class="ghost" data-next="06-expectation-variance.html">บทถัดไป</button>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><section>
+<h2>1. อธิบายเนื้อหาของการเรียน: ตัวแปรสุ่มคืออะไร?</h2>
+<p><strong>นิยาม:</strong> ตัวแปรสุ่ม คือ "ตัวแปรที่ค่าของมันเป็นตัวเลขที่ได้จากผลลัพธ์ของการทดลองสุ่ม"</p>
+<p><strong>หน้าที่ของมัน:</strong> คือการทำ "ฟังก์ชัน" ที่เปลี่ยนผลลัพธ์ที่อาจจะไม่ใช่ตัวเลข (เช่น หัว, ก้อย) ให้กลายเป็นตัวเลขที่เราสนใจ (เช่น จำนวนครั้งที่ออกหัว)</p>
+<p><strong>สัญลักษณ์:</strong> เรานิยมใช้ตัวอักษรภาษาอังกฤษตัวใหญ่ เช่น X, Y, Z แทนตัวแปรสุ่ม และใช้ตัวอักษรตัวเล็ก เช่น x, y, z แทนค่าที่เป็นไปได้ของตัวแปรสุ่มนั้น</p>
+<p><strong>ตัวอย่างง่ายๆ:</strong></p>
+<ul>
+<li>การทดลองสุ่ม: โยนเหรียญ 2 ครั้ง</li>
+<li>แซมเปิลสเปซ (S): {HH, HT, TH, TT}</li>
+<li>กำหนดตัวแปรสุ่ม (X): ให้ X = "จำนวนครั้งที่เหรียญออกหัว"</li>
+<li>แปลงผลลัพธ์เป็นตัวเลข: TT → X=0, HT หรือ TH → X=1, HH → X=2</li>
+</ul>
+<p>จะเห็นว่าตอนนี้เราสามารถอธิบายผลลัพธ์ด้วยตัวเลข 0, 1, 2 ได้แล้ว</p>
+</section>
+<section>
+<h2>2. ประเภทของตัวแปรสุ่ม</h2>
+<div class="grid-2">
+<div class="definition">
+<h3>ตัวแปรสุ่มแบบไม่ต่อเนื่อง (Discrete Random Variable)</h3>
+<ul>
+<li>ค่าที่เป็นไปได้เป็นจำนวนที่ "นับได้" อาจจะเป็นจำนวนจำกัด หรือไม่จำกัดก็ได้</li>
+<li>ค่าที่เป็นไปได้มักจะเป็น "จำนวนเต็ม" หรือตัวเลขที่แยกกันอย่างชัดเจน</li>
+<li><strong>คีย์เวิร์ด:</strong> "จำนวน..."</li>
+</ul>
+<p>ตัวอย่าง:</p>
+<ul>
+<li>X = จำนวนลูกเต๋าที่ออกแต้ม 6 จากการทอด 10 ครั้ง (0 ถึง 10)</li>
+<li>Y = จำนวนลูกค้าที่เข้าร้านใน 1 ชั่วโมง (0, 1, 2, 3, ...)</li>
+<li>Z = จำนวนสินค้าที่ชำรุดจากการผลิต 100 ชิ้น (0 ถึง 100)</li>
+</ul>
+</div>
+<div class="definition">
+<h3>ตัวแปรสุ่มแบบต่อเนื่อง (Continuous Random Variable)</h3>
+<ul>
+<li>ค่าที่เป็นไปได้เป็นจำนวนที่ "นับไม่ได้" เพราะสามารถมีค่าเป็นจุดทศนิยมใดๆ ก็ได้ภายในช่วงที่กำหนด</li>
+<li><strong>คีย์เวิร์ด:</strong> ตัวแปรที่มาจากการ "วัด"</li>
+</ul>
+<p>ตัวอย่าง:</p>
+<ul>
+<li>X = น้ำหนักของนักศึกษา (55.0, 55.1, 55.12, ... kg)</li>
+<li>Y = อุณหภูมิของห้อง (25.0, 25.2, 25.21 °C, ...)</li>
+<li>Z = เวลาที่ใช้ในการวิ่งมาราธอน (3.5, 3.52, 3.521 ชั่วโมง, ...)</li>
+</ul>
+</div>
+</div>
+</section>
+<section>
+<h2>3. &amp; 4. การแจกแจงความน่าจะเป็น (Probability Distribution)</h2>
+<p>เมื่อเรามีตัวแปรสุ่มแล้ว สิ่งต่อไปที่เราอยากรู้คือ "แต่ละค่าของตัวแปรสุ่มนั้น มีโอกาสเกิดขึ้นบ่อยแค่ไหน?" คำตอบของคำถามนี้อยู่ในรูปของ "การแจกแจงความน่าจะเป็น" ซึ่งเปรียบเสมือน "แผนที่" ที่บอกโครงสร้างความน่าจะเป็นทั้งหมดของตัวแปรสุ่มนั้นๆ</p>
+<div class="grid-2">
+<div class="definition">
+<h3>สำหรับตัวแปรสุ่มไม่ต่อเนื่อง: ฟังก์ชันมวลของความน่าจะเป็น (PMF)</h3>
+<ul>
+<li>หน้าที่: บอกความน่าจะเป็น ณ "จุด" ใดจุดหนึ่ง</li>
+<li>สัญลักษณ์: f(x) = P(X = x)</li>
+<li>คุณสมบัติ: f(x) ≥ 0 และ ∑ f(x) = 1</li>
+</ul>
+</div>
+<div class="definition">
+<h3>สำหรับตัวแปรสุ่มต่อเนื่อง: ฟังก์ชันความหนาแน่นของความน่าจะเป็น (PDF)</h3>
+<ul>
+<li>หน้าที่: บอก "ความหนาแน่น" ของความน่าจะเป็น ณ จุดใดจุดหนึ่ง (ไม่ใช่ความน่าจะเป็นโดยตรง)</li>
+<li>สำคัญ: สำหรับตัวแปรต่อเนื่อง ความน่าจะเป็นที่จุดใดจุดหนึ่งพอดี มีค่าเป็น 0 เสมอ! เราจะสนใจความน่าจะเป็นของ "ช่วง" เท่านั้น</li>
+<li>คุณสมบัติ: f(x) ≥ 0 และ ∫ f(x)dx = 1</li>
+</ul>
+</div>
+</div>
+</section>
+<section>
+<h2>5. ยกตัวอย่าง (ตัวแปรสุ่มไม่ต่อเนื่อง)</h2>
+<p>โจทย์: จากการโยนเหรียญที่เที่ยงตรง 2 ครั้ง ให้ X = จำนวนครั้งที่ออกหัว จงหาการแจกแจงความน่าจะเป็นของ X</p>
+<p>วิเคราะห์:</p>
+<ul>
+<li>S = {HH, HT, TH, TT} ⇒ n(S) = 4</li>
+<li>ค่าที่เป็นไปได้ของ X คือ {0, 1, 2}</li>
+</ul>
+<p>วิธีทำ:</p>
+<ul>
+<li>P(X=0): เกิดจากกรณี TT มี 1 แบบ ⇒ f(0) = 1/4</li>
+<li>P(X=1): เกิดจากกรณี HT, TH มี 2 แบบ ⇒ f(1) = 2/4</li>
+<li>P(X=2): เกิดจากกรณี HH มี 1 แบบ ⇒ f(2) = 1/4</li>
+</ul>
+<table aria-label="การแจกแจงตัวอย่าง" class="pmf-table">
+<thead><tr><th>x (จำนวนหัว)</th><th>f(x) = P(X=x)</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>1/4</td></tr>
+<tr><td>1</td><td>2/4</td></tr>
+<tr><td>2</td><td>1/4</td></tr>
+</tbody>
+</table>
+<p class="note">ตรวจสอบคุณสมบัติ: ผลรวมของ f(x) = 1/4 + 2/4 + 1/4 = 4/4 = 1 (ถูกต้อง!)</p>
+</section>
+<section>
+<h2>Interactive: Random Variable Playground</h2>
+<p>กรอกค่าของตัวแปรสุ่มและความน่าจะเป็น (รูปแบบ x:prob ต่อบรรทัด) เพื่อสร้าง PMF ตรวจสอบผลรวม และดูกราฟแท่ง</p>
+<div class="builder">
+<label for="pmf-input">ข้อมูลตัวแปรสุ่ม</label>
+<textarea id="pmf-input">0:0.25
+1:0.5
+2:0.25</textarea>
+<button class="primary" id="pmf-update">อัปเดตการแจกแจง</button>
+<p>ผลรวมความน่าจะเป็น: <strong id="pmf-sum">1.00</strong></p>
+<div aria-label="กราฟแท่งความน่าจะเป็น" class="bar-chart" id="pmf-chart" role="img"></div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const chart = document.getElementById('pmf-chart');
+    const sumEl = document.getElementById('pmf-sum');
+
+    const renderPMF = (pairs) => {
+      chart.innerHTML = '';
+      const validPairs = pairs.filter(({ prob }) => prob >= 0);
+      const total = validPairs.reduce((acc, { prob }) => acc + prob, 0);
+      sumEl.textContent = total.toFixed(4);
+      const maxProb = Math.max(...validPairs.map(({ prob }) => prob), 0.01);
+      validPairs.forEach(({ value, prob }) => {
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        bar.style.height = `${Math.min(100, (prob / maxProb) * 100)}%`;
+        bar.dataset.value = prob.toFixed(3);
+        const label = document.createElement('span');
+        label.textContent = value;
+        bar.appendChild(label);
+        chart.appendChild(bar);
+      });
+    };
+
+    const parseInput = (text) => {
+      return text.split(/\n+/).map(line => line.trim()).filter(Boolean).map(line => {
+        const [value, prob] = line.split(':');
+        return { value: value.trim(), prob: Number(prob) };
+      }).filter(({ prob }) => Number.isFinite(prob));
+    };
+
+    document.getElementById('pmf-update').addEventListener('click', () => {
+      const pairs = parseInput(document.getElementById('pmf-input').value);
+      renderPMF(pairs);
+    });
+
+    renderPMF(parseInput(document.getElementById('pmf-input').value));
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>

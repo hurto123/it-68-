@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>บททบทวนที่ 4: เจาะลึกการประมาณค่า</title>
+<link href="../styles/tokens.css" rel="stylesheet"/>
+<link href="../styles/components.css" rel="stylesheet"/>
+
+<link href="../styles/typography-access.css" rel="stylesheet"/>
+<link href="../styles/print.css" media="print" rel="stylesheet"/>
+<script defer="" src="../app.js"></script>
+<script defer="" src="../i18n/i18n.js"></script>
+<style>
+    .lesson {
+      display: grid;
+      gap: var(--size-6);
+      padding: var(--size-6);
+    }
+    .lesson .card {
+      padding: var(--size-5);
+    }
+    .grid {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      align-items: start;
+    }
+    .callout {
+      padding: var(--size-4);
+      border-radius: var(--radius-md);
+      background: var(--surface-subtle);
+      border-left: 4px solid var(--accent-strong);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid var(--border-muted);
+      padding: var(--size-3);
+      text-align: left;
+    }
+    th {
+      background: var(--surface-subtle);
+    }
+    .lab {
+      display: grid;
+      gap: var(--size-4);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: start;
+    }
+    .lab label {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-2);
+      font-weight: 600;
+    }
+    .lab input,
+    .lab select {
+      padding: var(--size-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-muted);
+      font: inherit;
+    }
+    .lab canvas {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-md);
+      background: var(--surface-muted);
+    }
+    .steps {
+      display: grid;
+      gap: var(--size-3);
+    }
+    .steps li::marker {
+      font-weight: 700;
+    }
+    @media print {
+      .lesson {
+        padding: 0;
+      }
+    }
+  </style>
+<link href="../styles/light.css" id="theme-link" rel="stylesheet"/><link href="../hotfix.css" rel="stylesheet"/><link href="../styles/skin-clean.css" rel="stylesheet"/></head>
+<body class="skin-clean" data-page="review"><a class="skip-link" href="#main">ข้ามไปที่เนื้อหา</a>
+<header class="site-header">
+<div>
+<p class="eyebrow">👨‍🏫 บททบทวนที่ 4</p>
+<h1>เจาะลึกการประมาณค่า (ศิลปะแห่งนักสืบ 🕵️‍♂️)</h1>
+<p class="subtitle">ถือเข็มทิศของช่วงความเชื่อมั่นและตีความหลักฐานอย่างมืออาชีพ</p>
+</div>
+<nav class="header-actions">
+<a class="ghost" href="../index.html#review">กลับหน้าสรุป</a>
+<button class="ghost" id="print-current">พิมพ์</button>
+</nav>
+</header>
+<main class="lesson" id="main">
+<nav aria-label="สารบัญหน้านี้" class="toc sticky" id="auto-toc">
+<!-- will be populated by app.js -->
+</nav><article class="card flow">
+<p>สวัสดีครับนักศึกษา! ในบททบทวนนี้ เราจะมาเจาะลึกบทบาทแรกของเราในสถิติเชิงอนุมาน นั่นคือการเป็น "นักสืบข้อมูล" ผ่านกระบวนการ "การประมาณค่า (Estimation)" เราจะรวบรวมหลักการทั้งหมดให้อยู่ภายใต้แนวคิดหลักเพียงหนึ่งเดียว</p>
+</article>
+<article class="card flow">
+<h2>1. โครงสร้างทองคำ: หัวใจของการประมาณค่าทั้งหมด</h2>
+<p>ไม่ว่าเราจะประมาณค่าอะไรก็ตาม (ค่าเฉลี่ย, สัดส่วน, ผลต่าง) โครงสร้างของ "ช่วงความเชื่อมั่น (Confidence Interval)" จะเหมือนกันเสมอ:</p>
+<div class="callout">
+<p><strong>ช่วงความเชื่อมั่น = (ตัวประมาณค่าแบบจุด) ± (ระยะเผื่อความคลาดเคลื่อน)</strong></p>
+<p><strong>ระยะเผื่อความคลาดเคลื่อน = (ค่าวิกฤต) × (ความคลาดเคลื่อนมาตรฐาน)</strong></p>
+<p>ดังนั้น <strong>CI = (Point Estimate) ± (Critical Value) × (Standard Error)</strong></p>
+</div>
+<p>ถ้าเราเข้าใจโครงสร้างนี้ เราก็สามารถสร้างช่วงความเชื่อมั่นได้ทุกสถานการณ์ เพียงแค่เลือกส่วนประกอบให้ถูกต้อง</p>
+</article>
+<article class="card flow">
+<h2>2. ตารางเทียบส่วนประกอบสำหรับการประมาณค่า</h2>
+<table>
+<thead>
+<tr>
+<th>สิ่งที่ต้องการประมาณ</th>
+<th>ตัวประมาณค่าแบบจุด</th>
+<th>ความคลาดเคลื่อนมาตรฐาน</th>
+<th>ค่าวิกฤต</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ค่าเฉลี่ยประชากรเดียว (μ)</td>
+<td>\(\bar{x}\)</td>
+<td>\(\dfrac{s}{\sqrt{n}}\)</td>
+<td>Z หรือ t</td>
+</tr>
+<tr>
+<td>สัดส่วนประชากรเดียว (p)</td>
+<td>\(\hat{p}\)</td>
+<td>\(\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}\)</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>ผลต่างค่าเฉลี่ย (μ<sub>1</sub> − μ<sub>2</sub>)</td>
+<td>\(\bar{x}_1 - \bar{x}_2\)</td>
+<td>\(\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}\)</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>ผลต่างสัดส่วน (p<sub>1</sub> − p<sub>2</sub>)</td>
+<td>\(\hat{p}_1 - \hat{p}_2\)</td>
+<td>\(\sqrt{\dfrac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \dfrac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\)</td>
+<td>Z</td>
+</tr>
+</tbody>
+</table>
+</article>
+<article class="card flow">
+<h2>3. เจาะลึกการตีความ (The Art of Interpretation)</h2>
+<div class="grid">
+<div>
+<h3>การตีความช่วงความเชื่อมั่นกลุ่มเดียว</h3>
+<p>"เรามีความเชื่อมั่น 95% ว่า ค่าเฉลี่ยที่แท้จริงของประชากรทั้งหมด อยู่ระหว่าง [ขอบล่าง] ถึง [ขอบบน]"</p>
+<p><em>จำไว้:</em> เรามั่นใจในกระบวนการ ไม่ใช่ตัวเลขชุดเดียว</p>
+</div>
+<div>
+<h3>การตีความช่วงความเชื่อมั่นของผลต่าง</h3>
+<p>กุญแจสำคัญคือเลขศูนย์</p>
+<ul>
+<li>ถ้าช่วงคร่อมศูนย์: ยังไม่มีหลักฐานเพียงพอว่าทั้งสองกลุ่มแตกต่างกัน</li>
+<li>ถ้าช่วงไม่คร่อมศูนย์: มีหลักฐานว่าแตกต่างกันอย่างมีนัยสำคัญ</li>
+</ul>
+</div>
+</div>
+</article>
+<article class="card flow">
+<h2>4. ตัวอย่างการคิดแบบนักสืบ</h2>
+<ol class="steps">
+<li><strong>คดี:</strong> เปรียบเทียบเวลาเฉลี่ยเดินทางของพนักงาน 2 แผนก (A vs B)</li>
+<li><strong>รวบรวมร่องรอย:</strong> สุ่มตัวอย่างพนักงานจากแต่ละแผนก คำนวณ \(\bar{x}_A, s_A, n_A\) และ \(\bar{x}_B, s_B, n_B\)</li>
+<li><strong>สร้างสมมติฐานเบื้องต้น:</strong> คำนวณตัวประมาณค่าแบบจุด \(\bar{x}_A - \bar{x}_B\)</li>
+<li><strong>ประเมินความน่าเชื่อถือ:</strong> คำนวณความคลาดเคลื่อนมาตรฐาน \(\sqrt{\dfrac{s_A^2}{n_A} + \dfrac{s_B^2}{n_B}}\)</li>
+<li><strong>สร้างขอบเขต:</strong> สร้างช่วงความเชื่อมั่น 95% โดยใช้โครงสร้างทองคำ</li>
+<li><strong>สรุปสำนวน:</strong> ดูว่าช่วงคร่อมศูนย์หรือไม่ เพื่อสรุปว่าเวลาทั้งสองแผนกต่างกันหรือไม่</li>
+</ol>
+<p>การคิดแบบนี้จะช่วยให้เรามองการประมาณค่าเป็นกระบวนการที่มีเหตุมีผล ไม่ใช่แค่การแทนค่าในสูตรครับ</p>
+</article>
+<article class="card flow">
+<h2>Confidence Interval Playground</h2>
+<p>ทดลองสร้างช่วงความเชื่อมั่นด้วยข้อมูลของคุณเอง (แสดงผลแบบโต้ตอบพร้อมกราฟ ไม่ใช่ภาพนิ่ง)</p>
+<div class="lab">
+<div class="control flow">
+<label for="ci-type">ประเภทข้อมูล
+            <select id="ci-type">
+<option value="mean-known">ค่าเฉลี่ย (รู้ σ หรือ n ≥ 30)</option>
+<option value="mean-unknown">ค่าเฉลี่ย (ไม่รู้ σ, ใช้ t)</option>
+<option value="proportion">สัดส่วน</option>
+</select>
+</label>
+<label for="ci-point">ตัวประมาณค่าแบบจุด
+            <input id="ci-point" step="0.01" type="number" value="140"/>
+</label>
+<label for="ci-sd">ส่วนเบี่ยงเบนมาตรฐาน / ค่า p<sub>hat</sub>
+<input id="ci-sd" step="0.01" type="number" value="20"/>
+</label>
+<label for="ci-n">ขนาดตัวอย่าง (n)
+            <input id="ci-n" min="2" type="number" value="25"/>
+</label>
+<label for="ci-confidence">ระดับความเชื่อมั่น (%)
+            <input id="ci-confidence" max="99.9" min="50" step="0.1" type="number" value="95"/>
+</label>
+<p><strong>ค่าวิกฤต:</strong> <span id="ci-critical">0.00</span></p>
+<p><strong>ระยะเผื่อความคลาดเคลื่อน:</strong> <span id="ci-margin">0.00</span></p>
+<p><strong>ช่วงความเชื่อมั่น:</strong> <span id="ci-interval">[0, 0]</span></p>
+</div>
+<canvas aria-label="แผนภาพช่วงความเชื่อมั่น" id="ci-chart" role="img"></canvas>
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<p>© 2024 Stats Learning Lab</p>
+<a class="ghost" href="../index.html">กลับหน้าหลัก</a>
+</footer>
+<script>
+    const ciCanvas = document.getElementById('ci-chart');
+    const ciCtx = ciCanvas.getContext('2d');
+    const ciType = document.getElementById('ci-type');
+    const ciPoint = document.getElementById('ci-point');
+    const ciSd = document.getElementById('ci-sd');
+    const ciN = document.getElementById('ci-n');
+    const ciConfidence = document.getElementById('ci-confidence');
+    const ciCritical = document.getElementById('ci-critical');
+    const ciMargin = document.getElementById('ci-margin');
+    const ciInterval = document.getElementById('ci-interval');
+
+    function resizeCiCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const width = ciCanvas.clientWidth;
+      const height = ciCanvas.clientHeight;
+      ciCanvas.width = width * ratio;
+      ciCanvas.height = height * ratio;
+      ciCtx.setTransform(1, 0, 0, 1, 0, 0);
+      ciCtx.scale(ratio, ratio);
+    }
+
+    function erf(x) {
+      // numerical approximation for inverse error function use below
+      // this is the Abramowitz and Stegun approximation
+      const a1 = 0.254829592;
+      const a2 = -0.284496736;
+      const a3 = 1.421413741;
+      const a4 = -1.453152027;
+      const a5 = 1.061405429;
+      const p = 0.3275911;
+      const sign = x < 0 ? -1 : 1;
+      const absX = Math.abs(x);
+      const t = 1 / (1 + p * absX);
+      const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+      return sign * y;
+    }
+
+    function invErf(x) {
+      let a = 0.147;
+      const ln = Math.log(1 - x * x);
+      const term1 = 2 / (Math.PI * a) + ln / 2;
+      const term2 = ln / a;
+      return Math.sign(x) * Math.sqrt(Math.sqrt(term1 * term1 - term2) - term1);
+    }
+
+    function inverseNormalCDF(p) {
+      return Math.sqrt(2) * invErf(2 * p - 1);
+    }
+
+    function tCritical(df, alpha) {
+      // simple approximation using inverse normal with correction (for educational use)
+      const z = inverseNormalCDF(1 - alpha / 2);
+      const correction = (z ** 3 + z) / (4 * df);
+      return z + correction;
+    }
+
+    function updateCI() {
+      const type = ciType.value;
+      const point = Number(ciPoint.value);
+      const spread = Number(ciSd.value);
+      const n = Math.max(2, Number(ciN.value));
+      const confidence = Math.min(0.999, Math.max(0.5, Number(ciConfidence.value) / 100));
+      const alpha = 1 - confidence;
+      let critical;
+      let standardError;
+
+      if (type === 'mean-known') {
+        critical = inverseNormalCDF(1 - alpha / 2);
+        standardError = spread / Math.sqrt(n);
+      } else if (type === 'mean-unknown') {
+        critical = tCritical(n - 1, alpha);
+        standardError = spread / Math.sqrt(n);
+      } else {
+        const pHat = spread;
+        const adjusted = Math.min(0.999, Math.max(0.001, pHat));
+        standardError = Math.sqrt(adjusted * (1 - adjusted) / n);
+        critical = inverseNormalCDF(1 - alpha / 2);
+      }
+
+      const margin = critical * standardError;
+      const lower = point - margin;
+      const upper = point + margin;
+
+      ciCritical.textContent = critical.toFixed(3);
+      ciMargin.textContent = margin.toFixed(3);
+      ciInterval.textContent = `[${lower.toFixed(3)}, ${upper.toFixed(3)}]`;
+
+      drawInterval(point, lower, upper);
+    }
+
+    function drawInterval(point, lower, upper) {
+      const width = ciCanvas.clientWidth;
+      const height = ciCanvas.clientHeight;
+      const ratio = window.devicePixelRatio || 1;
+      ciCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ciCtx.clearRect(0, 0, ciCanvas.width, ciCanvas.height);
+
+      const padding = 40;
+      const midY = height / 2;
+      const min = Math.min(lower, point, upper);
+      const max = Math.max(lower, point, upper);
+      const range = max - min || 1;
+
+      const scale = (width - padding * 2) / range;
+      const toX = (value) => padding + (value - min) * scale;
+
+      // interval line
+      ciCtx.strokeStyle = 'var(--accent-strong, #4a63e7)';
+      ciCtx.lineWidth = 4;
+      ciCtx.beginPath();
+      ciCtx.moveTo(toX(lower), midY);
+      ciCtx.lineTo(toX(upper), midY);
+      ciCtx.stroke();
+
+      // point estimate
+      ciCtx.fillStyle = 'var(--text-strong, #111)';
+      const pointX = toX(point);
+      ciCtx.fillRect(pointX - 2, midY - 20, 4, 40);
+      ciCtx.fillText('Point', pointX - 18, midY - 24);
+
+      // ticks
+      ciCtx.fillText(lower.toFixed(2), toX(lower) - 20, midY + 32);
+      ciCtx.fillText(upper.toFixed(2), toX(upper) - 20, midY + 32);
+    }
+
+    [ciType, ciPoint, ciSd, ciN, ciConfidence].forEach((el) => {
+      el.addEventListener('input', updateCI);
+    });
+
+    resizeCiCanvas();
+    window.addEventListener('resize', () => {
+      resizeCiCanvas();
+      updateCI();
+    });
+
+    updateCI();
+  </script>
+<!-- Fallback systems for content pages -->
+<script>
+  (function(){
+    // Theme toggle & Print
+    const themeLink = document.getElementById('theme-link');
+    const themeBtn = document.getElementById('theme-toggle');
+    const printBtn = document.getElementById('print-current');
+    function toggleTheme(){
+      if(!themeLink) return;
+      const href = themeLink.getAttribute('href');
+      if(href.includes('light.css')){
+        themeLink.setAttribute('href', href.replace('light.css','theme-high-contrast.css'));
+        localStorage.setItem('stats-theme','hc');
+      }else if(href.includes('theme-high-contrast.css')){
+        themeLink.setAttribute('href', href.replace('theme-high-contrast.css','light.css'));
+        localStorage.setItem('stats-theme','light');
+      }
+    }
+    try{
+      const pref = localStorage.getItem('stats-theme');
+      if(themeLink && pref==='hc' && themeLink.getAttribute('href').includes('light.css')){
+        themeLink.setAttribute('href', themeLink.getAttribute('href').replace('light.css','theme-high-contrast.css'));
+      }
+    }catch(e){}
+    themeBtn && themeBtn.addEventListener('click', toggleTheme);
+    printBtn && printBtn.addEventListener('click', ()=>window.print());
+
+    // Shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='t' || e.key==='T') toggleTheme();
+      if(e.key==='p' || e.key==='P') window.print();
+      if(e.key==='['){ const a=document.querySelector('.prev-next a.prev[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+      if(e.key===']'){ const a=document.querySelector('.prev-next a.next[href]'); if(a){ e.preventDefault(); location.href=a.getAttribute('href'); } }
+    });
+
+    // Progress bar
+    (function(){
+      const bar = document.querySelector('#progressbar>span');
+      if(!bar) return;
+      const onScroll = ()=>{
+        const el = document.scrollingElement || document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        const pct = max>0 ? (el.scrollTop/max)*100 : 0;
+        bar.style.width = pct.toFixed(2)+'%';
+      };
+      document.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
+
+    // Build TOC from h2/h3
+    (function(){
+      const toc = document.getElementById('auto-toc');
+      if(!toc) return;
+      const heads = Array.from(document.querySelectorAll('main h2, main h3'));
+      toc.innerHTML = '';
+      heads.forEach((h,i)=>{
+        if(!h.id){
+          h.id = (h.textContent||('sec-'+i)).trim().toLowerCase().replace(/[^a-z0-9ก-๙]+/g,'-');
+        }
+        const a = document.createElement('a');
+        a.href = '#'+h.id;
+        a.textContent = h.textContent;
+        if(h.tagName.toLowerCase()==='h3'){ a.style.paddingLeft = '1rem'; }
+        toc.appendChild(a);
+      });
+      const links = Array.from(toc.querySelectorAll('a'));
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+e.target.id));
+          }
+        });
+      }, {rootMargin:'0px 0px -70% 0px', threshold:.1});
+      heads.forEach(h=>obs.observe(h));
+    })();
+
+    // Visited tracking
+    (function(){
+      try{
+        var key = 'stats-visited';
+        var href = location.pathname.split('/').slice(-2).join('/'); // content/NN-xxx.html
+        var set = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        set.add(href);
+        localStorage.setItem(key, JSON.stringify(Array.from(set)));
+        localStorage.setItem('stats-last-lesson', JSON.stringify({ href, title: document.title, ts: Date.now() }));
+      }catch(e){}
+    })();
+
+  })();
+  </script>
+<script>
+(function(){
+  const link = document.getElementById('theme-link');
+  if(link && link.getAttribute('href').includes('theme-high-contrast.css')){
+    link.setAttribute('href', link.getAttribute('href').replace('theme-high-contrast.css','light.css'));
+  }
+  try{ if(localStorage.getItem('stats-theme')==='hc'){ localStorage.removeItem('stats-theme'); } }catch(e){}
+})();
+</script>
+<script defer="True" src="../hotfix.js"></script></body>
+</html>
