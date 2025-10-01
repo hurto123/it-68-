@@ -581,9 +581,104 @@
         });
     </script>
 
+    <!-- ปุ่มลัดเข้าไฟล์บทเรียน (ไม่แต่งเพิ่ม) -->
+    <script>
+    (function () {
+      var files = [
+        "01-intro.html",
+        "02-descriptive-cheatsheet.html",
+        "02-descriptive.html",
+        "03-probability-basics.html",
+        "04-conditional.html",
+        "05-random-variables.html",
+        "06-expectation-variance.html",
+        "07-discrete-uniform.html",
+        "08-binomial.html",
+        "09-hypergeometric.html",
+        "10-poisson.html",
+        "11-continuous-normal.html",
+        "12-standard-normal-z.html",
+        "13-t-chi2-f.html",
+        "14-clt.html",
+        "15-sampling-other-stats.html",
+        "16-ci-intro.html",
+        "17-ci-mean-onepop.html",
+        "18-ci-proportion-onepop.html",
+        "19-ci-means-twopop.html",
+        "20-ci-proportions-twopop.html",
+        "21-sample-size.html",
+        "22-ci-variance.html",
+        "23-hypothesis-intro.html",
+        "24-critical-vs-pvalue.html",
+        "25-test-mean-onepop.html",
+        "26-test-proportion-onepop.html",
+        "27-test-means-twopop.html",
+        "28-test-proportions-twopop.html",
+        "29-test-variance-onepop.html",
+        "30-test-variance-ratio.html",
+        "31-summary-next.html"
+      ];
 
+      var prefixes = ["content/", ""];
+      
+      function createQuickButtons() {
+        var container = document.createElement('div');
+        container.style.cssText = 'position:fixed;bottom:20px;right:20px;background:white;border:2px solid #3b82f6;border-radius:12px;padding:16px;box-shadow:0 8px 25px rgba(0,0,0,0.15);max-width:300px;max-height:400px;overflow-y:auto;z-index:1000;';
+        
+        var header = document.createElement('div');
+        header.innerHTML = '<div style="font-weight:bold;color:#3b82f6;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;"><span>🚀 ปุ่มลัดบทเรียน</span><button onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'" style="background:none;border:none;font-size:18px;cursor:pointer;color:#6b7280;">×</button></div>';
+        container.appendChild(header);
+        
+        var grid = document.createElement('div');
+        grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;';
+        
+        files.forEach(function(file, index) {
+          var btn = document.createElement('button');
+          var title = file.replace('.html', '').replace(/^\d+-/, '');
+          btn.innerHTML = '<div style="font-size:10px;color:#6b7280;">' + String(index + 1).padStart(2, "0") + '</div><div style="font-size:11px;font-weight:500;color:#374151;">' + title + '</div>';
+          btn.style.cssText = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:left;';
+          btn.onmouseover = function() { this.style.background = '#eff6ff'; this.style.borderColor = '#3b82f6'; };
+          btn.onmouseout = function() { this.style.background = '#f8fafc'; this.style.borderColor = '#e2e8f0'; };
+          btn.onclick = function() { openQuickLesson(file, title, prefixes); };
+          grid.appendChild(btn);
+        });
+        
+        container.appendChild(grid);
+        document.body.appendChild(container);
+      }
+      
+      async function openQuickLesson(file, title, prefixes) {
+        for (let i = 0; i < prefixes.length; i++) {
+          const url = prefixes[i] + file;
+          try {
+            let ok = true;
+            if (location.protocol.indexOf("http") === 0) {
+              const res = await fetch(url, { method: "HEAD" });
+              ok = res.ok;
+            }
+            if (ok) {
+              window.open(url, '_blank', 'noopener,noreferrer');
+              return;
+            }
+          } catch (e) {
+            // Continue to next prefix
+          }
+        }
+        
+        // Fallback
+        window.open(prefixes[0] + file, '_blank', 'noopener,noreferrer');
+      }
+      
+      // Create buttons when page loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createQuickButtons);
+      } else {
+        createQuickButtons();
+      }
+    })();
+    </script>
 
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987f940aa310799c',t:'MTc1OTM1OTY0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987f844ac386799c',t:'MTc1OTM1OTAwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html><!DOCTYPE html>
 <html lang="th">
 <head>
@@ -1085,9 +1180,9 @@
             </div>
         </section>
 
-        <!-- Quick Lesson Access Section -->
+        <!-- ปุ่มลัดเข้าไฟล์บทเรียน -->
         <section class="mb-12">
-            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-t-2xl p-6">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl p-6">
                 <div class="flex items-center space-x-3">
                     <span class="text-3xl">🚀</span>
                     <div>
@@ -1098,49 +1193,23 @@
             </div>
             
             <div class="bg-white rounded-b-2xl shadow-lg p-6">
-                <!-- Help and Instructions -->
-                <div class="mb-6 bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-400 rounded-xl p-4">
-                    <div class="flex items-start space-x-3">
-                        <span class="text-2xl">💡</span>
-                        <div class="flex-1">
-                            <h4 class="font-bold text-yellow-800 mb-2">คำแนะนำการใช้งาน</h4>
-                            <div class="text-sm text-yellow-700 space-y-1">
-                                <p>• หากไม่สามารถเปิดไฟล์ได้ กรุณาตรวจสอบว่าไฟล์บทเรียนอยู่ในโฟลเดอร์ที่ถูกต้อง</p>
-                                <p>• ระบบจะค้นหาไฟล์ในโฟลเดอร์: <code class="bg-yellow-200 px-1 rounded">content/</code>, <code class="bg-yellow-200 px-1 rounded">lessons/</code>, หรือโฟลเดอร์เดียวกัน</p>
-                                <p>• หากยังไม่สามารถเข้าถึงได้ ให้ดูที่ Console (F12) เพื่อดูรายละเอียดเพิ่มเติม</p>
-                            </div>
-                            <div class="mt-3 flex flex-wrap gap-2">
-                                <button onclick="showFileStructureHelp()" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs transition-colors">
-                                    📁 ดูโครงสร้างไฟล์
-                                </button>
-                                <button onclick="testAllFiles()" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-xs transition-colors">
-                                    🔍 ทดสอบไฟล์ทั้งหมด
-                                </button>
-                                <button onclick="downloadFileList()" class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1 rounded-lg text-xs transition-colors">
-                                    📋 ดาวน์โหลดรายชื่อไฟล์
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3" id="quick-lesson-buttons">
+                    <!-- ปุ่มจะถูกสร้างโดย JavaScript -->
                 </div>
                 
-                <div class="mb-6 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-4">
+                <div class="mt-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-4">
                     <div class="flex items-center justify-between text-sm">
                         <div class="flex items-center space-x-4">
                             <span class="text-gray-600">📚 <strong>31</strong> บทเรียน</span>
                             <span class="text-gray-600">🎯 <strong>9</strong> โมดูลหลัก</span>
                             <span class="text-gray-600">⏱️ <strong>~20</strong> ชั่วโมง</span>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="toggleQuickAccess()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-3 py-1 rounded-lg text-xs transition-colors">
-                                🔄 รีเฟรช
-                            </button>
-                        </div>
+                        <button onclick="document.getElementById('quick-lesson-buttons').parentElement.parentElement.style.display='none'" 
+                                class="text-gray-400 hover:text-gray-600 transition-colors" 
+                                title="ซ่อนส่วนนี้">
+                            ✕
+                        </button>
                     </div>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3" id="quick-lesson-buttons">
-                    <!-- ปุ่มจะถูกสร้างโดย JavaScript -->
                 </div>
             </div>
         </section>
@@ -1403,8 +1472,7 @@
 
         // Additional resources
         const additionalResources = [
-            { title: "แผนที่การเรียน", file: "#", icon: "🗺️", description: "แผนที่การเรียนแบบโต้ตอบ", action: "showLearningMap" },
-            { title: "แผนภาพตัดสินใจ", file: "decision-map.html", icon: "🧭", description: "แผนภาพช่วยตัดสินใจเลือกวิธีการวิเคราะห์" },
+            { title: "แผนภาพตัดสินใจ", file: "decision-map.html", icon: "🗺️", description: "แผนภาพช่วยตัดสินใจเลือกวิธีการวิเคราะห์" },
             { title: "พจนานุกรมศัพท์", file: "glossary.html", icon: "📚", description: "คำศัพท์และคำจำกัดความทางสถิติ" },
             { title: "บันทึกวิธีการ", file: "method-notes.html", icon: "📝", description: "บันทึกวิธีการและเทคนิคต่างๆ" },
             { title: "เอกสารอ้างอิง", file: "references.html", icon: "📖", description: "เอกสารและแหล่งข้อมูลอ้างอิง" },
@@ -1565,47 +1633,11 @@
 
         // Open resource
         function openResource(fileName, title) {
-            // Skip if it's an action (starts with #)
-            if (fileName.startsWith('#')) {
-                showNotification(`⚠️ ${title} - ฟีเจอร์นี้ยังไม่พร้อมใช้งาน`, 'info');
-                return;
-            }
-            
-            // List of possible paths to try
-            const pathsToTry = [
-                fileName,                    // Direct file
-                `content/${fileName}`,       // In content folder
-                `lessons/${fileName}`,       // In lessons folder
-                `tools/${fileName}`,         // In tools folder
-                `resources/${fileName}`,     // In resources folder
-                `../content/${fileName}`,    // Parent content folder
-                `../lessons/${fileName}`,    // Parent lessons folder
-                `../tools/${fileName}`,      // Parent tools folder
-                `./${fileName}`,            // Current directory
-                `./content/${fileName}`,    // Current content folder
-                `./lessons/${fileName}`,    // Current lessons folder
-                `./tools/${fileName}`       // Current tools folder
-            ];
-            
-            // Try each path
-            let opened = false;
-            for (const path of pathsToTry) {
-                try {
-                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
-                    if (newWindow) {
-                        showNotification(`📂 เปิด: ${title}`, 'success');
-                        opened = true;
-                        break;
-                    }
-                } catch (error) {
-                    continue;
-                }
-            }
-            
-            // If nothing worked, show helpful message
-            if (!opened) {
-                showNotification(`📂 ไม่พบไฟล์: ${fileName}`, 'error');
-                console.log('Resource paths tried:', pathsToTry);
+            try {
+                window.open(fileName, '_blank', 'noopener,noreferrer');
+                showNotification(`📂 เปิด: ${title}`, 'success');
+            } catch (error) {
+                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
             }
         }
 
@@ -1701,266 +1733,35 @@
         }
 
         // Open quick lesson
-        function openQuickLesson(file, title, prefixes = ['content/', '']) {
-            // Add click effect if event target exists
-            if (event && event.target) {
-                event.target.style.transform = "scale(0.95)";
-                setTimeout(() => {
-                    event.target.style.transform = "";
-                }, 150);
-            }
+        async function openQuickLesson(file, title, prefixes) {
+            // Add click effect
+            event.target.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                event.target.style.transform = "";
+            }, 150);
             
-            // List of possible paths to try
-            const pathsToTry = [
-                file,                    // Direct file
-                `content/${file}`,       // In content folder
-                `lessons/${file}`,       // In lessons folder
-                `../content/${file}`,    // Parent content folder
-                `../lessons/${file}`,    // Parent lessons folder
-                `./${file}`,            // Current directory
-                `./content/${file}`,    // Current content folder
-                `./lessons/${file}`     // Current lessons folder
-            ];
-            
-            // Try each path
-            let opened = false;
-            for (const path of pathsToTry) {
+            // Try to open file with different prefixes
+            for (let i = 0; i < prefixes.length; i++) {
+                const url = prefixes[i] + file;
                 try {
-                    // Create a test link to check if file exists
-                    const testLink = document.createElement('a');
-                    testLink.href = path;
-                    testLink.target = '_blank';
-                    testLink.rel = 'noopener noreferrer';
-                    
-                    // Try to open
-                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
-                    
-                    if (newWindow) {
-                        showNotification(`📖 เปิดบทเรียน: ${title}`, 'success');
-                        opened = true;
-                        break;
+                    let ok = true;
+                    if (location.protocol.indexOf("http") === 0) {
+                        const res = await fetch(url, { method: "HEAD" });
+                        ok = res.ok;
                     }
-                } catch (error) {
-                    // Continue to next path
-                    continue;
+                    if (ok) {
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                        showNotification(`📖 เปิดบทเรียน: ${title}`, 'success');
+                        return;
+                    }
+                } catch (e) {
+                    // Continue to next prefix
                 }
             }
             
-            // If nothing worked, show helpful message
-            if (!opened) {
-                showNotification(`📂 ไม่พบไฟล์: ${file} - กรุณาตรวจสอบโฟลเดอร์`, 'error');
-                
-                // Show detailed paths tried
-                console.log('Paths tried:', pathsToTry);
-                
-                // Create a helpful popup
-                const helpDiv = document.createElement('div');
-                helpDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-                helpDiv.innerHTML = `
-                    <div class="bg-white rounded-xl p-6 max-w-md mx-4">
-                        <h3 class="text-lg font-bold mb-4">🔍 ไม่พบไฟล์บทเรียน</h3>
-                        <p class="text-gray-600 mb-4">กรุณาตรวจสอบว่าไฟล์ <strong>${file}</strong> อยู่ในโฟลเดอร์ใดโฟลเดอร์หนึ่งต่อไปนี้:</p>
-                        <ul class="text-sm text-gray-500 mb-4 space-y-1">
-                            <li>• โฟลเดอร์เดียวกัน</li>
-                            <li>• โฟลเดอร์ content/</li>
-                            <li>• โฟลเดอร์ lessons/</li>
-                        </ul>
-                        <button onclick="this.parentElement.parentElement.remove()" 
-                                class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                            ตกลง
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(helpDiv);
-                
-                // Auto remove after 10 seconds
-                setTimeout(() => {
-                    if (helpDiv.parentNode) {
-                        helpDiv.parentNode.removeChild(helpDiv);
-                    }
-                }, 10000);
-            }
-        }
-
-        // Toggle quick access refresh
-        function toggleQuickAccess() {
-            createQuickLessonButtons();
-            showNotification('🔄 รีเฟรชปุ่มลัดเรียบร้อย', 'success');
-        }
-
-        // Show file structure help
-        function showFileStructureHelp() {
-            const helpDiv = document.createElement('div');
-            helpDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
-            helpDiv.innerHTML = `
-                <div class="bg-white rounded-xl p-6 max-w-2xl max-h-96 overflow-y-auto">
-                    <h3 class="text-xl font-bold mb-4">📁 โครงสร้างไฟล์ที่แนะนำ</h3>
-                    <div class="bg-gray-100 rounded-lg p-4 font-mono text-sm mb-4">
-                        <div>📁 โปรเจค/</div>
-                        <div>├── 📄 index.html (ไฟล์หลัก)</div>
-                        <div>├── 📁 content/</div>
-                        <div>│   ├── 📄 01-intro.html</div>
-                        <div>│   ├── 📄 02-descriptive.html</div>
-                        <div>│   └── 📄 ... (บทเรียนอื่นๆ)</div>
-                        <div>├── 📁 lessons/ (ทางเลือก)</div>
-                        <div>│   └── 📄 ... (บทเรียน)</div>
-                        <div>└── 📁 formula/</div>
-                        <div>    └── 📄 index.html</div>
-                    </div>
-                    <div class="text-sm text-gray-600 mb-4">
-                        <p><strong>หมายเหตุ:</strong> ระบบจะค้นหาไฟล์ในลำดับต่อไปนี้:</p>
-                        <ol class="list-decimal list-inside mt-2 space-y-1">
-                            <li>โฟลเดอร์เดียวกับไฟล์หลัก</li>
-                            <li>โฟลเดอร์ content/</li>
-                            <li>โฟลเดอร์ lessons/</li>
-                            <li>โฟลเดอร์ระดับบน (../) + content/ หรือ lessons/</li>
-                        </ol>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" 
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                        ปิด
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(helpDiv);
-        }
-
-        // Test all files
-        function testAllFiles() {
-            const files = [
-                "01-intro.html", "02-descriptive-cheatsheet.html", "02-descriptive.html",
-                "03-probability-basics.html", "04-conditional.html", "05-random-variables.html",
-                "06-expectation-variance.html", "07-discrete-uniform.html", "08-binomial.html",
-                "09-hypergeometric.html", "10-poisson.html", "11-continuous-normal.html",
-                "12-standard-normal-z.html", "13-t-chi2-f.html", "14-clt.html",
-                "15-sampling-other-stats.html", "16-ci-intro.html", "17-ci-mean-onepop.html",
-                "18-ci-proportion-onepop.html", "19-ci-means-twopop.html", "20-ci-proportions-twopop.html",
-                "21-sample-size.html", "22-ci-variance.html", "23-hypothesis-intro.html",
-                "24-critical-vs-pvalue.html", "25-test-mean-onepop.html", "26-test-proportion-onepop.html",
-                "27-test-means-twopop.html", "28-test-proportions-twopop.html", "29-test-variance-onepop.html",
-                "30-test-variance-ratio.html", "31-summary-next.html"
-            ];
-
-            const pathsToTry = ['', 'content/', 'lessons/', '../content/', '../lessons/'];
-            const results = [];
-
-            showNotification('🔍 กำลังทดสอบไฟล์ทั้งหมด...', 'info');
-
-            // Create results popup
-            const resultsDiv = document.createElement('div');
-            resultsDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
-            resultsDiv.innerHTML = `
-                <div class="bg-white rounded-xl p-6 max-w-4xl max-h-96 overflow-y-auto">
-                    <h3 class="text-xl font-bold mb-4">🔍 ผลการทดสอบไฟล์</h3>
-                    <div id="test-results" class="space-y-2">
-                        <div class="text-center text-gray-500">กำลังทดสอบ...</div>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" 
-                            class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
-                        ปิด
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(resultsDiv);
-
-            const resultsContainer = resultsDiv.querySelector('#test-results');
-            resultsContainer.innerHTML = '';
-
-            // Test each file
-            files.forEach((file, index) => {
-                setTimeout(() => {
-                    let found = false;
-                    let foundPath = '';
-
-                    for (const path of pathsToTry) {
-                        const fullPath = path + file;
-                        try {
-                            // Create a temporary link to test
-                            const testLink = document.createElement('a');
-                            testLink.href = fullPath;
-                            
-                            // For now, we'll assume the file exists if the path is valid
-                            // In a real scenario, you'd need server-side checking
-                            found = true;
-                            foundPath = fullPath;
-                            break;
-                        } catch (error) {
-                            continue;
-                        }
-                    }
-
-                    const resultDiv = document.createElement('div');
-                    resultDiv.className = `flex items-center justify-between p-2 rounded ${found ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
-                    resultDiv.innerHTML = `
-                        <div class="flex items-center space-x-2">
-                            <span>${found ? '✅' : '❌'}</span>
-                            <span class="font-mono text-sm">${file}</span>
-                        </div>
-                        <div class="text-xs text-gray-500">
-                            ${found ? foundPath : 'ไม่พบ'}
-                        </div>
-                    `;
-                    resultsContainer.appendChild(resultDiv);
-
-                    // Show completion message
-                    if (index === files.length - 1) {
-                        const foundCount = resultsContainer.querySelectorAll('.bg-green-50').length;
-                        showNotification(`✅ ทดสอบเสร็จ: พบ ${foundCount}/${files.length} ไฟล์`, 'success');
-                    }
-                }, index * 100); // Stagger the tests
-            });
-        }
-
-        // Download file list
-        function downloadFileList() {
-            const files = [
-                "01-intro.html", "02-descriptive-cheatsheet.html", "02-descriptive.html",
-                "03-probability-basics.html", "04-conditional.html", "05-random-variables.html",
-                "06-expectation-variance.html", "07-discrete-uniform.html", "08-binomial.html",
-                "09-hypergeometric.html", "10-poisson.html", "11-continuous-normal.html",
-                "12-standard-normal-z.html", "13-t-chi2-f.html", "14-clt.html",
-                "15-sampling-other-stats.html", "16-ci-intro.html", "17-ci-mean-onepop.html",
-                "18-ci-proportion-onepop.html", "19-ci-means-twopop.html", "20-ci-proportions-twopop.html",
-                "21-sample-size.html", "22-ci-variance.html", "23-hypothesis-intro.html",
-                "24-critical-vs-pvalue.html", "25-test-mean-onepop.html", "26-test-proportion-onepop.html",
-                "27-test-means-twopop.html", "28-test-proportions-twopop.html", "29-test-variance-onepop.html",
-                "30-test-variance-ratio.html", "31-summary-next.html"
-            ];
-
-            const fileListText = `# รายชื่อไฟล์บทเรียนสถิติ (${files.length} ไฟล์)
-
-## โครงสร้างโฟลเดอร์ที่แนะนำ:
-\`\`\`
-📁 โปรเจค/
-├── 📄 index.html
-├── 📁 content/
-│   ├── 📄 01-intro.html
-│   ├── 📄 02-descriptive.html
-│   └── 📄 ... (ไฟล์อื่นๆ)
-└── 📁 formula/
-    └── 📄 index.html
-\`\`\`
-
-## รายชื่อไฟล์ทั้งหมด:
-${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).join('\n')}
-
-## หมายเหตุ:
-- ไฟล์ทั้งหมดควรอยู่ในโฟลเดอร์ content/ หรือ lessons/
-- หากไฟล์อยู่ในโฟลเดอร์เดียวกับ index.html ก็สามารถใช้งานได้
-- ระบบจะค้นหาไฟล์อัตโนมัติในหลายโฟลเดอร์
-
-สร้างเมื่อ: ${new Date().toLocaleString('th-TH')}
-`;
-
-            const blob = new Blob([fileListText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `รายชื่อไฟล์บทเรียน-${new Date().toISOString().split('T')[0]}.txt`;
-            link.click();
-            URL.revokeObjectURL(url);
-
-            showNotification('📋 ดาวน์โหลดรายชื่อไฟล์เรียบร้อย', 'success');
+            // Fallback
+            window.open(prefixes[0] + file, '_blank', 'noopener,noreferrer');
+            showNotification(`📂 เปิดไฟล์: ${file}`, 'info');
         }
 
         // Populate all sections
@@ -2043,37 +1844,15 @@ ${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).j
                 localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
             }
             
-            // Use the same path-finding logic as openQuickLesson
-            const pathsToTry = [
-                fileName,                    // Direct file
-                `content/${fileName}`,       // In content folder
-                `lessons/${fileName}`,       // In lessons folder
-                `../content/${fileName}`,    // Parent content folder
-                `../lessons/${fileName}`,    // Parent lessons folder
-                `./${fileName}`,            // Current directory
-                `./content/${fileName}`,    // Current content folder
-                `./lessons/${fileName}`     // Current lessons folder
-            ];
-            
-            // Try each path
-            let opened = false;
-            for (const path of pathsToTry) {
-                try {
-                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
-                    if (newWindow) {
-                        showNotification(`🎯 เปิดบทเรียน: ${lessonTitle}`, 'success');
-                        opened = true;
-                        break;
-                    }
-                } catch (error) {
-                    continue;
-                }
-            }
-            
-            // If nothing worked, show error
-            if (!opened) {
-                showNotification(`📂 ไม่พบไฟล์: ${fileName}`, 'error');
-                console.log('Lesson paths tried:', pathsToTry);
+            // Open lesson file in new tab
+            try {
+                window.open(fileName, '_blank', 'noopener,noreferrer');
+                
+                // Show success message
+                showNotification(`🎯 เปิดบทเรียน: ${lessonTitle}`, 'success');
+            } catch (error) {
+                // Fallback if window.open fails
+                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
             }
             
             // Refresh display
@@ -2385,105 +2164,48 @@ ${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).j
         // Draw learning graph
         function drawLearningGraph() {
             const canvas = document.getElementById('learning-graph');
-            if (!canvas) return;
-            
             const ctx = canvas.getContext('2d');
-            
-            // Set canvas size
-            canvas.width = 600;
-            canvas.height = 300;
             
             // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Simple learning path visualization
             const nodes = [
-                { x: 80, y: 150, label: 'พื้นฐาน', lessons: ['01-intro.html', '02-descriptive.html'], color: '#3b82f6' },
-                { x: 200, y: 100, label: 'ความน่าจะเป็น', lessons: ['03-probability-basics.html', '04-conditional.html'], color: '#8b5cf6' },
-                { x: 200, y: 200, label: 'การแจกแจง', lessons: ['08-binomial.html', '11-continuous-normal.html'], color: '#10b981' },
-                { x: 350, y: 120, label: 'การประมาณ', lessons: ['16-ci-intro.html', '17-ci-mean-onepop.html'], color: '#f59e0b' },
-                { x: 480, y: 180, label: 'การทดสอบ', lessons: ['23-hypothesis-intro.html', '25-test-mean-onepop.html'], color: '#ef4444' }
+                { x: 50, y: 150, label: 'พื้นฐาน', lessons: [0, 1, 2] },
+                { x: 200, y: 100, label: 'ความน่าจะเป็น', lessons: [3, 4, 5] },
+                { x: 200, y: 200, label: 'การแจกแจง', lessons: [6, 7, 8, 9, 10] },
+                { x: 350, y: 150, label: 'การประมาณ', lessons: [15, 16, 17, 18] },
+                { x: 500, y: 150, label: 'การทดสอบ', lessons: [23, 24, 25, 26] }
             ];
             
             // Draw connections
             ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            // พื้นฐาน -> ความน่าจะเป็น
-            ctx.moveTo(80, 150);
+            ctx.moveTo(50, 150);
             ctx.lineTo(200, 100);
-            // พื้นฐาน -> การแจกแจง
-            ctx.moveTo(80, 150);
+            ctx.moveTo(50, 150);
             ctx.lineTo(200, 200);
-            // ความน่าจะเป็น -> การประมาณ
             ctx.moveTo(200, 100);
-            ctx.lineTo(350, 120);
-            // การแจกแจง -> การประมาณ
+            ctx.lineTo(350, 150);
             ctx.moveTo(200, 200);
-            ctx.lineTo(350, 120);
-            // การประมาณ -> การทดสอบ
-            ctx.moveTo(350, 120);
-            ctx.lineTo(480, 180);
+            ctx.lineTo(350, 150);
+            ctx.moveTo(350, 150);
+            ctx.lineTo(500, 150);
             ctx.stroke();
             
             // Draw nodes
-            nodes.forEach((node, index) => {
-                // Draw circle
-                ctx.fillStyle = node.color;
+            nodes.forEach(node => {
+                ctx.fillStyle = '#3b82f6';
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, 25, 0, 2 * Math.PI);
+                ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
                 ctx.fill();
                 
-                // Draw border
-                ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-                
-                // Draw label
-                ctx.fillStyle = '#1f2937';
-                ctx.font = 'bold 12px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(node.label, node.x, node.y - 35);
-                
-                // Draw step number
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px sans-serif';
-                ctx.fillText((index + 1).toString(), node.x, node.y + 5);
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.label, node.x, node.y - 30);
             });
-            
-            // Add click handler
-            canvas.onclick = function(event) {
-                const rect = canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-                
-                nodes.forEach(node => {
-                    const distance = Math.sqrt((x - node.x) ** 2 + (y - node.y) ** 2);
-                    if (distance <= 25) {
-                        // Open first lesson in this category
-                        if (node.lessons.length > 0) {
-                            openQuickLesson(node.lessons[0], node.label, ['']);
-                        }
-                    }
-                });
-            };
-            
-            // Add hover effect
-            canvas.onmousemove = function(event) {
-                const rect = canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-                
-                let isHovering = false;
-                nodes.forEach(node => {
-                    const distance = Math.sqrt((x - node.x) ** 2 + (y - node.y) ** 2);
-                    if (distance <= 25) {
-                        isHovering = true;
-                    }
-                });
-                
-                canvas.style.cursor = isHovering ? 'pointer' : 'default';
-            };
         }
 
         // Search input handler
@@ -2498,15 +2220,6 @@ ${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).j
                 }
             });
         });
-
-        // Show learning map
-        function showLearningMap() {
-            const mapSection = document.querySelector('#learning-graph').closest('.bg-gray-50');
-            if (mapSection) {
-                mapSection.scrollIntoView({ behavior: 'smooth' });
-                showNotification('🗺️ แสดงแผนที่การเรียน', 'success');
-            }
-        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -2549,8 +2262,102 @@ ${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).j
         });
     </script>
 
+    <!-- ปุ่มลัดเข้าไฟล์บทเรียน (ไม่แต่งเพิ่ม) -->
+    <script>
+    (function () {
+      var files = [
+        "01-intro.html",
+        "02-descriptive-cheatsheet.html",
+        "02-descriptive.html",
+        "03-probability-basics.html",
+        "04-conditional.html",
+        "05-random-variables.html",
+        "06-expectation-variance.html",
+        "07-discrete-uniform.html",
+        "08-binomial.html",
+        "09-hypergeometric.html",
+        "10-poisson.html",
+        "11-continuous-normal.html",
+        "12-standard-normal-z.html",
+        "13-t-chi2-f.html",
+        "14-clt.html",
+        "15-sampling-other-stats.html",
+        "16-ci-intro.html",
+        "17-ci-mean-onepop.html",
+        "18-ci-proportion-onepop.html",
+        "19-ci-means-twopop.html",
+        "20-ci-proportions-twopop.html",
+        "21-sample-size.html",
+        "22-ci-variance.html",
+        "23-hypothesis-intro.html",
+        "24-critical-vs-pvalue.html",
+        "25-test-mean-onepop.html",
+        "26-test-proportion-onepop.html",
+        "27-test-means-twopop.html",
+        "28-test-proportions-twopop.html",
+        "29-test-variance-onepop.html",
+        "30-test-variance-ratio.html",
+        "31-summary-next.html"
+      ];
 
+      var prefixes = ["content/", ""];
+      
+      function createQuickButtons() {
+        var container = document.createElement('div');
+        container.style.cssText = 'position:fixed;bottom:20px;right:20px;background:white;border:2px solid #3b82f6;border-radius:12px;padding:16px;box-shadow:0 8px 25px rgba(0,0,0,0.15);max-width:300px;max-height:400px;overflow-y:auto;z-index:1000;';
+        
+        var header = document.createElement('div');
+        header.innerHTML = '<div style="font-weight:bold;color:#3b82f6;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;"><span>🚀 ปุ่มลัดบทเรียน</span><button onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'" style="background:none;border:none;font-size:18px;cursor:pointer;color:#6b7280;">×</button></div>';
+        container.appendChild(header);
+        
+        var grid = document.createElement('div');
+        grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:8px;';
+        
+        files.forEach(function(file, index) {
+          var btn = document.createElement('button');
+          var title = file.replace('.html', '').replace(/^\d+-/, '');
+          btn.innerHTML = '<div style="font-size:10px;color:#6b7280;">' + String(index + 1).padStart(2, "0") + '</div><div style="font-size:11px;font-weight:500;color:#374151;">' + title + '</div>';
+          btn.style.cssText = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px;cursor:pointer;transition:all 0.2s;text-align:left;';
+          btn.onmouseover = function() { this.style.background = '#eff6ff'; this.style.borderColor = '#3b82f6'; };
+          btn.onmouseout = function() { this.style.background = '#f8fafc'; this.style.borderColor = '#e2e8f0'; };
+          btn.onclick = function() { openQuickLesson(file, title, prefixes); };
+          grid.appendChild(btn);
+        });
+        
+        container.appendChild(grid);
+        document.body.appendChild(container);
+      }
+      
+      async function openQuickLesson(file, title, prefixes) {
+        for (let i = 0; i < prefixes.length; i++) {
+          const url = prefixes[i] + file;
+          try {
+            let ok = true;
+            if (location.protocol.indexOf("http") === 0) {
+              const res = await fetch(url, { method: "HEAD" });
+              ok = res.ok;
+            }
+            if (ok) {
+              window.open(url, '_blank', 'noopener,noreferrer');
+              return;
+            }
+          } catch (e) {
+            // Continue to next prefix
+          }
+        }
+        
+        // Fallback
+        window.open(prefixes[0] + file, '_blank', 'noopener,noreferrer');
+      }
+      
+      // Create buttons when page loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', createQuickButtons);
+      } else {
+        createQuickButtons();
+      }
+    })();
+    </script>
 
 </body>
 </html>
-
