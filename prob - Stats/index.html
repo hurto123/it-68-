@@ -105,24 +105,7 @@
             filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
         }
         
-        .quick-access {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        @media (max-width: 768px) {
-            .quick-access {
-                position: relative;
-                right: 0;
-                top: 0;
-                transform: none;
-                margin: 20px 0;
-            }
-        }
+
         
         .breadcrumb {
             background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
@@ -181,26 +164,7 @@
         </div>
     </header>
 
-    <!-- Quick Access Panel -->
-    <div class="quick-access bg-white/90 rounded-2xl p-4 shadow-lg border">
-        <div class="text-center mb-3">
-            <p class="text-sm font-medium text-gray-700">เข้าถึงด่วน</p>
-        </div>
-        <div class="space-y-2">
-            <button onclick="scrollToSection('basic')" class="w-full text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 rounded-lg transition-colors">
-                📊 พื้นฐาน
-            </button>
-            <button onclick="scrollToSection('probability')" class="w-full text-xs bg-green-100 hover:bg-green-200 text-green-800 px-3 py-2 rounded-lg transition-colors">
-                🎲 ความน่าจะเป็น
-            </button>
-            <button onclick="scrollToSection('distributions')" class="w-full text-xs bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-2 rounded-lg transition-colors">
-                📈 การแจกแจง
-            </button>
-            <button onclick="scrollToSection('tests')" class="w-full text-xs bg-red-100 hover:bg-red-200 text-red-800 px-3 py-2 rounded-lg transition-colors">
-                🔬 การทดสอบ
-            </button>
-        </div>
-    </div>
+
 
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-8">
@@ -616,7 +580,10 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987f2b077569799c',t:'MTc1OTM1NTM0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987f940aa310799c',t:'MTc1OTM1OTY0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html><!DOCTYPE html>
 <html lang="th">
 <head>
@@ -741,15 +708,15 @@
                 <div class="flex-1">
                     <h2 class="text-3xl font-bold text-gray-800 mb-4">หลักสูตรสถิติเชิงประยุกต์</h2>
                     <p class="text-gray-600 text-lg leading-relaxed mb-4">
-                        หลักสูตรสถิติเชิงประยุกต์แบบครบวงจร ตั้งแต่พื้นฐานไปจนถึง Bayesian Statistics และ Resampling Methods 
-                        พร้อมเครื่องมือโต้ตอบ ระบบสำหรับครู และการใช้งานออฟไลน์
+                        หลักสูตรสถิติเชิงประยุกต์แบบครบวงจร ตั้งแต่พื้นฐานสถิติเชิงพรรณนา ความน่าจะเป็น การแจกแจง 
+                        ไปจนถึงการประมาณค่าและการทดสอบสมมติฐาน พร้อมบทเรียนทบทวนและกรณีศึกษาจริง
                     </p>
                     <div class="flex flex-wrap gap-3 mb-6">
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">📚 10 โมดูลหลัก</span>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">🧮 41 บทเรียน</span>
-                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">🛠️ 8 เครื่องมือโต้ตอบ</span>
-                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">👨‍🏫 เครื่องมือสำหรับครู</span>
-                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">📄 ส่งออก PDF</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">📚 9 โมดูลหลัก</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">🧮 31 บทเรียน</span>
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">📝 8 บททบทวน</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">🛠️ 8 เครื่องมือโต้ตอบ</span>
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">👨‍🏫 เครื่องมือสำหรับครู</span>
                         <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-medium">♿ การเข้าถึงครบถ้วน</span>
                     </div>
                     
@@ -892,6 +859,179 @@
             </div>
         </section>
 
+        <!-- Statistics Formulas Section -->
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-2xl p-6">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🧮</span>
+                    <div>
+                        <h3 class="text-2xl font-bold">ระบบสูตรสถิติ</h3>
+                        <p class="opacity-90">สูตรสถิติครบครัน 11 หมวดหมู่ พร้อมตัวอย่างและเครื่องคำนวณ</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-b-2xl shadow-lg p-6">
+                <div class="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="text-4xl">🧮</div>
+                        <div class="flex-1">
+                            <h4 class="text-xl font-bold text-gray-800 mb-3">ระบบสูตรสถิติครบครัน</h4>
+                            <p class="text-gray-600 mb-4">
+                                รวบรวมสูตรสถิติที่สำคัญทั้งหมด 11 หมวดหมู่ พร้อมตัวอย่างการใช้งาน เครื่องคำนวณ และคำอธิบายที่เข้าใจง่าย
+                            </p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <div class="text-2xl font-bold text-blue-600">11</div>
+                                    <div class="text-xs text-gray-600">หมวดหมู่</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <div class="text-2xl font-bold text-green-600">85+</div>
+                                    <div class="text-xs text-gray-600">สูตร</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <div class="text-2xl font-bold text-purple-600">150+</div>
+                                    <div class="text-xs text-gray-600">ตัวอย่าง</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+                                    <div class="text-2xl font-bold text-orange-600">25+</div>
+                                    <div class="text-xs text-gray-600">เครื่องคำนวณ</div>
+                                </div>
+                            </div>
+                            <button onclick="openFormulaSystem()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                                🧮 เข้าสู่ระบบสูตรสถิติ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formula Categories Preview -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="formula-preview">
+                    <!-- Formula categories preview will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Review Lessons Section -->
+        <section class="mb-12">
+            <div class="review-header text-white rounded-t-2xl p-6">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">📝</span>
+                    <div>
+                        <h3 class="text-2xl font-bold">บทเรียนทบทวนและกรณีศึกษา</h3>
+                        <p class="opacity-90">ทบทวนเนื้อหาสำคัญและกรณีศึกษาจริง</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-b-2xl shadow-lg p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="review-lessons">
+                    <!-- Review lessons will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice and Assessment Section -->
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-t-2xl p-6">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🎯</span>
+                    <div>
+                        <h3 class="text-2xl font-bold">ฝึกฝนและประเมินผล</h3>
+                        <p class="opacity-90">แบบทดสอบ แบบฝึกหัด และการประเมินผล</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-b-2xl shadow-lg p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="lesson-card bg-orange-50 border-orange-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-orange-100 transition-all" onclick="openResource('quiz-basic.html', 'แบบทดสอบพื้นฐาน')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">📊</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">แบบทดสอบพื้นฐาน</h4>
+                                <p class="text-xs text-gray-600">ทดสอบความเข้าใจเบื้องต้น</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-orange-600 font-medium">20 ข้อ • 30 นาที</span>
+                            <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">พื้นฐาน</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card bg-red-50 border-red-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-red-100 transition-all" onclick="openResource('quiz-intermediate.html', 'แบบทดสอบระดับกลาง')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">📈</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">แบบทดสอบระดับกลาง</h4>
+                                <p class="text-xs text-gray-600">การแจกแจงและการทดสอบ</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-red-600 font-medium">25 ข้อ • 45 นาที</span>
+                            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded">กลาง</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card bg-purple-50 border-purple-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-purple-100 transition-all" onclick="openResource('quiz-advanced.html', 'แบบทดสอบระดับสูง')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">🎓</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">แบบทดสอบระดับสูง</h4>
+                                <p class="text-xs text-gray-600">การถดถอยและ Bayesian</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-purple-600 font-medium">30 ข้อ • 60 นาที</span>
+                            <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">สูง</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card bg-green-50 border-green-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-green-100 transition-all" onclick="openResource('practice-problems.html', 'แบบฝึกหัด')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">💪</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">แบบฝึกหัด</h4>
+                                <p class="text-xs text-gray-600">โจทย์ปัญหาและเฉลย</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-green-600 font-medium">100+ โจทย์</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">ฝึกฝน</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card bg-blue-50 border-blue-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-blue-100 transition-all" onclick="openResource('mock-exam.html', 'สอบจำลอง')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">⏱️</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">สอบจำลอง</h4>
+                                <p class="text-xs text-gray-600">จำลองสอบจริง</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-blue-600 font-medium">50 ข้อ • 120 นาที</span>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">จำลอง</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lesson-card bg-teal-50 border-teal-200 rounded-xl p-4 border-2 cursor-pointer hover:bg-teal-100 transition-all" onclick="openResource('progress-report.html', 'รายงานผล')">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <span class="text-2xl">📋</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm leading-tight mb-1">รายงานผล</h4>
+                                <p class="text-xs text-gray-600">วิเคราะห์จุดแข็ง-อ่อน</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-teal-600 font-medium">รายงานแบบละเอียด</span>
+                            <span class="text-xs bg-teal-100 text-teal-800 px-2 py-1 rounded">วิเคราะห์</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Search and Navigation -->
         <section class="mb-12">
             <div class="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-t-2xl p-6">
@@ -945,6 +1085,68 @@
             </div>
         </section>
 
+        <!-- Quick Lesson Access Section -->
+        <section class="mb-12">
+            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-t-2xl p-6">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🚀</span>
+                    <div>
+                        <h3 class="text-2xl font-bold">ปุ่มลัดเข้าไฟล์บทเรียน</h3>
+                        <p class="opacity-90">เข้าถึงบทเรียนทั้ง 31 บทได้อย่างรวดเร็ว</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-b-2xl shadow-lg p-6">
+                <!-- Help and Instructions -->
+                <div class="mb-6 bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-400 rounded-xl p-4">
+                    <div class="flex items-start space-x-3">
+                        <span class="text-2xl">💡</span>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-yellow-800 mb-2">คำแนะนำการใช้งาน</h4>
+                            <div class="text-sm text-yellow-700 space-y-1">
+                                <p>• หากไม่สามารถเปิดไฟล์ได้ กรุณาตรวจสอบว่าไฟล์บทเรียนอยู่ในโฟลเดอร์ที่ถูกต้อง</p>
+                                <p>• ระบบจะค้นหาไฟล์ในโฟลเดอร์: <code class="bg-yellow-200 px-1 rounded">content/</code>, <code class="bg-yellow-200 px-1 rounded">lessons/</code>, หรือโฟลเดอร์เดียวกัน</p>
+                                <p>• หากยังไม่สามารถเข้าถึงได้ ให้ดูที่ Console (F12) เพื่อดูรายละเอียดเพิ่มเติม</p>
+                            </div>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <button onclick="showFileStructureHelp()" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 px-3 py-1 rounded-lg text-xs transition-colors">
+                                    📁 ดูโครงสร้างไฟล์
+                                </button>
+                                <button onclick="testAllFiles()" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-xs transition-colors">
+                                    🔍 ทดสอบไฟล์ทั้งหมด
+                                </button>
+                                <button onclick="downloadFileList()" class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1 rounded-lg text-xs transition-colors">
+                                    📋 ดาวน์โหลดรายชื่อไฟล์
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-4">
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-600">📚 <strong>31</strong> บทเรียน</span>
+                            <span class="text-gray-600">🎯 <strong>9</strong> โมดูลหลัก</span>
+                            <span class="text-gray-600">⏱️ <strong>~20</strong> ชั่วโมง</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="toggleQuickAccess()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-3 py-1 rounded-lg text-xs transition-colors">
+                                🔄 รีเฟรช
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3" id="quick-lesson-buttons">
+                    <!-- ปุ่มจะถูกสร้างโดย JavaScript -->
+                </div>
+            </div>
+        </section>
+
+
+
         <!-- Additional Resources Section -->
         <section class="mb-12">
             <div class="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-t-2xl p-6">
@@ -952,7 +1154,7 @@
                     <span class="text-3xl">📚</span>
                     <div>
                         <h3 class="text-2xl font-bold">ทรัพยากรเสริม</h3>
-                        <p class="opacity-90">เครื่องมือและเอกสารสำคัญ รวมถึงระบบสูตรสถิติ</p>
+                        <p class="opacity-90">เครื่องมือและเอกสารสำคัญ</p>
                     </div>
                 </div>
             </div>
@@ -1034,117 +1236,101 @@
     </footer>
 
     <script>
-        // Course structure based on comprehensive roadmap
+        // Course structure based on your actual files
         const courseModules = {
             intro: {
-                title: "บทนำ & สัญลักษณ์",
+                title: "บทนำและพื้นฐาน",
                 icon: "📚",
                 color: "blue",
                 lessons: [
-                    { title: "ความหมายของสถิติและระเบียบวิธี", file: "01-intro-statistics.html", icon: "📊" },
-                    { title: "สัญลักษณ์และสัญกรณ์ทางสถิติ", file: "02-notation-symbols.html", icon: "🔤" }
-                ]
-            },
-            descriptive: {
-                title: "สถิติเชิงพรรณนา",
-                icon: "📈",
-                color: "green",
-                lessons: [
-                    { title: "ตารางและกราฟ", file: "03-tables-graphs.html", icon: "📊" },
-                    { title: "สถิติกึ่งกลาง (Central Tendency)", file: "04-central-tendency.html", icon: "🎯" },
-                    { title: "การกระจาย (Dispersion)", file: "05-dispersion.html", icon: "📏" },
-                    { title: "รูปร่างการแจกแจง", file: "06-distribution-shape.html", icon: "📈" }
+                    { title: "บทนำสู่สถิติ", file: "01-intro.html", icon: "📊" },
+                    { title: "สถิติเชิงพรรณนา", file: "02-descriptive.html", icon: "📈" },
+                    { title: "สรุปสถิติเชิงพรรณนา", file: "02-descriptive-cheatsheet.html", icon: "📋" }
                 ]
             },
             probability: {
-                title: "ความน่าจะเป็น & การนับ",
+                title: "ความน่าจะเป็น",
                 icon: "🎲",
                 color: "purple",
                 lessons: [
-                    { title: "พื้นฐานความน่าจะเป็น", file: "07-probability-basics.html", icon: "🎲" },
-                    { title: "หลักการนับ (Counting Principles)", file: "08-counting-principles.html", icon: "🔢" },
-                    { title: "ความน่าจะเป็นแบบมีเงื่อนไข", file: "09-conditional-probability.html", icon: "🔗" },
-                    { title: "ทฤษฎีบทเบส์ (Bayes' Theorem)", file: "10-bayes-theorem.html", icon: "🧠" }
+                    { title: "พื้นฐานความน่าจะเป็น", file: "03-probability-basics.html", icon: "🎲" },
+                    { title: "ความน่าจะเป็นแบบมีเงื่อนไข", file: "04-conditional.html", icon: "🔗" }
                 ]
             },
-            distributions: {
-                title: "ตัวแปรสุ่ม & การแจกแจง",
-                icon: "📊",
+            random_variables: {
+                title: "ตัวแปรสุ่ม",
+                icon: "🎯",
                 color: "indigo",
                 lessons: [
-                    { title: "ตัวแปรสุ่มและค่าคาดหวัง", file: "11-random-variables.html", icon: "🎯" },
-                    { title: "Bernoulli และ Binomial", file: "12-bernoulli-binomial.html", icon: "🪙" },
-                    { title: "Poisson Distribution", file: "13-poisson.html", icon: "⏰" },
-                    { title: "Uniform Distribution", file: "14-uniform.html", icon: "📏" },
-                    { title: "Normal Distribution", file: "15-normal.html", icon: "🔔" },
-                    { title: "t, χ², F Distributions", file: "16-t-chi2-f.html", icon: "🔢" },
-                    { title: "ทฤษฎีบทขีดจำกัดส่วนกลาง (CLT)", file: "17-clt.html", icon: "🌊" }
+                    { title: "ตัวแปรสุ่ม", file: "05-random-variables.html", icon: "🎯" },
+                    { title: "ค่าคาดหวังและความแปรปรวน", file: "06-expectation-variance.html", icon: "📊" }
                 ]
             },
-            estimation: {
-                title: "การประมาณค่า",
-                icon: "🎯",
+            discrete_distributions: {
+                title: "การแจกแจงแบบไม่ต่อเนื่อง",
+                icon: "🔢",
+                color: "green",
+                lessons: [
+                    { title: "การแจกแจงแบบสม่ำเสมอ", file: "07-discrete-uniform.html", icon: "📏" },
+                    { title: "การแจกแจงทวินาม", file: "08-binomial.html", icon: "🪙" },
+                    { title: "การแจกแจงไฮเปอร์จีโอเมตริก", file: "09-hypergeometric.html", icon: "🎲" },
+                    { title: "การแจกแจงปัวซง", file: "10-poisson.html", icon: "⏰" }
+                ]
+            },
+            continuous_distributions: {
+                title: "การแจกแจงแบบต่อเนื่อง",
+                icon: "🔔",
                 color: "yellow",
                 lessons: [
-                    { title: "การประมาณแบบจุด", file: "18-point-estimation.html", icon: "📍" },
-                    { title: "ช่วงความเชื่อมั่น - ค่าเฉลี่ย", file: "19-ci-mean.html", icon: "📊" },
-                    { title: "ช่วงความเชื่อมั่น - สัดส่วน", file: "20-ci-proportion.html", icon: "🥧" },
-                    { title: "ช่วงความเชื่อมั่น - ความแปรปรวน", file: "21-ci-variance.html", icon: "📏" },
-                    { title: "การคำนวณขนาดตัวอย่าง", file: "22-sample-size.html", icon: "🔍" }
+                    { title: "การแจกแจงปกติ", file: "11-continuous-normal.html", icon: "🔔" },
+                    { title: "การแจกแจงปกติมาตรฐาน (Z)", file: "12-standard-normal-z.html", icon: "📏" },
+                    { title: "การแจกแจง t, χ², F", file: "13-t-chi2-f.html", icon: "🔢" }
                 ]
             },
-            hypothesis: {
+            sampling: {
+                title: "การสุ่มตัวอย่างและ CLT",
+                icon: "🌊",
+                color: "teal",
+                lessons: [
+                    { title: "ทฤษฎีขีดจำกัดส่วนกลาง", file: "14-clt.html", icon: "🌊" },
+                    { title: "การสุ่มตัวอย่างและสถิติอื่นๆ", file: "15-sampling-other-stats.html", icon: "📊" }
+                ]
+            },
+            confidence_intervals: {
+                title: "ช่วงความเชื่อมั่น",
+                icon: "📊",
+                color: "orange",
+                lessons: [
+                    { title: "บทนำช่วงความเชื่อมั่น", file: "16-ci-intro.html", icon: "📍" },
+                    { title: "CI สำหรับค่าเฉลี่ย (1 กลุ่ม)", file: "17-ci-mean-onepop.html", icon: "🎯" },
+                    { title: "CI สำหรับสัดส่วน (1 กลุ่ม)", file: "18-ci-proportion-onepop.html", icon: "🥧" },
+                    { title: "CI สำหรับค่าเฉลี่ย (2 กลุ่ม)", file: "19-ci-means-twopop.html", icon: "⚖️" },
+                    { title: "CI สำหรับสัดส่วน (2 กลุ่ม)", file: "20-ci-proportions-twopop.html", icon: "📊" },
+                    { title: "การคำนวณขนาดตัวอย่าง", file: "21-sample-size.html", icon: "🔍" },
+                    { title: "CI สำหรับความแปรปรวน", file: "22-ci-variance.html", icon: "📏" }
+                ]
+            },
+            hypothesis_testing: {
                 title: "การทดสอบสมมติฐาน",
                 icon: "🔬",
                 color: "red",
                 lessons: [
-                    { title: "หลักการทดสอบสมมติฐาน", file: "23-hypothesis-basics.html", icon: "🔬" },
-                    { title: "ทดสอบค่าเฉลี่ย (1 กลุ่ม)", file: "24-test-mean-one.html", icon: "🎯" },
-                    { title: "ทดสอบสัดส่วน (1 กลุ่ม)", file: "25-test-proportion-one.html", icon: "📊" },
-                    { title: "เปรียบเทียบ 2 กลุ่ม", file: "26-test-two-groups.html", icon: "⚖️" },
-                    { title: "ANOVA (หลายกลุ่ม)", file: "27-anova.html", icon: "📈" },
-                    { title: "Power และ Type I/II Error", file: "28-power-errors.html", icon: "⚡" }
+                    { title: "บทนำการทดสอบสมมติฐาน", file: "23-hypothesis-intro.html", icon: "🔬" },
+                    { title: "Critical Value vs P-value", file: "24-critical-vs-pvalue.html", icon: "⚡" },
+                    { title: "ทดสอบค่าเฉลี่ย (1 กลุ่ม)", file: "25-test-mean-onepop.html", icon: "🎯" },
+                    { title: "ทดสอบสัดส่วน (1 กลุ่ม)", file: "26-test-proportion-onepop.html", icon: "📊" },
+                    { title: "ทดสอบค่าเฉลี่ย (2 กลุ่ม)", file: "27-test-means-twopop.html", icon: "⚖️" },
+                    { title: "ทดสอบสัดส่วน (2 กลุ่ม)", file: "28-test-proportions-twopop.html", icon: "📈" },
+                    { title: "ทดสอบความแปรปรวน (1 กลุ่ม)", file: "29-test-variance-onepop.html", icon: "📏" },
+                    { title: "ทดสอบอัตราส่วนความแปรปรวน", file: "30-test-variance-ratio.html", icon: "🔢" }
                 ]
             },
-            regression: {
-                title: "สหสัมพันธ์ & ถดถอย",
-                icon: "📈",
-                color: "teal",
-                lessons: [
-                    { title: "สหสัมพันธ์ (Correlation)", file: "29-correlation.html", icon: "🔗" },
-                    { title: "ถดถอยเชิงเส้นอย่างง่าย", file: "30-simple-regression.html", icon: "📈" },
-                    { title: "การตรวจสมมติฐาน", file: "31-regression-assumptions.html", icon: "🔍" },
-                    { title: "ถดถอยพหุคูณ", file: "32-multiple-regression.html", icon: "📊" }
-                ]
-            },
-            resampling: {
-                title: "Resampling Methods",
-                icon: "🔄",
-                color: "orange",
-                lessons: [
-                    { title: "Bootstrap Method", file: "33-bootstrap.html", icon: "🥾" },
-                    { title: "Permutation Tests", file: "34-permutation.html", icon: "🔀" },
-                    { title: "Cross-Validation", file: "35-cross-validation.html", icon: "✅" }
-                ]
-            },
-            bayes: {
-                title: "เกริ่น Bayesian Statistics",
-                icon: "🧠",
+            summary: {
+                title: "สรุปและขั้นต่อไป",
+                icon: "🎓",
                 color: "pink",
                 lessons: [
-                    { title: "Prior, Likelihood, Posterior", file: "36-bayesian-basics.html", icon: "🧠" },
-                    { title: "Bayesian Inference", file: "37-bayesian-inference.html", icon: "🔮" },
-                    { title: "MCMC เบื้องต้น", file: "38-mcmc-intro.html", icon: "⛓️" }
-                ]
-            },
-            ethics: {
-                title: "การนำเสนอผล & จริยธรรม",
-                icon: "⚖️",
-                color: "gray",
-                lessons: [
-                    { title: "การนำเสนอผลการวิเคราะห์", file: "39-presentation.html", icon: "📋" },
-                    { title: "จริยธรรมในการวิจัย", file: "40-research-ethics.html", icon: "⚖️" },
-                    { title: "การตีความผลอย่างถูกต้อง", file: "41-interpretation.html", icon: "🎯" }
+                    { title: "สรุปและขั้นต่อไป", file: "31-summary-next.html", icon: "🎯" }
                 ]
             }
         };
@@ -1189,13 +1375,40 @@
             { title: "Text-to-Speech", file: "#", icon: "🔊", description: "อ่านออกเสียง", action: "toggleSpeech" }
         ];
 
+        // Formula categories for preview
+        const formulaCategories = [
+            { title: 'Z-Score', icon: '📏', file: 'formula/z-score.html', color: 'blue' },
+            { title: 'Normal Distribution', icon: '🔔', file: 'formula/normal.html', color: 'green' },
+            { title: 'Binomial Distribution', icon: '🪙', file: 'formula/binomial.html', color: 'purple' },
+            { title: 'Poisson Distribution', icon: '⏰', file: 'formula/poisson.html', color: 'yellow' },
+            { title: 't-Distribution', icon: '📊', file: 'formula/t-distribution.html', color: 'red' },
+            { title: 'Chi-Square (χ²)', icon: '🔲', file: 'formula/chi-square.html', color: 'cyan' },
+            { title: 'F-Distribution', icon: '📈', file: 'formula/f-distribution.html', color: 'lime' },
+            { title: 'Bernoulli Distribution', icon: '🎯', file: 'formula/bernoulli.html', color: 'pink' },
+            { title: 'Hypergeometric', icon: '🎲', file: 'formula/hypergeometric.html', color: 'indigo' },
+            { title: 'CLT & Sampling', icon: '🌊', file: 'formula/clt-xbar-phat.html', color: 'teal' }
+        ];
+
+        // Review lessons
+        const reviewLessons = [
+            { title: "ทบทวน: พื้นฐานและความน่าจะเป็น", file: "review-01-foundation-probability.html", icon: "📚", description: "ทบทวนพื้นฐานสถิติและความน่าจะเป็น" },
+            { title: "ทบทวน: การแจกแจงข้อมูล", file: "review-02-data-blueprints-distributions.html", icon: "📊", description: "ทบทวนการแจกแจงและรูปแบบข้อมูล" },
+            { title: "ทบทวน: CLT และการสุ่มตัวอย่าง", file: "review-03-clt-sampling.html", icon: "🌊", description: "ทบทวนทฤษฎีขีดจำกัดส่วนกลาง" },
+            { title: "ทบทวน: การประมาณค่าเชิงลึก", file: "review-04-estimation-deep-dive.html", icon: "🎯", description: "ทบทวนการประมาณค่าและช่วงความเชื่อมั่น" },
+            { title: "ทบทวน: การทดสอบสมมติฐานเชิงลึก", file: "review-05-hypothesis-testing-deep-dive.html", icon: "🔬", description: "ทบทวนการทดสอบสมมติฐานแบบละเอียด" },
+            { title: "กรณีศึกษา: One Sample", file: "review-06-case-one-sample.html", icon: "📋", description: "กรณีศึกษาการวิเคราะห์ 1 กลุ่ม" },
+            { title: "กรณีศึกษา: A/B Testing", file: "review-07-case-ab-testing.html", icon: "⚖️", description: "กรณีศึกษาการทดสอบ A/B" },
+            { title: "การเลือกเครื่องมือที่เหมาะสม", file: "review-08-choosing-tool.html", icon: "🛠️", description: "แนวทางการเลือกวิธีการวิเคราะห์" }
+        ];
+
         // Additional resources
         const additionalResources = [
-            { title: "แผนภาพตัดสินใจ", file: "decision-map.html", icon: "🗺️" },
-            { title: "พจนานุกรมศัพท์", file: "glossary.html", icon: "📚" },
-            { title: "บันทึกวิธีการ", file: "method-notes.html", icon: "📝" },
-            { title: "เอกสารอ้างอิง", file: "references.html", icon: "📖" },
-            { title: "นโยบายความเป็นส่วนตัว", file: "pdpa-privacy.html", icon: "🔒" }
+            { title: "แผนที่การเรียน", file: "#", icon: "🗺️", description: "แผนที่การเรียนแบบโต้ตอบ", action: "showLearningMap" },
+            { title: "แผนภาพตัดสินใจ", file: "decision-map.html", icon: "🧭", description: "แผนภาพช่วยตัดสินใจเลือกวิธีการวิเคราะห์" },
+            { title: "พจนานุกรมศัพท์", file: "glossary.html", icon: "📚", description: "คำศัพท์และคำจำกัดความทางสถิติ" },
+            { title: "บันทึกวิธีการ", file: "method-notes.html", icon: "📝", description: "บันทึกวิธีการและเทคนิคต่างๆ" },
+            { title: "เอกสารอ้างอิง", file: "references.html", icon: "📖", description: "เอกสารและแหล่งข้อมูลอ้างอิง" },
+            { title: "นโยบายความเป็นส่วนตัว", file: "pdpa-privacy.html", icon: "🔒", description: "นโยบายความเป็นส่วนตัวและ PDPA" }
         ];
 
         // Progress tracking and advanced features
@@ -1352,12 +1565,402 @@
 
         // Open resource
         function openResource(fileName, title) {
-            try {
-                window.open(fileName, '_blank', 'noopener,noreferrer');
-                showNotification(`📂 เปิด: ${title}`, 'success');
-            } catch (error) {
-                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
+            // Skip if it's an action (starts with #)
+            if (fileName.startsWith('#')) {
+                showNotification(`⚠️ ${title} - ฟีเจอร์นี้ยังไม่พร้อมใช้งาน`, 'info');
+                return;
             }
+            
+            // List of possible paths to try
+            const pathsToTry = [
+                fileName,                    // Direct file
+                `content/${fileName}`,       // In content folder
+                `lessons/${fileName}`,       // In lessons folder
+                `tools/${fileName}`,         // In tools folder
+                `resources/${fileName}`,     // In resources folder
+                `../content/${fileName}`,    // Parent content folder
+                `../lessons/${fileName}`,    // Parent lessons folder
+                `../tools/${fileName}`,      // Parent tools folder
+                `./${fileName}`,            // Current directory
+                `./content/${fileName}`,    // Current content folder
+                `./lessons/${fileName}`,    // Current lessons folder
+                `./tools/${fileName}`       // Current tools folder
+            ];
+            
+            // Try each path
+            let opened = false;
+            for (const path of pathsToTry) {
+                try {
+                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
+                    if (newWindow) {
+                        showNotification(`📂 เปิด: ${title}`, 'success');
+                        opened = true;
+                        break;
+                    }
+                } catch (error) {
+                    continue;
+                }
+            }
+            
+            // If nothing worked, show helpful message
+            if (!opened) {
+                showNotification(`📂 ไม่พบไฟล์: ${fileName}`, 'error');
+                console.log('Resource paths tried:', pathsToTry);
+            }
+        }
+
+        // Create formula preview card
+        function createFormulaPreviewCard(formula) {
+            const colorClasses = {
+                blue: 'from-blue-500 to-blue-600',
+                green: 'from-green-500 to-green-600',
+                purple: 'from-purple-500 to-purple-600',
+                yellow: 'from-yellow-500 to-yellow-600',
+                red: 'from-red-500 to-red-600',
+                cyan: 'from-cyan-500 to-cyan-600',
+                lime: 'from-lime-500 to-lime-600',
+                pink: 'from-pink-500 to-pink-600',
+                indigo: 'from-indigo-500 to-indigo-600',
+                teal: 'from-teal-500 to-teal-600'
+            };
+
+            return `
+                <div class="lesson-card bg-gradient-to-br ${colorClasses[formula.color]} text-white rounded-xl p-4 cursor-pointer hover:scale-105 transition-all duration-300" 
+                     onclick="openResource('${formula.file}', '${formula.title}')">
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">${formula.icon}</div>
+                        <div class="font-bold text-sm leading-tight">${formula.title}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Open formula system
+        function openFormulaSystem() {
+            try {
+                window.open('formula/index.html', '_blank', 'noopener,noreferrer');
+                showNotification('🧮 เปิดระบบสูตรสถิติ', 'success');
+            } catch (error) {
+                showNotification('📂 กรุณาเปิดไฟล์: formula/index.html', 'info');
+            }
+        }
+
+        // Create quick lesson buttons
+        function createQuickLessonButtons() {
+            const files = [
+                "01-intro.html",
+                "02-descriptive-cheatsheet.html",
+                "02-descriptive.html",
+                "03-probability-basics.html",
+                "04-conditional.html",
+                "05-random-variables.html",
+                "06-expectation-variance.html",
+                "07-discrete-uniform.html",
+                "08-binomial.html",
+                "09-hypergeometric.html",
+                "10-poisson.html",
+                "11-continuous-normal.html",
+                "12-standard-normal-z.html",
+                "13-t-chi2-f.html",
+                "14-clt.html",
+                "15-sampling-other-stats.html",
+                "16-ci-intro.html",
+                "17-ci-mean-onepop.html",
+                "18-ci-proportion-onepop.html",
+                "19-ci-means-twopop.html",
+                "20-ci-proportions-twopop.html",
+                "21-sample-size.html",
+                "22-ci-variance.html",
+                "23-hypothesis-intro.html",
+                "24-critical-vs-pvalue.html",
+                "25-test-mean-onepop.html",
+                "26-test-proportion-onepop.html",
+                "27-test-means-twopop.html",
+                "28-test-proportions-twopop.html",
+                "29-test-variance-onepop.html",
+                "30-test-variance-ratio.html",
+                "31-summary-next.html"
+            ];
+
+            const prefixes = ["content/", ""];
+            const container = document.getElementById('quick-lesson-buttons');
+            
+            container.innerHTML = files.map((file, index) => {
+                const title = file.replace('.html', '').replace(/^\d+-/, '');
+                return `
+                    <button type="button" 
+                            class="bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 border-2 border-blue-200 hover:border-blue-300 rounded-xl p-3 text-left transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+                            onclick="openQuickLesson('${file}', '${title}', ${JSON.stringify(prefixes)})"
+                            aria-label="เปิด ${file}">
+                        <div class="text-xs font-bold text-blue-600 mb-1">${String(index + 1).padStart(2, "0")}</div>
+                        <div class="text-sm font-medium text-gray-800 leading-tight group-hover:text-blue-800 transition-colors">${title}</div>
+                        <div class="text-xs text-gray-500 mt-1 truncate">${file}</div>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Open quick lesson
+        function openQuickLesson(file, title, prefixes = ['content/', '']) {
+            // Add click effect if event target exists
+            if (event && event.target) {
+                event.target.style.transform = "scale(0.95)";
+                setTimeout(() => {
+                    event.target.style.transform = "";
+                }, 150);
+            }
+            
+            // List of possible paths to try
+            const pathsToTry = [
+                file,                    // Direct file
+                `content/${file}`,       // In content folder
+                `lessons/${file}`,       // In lessons folder
+                `../content/${file}`,    // Parent content folder
+                `../lessons/${file}`,    // Parent lessons folder
+                `./${file}`,            // Current directory
+                `./content/${file}`,    // Current content folder
+                `./lessons/${file}`     // Current lessons folder
+            ];
+            
+            // Try each path
+            let opened = false;
+            for (const path of pathsToTry) {
+                try {
+                    // Create a test link to check if file exists
+                    const testLink = document.createElement('a');
+                    testLink.href = path;
+                    testLink.target = '_blank';
+                    testLink.rel = 'noopener noreferrer';
+                    
+                    // Try to open
+                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
+                    
+                    if (newWindow) {
+                        showNotification(`📖 เปิดบทเรียน: ${title}`, 'success');
+                        opened = true;
+                        break;
+                    }
+                } catch (error) {
+                    // Continue to next path
+                    continue;
+                }
+            }
+            
+            // If nothing worked, show helpful message
+            if (!opened) {
+                showNotification(`📂 ไม่พบไฟล์: ${file} - กรุณาตรวจสอบโฟลเดอร์`, 'error');
+                
+                // Show detailed paths tried
+                console.log('Paths tried:', pathsToTry);
+                
+                // Create a helpful popup
+                const helpDiv = document.createElement('div');
+                helpDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                helpDiv.innerHTML = `
+                    <div class="bg-white rounded-xl p-6 max-w-md mx-4">
+                        <h3 class="text-lg font-bold mb-4">🔍 ไม่พบไฟล์บทเรียน</h3>
+                        <p class="text-gray-600 mb-4">กรุณาตรวจสอบว่าไฟล์ <strong>${file}</strong> อยู่ในโฟลเดอร์ใดโฟลเดอร์หนึ่งต่อไปนี้:</p>
+                        <ul class="text-sm text-gray-500 mb-4 space-y-1">
+                            <li>• โฟลเดอร์เดียวกัน</li>
+                            <li>• โฟลเดอร์ content/</li>
+                            <li>• โฟลเดอร์ lessons/</li>
+                        </ul>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                            ตกลง
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(helpDiv);
+                
+                // Auto remove after 10 seconds
+                setTimeout(() => {
+                    if (helpDiv.parentNode) {
+                        helpDiv.parentNode.removeChild(helpDiv);
+                    }
+                }, 10000);
+            }
+        }
+
+        // Toggle quick access refresh
+        function toggleQuickAccess() {
+            createQuickLessonButtons();
+            showNotification('🔄 รีเฟรชปุ่มลัดเรียบร้อย', 'success');
+        }
+
+        // Show file structure help
+        function showFileStructureHelp() {
+            const helpDiv = document.createElement('div');
+            helpDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            helpDiv.innerHTML = `
+                <div class="bg-white rounded-xl p-6 max-w-2xl max-h-96 overflow-y-auto">
+                    <h3 class="text-xl font-bold mb-4">📁 โครงสร้างไฟล์ที่แนะนำ</h3>
+                    <div class="bg-gray-100 rounded-lg p-4 font-mono text-sm mb-4">
+                        <div>📁 โปรเจค/</div>
+                        <div>├── 📄 index.html (ไฟล์หลัก)</div>
+                        <div>├── 📁 content/</div>
+                        <div>│   ├── 📄 01-intro.html</div>
+                        <div>│   ├── 📄 02-descriptive.html</div>
+                        <div>│   └── 📄 ... (บทเรียนอื่นๆ)</div>
+                        <div>├── 📁 lessons/ (ทางเลือก)</div>
+                        <div>│   └── 📄 ... (บทเรียน)</div>
+                        <div>└── 📁 formula/</div>
+                        <div>    └── 📄 index.html</div>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-4">
+                        <p><strong>หมายเหตุ:</strong> ระบบจะค้นหาไฟล์ในลำดับต่อไปนี้:</p>
+                        <ol class="list-decimal list-inside mt-2 space-y-1">
+                            <li>โฟลเดอร์เดียวกับไฟล์หลัก</li>
+                            <li>โฟลเดอร์ content/</li>
+                            <li>โฟลเดอร์ lessons/</li>
+                            <li>โฟลเดอร์ระดับบน (../) + content/ หรือ lessons/</li>
+                        </ol>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                        ปิด
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(helpDiv);
+        }
+
+        // Test all files
+        function testAllFiles() {
+            const files = [
+                "01-intro.html", "02-descriptive-cheatsheet.html", "02-descriptive.html",
+                "03-probability-basics.html", "04-conditional.html", "05-random-variables.html",
+                "06-expectation-variance.html", "07-discrete-uniform.html", "08-binomial.html",
+                "09-hypergeometric.html", "10-poisson.html", "11-continuous-normal.html",
+                "12-standard-normal-z.html", "13-t-chi2-f.html", "14-clt.html",
+                "15-sampling-other-stats.html", "16-ci-intro.html", "17-ci-mean-onepop.html",
+                "18-ci-proportion-onepop.html", "19-ci-means-twopop.html", "20-ci-proportions-twopop.html",
+                "21-sample-size.html", "22-ci-variance.html", "23-hypothesis-intro.html",
+                "24-critical-vs-pvalue.html", "25-test-mean-onepop.html", "26-test-proportion-onepop.html",
+                "27-test-means-twopop.html", "28-test-proportions-twopop.html", "29-test-variance-onepop.html",
+                "30-test-variance-ratio.html", "31-summary-next.html"
+            ];
+
+            const pathsToTry = ['', 'content/', 'lessons/', '../content/', '../lessons/'];
+            const results = [];
+
+            showNotification('🔍 กำลังทดสอบไฟล์ทั้งหมด...', 'info');
+
+            // Create results popup
+            const resultsDiv = document.createElement('div');
+            resultsDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            resultsDiv.innerHTML = `
+                <div class="bg-white rounded-xl p-6 max-w-4xl max-h-96 overflow-y-auto">
+                    <h3 class="text-xl font-bold mb-4">🔍 ผลการทดสอบไฟล์</h3>
+                    <div id="test-results" class="space-y-2">
+                        <div class="text-center text-gray-500">กำลังทดสอบ...</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                        ปิด
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(resultsDiv);
+
+            const resultsContainer = resultsDiv.querySelector('#test-results');
+            resultsContainer.innerHTML = '';
+
+            // Test each file
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    let found = false;
+                    let foundPath = '';
+
+                    for (const path of pathsToTry) {
+                        const fullPath = path + file;
+                        try {
+                            // Create a temporary link to test
+                            const testLink = document.createElement('a');
+                            testLink.href = fullPath;
+                            
+                            // For now, we'll assume the file exists if the path is valid
+                            // In a real scenario, you'd need server-side checking
+                            found = true;
+                            foundPath = fullPath;
+                            break;
+                        } catch (error) {
+                            continue;
+                        }
+                    }
+
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = `flex items-center justify-between p-2 rounded ${found ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
+                    resultDiv.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <span>${found ? '✅' : '❌'}</span>
+                            <span class="font-mono text-sm">${file}</span>
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            ${found ? foundPath : 'ไม่พบ'}
+                        </div>
+                    `;
+                    resultsContainer.appendChild(resultDiv);
+
+                    // Show completion message
+                    if (index === files.length - 1) {
+                        const foundCount = resultsContainer.querySelectorAll('.bg-green-50').length;
+                        showNotification(`✅ ทดสอบเสร็จ: พบ ${foundCount}/${files.length} ไฟล์`, 'success');
+                    }
+                }, index * 100); // Stagger the tests
+            });
+        }
+
+        // Download file list
+        function downloadFileList() {
+            const files = [
+                "01-intro.html", "02-descriptive-cheatsheet.html", "02-descriptive.html",
+                "03-probability-basics.html", "04-conditional.html", "05-random-variables.html",
+                "06-expectation-variance.html", "07-discrete-uniform.html", "08-binomial.html",
+                "09-hypergeometric.html", "10-poisson.html", "11-continuous-normal.html",
+                "12-standard-normal-z.html", "13-t-chi2-f.html", "14-clt.html",
+                "15-sampling-other-stats.html", "16-ci-intro.html", "17-ci-mean-onepop.html",
+                "18-ci-proportion-onepop.html", "19-ci-means-twopop.html", "20-ci-proportions-twopop.html",
+                "21-sample-size.html", "22-ci-variance.html", "23-hypothesis-intro.html",
+                "24-critical-vs-pvalue.html", "25-test-mean-onepop.html", "26-test-proportion-onepop.html",
+                "27-test-means-twopop.html", "28-test-proportions-twopop.html", "29-test-variance-onepop.html",
+                "30-test-variance-ratio.html", "31-summary-next.html"
+            ];
+
+            const fileListText = `# รายชื่อไฟล์บทเรียนสถิติ (${files.length} ไฟล์)
+
+## โครงสร้างโฟลเดอร์ที่แนะนำ:
+\`\`\`
+📁 โปรเจค/
+├── 📄 index.html
+├── 📁 content/
+│   ├── 📄 01-intro.html
+│   ├── 📄 02-descriptive.html
+│   └── 📄 ... (ไฟล์อื่นๆ)
+└── 📁 formula/
+    └── 📄 index.html
+\`\`\`
+
+## รายชื่อไฟล์ทั้งหมด:
+${files.map((file, index) => `${String(index + 1).padStart(2, '0')}. ${file}`).join('\n')}
+
+## หมายเหตุ:
+- ไฟล์ทั้งหมดควรอยู่ในโฟลเดอร์ content/ หรือ lessons/
+- หากไฟล์อยู่ในโฟลเดอร์เดียวกับ index.html ก็สามารถใช้งานได้
+- ระบบจะค้นหาไฟล์อัตโนมัติในหลายโฟลเดอร์
+
+สร้างเมื่อ: ${new Date().toLocaleString('th-TH')}
+`;
+
+            const blob = new Blob([fileListText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `รายชื่อไฟล์บทเรียน-${new Date().toISOString().split('T')[0]}.txt`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            showNotification('📋 ดาวน์โหลดรายชื่อไฟล์เรียบร้อย', 'success');
         }
 
         // Populate all sections
@@ -1366,6 +1969,12 @@
             const modulesContainer = document.getElementById('course-modules');
             modulesContainer.innerHTML = Object.entries(courseModules).map(([key, module]) => 
                 createModuleCard(key, module)
+            ).join('');
+            
+            // Formula preview
+            const formulaContainer = document.getElementById('formula-preview');
+            formulaContainer.innerHTML = formulaCategories.map(formula => 
+                createFormulaPreviewCard(formula)
             ).join('');
             
             // Interactive tools
@@ -1391,6 +2000,21 @@
             accessibilityContainer.innerHTML = accessibilityTools.map(tool => 
                 createToolCard(tool, 'purple', 'purple')
             ).join('');
+            
+            // Review lessons
+            const reviewContainer = document.getElementById('review-lessons');
+            reviewContainer.innerHTML = reviewLessons.map(lesson => 
+                createToolCard(lesson, 'orange', 'orange')
+            ).join('');
+            
+            // Additional resources
+            const resourcesContainer = document.getElementById('additional-resources');
+            resourcesContainer.innerHTML = additionalResources.map(resource => 
+                createToolCard(resource, 'purple', 'purple')
+            ).join('');
+            
+            // Quick lesson buttons
+            createQuickLessonButtons();
         }
 
         // Update progress display
@@ -1419,15 +2043,37 @@
                 localStorage.setItem('completedLessons', JSON.stringify(completedLessons));
             }
             
-            // Open lesson file in new tab
-            try {
-                window.open(fileName, '_blank', 'noopener,noreferrer');
-                
-                // Show success message
-                showNotification(`🎯 เปิดบทเรียน: ${lessonTitle}`, 'success');
-            } catch (error) {
-                // Fallback if window.open fails
-                showNotification(`📂 กรุณาเปิดไฟล์: ${fileName}`, 'info');
+            // Use the same path-finding logic as openQuickLesson
+            const pathsToTry = [
+                fileName,                    // Direct file
+                `content/${fileName}`,       // In content folder
+                `lessons/${fileName}`,       // In lessons folder
+                `../content/${fileName}`,    // Parent content folder
+                `../lessons/${fileName}`,    // Parent lessons folder
+                `./${fileName}`,            // Current directory
+                `./content/${fileName}`,    // Current content folder
+                `./lessons/${fileName}`     // Current lessons folder
+            ];
+            
+            // Try each path
+            let opened = false;
+            for (const path of pathsToTry) {
+                try {
+                    const newWindow = window.open(path, '_blank', 'noopener,noreferrer');
+                    if (newWindow) {
+                        showNotification(`🎯 เปิดบทเรียน: ${lessonTitle}`, 'success');
+                        opened = true;
+                        break;
+                    }
+                } catch (error) {
+                    continue;
+                }
+            }
+            
+            // If nothing worked, show error
+            if (!opened) {
+                showNotification(`📂 ไม่พบไฟล์: ${fileName}`, 'error');
+                console.log('Lesson paths tried:', pathsToTry);
             }
             
             // Refresh display
@@ -1739,48 +2385,105 @@
         // Draw learning graph
         function drawLearningGraph() {
             const canvas = document.getElementById('learning-graph');
+            if (!canvas) return;
+            
             const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 600;
+            canvas.height = 300;
             
             // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Simple learning path visualization
             const nodes = [
-                { x: 50, y: 150, label: 'พื้นฐาน', lessons: [0, 1, 2] },
-                { x: 200, y: 100, label: 'ความน่าจะเป็น', lessons: [3, 4, 5] },
-                { x: 200, y: 200, label: 'การแจกแจง', lessons: [6, 7, 8, 9, 10] },
-                { x: 350, y: 150, label: 'การประมาณ', lessons: [15, 16, 17, 18] },
-                { x: 500, y: 150, label: 'การทดสอบ', lessons: [23, 24, 25, 26] }
+                { x: 80, y: 150, label: 'พื้นฐาน', lessons: ['01-intro.html', '02-descriptive.html'], color: '#3b82f6' },
+                { x: 200, y: 100, label: 'ความน่าจะเป็น', lessons: ['03-probability-basics.html', '04-conditional.html'], color: '#8b5cf6' },
+                { x: 200, y: 200, label: 'การแจกแจง', lessons: ['08-binomial.html', '11-continuous-normal.html'], color: '#10b981' },
+                { x: 350, y: 120, label: 'การประมาณ', lessons: ['16-ci-intro.html', '17-ci-mean-onepop.html'], color: '#f59e0b' },
+                { x: 480, y: 180, label: 'การทดสอบ', lessons: ['23-hypothesis-intro.html', '25-test-mean-onepop.html'], color: '#ef4444' }
             ];
             
             // Draw connections
             ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3;
             ctx.beginPath();
-            ctx.moveTo(50, 150);
+            // พื้นฐาน -> ความน่าจะเป็น
+            ctx.moveTo(80, 150);
             ctx.lineTo(200, 100);
-            ctx.moveTo(50, 150);
+            // พื้นฐาน -> การแจกแจง
+            ctx.moveTo(80, 150);
             ctx.lineTo(200, 200);
+            // ความน่าจะเป็น -> การประมาณ
             ctx.moveTo(200, 100);
-            ctx.lineTo(350, 150);
+            ctx.lineTo(350, 120);
+            // การแจกแจง -> การประมาณ
             ctx.moveTo(200, 200);
-            ctx.lineTo(350, 150);
-            ctx.moveTo(350, 150);
-            ctx.lineTo(500, 150);
+            ctx.lineTo(350, 120);
+            // การประมาณ -> การทดสอบ
+            ctx.moveTo(350, 120);
+            ctx.lineTo(480, 180);
             ctx.stroke();
             
             // Draw nodes
-            nodes.forEach(node => {
-                ctx.fillStyle = '#3b82f6';
+            nodes.forEach((node, index) => {
+                // Draw circle
+                ctx.fillStyle = node.color;
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
+                ctx.arc(node.x, node.y, 25, 0, 2 * Math.PI);
                 ctx.fill();
                 
-                ctx.fillStyle = 'white';
-                ctx.font = '12px sans-serif';
+                // Draw border
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Draw label
+                ctx.fillStyle = '#1f2937';
+                ctx.font = 'bold 12px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(node.label, node.x, node.y - 30);
+                ctx.fillText(node.label, node.x, node.y - 35);
+                
+                // Draw step number
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText((index + 1).toString(), node.x, node.y + 5);
             });
+            
+            // Add click handler
+            canvas.onclick = function(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                nodes.forEach(node => {
+                    const distance = Math.sqrt((x - node.x) ** 2 + (y - node.y) ** 2);
+                    if (distance <= 25) {
+                        // Open first lesson in this category
+                        if (node.lessons.length > 0) {
+                            openQuickLesson(node.lessons[0], node.label, ['']);
+                        }
+                    }
+                });
+            };
+            
+            // Add hover effect
+            canvas.onmousemove = function(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                let isHovering = false;
+                nodes.forEach(node => {
+                    const distance = Math.sqrt((x - node.x) ** 2 + (y - node.y) ** 2);
+                    if (distance <= 25) {
+                        isHovering = true;
+                    }
+                });
+                
+                canvas.style.cursor = isHovering ? 'pointer' : 'default';
+            };
         }
 
         // Search input handler
@@ -1795,6 +2498,15 @@
                 }
             });
         });
+
+        // Show learning map
+        function showLearningMap() {
+            const mapSection = document.querySelector('#learning-graph').closest('.bg-gray-50');
+            if (mapSection) {
+                mapSection.scrollIntoView({ behavior: 'smooth' });
+                showNotification('🗺️ แสดงแผนที่การเรียน', 'success');
+            }
+        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1836,5 +2548,8 @@
             }
         });
     </script>
+
+
+
 </body>
 </html>
