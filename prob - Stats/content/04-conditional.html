@@ -154,6 +154,7 @@
             <p>P(A | B) = <strong id="pa-given-b">0.6</strong></p>
             <p>P(B | A) = <strong id="pb-given-a">0.75</strong></p>
             <p>Independent? <strong id="independent-flag">ไม่เป็นอิสระ</strong></p>
+            <p>Mutually Exclusive? <strong id="exclusive-flag">ไม่ใช่</strong></p>
           </div>
           <div>
             <div class="venn" aria-label="ภาพแทนเซต">
@@ -193,6 +194,7 @@
       const paGivenB = pb > 0 ? pab / pb : NaN;
       const pbGivenA = pa > 0 ? pab / pa : NaN;
       const independent = Math.abs(pab - pa * pb) < 1e-6;
+      const exclusive = Math.abs(pab) < 1e-6;
 
       document.getElementById('pa').textContent = pa.toFixed(4);
       document.getElementById('pb').textContent = pb.toFixed(4);
@@ -200,6 +202,7 @@
       document.getElementById('pa-given-b').textContent = Number.isFinite(paGivenB) ? paGivenB.toFixed(4) : '—';
       document.getElementById('pb-given-a').textContent = Number.isFinite(pbGivenA) ? pbGivenA.toFixed(4) : '—';
       document.getElementById('independent-flag').textContent = independent ? 'เป็นอิสระ' : 'ไม่เป็นอิสระ';
+      document.getElementById('exclusive-flag').textContent = exclusive ? 'ใช่' : 'ไม่ใช่';
 
       const barPa = document.getElementById('bar-pa');
       const barPb = document.getElementById('bar-pb');

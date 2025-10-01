@@ -150,6 +150,7 @@
 2:0.25</textarea>
         <button class="primary" id="pmf-update">อัปเดตการแจกแจง</button>
         <p>ผลรวมความน่าจะเป็น: <strong id="pmf-sum">1.00</strong></p>
+        <p>ค่าคาดหมาย E[X]: <strong id="pmf-expected">1.0000</strong></p>
         <div class="bar-chart" id="pmf-chart" role="img" aria-label="กราฟแท่งความน่าจะเป็น"></div>
       </div>
     </section>
@@ -161,12 +162,20 @@
   <script>
     const chart = document.getElementById('pmf-chart');
     const sumEl = document.getElementById('pmf-sum');
+    const expectedEl = document.getElementById('pmf-expected');
 
     const renderPMF = (pairs) => {
       chart.innerHTML = '';
       const validPairs = pairs.filter(({ prob }) => prob >= 0);
       const total = validPairs.reduce((acc, { prob }) => acc + prob, 0);
       sumEl.textContent = total.toFixed(4);
+      const numericPairs = validPairs.filter(({ value }) => !Number.isNaN(Number(value)));
+      if (numericPairs.length) {
+        const expected = numericPairs.reduce((acc, { value, prob }) => acc + Number(value) * prob, 0);
+        expectedEl.textContent = expected.toFixed(4);
+      } else {
+        expectedEl.textContent = '—';
+      }
       const maxProb = Math.max(...validPairs.map(({ prob }) => prob), 0.01);
       validPairs.forEach(({ value, prob }) => {
         const bar = document.createElement('div');

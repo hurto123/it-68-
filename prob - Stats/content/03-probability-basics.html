@@ -27,6 +27,10 @@
     .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
     .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
     .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    .practice-card { background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: var(--space-3); display: grid; gap: var(--space-3); }
+    .practice-grid { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .practice-grid label { display: grid; gap: var(--space-1); font-weight: 600; }
+    .practice-feedback { font-weight: 600; }
   </style>
 </head>
 <body data-page="lesson">
@@ -126,6 +130,23 @@
     </section>
 
     <section>
+      <h2>Self-Practice: Complement &amp; Odds</h2>
+      <p>กำหนดจำนวนผลลัพธ์ที่สนใจและไม่สนใจเพื่อคำนวณ P(E), P(E<sup>c</sup>) และอัตราต่อรอง (Odds)</p>
+      <div class="practice-card">
+        <div class="practice-grid">
+          <label for="practice-total">จำนวนผลลัพธ์ทั้งหมด (n(S))
+            <input id="practice-total" type="number" min="1" value="10">
+          </label>
+          <label for="practice-fav">ผลลัพธ์ที่สนใจ (n(E))
+            <input id="practice-fav" type="number" min="0" value="4">
+          </label>
+        </div>
+        <button class="primary" id="practice-run">คำนวณ</button>
+        <p id="practice-feedback" class="practice-feedback" aria-live="polite">ลองกรอกค่าที่ต้องการแล้วกดคำนวณได้เลยครับ</p>
+      </div>
+    </section>
+
+    <section>
       <h2>Interactive: Probability Lab</h2>
       <p>ตั้งค่าจำนวนผลลัพธ์ทั้งหมดและผลลัพธ์ที่สนใจเพื่อดูความน่าจะเป็นพร้อมกราฟสัดส่วน</p>
       <div class="prob-lab">
@@ -187,6 +208,21 @@
       const newRow = document.createElement('tr');
       newRow.innerHTML = `<td>สถานการณ์ที่ตั้งเอง</td><td>${total.toLocaleString('th-TH')} ผล</td><td>${favor.toLocaleString('th-TH')} ผล</td><td>${probability.toFixed(4)}</td>`;
       table.prepend(newRow);
+    });
+
+    document.getElementById('practice-run').addEventListener('click', () => {
+      const total = Number(document.getElementById('practice-total').value);
+      const favor = Number(document.getElementById('practice-fav').value);
+      const feedbackEl = document.getElementById('practice-feedback');
+      if (!Number.isFinite(total) || total <= 0 || !Number.isFinite(favor) || favor < 0 || favor > total) {
+        feedbackEl.textContent = 'กรุณากรอกค่าที่ถูกต้อง (n(E) ต้องอยู่ระหว่าง 0 และ n(S))';
+        return;
+      }
+      const probability = favor / total;
+      const complement = 1 - probability;
+      const odds = complement > 1e-8 ? probability / complement : Infinity;
+      const oddsText = Number.isFinite(odds) ? odds.toFixed(4) : '∞';
+      feedbackEl.textContent = `P(E) = ${probability.toFixed(4)}, P(E^c) = ${complement.toFixed(4)}, Odds(E) = ${oddsText}:1`;
     });
   </script>
 </body>
