@@ -22,11 +22,12 @@
   </header>
   <main class="card-grid">
     <article class="card">
-      <p>ใช้ชุดข้อมูล <code>data/corr_signal.csv</code> เพื่อ:</p>
+      <p>ใช้ชุดข้อมูล <code>data/corr_signal.csv</code> และเปิด <a href="../sim/correlation-explorer.html">Correlation Explorer</a>:</p>
       <ol>
-        <li>คำนวณค่า r ระหว่าง x และ y</li>
-        <li>วาด scatter plot และตีความความสัมพันธ์</li>
-        <li>ทดลองเพิ่ม outlier (x=15, y=8) แล้วสังเกตค่า r</li>
+        <li>คำนวณค่า r และ cov(x, y) แล้วสรุปลักษณะความสัมพันธ์</li>
+        <li>วาด scatter plot พร้อมเส้นแนวโน้ม (SLR) เพื่อดูทิศทางและ outlier</li>
+        <li>ทดลองเพิ่ม outlier (x = 15, y = 8) แล้วอธิบายว่า r และ cov เปลี่ยนอย่างไร</li>
+        <li>จำลองสัญญาณ trend + noise ใน Correlation Explorer และยกตัวอย่าง “spurious correlation” ที่อาจเกิดในชีวิตจริง</li>
       </ol>
     </article>
   </main>

@@ -11,12 +11,35 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .definition { border-radius: var(--radius-lg); padding: var(--space-3); background: var(--neutral-100); border: 1px solid var(--neutral-200); }
+    .conditional-lab { display: grid; gap: var(--space-3); }
+    .conditional-lab input { width: 100%; }
+    .venn { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 1rem; justify-items: center; align-items: center; }
+    .venn div { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 700; }
+    .venn .a { background: color-mix(in srgb, var(--brand-500) 80%, transparent); }
+    .venn .b { background: color-mix(in srgb, var(--success-500) 80%, transparent); }
+    .venn .ab { background: color-mix(in srgb, var(--warning-500) 80%, transparent); grid-column: span 2; width: 60%; aspect-ratio: 1 / 1; }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-2); }
+    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
+    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    .summary-table { width: 100%; border-collapse: collapse; margin-top: var(--space-3); }
+    .summary-table th, .summary-table td { border: 1px solid var(--neutral-200); padding: .5rem .75rem; text-align: center; }
+    .summary-table thead th { background: var(--neutral-100); }
+  </style>
 </head>
 <body data-page="lesson">
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 04</p>
-      <h1>ความน่าจะเป็นแบบมีเงื่อนไข</h1>
+      <h1>👨‍🏫 บทเรียนที่ 4: ความน่าจะเป็นแบบมีเงื่อนไขและกฎที่เกี่ยวข้อง</h1>
+      <p class="highlight">สวัสดีครับนักศึกษา! ในบทเรียนที่แล้ว เราได้เรียนรู้นิยามพื้นฐานของความน่าจะเป็นไปแล้ว แต่ในโลกแห่งความเป็นจริง หลายๆ เหตุการณ์มักจะมีความเกี่ยวข้องกัน หรือการเกิดของเหตุการณ์หนึ่งอาจส่งผลต่อโอกาสการเกิดของอีกเหตุการณ์หนึ่งได้ ในบทนี้เราจะมาเรียนรู้เครื่องมือที่จะจัดการกับสถานการณ์เหล่านี้กันครับ</p>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="03-probability-basics.html">บทก่อนหน้า</button>
@@ -24,41 +47,207 @@
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เจาะลึกการปรับความน่าจะเป็นเมื่อมีข้อมูลเพิ่มเติมและการแยกประเภทเหตุการณ์</p>
+  <main class="lesson">
+    <section>
+      <h2>1. อธิบายเนื้อหาของการเรียน: ความน่าจะเป็นแบบมีเงื่อนไข (Conditional Probability)</h2>
+      <p>คืออะไร? คือความน่าจะเป็นของ "เหตุการณ์ A" ที่จะเกิดขึ้น "โดยที่เรามีข้อมูลเพิ่มเติมว่า เหตุการณ์ B ได้เกิดขึ้นแล้ว"</p>
+      <p>เปรียบเทียบ:</p>
       <ul>
-        <li>นิยามความน่าจะเป็นแบบมีเงื่อนไข P(A|B)</li>
-        <li>กฎการคูณ กฎบวก และกฎรวมความน่าจะเป็น (Law of Total Probability)</li>
-        <li>เปรียบเทียบเหตุการณ์อิสระกับเหตุการณ์ที่แยกจากกัน</li>
+        <li>ความน่าจะเป็นปกติ: "โอกาสที่วันนี้ฝนจะตกเป็นเท่าไหร่?"</li>
+        <li>ความน่าจะเป็นแบบมีเงื่อนไข: "ถ้าเรารู้ว่า 'วันนี้มีเมฆดำเต็มท้องฟ้า' (เหตุการณ์ B เกิดขึ้นแล้ว) โอกาสที่ฝนจะตก (เหตุการณ์ A) จะเป็นเท่าไหร่?"</li>
       </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรสำคัญช่วยให้แก้โจทย์แบบหลายขั้นตอนหรือข้อมูลไม่สมบูรณ์</p>
+      <p>จะเห็นได้ว่าเมื่อเรามีข้อมูลเพิ่มเติม (B) โอกาสในการเกิด A ก็อาจจะเปลี่ยนไป (ในที่นี้คือเพิ่มขึ้น)</p>
+      <p><strong>สัญลักษณ์:</strong> P(A∣B) อ่านว่า "ความน่าจะเป็นของ A เมื่อกำหนด B" หรือ "Prob of A given B"</p>
+    </section>
+
+    <section>
+      <h2>2.&nbsp;&amp;&nbsp;3. ความหมายและการทำงานของสูตร</h2>
+      <div class="definition">
+        <h3>สูตรความน่าจะเป็นแบบมีเงื่อนไข</h3>
+        <p>P(A|B) = P(A ∩ B) / P(B)</p>
+        <p><strong>การทำงาน:</strong></p>
+        <ul>
+          <li>P(A∣B): คือสิ่งที่เราต้องการหา</li>
+          <li>P(A∩B): คือความน่าจะเป็นที่เหตุการณ์ A และ B จะเกิดขึ้น <strong>พร้อมกัน</strong> (Intersection)</li>
+          <li>P(B): คือความน่าจะเป็นของเหตุการณ์ B ที่เรารู้ว่าเกิดขึ้นแล้ว (ซึ่งตอนนี้กลายเป็น "แซมเปิลสเปซใหม่" ของเรา)</li>
+        </ul>
+      </div>
+      <div class="grid-2">
+        <div class="definition">
+          <h3>กฎการคูณของความน่าจะเป็น (Multiplication Rule)</h3>
+          <p>ความหมาย: เป็นกฎที่ใช้หาความน่าจะเป็นที่เหตุการณ์ A และ B จะเกิดขึ้นพร้อมกัน (P(A∩B)) ซึ่งเป็นสูตรที่ย้ายข้างมาจากสูตรข้างบนนั่นเอง</p>
+          <p>P(A ∩ B) = P(B) × P(A|B) หรือ P(A ∩ B) = P(A) × P(B|A)</p>
+        </div>
+        <div class="definition">
+          <h3>เหตุการณ์ที่เป็นอิสระต่อกัน (Independent Events)</h3>
+          <p>ความหมาย: คือการที่การเกิดของเหตุการณ์หนึ่ง "ไม่ส่งผล" ต่อโอกาสการเกิดของอีกเหตุการณ์หนึ่งเลย</p>
+          <p>การตรวจสอบ: ถ้า A และ B เป็นอิสระกัน, จะได้ว่า P(A∣B)=P(A)</p>
+          <p>กฎการคูณสำหรับเหตุการณ์อิสระ (ง่ายกว่าเดิม!): P(A ∩ B) = P(A) × P(B)</p>
+        </div>
+      </div>
+      <div class="definition">
+        <h3>กฎการบวกของความน่าจะเป็น (Addition Rule)</h3>
+        <p>ความหมาย: เป็นกฎที่ใช้หาความน่าจะเป็นที่เหตุการณ์ A หรือ B จะเกิดขึ้น (P(A∪B))</p>
+        <p>สูตรทั่วไป (ใช้ได้ทุกกรณี): P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</p>
+        <p>ทำไมต้องลบส่วนที่ซ้ำกันออก? เพราะในการบวก P(A) กับ P(B) เราได้นับส่วนที่เกิดร่วมกัน (A∩B) ไปถึงสองครั้ง จึงต้องลบออกหนึ่งครั้งเพื่อให้ถูกต้อง</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. การเข้าใจในเนื้อหา: Independent vs Mutually Exclusive</h2>
+      <p>สองคำนี้มักสร้างความสับสน ให้นักศึกษาจำง่ายๆ ดังนี้ครับ:</p>
+      <div class="grid-2">
+        <div>
+          <h3>Independent (เป็นอิสระ)</h3>
+          <ul>
+            <li>การเกิดของ A ไม่ส่งผล ต่อ B (เช่น โยนเหรียญครั้งแรกได้หัว ไม่ส่งผลต่อการโยนครั้งที่สอง)</li>
+            <li>เหตุการณ์อิสระ สามารถเกิดร่วมกันได้</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Mutually Exclusive (ไม่เกิดร่วมกัน)</h3>
+          <ul>
+            <li>ถ้า A เกิดแล้ว B จะเกิดไม่ได้เด็ดขาด (เช่น ทอดลูกเต๋าครั้งเดียว ได้แต้ม 1 กับแต้ม 6 พร้อมกันไม่ได้)</li>
+            <li>เหตุการณ์ที่ไม่เกิดร่วมกัน ไม่เป็นอิสระต่อกัน (เพราะการเกิดของ A ส่งผล 100% ต่อ B คือทำให้ B เกิดไม่ได้)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. ยกตัวอย่าง</h2>
+      <p>โจทย์: ในตะกร้ามีผลไม้ 10 ผล เป็นแอปเปิ้ล 4 ผล (3 ผลสีแดง, 1 ผลสีเขียว) และส้ม 6 ผล (2 ผลสีแดง, 4 ผลสีเขียว) สุ่มหยิบผลไม้ 1 ผล</p>
       <ul>
-        <li>นิยาม: P(A|B) = P(A ∩ B) / P(B)</li>
-        <li>กฎการคูณ: P(A ∩ B) = P(A|B)P(B) = P(B|A)P(A)</li>
-        <li>Bayes' Rule: P(A|B) = P(B|A)P(A) / P(B)</li>
+        <li>A: เหตุการณ์ที่หยิบได้แอปเปิ้ล</li>
+        <li>B: เหตุการณ์ที่หยิบได้ผลไม้สีแดง</li>
       </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>วิเคราะห์ผลตรวจคัดกรองโรคเมื่อรู้ความชุกของโรคและความไว/จำเพาะของเครื่องมือ</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="03-probability-basics.html">บทก่อนหน้า: ความน่าจะเป็นพื้นฐาน</a></li>
-        <li><a href="05-random-variables.html">บทถัดไป: ตัวแปรสุ่ม</a></li>
-        <li><a href="02-descriptive.html">ทบทวนการนับ</a></li>
-      </ul>
-    </article>
+      <h3>คำถามที่ 1: จงหา P(A∣B)</h3>
+      <p>เราต้องหา P(A∩B) (แอปเปิ้ล และ สีแดง): มีแอปเปิ้ลสีแดง 3 ผล จากทั้งหมด 10 ผล → P(A∩B)=3/10</p>
+      <p>เราต้องหา P(B) (ผลไม้สีแดง): มีผลไม้สีแดงทั้งหมด 3+2=5 ผล จาก 10 ผล → P(B)=5/10</p>
+      <p>วิธีทำ: P(A|B) = (3/10)/(5/10) = 3/5 = 0.6 ⇒ ถ้าเรารู้ว่าผลไม้ที่หยิบมาเป็นสีแดง โอกาสที่มันจะเป็นแอปเปิ้ลจะสูงถึง 60%</p>
+      <h3>คำถามที่ 2: จงหา P(A∪B)</h3>
+      <p>P(A) (ได้แอปเปิ้ล) = 4/10, P(B) (ได้สีแดง) = 5/10, P(A∩B) (แอปเปิ้ลสีแดง) = 3/10</p>
+      <p>วิธีทำ (ใช้กฎการบวก): P(A ∪ B) = 4/10 + 5/10 − 3/10 = 6/10 = 0.6 ⇒ มีโอกาส 60% ที่จะหยิบได้ผลไม้ที่เป็นแอปเปิ้ล หรือเป็นสีแดง (หรือเป็นทั้งสองอย่าง)</p>
+    </section>
+
+    <section>
+      <h2>Interactive: Conditional Probability Explorer</h2>
+      <p>ปรับจำนวนสมาชิกของแต่ละกลุ่มเพื่อดู P(A∣B), P(B∣A) และตรวจสอบความเป็นอิสระของเหตุการณ์</p>
+      <div class="conditional-lab">
+        <div class="grid-2">
+          <label>จำนวนสมาชิกเหตุการณ์ A ทั้งหมด
+            <input id="count-a" type="number" min="0" value="4">
+          </label>
+          <label>จำนวนสมาชิกเหตุการณ์ B ทั้งหมด
+            <input id="count-b" type="number" min="0" value="5">
+          </label>
+          <label>จำนวนสมาชิกที่อยู่ทั้ง A และ B
+            <input id="count-ab" type="number" min="0" value="3">
+          </label>
+          <label>จำนวนสมาชิกทั้งหมดในจักรวาล (U)
+            <input id="count-total" type="number" min="1" value="10">
+          </label>
+        </div>
+        <button class="primary" id="conditional-update">คำนวณ</button>
+        <div class="grid-2">
+          <div>
+            <p>P(A) = <strong id="pa">0.4</strong></p>
+            <p>P(B) = <strong id="pb">0.5</strong></p>
+            <p>P(A ∩ B) = <strong id="pab">0.3</strong></p>
+            <p>P(A | B) = <strong id="pa-given-b">0.6</strong></p>
+            <p>P(B | A) = <strong id="pb-given-a">0.75</strong></p>
+            <p>Independent? <strong id="independent-flag">ไม่เป็นอิสระ</strong></p>
+          </div>
+          <div>
+            <div class="venn" aria-label="ภาพแทนเซต">
+              <div class="a" id="venn-a">A</div>
+              <div class="b" id="venn-b">B</div>
+              <div class="ab" id="venn-ab">A∩B</div>
+            </div>
+            <div class="bar-chart" role="img" aria-label="เปรียบเทียบความน่าจะเป็น">
+              <div class="bar" id="bar-pa" style="height:40%" data-value="40%"><span>P(A)</span></div>
+              <div class="bar" id="bar-pb" style="height:50%" data-value="50%"><span>P(B)</span></div>
+              <div class="bar" id="bar-pab" style="height:30%" data-value="30%"><span>P(A∩B)</span></div>
+            </div>
+          </div>
+        </div>
+        <table class="summary-table" aria-label="สรุปจำนวนสมาชิกและความน่าจะเป็น">
+          <thead>
+            <tr><th scope="col">รายการ</th><th scope="col">จำนวนสมาชิก</th><th scope="col">ความน่าจะเป็น</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">เหตุการณ์ A</th><td id="table-count-a">4</td><td id="table-prob-a">0.4</td></tr>
+            <tr><th scope="row">เหตุการณ์ B</th><td id="table-count-b">5</td><td id="table-prob-b">0.5</td></tr>
+            <tr><th scope="row">A ∩ B</th><td id="table-count-ab">3</td><td id="table-prob-ab">0.3</td></tr>
+            <tr><th scope="row">A ∪ B</th><td id="table-count-au">6</td><td id="table-prob-au">0.6</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </main>
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
     <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
   </footer>
+  <script>
+    const percentText = (value) => `${Math.round(value * 1000) / 10}%`;
+
+    const tableCountA = document.getElementById('table-count-a');
+    const tableCountB = document.getElementById('table-count-b');
+    const tableCountAB = document.getElementById('table-count-ab');
+    const tableCountAU = document.getElementById('table-count-au');
+    const tableProbA = document.getElementById('table-prob-a');
+    const tableProbB = document.getElementById('table-prob-b');
+    const tableProbAB = document.getElementById('table-prob-ab');
+    const tableProbAU = document.getElementById('table-prob-au');
+
+    document.getElementById('conditional-update').addEventListener('click', () => {
+      const a = Number(document.getElementById('count-a').value);
+      const b = Number(document.getElementById('count-b').value);
+      const ab = Number(document.getElementById('count-ab').value);
+      const total = Number(document.getElementById('count-total').value);
+
+      if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(ab) || !Number.isFinite(total) || total <= 0) return;
+      if (ab > a || ab > b || a > total || b > total || ab > total) return;
+
+      const pa = a / total;
+      const pb = b / total;
+      const pab = ab / total;
+      const paGivenB = pb > 0 ? pab / pb : NaN;
+      const pbGivenA = pa > 0 ? pab / pa : NaN;
+      const independent = Math.abs(pab - pa * pb) < 1e-6;
+
+      document.getElementById('pa').textContent = pa.toFixed(4);
+      document.getElementById('pb').textContent = pb.toFixed(4);
+      document.getElementById('pab').textContent = pab.toFixed(4);
+      document.getElementById('pa-given-b').textContent = Number.isFinite(paGivenB) ? paGivenB.toFixed(4) : '—';
+      document.getElementById('pb-given-a').textContent = Number.isFinite(pbGivenA) ? pbGivenA.toFixed(4) : '—';
+      document.getElementById('independent-flag').textContent = independent ? 'เป็นอิสระ' : 'ไม่เป็นอิสระ';
+
+      const barPa = document.getElementById('bar-pa');
+      const barPb = document.getElementById('bar-pb');
+      const barPab = document.getElementById('bar-pab');
+      barPa.style.height = percentText(pa);
+      barPb.style.height = percentText(pb);
+      barPab.style.height = percentText(pab);
+      barPa.dataset.value = percentText(pa);
+      barPb.dataset.value = percentText(pb);
+      barPab.dataset.value = percentText(pab);
+
+      document.getElementById('venn-a').textContent = `A\n${percentText(pa)}`.replace('\\n', '\n');
+      document.getElementById('venn-b').textContent = `B\n${percentText(pb)}`.replace('\\n', '\n');
+      document.getElementById('venn-ab').textContent = `A∩B\n${percentText(pab)}`.replace('\\n', '\n');
+
+      tableCountA.textContent = a.toLocaleString('th-TH');
+      tableCountB.textContent = b.toLocaleString('th-TH');
+      tableCountAB.textContent = ab.toLocaleString('th-TH');
+      const unionCount = a + b - ab;
+      tableCountAU.textContent = unionCount.toLocaleString('th-TH');
+      tableProbA.textContent = pa.toFixed(4);
+      tableProbB.textContent = pb.toFixed(4);
+      tableProbAB.textContent = pab.toFixed(4);
+      tableProbAU.textContent = (unionCount / total).toFixed(4);
+    });
+  </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>02. หลักการนับ</title>
+  <title>02. หลักการนับเบื้องต้น</title>
   <link rel="stylesheet" href="../styles/tokens.css">
   <link rel="stylesheet" href="../styles/components.css">
   <link rel="stylesheet" href="../styles/light.css">
@@ -11,12 +11,34 @@
   <link rel="stylesheet" href="../styles/print.css" media="print">
   <script defer src="../app.js"></script>
   <script defer src="../i18n/i18n.js"></script>
+  <style>
+    .lesson { display: grid; gap: var(--space-3); margin-block: var(--space-4); }
+    section { background: var(--surface-raised); border-radius: var(--radius-xl); padding: var(--space-4); box-shadow: var(--shadow-md); }
+    section h2 { margin-top: 0; }
+    .highlight { background: var(--brand-50); border-left: 4px solid var(--brand-500); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); }
+    .grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .calc-grid { display: grid; gap: var(--space-2); }
+    .calc-grid label { font-weight: 600; }
+    .result-display { font-size: 1.5rem; font-weight: 700; }
+    .bar-chart { display: grid; grid-auto-flow: column; gap: var(--space-2); align-items: end; min-height: 160px; padding-block: var(--space-3); }
+    .bar { background: linear-gradient(180deg, var(--brand-300), var(--brand-500)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: relative; overflow: hidden; }
+    .bar span { position: absolute; inset-inline: 0; bottom: -1.75rem; text-align: center; font-size: .875rem; }
+    .bar::after { content: attr(data-value); position: absolute; inset-inline: 0; top: .25rem; text-align: center; font-weight: 600; color: white; }
+    .example-table { width: 100%; border-collapse: collapse; }
+    .example-table th, .example-table td { border: 1px solid var(--neutral-300); padding: .5rem .75rem; text-align: center; }
+    .example-table th { background: var(--neutral-100); }
+    .code-block { font-family: var(--font-mono); background: var(--neutral-950); color: var(--neutral-0); border-radius: var(--radius-lg); padding: var(--space-3); overflow-x: auto; }
+    .summary-table { width: 100%; border-collapse: collapse; margin-top: var(--space-3); }
+    .summary-table th, .summary-table td { border: 1px solid var(--neutral-200); padding: .5rem .75rem; text-align: left; }
+    .summary-table thead th { background: var(--neutral-100); text-align: center; }
+  </style>
 </head>
 <body data-page="lesson">
   <header class="site-header">
     <div>
       <p class="eyebrow">บทที่ 02</p>
-      <h1>หลักการนับ</h1>
+      <h1>👨‍🏫 บทเรียนที่ 2: หลักการนับเบื้องต้น (Counting Principles)</h1>
+      <p class="highlight">สวัสดีครับนักศึกษา! ในบทเรียนที่แล้วเราได้เห็นภาพรวมของสถิติไปแล้ว ในบทนี้เราจะมาเรียนรู้เครื่องมือพื้นฐานแต่ทรงพลังที่สุดอย่างหนึ่ง ซึ่งก็คือ "ศิลปะแห่งการนับ" ครับ หลายครั้งก่อนที่เราจะคำนวณความน่าจะเป็นได้ เราต้องตอบคำถามพื้นฐานให้ได้ก่อนว่า "จำนวนวิธีทั้งหมดที่เป็นไปได้มีกี่วิธี?"</p>
     </div>
     <nav class="header-actions">
       <button class="ghost" data-prev="01-intro.html">บทก่อนหน้า</button>
@@ -24,41 +46,249 @@
       <button id="print-current" class="ghost">พิมพ์</button>
     </nav>
   </header>
-  <main class="card-grid">
-    <article class="card">
-      <h2>ภาพรวม</h2>
-      <p>เตรียมพื้นฐานการนับจำนวนกรณีเพื่อใช้ในความน่าจะเป็นและการออกแบบการทดลอง</p>
+  <main class="lesson">
+    <section>
+      <h2>1. อธิบายเนื้อหาของการเรียน: ทำไมต้องเรียน "นับเลข"?</h2>
+      <p>แน่นอนว่าทุกคนนับเลขเป็น แต่ในทางสถิติ "การนับ" หมายถึงการหาจำนวนวิธีที่เป็นไปได้ทั้งหมดของเหตุการณ์ที่ซับซ้อน เช่น</p>
       <ul>
-        <li>กฎการบวกสำหรับเหตุการณ์ที่ไม่ทับซ้อน และกฎการคูณสำหรับขั้นตอนต่อเนื่อง</li>
-        <li>การเรียงสับเปลี่ยน (Permutation) และการจัดหมู่ (Combination)</li>
-        <li>การตีความโจทย์จริงให้เป็นปัญหาการนับที่ถูกต้อง</li>
+        <li>ถ้ามีเสื้อ 3 ตัว กางเกง 2 ตัว จะแต่งตัวได้ทั้งหมดกี่แบบ?</li>
+        <li>ถ้ามีคน 10 คน จะเลือกกรรมการ 3 คนได้กี่วิธี?</li>
+        <li>ถ้าจะสร้างรหัส ATM 4 หลัก จะสร้างได้ทั้งหมดกี่รหัส?</li>
       </ul>
-    </article>
-    <article class="card">
-      <h2>สูตรและหลักคิดสำคัญ</h2>
-      <p>สูตรสำคัญช่วยให้คำนวณจำนวนกรณีได้รวดเร็ว</p>
-      <ul>
-        <li>กฎการบวก: ถ้าเหตุการณ์ A, B ไม่ทับซ้อน → จำนวนรวม = n(A) + n(B)</li>
-        <li>กฎการคูณ: ถ้ามี k ขั้นตอนอิสระ → จำนวนกรณี = n_1 × n_2 × … × n_k</li>
-        <li>Permutation: P(n,r) = n!/(n-r)!,  Combination: C(n,r) = n!/[r!(n-r)!]</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h2>ตัวอย่างสถานการณ์</h2>
-      <p>จำนวนวิธีจัดที่นั่งกรรมการ 5 คนให้เรียงบนเวที หรือวิธีเลือกทีมย่อยจากพนักงานทั้งหมด</p>
-    </article>
-    <article class="card">
-      <h2>เชื่อมต่อการเรียน</h2>
-      <ul>
-        <li><a href="01-intro.html">บทก่อนหน้า: บทนำสถิติ</a></li>
-        <li><a href="03-probability-basics.html">บทถัดไป: ความน่าจะเป็นพื้นฐาน</a></li>
-        <li><a href="review/review-01-foundation.html">รีวิวพื้นฐานการนับ</a></li>
-      </ul>
-    </article>
+      <p>การนับด้วยวิธีปกติอาจจะช้าและผิดพลาดได้ง่าย "หลักการนับ" จึงเป็นเครื่องมือที่ช่วยให้เราหาคำตอบเหล่านี้ได้อย่างเป็นระบบและรวดเร็วครับ โดยมีกฎพื้นฐานที่สำคัญ 2 ข้อคือ กฎการบวกและกฎการคูณ</p>
+    </section>
+
+    <section>
+      <h2>2.&nbsp;&amp;&nbsp;3. ความหมายและการทำงานของสูตร: กฎพื้นฐานและเครื่องมือขั้นสูง</h2>
+      <article class="grid-2">
+        <div>
+          <h3>กฎข้อที่ 1: กฎการบวก (Addition Rule)</h3>
+          <p>ความหมาย: ใช้เมื่อการทำงานอย่างหนึ่งมี "ทางเลือก" ให้ทำได้หลายวิธี โดยแต่ละวิธี "ทำงานเสร็จสิ้นในตัวเอง" และไม่สามารถทำพร้อมกันได้</p>
+          <p>การทำงาน: เราจะนำจำนวนวิธีของแต่ละทางเลือกมา "บวก" กัน</p>
+          <p><strong>คีย์เวิร์ด:</strong> "หรือ", "อย่างใดอย่างหนึ่ง"</p>
+        </div>
+        <div>
+          <h3>กฎข้อที่ 2: กฎการคูณ (Multiplication Rule)</h3>
+          <p>ความหมาย: ใช้เมื่อการทำงานอย่างหนึ่งประกอบด้วย "ขั้นตอน" ย่อยๆ หลายขั้นตอนที่ต้องทำ "ต่อเนื่องกันไป" จนกว่าจะเสร็จสมบูรณ์</p>
+          <p>การทำงาน: เราจะนำจำนวนวิธีของแต่ละขั้นตอนย่อยมา "คูณ" กัน</p>
+          <p><strong>คีย์เวิร์ด:</strong> "และ", "ต่อเนื่องกัน", "ทำตามลำดับ"</p>
+        </div>
+      </article>
+      <article class="grid-2">
+        <div>
+          <h3>เครื่องมือขั้นสูง: การเรียงสับเปลี่ยน (Permutation)</h3>
+          <p>ความหมาย: คือการนำของที่แตกต่างกันทั้งหมด n ชิ้น มาจัด "เรียงลำดับ" เพียงแค่ r ชิ้น</p>
+          <p>หัวใจสำคัญ: "ลำดับมีความสำคัญ" (Order Matters!) การสลับที่กันถือว่าเป็นคนละวิธี</p>
+          <div class="code-block">P<sub>n,r</sub> = n!/(n-r)!</div>
+          <p>n! (อ่านว่า n-factorial) คือ n×(n−1)×(n−2)×⋯×1 (เช่น 4!=4×3×2×1=24)</p>
+          <ul>
+            <li>n คือ จำนวนของทั้งหมดที่มีให้เลือก</li>
+            <li>r คือ จำนวนของที่เราจะนำมาจัดลำดับ</li>
+          </ul>
+        </div>
+        <div>
+          <h3>เครื่องมือขั้นสูง: การจัดหมู่ (Combination)</h3>
+          <p>ความหมาย: คือการนำของที่แตกต่างกันทั้งหมด n ชิ้น มา "เลือกเป็นกลุ่ม" จำนวน r ชิ้น</p>
+          <p>หัวใจสำคัญ: "ลำดับไม่มีความสำคัญ" (Order Doesn't Matter!) ขอแค่ได้ของครบตามจำนวนก็พอ ใครมาก่อนมาหลังไม่สำคัญ</p>
+          <div class="code-block">C<sub>n,r</sub> = n! / [r!(n-r)!]</div>
+          <p>สัญลักษณ์ต่างๆ มีความหมายเหมือนกับ Permutation</p>
+        </div>
+      </article>
+    </section>
+
+    <section>
+      <h2>4. การเข้าใจในเนื้อหา: Permutation vs Combination</h2>
+      <p>วิธีแยกแยะที่ง่ายที่สุดระหว่างสองเรื่องนี้คือการถามตัวเองว่า "ลำดับสำคัญหรือไม่?"</p>
+      <div class="grid-2">
+        <div>
+          <h3>Permutation (ลำดับสำคัญ)</h3>
+          <ul>
+            <li>นึกถึงการ "แข่งขันวิ่ง" ที่มีผู้ชนะที่ 1, 2, 3 การที่นาย A ได้ที่ 1 นาย B ได้ที่ 2 ไม่เหมือนกับ นาย B ได้ที่ 1 นาย A ได้ที่ 2</li>
+            <li>นึกถึงการ "จัดตำแหน่ง" เช่น ประธาน, รองประธาน, เหรัญญิก</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Combination (ลำดับไม่สำคัญ)</h3>
+          <ul>
+            <li>นึกถึงการ "เลือกคณะกรรมการ" 3 คน ขอแค่มีนาย A, B, C อยู่ในกลุ่มก็พอ ไม่สำคัญว่าจะเลือกใครเข้ามาก่อนหรือหลัง</li>
+            <li>นึกถึงการ "เลือกไพ่" 5 ใบบนมือ ลำดับที่จั่วไพ่ขึ้นมาไม่มีผลต่อไพ่ในมือ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. ยกตัวอย่าง</h2>
+      <h3>ตัวอย่างกฎการคูณ</h3>
+      <p>โจทย์: มีเสื้อ 3 แบบ และกางเกง 4 แบบ จะแต่งตัวได้กี่วิธี?</p>
+      <p>วิเคราะห์: การแต่งตัวมี 2 ขั้นตอนต่อเนื่องกันคือ 1) เลือกเสื้อ และ 2) เลือกกางเกง</p>
+      <p>วิธีทำ: จำนวนวิธี = (วิธีเลือกเสื้อ) × (วิธีเลือกกางเกง) = 3 × 4 = <strong>12 วิธี</strong></p>
+      <h3>ตัวอย่าง Permutation</h3>
+      <p>โจทย์: มีนักวิ่ง 8 คน จะมีวิธีแจกเหรียญทอง, เงิน, ทองแดง (ที่ 1, 2, 3) ได้กี่วิธี?</p>
+      <p>วิเคราะห์: นี่คือการเลือกคน 3 คนจาก 8 คนมา "จัดลำดับ" เพราะลำดับการเข้าเส้นชัยสำคัญ</p>
+      <p>วิธีทำ: n=8, r=3</p>
+      <div class="code-block">P<sub>8,3</sub> = 8×7×6 = <strong>336 วิธี</strong></div>
+      <h3>ตัวอย่าง Combination</h3>
+      <p>โจทย์: มีนักเรียน 10 คน ต้องการเลือกตัวแทน 3 คนไปแข่งขัน จะเลือกได้กี่วิธี?</p>
+      <p>วิเคราะห์: นี่คือการเลือกคน 3 คนจาก 10 คนมา "จัดกลุ่ม" ลำดับการถูกเลือกไม่สำคัญ</p>
+      <p>วิธีทำ: n=10, r=3</p>
+      <div class="code-block">C<sub>10,3</sub> = (10×9×8)/6 = <strong>120 วิธี</strong></div>
+      <p>เราได้เรียนรู้เครื่องมือสำคัญในการนับไปแล้วนะครับ ซึ่งจะเป็นฐานให้เราสามารถคำนวณความน่าจะเป็นในบทเรียนถัดไปได้อย่างแม่นยำ ถ้าพร้อมแล้วเราไปต่อกันเลย!</p>
+    </section>
+
+    <section>
+      <h2>6. ตารางสรุปสูตรและตัวอย่าง</h2>
+      <p>ตารางนี้ช่วยให้เห็นภาพรวมของสูตรสำคัญพร้อมแทนค่าจากตัวอย่างข้างต้น และจะอัปเดตอัตโนมัติเมื่อใช้เครื่องเล่นด้านล่าง</p>
+      <table class="summary-table" aria-label="สรุปกฎการนับ">
+        <thead>
+          <tr><th scope="col">กฎ/เครื่องมือ</th><th scope="col">สูตรพร้อมแทนค่า</th><th scope="col">จำนวนวิธี</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">กฎการบวก</th>
+            <td id="table-add-formula">3 + 4</td>
+            <td id="table-add-value">7</td>
+          </tr>
+          <tr>
+            <th scope="row">กฎการคูณ</th>
+            <td id="table-mult-formula">3 × 4</td>
+            <td id="table-mult-value">12</td>
+          </tr>
+          <tr>
+            <th scope="row">Permutation</th>
+            <td id="table-perm-formula">P(8,3) = 8×7×6</td>
+            <td id="table-perm-value">336</td>
+          </tr>
+          <tr>
+            <th scope="row">Combination</th>
+            <td id="table-comb-formula">C(8,3) = P(8,3)/3!</td>
+            <td id="table-comb-value">56</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Interactive: Counting Playground</h2>
+      <p>ทดลองปรับจำนวนชิ้นและขั้นตอนเพื่อดูผลลัพธ์ของกฎการบวก กฎการคูณ รวมถึง Permutation และ Combination แบบโต้ตอบ</p>
+      <div class="grid-2">
+        <div class="calc-grid" aria-label="ตั้งค่าการนับ">
+          <label for="option-a">จำนวนวิธีของทางเลือก A</label>
+          <input id="option-a" type="number" min="0" value="3">
+
+          <label for="option-b">จำนวนวิธีของทางเลือก B</label>
+          <input id="option-b" type="number" min="0" value="4">
+
+          <label for="step-1">จำนวนวิธีขั้นตอนที่ 1</label>
+          <input id="step-1" type="number" min="0" value="3">
+
+          <label for="step-2">จำนวนวิธีขั้นตอนที่ 2</label>
+          <input id="step-2" type="number" min="0" value="4">
+
+          <label for="perm-n">n (จำนวนทั้งหมด)</label>
+          <input id="perm-n" type="number" min="0" value="8">
+
+          <label for="perm-r">r (จำนวนที่เลือก)</label>
+          <input id="perm-r" type="number" min="0" value="3">
+
+          <button class="primary" id="calc-btn">คำนวณ</button>
+        </div>
+        <div>
+          <p><strong>ผลลัพธ์</strong></p>
+          <p>กฎการบวก: <span class="result-display" id="add-result">7</span></p>
+          <p>กฎการคูณ: <span class="result-display" id="mult-result">12</span></p>
+          <p>Permutation P(n,r): <span class="result-display" id="perm-result">336</span></p>
+          <p>Combination C(n,r): <span class="result-display" id="comb-result">56</span></p>
+          <div class="bar-chart" role="img" aria-label="เปรียบเทียบจำนวนกรณี">
+            <div class="bar" id="bar-add" style="height:40%" data-value="7"><span>บวก</span></div>
+            <div class="bar" id="bar-mult" style="height:60%" data-value="12"><span>คูณ</span></div>
+            <div class="bar" id="bar-perm" style="height:90%" data-value="336"><span>Permutation</span></div>
+            <div class="bar" id="bar-comb" style="height:70%" data-value="56"><span>Combination</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="site-footer">
     <p>© 2024 Stats Learning Lab</p>
     <a class="ghost" href="../index.html">กลับหน้าหลัก</a>
   </footer>
+  <script>
+    const factorial = (n) => {
+      if (n < 0) return NaN;
+      let result = 1;
+      for (let i = 2; i <= n; i += 1) result *= i;
+      return result;
+    };
+
+    const clampHeight = (value, max) => {
+      if (!isFinite(value) || value <= 0) return 5;
+      return Math.min(100, Math.max(5, (value / max) * 100));
+    };
+
+    const updateBars = (values) => {
+      const max = Math.max(...values.map(v => (isFinite(v) ? v : 0)), 1);
+      const ids = ['bar-add', 'bar-mult', 'bar-perm', 'bar-comb'];
+      values.forEach((value, index) => {
+        const bar = document.getElementById(ids[index]);
+        const safeValue = isFinite(value) ? value : 0;
+        bar.style.height = `${clampHeight(safeValue, max)}%`;
+        bar.dataset.value = safeValue.toLocaleString('th-TH');
+      });
+    };
+
+    const addFormulaCell = document.getElementById('table-add-formula');
+    const addValueCell = document.getElementById('table-add-value');
+    const multFormulaCell = document.getElementById('table-mult-formula');
+    const multValueCell = document.getElementById('table-mult-value');
+    const permFormulaCell = document.getElementById('table-perm-formula');
+    const permValueCell = document.getElementById('table-perm-value');
+    const combFormulaCell = document.getElementById('table-comb-formula');
+    const combValueCell = document.getElementById('table-comb-value');
+
+    document.getElementById('calc-btn').addEventListener('click', () => {
+      const optionA = Number(document.getElementById('option-a').value);
+      const optionB = Number(document.getElementById('option-b').value);
+      const step1 = Number(document.getElementById('step-1').value);
+      const step2 = Number(document.getElementById('step-2').value);
+      const n = Number(document.getElementById('perm-n').value);
+      const r = Number(document.getElementById('perm-r').value);
+
+      const addition = optionA + optionB;
+      const multiplication = step1 * step2;
+      const permutation = r <= n ? factorial(n) / factorial(n - r) : NaN;
+      const combination = r <= n ? permutation / factorial(r) : NaN;
+
+      document.getElementById('add-result').textContent = isFinite(addition) ? addition.toLocaleString('th-TH') : '—';
+      document.getElementById('mult-result').textContent = isFinite(multiplication) ? multiplication.toLocaleString('th-TH') : '—';
+      document.getElementById('perm-result').textContent = isFinite(permutation) ? permutation.toLocaleString('th-TH') : '—';
+      document.getElementById('comb-result').textContent = isFinite(combination) ? combination.toLocaleString('th-TH') : '—';
+
+      updateBars([addition, multiplication, permutation, combination]);
+
+      addFormulaCell.textContent = `${optionA} + ${optionB}`;
+      addValueCell.textContent = isFinite(addition) ? addition.toLocaleString('th-TH') : '—';
+      multFormulaCell.textContent = `${step1} × ${step2}`;
+      multValueCell.textContent = isFinite(multiplication) ? multiplication.toLocaleString('th-TH') : '—';
+      permFormulaCell.textContent = `P(${n},${r})`;
+      permValueCell.textContent = isFinite(permutation) ? permutation.toLocaleString('th-TH') : '—';
+      combFormulaCell.textContent = `C(${n},${r})`;
+      combValueCell.textContent = isFinite(combination) ? combination.toLocaleString('th-TH') : '—';
+    });
+
+    function syncTableDefaults() {
+      addFormulaCell.textContent = '3 + 4';
+      addValueCell.textContent = '7';
+      multFormulaCell.textContent = '3 × 4';
+      multValueCell.textContent = '12';
+      permFormulaCell.textContent = 'P(8,3)';
+      permValueCell.textContent = '336';
+      combFormulaCell.textContent = 'C(8,3)';
+      combValueCell.textContent = '56';
+    }
+
+    updateBars([7, 12, 336, 56]);
+    syncTableDefaults();
+  </script>
 </body>
 </html>
