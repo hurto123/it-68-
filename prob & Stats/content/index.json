@@ -1,0 +1,101 @@
+{
+  "lessons": [
+    {
+      "id": "ch01",
+      "title": "บทที่ 1 บทนำสถิติ",
+      "file": "content/01-intro.html"
+    },
+    {
+      "id": "ch02",
+      "title": "บทที่ 2 การนำเสนอข้อมูล",
+      "file": "content/02-descriptive.html"
+    },
+    {
+      "id": "ch03",
+      "title": "บทที่ 3 ความน่าจะเป็นเบื้องต้น",
+      "file": "content/03-probability-basics.html"
+    },
+    {
+      "id": "ch04",
+      "title": "บทที่ 4 ความน่าจะเป็นมีเงื่อนไข",
+      "file": "content/04-conditional.html"
+    },
+    {
+      "id": "ch05",
+      "title": "บทที่ 5 ตัวแปรสุ่มและการแจกแจง",
+      "file": "content/05-random-variables.html"
+    },
+    {
+      "id": "ch06",
+      "title": "บทที่ 6 ความคาดหวังและความแปรปรวน",
+      "file": "content/06-expectation-variance.html"
+    },
+    {
+      "id": "ch07",
+      "title": "บทที่ 7 แจกแจงไม่ต่อเนื่อง",
+      "file": "content/07-discrete-uniform.html"
+    },
+    {
+      "id": "ch08",
+      "title": "บทที่ 8 แจกแจง Binomial",
+      "file": "content/08-binomial.html"
+    },
+    {
+      "id": "ch09",
+      "title": "บทที่ 9 แจกแจง Hypergeometric",
+      "file": "content/09-hypergeometric.html"
+    },
+    {
+      "id": "ch10",
+      "title": "บทที่ 10 แจกแจง Poisson",
+      "file": "content/10-poisson.html"
+    },
+    {
+      "id": "ch11",
+      "title": "บทที่ 11 แจกแจงต่อเนื่องและ Normal",
+      "file": "content/11-continuous-normal.html"
+    },
+    {
+      "id": "ch12",
+      "title": "บทที่ 12 ค่า Z และตารางมาตรฐาน",
+      "file": "content/12-standard-normal-z.html"
+    },
+    {
+      "id": "ch13",
+      "title": "บทที่ 13 แจกแจง t, χ² และ F",
+      "file": "content/13-t-chi2-f.html"
+    },
+    {
+      "id": "ch14",
+      "title": "บทที่ 14 ทฤษฎีขีดจำกัดกลาง",
+      "file": "content/14-clt.html"
+    },
+    {
+      "id": "ch15",
+      "title": "บทที่ 15 การสุ่มตัวอย่างและสถิติอื่น",
+      "file": "content/15-sampling-other-stats.html"
+    },
+    {
+      "id": "ch16",
+      "title": "บทที่ 16 ช่วงความเชื่อมั่นเบื้องต้น",
+      "file": "content/16-ci-intro.html"
+    }
+  ],
+  "resources": {
+    "cheatsheets": [
+      "content/cheatsheets/ci-tests.html",
+      "content/cheatsheets/distributions.html",
+      "content/cheatsheets/formulas-1page.html"
+    ],
+    "tools": [
+      "tools/z.html",
+      "tools/normal-cdf.html",
+      "tools/power-sample-size.html"
+    ],
+    "datasets": [
+      "data/lln.csv",
+      "data/poisson_calls.csv",
+      "data/abtest_conversions.csv"
+    ]
+  }
+}
