@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ศูนย์วิเคราะห์ข้อมูล - ภาพรวมสถิติ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <h1 class="site-title">ศูนย์วิเคราะห์ข้อมูล</h1>
+      <nav class="site-nav" aria-label="เมนูหลัก">
+        <ul class="menu">
+          <li class="menu-item"><a href="#overview">ภาพรวม</a></li>
+          <li class="menu-item has-submenu">
+            <div class="submenu-label">
+              <a class="submenu-link" href="#reports" aria-haspopup="true" aria-expanded="false">รายงาน</a>
+              <button class="submenu-toggle" type="button" aria-expanded="false" aria-controls="reports-submenu" aria-label="เปิดหรือปิดเมนูย่อยของรายงาน">
+                <span class="submenu-toggle-icon" aria-hidden="true">▾</span>
+                <span class="visually-hidden">สลับเมนูย่อยรายงาน</span>
+              </button>
+            </div>
+            <ul class="submenu" id="reports-submenu">
+              <li><a href="#daily">รายงานรายวัน</a></li>
+              <li><a href="#weekly">รายงานรายสัปดาห์</a></li>
+              <li><a href="#monthly">รายงานรายเดือน</a></li>
+            </ul>
+          </li>
+          <li class="menu-item has-submenu">
+            <div class="submenu-label">
+              <a class="submenu-link" href="#segments" aria-haspopup="true" aria-expanded="false">กลุ่มผู้ใช้</a>
+              <button class="submenu-toggle" type="button" aria-expanded="false" aria-controls="segments-submenu" aria-label="เปิดหรือปิดเมนูย่อยของกลุ่มผู้ใช้">
+                <span class="submenu-toggle-icon" aria-hidden="true">▾</span>
+                <span class="visually-hidden">สลับเมนูย่อยกลุ่มผู้ใช้</span>
+              </button>
+            </div>
+            <ul class="submenu" id="segments-submenu">
+              <li><a href="#demographic">ตามประชากร</a></li>
+              <li><a href="#behavior">ตามพฤติกรรม</a></li>
+              <li><a href="#technology">ตามเทคโนโลยี</a></li>
+            </ul>
+          </li>
+          <li class="menu-item"><a href="#settings">ตั้งค่า</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="content" id="overview">
+    <section class="card">
+      <h2>ภาพรวมสถิติ</h2>
+      <p>สำรวจภาพรวมของการใช้งานแพลตฟอร์มจากข้อมูลล่าสุด พร้อมตัวชี้วัดที่สำคัญที่แสดงผลแบบเรียลไทม์สำหรับทีมของคุณ.</p>
+    </section>
+    <section class="grid" aria-labelledby="reports-heading">
+      <h2 id="reports-heading">ไฮไลต์รายงาน</h2>
+      <article class="card" id="daily">
+        <h3>รายงานรายวัน</h3>
+        <p>ติดตามจำนวนผู้ใช้งานในแต่ละวัน พร้อมเปรียบเทียบกับค่าเฉลี่ยของสัปดาห์ก่อนหน้า.</p>
+      </article>
+      <article class="card" id="weekly">
+        <h3>รายงานรายสัปดาห์</h3>
+        <p>แสดงแนวโน้มการเติบโตและยอดการมีส่วนร่วมของผู้ใช้ในช่วง 7 วันที่ผ่านมา.</p>
+      </article>
+      <article class="card" id="monthly">
+        <h3>รายงานรายเดือน</h3>
+        <p>ดูภาพรวมของผลลัพธ์ในระยะยาวเพื่อประเมินยุทธศาสตร์และการเปลี่ยนแปลงสำคัญ.</p>
+      </article>
+    </section>
+    <section class="grid" aria-labelledby="segments-heading" id="segments">
+      <h2 id="segments-heading">กลุ่มผู้ใช้ที่สำคัญ</h2>
+      <article class="card" id="demographic">
+        <h3>แบ่งตามประชากร</h3>
+        <p>ค้นหาว่ากลุ่มอายุ เพศ และพื้นที่ใดที่มีอัตราการเติบโตสูงที่สุดในปัจจุบัน.</p>
+      </article>
+      <article class="card" id="behavior">
+        <h3>แบ่งตามพฤติกรรม</h3>
+        <p>ระบุรูปแบบการใช้งานที่สร้างคุณค่ามากที่สุด และช่วงเวลาที่ผู้ใช้มีปฏิสัมพันธ์สูงสุด.</p>
+      </article>
+      <article class="card" id="technology">
+        <h3>แบ่งตามเทคโนโลยี</h3>
+        <p>ตรวจสอบประเภทอุปกรณ์และเบราว์เซอร์ที่ใช้งานสูงสุดเพื่อปรับปรุงประสบการณ์ของผู้ใช้.</p>
+      </article>
+    </section>
+  </main>
+  <footer class="site-footer" id="settings">
+    <p>© 2025 Analytics Center. ปรับแต่งการตั้งค่าการแจ้งเตือนได้ในส่วนตั้งค่าของบัญชี.</p>
+  </footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
