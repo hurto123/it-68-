@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - VTuber Studio</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-page">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>VTuber Studio</h1>
+                <p>Management Console</p>
+            </div>
+
+            <nav class="admin-nav" id="admin-nav">
+                <button data-section="dashboard" class="active">Dashboard</button>
+                <button data-section="characters">Characters</button>
+                <button data-section="products">Products</button>
+                <button data-section="songs">Music</button>
+                <button data-section="schedule">Schedule</button>
+            </nav>
+
+            <button class="btn-logout" id="logout-btn">Logout</button>
+        </aside>
+
+        <main class="admin-content">
+            <section class="admin-section active" id="section-dashboard">
+                <div class="section-header">
+                    <h2>Overview</h2>
+                    <span class="badge" id="admin-session-info"></span>
+                </div>
+                <div class="card-grid" id="dashboard-stats"></div>
+            </section>
+
+            <section class="admin-section" id="section-characters">
+                <div class="section-header">
+                    <h2>Characters</h2>
+                    <button class="btn btn-secondary" id="refresh-characters">Refresh</button>
+                </div>
+                <div class="form-card">
+                    <h3>Add Character</h3>
+                    <form id="character-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="character-name">Name</label>
+                            <input type="text" id="character-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="character-nickname">Nickname</label>
+                            <input type="text" id="character-nickname">
+                        </div>
+                        <div class="form-group">
+                            <label for="character-image">Image URL</label>
+                            <input type="text" id="character-image" placeholder="assets/images/characters/example.png">
+                        </div>
+                        <div class="form-group">
+                            <label for="character-status">Status</label>
+                            <select id="character-status">
+                                <option value="active" selected>Active</option>
+                                <option value="hiatus">Hiatus</option>
+                                <option value="retired">Retired</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="character-color">Accent Color</label>
+                            <input type="color" id="character-color" value="#6c63ff">
+                        </div>
+                        <div class="form-group">
+                            <label for="character-bio">Bio</label>
+                            <textarea id="character-bio" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Character</button>
+                    </form>
+                </div>
+                <table class="data-table" id="character-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Subscribers</th>
+                            <th>Streams</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section class="admin-section" id="section-products">
+                <div class="section-header">
+                    <h2>Products</h2>
+                    <button class="btn btn-secondary" id="refresh-products">Refresh</button>
+                </div>
+                <div class="form-card">
+                    <h3>Add Product</h3>
+                    <form id="product-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="product-name">Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price (THB)</label>
+                            <input type="number" id="product-price" min="0" step="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-stock">Stock</label>
+                            <input type="number" id="product-stock" min="0" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <select id="product-category">
+                                <option value="Merchandise">Merchandise</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Digital Goods">Digital Goods</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-character">Character</label>
+                            <select id="product-character"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-image">Image URL</label>
+                            <input type="text" id="product-image" placeholder="assets/images/products/example.png">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Description</label>
+                            <textarea id="product-description" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Product</button>
+                    </form>
+                </div>
+                <table class="data-table" id="product-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Character</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section class="admin-section" id="section-songs">
+                <div class="section-header">
+                    <h2>Music</h2>
+                    <button class="btn btn-secondary" id="refresh-songs">Refresh</button>
+                </div>
+                <div class="form-card">
+                    <h3>Add Song</h3>
+                    <form id="song-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="song-title">Title</label>
+                            <input type="text" id="song-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="song-artist">Artist</label>
+                            <input type="text" id="song-artist" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="song-character">Character</label>
+                            <select id="song-character"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="song-cover">Cover URL</label>
+                            <input type="text" id="song-cover" placeholder="assets/music/covers/example.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label for="song-audio">Audio URL</label>
+                            <input type="text" id="song-audio" placeholder="assets/music/songs/example.mp3">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Song</button>
+                    </form>
+                </div>
+                <table class="data-table" id="song-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Character</th>
+                            <th>Genre</th>
+                            <th>Duration</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section class="admin-section" id="section-schedule">
+                <div class="section-header">
+                    <h2>Schedule</h2>
+                    <button class="btn btn-secondary" id="refresh-schedule">Refresh</button>
+                </div>
+                <div class="form-card">
+                    <h3>Add Event</h3>
+                    <form id="schedule-form" class="form-grid">
+                        <div class="form-group">
+                            <label for="event-title">Title</label>
+                            <input type="text" id="event-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-character">Character</label>
+                            <select id="event-character"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-platform">Platform</label>
+                            <input type="text" id="event-platform" value="YouTube">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-start">Start Date & Time</label>
+                            <input type="datetime-local" id="event-start" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-description">Description</label>
+                            <textarea id="event-description" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Event</button>
+                    </form>
+                </div>
+                <table class="data-table" id="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Character</th>
+                            <th>Platform</th>
+                            <th>Start</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/security.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
