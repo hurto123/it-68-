@@ -105,6 +105,32 @@ function hideLoadingScreen() {
     }
 }
 
+function initLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) {
+        return;
+    }
+
+    App.isLoading = true;
+    loadingScreen.classList.remove('hidden');
+
+    const handleLoad = () => {
+        window.removeEventListener('load', handleLoad);
+        if (App.isLoading) {
+            hideLoadingScreen();
+        }
+    };
+
+    window.addEventListener('load', handleLoad);
+
+    // Fallback in case the load event never fires
+    setTimeout(() => {
+        if (App.isLoading) {
+            hideLoadingScreen();
+        }
+    }, 5000);
+}
+
 // ================================================
 // Navigation
 // ================================================
@@ -192,11 +218,11 @@ function toggleTheme() {
 
 function initLanguageToggle() {
     const langToggle = document.getElementById('lang-toggle');
-    
+
     if (langToggle) {
-        // Set initial text
-        langToggle.querySelector('.lang-text').textContent = App.currentLang.toUpperCase();
-        
+        // Set initial text without assuming a specific structure
+        updateLanguageToggleLabel();
+
         langToggle.addEventListener('click', () => {
             toggleLanguage();
         });
@@ -207,17 +233,27 @@ function toggleLanguage() {
     App.currentLang = App.currentLang === 'th' ? 'en' : 'th';
     updateLanguage(App.currentLang);
     saveSettings();
-    
-    // Update button text
-    const langToggle = document.getElementById('lang-toggle');
-    if (langToggle) {
-        langToggle.querySelector('.lang-text').textContent = App.currentLang.toUpperCase();
-    }
-    
+
+    updateLanguageToggleLabel();
+
     showToast(
         App.currentLang === 'th' ? 'เปลี่ยนเป็นภาษาไทย' : 'Changed to English',
         'info'
     );
+}
+
+function updateLanguageToggleLabel() {
+    const langToggle = document.getElementById('lang-toggle');
+    if (!langToggle) return;
+
+    const label = langToggle.querySelector('.lang-text');
+    const text = App.currentLang.toUpperCase();
+
+    if (label) {
+        label.textContent = text;
+    } else {
+        langToggle.textContent = text;
+    }
 }
 
 function updateLanguage(lang) {
