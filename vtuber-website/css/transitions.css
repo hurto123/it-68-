@@ -1,0 +1,358 @@
+/* ================================================
+   VTuber Studio - Page Transitions
+   ================================================ */
+
+/* ================================================
+   Fade Transitions
+   ================================================ */
+
+.page-transition-fade-enter {
+    opacity: 0;
+}
+
+.page-transition-fade-enter-active {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.page-transition-fade-exit {
+    opacity: 1;
+}
+
+.page-transition-fade-exit-active {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ================================================
+   Slide Transitions
+   ================================================ */
+
+.page-transition-slide-enter {
+    transform: translateX(100%);
+}
+
+.page-transition-slide-enter-active {
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+.page-transition-slide-exit {
+    transform: translateX(0);
+}
+
+.page-transition-slide-exit-active {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+/* ================================================
+   Scale Transitions
+   ================================================ */
+
+.page-transition-scale-enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.page-transition-scale-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-transition-scale-exit {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.page-transition-scale-exit-active {
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ================================================
+   Flip Transitions
+   ================================================ */
+
+.page-transition-flip-enter {
+    opacity: 0;
+    transform: rotateY(-90deg);
+}
+
+.page-transition-flip-enter-active {
+    opacity: 1;
+    transform: rotateY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.page-transition-flip-exit {
+    opacity: 1;
+    transform: rotateY(0);
+}
+
+.page-transition-flip-exit-active {
+    opacity: 0;
+    transform: rotateY(90deg);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ================================================
+   Route Change Loading Bar
+   ================================================ */
+
+.route-loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    z-index: var(--z-max);
+    transition: width 0.3s ease;
+}
+
+.route-loading-bar.active {
+    width: 100%;
+}
+
+/* ================================================
+   Section Transitions
+   ================================================ */
+
+.section-enter {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.section-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.section-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-exit-active {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* ================================================
+   Modal Transitions
+   ================================================ */
+
+.modal-transition-enter {
+    opacity: 0;
+}
+
+.modal-transition-enter .modal-content {
+    transform: scale(0.9) translateY(-20px);
+}
+
+.modal-transition-enter-active {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.modal-transition-enter-active .modal-content {
+    transform: scale(1) translateY(0);
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.modal-transition-exit {
+    opacity: 1;
+}
+
+.modal-transition-exit .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-transition-exit-active {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.modal-transition-exit-active .modal-content {
+    transform: scale(0.9) translateY(-20px);
+    transition: transform 0.2s ease;
+}
+
+/* ================================================
+   Dropdown Transitions
+   ================================================ */
+
+.dropdown-transition-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.dropdown-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-transition-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* ================================================
+   Collapse Transitions
+   ================================================ */
+
+.collapse-transition-enter {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.collapse-transition-enter-active {
+    height: var(--collapse-height);
+    opacity: 1;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.collapse-transition-exit {
+    height: var(--collapse-height);
+    opacity: 1;
+    overflow: hidden;
+}
+
+.collapse-transition-exit-active {
+    height: 0;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+/* ================================================
+   List Transitions
+   ================================================ */
+
+.list-transition-enter {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.list-transition-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.list-transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.list-transition-exit-active {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* ================================================
+   Stagger List Transitions
+   ================================================ */
+
+.stagger-list > * {
+    animation: staggerFadeIn 0.5s ease both;
+}
+
+.stagger-list > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-list > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-list > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-list > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-list > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-list > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-list > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-list > *:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes staggerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================================
+   Smooth Scroll Transitions
+   ================================================ */
+
+html.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* ================================================
+   Loading State Transitions
+   ================================================ */
+
+.loading-state {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.loading-state.loaded {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ================================================
+   Skeleton Loading Transitions
+   ================================================ */
+
+.skeleton-fade-out {
+    animation: skeletonFadeOut 0.3s ease forwards;
+}
+
+@keyframes skeletonFadeOut {
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* ================================================
+   View Transitions API (Modern browsers)
+   ================================================ */
+
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: fadeOut 0.3s ease;
+}
+
+::view-transition-new(root) {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+}

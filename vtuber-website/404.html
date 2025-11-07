@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | VTuber Studio</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+        
+        .error-code {
+            font-size: clamp(5rem, 20vw, 12rem);
+            font-weight: var(--font-weight-extrabold);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: var(--spacing-md);
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .error-title {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .error-description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .floating-character {
+            position: absolute;
+            width: 200px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .char-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .char-2 { top: 60%; right: 10%; animation-delay: 2s; }
+        .char-3 { bottom: 10%; left: 20%; animation-delay: 4s; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <!-- Floating Characters -->
+        <svg class="floating-character char-1" viewBox="0 0 200 200" fill="var(--primary-color)">
+            ircle cx="100" cy="100" r="8080"/>
+            ircle cx="80" cy="90" r="1010" fill="white"/>
+            ircle cx="120" cy="90" r="1010" fill="white"/>
+            <path d="M 70 120 Q 100 140 130 120" stroke="white" stroke-width="4" fill="none"/>
+        </svg>
+        
+        <svg class="floating-character char-2" viewBox="0 0 200 200" fill="var(--secondary-color)">
+            ircle cx="100" cy="100" r="8080"/>
+            ircle cx="8080" cy="90" r="10" fill="white"/>
+            ircle cx="120" cy="90" r="10" fill="whitete"/>
+            <ellipse cx="100" cy="130" rx="20" ry="10" fill="white"/>
+        </svg>
+        
+        <svg class="floating-character char-3" viewBox="0 0 200 200" fill="var(--accent-color)">
+            ircle cx="100" cycy="100" r="80"/>
+            ircle cx="8585" cy="90" r="8" fill="white"/>
+            ircle cx="115" cy="9090" r="8" fill="white"/>
+            <path d="M 80 125 L 120 125" stroke="white" stroke-width="4"/>
+        </svg>
+        
+        <!-- Error Content -->
+        <div class="error-content animate-fade-in-up">
+            <div class="error-code">404</div>
+            <h1 class="error-title" data-lang-en="Page Not Found" data-lang-th="ไม่พบหน้าที่ต้องการ">
+                ไม่พบหน้าที่ต้องการ
+            </h1>
+            <p class="error-description" data-lang-en="Oops! The page you're looking for seems to have vanished into the virtual world..." data-lang-th="อุ๊ปส์! หน้าที่คุณกำลังมองหาดูเหมือนจะหายไปในโลกเสมือนจริง...">
+                อุ๊ปส์! หน้าที่คุณกำลังมองหาดูเหมือนจะหายไปในโลกเสมือนจริง...
+            </p>
+            
+            <div class="error-actions">
+                <a href="index.html" class="btn btn-primary btn-large">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    <span data-lang-en="Go Home" data-lang-th="กลับหน้าแรก">กลับหน้าแรก</span>
+                </a>
+                
+                <button onclick="history.back()" class="btn btn-secondary btn-large">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    <span data-lang-en="Go Back" data-lang-th="ย้อนกลับ">ย้อนกลับ</span>
+                </button>
+                
+                <a href="characters.html" class="btn btn-outline btn-large">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        ircle cx="12" cy="7"7" r="4"/>
+                    </svg>
+                    <span data-lang-en="View Characters" data-lang-th="ดูตัวละคร">ดูตัวละคร</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/language.js"></script>
+    <script>
+        // Simple language toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('vtuber_lang') || 'th';
+            Language.current = savedLang;
+            Language.update();
+        });
+    </script>
+</body>
+</html>

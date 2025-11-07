@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - VTuber Studio</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        .schedule-calendar {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .calendar-header h2 {
+            margin: 0;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .calendar-nav button {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-primary);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+        
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .weekday {
+            text-align: center;
+            font-weight: var(--font-weight-semibold);
+            padding: var(--spacing-sm);
+            color: var(--text-secondary);
+        }
+        
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-sm);
+        }
+        
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+        
+        .day:hover {
+            background: var(--bg-tertiary);
+            transform: scale(1.05);
+        }
+        
+        .day.has-event {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .day.today {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .event-dot {
+            position: absolute;
+            bottom: 5px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-color);
+            border-radius: var(--radius-full);
+        }
+        
+        .upcoming-streams {
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .stream-card {
+            display: flex;
+            gap: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+        
+        .stream-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stream-thumbnail {
+            width: 200px;
+            height: 120px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .stream-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .stream-info {
+            flex: 1;
+        }
+        
+        .stream-time {
+            color: var(--primary-color);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .stream-title {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .stream-character {
+            color: var(--text-secondary);
+        }
+        
+        .stream-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <h1 class="logo">🎭 VTuber Studio</h1>
+                </a>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="characters.html" class="nav-link">Characters</a></li>
+                <li><a href="music.html" class="nav-link">Music</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="schedule.html" class="nav-link active">Schedule</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="nav-btn" id="theme-toggle">☀️</button>
+                <button class="nav-btn lang-toggle" id="lang-toggle">TH</button>
+                <button class="nav-toggle" id="nav-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-lang-en="Stream Schedule" data-lang-th="ตารางไลฟ์สตรีม">ตารางไลฟ์สตรีม</h1>
+            <p data-lang-en="Don't miss our live streams" data-lang-th="อย่าพลาดการไลฟ์สดของเรา">
+                อย่าพลาดการไลฟ์สดของเรา
+            </p>
+        </div>
+    </section>
+
+    <!-- Calendar -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="schedule-calendar">
+                <div class="calendar-header">
+                    <h2 id="current-month">November 2025</h2>
+                    <div class="calendar-nav">
+                        <button id="prev-month">←</button>
+                        <button id="next-month">→</button>
+                    </div>
+                </div>
+                
+                <div class="weekdays">
+                    <div class="weekday">Sun</div>
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                </div>
+                
+                <div class="days" id="calendar-days">
+                    <!-- Calendar days will be generated here -->
+                </div>
+            </div>
+
+            <!-- Upcoming Streams -->
+            <div class="upcoming-streams">
+                <h2 data-lang-en="Upcoming Streams" data-lang-th="ไลฟ์สตรีมที่กำลังจะมาถึง">ไลฟ์สตรีมที่กำลังจะมาถึง</h2>
+                <div id="streams-container">
+                    <!-- Stream cards will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 VTuber Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/db.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Schedule functionality
+        let currentDate = new Date();
+        let scheduleEvents = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSchedule();
+            renderCalendar();
+            renderUpcomingStreams();
+            
+            document.getElementById('prev-month').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            document.getElementById('next-month').addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+        });
+
+        function loadSchedule() {
+            scheduleEvents = DB.getScheduleEvents() || [];
+            
+            if (scheduleEvents.length === 0) {
+                addSampleEvents();
+                scheduleEvents = DB.getScheduleEvents();
+            }
+        }
+
+        function addSampleEvents() {
+            const samples = [
+                {
+                    title: 'Gaming Stream',
+                    character: 'Sakura',
+                    date: '2025-11-08',
+                    time: '19:00',
+                    thumbnail: 'assets/images/streams/gaming.jpg'
+                },
+                {
+                    title: 'Singing Stream',
+                    character: 'Yuki',
+                    date: '2025-11-10',
+                    time: '20:00',
+                    thumbnail: 'assets/images/streams/singing.jpg'
+                },
+                {
+                    title: 'Chatting Stream',
+                    character: 'Hana',
+                    date: '2025-11-12',
+                    time: '18:00',
+                    thumbnail: 'assets/images/streams/chatting.jpg'
+                }
+            ];
+            
+            samples.forEach(event => DB.addScheduleEvent(event));
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            document.getElementById('current-month').textContent = 
+                new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const container = document.getElementById('calendar-days');
+            container.innerHTML = '';
+            
+            // Empty cells
+            for (let i = 0; i < firstDay; i++) {
+                container.innerHTML += '<div class="day"></div>';
+            }
+            
+            // Days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dateStr = date.toISOString().split('T')[0];
+                const hasEvent = scheduleEvents.some(e => e.date === dateStr);
+                const isToday = date.toDateString() === new Date().toDateString();
+                
+                container.innerHTML += `
+                    <div class="day ${hasEvent ? 'has-event' : ''} ${isToday ? 'today' : ''}">
+                        ${day}
+                        ${hasEvent ? '<span class="event-dot"></span>' : ''}
+                    </div>
+                `;
+            }
+        }
+
+        function renderUpcomingStreams() {
+            const container = document.getElementById('streams-container');
+            const upcoming = scheduleEvents.filter(e => new Date(e.date) >= new Date());
+            
+            if (upcoming.length === 0) {
+                container.innerHTML = '<p class="empty-message">No upcoming streams</p>';
+                return;
+            }
+            
+            container.innerHTML = upcoming.map(stream => `
+                <div class="stream-card animate-fade-in">
+                    <div class="stream-thumbnail">
+                        <img src="${stream.thumbnail || 'assets/images/placeholder.jpg'}" alt="${stream.title}">
+                    </div>
+                    <div class="stream-info">
+                        <div class="stream-time">📅 ${stream.date} • ⏰ ${stream.time}</div>
+                        <h3 class="stream-title">${stream.title}</h3>
+                        <p class="stream-character">by ${stream.character}</p>
+                        <div class="stream-actions">
+                            <button class="btn btn-primary">Set Reminder</button>
+                            <button class="btn btn-secondary">Add to Calendar</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        console.log('📅 Schedule page loaded');
+    </script>
+</body>
+</html>

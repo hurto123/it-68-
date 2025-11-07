@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters - VTuber Studio</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <h1 class="logo">🎭 VTuber Studio</h1>
+                </a>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="characters.html" class="nav-link active">Characters</a></li>
+                <li><a href="music.html" class="nav-link">Music</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="nav-btn" id="theme-toggle">☀️</button>
+                <button class="nav-btn lang-toggle" id="lang-toggle">TH</button>
+                <button class="nav-toggle" id="nav-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-lang-en="Our Characters" data-lang-th="ตัวละครของเรา">ตัวละครของเรา</h1>
+            <p data-lang-en="Meet our talented VTubers" data-lang-th="พบกับ VTuber สุดพิเศษของเรา">
+                พบกับ VTuber สุดพิเศษของเรา
+            </p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="debut">New Debut</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="character-search" placeholder="Search characters...">
+            </div>
+        </div>
+    </section>
+
+    <!-- Characters Grid -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="characters-grid" id="characters-container">
+                <!-- Characters will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 VTuber Studio</p>
+        </div>
+    </footer>
+
+    <script src="js/db.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/characters.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

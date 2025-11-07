@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music - VTuber Studio</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/visualizer.css">
+    
+    <style>
+        .music-player {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .now-playing {
+            display: flex;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .now-playing-cover {
+            width: 200px;
+            height: 200px;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        
+        .now-playing-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .now-playing-info {
+            flex: 1;
+        }
+        
+        .now-playing-title {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .now-playing-artist {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: var(--radius-full);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--transition-fast);
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .control-btn.play-btn {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+        
+        .playlist {
+            margin-top: var(--spacing-2xl);
+        }
+        
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .playlist-item:hover {
+            background: var(--bg-secondary);
+            transform: translateX(5px);
+        }
+        
+        .playlist-item.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .playlist-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        
+        .playlist-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <h1 class="logo">🎭 VTuber Studio</h1>
+                </a>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="characters.html" class="nav-link">Characters</a></li>
+                <li><a href="music.html" class="nav-link active">Music</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="nav-btn" id="theme-toggle">☀️</button>
+                <button class="nav-btn lang-toggle" id="lang-toggle">TH</button>
+                <button class="nav-toggle" id="nav-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-lang-en="Music" data-lang-th="เพลง">เพลง</h1>
+            <p data-lang-en="Listen to our latest songs" data-lang-th="ฟังเพลงล่าสุดของเรา">
+                ฟังเพลงล่าสุดของเรา
+            </p>
+        </div>
+    </section>
+
+    <!-- Music Player -->
+    <section class="section-padding">
+        <div class="container">
+            <!-- Visualizer -->
+            <div class="visualizer-container">
+                nvasvas id="visualizer-canvas"></canvas>
+            </div>
+
+            <!-- Player -->
+            <div class="music-player">
+                <div class="now-playing">
+                    <div class="now-playing-cover">
+                        <img id="current-cover" src="assets/images/placeholder.jpg" alt="Cover">
+                    </div>
+                    <div class="now-playing-info">
+                        <h2 class="now-playing-title" id="current-title">Select a song</h2>
+                        <p class="now-playing-artist" id="current-artist">Artist</p>
+                        
+                        <div class="player-controls">
+                            <button class="control-btn" id="prev-btn">⏮️</button>
+                            <button class="control-btn play-btn" id="play-btn">▶️</button>
+                            <button class="control-btn" id="next-btn">⏭️</button>
+                            <button class="control-btn" id="shuffle-btn">🔀</button>
+                            <button class="control-btn" id="repeat-btn">🔁</button>
+                        </div>
+                        
+                        <div class="progress-bar" id="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="current-time">0:00</span>
+                            <span id="total-time">0:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playlist -->
+            <div class="playlist">
+                <h2 data-lang-en="Playlist" data-lang-th="เพลย์ลิสต์">เพลย์ลิสต์</h2>
+                <div id="playlist-container">
+                    <!-- Playlist items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <audio id="audio-player" style="display: none;"></audio>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 VTuber Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/db.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/music.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
